@@ -29,7 +29,7 @@ function comments(state = [], action) {
     }
 }
 
-function next(state = [], action) {
+function next(state = null, action) {
     switch (action.type) {
         case CommentActions.LIST_COMMENTS_SUCCESS:
         case CommentActions.LIST_MORE_COMMENTS_SUCCESS:
@@ -39,7 +39,7 @@ function next(state = [], action) {
     }
 }
 
-function previous(state = [], action) {
+function previous(state = null, action) {
     switch (action.type) {
         case CommentActions.LIST_COMMENTS_SUCCESS:
         case CommentActions.LIST_MORE_COMMENTS_SUCCESS:

@@ -66,7 +66,7 @@ function ids(state = [], action) {
     }
 }
 
-function next(state = [], action) {
+function next(state = null, action) {
     switch (action.type) {
         case TaskActions.LIST_TASKS_SUCCESS:
         case TaskActions.LIST_MORE_TASKS_SUCCESS:
@@ -76,7 +76,7 @@ function next(state = [], action) {
     }
 }
 
-function previous(state = [], action) {
+function previous(state = null, action) {
     switch (action.type) {
         case TaskActions.LIST_TASKS_SUCCESS:
         case TaskActions.LIST_MORE_TASKS_SUCCESS:

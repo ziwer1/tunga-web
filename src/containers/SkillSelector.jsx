@@ -35,7 +35,7 @@ class SkillSelector extends React.Component {
     handleSkillChange(e) {
         const { SkillSelectionActions } = this.props;
         var skill = e.target.value;
-        this.setState({skill: event.target.value});
+        this.setState({skill: skill});
         if (e.key === 'Enter') {
             e.preventDefault();
             this.handleSelectSkill(skill);
@@ -44,7 +44,6 @@ class SkillSelector extends React.Component {
             SkillSelectionActions.invalidateSkillSuggestions();
             return;
         }
-
         this.handleGetSuggestions();
     }
 

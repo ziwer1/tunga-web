@@ -1,6 +1,7 @@
 import React from 'react'
 import moment from 'moment'
 import momentLocalizer from 'react-widgets/lib/localizers/moment'
+import TinyMCE  from 'react-tinymce'
 import Progress from './status/Progress'
 import FormStatus from './status/FormStatus'
 import FieldError from './status/FieldError'
@@ -15,7 +16,7 @@ momentLocalizer(moment);
 export default class TaskForm extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {deadline: null, skills: [], visibility: VISIBILITY_ALL_CODERS, assignee: null, participants: []};
+        this.state = {deadline: null, skills: [], description: '', visibility: VISIBILITY_ALL_CODERS, assignee: null, participants: []};
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -23,6 +24,7 @@ export default class TaskForm extends React.Component {
         const task = this.props.task || {};
         if(task.id) {
             const assignee = task.assignee?task.assignee.user:null;
+            const description = task.description || '';
             var participants = [];
             if(task.details) {
                 task.details.participation.forEach((participant) => {
@@ -31,7 +33,7 @@ export default class TaskForm extends React.Component {
                     }
                 });
             }
-            this.setState({visibility: task.visibility, assignee, participants});
+            this.setState({visibility: task.visibility, assignee, participants, description});
         }
     }
 
@@ -64,6 +66,10 @@ export default class TaskForm extends React.Component {
         this.setState({deadline: moment(date).utc().format()});
     }
 
+    onDescriptionChange(e) {
+        this.setState({description: e.target.getContent()});
+    }
+
     onSkillChange(skills) {
         this.setState({skills: skills});
     }
@@ -92,7 +98,7 @@ export default class TaskForm extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
         var title = this.refs.title.value.trim();
-        var description = this.refs.description.value.trim();
+        var description = this.state.description;
         var fee = this.refs.fee.value.trim();
         var deadline = this.state.deadline;
         var url = this.refs.url.value.trim();
@@ -124,6 +130,7 @@ export default class TaskForm extends React.Component {
     render() {
         const { Task } = this.props;
         const task = this.props.task || {};
+        const description = this.props.task?task.description:'';
         return (
             <div>
                 {task.id?null:(
@@ -168,7 +175,10 @@ export default class TaskForm extends React.Component {
                         (<FieldError message={Task.detail.error.update.description}/>):null}
                     <div className="form-group">
                         <label className="control-label">Description</label>
-                        <div><textarea className="form-control" ref="description" placeholder="Description" defaultValue={task.description}/></div>
+                        <TinyMCE
+                            content={description}
+                            config={{plugins: 'autolink link image lists print preview', toolbar: 'undo redo | bold italic | alignleft aligncenter alignright'}}
+                            onChange={this.onDescriptionChange.bind(this)}/>
                     </div>
 
                     {(Task.detail.error.create && Task.detail.error.create.url)?

@@ -71,7 +71,7 @@ export default class User extends React.Component {
                                 <div className="media-left"><i className="fa fa-globe fa-2x"/></div>
                                 <div className="media-body">
                                     <div className="profile-field">
-                                        {user.profile.website}
+                                        <a target="_blank" href={user.profile.website}>{user.profile.website}</a>
                                     </div>
                                 </div>
                             </div>

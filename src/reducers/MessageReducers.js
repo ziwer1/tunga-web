@@ -28,7 +28,7 @@ function messages(state = [], action) {
     }
 }
 
-function next(state = [], action) {
+function next(state = null, action) {
     switch (action.type) {
         case MessageActions.LIST_MESSAGES_SUCCESS:
         case MessageActions.LIST_MORE_MESSAGES_SUCCESS:
@@ -38,7 +38,7 @@ function next(state = [], action) {
     }
 }
 
-function previous(state = [], action) {
+function previous(state = null, action) {
     switch (action.type) {
         case MessageActions.LIST_MESSAGES_SUCCESS:
         case MessageActions.LIST_MORE_MESSAGES_SUCCESS:

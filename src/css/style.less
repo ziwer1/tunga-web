@@ -160,6 +160,8 @@ form[name='compose'] {
     color: #333;
     padding-top: 3px;
     padding-bottom: 3px;
+    max-height: 45px;
+    overflow: hidden;
 }
 
 .nav-sidebar a:hover,
@@ -188,8 +190,9 @@ form[name='compose'] {
 }
 
 #running-tasks.bottom {
-    position: fixed;
+    position: absolute;
     bottom: 0;
+    width: 100%;
 }
 
 #running-tasks .title {
@@ -369,7 +372,7 @@ form[name='compose'] {
 
 .card .description {
     margin: 10px 0;
-    max-height: 40px;
+    max-height: 45px;
     overflow-y: hidden;
 }
 

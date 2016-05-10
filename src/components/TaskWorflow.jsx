@@ -130,7 +130,7 @@ export default class TaskWorflow extends React.Component {
                                     <div className="media-body">
                                         <p><Link to={`/member/${task.user}/`}>{task.details.user.display_name}</Link></p>
                                         <h4>Task Description</h4>
-                                        <p>{task.description}</p>
+                                        <div dangerouslySetInnerHTML={{__html: task.description}}/>
                                     </div>
                                 </div>
                                     ):''}

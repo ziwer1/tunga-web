@@ -20,11 +20,13 @@ export default class TaskDetail extends React.Component {
                 <div>
                     <TaskHead task={task}/>
                     <h4 className="title">{task.currency} {task.fee}</h4>
+                    {task.deadline?(
                     <div>
                         <strong>Deadline</strong>
                         <span>{moment.utc(task.deadline).local().format('Do, MMMM YYYY, h:mm a')}</span>
                     </div>
-                    <div>{task.description}</div>
+                        ):''}
+                    <div dangerouslySetInnerHTML={{__html: task.description}}/>
                 </div>
                     )}
             </div>

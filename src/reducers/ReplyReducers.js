@@ -29,7 +29,7 @@ function replies(state = [], action) {
     }
 }
 
-function next(state = [], action) {
+function next(state = null, action) {
     switch (action.type) {
         case ReplyActions.LIST_REPLIES_SUCCESS:
         case ReplyActions.LIST_MORE_REPLIES_SUCCESS:
@@ -39,7 +39,7 @@ function next(state = [], action) {
     }
 }
 
-function previous(state = [], action) {
+function previous(state = null, action) {
     switch (action.type) {
         case ReplyActions.LIST_REPLIES_SUCCESS:
         case ReplyActions.LIST_MORE_REPLIES_SUCCESS:

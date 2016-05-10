@@ -61,7 +61,7 @@ function ids(state = [], action) {
     }
 }
 
-function next(state = [], action) {
+function next(state = null, action) {
     switch (action.type) {
         case UserActions.LIST_USERS_SUCCESS:
         case UserActions.LIST_MORE_USERS_SUCCESS:
@@ -71,7 +71,7 @@ function next(state = [], action) {
     }
 }
 
-function previous(state = [], action) {
+function previous(state = null, action) {
     switch (action.type) {
         case UserActions.LIST_USERS_SUCCESS:
         case UserActions.LIST_MORE_USERS_SUCCESS:

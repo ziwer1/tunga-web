@@ -44,7 +44,7 @@ export default class TaskCard extends React.Component {
                 </div>
                     ):''}
                 <TagList tags={task.details.skills} max={3} link={`/task/${task.id}/`}/>
-                <p className="description">{task.description}</p>
+                <div className="description" dangerouslySetInnerHTML={{__html: task.description}}/>
                 <div className="actions">
                     {Auth.user.is_developer?(
                     <div className="actions">
