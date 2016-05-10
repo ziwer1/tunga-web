@@ -39,7 +39,7 @@ export default class MessageDetail extends React.Component {
                                     ):''}
                                 <TimeAgo date={moment.utc(message.created_at).local().format()} className="pull-right"/>
                             </p>
-                            <p>{message.body}</p>
+                            <div dangerouslySetInnerHTML={{__html: message.body}}/>
                             {message.attachments.length?(<Attachments attachments={message.attachments}/>):null}
                         </div>
                     </div>
