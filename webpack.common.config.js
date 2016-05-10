@@ -2,6 +2,7 @@
 
 var webpack = require('webpack'),
     HtmlWebpackPlugin = require('html-webpack-plugin'),
+    CleanWebpackPlugin = require('clean-webpack-plugin'),
     path = require('path');
 
 var unixTimestamp = Date.now();
@@ -17,6 +18,11 @@ module.exports = {
         magicGlobalsPlugin: new webpack.DefinePlugin({
             __DEV__: JSON.stringify(JSON.parse(process.env.BUILD_DEV || 'true')),
             __PRERELEASE__: JSON.stringify(JSON.parse(process.env.BUILD_PRERELEASE || 'false'))
+        }),
+        CleanWebpackPlugin: new CleanWebpackPlugin(['build'], {
+            root: __dirname,
+            verbose: true,
+            dry: false
         })
     },
     hash: unixTimestamp

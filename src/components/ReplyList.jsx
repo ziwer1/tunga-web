@@ -38,7 +38,7 @@ export default class ReplyList extends React.Component {
                                         ):''}
                                     <TimeAgo date={moment.utc(reply.created_at).local().format()} className="pull-right"/>
                                 </p>
-                                <p>{reply.body}</p>
+                                <div dangerouslySetInnerHTML={{__html: reply.body}}/>
                                 {reply.attachments.length?(<Attachments attachments={reply.attachments}/>):null}
                             </div>
                         </div>

@@ -7,6 +7,7 @@ var webpack = require('webpack'),
 config.debug = false;
 config.devtool = 'source-map';
 config.plugins = [
+    common_config.plugins.CleanWebpackPlugin,
     new webpack.DefinePlugin({
         'process.env': {
             'NODE_ENV': JSON.stringify('production')

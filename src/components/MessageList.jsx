@@ -35,7 +35,7 @@ export default class MessageList extends React.Component {
                                                 <Avatar src={message.details.user.avatar_url}/> {message.details.user.display_name}
                                             </div>
                                             <div className="col-md-3">{message.subject}</div>
-                                            <div className="col-md-3">{message.body}</div>
+                                            <div className="col-md-3"><div dangerouslySetInnerHTML={{__html: message.body}}/></div>
                                             <div className="col-md-3">
                                                 <TimeAgo date={moment.utc(message.created_at).local().format()} className="pull-right"/>
                                             </div>

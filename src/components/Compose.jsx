@@ -5,18 +5,19 @@ import FormStatus from './status/FormStatus'
 import FieldError from './status/FieldError'
 import UserSelector from '../containers/UserSelector'
 import Avatar from './Avatar'
+import TinyMCE  from 'react-tinymce'
 
 export default class Compose extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {is_broadcast: false, recipients: [], attachments: []};
+        this.state = {body: '', is_broadcast: false, recipients: [], attachments: []};
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidUpdate(prevProps, prevState) {
         if(this.props.Message.detail.isSaved && !prevProps.Message.detail.isSaved) {
             this.refs.compose.reset();
-            this.setState({attachments: [], is_broadcast: false})
+            this.setState({body: '', is_broadcast: false, recipients: [], attachments: []})
         }
     }
 
@@ -26,6 +27,10 @@ export default class Compose extends React.Component {
 
     onBroadcastChange(is_broadcast = false) {
         this.setState({is_broadcast: is_broadcast});
+    }
+
+    onBodyChange(e) {
+        this.setState({body: e.target.getContent()});
     }
 
     onDrop(attachments) {
@@ -40,7 +45,7 @@ export default class Compose extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
         var subject = this.refs.subject.value.trim();
-        var body = this.refs.body.value.trim();
+        var body = this.state.body;
         if (!subject || !body ) {
             return;
         }
@@ -92,7 +97,11 @@ export default class Compose extends React.Component {
                     {(Message.detail.error.create && Message.detail.error.create.body)?
                         (<FieldError message={Message.detail.error.create.body}/>):''}
                     <div className="form-group row">
-                        <div className="col-xs-11 col-xs-offset-1"><textarea className="form-control" ref="body" placeholder="Write your message here" required /></div>
+                        <div className="col-xs-11 col-xs-offset-1">
+                            <TinyMCE
+                                config={{plugins: 'autolink link image lists print preview', toolbar: 'undo redo | bold italic | alignleft aligncenter alignright'}}
+                                onChange={this.onBodyChange.bind(this)}/>
+                        </div>
                     </div>
                     <Dropzone ref="dropzone" onDrop={this.onDrop.bind(this)} style={{display: 'none'}}>
                         <div>Try dropping some files here, or click to select files to upload.</div>

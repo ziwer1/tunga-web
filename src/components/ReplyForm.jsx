@@ -4,11 +4,12 @@ import Progress from './status/Progress'
 import FormStatus from './status/FormStatus'
 import FieldError from './status/FieldError'
 import Avatar from './Avatar'
+import TinyMCE  from 'react-tinymce'
 
 export default class ReplyForm extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {is_broadcast: true, attachments: []};
+        this.state = {body: '', is_broadcast: true, attachments: []};
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -17,6 +18,10 @@ export default class ReplyForm extends React.Component {
             this.refs.reply_form.reset();
             this.setState({attachments: []})
         }
+    }
+
+    onBodyChange(e) {
+        this.setState({body: e.target.getContent()});
     }
 
     onDrop(attachments) {
@@ -30,7 +35,7 @@ export default class ReplyForm extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        var body = this.refs.body.value.trim();
+        var body = this.state.body;
         if (!body) {
             return;
         }
@@ -56,7 +61,9 @@ export default class ReplyForm extends React.Component {
                             <Avatar src={Auth.user.avatar_url}/>
                         </div>
                         <div className="col-xs-11">
-                            <textarea className="form-control" ref="body" placeholder="Write your message here" required/>
+                            <TinyMCE
+                                config={{plugins: 'autolink link image lists print preview', toolbar: 'undo redo | bold italic | alignleft aligncenter alignright'}}
+                                onChange={this.onBodyChange.bind(this)}/>
                         </div>
                     </div>
 

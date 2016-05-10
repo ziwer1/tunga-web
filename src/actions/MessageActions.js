@@ -54,7 +54,6 @@ export function createMessage(message, attachments) {
                 .then(function(response) {
                     dispatch(createMessageSuccess(response.data));
                 }).catch(function(response) {
-                    console.log(response);
                     dispatch(createMessageFailed(response.data));
                 });
         }

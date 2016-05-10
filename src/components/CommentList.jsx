@@ -37,7 +37,7 @@ export default class CommentList extends React.Component {
                                     <Link to={`/member/${comment.user.id}/`}>{comment.user.display_name}</Link>
                                     <TimeAgo date={moment.utc(comment.created_at).local().format()} className="pull-right"/>
                                 </p>
-                                <p>{comment.body}</p>
+                                <div dangerouslySetInnerHTML={{__html: comment.body}}/>
                             </div>
                         </div>
                         );
