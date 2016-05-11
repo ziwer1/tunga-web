@@ -37,7 +37,7 @@ export default class Task extends React.Component {
                             {"name": "tunga", "content": meta.payment}
                         ]}
                     />
-                    {task.user == Auth.user.id || task.is_participant?(
+                    {task.user == Auth.user.id || task.is_participant || Auth.user.is_staff?(
                     <TaskWorflow Auth={Auth} Task={Task} TaskActions={TaskActions} params={params}/>
                         ):(
                     <TaskDetail Auth={Auth} Task={Task} TaskActions={TaskActions} params={params}/>

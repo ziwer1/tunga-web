@@ -99,7 +99,7 @@ export default class Compose extends React.Component {
                     <div className="form-group row">
                         <div className="col-xs-11 col-xs-offset-1">
                             <TinyMCE
-                                config={{plugins: 'autolink link image lists print preview', toolbar: 'undo redo | bold italic | alignleft aligncenter alignright'}}
+                                config={{plugins: 'autolink link image lists print preview', toolbar: 'undo redo | bold italic | alignleft aligncenter alignright', default_link_target: "_blank", target_list: false}}
                                 onChange={this.onBodyChange.bind(this)}/>
                         </div>
                     </div>

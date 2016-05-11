@@ -62,7 +62,7 @@ export default class ReplyForm extends React.Component {
                         </div>
                         <div className="col-xs-11">
                             <TinyMCE
-                                config={{plugins: 'autolink link image lists print preview', toolbar: 'undo redo | bold italic | alignleft aligncenter alignright'}}
+                                config={{plugins: 'autolink link image lists print preview', toolbar: 'undo redo | bold italic | alignleft aligncenter alignright', default_link_target: "_blank", target_list: false}}
                                 onChange={this.onBodyChange.bind(this)}/>
                         </div>
                     </div>

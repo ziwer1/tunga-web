@@ -177,7 +177,7 @@ export default class TaskForm extends React.Component {
                         <label className="control-label">Description</label>
                         <TinyMCE
                             content={description}
-                            config={{plugins: 'autolink link image lists print preview', toolbar: 'undo redo | bold italic | alignleft aligncenter alignright'}}
+                            config={{plugins: 'autolink link image lists print preview', toolbar: 'undo redo | bold italic | alignleft aligncenter alignright', default_link_target: "_blank", target_list: false}}
                             onChange={this.onDescriptionChange.bind(this)}/>
                     </div>
 
