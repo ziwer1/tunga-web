@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router'
 import connect from '../utils/NotificationConnector'
 import Progress from '../components/status/Progress'
+import Clock from '../components/Clock'
 
 class Home extends React.Component {
     componentDidMount() {
@@ -26,6 +27,7 @@ class Home extends React.Component {
                     </div>
                 </div>
                 <h1 className="title">Hi {Auth.user.first_name || Auth.user.display_name}!</h1>
+                <Clock/>
                 <div className="notification-list">
                     {Notification.notifications?(
                     <ul>
