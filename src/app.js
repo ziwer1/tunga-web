@@ -22,6 +22,7 @@ import SignInPage from 'containers/SignInPage'
 import SignUpPage from 'containers/SignUpPage'
 import PasswordResetPage from 'containers/PasswordResetPage'
 import PasswordResetConfirmPage from 'containers/PasswordResetConfirmPage'
+import SettingsPage from 'containers/SettingsPage'
 import TaskPage from 'containers/TaskPage'
 import TaskList from 'components/TaskList'
 import TaskForm from 'components/TaskForm'
@@ -65,6 +66,7 @@ ReactDOM.render(
                     <Route path="security" component={PasswordChangeForm} />
                     <Route path="complete" component={ProfileType} />
                 </Route>
+                <Route path="settings" component={SettingsPage} />
                 <Route path="task" component={TaskPage}>
                     <IndexRoute component={TaskList}/>
                     <Route path="new" component={TaskForm} />

@@ -45,7 +45,7 @@ export default class NavBar extends React.Component {
                                     </a>
                                     <ul className="dropdown-menu">
                                         <li><Link to="/profile"><i className="fa fa-user"/> My Profile</Link></li>
-                                        {/*<li><Link to=""><i className="fa fa-cog"/> Settings</Link></li>*/}
+                                        <li><Link to="/settings"><i className="fa fa-cog"/> Settings</Link></li>
                                         <li role="separator" className="divider"/>
                                         <li><Link to="" onClick={this.handleClick}><i className="fa fa-sign-out"></i> Sign Out</Link></li>
                                     </ul>

@@ -89,7 +89,7 @@ export default class TaskWorflow extends React.Component {
                                 ):null}
                         </Modal.Body>
                     </Modal>
-                    {Auth.user.id == task.user?(
+                    {Auth.user.id == task.user || Auth.user.is_staff?(
                     <div className="workflow-actions pull-right">
                         {task.closed?(
                         <div>

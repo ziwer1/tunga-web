@@ -41,7 +41,6 @@ class LandingPage extends React.Component {
     }
 
     onVideoReady(e) {
-        console.log(e.target);
         this.setState({player: e.target});
     }
 

@@ -9,14 +9,14 @@ import UserSelector from '../containers/UserSelector'
 import SkillSelector from '../containers/SkillSelector'
 import DateTimePicker from 'react-widgets/lib/DateTimePicker'
 
-import { USER_TYPE_DEVELOPER, VISIBILITY_CHOICES, VISIBILITY_ALL_CODERS, VISIBILITY_CUSTOM } from '../constants/Api'
+import { USER_TYPE_DEVELOPER, TASK_VISIBILITY_CHOICES, VISIBILITY_DEVELOPERS, VISIBILITY_CUSTOM } from '../constants/Api'
 
 momentLocalizer(moment);
 
 export default class TaskForm extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {deadline: null, skills: [], description: '', visibility: VISIBILITY_ALL_CODERS, assignee: null, participants: []};
+        this.state = {deadline: null, skills: [], description: '', visibility: VISIBILITY_DEVELOPERS, assignee: null, participants: []};
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -74,7 +74,7 @@ export default class TaskForm extends React.Component {
         this.setState({skills: skills});
     }
 
-    onVisibilityChange(visibility = VISIBILITY_ALL_CODERS) {
+    onVisibilityChange(visibility = VISIBILITY_DEVELOPERS) {
         this.setState({visibility: visibility});
         if(visibility != VISIBILITY_CUSTOM) {
             this.setState({assignee: null});
@@ -113,10 +113,6 @@ export default class TaskForm extends React.Component {
         const task = this.props.task || {};
         const selected_skills = this.state.skills;
         const skills = selected_skills.join(',');
-
-        if (!title || !fee || !skills) {
-            return;
-        }
 
         const task_info = {title, description, skills, url, fee, deadline, visibility, assignee, participants}
         if(task.id) {
@@ -207,7 +203,7 @@ export default class TaskForm extends React.Component {
                         <label className="control-label">Visibility *</label>
                         <br/>
                         <div className="btn-group btn-choices" role="group" aria-label="visibility">
-                            {VISIBILITY_CHOICES.map(visibility => {
+                            {TASK_VISIBILITY_CHOICES.map(visibility => {
                                 return (
                                 <button key={visibility.id} type="button"
                                         className={"btn btn-default" + (this.state.visibility == visibility.id?' active':'')}

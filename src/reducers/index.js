@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 import Auth from './AuthReducers'
 import Profile from './ProfileReducers'
+import Settings from './SettingsReducers'
 import Notification from './NotificationReducers'
 import Task from './TaskReducers'
 import User from './UserReducers'
@@ -15,6 +16,7 @@ import Utility from './UtilityReducers'
 const TungaApp = combineReducers({
     Auth,
     Profile,
+    Settings,
     Notification,
     Task,
     User,

@@ -55,6 +55,7 @@ export const ENDPOINT_CHANGE_PASSWORD = API_ROOT + 'auth/password/change/';
 export const ENDPOINT_RESET_PASSWORD = API_ROOT + 'auth/password/reset/';
 export const ENDPOINT_RESET_PASSWORD_CONFIRM = API_ROOT + 'auth/password/reset/confirm/';
 export const ENDPOINT_ACCOUNT_INFO = API_ROOT + 'auth/account/';
+export const ENDPOINT_ACCOUNT_SETTINGS = API_ROOT + 'auth/settings/';
 export const ENDPOINT_USER_INFO = API_ROOT + 'auth/user/';
 export const ENDPOINT_TASK = API_ROOT + 'task/';
 export const ENDPOINT_USER = API_ROOT + 'user/';
@@ -76,12 +77,19 @@ export const USER_TYPE_CHOICES = [
     {id: USER_TYPE_PROJECT_OWNER, name: 'Project Owner'}
 ];
 
-export const VISIBILITY_ALL_CODERS = 1;
+export const VISIBILITY_DEVELOPERS = 1;
 export const VISIBILITY_MY_TEAM = 2;
 export const VISIBILITY_CUSTOM = 3;
+export const VISIBILITY_ONLY_ME = 4;
 
-export const VISIBILITY_CHOICES = [
-    {id: VISIBILITY_ALL_CODERS, name: 'All Coders'},
+export const TASK_VISIBILITY_CHOICES = [
+    {id: VISIBILITY_DEVELOPERS, name: 'All Coders'},
     {id: VISIBILITY_MY_TEAM, name: 'My Team'},
     {id: VISIBILITY_CUSTOM, name: 'Select developers'}
+];
+
+export const SETTINGS_VISIBILITY_CHOICES = [
+    {id: VISIBILITY_DEVELOPERS, name: 'All developers'},
+    {id: VISIBILITY_MY_TEAM, name: 'My team only'},
+    {id: VISIBILITY_ONLY_ME, name: 'Only me'}
 ];
