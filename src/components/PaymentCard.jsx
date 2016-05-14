@@ -1,24 +1,39 @@
 import React from 'react'
 import { Link } from 'react-router'
 import moment from 'moment'
+import btoa from 'btoa'
 import Progress from './status/Progress'
 
 export default class PaymentCard extends React.Component {
     render() {
         const { Auth, task } = this.props;
+        const task_url = `${window.location.protocol}//${window.location.host}/task/${task.id}/`
+        console.log(task_url);
 
         return (
             <div className="well card">
                 <div className="pledge">{task.display_fee}</div>
-                <h4>{task.title}</h4>
-                {task.closed && !task.paid && task.closed_at?(
+                <h4><Link to={`/task/${task.id}/`}>{task.title}</Link></h4>
+                {task.closed && !task.paid?(
                 <div>
-                    Closed on {moment.utc(task.closed_at).local().format('Do, MMMM YYYY')}
+                    {task.closed_at?(
+                    <p>Closed on {moment.utc(task.closed_at).local().format('Do, MMMM YYYY')}</p>
+                        ):null}
+                    {Auth.user.id == task.user || Auth.user.is_staff?(
+                    <p><Link to={`/task/${task.id}/`}>Go to Payment</Link></p>
+                        ):null}
                 </div>
                     ):''}
-                {task.paid && task.paid_at?(
+                {task.paid?(
                 <div>
-                    Paid on {moment.utc(task.paid_at).local().format('Do, MMMM YYYY')}
+                    {task.paid_at?(
+                    <p>Paid on {moment.utc(task.paid_at).local().format('Do, MMMM YYYY')}</p>
+                        ):null}
+                    <p>
+                        <a target="_blank" href={'https://mobbr.com/#/task/'+btoa(task_url)+'/payments'}>
+                            View payment on Mobbr <i className="fa fa-external-link"/>
+                        </a>
+                    </p>
                 </div>
                     ):''}
             </div>

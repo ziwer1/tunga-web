@@ -24,13 +24,16 @@ export default class TaskList extends React.Component {
         const { Auth, Task, TaskActions, filter } = this.props;
         return (
             <div>
-                <h2>Tasks</h2>
-                {this.props.params.id?'':(
+                <h2>{this.props.params.filter == 'my-tasks' && !Auth.user.is_developer?'My ':null}Tasks</h2>
+                {this.props.params.filter == 'my-tasks' && !Auth.user.is_developer?null:(
                 <ul className="nav nav-pills nav-top-filter">
                     <li role="presentation"><IndexLink to="/task" activeClassName="active">All Tasks</IndexLink></li>
                     <li role="presentation"><Link to="/task/filter/skills" activeClassName="active">My Skills</Link></li>
                     <li role="presentation"><Link to="/task/filter/project-owners" activeClassName="active">My Companies</Link></li>
                     <li role="presentation"><Link to="/task/filter/saved" activeClassName="active">Saved</Link></li>
+                    {Auth.user.is_developer?(
+                    <li role="presentation"><Link to="/task/filter/my-tasks" activeClassName="active">My Tasks</Link></li>
+                        ):null}
                 </ul>
                     )}
                 <SearchBox filter={{filter: filter}} placeholder="Search for tasks" onSearch={TaskActions.listTasks}/>
@@ -42,7 +45,7 @@ export default class TaskList extends React.Component {
                             {Task.list.ids.map((id) => {
                                 const task = Task.list.tasks[id];
                                 return(
-                                <div className="col-md-4" key={id}>
+                                <div className="col-sm-6 col-md-4" key={id}>
                                     <TaskCard Auth={Auth} task={task} TaskActions={TaskActions}/>
                                 </div>
                                     );

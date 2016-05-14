@@ -34,6 +34,20 @@ export default class TaskWorflow extends React.Component {
         TaskActions.updateTask(Task.detail.task.id, {closed: false, closed_at: null});
     }
 
+    handleMarkPaid() {
+        const { TaskActions, Task } = this.props;
+        if(confirm('Confirm mark as paid')) {
+            TaskActions.updateTask(Task.detail.task.id, {paid: true, paid_at: moment.utc().format()});
+        }
+    }
+
+    handleDeleteTask() {
+        const { TaskActions, Task } = this.props;
+        if(confirm('Confirm delete Task')) {
+            TaskActions.deleteTask(Task.detail.task.id);
+        }
+    }
+
     handleAcceptTask() {
         const { TaskActions, Task, Auth } = this.props;
         TaskActions.updateTask(Task.detail.task.id, {participants: [Auth.user.id], confirmed_participants: [Auth.user.id]});
@@ -94,11 +108,17 @@ export default class TaskWorflow extends React.Component {
                         {task.closed?(
                         <div>
                             <button type="button" className="btn btn-primary" onClick={this.handleOpenTask.bind(this)}>Open task</button>
+                            {task.paid?null:(
                             <button type="button" className="btn btn-primary" onClick={this.handleMakePayment.bind(this)}>Make Payment</button>
+                                )}
+                            {!task.paid && Auth.user.is_staff?(
+                            <button type="button" className="btn btn-primary" onClick={this.handleMarkPaid.bind(this)}>Mark as Paid</button>
+                                ):null}
                         </div>
                             ):(
                         <div>
                             <button type="button" className="btn btn-primary" onClick={this.handleEdit.bind(this)}>Edit</button>
+                            <button type="button" className="btn btn-primary" onClick={this.handleDeleteTask.bind(this)}>Delete</button>
                             <button type="button" className="btn btn-primary" onClick={this.handleViewApplications.bind(this)}>View Applications</button>
                             <button type="button" className="btn btn-primary" onClick={this.handleCloseTask.bind(this)}>Close task</button>
                         </div>
@@ -149,7 +169,7 @@ export default class TaskWorflow extends React.Component {
 
                                 <div>
                                     <strong>Pledge</strong>
-                                    <h4 className="title">{task.currency} {task.fee}</h4>
+                                    <h4 className="title">{task.display_fee}</h4>
                                 </div>
 
                                 {task.deadline?(

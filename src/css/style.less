@@ -36,17 +36,6 @@ a:visited {
     color: @brand;
 }
 
-@media screen and (min-width: 760px) {
-    .flex-row.row {
-        display: flex;
-        flex-wrap: wrap;
-    }
-    .flex-row.row > [class*='col-'] {
-        display: flex;
-        flex-direction: column;
-    }
-}
-
 .app-loading {
     max-width: 500px;
     margin: 20px auto;
@@ -659,6 +648,25 @@ form[name='compose'] {
 .clock {
     color: #fff;
 }
+
+
+@media (min-width: 768px) {
+    .flex-row.row {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .flex-row.row > [class*='col-'] {
+        display: flex;
+        flex-direction: column;
+
+        .card {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+    }
+}
+
 
 
 /* LANDING PAGE */

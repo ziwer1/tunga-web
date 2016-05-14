@@ -31,7 +31,7 @@ export default class PaymentList extends React.Component {
                             {Task.list.ids.map((id) => {
                                 const task = Task.list.tasks[id];
                                 return(
-                                <div className="col-md-4" key={id}>
+                                <div className="col-sm-6 col-md-4" key={id}>
                                     <PaymentCard Auth={Auth} task={task} TaskActions={TaskActions}/>
                                 </div>
                                     );

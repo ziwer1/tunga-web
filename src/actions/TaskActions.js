@@ -13,6 +13,9 @@ export const RETRIEVE_TASK_FAILED = 'RETRIEVE_TASK_FAILED';
 export const UPDATE_TASK_START = 'UPDATE_TASK_START';
 export const UPDATE_TASK_SUCCESS = 'UPDATE_TASK_SUCCESS';
 export const UPDATE_TASK_FAILED = 'UPDATE_TASK_FAILED';
+export const DELETE_TASK_START = 'DELETE_TASK_START';
+export const DELETE_TASK_SUCCESS = 'DELETE_TASK_SUCCESS';
+export const DELETE_TASK_FAILED = 'DELETE_TASK_FAILED';
 export const LIST_RUNNING_TASKS_START = 'LIST_RUNNING_TASKS_START';
 export const LIST_RUNNING_TASKS_SUCCESS = 'LIST_RUNNING_TASKS_SUCCESS';
 export const LIST_RUNNING_TASKS_FAILED = 'LIST_RUNNING_TASKS_FAILED';
@@ -155,6 +158,39 @@ export function updateTaskSuccess(task) {
 export function updateTaskFailed(error) {
     return {
         type: UPDATE_TASK_FAILED,
+        error
+    }
+}
+
+export function deleteTask(id) {
+    return dispatch => {
+        dispatch(deleteTaskStart(id));
+        return axios.delete(ENDPOINT_TASK + id + '/')
+            .then(function() {
+                dispatch(deleteTaskSuccess(id));
+            }).catch(function(response) {
+                dispatch(deleteTaskFailed(response.data));
+            });
+    }
+}
+
+export function deleteTaskStart(id) {
+    return {
+        type: DELETE_TASK_START,
+        id
+    }
+}
+
+export function deleteTaskSuccess(id) {
+    return {
+        type: DELETE_TASK_SUCCESS,
+        id
+    }
+}
+
+export function deleteTaskFailed(error) {
+    return {
+        type: DELETE_TASK_FAILED,
         error
     }
 }

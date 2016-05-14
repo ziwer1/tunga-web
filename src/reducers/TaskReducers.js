@@ -11,6 +11,8 @@ function task(state = {}, action) {
             return action.task;
         case TaskActions.UPDATE_TASK_SUCCESS:
             return {...state, ...action.task};
+        case TaskActions.DELETE_TASK_SUCCESS:
+            return {};
         case ApplicationActions.UPDATE_APPLICATION_SUCCESS:
             if(action.application.accepted) {
                 return {...state, assignee: action.application.user}
@@ -154,6 +156,18 @@ function isRetrieving(state = false, action) {
     }
 }
 
+function isDeleting(state = false, action) {
+    switch (action.type) {
+        case TaskActions.DELETE_TASK_START:
+            return true;
+        case TaskActions.DELETE_TASK_SUCCESS:
+        case TaskActions.DELETE_TASK_FAILED:
+            return false;
+        default:
+            return false;
+    }
+}
+
 function error(state = {}, action) {
     switch (action.type) {
         case TaskActions.CREATE_TASK_FAILED:
@@ -251,6 +265,7 @@ const detail = combineReducers({
     isRetrieving,
     isSaving,
     isSaved,
+    isDeleting,
     applications,
     meta,
     error

@@ -40,6 +40,7 @@ class SideBar extends React.Component {
                                 {Auth.user.is_developer || Auth.user.is_staff?(<li><IndexLink to="/task" activeClassName="active">Find a task</IndexLink></li>):null}
                                 {Auth.user.is_project_owner || Auth.user.is_staff?(<li><Link to="/task/new" activeClassName="active">Post a new task</Link></li>):null}
                                 <li><Link to="/message" activeClassName="active">Messages {messages?<span className="badge">{messages}</span>:null}</Link></li>
+                                {Auth.user.is_project_owner || Auth.user.is_staff?(<li><Link to="/task/filter/my-tasks" activeClassName="active">My Tasks</Link></li>):null}
                                 {/*<li><Link to="" activeClassName="active">Notifications</Link></li>*/}
                             </ul>
                         </li>

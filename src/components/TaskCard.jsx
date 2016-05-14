@@ -45,32 +45,30 @@ export default class TaskCard extends React.Component {
                     ):''}
                 <TagList tags={task.details.skills} max={3} link={`/task/${task.id}/`}/>
                 <div className="description" dangerouslySetInnerHTML={{__html: task.description}}/>
+                {Auth.user.is_developer?(
                 <div className="actions">
-                    {Auth.user.is_developer?(
-                    <div className="actions">
-                        {task.can_apply?(
-                        <div className="row">
-                            <div className="col-sm-12">
-                                <button type="button" className="btn btn-block btn-default"
-                                        onClick={this.handleApplication.bind(this)}>Apply for this task</button>
-                            </div>
-                        </div>
-                            ):''}
-                        <div className="row">
-                            {task.can_save?(
-                            <div className="col-sm-6">
-                                <button type="button" className="btn btn-block btn-default"
-                                        onClick={this.handleSaveTask.bind(this)}>Save</button>
-                            </div>
-                                ):''}
-                            <div className={"col-sm-"+(task.can_save?'6':'12')}>
-                                <button type="button" className="btn btn-block btn-default"
-                                        onClick={this.handleSendTask.bind(this)}>Send this task</button>
-                            </div>
+                    {task.can_apply?(
+                    <div className="row">
+                        <div className="col-sm-12">
+                            <button type="button" className="btn btn-block btn-default"
+                                    onClick={this.handleApplication.bind(this)}>Apply for this task</button>
                         </div>
                     </div>
                         ):''}
+                    <div className="row">
+                        {task.can_save?(
+                        <div className="col-sm-6">
+                            <button type="button" className="btn btn-block btn-default"
+                                    onClick={this.handleSaveTask.bind(this)}>Save</button>
+                        </div>
+                            ):''}
+                        <div className={"col-sm-"+(task.can_save?'6':'12')}>
+                            <button type="button" className="btn btn-block btn-default"
+                                    onClick={this.handleSendTask.bind(this)}>Send this task</button>
+                        </div>
+                    </div>
                 </div>
+                    ):null}
             </div>
         );
     }

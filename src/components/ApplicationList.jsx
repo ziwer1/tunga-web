@@ -38,7 +38,7 @@ export default class ApplicationList extends React.Component {
                                 const application = applications.items[id];
                                 const user = application.details.user;
                                 return(
-                                <div className="col-md-4" key={id}>
+                                <div className="col-sm-6 col-md-4" key={id}>
                                     <div className="well card">
                                         <UserCardProfile user={user}/>
                                         {application.responded?null:(

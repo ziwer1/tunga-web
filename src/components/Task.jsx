@@ -27,7 +27,7 @@ export default class Task extends React.Component {
             <div>
                 {Task.detail.isRetrieving?
                     (<Progress/>)
-                    :(
+                    :task.id?(
                 <div>
                     <Helmet
                         title={task.summary}
@@ -43,6 +43,8 @@ export default class Task extends React.Component {
                     <TaskDetail Auth={Auth} Task={Task} TaskActions={TaskActions} params={params}/>
                         )}
                 </div>
+                    ):(
+                <div className="alert alert-danger">Task not found</div>
                     )}
             </div>
 

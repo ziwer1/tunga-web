@@ -51,7 +51,7 @@ export default class UserList extends React.Component {
                             {User.list.ids.map((id) => {
                                 const user = User.list.users[id];
                                 return(
-                                <div className="col-md-4" key={id}>
+                                <div className="col-sm-6 col-md-4" key={id}>
                                     <UserCard Auth={Auth} user={user} UserActions={UserActions}/>
                                 </div>
                                     );
