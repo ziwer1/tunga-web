@@ -1,5 +1,5 @@
 # Tunga Web Client
-Web Client App for Tunga.io
+Web Client App for [tunga.io](http://tunga.io/)
 
 # Installation
 1. run this command from project root
@@ -10,12 +10,12 @@ npm install
 ```
 
 # Development (Coding guide)
+* Built with [React,js](https://facebook.github.io/react/) and [Redux](http://redux.js.org/)
 * All source code goes into /src
-* Actions, Components, Stores and Sources go in respective directories
+* Actions, Reducers, Components and Containers go in respective directories
 * App Logic goes in app.js
 * index.html is a template, refrain from editing (except when adding global libraries served via a CDN)
-* Leverage [Redux](http://redux.js.org/) for implementing Data Flow
-* Feel free to leverage [ES6/ES2015](https://babeljs.io/docs/learn-es2015/) features in your code
+* Leverage [ES6/ES2015](https://babeljs.io/docs/learn-es2015/) features in your code
 * Use [axios](https://github.com/mzabriskie/axios) for networking
 
 #### Importing modules
