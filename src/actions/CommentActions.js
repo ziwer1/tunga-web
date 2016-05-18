@@ -20,15 +20,41 @@ export const LIST_MORE_COMMENTS_START = 'LIST_MORE_COMMENTS_START';
 export const LIST_MORE_COMMENTS_SUCCESS = 'LIST_MORE_COMMENTS_SUCCESS';
 export const LIST_MORE_COMMENTS_FAILED = 'LIST_MORE_COMMENTS_FAILED';
 
-export function createComment(comment) {
+export function createComment(comment, attachments) {
     return dispatch => {
         dispatch(createCommentStart(comment));
-        return axios.post(ENDPOINT_COMMENT, comment)
-            .then(function(response) {
-                dispatch(createCommentSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(createCommentFailed(response.data))
+
+        if(attachments.length) {
+            var data = new FormData();
+            Object.keys(comment).map((key, idx) => {
+                if(!Array.isArray(comment[key]) || comment[key].length) {
+                    data.append(key, comment[key]);
+                }
             });
+
+            attachments.map((file, idx) => {
+                data.append('file' + idx, file);
+            });
+
+            $.ajax({
+                url: ENDPOINT_COMMENT,
+                type: "POST",
+                data: data,
+                processData: false,
+                contentType: false
+            }).then(function (data) {
+                dispatch(createCommentSuccess(data))
+            }, function (data) {
+                dispatch(createCommentFailed(data));
+            });
+        } else {
+            return axios.post(ENDPOINT_COMMENT, comment)
+                .then(function(response) {
+                    dispatch(createCommentSuccess(response.data))
+                }).catch(function(response) {
+                    dispatch(createCommentFailed(response.data))
+                });
+        }
     }
 }
 

@@ -1,10 +1,11 @@
 import React from 'react'
 import Dropzone from 'react-dropzone'
+import TinyMCE  from 'react-tinymce'
 import Progress from './status/Progress'
 import FormStatus from './status/FormStatus'
 import FieldError from './status/FieldError'
 import Avatar from './Avatar'
-import TinyMCE  from 'react-tinymce'
+import {TINY_MCE_CONFIG } from '../constants/settings'
 
 export default class ReplyForm extends React.Component {
     constructor(props) {
@@ -16,7 +17,7 @@ export default class ReplyForm extends React.Component {
     componentDidUpdate(prevProps, prevState) {
         if(this.props.Reply.detail.isSaved && !prevProps.Reply.detail.isSaved) {
             this.refs.reply_form.reset();
-            this.setState({attachments: []})
+            this.setState({body: '', attachments: []});
         }
     }
 
@@ -62,7 +63,7 @@ export default class ReplyForm extends React.Component {
                         </div>
                         <div className="col-xs-11">
                             <TinyMCE
-                                config={{plugins: 'autolink link image lists print preview', toolbar: 'undo redo | bold italic | alignleft aligncenter alignright', default_link_target: "_blank", target_list: false}}
+                                config={TINY_MCE_CONFIG}
                                 onChange={this.onBodyChange.bind(this)}/>
                         </div>
                     </div>

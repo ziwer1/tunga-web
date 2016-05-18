@@ -5,6 +5,7 @@ import TimeAgo from 'react-timeago'
 import Progress from './status/Progress'
 import LoadMore from './status/LoadMore'
 import Avatar from './Avatar'
+import Attachments from './Attachments'
 
 export default class CommentList extends React.Component {
 
@@ -38,6 +39,7 @@ export default class CommentList extends React.Component {
                                     <TimeAgo date={moment.utc(comment.created_at).local().format()} className="pull-right"/>
                                 </p>
                                 <div dangerouslySetInnerHTML={{__html: comment.body}}/>
+                                {comment.uploads.length?(<Attachments attachments={comment.uploads}/>):null}
                             </div>
                         </div>
                         );

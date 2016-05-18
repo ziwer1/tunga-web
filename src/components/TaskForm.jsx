@@ -1,15 +1,15 @@
 import React from 'react'
 import moment from 'moment'
 import momentLocalizer from 'react-widgets/lib/localizers/moment'
+import DateTimePicker from 'react-widgets/lib/DateTimePicker'
 import TinyMCE  from 'react-tinymce'
 import Progress from './status/Progress'
 import FormStatus from './status/FormStatus'
 import FieldError from './status/FieldError'
 import UserSelector from '../containers/UserSelector'
 import SkillSelector from '../containers/SkillSelector'
-import DateTimePicker from 'react-widgets/lib/DateTimePicker'
-
 import { USER_TYPE_DEVELOPER, TASK_VISIBILITY_CHOICES, VISIBILITY_DEVELOPERS, VISIBILITY_CUSTOM } from '../constants/Api'
+import {TINY_MCE_CONFIG } from '../constants/settings'
 
 momentLocalizer(moment);
 
@@ -42,6 +42,10 @@ export default class TaskForm extends React.Component {
             const { Task } = this.props;
             if(!this.props.task) {
                 this.refs.task_form.reset();
+                this.setState({
+                    deadline: null, skills: [], description: '', visibility: VISIBILITY_DEVELOPERS,
+                    assignee: null, participants: []
+                });
                 if(this.props.history) {
                     this.props.history.replaceState(null, '/task/'+ Task.detail.task.id);
                 }
@@ -173,7 +177,7 @@ export default class TaskForm extends React.Component {
                         <label className="control-label">Description</label>
                         <TinyMCE
                             content={description}
-                            config={{plugins: 'autolink link image lists print preview', toolbar: 'undo redo | bold italic | alignleft aligncenter alignright', default_link_target: "_blank", target_list: false}}
+                            config={TINY_MCE_CONFIG}
                             onChange={this.onDescriptionChange.bind(this)}/>
                     </div>
 

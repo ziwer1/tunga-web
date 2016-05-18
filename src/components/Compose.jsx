@@ -1,11 +1,12 @@
 import React from 'react'
 import Dropzone from 'react-dropzone'
+import TinyMCE  from 'react-tinymce'
 import Progress from './status/Progress'
 import FormStatus from './status/FormStatus'
 import FieldError from './status/FieldError'
 import UserSelector from '../containers/UserSelector'
 import Avatar from './Avatar'
-import TinyMCE  from 'react-tinymce'
+import {TINY_MCE_CONFIG } from '../constants/settings'
 
 export default class Compose extends React.Component {
     constructor(props) {
@@ -99,7 +100,7 @@ export default class Compose extends React.Component {
                     <div className="form-group row">
                         <div className="col-xs-11 col-xs-offset-1">
                             <TinyMCE
-                                config={{plugins: 'autolink link image lists print preview', toolbar: 'undo redo | bold italic | alignleft aligncenter alignright', default_link_target: "_blank", target_list: false}}
+                                config={TINY_MCE_CONFIG}
                                 onChange={this.onBodyChange.bind(this)}/>
                         </div>
                     </div>

@@ -9,7 +9,7 @@ npm install webpack-dev-server -g
 npm install
 ```
 
-# Development (Coding guide)
+# Coding Guide
 * Built with [React,js](https://facebook.github.io/react/) and [Redux](http://redux.js.org/)
 * All source code goes into /src
 * Actions, Reducers, Components and Containers go in respective directories
@@ -50,6 +50,9 @@ npm run watch
 ```
 2. A new browser tab with automatically open at http://127.0.0.1:8080/
 (The browser will auto reload when changes are made to the code)
+
+# Documentation
+Find API Documentation at http://tunga.io/api/docs/
 
 # Deployment
 1. run the following commands from project root
