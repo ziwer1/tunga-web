@@ -188,9 +188,13 @@ form[name='compose'] {
     color: @brand;
 }
 
-.nav-sidebar .badge {
+.badge,
+.workflow-actions .btn .badge {
     color: @brand;
     background-color: #fff;
+}
+
+.nav-sidebar .badge {
     border: 1px @brand solid;
 }
 
@@ -519,6 +523,13 @@ form[name='compose'] {
     margin-right: 5px;
 }
 
+.workflow-actions .open>.dropdown-toggle.btn-primary.focus,
+.workflow-actions .open>.dropdown-toggle.btn-primary:focus,
+.workflow-actions .open>.dropdown-toggle.btn-primary:hover {
+    background-color: @brand;
+    border-color: @brand;
+}
+
 .tag-list {
     margin-top: 5px;
     margin-bottom: 5px;
@@ -647,6 +658,10 @@ form[name='compose'] {
 
 .clock {
     color: #fff;
+}
+
+.rating {
+    color: @brand;
 }
 
 

@@ -22,10 +22,13 @@ export default class UserCardProfile extends React.Component {
                     <div>{user.profile.city}, {user.profile.country_name}</div>
                         ):null}
                     {!user.is_developer && user.tasks_created?(
-                    <div>{user.tasks_created} tasks created</div>
+                    <div>{user.tasks_created} task{user.tasks_created==1?null:'s'} created</div>
                         ):null}
-                    {user.is_developer?(
-                    <div>{user.tasks_completed} tasks completed</div>
+                    {user.is_developer && user.tasks_completed?(
+                    <div>{user.tasks_completed} task{user.tasks_completed==1?null:'s'} completed</div>
+                        ):null}
+                    {user.is_developer && user.satisfaction?(
+                    <div>{user.satisfaction} satisfaction score</div>
                         ):null}
                 </div>
                 {user.profile?(

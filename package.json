@@ -23,6 +23,7 @@
     "react-dom": "^0.14.2",
     "react-dropzone": "^3.4.0",
     "react-helmet": "^3.1.0",
+    "react-rating": "^0.2.2",
     "react-redux": "^4.4.2",
     "react-router": "^1.0.0",
     "react-timeago": "^3.0.0",

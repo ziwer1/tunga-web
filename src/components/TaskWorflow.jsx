@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router'
 import { Modal } from 'react-bootstrap'
 import moment from 'moment'
+import Rating from 'react-rating'
 import TagList from './TagList'
 import Progress from './status/Progress'
 import CommentSection from '../containers/CommentSection'
@@ -32,6 +33,12 @@ export default class TaskWorflow extends React.Component {
     handleOpenTask() {
         const { TaskActions, Task } = this.props;
         TaskActions.updateTask(Task.detail.task.id, {closed: false, closed_at: null});
+    }
+
+    handleRating(rating) {
+        const { TaskActions, Task } = this.props;
+        console.log(rating);
+        TaskActions.updateTask(Task.detail.task.id, {satisfaction: rating});
     }
 
     handleMarkPaid() {
@@ -114,12 +121,25 @@ export default class TaskWorflow extends React.Component {
                             {!task.paid && Auth.user.is_staff?(
                             <button type="button" className="btn btn-primary" onClick={this.handleMarkPaid.bind(this)}>Mark as Paid</button>
                                 ):null}
+                            <div className="btn-group">
+                                <button type="button" className="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Rate Developers <span className="caret"></span>
+                                </button>
+                                <div className="dropdown-menu">
+                                    <div></div>
+                                    <Rating start={0} stop={10} step={2} fractions={2} initialRate={task.satisfaction}
+                                            empty={'fa fa-star-o fa-2x rating'} full={'fa fa-star fa-2x rating'}
+                                            onChange={this.handleRating.bind(this)}/>
+                                </div>
+                            </div>
                         </div>
                             ):(
                         <div>
                             <button type="button" className="btn btn-primary" onClick={this.handleEdit.bind(this)}>Edit</button>
                             <button type="button" className="btn btn-primary" onClick={this.handleDeleteTask.bind(this)}>Delete</button>
-                            <button type="button" className="btn btn-primary" onClick={this.handleViewApplications.bind(this)}>View Applications</button>
+                            {task.open_applications > 0?(
+                            <button type="button" className="btn btn-primary" onClick={this.handleViewApplications.bind(this)}>View Applications <span className="badge">{task.open_applications}</span></button>
+                                ):null}
                             <button type="button" className="btn btn-primary" onClick={this.handleCloseTask.bind(this)}>Close task</button>
                         </div>
                             )}
