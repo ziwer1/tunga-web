@@ -61,7 +61,7 @@ export default class User extends React.Component {
                                 <div className="media-left"><i className="fa fa-user fa-2x"/></div>
                                 <div className="media-body">
                                     <div className="profile-field">
-                                        {user.profile.bio}
+                                        <div dangerouslySetInnerHTML={{__html: user.profile.bio}}/>
                                     </div>
                                 </div>
                             </div>

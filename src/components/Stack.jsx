@@ -1,18 +1,24 @@
 import React from 'react'
+import TinyMCE  from 'react-tinymce'
 import Progress from './status/Progress'
 import FormStatus from './status/FormStatus'
 import FieldError from './status/FieldError'
 import SkillSelector from '../containers/SkillSelector'
+import {TINY_MCE_CONFIG } from '../constants/settings'
 
 export default class Stack extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {skills: []};
+        this.state = {bio: '', skills: []};
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
         this.props.ProfileActions.retrieveProfile();
+    }
+
+    onBioChange(e) {
+        this.setState({bio: e.target.getContent()});
     }
 
     onSkillChange(skills) {
@@ -22,7 +28,7 @@ export default class Stack extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
         var website = this.refs.website?this.refs.website.value.trim():null;
-        var bio = this.refs.bio.value.trim();
+        var bio = this.state.bio;
         const { Profile, ProfileActions } = this.props;
         const selected_skills = this.state.skills;
         const skills = selected_skills.join(',');
@@ -32,6 +38,8 @@ export default class Stack extends React.Component {
 
     render() {
         const { Profile, Auth } = this.props;
+        const bio = Profile.profile.bio?Profile.profile.bio:'';
+
         return (
             <div>
                 {Profile.isRetrieving?(
@@ -47,7 +55,10 @@ export default class Stack extends React.Component {
                         (<FieldError message={Profile.error.profile.bio}/>):''}
                     <div className="form-group">
                         <label className="control-label">Bio</label>
-                        <div><textarea className="form-control" ref="bio" placeholder="What makes you tick" defaultValue={Profile.profile.bio} /></div>
+                        <TinyMCE
+                            content={bio}
+                            config={TINY_MCE_CONFIG}
+                            onChange={this.onBioChange.bind(this)}/>
                     </div>
 
                     {(Auth.user.is_project_owner && Profile.error.profile && Profile.error.profile.website)?
