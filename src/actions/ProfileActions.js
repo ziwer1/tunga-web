@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { ENDPOINT_ACCOUNT_INFO, ENDPOINT_USER_INFO, ENDPOINT_PROFILE, ENDPOINT_CHANGE_PASSWORD, ENDPOINT_NOTIFICATION, ENDPOINT_COUNTRIES } from '../constants/Api'
+import { ENDPOINT_ACCOUNT_INFO, ENDPOINT_USER_INFO, ENDPOINT_PROFILE, ENDPOINT_CHANGE_PASSWORD, ENDPOINT_USER_EDUCATION, ENDPOINT_USER_WORK, ENDPOINT_NOTIFICATION, ENDPOINT_COUNTRIES } from '../constants/Api'
 
 export const UPDATE_AUTH_USER_START = 'UPDATE_AUTH_USER_START';
 export const UPDATE_AUTH_USER_SUCCESS = 'UPDATE_AUTH_USER_SUCCESS';
@@ -16,6 +16,12 @@ export const UPDATE_PROFILE_FAILED = 'UPDATE_PROFILE_FAILED';
 export const UPDATE_PASSWORD_START = 'UPDATE_PASSWORD_START';
 export const UPDATE_PASSWORD_SUCCESS = 'UPDATE_PASSWORD_SUCCESS';
 export const UPDATE_PASSWORD_FAILED = 'UPDATE_PASSWORD_FAILED';
+export const CREATE_WORK_START = 'CREATE_WORK_START';
+export const CREATE_WORK_SUCCESS = 'CREATE_WORK_SUCCESS';
+export const CREATE_WORK_FAILED = 'CREATE_WORK_FAILED';
+export const UPDATE_WORK_START = 'UPDATE_WORK_START';
+export const UPDATE_WORK_SUCCESS = 'UPDATE_WORK_SUCCESS';
+export const UPDATE_WORK_FAILED = 'UPDATE_WORK_FAILED';
 export const GET_COUNTRIES_START = 'GET_COUNTRIES_START';
 export const GET_COUNTRIES_SUCCESS = 'GET_COUNTRIES_SUCCESS';
 export const GET_COUNTRIES_FAILED = 'GET_COUNTRIES_FAILED';
@@ -106,7 +112,7 @@ export function updateAccountInfoFailed(error) {
 export function retrieveProfile() {
     return dispatch => {
         dispatch(retrieveProfileStart());
-        return axios.get(ENDPOINT_PROFILE)
+        return axios.get(ENDPOINT_USER_INFO)
             .then(function(response) {
                 dispatch(retrieveProfileSuccess(response.data))
             }).catch(function(response) {
@@ -121,10 +127,12 @@ export function retrieveProfileStart() {
     }
 }
 
-export function retrieveProfileSuccess(profile) {
+export function retrieveProfileSuccess(user) {
     return {
         type: RETRIEVE_PROFILE_SUCCESS,
-        profile
+        profile: user.profile,
+        work: user.work,
+        education: user.education
     }
 }
 
@@ -217,6 +225,72 @@ export function getCountries() {
             }).catch(function(response) {
                 dispatch(getCountriesFailed(response.data))
             });
+    }
+}
+
+export function createWork(work) {
+    return dispatch => {
+        dispatch(createWorkStart(work));
+        return axios.post(ENDPOINT_USER_WORK, work)
+            .then(function(response) {
+                dispatch(createWorkSuccess(response.data))
+            }).catch(function(response) {
+                dispatch(createWorkFailed(response.data))
+            });
+    }
+}
+
+export function createWorkStart(work) {
+    return {
+        type: CREATE_WORK_START,
+        work
+    }
+}
+
+export function createWorkSuccess(work) {
+    return {
+        type: CREATE_WORK_SUCCESS,
+        work
+    }
+}
+
+export function createWorkFailed(error) {
+    return {
+        type: CREATE_WORK_FAILED,
+        error
+    }
+}
+
+export function updateWork(id, data) {
+    return dispatch => {
+        dispatch(updateWorkStart(id));
+        return axios.patch(ENDPOINT_USER_WORK + id + '/', data)
+            .then(function(response) {
+                dispatch(updateWorkSuccess(response.data))
+            }).catch(function(response) {
+                dispatch(updateWorkFailed(response.data))
+            });
+    }
+}
+
+export function updateWorkStart(id) {
+    return {
+        type: UPDATE_WORK_START,
+        id
+    }
+}
+
+export function updateWorkSuccess(work) {
+    return {
+        type: UPDATE_WORK_SUCCESS,
+        work
+    }
+}
+
+export function updateWorkFailed(error) {
+    return {
+        type: UPDATE_WORK_FAILED,
+        error
     }
 }
 

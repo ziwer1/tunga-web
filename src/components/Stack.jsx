@@ -4,6 +4,8 @@ import Progress from './status/Progress'
 import FormStatus from './status/FormStatus'
 import FieldError from './status/FieldError'
 import SkillSelector from '../containers/SkillSelector'
+import LargeModal from './ModalLarge'
+import WorkForm from './WorkForm'
 import {TINY_MCE_CONFIG } from '../constants/settings'
 
 export default class Stack extends React.Component {
@@ -34,6 +36,30 @@ export default class Stack extends React.Component {
         const skills = selected_skills.join(',');
         ProfileActions.updateProfile(Profile.profile.id, {website, bio, skills});
         return;
+    }
+
+    handleAddWork() {
+        this.setState({modalContent: 'work', modalTitle: 'Work Experience'});
+        this.open();
+    }
+
+    close() {
+        this.setState({showModal: false});
+    }
+
+    open() {
+        this.setState({showModal: true});
+    }
+
+    renderModalContent() {
+        const { ProfileActions, Profile, Auth } = this.props;
+        return (
+            <LargeModal title={this.state.modalTitle} show={this.state.showModal} onHide={this.close.bind(this)}>
+                {this.state.modalContent == 'work'?(
+                <WorkForm Auth={Auth} Profile={Profile} ProfileActions={ProfileActions} work={null} />
+                    ):null}
+            </LargeModal>
+        );
     }
 
     render() {
@@ -74,13 +100,39 @@ export default class Stack extends React.Component {
                         (<FieldError message={Profile.error.profile.skills}/>):''}
                     <div className="form-group">
                         <label className="control-label">Skills</label>
-                        <SkillSelector filter={{filter: null}} onChange={this.onSkillChange.bind(this)} skills={Profile.profile.details?Profile.profile.details.skills:[]}/>
+                        <SkillSelector filter={{filter: null}} onChange={this.onSkillChange.bind(this)} skills={Profile.profile.skills?Profile.profile.skills:[]}/>
                     </div>
+
+                    {Auth.user.is_developer?(
+                    <div>
+                        <div className="form-group">
+                            <label className="control-label">Work Experience</label>
+                            <div className="pull-right clearfix">
+                                <button type="button" onClick={this.handleAddWork.bind(this)}><i className="fa fa-plus-circle"/> Add Entry</button>
+                            </div>
+                            <div>
+                                {Profile.work.map(item => {
+                                    return (
+                                        <div key={item.id} className="well card" style={{margin: '5px 0'}}>
+                                            <div><strong>Position: {item.position}</strong></div>
+                                            <div><strong>Company: {item.company}</strong></div>
+                                            <div>
+                                                Period: {item.start_month_display}/{item.start_year} - {item.end_year?`${item.start_month_display}/${item.start_year}`:'Present'}
+                                            </div>
+                                            <div dangerouslySetInnerHTML={{__html: item.details}} style={{margin: '5px 0', maxHeight: '50px'}}/>
+                                        </div>
+                                        )
+                                    })}
+                            </div>
+                        </div>
+                    </div>
+                        ):null}
 
                     <button type="submit" className="btn btn-default pull-right" disabled={Profile.isSaving.profile}>Save</button>
                     <div className="clearfix"></div>
                 </form>
                     )}
+                {this.renderModalContent()}
             </div>
 
         );

@@ -75,7 +75,7 @@ ReactDOM.render(
                     <Route path=":id" component={Task}>
                         <IndexRoute component={Task} />
                         <Route path="" component={TaskWorflow}>
-                            <Route path="applications" component={ApplicationList} />
+                            <Route path=":section" />
                         </Route>
                     </Route>
                 </Route>

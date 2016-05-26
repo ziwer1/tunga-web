@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router'
+import moment from 'moment'
 import Progress from './status/Progress'
 import TaskHead from './TaskHead'
 import UserCardProfile from './UserCardProfile'
@@ -41,6 +42,18 @@ export default class ApplicationList extends React.Component {
                                 <div className="col-sm-6 col-md-4" key={id}>
                                     <div className="well card">
                                         <UserCardProfile user={user}/>
+                                        <div>
+                                            {application.pitch?(
+                                            <div>
+                                                <div className="description" dangerouslySetInnerHTML={{__html: application.pitch}}/>
+                                            </div>
+                                                ):null}
+                                            {application.deliver_at?(
+                                            <div>
+                                                Delivery Date: {moment.utc(application.deliver_at).local().format('Do, MMMM YYYY')}
+                                            </div>
+                                                ):null}
+                                        </div>
                                         {application.responded?null:(
                                         <div className="actions">
                                             <div className="row">
@@ -66,7 +79,7 @@ export default class ApplicationList extends React.Component {
                                     )
                                 })}
                         </div>
-                        {applications.ids.length?'':(
+                        {applications.ids.length?null:(
                         <div className="alert alert-info">No applications</div>
                             )}
                     </div>)

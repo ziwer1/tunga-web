@@ -3,6 +3,7 @@ import * as TaskActions from '../actions/TaskActions'
 import * as ApplicationActions from '../actions/ApplicationActions'
 import * as SavedTaskActions from '../actions/SavedTaskActions'
 import { PATH_CHANGE } from '../actions/NavActions'
+import Application from './ApplicationReducers'
 
 function task(state = {}, action) {
     switch (action.type) {
@@ -196,53 +197,6 @@ function running(state = [], action) {
     }
 }
 
-function isRetrievingApplications(state = false, action) {
-    switch (action.type) {
-        case ApplicationActions.LIST_APPLICATIONS_START:
-            return true;
-        case ApplicationActions.LIST_APPLICATIONS_SUCCESS:
-        case ApplicationActions.LIST_APPLICATIONS_FAILED:
-            return false;
-        default:
-            return state;
-    }
-}
-
-function applicationItems(state = {}, action) {
-    switch (action.type) {
-        case ApplicationActions.LIST_APPLICATIONS_SUCCESS:
-            var all_applications = {};
-            action.items.forEach((application) => {
-                all_applications[application.id] = application;
-            });
-            return all_applications;
-        case ApplicationActions.LIST_APPLICATIONS_START:
-        case ApplicationActions.LIST_APPLICATIONS_FAILED:
-            return {};
-        case ApplicationActions.UPDATE_APPLICATION_SUCCESS:
-            var application = state[action.application.id];
-            var new_ref = action.application;
-            new_ref[application.id] = action.application;
-            return {...state, ...new_ref};
-        default:
-            return state;
-    }
-}
-
-function applicationIds(state = [], action) {
-    switch (action.type) {
-        case ApplicationActions.LIST_APPLICATIONS_SUCCESS:
-            return action.items.map((application) => {
-                return application.id;
-            });
-        case ApplicationActions.LIST_APPLICATIONS_START:
-        case ApplicationActions.LIST_APPLICATIONS_FAILED:
-            return [];
-        default:
-            return state;
-    }
-}
-
 function meta(state = {}, action) {
     switch (action.type) {
         case TaskActions.RETRIEVE_TASK_META_SUCCESS:
@@ -254,19 +208,13 @@ function meta(state = {}, action) {
     }
 }
 
-const applications = combineReducers({
-    items: applicationItems,
-    ids: applicationIds,
-    isRetrieving: isRetrievingApplications
-});
-
 const detail = combineReducers({
     task,
     isRetrieving,
     isSaving,
     isSaved,
     isDeleting,
-    applications,
+    applications: Application,
     meta,
     error
 });

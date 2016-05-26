@@ -5,8 +5,38 @@ import { PATH_CHANGE } from '../actions/NavActions'
 function profile(state = {}, action) {
     switch (action.type) {
         case ProfileActions.RETRIEVE_PROFILE_SUCCESS:
-        case ProfileActions.UPDATE_PROFILE_SUCCESS:
             return action.profile;
+        case ProfileActions.UPDATE_PROFILE_SUCCESS:
+            var profile = action.profile;
+            profile.skills = profile.details.skills;
+            return profile;
+        case ProfileActions.RETRIEVE_PROFILE_FAILED:
+            return {};
+        default:
+            return state;
+    }
+}
+
+function work(state = {}, action) {
+    switch (action.type) {
+        case ProfileActions.RETRIEVE_PROFILE_SUCCESS:
+        case ProfileActions.UPDATE_PROFILE_SUCCESS:
+            return action.work;
+        case ProfileActions.RETRIEVE_PROFILE_FAILED:
+            return {};
+        case ProfileActions.CREATE_WORK_SUCCESS:
+        case ProfileActions.UPDATE_WORK_SUCCESS:
+            return [...state, action.work];
+        default:
+            return state;
+    }
+}
+
+function education(state = {}, action) {
+    switch (action.type) {
+        case ProfileActions.RETRIEVE_PROFILE_SUCCESS:
+        case ProfileActions.UPDATE_PROFILE_SUCCESS:
+            return action.education;
         case ProfileActions.RETRIEVE_PROFILE_FAILED:
             return {};
         default:
@@ -61,6 +91,14 @@ function isSaving(state = defaultStatuses, action) {
         case ProfileActions.UPDATE_PASSWORD_SUCCESS:
         case ProfileActions.UPDATE_PASSWORD_FAILED:
             return {...state, security: false};
+        case ProfileActions.CREATE_WORK_START:
+        case ProfileActions.UPDATE_WORK_START:
+            return {...state, work: true};
+        case ProfileActions.CREATE_WORK_SUCCESS:
+        case ProfileActions.CREATE_WORK_FAILED:
+        case ProfileActions.UPDATE_WORK_SUCCESS:
+        case ProfileActions.UPDATE_WORK_FAILED:
+            return {...state, work: false};
         default:
             return state;
     }
@@ -88,6 +126,14 @@ function isSaved(state = defaultStatuses, action) {
         case ProfileActions.UPDATE_PASSWORD_START:
         case ProfileActions.UPDATE_PASSWORD_FAILED:
             return {...state, security: false};
+        case ProfileActions.CREATE_WORK_SUCCESS:
+        case ProfileActions.UPDATE_WORK_SUCCESS:
+            return {...state, work: true};
+        case ProfileActions.CREATE_WORK_START:
+        case ProfileActions.CREATE_WORK_FAILED:
+        case ProfileActions.UPDATE_WORK_START:
+        case ProfileActions.UPDATE_WORK_FAILED:
+            return {...state, work: false};
         case ProfileActions.RETRIEVE_PROFILE_START:
         case PATH_CHANGE:
             return defaultStatuses;
@@ -120,6 +166,14 @@ function error(state = {}, action) {
         case ProfileActions.UPDATE_PASSWORD_START:
         case ProfileActions.UPDATE_PASSWORD_SUCCESS:
             return {...state, security: null};
+        case ProfileActions.CREATE_WORK_FAILED:
+        case ProfileActions.UPDATE_WORK_FAILED:
+            return {...state, work: action.error};
+        case ProfileActions.CREATE_WORK_START:
+        case ProfileActions.CREATE_WORK_SUCCESS:
+        case ProfileActions.UPDATE_WORK_START:
+        case ProfileActions.UPDATE_WORK_SUCCESS:
+            return {...state, work: null};
         default:
             return state;
     }
@@ -127,6 +181,7 @@ function error(state = {}, action) {
 
 const Profile = combineReducers({
     profile,
+    work,
     isRetrieving,
     isSaving,
     isSaved,

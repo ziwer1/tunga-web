@@ -10,12 +10,21 @@ import TaskHead from './TaskHead'
 import Avatar from './Avatar'
 import ApplicationList from './ApplicationList'
 import TaskForm from './TaskForm'
+import LargeModal from './ModalLarge'
 
 export default class TaskWorflow extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {showModal: false, modalContent: null, modalTitle: ''};
+    }
+
+    componentDidMount() {
+        const { Auth, Task, TaskActions } = this.props;
+        const { task } = Task.detail;
+        if(this.props.params.section == 'applications' && (Auth.id == task.user || Auth.user.is_staff)) {
+            this.handleViewApplications();
+        }
     }
 
     handleEdit() {
@@ -25,9 +34,18 @@ export default class TaskWorflow extends React.Component {
         this.open();
     }
 
+    handleCloseApplications() {
+        const { TaskActions, Task } = this.props;
+        if(confirm('Confirm close applications')) {
+            TaskActions.updateTask(Task.detail.task.id, {apply: false, apply_closed_at: moment.utc().format()});
+        }
+    }
+
     handleCloseTask() {
         const { TaskActions, Task } = this.props;
-        TaskActions.updateTask(Task.detail.task.id, {closed: true, closed_at: moment.utc().format()});
+        if(confirm('Confirm close task')) {
+            TaskActions.updateTask(Task.detail.task.id, {closed: true, closed_at: moment.utc().format()});
+        }
     }
 
     handleOpenTask() {
@@ -62,7 +80,9 @@ export default class TaskWorflow extends React.Component {
 
     handleRejectTask() {
         const { TaskActions, Task, Auth } = this.props;
-        TaskActions.updateTask(Task.detail.task.id, {participants: [Auth.user.id], rejected_participants: [Auth.user.id]});
+        if(confirm('Confirm reject task')) {
+            TaskActions.updateTask(Task.detail.task.id, {participants: [Auth.user.id], rejected_participants: [Auth.user.id]});
+        }
     }
 
     handleMakePayment() {
@@ -86,6 +106,24 @@ export default class TaskWorflow extends React.Component {
         this.setState({showModal: true});
     }
 
+    renderModalContent() {
+        const { TaskActions, Task, Auth } = this.props;
+        const { task } = Task.detail;
+        const title = <div>{this.state.modalTitle}: <Link to={`/task/${task.id}/`}>{task.title}</Link></div>;
+        return (
+            <div>
+                <LargeModal title={title} show={this.state.showModal} onHide={this.close.bind(this)}>
+                    {this.state.modalContent == 'applications'?(
+                    <ApplicationList Task={Task} TaskActions={TaskActions} task={task} />
+                        ):null}
+                    {this.state.modalContent == 'edit'?(
+                    <TaskForm Auth={Auth} Task={Task} TaskActions={TaskActions} task={task} />
+                        ):null}
+                </LargeModal>
+            </div>
+        );
+    }
+
     render() {
         const { Auth, Task, TaskActions } = this.props;
         const { task } = Task.detail;
@@ -97,19 +135,15 @@ export default class TaskWorflow extends React.Component {
                     :(
                 <div>
                     <h2>Task Workflow</h2>
-                    <Modal show={this.state.showModal} onHide={this.close.bind(this)} bsSize="large">
-                        <Modal.Header closeButton>
-                            <Modal.Title>{this.state.modalTitle}: <Link to={`/task/${task.id}/`}>{task.title}</Link></Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            {this.state.modalContent == 'applications'?(
-                            <ApplicationList Task={Task} TaskActions={TaskActions} task={task} />
-                                ):null}
-                            {this.state.modalContent == 'edit'?(
-                            <TaskForm Auth={Auth} Task={Task} TaskActions={TaskActions} task={task} />
-                                ):null}
-                        </Modal.Body>
-                    </Modal>
+                    {this.renderModalContent()}
+                    {task.apply && !task.closed && (Auth.user.id == task.user || Auth.user.is_staff)?(
+                    <div className="workflow-actions">
+                        <div className="alert alert-info" style={{display: 'block'}}>This task is still open to applications
+                            <button type="button" className="btn btn-primary pull-right" onClick={this.handleCloseApplications.bind(this)}>Close Applications</button>
+                            <div className="clearfix"></div>
+                        </div>
+                    </div>
+                        ):null}
                     {Auth.user.id == task.user || Auth.user.is_staff?(
                     <div className="workflow-actions pull-right">
                         {task.closed?(
@@ -144,7 +178,7 @@ export default class TaskWorflow extends React.Component {
                         </div>
                             )}
                     </div>
-                        ):''}
+                        ):null}
                     {task.is_participant?(
                     <div className="workflow-actions pull-right">
                         {task.closed?
@@ -156,7 +190,7 @@ export default class TaskWorflow extends React.Component {
                             </div>
                                 ):null)}
                     </div>
-                        ):''}
+                        ):null}
                     <TaskHead task={task}/>
                     <div className="row">
                         <div className="col-md-8">

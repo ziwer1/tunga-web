@@ -84,6 +84,25 @@ export default class User extends React.Component {
                                 </div>
                             </div>
                                 ):null}
+                            {user.work?(
+                            <div className="media">
+                                <div className="media-left"><i className="fa fa-briefcase fa-2x"/></div>
+                                <div className="media-body">
+                                    {user.work.map(item => {
+                                        return (
+                                        <div key={item.id} className="well card" style={{margin: '5px 0', maxWidth: '500px'}}>
+                                            <div><strong>Position: {item.position}</strong></div>
+                                            <div><strong>Company: {item.company}</strong></div>
+                                            <div>
+                                                Period: {item.start_month_display}/{item.start_year} - {item.end_year?`${item.start_month_display}/${item.start_year}`:'Present'}
+                                            </div>
+                                            <div dangerouslySetInnerHTML={{__html: item.details}} style={{margin: '5px 0'}}/>
+                                        </div>
+                                            )
+                                        })}
+                                </div>
+                            </div>
+                                ):null}
                         </div>
                             ):''}
                     </div>

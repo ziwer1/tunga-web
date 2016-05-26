@@ -8,7 +8,7 @@ import FormStatus from './status/FormStatus'
 import FieldError from './status/FieldError'
 import UserSelector from '../containers/UserSelector'
 import SkillSelector from '../containers/SkillSelector'
-import { USER_TYPE_DEVELOPER, TASK_VISIBILITY_CHOICES, VISIBILITY_DEVELOPERS, VISIBILITY_CUSTOM } from '../constants/Api'
+import { USER_TYPE_DEVELOPER, TASK_VISIBILITY_CHOICES, VISIBILITY_DEVELOPERS, VISIBILITY_CUSTOM, UPDATE_SCHEDULE_CHOICES } from '../constants/Api'
 import {TINY_MCE_CONFIG } from '../constants/settings'
 
 momentLocalizer(moment);
@@ -107,6 +107,7 @@ export default class TaskForm extends React.Component {
         var deadline = this.state.deadline;
         var url = this.refs.url.value.trim();
         var visibility = this.state.visibility;
+        var update_schedule = this.refs.update_schedule.value.trim() || null;
         var assignee = this.state.assignee;
         var participants = this.state.participants;
         if(assignee) {
@@ -118,7 +119,7 @@ export default class TaskForm extends React.Component {
         const selected_skills = this.state.skills;
         const skills = selected_skills.join(',');
 
-        const task_info = {title, description, skills, url, fee, deadline, visibility, assignee, participants}
+        const task_info = {title, description, skills, url, fee, deadline, visibility, update_schedule, assignee, participants};
         if(task.id) {
             TaskActions.updateTask(task.id, task_info);
         } else {
@@ -136,7 +137,7 @@ export default class TaskForm extends React.Component {
                 {task.id?null:(
                 <h3>Post a new task</h3>
                     )}
-                <form onSubmit={this.handleSubmit} name="task" role="task" ref="task_form">
+                <form onSubmit={this.handleSubmit} name="task" role="form" ref="task_form">
                     <FormStatus loading={Task.detail.isSaving}
                                 success={Task.detail.isSaved}
                                 message={'Task saved successfully'}
@@ -197,6 +198,22 @@ export default class TaskForm extends React.Component {
                     <div className="form-group">
                         <label className="control-label">Skills required for this task</label>
                         <SkillSelector filter={{filter: null}} onChange={this.onSkillChange.bind(this)} skills={task.details?task.details.skills:[]}/>
+                    </div>
+
+                    {(Task.detail.error.create && Task.detail.error.create.update_schedule)?
+                        (<FieldError message={Task.detail.error.create.update_schedule}/>):null}
+                    {(Task.detail.error.update && Task.detail.error.update.update_schedule)?
+                        (<FieldError message={Task.detail.error.update.update_schedule}/>):null}
+                    <div className="form-group">
+                        <label className="control-label">Update Schedule</label>
+                        <div>
+                            <select type="text" className="form-control" ref="update_schedule" defaultValue={task.update_schedule}>
+                                <option value=''> --- </option>
+                                {UPDATE_SCHEDULE_CHOICES.map((schedule) => {
+                                    return (<option key={schedule.id} value={schedule.id}>{schedule.name}</option>);
+                                    })}
+                            </select>
+                        </div>
                     </div>
 
                     {(Task.detail.error.create && Task.detail.error.create.visibility)?

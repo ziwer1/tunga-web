@@ -5,12 +5,19 @@ import TimeAgo from 'react-timeago'
 import Progress from './status/Progress'
 import TagList from './TagList'
 import Avatar from './Avatar'
+import LargeModal from './ModalLarge'
+import ApplicationForm from './ApplicationForm'
 
 export default class TaskCard extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {showModal: false, modalContent: null, modalTitle: ''};
+    }
+
     handleApplication() {
         const { TaskActions, task } = this.props;
-        TaskActions.createApplication({task: task.id});
+        this.open();
     }
 
     handleSaveTask() {
@@ -22,11 +29,22 @@ export default class TaskCard extends React.Component {
         //TODO: Handle send task
     }
 
+    close() {
+        this.setState({showModal: false});
+    }
+
+    open() {
+        this.setState({showModal: true});
+    }
+
     render() {
-        const { Auth, task } = this.props;
+        const { Auth, Task, TaskActions, task } = this.props;
 
         return (
             <div className="well card task">
+                <LargeModal title={<div>Apply for Task: <Link to={`/task/${task.id}/`}>{task.title}</Link></div>} show={this.state.showModal} onHide={this.close.bind(this)}>
+                    <ApplicationForm Auth={Auth} Task={Task} TaskActions={TaskActions} task={task}/>
+                </LargeModal>
                 <h3 className="title"><Link to={`/task/${task.id}/`}>{task.title}</Link></h3>
                 <div>
                     <Avatar src={task.details.user.avatar_url}/> <Link to={`/member/${task.user}/`}>{task.details.user.display_name}</Link>

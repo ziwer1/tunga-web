@@ -45,29 +45,36 @@ export const SOCIAL_LOGIN_URLS = {
     linkedin: createSocialLoginUrl('linkedin_oauth2'),
     github: createSocialLoginUrl('github')
 };
-export const ENDPOINT_LOGIN = API_ROOT + 'auth/login/';
-export const ENDPOINT_LOGOUT = API_ROOT + 'auth/logout/';
-export const ENDPOINT_VERIFY = API_ROOT + 'auth/verify/';
-export const ENDPOINT_REGISTER = API_ROOT + 'auth/register/';
-export const ENDPOINT_CHANGE_PASSWORD = API_ROOT + 'auth/password/change/';
-export const ENDPOINT_RESET_PASSWORD = API_ROOT + 'auth/password/reset/';
-export const ENDPOINT_RESET_PASSWORD_CONFIRM = API_ROOT + 'auth/password/reset/confirm/';
-export const ENDPOINT_PROFILE = API_ROOT + 'me/profile/';
-export const ENDPOINT_NOTIFICATION = API_ROOT + 'me/notification/';
-export const ENDPOINT_ACCOUNT_INFO = API_ROOT + 'me/account/';
-export const ENDPOINT_ACCOUNT_SETTINGS = API_ROOT + 'me/settings/';
-export const ENDPOINT_USER_INFO = API_ROOT + 'me/user/';
-export const ENDPOINT_TASK = API_ROOT + 'task/';
-export const ENDPOINT_USER = API_ROOT + 'user/';
-export const ENDPOINT_COMMENT = API_ROOT + 'comment/';
-export const ENDPOINT_MESSAGE = API_ROOT + 'message/';
-export const ENDPOINT_REPLY = API_ROOT + 'reply/';
-export const ENDPOINT_CONNECTION = API_ROOT + 'connection/';
-export const ENDPOINT_APPLICATION = API_ROOT + 'application/';
-export const ENDPOINT_SAVED_TASK = API_ROOT + 'saved-task/';
-export const ENDPOINT_SKILL = API_ROOT + 'skill/';
-export const ENDPOINT_COUNTRIES = API_ROOT + 'countries/';
-export const ENDPOINT_CONTACT_REQUEST = API_ROOT + 'contact-request/';
+
+function getEndpointUrl(path) {
+    return API_ROOT + path;
+}
+
+export const ENDPOINT_LOGIN = getEndpointUrl('auth/login/');
+export const ENDPOINT_LOGOUT = getEndpointUrl('auth/logout/');
+export const ENDPOINT_VERIFY = getEndpointUrl('auth/verify/');
+export const ENDPOINT_REGISTER = getEndpointUrl('auth/register/');
+export const ENDPOINT_CHANGE_PASSWORD = getEndpointUrl('auth/password/change/');
+export const ENDPOINT_RESET_PASSWORD = getEndpointUrl('auth/password/reset/');
+export const ENDPOINT_RESET_PASSWORD_CONFIRM = getEndpointUrl('auth/password/reset/confirm/');
+export const ENDPOINT_PROFILE = getEndpointUrl('me/profile/');
+export const ENDPOINT_NOTIFICATION = getEndpointUrl('me/notification/');
+export const ENDPOINT_ACCOUNT_INFO = getEndpointUrl('me/account/');
+export const ENDPOINT_ACCOUNT_SETTINGS = getEndpointUrl('me/settings/');
+export const ENDPOINT_USER_INFO = getEndpointUrl('me/user/');
+export const ENDPOINT_USER_EDUCATION = getEndpointUrl('me/education/');
+export const ENDPOINT_USER_WORK = getEndpointUrl('me/work/');
+export const ENDPOINT_TASK = getEndpointUrl('task/');
+export const ENDPOINT_USER = getEndpointUrl('user/');
+export const ENDPOINT_COMMENT = getEndpointUrl('comment/');
+export const ENDPOINT_MESSAGE = getEndpointUrl('message/');
+export const ENDPOINT_REPLY = getEndpointUrl('reply/');
+export const ENDPOINT_CONNECTION = getEndpointUrl('connection/');
+export const ENDPOINT_APPLICATION = getEndpointUrl('application/');
+export const ENDPOINT_SAVED_TASK = getEndpointUrl('saved-task/');
+export const ENDPOINT_SKILL = getEndpointUrl('skill/');
+export const ENDPOINT_COUNTRIES = getEndpointUrl('countries/');
+export const ENDPOINT_CONTACT_REQUEST = getEndpointUrl('contact-request/');
 
 export const USER_TYPE_DEVELOPER = 1;
 export const USER_TYPE_PROJECT_OWNER = 2;
@@ -93,3 +100,19 @@ export const SETTINGS_VISIBILITY_CHOICES = [
     {id: VISIBILITY_MY_TEAM, name: 'My team only'},
     {id: VISIBILITY_ONLY_ME, name: 'Only me'}
 ];
+
+export const UPDATE_SCHEDULE_HOURLY = 1
+export const UPDATE_SCHEDULE_DAILY = 2
+export const UPDATE_SCHEDULE_WEEKLY = 3
+export const UPDATE_SCHEDULE_MONTHLY = 4
+export const UPDATE_SCHEDULE_QUATERLY = 5
+export const UPDATE_SCHEDULE_ANNUALLY = 6
+
+export const UPDATE_SCHEDULE_CHOICES = [
+    {id: UPDATE_SCHEDULE_HOURLY, name: 'Hourly'},
+    {id: UPDATE_SCHEDULE_DAILY, name: 'Daily'},
+    {id: UPDATE_SCHEDULE_WEEKLY, name: 'Weekly'},
+    {id: UPDATE_SCHEDULE_MONTHLY, name: 'Monthly'},
+    {id: UPDATE_SCHEDULE_QUATERLY, name: 'Quaterly'},
+    {id: UPDATE_SCHEDULE_ANNUALLY, name: 'Annually'}
+]
