@@ -17,16 +17,38 @@ function profile(state = {}, action) {
     }
 }
 
-function work(state = {}, action) {
+function workItems(state = {}, action) {
     switch (action.type) {
         case ProfileActions.RETRIEVE_PROFILE_SUCCESS:
         case ProfileActions.UPDATE_PROFILE_SUCCESS:
-            return action.work;
+            var all_work = {};
+            action.work.forEach((work) => {
+                all_work[work.id] = work;
+            });
+            return {...state, ...all_work};
         case ProfileActions.RETRIEVE_PROFILE_FAILED:
             return {};
         case ProfileActions.CREATE_WORK_SUCCESS:
         case ProfileActions.UPDATE_WORK_SUCCESS:
-            return [...state, action.work];
+            var new_work = {};
+            new_work[action.work.id] = action.work;
+            return {...state, ...new_work};
+        default:
+            return state;
+    }
+}
+
+function workIds(state = [], action) {
+    switch (action.type) {
+        case ProfileActions.RETRIEVE_PROFILE_SUCCESS:
+        case ProfileActions.UPDATE_PROFILE_SUCCESS:
+            return action.work.map((work) => {
+                return work.id;
+            });
+        case ProfileActions.RETRIEVE_PROFILE_FAILED:
+            return [];
+        case ProfileActions.CREATE_WORK_SUCCESS:
+            return [...state, action.work.id];
         default:
             return state;
     }
@@ -178,6 +200,11 @@ function error(state = {}, action) {
             return state;
     }
 }
+
+const work = combineReducers({
+    ids: workIds,
+    items: workItems
+});
 
 const Profile = combineReducers({
     profile,

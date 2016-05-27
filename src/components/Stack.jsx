@@ -11,7 +11,7 @@ import {TINY_MCE_CONFIG } from '../constants/settings'
 export default class Stack extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {bio: '', skills: []};
+        this.state = {bio: '', skills: [], editWork: null};
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -38,8 +38,8 @@ export default class Stack extends React.Component {
         return;
     }
 
-    handleAddWork() {
-        this.setState({modalContent: 'work', modalTitle: 'Work Experience'});
+    handleAddWork(work=null) {
+        this.setState({modalContent: 'work', modalTitle: 'Work Experience', editWork: work});
         this.open();
     }
 
@@ -56,7 +56,7 @@ export default class Stack extends React.Component {
         return (
             <LargeModal title={this.state.modalTitle} show={this.state.showModal} onHide={this.close.bind(this)}>
                 {this.state.modalContent == 'work'?(
-                <WorkForm Auth={Auth} Profile={Profile} ProfileActions={ProfileActions} work={null} />
+                <WorkForm Auth={Auth} Profile={Profile} ProfileActions={ProfileActions} work={this.state.editWork} />
                     ):null}
             </LargeModal>
         );
@@ -111,7 +111,8 @@ export default class Stack extends React.Component {
                                 <button type="button" onClick={this.handleAddWork.bind(this)}><i className="fa fa-plus-circle"/> Add Entry</button>
                             </div>
                             <div>
-                                {Profile.work.map(item => {
+                                {Profile.work.ids.map(id => {
+                                    var item = Profile.work.items[id];
                                     return (
                                         <div key={item.id} className="well card" style={{margin: '5px 0'}}>
                                             <div><strong>Position: {item.position}</strong></div>
@@ -120,6 +121,7 @@ export default class Stack extends React.Component {
                                                 Period: {item.start_month_display}/{item.start_year} - {item.end_year?`${item.start_month_display}/${item.start_year}`:'Present'}
                                             </div>
                                             <div dangerouslySetInnerHTML={{__html: item.details}} style={{margin: '5px 0', maxHeight: '50px'}}/>
+                                            <button type="button" onClick={this.handleAddWork.bind(this, item)}><i className="fa fa-pencil"/> Edit</button>
                                         </div>
                                         )
                                     })}
