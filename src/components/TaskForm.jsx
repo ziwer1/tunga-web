@@ -107,7 +107,8 @@ export default class TaskForm extends React.Component {
         var deadline = this.state.deadline;
         var url = this.refs.url.value.trim();
         var visibility = this.state.visibility;
-        var update_schedule = this.refs.update_schedule.value.trim() || null;
+        var update_interval_units = this.refs.update_schedule.value.trim() || null;
+        var update_interval = update_interval_units?1:null;
         var assignee = this.state.assignee;
         var participants = this.state.participants;
         if(assignee) {
@@ -119,7 +120,7 @@ export default class TaskForm extends React.Component {
         const selected_skills = this.state.skills;
         const skills = selected_skills.join(',');
 
-        const task_info = {title, description, skills, url, fee, deadline, visibility, update_schedule, assignee, participants};
+        const task_info = {title, description, skills, url, fee, deadline, visibility, update_interval, update_interval_units, assignee, participants};
         if(task.id) {
             TaskActions.updateTask(task.id, task_info);
         } else {
@@ -208,7 +209,7 @@ export default class TaskForm extends React.Component {
                         <label className="control-label">Update Schedule</label>
                         <div>
                             <select type="text" className="form-control" ref="update_schedule" defaultValue={task.update_schedule}>
-                                <option value=''> --- </option>
+                                <option value=''>-- No Updates --</option>
                                 {UPDATE_SCHEDULE_CHOICES.map((schedule) => {
                                     return (<option key={schedule.id} value={schedule.id}>{schedule.name}</option>);
                                     })}
