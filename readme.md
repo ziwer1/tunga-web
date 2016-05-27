@@ -45,14 +45,22 @@ import "script!file.js";
 
 # Development
 1. run this command from project root
+
+To connect to the test/sandbox API at http://test.tunga.io/api/
 ```
 npm run watch
 ```
+
+To connect to a local version of the API running on your machine at http://localhost:8000/
+```
+npm run watch:dev
+```
+
 2. A new browser tab with automatically open at http://127.0.0.1:8080/
 (The browser will auto reload when changes are made to the code)
 
 # Documentation
-Find API Documentation at http://tunga.io/api/docs/
+Find API Documentation at https://tunga.io/api/docs/
 
 # Deployment
 1. run the following commands from project root
