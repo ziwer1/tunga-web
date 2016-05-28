@@ -101,18 +101,17 @@ export const SETTINGS_VISIBILITY_CHOICES = [
     {id: VISIBILITY_ONLY_ME, name: 'Only me'}
 ];
 
-export const UPDATE_SCHEDULE_HOURLY = 1
-export const UPDATE_SCHEDULE_DAILY = 2
-export const UPDATE_SCHEDULE_WEEKLY = 3
-export const UPDATE_SCHEDULE_MONTHLY = 4
-export const UPDATE_SCHEDULE_QUATERLY = 5
-export const UPDATE_SCHEDULE_ANNUALLY = 6
+export const UPDATE_INTERVAL_UNIT_HOURLY = 1
+export const UPDATE_INTERVAL_UNIT_DAILY = 2
+export const UPDATE_INTERVAL_UNIT_WEEKLY = 3
+export const UPDATE_INTERVAL_UNIT_MONTHLY = 4
+export const UPDATE_INTERVAL_UNIT_QUATERLY = 5
+export const UPDATE_INTERVAL_UNIT_ANNUALLY = 6
 
 export const UPDATE_SCHEDULE_CHOICES = [
-    {id: UPDATE_SCHEDULE_HOURLY, name: 'Hourly'},
-    {id: UPDATE_SCHEDULE_DAILY, name: 'Daily'},
-    {id: UPDATE_SCHEDULE_WEEKLY, name: 'Weekly'},
-    {id: UPDATE_SCHEDULE_MONTHLY, name: 'Monthly'},
-    {id: UPDATE_SCHEDULE_QUATERLY, name: 'Quaterly'},
-    {id: UPDATE_SCHEDULE_ANNUALLY, name: 'Annually'}
+    {number: 1, unit: UPDATE_INTERVAL_UNIT_DAILY, name: 'Daily'},
+    {number: 2, unit: UPDATE_INTERVAL_UNIT_DAILY, name: 'Every 2 Days'},
+    {number: 3, unit: UPDATE_INTERVAL_UNIT_DAILY, name: 'Every 3 Days'},
+    {number: 4, unit: UPDATE_INTERVAL_UNIT_DAILY, name: 'Every 4 Days'},
+    {number: 1, unit: UPDATE_INTERVAL_UNIT_WEEKLY, name: 'Weekly'},
 ]

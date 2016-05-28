@@ -17,9 +17,12 @@ export const DELETE_APPLICATION_START = 'DELETE_APPLICATION_START';
 export const DELETE_APPLICATION_SUCCESS = 'DELETE_APPLICATION_SUCCESS';
 export const DELETE_APPLICATION_FAILED = 'DELETE_APPLICATION_FAILED';
 
-export function createApplication(application) {
+export function createApplication(application, errors=null) {
     return dispatch => {
         dispatch(createApplicationStart(application));
+        if(errors) {
+            return dispatch(createApplicationFailed(errors));
+        }
         return axios.post(ENDPOINT_APPLICATION, application)
             .then(function(response) {
                 dispatch(createApplicationSuccess(response.data))

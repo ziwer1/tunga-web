@@ -16,7 +16,16 @@ momentLocalizer(moment);
 export default class TaskForm extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {deadline: null, skills: [], description: '', visibility: VISIBILITY_DEVELOPERS, assignee: null, participants: []};
+        var schedule_options = [];
+        var schedule_map = {};
+        UPDATE_SCHEDULE_CHOICES.forEach((schedule) => {
+            schedule_options.push({id: `${schedule.number}_${schedule.unit}`, name: schedule.name});
+            schedule_map[`${schedule.number}_${schedule.unit}`] = {update_interval: schedule.number, update_interval_units: schedule.unit};
+        })
+        this.state = {
+            deadline: null, skills: [], description: '', visibility: VISIBILITY_DEVELOPERS,
+            assignee: null, participants: [], schedule_options, schedule_map
+        };
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -51,6 +60,15 @@ export default class TaskForm extends React.Component {
                 }
             }
         }
+    }
+
+    getScheduleId() {
+        const task = this.props.task || {};
+        var schedule_id = null;
+        if(task.update_interval && task.update_interval_units) {
+            schedule_id = `${task.update_interval}_${task.update_interval_units}`;
+        }
+        return schedule_id;
     }
 
     getCollaborators() {
@@ -107,8 +125,11 @@ export default class TaskForm extends React.Component {
         var deadline = this.state.deadline;
         var url = this.refs.url.value.trim();
         var visibility = this.state.visibility;
-        var update_interval_units = this.refs.update_schedule.value.trim() || null;
-        var update_interval = update_interval_units?1:null;
+        var schedule_id = this.refs.update_schedule.value.trim() || null;
+        var update_schedule = null;
+        if(schedule_id) {
+            update_schedule = this.state.schedule_map[schedule_id];
+        }
         var assignee = this.state.assignee;
         var participants = this.state.participants;
         if(assignee) {
@@ -120,7 +141,7 @@ export default class TaskForm extends React.Component {
         const selected_skills = this.state.skills;
         const skills = selected_skills.join(',');
 
-        const task_info = {title, description, skills, url, fee, deadline, visibility, update_interval, update_interval_units, assignee, participants};
+        const task_info = {title, description, skills, url, fee, deadline, visibility, ...update_schedule, assignee, participants};
         if(task.id) {
             TaskActions.updateTask(task.id, task_info);
         } else {
@@ -208,9 +229,10 @@ export default class TaskForm extends React.Component {
                     <div className="form-group">
                         <label className="control-label">Update Schedule</label>
                         <div>
-                            <select type="text" className="form-control" ref="update_schedule" defaultValue={task.update_schedule}>
+                            <select type="text" className="form-control" ref="update_schedule"
+                                    defaultValue={this.getScheduleId()}>
                                 <option value=''>-- No Updates --</option>
-                                {UPDATE_SCHEDULE_CHOICES.map((schedule) => {
+                                {this.state.schedule_options.map((schedule) => {
                                     return (<option key={schedule.id} value={schedule.id}>{schedule.name}</option>);
                                     })}
                             </select>
