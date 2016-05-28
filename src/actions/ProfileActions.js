@@ -22,6 +22,12 @@ export const CREATE_WORK_FAILED = 'CREATE_WORK_FAILED';
 export const UPDATE_WORK_START = 'UPDATE_WORK_START';
 export const UPDATE_WORK_SUCCESS = 'UPDATE_WORK_SUCCESS';
 export const UPDATE_WORK_FAILED = 'UPDATE_WORK_FAILED';
+export const CREATE_EDUCATION_START = 'CREATE_EDUCATION_START';
+export const CREATE_EDUCATION_SUCCESS = 'CREATE_EDUCATION_SUCCESS';
+export const CREATE_EDUCATION_FAILED = 'CREATE_EDUCATION_FAILED';
+export const UPDATE_EDUCATION_START = 'UPDATE_EDUCATION_START';
+export const UPDATE_EDUCATION_SUCCESS = 'UPDATE_EDUCATION_SUCCESS';
+export const UPDATE_EDUCATION_FAILED = 'UPDATE_EDUCATION_FAILED';
 export const GET_COUNTRIES_START = 'GET_COUNTRIES_START';
 export const GET_COUNTRIES_SUCCESS = 'GET_COUNTRIES_SUCCESS';
 export const GET_COUNTRIES_FAILED = 'GET_COUNTRIES_FAILED';
@@ -216,18 +222,6 @@ export function updatePasswordFailed(error) {
     }
 }
 
-export function getCountries() {
-    return dispatch => {
-        dispatch(getCountriesStart());
-        return axios.get(ENDPOINT_COUNTRIES)
-            .then(function(response) {
-                dispatch(getCountriesSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(getCountriesFailed(response.data))
-            });
-    }
-}
-
 export function createWork(work) {
     return dispatch => {
         dispatch(createWorkStart(work));
@@ -291,6 +285,84 @@ export function updateWorkFailed(error) {
     return {
         type: UPDATE_WORK_FAILED,
         error
+    }
+}
+
+export function createEducation(education) {
+    return dispatch => {
+        dispatch(createEducationStart(education));
+        return axios.post(ENDPOINT_USER_EDUCATION, education)
+            .then(function(response) {
+                dispatch(createEducationSuccess(response.data))
+            }).catch(function(response) {
+                dispatch(createEducationFailed(response.data))
+            });
+    }
+}
+
+export function createEducationStart(education) {
+    return {
+        type: CREATE_EDUCATION_START,
+        education
+    }
+}
+
+export function createEducationSuccess(education) {
+    return {
+        type: CREATE_EDUCATION_SUCCESS,
+        education
+    }
+}
+
+export function createEducationFailed(error) {
+    return {
+        type: CREATE_EDUCATION_FAILED,
+        error
+    }
+}
+
+export function updateEducation(id, data) {
+    return dispatch => {
+        dispatch(updateEducationStart(id));
+        return axios.patch(ENDPOINT_USER_EDUCATION + id + '/', data)
+            .then(function(response) {
+                dispatch(updateEducationSuccess(response.data))
+            }).catch(function(response) {
+                dispatch(updateEducationFailed(response.data))
+            });
+    }
+}
+
+export function updateEducationStart(id) {
+    return {
+        type: UPDATE_EDUCATION_START,
+        id
+    }
+}
+
+export function updateEducationSuccess(education) {
+    return {
+        type: UPDATE_EDUCATION_SUCCESS,
+        education
+    }
+}
+
+export function updateEducationFailed(error) {
+    return {
+        type: UPDATE_EDUCATION_FAILED,
+        error
+    }
+}
+
+export function getCountries() {
+    return dispatch => {
+        dispatch(getCountriesStart());
+        return axios.get(ENDPOINT_COUNTRIES)
+            .then(function(response) {
+                dispatch(getCountriesSuccess(response.data))
+            }).catch(function(response) {
+                dispatch(getCountriesFailed(response.data))
+            });
     }
 }
 

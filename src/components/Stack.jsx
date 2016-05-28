@@ -6,12 +6,13 @@ import FieldError from './status/FieldError'
 import SkillSelector from '../containers/SkillSelector'
 import LargeModal from './ModalLarge'
 import WorkForm from './WorkForm'
+import EducationForm from './EducationForm'
 import {TINY_MCE_CONFIG } from '../constants/settings'
 
 export default class Stack extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {bio: '', skills: [], editWork: null};
+        this.state = {bio: '', skills: [], editWork: null, editEducation: null};
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -43,6 +44,11 @@ export default class Stack extends React.Component {
         this.open();
     }
 
+    handleAddEducation(education=null) {
+        this.setState({modalContent: 'education', modalTitle: 'Education', editEducation: education});
+        this.open();
+    }
+
     close() {
         this.setState({showModal: false});
     }
@@ -57,6 +63,9 @@ export default class Stack extends React.Component {
             <LargeModal title={this.state.modalTitle} show={this.state.showModal} onHide={this.close.bind(this)}>
                 {this.state.modalContent == 'work'?(
                 <WorkForm Auth={Auth} Profile={Profile} ProfileActions={ProfileActions} work={this.state.editWork} />
+                    ):null}
+                {this.state.modalContent == 'education'?(
+                <EducationForm Auth={Auth} Profile={Profile} ProfileActions={ProfileActions} education={this.state.editEducation} />
                     ):null}
             </LargeModal>
         );
@@ -123,6 +132,29 @@ export default class Stack extends React.Component {
                                             <div dangerouslySetInnerHTML={{__html: item.details}} style={{margin: '5px 0', maxHeight: '50px'}}/>
                                             <button type="button" onClick={this.handleAddWork.bind(this, item)}><i className="fa fa-pencil"/> Edit</button>
                                         </div>
+                                        )
+                                    })}
+                            </div>
+                        </div>
+
+                        <div className="form-group">
+                            <label className="control-label">Education</label>
+                            <div className="pull-right clearfix">
+                                <button type="button" onClick={this.handleAddEducation.bind(this)}><i className="fa fa-plus-circle"/> Add Entry</button>
+                            </div>
+                            <div>
+                                {Profile.education.ids.map(id => {
+                                    var item = Profile.education.items[id];
+                                    return (
+                                    <div key={item.id} className="well card" style={{margin: '5px 0'}}>
+                                        <div><strong>Institution: {item.institution}</strong></div>
+                                        <div><strong>Award: {item.award}</strong></div>
+                                        <div>
+                                            Period: {item.start_month_display}/{item.start_year} - {item.end_year?`${item.start_month_display}/${item.start_year}`:'Present'}
+                                        </div>
+                                        <div dangerouslySetInnerHTML={{__html: item.details}} style={{margin: '5px 0', maxHeight: '50px'}}/>
+                                        <button type="button" onClick={this.handleAddEducation.bind(this, item)}><i className="fa fa-pencil"/> Edit</button>
+                                    </div>
                                         )
                                     })}
                             </div>

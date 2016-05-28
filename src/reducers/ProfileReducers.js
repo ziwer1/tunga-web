@@ -54,13 +54,38 @@ function workIds(state = [], action) {
     }
 }
 
-function education(state = {}, action) {
+function educationItems(state = {}, action) {
     switch (action.type) {
         case ProfileActions.RETRIEVE_PROFILE_SUCCESS:
         case ProfileActions.UPDATE_PROFILE_SUCCESS:
-            return action.education;
+            var all_education = {};
+            action.education.forEach((education) => {
+                all_education[education.id] = education;
+            });
+            return {...state, ...all_education};
         case ProfileActions.RETRIEVE_PROFILE_FAILED:
             return {};
+        case ProfileActions.CREATE_EDUCATION_SUCCESS:
+        case ProfileActions.UPDATE_EDUCATION_SUCCESS:
+            var new_education = {};
+            new_education[action.education.id] = action.education;
+            return {...state, ...new_education};
+        default:
+            return state;
+    }
+}
+
+function educationIds(state = [], action) {
+    switch (action.type) {
+        case ProfileActions.RETRIEVE_PROFILE_SUCCESS:
+        case ProfileActions.UPDATE_PROFILE_SUCCESS:
+            return action.education.map((education) => {
+                return education.id;
+            });
+        case ProfileActions.RETRIEVE_PROFILE_FAILED:
+            return [];
+        case ProfileActions.CREATE_EDUCATION_SUCCESS:
+            return [...state, action.education.id];
         default:
             return state;
     }
@@ -121,6 +146,14 @@ function isSaving(state = defaultStatuses, action) {
         case ProfileActions.UPDATE_WORK_SUCCESS:
         case ProfileActions.UPDATE_WORK_FAILED:
             return {...state, work: false};
+        case ProfileActions.CREATE_EDUCATION_START:
+        case ProfileActions.UPDATE_EDUCATION_START:
+            return {...state, education: true};
+        case ProfileActions.CREATE_EDUCATION_SUCCESS:
+        case ProfileActions.CREATE_EDUCATION_FAILED:
+        case ProfileActions.UPDATE_EDUCATION_SUCCESS:
+        case ProfileActions.UPDATE_EDUCATION_FAILED:
+            return {...state, education: false};
         default:
             return state;
     }
@@ -156,6 +189,14 @@ function isSaved(state = defaultStatuses, action) {
         case ProfileActions.UPDATE_WORK_START:
         case ProfileActions.UPDATE_WORK_FAILED:
             return {...state, work: false};
+        case ProfileActions.CREATE_EDUCATION_SUCCESS:
+        case ProfileActions.UPDATE_EDUCATION_SUCCESS:
+            return {...state, education: true};
+        case ProfileActions.CREATE_EDUCATION_START:
+        case ProfileActions.CREATE_EDUCATION_FAILED:
+        case ProfileActions.UPDATE_EDUCATION_START:
+        case ProfileActions.UPDATE_EDUCATION_FAILED:
+            return {...state, education: false};
         case ProfileActions.RETRIEVE_PROFILE_START:
         case PATH_CHANGE:
             return defaultStatuses;
@@ -196,6 +237,14 @@ function error(state = {}, action) {
         case ProfileActions.UPDATE_WORK_START:
         case ProfileActions.UPDATE_WORK_SUCCESS:
             return {...state, work: null};
+        case ProfileActions.CREATE_EDUCATION_FAILED:
+        case ProfileActions.UPDATE_EDUCATION_FAILED:
+            return {...state, education: action.error};
+        case ProfileActions.CREATE_EDUCATION_START:
+        case ProfileActions.CREATE_EDUCATION_SUCCESS:
+        case ProfileActions.UPDATE_EDUCATION_START:
+        case ProfileActions.UPDATE_EDUCATION_SUCCESS:
+            return {...state, education: null};
         default:
             return state;
     }
@@ -206,9 +255,15 @@ const work = combineReducers({
     items: workItems
 });
 
+const education = combineReducers({
+    ids: educationIds,
+    items: educationItems
+});
+
 const Profile = combineReducers({
     profile,
     work,
+    education,
     isRetrieving,
     isSaving,
     isSaved,

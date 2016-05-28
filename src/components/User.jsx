@@ -26,7 +26,7 @@ export default class User extends React.Component {
                             <h4 className="title">{user.display_name}</h4>
                             {user.is_project_owner?(
                             <p>{user.company}</p>
-                                ):''}
+                                ):null}
                             {user.profile?(
                             <div>{user.profile.city}, {user.profile.country_name}</div>
                                 ):null}
@@ -84,7 +84,7 @@ export default class User extends React.Component {
                                 </div>
                             </div>
                                 ):null}
-                            {user.work?(
+                            {user.work.length?(
                             <div className="media">
                                 <div className="media-left"><i className="fa fa-briefcase fa-2x"/></div>
                                 <div className="media-body">
@@ -103,8 +103,27 @@ export default class User extends React.Component {
                                 </div>
                             </div>
                                 ):null}
+                            {user.education.length?(
+                            <div className="media">
+                                <div className="media-left"><i className="fa fa-graduation-cap fa-2x"/></div>
+                                <div className="media-body">
+                                    {user.education.map(item => {
+                                        return (
+                                        <div key={item.id} className="well card" style={{margin: '5px 0', maxWidth: '500px'}}>
+                                            <div><strong>Institution: {item.institution}</strong></div>
+                                            <div><strong>Award: {item.award}</strong></div>
+                                            <div>
+                                                Period: {item.start_month_display}/{item.start_year} - {item.end_year?`${item.start_month_display}/${item.start_year}`:'Present'}
+                                            </div>
+                                            <div dangerouslySetInnerHTML={{__html: item.details}} style={{margin: '5px 0'}}/>
+                                        </div>
+                                            )
+                                        })}
+                                </div>
+                            </div>
+                                ):null}
                         </div>
-                            ):''}
+                            ):null}
                     </div>
                 </div>
                     )}
