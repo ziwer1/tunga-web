@@ -14,9 +14,14 @@ function task(state = {}, action) {
             return {...state, ...action.task};
         case TaskActions.DELETE_TASK_SUCCESS:
             return {};
-        case ApplicationActions.UPDATE_APPLICATION_SUCCESS:
-            if(action.application.accepted) {
-                return {...state, assignee: action.application.user}
+        case ApplicationActions.CREATE_APPLICATION_SUCCESS:
+            if(state.id == action.application.task) {
+                return {...state, can_apply: false};
+            }
+            return state;
+        case SavedTaskActions.CREATE_SAVED_TASK_SUCCESS:
+            if(state.id == action.saved_task.task) {
+                return {...state, can_save: false};
             }
             return state;
         default:

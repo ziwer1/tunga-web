@@ -3,7 +3,9 @@
 @landing-blue: #0078bd;
 @error-red: lighten(red, 20%);
 @bg-grey: #ddd;
-@good-green: #4CAF50;
+@green: #4CAF50;
+@red: #ff0000;
+@orange: #ff7e00;
 @side-bar-bg: #f5f5f5;
 
 html {
@@ -57,28 +59,30 @@ form .alert {
     color: #fff;
     background: @brand none;
     border-color: @brand;
-}
 
-.navbar .navbar-brand {
-    color: #fff;
-    font-size: 40px;
-    margin: 0;
-    padding: 0;
+    .navbar-brand {
+        color: #fff;
+        font-size: 40px;
+        margin: 0;
+        padding: 0;
 
-    img {
-        height: 50px;
+        img {
+            height: 50px;
+        }
     }
 }
 
-.navbar-inverse .navbar-nav>li>a {
-    color: #fff;
-}
+.navbar-inverse {
+    .navbar-nav>li>a {
+        color: #fff;
+    }
 
-.navbar-inverse .navbar-nav>.open>a,
-.navbar-inverse .navbar-nav>.open>a:focus,
-.navbar-inverse .navbar-nav>.open>a:hover {
-    color: #fff;
-    background: @brand none;
+    .navbar-nav>.open>a,
+    .navbar-nav>.open>a:focus,
+    .navbar-nav>.open>a:hover {
+        color: #fff;
+        background: @brand none;
+    }
 }
 
 .dropdown-menu>li>a,
@@ -98,6 +102,10 @@ form {
 
 .modal form {
     margin: 0 auto;
+}
+
+.btn {
+    margin: 2px;
 }
 
 form[name="comment"], form[name="reply"] {
@@ -131,18 +139,20 @@ form[name='compose'] {
     margin-left: 20px;
 }
 
-.nav-sidebar a:link,
-.nav-sidebar a:visited {
-    color: @brand;
-    padding-top: 5px;
-    padding-bottom: 5px;
-}
+.nav-sidebar {
+    a:link,
+    a:visited {
+        color: @brand;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
 
-.nav-sidebar li ul li a:link,
-.nav-sidebar li ul li a:visited {
-    color: #333;
-    padding-top: 3px;
-    padding-bottom: 3px;
+    li ul li a:link,
+    li ul li a:visited {
+        color: #333;
+        padding-top: 3px;
+        padding-bottom: 3px;
+    }
 }
 
 #running-tasks .nav-sidebar a:link,
@@ -154,13 +164,12 @@ form[name='compose'] {
     overflow: hidden;
 }
 
-.nav-sidebar a:hover,
-.nav-sidebar a:focus,
-.nav-sidebar a.active,
-.nav-sidebar a.active:hover,
-.nav-sidebar a.active:focus {
-    font-weight: bold;
-    background-color: transparent !important;
+.nav-sidebar {
+    a:hover, a:focus, a.active,
+    a.active:hover, a.active:focus {
+        font-weight: bold;
+        background-color: transparent !important;
+    }
 }
 
 .nav-sidebar > li > a > .fa.fa-caret-right {
@@ -256,41 +265,44 @@ form[name='compose'] {
 
 .tag-selector {
     position: relative;
+
+    .suggestions {
+        position: absolute;
+        width: 100%;
+        z-index: 100;
+    }
+
+    .selections {
+        margin: 10px auto;
+
+        .selected-item {
+            display: inline-block;
+            padding: 5px 10px;
+            margin: 5px 2px;
+            border-radius: 0;
+
+            .close {
+                color: red;
+                margin-left: 5px;
+                opacity: 1;
+                font-size: 15px;
+                line-height: 20px;
+            }
+        }
+    }
 }
 
-.tag-selector .suggestions {
-    position: absolute;
-    width: 100%;
-    z-index: 100;
-}
 
-.tag-selector .selections {
-    margin: 10px auto;
-}
+.list-group.suggestions {
+    a {
+        color: @brand;
+        cursor: pointer;
+    }
 
-.tag-selector .selections .selected-item {
-    display: inline-block;
-    padding: 5px 10px;
-    margin: 5px 2px;
-    border-radius: 0;
-}
-
-.tag-selector .selections .selected-item .close {
-    color: red;
-    margin-left: 5px;
-    opacity: 1;
-    font-size: 15px;
-    line-height: 20px;
-}
-
-.list-group.suggestions a {
-    color: @brand;
-    cursor: pointer;
-}
-
-.list-group.suggestions a:hover {
-    color: #fff;
-    background-color: @brand;
+    a:hover {
+        color: #fff;
+        background-color: @brand;
+    }
 }
 
 .avatar {
@@ -299,6 +311,12 @@ form[name='compose'] {
     color: @brand;
     display: inline-block;
     margin: 5px auto;
+
+    img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+    }
 }
 
 .avatar-icon {
@@ -326,31 +344,19 @@ form[name='compose'] {
     font-size: 120px;
 }
 
-.navbar .avatar {
-    color: #fff;
-    width: 40px;
-    height: 40px;
-    margin: -10px 5px;
-}
+.navbar {
+    .avatar {
+        color: #fff;
+        width: 40px;
+        height: 40px;
+        margin: -10px 5px;
+    }
 
-.navbar .avatar-icon {
-    font-size: 20px;
-    margin: -5px 5px;
-    color: #fff;
-}
-
-.avatar img {
-    width: 100%;
-    height: 100%;
-    border-radius: 30px;
-}
-
-.avatar.medium img {
-    border-radius: 80px;
-}
-
-.avatar.large img {
-    border-radius: 120px;
+    .avatar-icon {
+        font-size: 20px;
+        margin: -5px 5px;
+        color: #fff;
+    }
 }
 
 .title {
@@ -360,48 +366,94 @@ form[name='compose'] {
 .card, .well.card {
     background: #fff none;
     border-radius: 0;
+    border-color: #ccc;
     padding-top: 10px;
     padding-bottom: 10px;
+
+    .title {
+        font-size: 20px;
+        margin-top: 5px;
+    }
+
+    .pledge {
+        font-size: 35px;
+        color: @brand;
+    }
+
+    .description {
+        margin: 10px 0;
+        max-height: 44px;
+        overflow-y: hidden;
+    }
+
+    .actions {
+        .row {
+            margin: 8px -4px;
+        }
+
+        .row > div {
+            padding: 0 4px;
+        }
+
+        a {
+            color: #111;
+        }
+
+        .btn {
+            border-color: @brand;
+            border-width: 1px;
+        }
+
+        .btn:active {
+            outline-color: @brand;
+        }
+    }
+
+    .btn {
+        color: #111;
+        border-radius: 0;
+    }
+
+    .btn.btn-default {
+        background: #fff none;
+    }
+
+    a {
+        color: @brand;
+    }
+
+    .alert {
+        text-align: center;
+        width: 100%;
+        padding: 8px 12px;
+        margin-bottom: 0;
+    }
 }
 
-.card .description {
-    margin: 10px 0;
-    max-height: 45px;
-    overflow-y: hidden;
-}
+.card.task {
+    .title {
+        height: 44px;
+        overflow-y: hidden;
+    }
 
-.card .title {
-    font-size: 20px;
-    margin-top: 5px;
-}
+    .description {
+        max-height: 82px;
+        overflow-y: hidden;
+    }
 
-.card .pledge {
-    font-size: 35px;
-    color: @brand;
-}
+    .status {
+        .open {
+            color: @green;
+        }
 
-.card .actions .row {
-    margin: 8px -4px;
-}
+        .in-progress {
+            color: @orange;
+        }
 
-.card .actions .row > div {
-    padding: 0 4px;
-}
-
-.card .btn {
-    border-radius: 0;
-}
-
-.card .btn.btn-default {
-    background: #fff none;
-}
-
-.card a {
-    color: @brand;
-}
-
-.card .actions a {
-    color: #333;
+        .closed {
+            color: @red;
+        }
+    }
 }
 
 .tag {
@@ -421,31 +473,34 @@ form[name='compose'] {
     position: relative;
 }
 
-.home-page .bg-wrapper {
-    position: fixed;
-    top: 0;
-    left: 0;
-    background-color: @bg-grey;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-}
+.home-page {
+    .title {
+        text-align: center;
+        color: #fff;
+        text-shadow: rgba(0, 0, 0, 0.1) 0 0 3px;
+        font-size: 52px;
+        font-weight: 400;
+    }
 
-.home-page .bg-wrapper > div {
-    padding: 0 !important;
-}
+    .bg-wrapper {
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: @bg-grey;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
 
-.home-page .bg-wrapper img {
-    width: 100%;
-    height: 100%;
-}
+        img {
+            width: 100%;
+            height: 100%;
+        }
+    }
 
-.home-page .title {
-    text-align: center;
-    color: #fff;
-    text-shadow: rgba(0, 0, 0, 0.1) 0 0 3px;
-    font-size: 52px;
-    font-weight: 400;
+    .bg-wrapper > div {
+        padding: 0 !important;
+    }
+
 }
 
 .notification-list {
@@ -453,39 +508,37 @@ form[name='compose'] {
     display: block;
     margin: 20px auto;
     max-width: 600px;
-}
 
-.notification-list ul {
-    list-style: none;
-    display: block;
-    padding: 0;
-}
+    ul {
+        list-style: none;
+        display: block;
+        padding: 0;
+    }
 
-.notification-list li,
-.notification-list .alert {
-    display: block;
-    text-align: left;
-    border: 1px solid #fff;
-    background: #fff none;
-    margin: 10px 0;
-    padding: 5px 10px;
-    border-radius: 0;
-}
+    li, .alert {
+        display: block;
+        text-align: left;
+        border: 1px solid #fff;
+        background: #fff none;
+        margin: 10px 0;
+        padding: 5px 10px;
+        border-radius: 0;
+    }
 
-.notification-list a,
-.notification-list .alert {
-    color: @tunga-blue;
-    display: block;
-    font-size: 18px;
-}
+    a, .alert {
+        color: @tunga-blue;
+        display: block;
+        font-size: 18px;
+    }
 
-.notification-list .alert {
-    max-width: 100%;
-    border-radius: 0;
-}
+    .alert {
+        max-width: 100%;
+        border-radius: 0;
+    }
 
-.notification-list .fa.fa-caret-right {
-    margin-left: 5px;
+    .fa.fa-caret-right {
+        margin-left: 5px;
+    }
 }
 
 .message-list {
@@ -524,11 +577,14 @@ form[name='compose'] {
     margin-left: 5px;
 }
 
-.workflow-actions .open>.dropdown-toggle.btn-primary.focus,
-.workflow-actions .open>.dropdown-toggle.btn-primary:focus,
-.workflow-actions .open>.dropdown-toggle.btn-primary:hover {
-    background-color: @brand;
-    border-color: @brand;
+.workflow-actions {
+
+    .open>.dropdown-toggle.btn-primary.focus,
+    .open>.dropdown-toggle.btn-primary:focus,
+    .open>.dropdown-toggle.btn-primary:hover {
+        background-color: @brand;
+        border-color: @brand;
+    }
 }
 
 .tag-list {
@@ -555,17 +611,19 @@ form[name='compose'] {
     border-radius: 0;
 }
 
-.btn-group.btn-choices .btn {
-    margin-right: 5px;
-    color: @tunga-blue;
-    background: #fff none;
-    border-color: @tunga-blue;
-}
+.btn-group.btn-choices {
+    .btn {
+        margin-right: 5px;
+        color: @tunga-blue;
+        background: #fff none;
+        border-color: @tunga-blue;
+    }
 
-.btn-group.btn-choices .btn.active {
-    color: #fff;
-    background-color: @tunga-blue;
-    text-shadow: none;
+    .btn.active {
+        color: #fff;
+        background-color: @tunga-blue;
+        text-shadow: none;
+    }
 }
 
 .message {
@@ -597,11 +655,11 @@ form[name='compose'] {
 .load-more {
     margin: 5px auto;
     text-align: center;
-}
 
-.load-more .btn {
-    color: @brand;
-    background: #fff none !important;
+    .btn {
+        color: @brand;
+        background: #fff none !important;
+    }
 }
 
 .error {
@@ -613,10 +671,10 @@ form[name='compose'] {
     text-align: center;
     border: 2px dashed @tunga-blue;
     margin: 5px auto 10px;
-}
 
-.dropzone .msg {
-    margin-top: 20px;
+    .msg {
+        margin-top: 20px;
+    }
 }
 
 .attachments {
@@ -628,17 +686,19 @@ form[name='compose'] {
     margin-right: 10px;
 }
 
-.collaborator .status {
-    color: @tunga-blue;
-    margin-left: 10px;
-}
+.collaborator {
+    .status {
+        color: @tunga-blue;
+        margin-left: 10px;
 
-.collaborator .status .fa {
-    font-size: 20px;
-}
+        .fa {
+            font-size: 20px;
+        }
 
-.collaborator .status .accepted {
-    color: @good-green;
+        .accepted {
+            color: @green;
+        }
+    }
 }
 
 .profile-field {
@@ -680,17 +740,19 @@ form[name='compose'] {
             flex-direction: column;
             flex-grow: 1;
 
-            .actions {
+            .top, .middle, .bottom, .actions {
                 flex-direction: column;
                 display: flex;
+                justify-content: flex-start;
+            }
+
+            .bottom, .actions {
                 flex-grow: 1;
                 justify-content: flex-end;
             }
         }
     }
 }
-
-
 
 /* LANDING PAGE */
 #landing-page {

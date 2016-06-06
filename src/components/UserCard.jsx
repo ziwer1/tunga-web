@@ -41,19 +41,19 @@ export default class UserCard extends React.Component {
                                     onClick={this.handleConnectRequest.bind(this)}>{connection_msg}</button>
                         </div>
                     </div>
-                        ):null}
-                    {user.request?(
-                    <div className="row">
-                        <div className="col-sm-6">
-                            <button type="button" className="btn btn-block btn-default"
-                                    onClick={this.handleConnectResponse.bind(this, true)}>Accept</button>
+                        ):(
+                        user.request?(
+                        <div className="row">
+                            <div className="col-sm-6">
+                                <button type="button" className="btn btn-block btn-default"
+                                        onClick={this.handleConnectResponse.bind(this, true)}>Accept</button>
+                            </div>
+                            <div className="col-sm-6">
+                                <button type="button" className="btn btn-block btn-default"
+                                        onClick={this.handleConnectResponse.bind(this, false)}>Decline</button>
+                            </div>
                         </div>
-                        <div className="col-sm-6">
-                            <button type="button" className="btn btn-block btn-default"
-                                    onClick={this.handleConnectResponse.bind(this, false)}>Decline</button>
-                        </div>
-                    </div>
-                        ):null}
+                            ):null)}
                 </div>
             </div>
         );

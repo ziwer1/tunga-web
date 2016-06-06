@@ -8,15 +8,16 @@ export default class TagList extends React.Component {
         const max = this.props.max || tags.length;
         const excess = tags.length - max;
         const more_link = link || '#';
+        var tag_list = tags.slice(0, max);
 
         return (
             <div className="tag-list">
-                {tags.slice(0, max).map((tag) => {
-                    return (<Link key={tag.id} to={`/task/tag/${tag.name}/`} className="tag">{tag.name}</Link>)
+                {tag_list.map((tag, idx) => {
+                    return (<Link key={tag.id} to={`/task/tag/${tag.name}/`}>{tag.name}{idx < tag_list.length-1?',':''} </Link>)
                     })}
                 {excess > 0?(
-                <Link to={more_link} className="tag">{excess} more</Link>
-                    ):''}
+                <Link to={more_link}> and {excess} more</Link>
+                    ):null}
             </div>
         );
     }

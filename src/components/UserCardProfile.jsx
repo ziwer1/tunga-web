@@ -33,9 +33,15 @@ export default class UserCardProfile extends React.Component {
                 </div>
                 {user.profile?(
                 <div>
+                    {user.profile.skills.length?(
                     <TagList tags={user.profile.skills} max={3} link={`/member/${user.id}/`}/>
+                        ):(
+                    <div style={{height: '20px'}}></div>
+                        )}
                 </div>
-                    ):null}
+                    ):(
+                <div style={{height: '20px'}}></div>
+                    )}
             </div>
         );
     }
