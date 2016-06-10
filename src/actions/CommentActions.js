@@ -48,7 +48,7 @@ export function createComment(comment, attachments) {
                 dispatch(createCommentFailed(data));
             });
         } else {
-            return axios.post(ENDPOINT_COMMENT, comment)
+            axios.post(ENDPOINT_COMMENT, comment)
                 .then(function(response) {
                     dispatch(createCommentSuccess(response.data))
                 }).catch(function(response) {
@@ -82,7 +82,7 @@ export function createCommentFailed(error) {
 export function listComments(filter) {
     return dispatch => {
         dispatch(listCommentsStart(filter));
-        return axios.get(ENDPOINT_COMMENT, {params: filter})
+        axios.get(ENDPOINT_COMMENT, {params: filter})
             .then(function(response) {
                 dispatch(listCommentsSuccess(response.data))
             }).catch(function(response) {
@@ -117,7 +117,7 @@ export function listCommentsFailed(error) {
 export function retrieveComment(id) {
     return dispatch => {
         dispatch(retrieveCommentStart(id));
-        return axios.get(ENDPOINT_COMMENT + id + '/')
+        axios.get(ENDPOINT_COMMENT + id + '/')
             .then(function(response) {
                 dispatch(retrieveCommentSuccess(response.data))
             }).catch(function(response) {
@@ -150,7 +150,7 @@ export function retrieveCommentFailed(error) {
 export function updateComment(id, comment) {
     return dispatch => {
         dispatch(updateCommentStart(id));
-        return axios.patch(ENDPOINT_COMMENT + id + '/', comment)
+        axios.patch(ENDPOINT_COMMENT + id + '/', comment)
             .then(function(response) {
                 dispatch(updateCommentSuccess(response.data))
             }).catch(function(response) {
@@ -184,7 +184,7 @@ export function updateCommentFailed(error) {
 export function deleteComment(id) {
     return dispatch => {
         dispatch(deleteCommentStart(id));
-        return axios.delete(ENDPOINT_COMMENT + id + '/', {})
+        axios.delete(ENDPOINT_COMMENT + id + '/', {})
             .then(function() {
                 dispatch(deleteCommentSuccess(id))
             }).catch(function(response) {
@@ -217,7 +217,7 @@ export function deleteCommentFailed(error) {
 export function listMoreComments(url) {
     return dispatch => {
         dispatch(listMoreCommentsStart(url));
-        return axios.get(url)
+        axios.get(url)
             .then(function(response) {
                 dispatch(listMoreCommentsSuccess(response.data))
             }).catch(function(response) {

@@ -12,7 +12,7 @@ export const CLEAR_SKILL_SELECTIONS = 'CLEAR_SKILL_SELECTIONS';
 export function getSkillSuggestions(filter) {
     return dispatch => {
         dispatch(getSkillSuggestionsStart(filter));
-        return axios.get(ENDPOINT_SKILL, {params: filter})
+        axios.get(ENDPOINT_SKILL, {params: filter})
             .then(function(response) {
                 dispatch(getSkillSuggestionsSuccess(response.data))
             }).catch(function(response) {

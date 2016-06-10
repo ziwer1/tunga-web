@@ -53,7 +53,7 @@ export function updateAuthUser(user) {
                 dispatch(updateAuthUserFailed(data));
             });
         } else {
-            return axios.patch(ENDPOINT_USER_INFO, user)
+            axios.patch(ENDPOINT_USER_INFO, user)
                 .then(function(response) {
                     dispatch(updateAuthUserSuccess(response.data))
                 }).catch(function(response) {
@@ -86,7 +86,7 @@ export function updateAuthUserFailed(error) {
 export function updateAccountInfo(user) {
     return dispatch => {
         dispatch(updateAccountInfoStart());
-        return axios.patch(ENDPOINT_ACCOUNT_INFO, user)
+        axios.patch(ENDPOINT_ACCOUNT_INFO, user)
             .then(function(response) {
                 dispatch(updateAccountInfoSuccess(response.data))
             }).catch(function(response) {
@@ -118,7 +118,7 @@ export function updateAccountInfoFailed(error) {
 export function retrieveProfile() {
     return dispatch => {
         dispatch(retrieveProfileStart());
-        return axios.get(ENDPOINT_USER_INFO)
+        axios.get(ENDPOINT_USER_INFO)
             .then(function(response) {
                 dispatch(retrieveProfileSuccess(response.data))
             }).catch(function(response) {
@@ -153,14 +153,14 @@ export function updateProfile(id, profile) {
     return dispatch => {
         dispatch(updateProfileStart(id));
         if(id) {
-            return axios.patch(ENDPOINT_PROFILE + id + '/', profile)
+            axios.patch(ENDPOINT_PROFILE + id + '/', profile)
                 .then(function(response) {
                     dispatch(updateProfileSuccess(response.data))
                 }).catch(function(response) {
                     dispatch(updateProfileFailed(response.data))
                 });
         } else {
-            return axios.post(ENDPOINT_PROFILE, profile)
+            axios.post(ENDPOINT_PROFILE, profile)
                 .then(function(response) {
                     dispatch(updateProfileSuccess(response.data))
                 }).catch(function(response) {
@@ -194,7 +194,7 @@ export function updateProfileFailed(error) {
 export function updatePassword(credentials) {
     return dispatch => {
         dispatch(updatePasswordStart());
-        return axios.post(ENDPOINT_CHANGE_PASSWORD, credentials)
+        axios.post(ENDPOINT_CHANGE_PASSWORD, credentials)
             .then(function(response) {
                 dispatch(updatePasswordSuccess())
             }).catch(function(response) {
@@ -225,7 +225,7 @@ export function updatePasswordFailed(error) {
 export function createWork(work) {
     return dispatch => {
         dispatch(createWorkStart(work));
-        return axios.post(ENDPOINT_USER_WORK, work)
+        axios.post(ENDPOINT_USER_WORK, work)
             .then(function(response) {
                 dispatch(createWorkSuccess(response.data))
             }).catch(function(response) {
@@ -258,7 +258,7 @@ export function createWorkFailed(error) {
 export function updateWork(id, data) {
     return dispatch => {
         dispatch(updateWorkStart(id));
-        return axios.patch(ENDPOINT_USER_WORK + id + '/', data)
+        axios.patch(ENDPOINT_USER_WORK + id + '/', data)
             .then(function(response) {
                 dispatch(updateWorkSuccess(response.data))
             }).catch(function(response) {
@@ -291,7 +291,7 @@ export function updateWorkFailed(error) {
 export function createEducation(education) {
     return dispatch => {
         dispatch(createEducationStart(education));
-        return axios.post(ENDPOINT_USER_EDUCATION, education)
+        axios.post(ENDPOINT_USER_EDUCATION, education)
             .then(function(response) {
                 dispatch(createEducationSuccess(response.data))
             }).catch(function(response) {
@@ -324,7 +324,7 @@ export function createEducationFailed(error) {
 export function updateEducation(id, data) {
     return dispatch => {
         dispatch(updateEducationStart(id));
-        return axios.patch(ENDPOINT_USER_EDUCATION + id + '/', data)
+        axios.patch(ENDPOINT_USER_EDUCATION + id + '/', data)
             .then(function(response) {
                 dispatch(updateEducationSuccess(response.data))
             }).catch(function(response) {
@@ -357,7 +357,7 @@ export function updateEducationFailed(error) {
 export function getCountries() {
     return dispatch => {
         dispatch(getCountriesStart());
-        return axios.get(ENDPOINT_COUNTRIES)
+        axios.get(ENDPOINT_COUNTRIES)
             .then(function(response) {
                 dispatch(getCountriesSuccess(response.data))
             }).catch(function(response) {

@@ -23,7 +23,7 @@ export const RESET_PASSWORD_CONFIRM_FAILED = 'RESET_PASSWORD_CONFIRM_FAILED';
 export function authenticate(credentials) {
     return dispatch => {
         dispatch(authStart(credentials));
-        return axios.post(ENDPOINT_LOGIN, credentials)
+        axios.post(ENDPOINT_LOGIN, credentials)
             .then(function(response) {
                 dispatch(authSuccess(response.data))
             }).catch(function(response) {
@@ -56,7 +56,7 @@ export function authFailed(error) {
 export function verify() {
     return dispatch => {
         dispatch(verifyStart());
-        return axios.get(ENDPOINT_VERIFY)
+        axios.get(ENDPOINT_VERIFY)
             .then(function(response) {
                 dispatch(verifySuccess(response.data))
             }).catch(function(response) {
@@ -88,7 +88,7 @@ export function verifyFailed(error) {
 export function logout() {
     return dispatch => {
         dispatch(logoutStart());
-        return axios.post(ENDPOINT_LOGOUT, {})
+        axios.post(ENDPOINT_LOGOUT, {})
             .then(function() {
                 dispatch(logoutSuccess())
             }).catch(function(response) {
@@ -119,7 +119,7 @@ export function logoutFailed(error) {
 export function register(details) {
     return dispatch => {
         dispatch(registerStart(details));
-        return axios.post(ENDPOINT_REGISTER, details)
+        axios.post(ENDPOINT_REGISTER, details)
             .then(function(response) {
                 dispatch(registerSuccess(response.data))
             }).catch(function(response) {
@@ -152,7 +152,7 @@ export function registerFailed(error) {
 export function resetPassword(email) {
     return dispatch => {
         dispatch(resetPasswordStart(email));
-        return axios.post(ENDPOINT_RESET_PASSWORD, email)
+        axios.post(ENDPOINT_RESET_PASSWORD, email)
             .then(function(response) {
                 dispatch(resetPasswordSuccess(response.data))
             }).catch(function(response) {
@@ -186,7 +186,7 @@ export function resetPasswordFailed(error) {
 export function resetPasswordConfirm(credentials) {
     return dispatch => {
         dispatch(resetPasswordConfirmStart(credentials));
-        return axios.post(ENDPOINT_RESET_PASSWORD_CONFIRM, credentials)
+        axios.post(ENDPOINT_RESET_PASSWORD_CONFIRM, credentials)
             .then(function(response) {
                 dispatch(resetPasswordConfirmSuccess(response.data))
             }).catch(function(response) {

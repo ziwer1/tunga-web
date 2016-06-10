@@ -20,7 +20,7 @@ export const DELETE_SAVED_TASK_FAILED = 'DELETE_SAVED_TASK_FAILED';
 export function createSavedTask(saved_task) {
     return dispatch => {
         dispatch(createSavedTaskStart(saved_task));
-        return axios.post(ENDPOINT_SAVED_TASK, saved_task)
+        axios.post(ENDPOINT_SAVED_TASK, saved_task)
             .then(function(response) {
                 dispatch(createSavedTaskSuccess(response.data))
             }).catch(function(response) {
@@ -53,7 +53,7 @@ export function createSavedTaskFailed(error) {
 export function listSavedTasks(filter) {
     return dispatch => {
         dispatch(listSavedTasksStart(filter));
-        return axios.get(ENDPOINT_SAVED_TASK, {params: filter})
+        axios.get(ENDPOINT_SAVED_TASK, {params: filter})
             .then(function(response) {
                 dispatch(listSavedTasksSuccess(response.data))
             }).catch(function(response) {
@@ -88,7 +88,7 @@ export function listSavedTasksFailed(error) {
 export function retrieveSavedTask(id) {
     return dispatch => {
         dispatch(retrieveSavedTaskStart(id));
-        return axios.get(ENDPOINT_SAVED_TASK + id + '/')
+        axios.get(ENDPOINT_SAVED_TASK + id + '/')
             .then(function(response) {
                 dispatch(retrieveSavedTaskSuccess(response.data))
             }).catch(function(response) {
@@ -121,7 +121,7 @@ export function retrieveSavedTaskFailed(error) {
 export function updateSavedTask(id, data) {
     return dispatch => {
         dispatch(updateSavedTaskStart(id));
-        return axios.patch(ENDPOINT_SAVED_TASK + id + '/', data)
+        axios.patch(ENDPOINT_SAVED_TASK + id + '/', data)
             .then(function(response) {
                 dispatch(updateSavedTaskSuccess(response.data))
             }).catch(function(response) {
@@ -155,7 +155,7 @@ export function updateSavedTaskFailed(error) {
 export function deleteSavedTask(id) {
     return dispatch => {
         dispatch(deleteSavedTaskStart(id));
-        return axios.delete(ENDPOINT_SAVED_TASK + id + '/', {})
+        axios.delete(ENDPOINT_SAVED_TASK + id + '/', {})
             .then(function() {
                 dispatch(deleteSavedTaskSuccess(id))
             }).catch(function(response) {

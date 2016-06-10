@@ -9,7 +9,7 @@ export const SEND_CONTACT_REQUEST_FAILED = 'SEND_CONTACT_REQUEST_FAILED';
 export function sendContactRequest(email) {
     return dispatch => {
         dispatch(sendContactRequestStart(email));
-        return axios.post(ENDPOINT_CONTACT_REQUEST, email)
+        axios.post(ENDPOINT_CONTACT_REQUEST, email)
             .then(function(response) {
                 dispatch(sendContactRequestSuccess(response.data))
             }).catch(function(response) {

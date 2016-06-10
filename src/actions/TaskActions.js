@@ -30,7 +30,7 @@ export const RETRIEVE_TASK_META_FAILED = 'RETRIEVE_TASK_META_FAILED';
 export function createTask(task) {
     return dispatch => {
         dispatch(createTaskStart(task));
-        return axios.post(ENDPOINT_TASK, task)
+        axios.post(ENDPOINT_TASK, task)
             .then(function(response) {
                 dispatch(createTaskSuccess(response.data))
             }).catch(function(response) {
@@ -63,7 +63,7 @@ export function createTaskFailed(error) {
 export function listTasks(filter) {
     return dispatch => {
         dispatch(listTasksStart(filter));
-        return axios.get(ENDPOINT_TASK, {params: filter})
+        axios.get(ENDPOINT_TASK, {params: filter})
             .then(function(response) {
                 dispatch(listTasksSuccess(response.data))
             }).catch(function(response) {
@@ -99,7 +99,7 @@ export function retrieveTask(id) {
     return dispatch => {
         dispatch(retrieveTaskStart(id));
         dispatch(retrieveTaskMeta(id));
-        return axios.get(ENDPOINT_TASK + id + '/')
+        axios.get(ENDPOINT_TASK + id + '/')
             .then(function(response) {
                 dispatch(retrieveTaskSuccess(response.data))
             }).catch(function(response) {
@@ -132,7 +132,7 @@ export function retrieveTaskFailed(error) {
 export function updateTask(id, data) {
     return dispatch => {
         dispatch(updateTaskStart(id));
-        return axios.patch(ENDPOINT_TASK + id + '/', data)
+        axios.patch(ENDPOINT_TASK + id + '/', data)
             .then(function(response) {
                 dispatch(updateTaskSuccess(response.data))
             }).catch(function(response) {
@@ -165,7 +165,7 @@ export function updateTaskFailed(error) {
 export function deleteTask(id) {
     return dispatch => {
         dispatch(deleteTaskStart(id));
-        return axios.delete(ENDPOINT_TASK + id + '/')
+        axios.delete(ENDPOINT_TASK + id + '/')
             .then(function() {
                 dispatch(deleteTaskSuccess(id));
             }).catch(function(response) {
@@ -199,7 +199,7 @@ export function listRunningTasks() {
     return dispatch => {
         var filter = {filter: 'running'};
         dispatch(listRunningTasksStart(filter));
-        return axios.get(ENDPOINT_TASK, {params: filter})
+        axios.get(ENDPOINT_TASK, {params: filter})
             .then(function(response) {
                 dispatch(listRunningTasksSuccess(response.data))
             }).catch(function(response) {
@@ -234,7 +234,7 @@ export function listRunningTasksFailed(error) {
 export function listMoreTasks(url) {
     return dispatch => {
         dispatch(listMoreTasksStart(url));
-        return axios.get(url)
+        axios.get(url)
             .then(function(response) {
                 dispatch(listMoreTasksSuccess(response.data))
             }).catch(function(response) {
@@ -269,7 +269,7 @@ export function listMoreTasksFailed(error) {
 export function retrieveTaskMeta(id) {
     return dispatch => {
         dispatch(retrieveTaskMetaStart(id));
-        return axios.get(ENDPOINT_TASK + id + '/meta/')
+        axios.get(ENDPOINT_TASK + id + '/meta/')
             .then(function(response) {
                 dispatch(retrieveTaskMetaSuccess(response.data))
             }).catch(function(response) {

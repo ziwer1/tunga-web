@@ -23,7 +23,7 @@ export function createApplication(application, errors=null) {
         if(errors) {
             return dispatch(createApplicationFailed(errors));
         }
-        return axios.post(ENDPOINT_APPLICATION, application)
+        axios.post(ENDPOINT_APPLICATION, application)
             .then(function(response) {
                 dispatch(createApplicationSuccess(response.data))
             }).catch(function(response) {
@@ -56,7 +56,7 @@ export function createApplicationFailed(error) {
 export function listApplications(filter) {
     return dispatch => {
         dispatch(listApplicationsStart(filter));
-        return axios.get(ENDPOINT_APPLICATION, {params: filter})
+        axios.get(ENDPOINT_APPLICATION, {params: filter})
             .then(function(response) {
                 dispatch(listApplicationsSuccess(response.data))
             }).catch(function(response) {
@@ -91,7 +91,7 @@ export function listApplicationsFailed(error) {
 export function retrieveApplication(id) {
     return dispatch => {
         dispatch(retrieveApplicationStart(id));
-        return axios.get(ENDPOINT_APPLICATION + id + '/')
+        axios.get(ENDPOINT_APPLICATION + id + '/')
             .then(function(response) {
                 dispatch(retrieveApplicationSuccess(response.data))
             }).catch(function(response) {
@@ -124,7 +124,7 @@ export function retrieveApplicationFailed(error) {
 export function updateApplication(id, data) {
     return dispatch => {
         dispatch(updateApplicationStart(id));
-        return axios.patch(ENDPOINT_APPLICATION + id + '/', data)
+        axios.patch(ENDPOINT_APPLICATION + id + '/', data)
             .then(function(response) {
                 dispatch(updateApplicationSuccess(response.data))
             }).catch(function(response) {
@@ -158,7 +158,7 @@ export function updateApplicationFailed(error) {
 export function deleteApplication(id) {
     return dispatch => {
         dispatch(deleteApplicationStart(id));
-        return axios.delete(ENDPOINT_APPLICATION + id + '/', {})
+        axios.delete(ENDPOINT_APPLICATION + id + '/', {})
             .then(function() {
                 dispatch(deleteApplicationSuccess(id))
             }).catch(function(response) {

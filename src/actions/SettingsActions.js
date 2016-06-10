@@ -12,7 +12,7 @@ export const UPDATE_SETTINGS_FAILED = 'UPDATE_SETTINGS_FAILED';
 export function retrieveSettings() {
     return dispatch => {
         dispatch(retrieveSettingsStart());
-        return axios.get(ENDPOINT_ACCOUNT_SETTINGS)
+        axios.get(ENDPOINT_ACCOUNT_SETTINGS)
             .then(function(response) {
                 dispatch(retrieveSettingsSuccess(response.data))
             }).catch(function(response) {
@@ -43,7 +43,7 @@ export function retrieveSettingsFailed(error) {
 
 export function updateSettings(settings) {
     return dispatch => {
-        return axios.put(ENDPOINT_ACCOUNT_SETTINGS, settings)
+        axios.put(ENDPOINT_ACCOUNT_SETTINGS, settings)
             .then(function(response) {
                 dispatch(updateSettingsSuccess(response.data))
             }).catch(function(response) {

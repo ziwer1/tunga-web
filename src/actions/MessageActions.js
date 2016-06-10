@@ -50,7 +50,7 @@ export function createMessage(message, attachments) {
                 dispatch(createMessageFailed(data));
             });
         } else {
-            return axios.post(ENDPOINT_MESSAGE, message)
+            axios.post(ENDPOINT_MESSAGE, message)
                 .then(function(response) {
                     dispatch(createMessageSuccess(response.data));
                 }).catch(function(response) {
@@ -84,7 +84,7 @@ export function createMessageFailed(error) {
 export function listMessages(filter) {
     return dispatch => {
         dispatch(listMessagesStart(filter));
-        return axios.get(ENDPOINT_MESSAGE, {params: filter})
+        axios.get(ENDPOINT_MESSAGE, {params: filter})
             .then(function(response) {
                 dispatch(listMessagesSuccess(response.data))
             }).catch(function(response) {
@@ -119,7 +119,7 @@ export function listMessagesFailed(error) {
 export function retrieveMessage(id) {
     return dispatch => {
         dispatch(retrieveMessageStart(id));
-        return axios.get(ENDPOINT_MESSAGE + id + '/')
+        axios.get(ENDPOINT_MESSAGE + id + '/')
             .then(function(response) {
                 dispatch(retrieveMessageSuccess(response.data))
             }).catch(function(response) {
@@ -152,7 +152,7 @@ export function retrieveMessageFailed(error) {
 export function updateMessage(id) {
     return dispatch => {
         dispatch(updateMessageStart(id));
-        return axios.patch(ENDPOINT_MESSAGE + id + '/')
+        axios.patch(ENDPOINT_MESSAGE + id + '/')
             .then(function(response) {
                 dispatch(updateMessageSuccess(response.data))
             }).catch(function(response) {
@@ -186,7 +186,7 @@ export function updateMessageFailed(error) {
 export function deleteMessage(id) {
     return dispatch => {
         dispatch(deleteMessageStart(id));
-        return axios.delete(ENDPOINT_MESSAGE + id + '/')
+        axios.delete(ENDPOINT_MESSAGE + id + '/')
             .then(function() {
                 dispatch(deleteMessageSuccess(id))
             }).catch(function(response) {
@@ -219,7 +219,7 @@ export function deleteMessageFailed(error) {
 export function updateMessageRead(id) {
     return dispatch => {
         dispatch(updateMessageReadStart(id));
-        return axios.post(ENDPOINT_MESSAGE + id + '/read/')
+        axios.post(ENDPOINT_MESSAGE + id + '/read/')
             .then(function(response) {
                 dispatch(updateMessageReadSuccess(response.data))
             }).catch(function(response) {
@@ -252,7 +252,7 @@ export function updateMessageReadFailed(error) {
 export function listMoreMessages(url) {
     return dispatch => {
         dispatch(listMoreMessagesStart(url));
-        return axios.get(url)
+        axios.get(url)
             .then(function(response) {
                 dispatch(listMoreMessagesSuccess(response.data))
             }).catch(function(response) {

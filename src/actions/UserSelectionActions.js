@@ -12,7 +12,7 @@ export const CLEAR_USER_SELECTIONS = 'CLEAR_USER_SELECTIONS';
 export function getUserSuggestions(filter, selection) {
     return dispatch => {
         dispatch(getUserSuggestionsStart(filter, selection));
-        return axios.get(ENDPOINT_USER, {params: filter})
+        axios.get(ENDPOINT_USER, {params: filter})
             .then(function(response) {
                 dispatch(getUserSuggestionsSuccess(response.data, selection))
             }).catch(function(response) {

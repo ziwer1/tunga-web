@@ -48,7 +48,7 @@ export function createReply(reply, attachments) {
                 dispatch(createReplyFailed(data));
             });
         } else {
-            return axios.post(ENDPOINT_REPLY, reply)
+            axios.post(ENDPOINT_REPLY, reply)
                 .then(function(response) {
                     dispatch(createReplySuccess(response.data))
                 }).catch(function(response) {
@@ -82,7 +82,7 @@ export function createReplyFailed(error) {
 export function listReplies(filter) {
     return dispatch => {
         dispatch(listRepliesStart(filter));
-        return axios.get(ENDPOINT_REPLY, {params: filter})
+        axios.get(ENDPOINT_REPLY, {params: filter})
             .then(function(response) {
                 dispatch(listRepliesSuccess(response.data))
             }).catch(function(response) {
@@ -117,7 +117,7 @@ export function listRepliesFailed(error) {
 export function retrieveReply(id) {
     return dispatch => {
         dispatch(retrieveReplyStart(id));
-        return axios.get(ENDPOINT_REPLY + id + '/')
+        axios.get(ENDPOINT_REPLY + id + '/')
             .then(function(response) {
                 dispatch(retrieveReplySuccess(response.data))
             }).catch(function(response) {
@@ -150,7 +150,7 @@ export function retrieveReplyFailed(error) {
 export function updateReply(id, reply) {
     return dispatch => {
         dispatch(updateReplyStart(id));
-        return axios.patch(ENDPOINT_REPLY + id + '/', reply)
+        axios.patch(ENDPOINT_REPLY + id + '/', reply)
             .then(function(response) {
                 dispatch(updateReplySuccess(response.data))
             }).catch(function(response) {
@@ -184,7 +184,7 @@ export function updateReplyFailed(error) {
 export function deleteReply(id) {
     return dispatch => {
         dispatch(deleteReplyStart(id));
-        return axios.delete(ENDPOINT_REPLY + id + '/', {})
+        axios.delete(ENDPOINT_REPLY + id + '/', {})
             .then(function() {
                 dispatch(deleteReplySuccess(id))
             }).catch(function(response) {
@@ -217,7 +217,7 @@ export function deleteReplyFailed(error) {
 export function listMoreReplies(url) {
     return dispatch => {
         dispatch(listMoreRepliesStart(url));
-        return axios.get(url)
+        axios.get(url)
             .then(function(response) {
                 dispatch(listMoreRepliesSuccess(response.data))
             }).catch(function(response) {

@@ -14,7 +14,7 @@ export const LIST_MORE_USERS_FAILED = 'LIST_MORE_USERS_FAILED';
 export function listUsers(filter) {
     return dispatch => {
         dispatch(listUsersStart(filter));
-        return axios.get(ENDPOINT_USER, {params: filter})
+        axios.get(ENDPOINT_USER, {params: filter})
             .then(function(response) {
                 dispatch(listUsersSuccess(response.data))
             }).catch(function(response) {
@@ -49,7 +49,7 @@ export function listUsersFailed(error) {
 export function retrieveUser(id) {
     return dispatch => {
         dispatch(retrieveUserStart(id));
-        return axios.get(ENDPOINT_USER + id + '/')
+        axios.get(ENDPOINT_USER + id + '/')
             .then(function(response) {
                 dispatch(retrieveUserSuccess(response.data))
             }).catch(function(response) {
@@ -82,7 +82,7 @@ export function retrieveUserFailed(error) {
 export function listMoreUsers(url) {
     return dispatch => {
         dispatch(listMoreUsersStart(url));
-        return axios.get(url)
+        axios.get(url)
             .then(function(response) {
                 dispatch(listMoreUsersSuccess(response.data))
             }).catch(function(response) {

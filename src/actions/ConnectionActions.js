@@ -20,7 +20,7 @@ export const DELETE_CONNECTION_FAILED = 'DELETE_CONNECTION_FAILED';
 export function createConnection(connection) {
     return dispatch => {
         dispatch(createConnectionStart(connection));
-        return axios.post(ENDPOINT_CONNECTION, connection)
+        axios.post(ENDPOINT_CONNECTION, connection)
             .then(function(response) {
                 dispatch(createConnectionSuccess(response.data))
             }).catch(function(response) {
@@ -53,7 +53,7 @@ export function createConnectionFailed(error) {
 export function listConnections(filter) {
     return dispatch => {
         dispatch(listConnectionsStart(filter));
-        return axios.get(ENDPOINT_CONNECTION, {params: filter})
+        axios.get(ENDPOINT_CONNECTION, {params: filter})
             .then(function(response) {
                 dispatch(listConnectionsSuccess(response.data))
             }).catch(function(response) {
@@ -88,7 +88,7 @@ export function listConnectionsFailed(error) {
 export function retrieveConnection(id) {
     return dispatch => {
         dispatch(retrieveConnectionStart(id));
-        return axios.get(ENDPOINT_CONNECTION + id + '/')
+        axios.get(ENDPOINT_CONNECTION + id + '/')
             .then(function(response) {
                 dispatch(retrieveConnectionSuccess(response.data))
             }).catch(function(response) {
@@ -121,7 +121,7 @@ export function retrieveConnectionFailed(error) {
 export function updateConnection(id, data) {
     return dispatch => {
         dispatch(updateConnectionStart(id));
-        return axios.patch(ENDPOINT_CONNECTION + id + '/', data)
+        axios.patch(ENDPOINT_CONNECTION + id + '/', data)
             .then(function(response) {
                 dispatch(updateConnectionSuccess(response.data))
             }).catch(function(response) {
@@ -155,7 +155,7 @@ export function updateConnectionFailed(error) {
 export function deleteConnection(id) {
     return dispatch => {
         dispatch(deleteConnectionStart(id));
-        return axios.delete(ENDPOINT_CONNECTION + id + '/', {})
+        axios.delete(ENDPOINT_CONNECTION + id + '/', {})
             .then(function() {
                 dispatch(deleteConnectionSuccess(id))
             }).catch(function(response) {
