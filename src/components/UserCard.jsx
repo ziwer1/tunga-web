@@ -25,7 +25,7 @@ export default class UserCard extends React.Component {
         }
 
         return (
-            <div className="well card">
+            <div className="well card user">
                 <UserCardProfile user={user}/>
                 <div className="actions">
                     <div className="row">

@@ -430,7 +430,9 @@ form[name='compose'] {
     }
 }
 
-.card.task {
+.card.task, .card.user {
+    box-shadow: 3px 3px 2px #ddd;
+
     .title {
         height: 44px;
         overflow-y: hidden;
@@ -441,6 +443,14 @@ form[name='compose'] {
         overflow-y: hidden;
     }
 
+    .actions {
+        .btn {
+            box-shadow: 3px 3px 2px #aaa;
+        }
+    }
+}
+
+.card.task {
     .status {
         .open {
             color: @green;
