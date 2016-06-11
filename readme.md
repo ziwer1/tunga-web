@@ -59,6 +59,12 @@ npm run watch:dev
 2. A new browser tab with automatically open at http://127.0.0.1:8080/
 (The browser will auto reload when changes are made to the code)
 
+# Debugging
+
+[React Developer Tools](https://github.com/facebook/react-devtools)
+
+[Redux DevTools Extension](https://github.com/zalmoxisus/redux-devtools-extension)
+
 # Documentation
 Find API Documentation at https://tunga.io/api/docs/
 
