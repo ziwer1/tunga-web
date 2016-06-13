@@ -74,7 +74,7 @@ export default class Compose extends React.Component {
                     <div className="form-group row">
                         <div className="col-xs-1"><div style={{lineHeight: '34px', textAlign: 'right', marginLeft: '10px', wordBreak: 'normal'}}>To:</div></div>
                         <div className="col-xs-11">
-                            <div className="btn-group btn-choices" role="group" aria-label="is broadcast">
+                            <div className="btn-group btn-choices select" role="group" aria-label="is broadcast">
                                 <button type="button" className={"btn btn-default" + (this.state.is_broadcast?'':' active')} onClick={this.onBroadcastChange.bind(this, false)}>Selected users</button>
                                 <button type="button" className={"btn btn-default" + (this.state.is_broadcast?' active':'')} onClick={this.onBroadcastChange.bind(this, true)}>My Team</button>
                             </div>
@@ -109,9 +109,9 @@ export default class Compose extends React.Component {
                     </Dropzone>
                     {this.state.attachments?(
                     <div>
-                        <div>{this.state.attachments.map((file) => {
+                        {this.state.attachments.map((file) => {
                             return (<div><i className="fa fa-file-text-o"/> {file.name}</div>)
-                            })}</div>
+                            })}
                     </div>
                         ):null}
                     <div className="pull-right">

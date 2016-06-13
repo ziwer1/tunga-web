@@ -20,7 +20,6 @@ function profile(state = {}, action) {
 function workItems(state = {}, action) {
     switch (action.type) {
         case ProfileActions.RETRIEVE_PROFILE_SUCCESS:
-        case ProfileActions.UPDATE_PROFILE_SUCCESS:
             var all_work = {};
             action.work.forEach((work) => {
                 all_work[work.id] = work;
@@ -41,7 +40,6 @@ function workItems(state = {}, action) {
 function workIds(state = [], action) {
     switch (action.type) {
         case ProfileActions.RETRIEVE_PROFILE_SUCCESS:
-        case ProfileActions.UPDATE_PROFILE_SUCCESS:
             return action.work.map((work) => {
                 return work.id;
             });
@@ -57,7 +55,6 @@ function workIds(state = [], action) {
 function educationItems(state = {}, action) {
     switch (action.type) {
         case ProfileActions.RETRIEVE_PROFILE_SUCCESS:
-        case ProfileActions.UPDATE_PROFILE_SUCCESS:
             var all_education = {};
             action.education.forEach((education) => {
                 all_education[education.id] = education;
@@ -78,7 +75,6 @@ function educationItems(state = {}, action) {
 function educationIds(state = [], action) {
     switch (action.type) {
         case ProfileActions.RETRIEVE_PROFILE_SUCCESS:
-        case ProfileActions.UPDATE_PROFILE_SUCCESS:
             return action.education.map((education) => {
                 return education.id;
             });

@@ -27,15 +27,41 @@ export const RETRIEVE_TASK_META_SUCCESS = 'RETRIEVE_TASK_META_SUCCESS';
 export const RETRIEVE_TASK_META_FAILED = 'RETRIEVE_TASK_META_FAILED';
 
 
-export function createTask(task) {
+export function createTask(task, attachments) {
     return dispatch => {
         dispatch(createTaskStart(task));
-        axios.post(ENDPOINT_TASK, task)
-            .then(function(response) {
-                dispatch(createTaskSuccess(response.data))
-            }).catch(function(response) {
+
+        if(attachments.length) {
+            var data = new FormData();
+            Object.keys(task).map((key, idx) => {
+                if((Array.isArray(task[key]) && task[key].length) || (!Array.isArray(task[key]) && task[key] != null)) {
+                    data.append(key, task[key]);
+                }
+            });
+
+            attachments.map((file, idx) => {
+                data.append('file' + idx, file);
+            });
+
+            $.ajax({
+                url: ENDPOINT_TASK,
+                type: "POST",
+                data: data,
+                processData: false,
+                contentType: false
+            }).then(function (data) {
+                dispatch(createTaskSuccess(data))
+            }, function (data) {
+                dispatch(createTaskFailed(data));
+            });
+        } else {
+            axios.post(ENDPOINT_TASK, task)
+                .then(function(response) {
+                    dispatch(createTaskSuccess(response.data))
+                }).catch(function(response) {
                 dispatch(createTaskFailed(response.data))
             });
+        }
     }
 }
 

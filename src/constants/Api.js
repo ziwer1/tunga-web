@@ -90,14 +90,14 @@ export const VISIBILITY_CUSTOM = 3;
 export const VISIBILITY_ONLY_ME = 4;
 
 export const TASK_VISIBILITY_CHOICES = [
-    {id: VISIBILITY_DEVELOPERS, name: 'All Coders'},
-    {id: VISIBILITY_MY_TEAM, name: 'My Team'},
-    {id: VISIBILITY_CUSTOM, name: 'Select developers'}
+    {id: VISIBILITY_DEVELOPERS, name: 'All developers'},
+    {id: VISIBILITY_MY_TEAM, name: 'Only my team'},
+    {id: VISIBILITY_CUSTOM, name: 'Select developer(s)'}
 ];
 
 export const SETTINGS_VISIBILITY_CHOICES = [
     {id: VISIBILITY_DEVELOPERS, name: 'All developers'},
-    {id: VISIBILITY_MY_TEAM, name: 'My team only'},
+    {id: VISIBILITY_MY_TEAM, name: 'Only my team'},
     {id: VISIBILITY_ONLY_ME, name: 'Only me'}
 ];
 

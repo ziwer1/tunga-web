@@ -54,6 +54,7 @@
     "less": "^2.5.3",
     "less-loader": "^2.2.1",
     "open-browser-webpack-plugin": "0.0.1",
+    "redux-logger": "^2.6.1",
     "script-loader": "^0.6.1",
     "style-loader": "^0.13.0",
     "url-loader": "^0.5.6",
