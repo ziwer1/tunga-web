@@ -1,9 +1,11 @@
 import { createStore, applyMiddleware, compose } from 'redux'
+import { browserHistory } from 'react-router'
+import { routerMiddleware } from 'react-router-redux'
 import thunk from 'redux-thunk'
 import createLogger from 'redux-logger'
 import TungaApp from './reducers/index'
 
-var enabled_middleware = [thunk];
+var enabled_middleware = [thunk, routerMiddleware(browserHistory)];
 var compose_args = [];
 
 if(__DEV__ || __PRERELEASE__) {

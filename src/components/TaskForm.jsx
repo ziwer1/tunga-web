@@ -26,7 +26,7 @@ export default class TaskForm extends React.Component {
         this.state = {
             deadline: null, skills: [], description: '', visibility: VISIBILITY_DEVELOPERS,
             assignee: null, participants: [], schedule_options, schedule_map,
-            step: 1, schedule: null, attachments: []
+            step: 1, schedule: null, attachments: [], showAll: false
         };
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -55,7 +55,7 @@ export default class TaskForm extends React.Component {
                 this.refs.task_form.reset();
                 this.setState({
                     deadline: null, skills: [], description: '', visibility: VISIBILITY_DEVELOPERS,
-                    assignee: null, participants: [], schedule: null, attachments: []
+                    assignee: null, participants: [], schedule: null, attachments: [], showAll: false
                 });
                 if(this.props.history) {
                     this.props.history.replaceState(null, '/task/'+ Task.detail.task.id);
@@ -66,7 +66,6 @@ export default class TaskForm extends React.Component {
 
     changeStep(direction=true) {
         var next_step = this.state.step + (direction?1:-1);
-        console.log(next_step);
         this.setState({step: next_step})
     }
 
@@ -139,6 +138,12 @@ export default class TaskForm extends React.Component {
         this.refs.dropzone.open();
     }
 
+    showAll(e) {
+        if(!this.refs.task_form.checkValidity()) {
+            this.setState({showAll: true});
+        }
+    }
+
     handleSubmit(e) {
         e.preventDefault();
         var title = this.refs.title.value.trim();
@@ -177,6 +182,7 @@ export default class TaskForm extends React.Component {
         const { Task } = this.props;
         const task = this.props.task || {};
         const description = this.props.task?task.description:'';
+        const has_error = Task.detail.error.create || Task.detail.error.update;
         return (
             <div>
                 {task.id?null:(
@@ -188,7 +194,7 @@ export default class TaskForm extends React.Component {
                                 message={'Task saved successfully'}
                                 error={Task.detail.error.create || Task.detail.error.update}/>
 
-                    <div className={[2,3].indexOf(this.state.step) == -1?null:'sr-only'}>
+                    <div className={[2,3].indexOf(this.state.step) == -1 || has_error || this.state.showAll?null:'sr-only'}>
                         {(Task.detail.error.create && Task.detail.error.create.title)?
                             (<FieldError message={Task.detail.error.create.title}/>):null}
                         {(Task.detail.error.update && Task.detail.error.update.title)?
@@ -220,7 +226,7 @@ export default class TaskForm extends React.Component {
                         </div>
                     </div>
 
-                    <div className={this.state.step == 2?null:'sr-only'}>
+                    <div className={this.state.step == 2 || has_error || this.state.showAll?null:'sr-only'}>
                         {(Task.detail.error.create && Task.detail.error.create.fee)?
                             (<FieldError message={Task.detail.error.create.fee}/>):null}
                         {(Task.detail.error.update && Task.detail.error.update.fee)?
@@ -294,7 +300,7 @@ export default class TaskForm extends React.Component {
                         </div>
                     </div>
 
-                    <div className={this.state.step == 3?null:'sr-only'}>
+                    <div className={this.state.step == 3 || has_error || this.state.showAll?null:'sr-only'}>
                         {(Task.detail.error.create && Task.detail.error.create.visibility)?
                             (<FieldError message={Task.detail.error.create.visibility}/>):null}
                         {(Task.detail.error.update && Task.detail.error.update.visibility)?
@@ -334,7 +340,7 @@ export default class TaskForm extends React.Component {
                         </div>
 
                         <div className="text-center">
-                            <button type="submit" className="btn btn-default btn-action" disabled={Task.detail.isSaving}>{task.id?'Update task':'Publish task'}</button>
+                            <button type="submit" onClick={this.showAll.bind(this)} className="btn btn-default btn-action" disabled={Task.detail.isSaving}>{task.id?'Update task':'Publish task'}</button>
                         </div>
                     </div>
                     <div className="nav pull-right">

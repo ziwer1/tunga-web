@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux'
+import { routerReducer } from 'react-router-redux'
 import Auth from './AuthReducers'
 import Profile from './ProfileReducers'
 import Settings from './SettingsReducers'
@@ -25,7 +26,8 @@ const TungaApp = combineReducers({
     Reply,
     UserSelection,
     SkillSelection,
-    Utility
+    Utility,
+    routing: routerReducer
 });
 
 export default TungaApp;
