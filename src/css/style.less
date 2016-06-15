@@ -1205,3 +1205,126 @@ form[name='compose'] {
     }
     /*LARGE SCREENS*/
 }
+
+/* Singup Landing Page Styles - Added by Jonathan */
+
+// fix left padding and top padding from grid.less
+.container-fluid {
+    padding-left: 0;
+}
+
+section.signup-lp {
+    min-height: 100%;
+    background-image: url(../images/body-bg.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+
+/* Account information section */
+.acct-type-container {
+    text-align: center;
+    width: 50%;
+    margin: 0 auto;
+}
+
+.crt-acc-heading {
+    color: white;
+    margin-bottom: 50px;
+    margin-top: 35px;
+    font-size: 28px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+}
+
+.crt-info-text, .crt-acc-signup-txt {
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+}
+
+.acct-type-btn {
+    border-radius: 0;
+    width: 285px;
+    color: #f41152;
+    background: rgba(255,255,255,0.8);
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+}
+
+.acct-type-container > button {
+    margin-bottom: 4px;
+}
+
+
+/* Responsify the account heading */
+@media (max-width: 730px) {
+    .crt-acc-heading {
+        font-size: 26px;
+    }
+}
+
+@media (max-width: 680px ) {
+    .crt-acc-heading {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 600px ) {
+    .acct-type-container {
+        width: auto;
+    }
+}
+
+/* Signup Page */
+.crt-acc-signup-txt {
+    margin-top: -20px;
+}
+
+.social-media-section {
+    margin-left: -45px;
+}
+
+.social-media-section ul li {
+    list-style: none;
+    display: inline;
+}
+
+.social-media-section ul li i {
+    font-size: 3em;
+    color: white;
+    margin-right: 5px;
+}
+
+.acct-type-or-txt {
+    margin-bottom: 20px;
+    color: white;
+}
+
+/* form */
+.form-elements-container {
+    width: 60%;
+    margin: 0 auto;
+}
+
+.form-elements-container input, .signup-btn {
+    border-radius: 0;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+}
+
+.signup-btn {
+    width: 70%;
+    margin-bottom: 20%;
+}
+
+.acct-type-btn {
+    text-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}

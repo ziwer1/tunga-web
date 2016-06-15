@@ -19,6 +19,7 @@ import App from 'containers/App'
 import LandingPage from 'containers/LandingPage'
 import Home from 'containers/Home'
 import SignInPage from 'containers/SignInPage'
+import SignupLandingPage from 'containers/SignupLandingPage'
 import SignUpPage from 'containers/SignUpPage'
 import PasswordResetPage from 'containers/PasswordResetPage'
 import PasswordResetConfirmPage from 'containers/PasswordResetConfirmPage'
@@ -52,7 +53,7 @@ ReactDOM.render(
             <Route path="/" component={App}>
                 <IndexRoute component={LandingPage}/>
                 <Route path="signin" component={SignInPage} />
-                <Route path="signup" component={SignUpPage} />
+                <Route path="signup" component={SignupLandingPage} />
                 <Route path="reset-password" component={PasswordResetPage} />
                 <Route path="reset-password/confirm/:uid/:token" component={PasswordResetConfirmPage} />
                 <Route path="home" component={Home} />
