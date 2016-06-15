@@ -8,8 +8,6 @@ import * as UtilityActions from '../actions/UtilityActions'
 import Success from '../components/status/Success'
 import Error from '../components/status/Error'
 
-//import "expose?player!js/learn-video.js";
-
 class LandingPage extends React.Component {
     constructor(props) {
         super(props);
@@ -209,14 +207,14 @@ class LandingPage extends React.Component {
                         <h2><span className="h2-bold">Meet</span> our developers</h2>
                         <p>Tunga works with a vetted community of coders with proven and tested skills. To control costs, you pay per result and not per hour. Tunga also works with private repositories and our developers can sign an NDA if required. Meet some of them here:</p>
                         <div className="row" id="our-devs">
-                            <div className="col-xs-6 col-sm-4 col-md-3"><Link to="/signup"><img src={require("../images/devs/emunotzw.jpg")} className="img-responsive"/></Link></div>
-                            <div className="col-xs-6 col-sm-4 col-md-3"><Link to="/signup"><img src={require("../images/devs/zwAdeline.jpg")} className="img-responsive"/></Link></div>
-                            <div className="col-xs-6 col-sm-4 col-md-3"><Link to="/signup"><img src={require("../images/devs/zwJoe.jpg")} className="img-responsive"/></Link></div>
-                            <div className="col-xs-6 col-sm-4 col-md-3"><Link to="/signup"><img src={require("../images/devs/zwJonathan.png")} className="img-responsive"/></Link></div>
-                            <div className="col-xs-6 col-sm-4 col-md-3"><Link to="/signup"><img src={require("../images/devs/zwKenneth.jpg")} className="img-responsive"/></Link></div>
-                            <div className="col-xs-6 col-sm-4 col-md-3"><Link to="/signup"><img src={require("../images/devs/zwRonald.jpg")} className="img-responsive"/></Link></div>
-                            <div className="col-xs-6 col-sm-4 col-md-3"><Link to="/signup"><img src={require("../images/devs/zwRoy.jpg")} className="img-responsive"/></Link></div>
-                            <div className="col-xs-6 col-sm-4 col-md-3"><Link to="/signup"><img src={require("../images/devs/Davidzw.jpg")} className="img-responsive"/></Link></div>
+                            <div className="col-xs-6 col-sm-4 col-md-3"><Link to="/signup"><img src={require("../images/devs/Emunot.jpg")} className="img-responsive"/></Link></div>
+                            <div className="col-xs-6 col-sm-4 col-md-3"><Link to="/signup"><img src={require("../images/devs/Adeline.jpg")} className="img-responsive"/></Link></div>
+                            <div className="col-xs-6 col-sm-4 col-md-3"><Link to="/signup"><img src={require("../images/devs/Joe.jpg")} className="img-responsive"/></Link></div>
+                            <div className="col-xs-6 col-sm-4 col-md-3"><Link to="/signup"><img src={require("../images/devs/Jonathan.jpg")} className="img-responsive"/></Link></div>
+                            <div className="col-xs-6 col-sm-4 col-md-3"><Link to="/signup"><img src={require("../images/devs/Kenneth.jpg")} className="img-responsive"/></Link></div>
+                            <div className="col-xs-6 col-sm-4 col-md-3"><Link to="/signup"><img src={require("../images/devs/Ronald.jpg")} className="img-responsive"/></Link></div>
+                            <div className="col-xs-6 col-sm-4 col-md-3"><Link to="/signup"><img src={require("../images/devs/Roy.jpg")} className="img-responsive"/></Link></div>
+                            <div className="col-xs-6 col-sm-4 col-md-3"><Link to="/signup"><img src={require("../images/devs/David.jpg")} className="img-responsive"/></Link></div>
                         </div>
                         <div className="row text-center"><Link to="/signup" className="btn btn-default" id="join-btn">JOIN OUR TEAM</Link></div>
                     </div>
