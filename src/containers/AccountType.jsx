@@ -12,7 +12,7 @@ class AccountType extends Component {
 				            <div className="acct-type-container">
 
 				                <h2 className="crt-acc-heading">Create your Tunga account</h2>
-				                <p className="crt-info-text">I want to...</p>
+				                <p className="crt-info-text">I want to ...</p>
 
 			                  	<button value={USER_TYPE_CHOICES[1].id} onClick={this.props.displayForm} className="btn btn-default acct-type-btn">
 			                    	create an account as a project owner
@@ -21,7 +21,6 @@ class AccountType extends Component {
 			                  	<button value={USER_TYPE_CHOICES[0].id} onClick={this.props.displayForm} className="btn btn-default acct-type-btn">
 			                  		apply as a developer
 			                  	</button>
-				                
 				            </div>
 			          	</div>
 		    		</div>

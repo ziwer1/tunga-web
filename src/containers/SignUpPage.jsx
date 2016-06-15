@@ -10,11 +10,6 @@ import { SOCIAL_LOGIN_URLS } from '../constants/Api'
 
 class SignUp extends React.Component {
 
-    constructor(props) {
-      super(props);
-      this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
     componentDidUpdate(prevProps, prevState) {
       if(this.props.Auth.isRegistered && !prevProps.Auth.isRegistered) {
         this.refs.signup_form.reset();
@@ -77,9 +72,9 @@ class SignUp extends React.Component {
                     </div>
 
                     <p className="acct-type-or-txt">or</p>
-                    
+
                     <div className="form-elements-container">
-                      <form onSubmit={this.handleSubmit} name="signup" role="form" ref="signup_form">
+                      <form onSubmit={this.handleSubmit.bind(this)} name="signup" role="form" ref="signup_form">
 
                         {Auth.isRegistering? (<Progress/>) : '' }
 
