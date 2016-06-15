@@ -112,7 +112,7 @@ function error(state = {}, action) {
     switch (action.type) {
         case AuthActions.LOGIN_FAILED:
             var error = action.error;
-            if(error.non_field_errors == 'Unable to log in with provided credentials.') {
+            if(error && error.non_field_errors == 'Unable to log in with provided credentials.') {
                 error.non_field_errors = 'Wrong username or password';
             }
             return {...state, auth: error};

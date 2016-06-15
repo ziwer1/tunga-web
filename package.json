@@ -2,7 +2,7 @@
   "name": "tunga-web",
   "scripts": {
     "build:dev": "webpack --progress --profile --colors",
-    "build": "set NODE_ENV=production && set BUILD_DEV=0 && webpack -p --config webpack.production.config.js --progress --profile --colors --optimize-minimize --optimize-dedupe",
+    "build": "set NODE_ENV=production && set BUILD_DEV=0 && set BUILD_PRERELEASE=0 && webpack -p --config webpack.production.config.js --progress --profile --colors --optimize-minimize --optimize-dedupe",
     "build:sandbox": "set NODE_ENV=production && set BUILD_DEV=0 && set BUILD_PRERELEASE=1 && webpack -p --config webpack.production.config.js --progress --profile --colors --optimize-minimize --optimize-dedupe",
     "watch:dev": "webpack-dev-server --hot --inline --progress --colors",
     "watch": "set NODE_ENV=production && set BUILD_DEV=0 && set BUILD_PRERELEASE=1 && webpack-dev-server --hot --inline --progress --colors",
