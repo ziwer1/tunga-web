@@ -1390,8 +1390,167 @@ section.signup-lp {
 .signup-btn {
     width: 70%;
     margin-bottom: 20%;
+    background: rgba(255, 255, 255, 0.8);
 }
 
 .mce-panel, .mce-btn, .mce-btn:hover {
     background-color: #fff !important;
+}
+
+.acct-type-btn {
+    text-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+form[name='signup'] div.form-group input {
+    background: rgba(255, 255, 255, 0.8);
+}
+
+/*   Login  Styles   */
+.login-form-container {
+    margin-top: 6%;
+    margin-bottom: 88px;
+}
+
+.login-form-container .form-elements-container {
+    width: 30%;
+    margin: 0 auto;
+}
+
+
+label {
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+}
+
+.forgot_passwd {
+    display: inline-block;
+    margin-top: 5px;
+    font-size: 16px;
+    color: white !important;
+    text-decoration: underline;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+}
+
+a.forgot_passwd:hover {
+    color: white !important;
+}
+
+.signin-btn {
+    border-radius: 0;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    width: 70%;
+    max-width: 35%;
+    float: right;
+    background: rgba(255, 255, 255, 0.8);
+    background-color: #e0e0e0;
+    background-position: 0 -15px;
+}
+
+.social-media-section-login {
+    width: 200px;
+    margin: 0 auto;
+    /* margin-bottom: 30px; */
+}
+
+.account-login-txt, .login_alternative {
+    text-align: center;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    font-size: 20px;
+}
+
+.login_alternative {
+    padding-top: 4px;
+}
+
+.login-form-container form input {
+    background-color: rgba(255,255,255,0.8);
+}
+
+/*  Login  Responsive  */
+@media (max-width: 1200px) {
+    .login-form-container .form-elements-container {
+        width: 35%;
+    }
+}
+
+
+@media (max-width: 990px) {
+    .login-form-container .form-elements-container {
+        width: 50%;
+    }
+
+    .col-sm-2 {
+        padding-right: 0;
+        padding-left: 0;
+    }
+}
+
+@media (max-width: 485px) {
+
+    .signin-btn {
+        max-width: 32%;
+        font-size: 12px;
+    }
+
+    .forgot_passwd {
+        font-size: 13px;
+        margin-top: 6px;
+    }
+
+    .col-sm-2 {
+        padding-right: 0;
+        padding-left: 0;
+    }
+}
+
+@media (max-width: 350px) {
+
+    .social-media-section-login {
+        margin-left: -35px;
+    }
+
+    .signin-btn {
+        max-width: 100%;
+        margin-right: 20px;
+    }
+
+    .forgot_passwd {
+        font-size: 16px;
+        margin-bottom: 12px;
+    }
+}
+
+/*  Password Resset Page Styles */
+
+.passwd-reset-btn {
+    border-radius: 0;
+    background: rgba(255, 255, 255, 0.8);
+    background-color: #e0e0e0;
+}
+
+.account-reset-txt {
+    text-align: left;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    font-size: 28px;
+}
+
+@media (max-width: 670px) {
+    .account-reset-txt {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 450px) {
+    .account-reset-txt {
+        font-size: 18px;
+    }
 }

@@ -49,27 +49,7 @@ class SignUp extends React.Component {
                     <h2 className="crt-acc-heading">Create your Tunga account</h2>
                     <p className="crt-acc-signup-txt">Sign up with</p>
 
-                    <div className="social-media-section">
-                      <ul>
-                        <li>
-                          <a rel="nofollow" href={ SOCIAL_LOGIN_URLS.facebook } className="facebook-button" title="Sign In with Facebook">
-                            <i className="fa fa-facebook-square" aria-hidden="true"></i>
-                          </a>
-                        </li>
-
-                        <li>
-                          <a rel="nofollow" href={ SOCIAL_LOGIN_URLS.google  } className="google-plus-button" title="Sign In with Google">
-                            <i className="fa fa-google-plus-square" aria-hidden="true"></i>
-                          </a>
-                        </li>
-
-                        <li>
-                          <a rel="nofollow" href={ SOCIAL_LOGIN_URLS.github } className="github-button" title="Sign In with GitHub">
-                            <i className="fa fa-github-square" aria-hidden="true"></i>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
+                    <SocialSignIn SOCIAL_MEDIA_LINKS_CLASSES={'social-media-section'} />
 
                     <p className="acct-type-or-txt">or</p>
 

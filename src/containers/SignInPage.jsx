@@ -28,31 +28,59 @@ class SignIn extends React.Component {
     render() {
         const {Auth} = this.props;
         return (
-            <div className="auth-form-wrapper">
-                <form onSubmit={this.handleSubmit} name="signin" role="signin" className="well">
-                    {Auth.isAuthenticating?
-                        (<Progress/>)
-                        :''}
-                    {Auth.error.auth?
-                        (<Error message={Auth.error.auth.non_field_errors || "Sorry, we couldn't log you in. Please try again."}/>)
-                        :''}
+            <section className="signup-lp">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-md-12 col-sm-12 col-xs-12">
+                            <div className="login-form-container">
+                              
+                                <div className="form-elements-container">
+                                    <form onSubmit={this.handleSubmit} name="signin" role="signin">
 
-                    <div className="form-group">
-                        <label className="control-label">Username</label>
-                        <div><input type="text" className="form-control" ref="username" required placeholder="Username"/></div>
+                                        <p className="account-login-txt">Sign in with</p>
+
+                                        <SocialSignIn SOCIAL_MEDIA_LINKS_CLASSES={'social-media-section social-media-section-login'} />
+
+                                        <div className="row">
+                                            <div className="col-md-5 col-sm-5 col-xs-5">
+                                                <hr />
+                                            </div>
+                                            
+                                            <div className="col-md-2 col-sm-2 col-xs-2">
+                                                <p className="login_alternative">or</p>
+                                            </div>
+
+                                            <div className="col-md-5 col-sm-5 col-xs-5">
+                                                <hr />
+                                            </div>
+                                        </div>
+
+                                        {Auth.isAuthenticating? (<Progress/>) :''}
+                                        {Auth.error.auth?
+                                        (<Error message={Auth.error.auth.non_field_errors || "Sorry, we couldn't log you in. Please try again."}/>) :''}
+
+                                        <div className="form-group">
+                                            <label for="username">Username</label>
+                                            <input type="text" className="form-control" name="username" ref="username" required placeholder="Username" />
+                                        </div>
+
+                                        <div className="form-group">
+                                            <label for="pwd">Password</label>
+                                            <input type="password" className="form-control" name="pwd" ref="password" required placeholder="Password" />
+                                        </div>
+
+                                        <Link to="/reset-password" className="forgot_passwd">Forgot Password?</Link>
+
+                                        <button type="submit" className="btn btn-default signin-btn" disabled={Auth.isAuthenticating}>Sign In</button>
+
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
-                    <div className="form-group">
-                        <label className="control-label">Password</label>
-                        <div><input type="password" className="form-control" ref="password" required placeholder="Password"/></div>
-                    </div>
-                    <Link to="/reset-password">Forgot Password?</Link>
-                    <button type="submit" className="btn btn-default pull-right" disabled={Auth.isAuthenticating}>Sign In</button>
-
-                    <div className="clearfix"></div>
-                    <SocialSignIn />
-                </form>
-            </div>
-
+                </div>
+            </section>
         );
     }
 }

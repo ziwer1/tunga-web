@@ -32,29 +32,44 @@ class PasswordReset extends React.Component {
         const { Auth } = this.props;
 
         return (
-            <div className="auth-form-wrapper">
-                <form onSubmit={this.handleSubmit} name="reset-form" role="form" className="well" ref="reset_form">
-                    <h2>Reset Password</h2>
-                    {Auth.isResetting?
-                        (<Progress/>)
-                        :null}
-                    {Auth.isReset?
-                        (<Success message="Instructions for resetting your password have been sent to your email."/>)
-                        :null}
-                    {Auth.error.reset?
-                        (<Error message={Auth.error.reset.non_field_errors || "Sorry, we couldn't reset your password. Please try again."}/>)
-                        :null}
+          <section className="signup-lp">
+            <div className="container">
+              <div className="row">
+                <div className="col-md-12 col-sm-12 col-xs-12">
+                  <div className="login-form-container">
 
-                    <div className="form-group">
-                        <label className="control-label">Email:</label>
-                        <div><input type="text" className="form-control" ref="email" required placeholder="Email"/></div>
+                    <div className="form-elements-container">
+                      <form onSubmit={this.handleSubmit} name="reset-form" role="form" ref="reset_form">
+
+                        <p className="account-reset-txt">Reset Password</p>
+
+                        {Auth.isResetting? (<Progress/>) :null}
+
+                        {Auth.isReset?
+                            (<Success message="Instructions for resetting your password have been sent to your email."/>) :null}
+
+                        {Auth.error.reset?
+                            (<Error message={Auth.error.reset.non_field_errors || "Sorry, we couldn't reset your password. Please try again."}/>) :null}
+
+                        <div className="form-group">
+                          <label for="email">Email:</label>
+                          <input type="email" className="form-control" ref="email" required placeholder="Email" />
+                        </div>
+
+                        <div className="row">
+                          <div className="col-md-6 col-sm-6 col-xs-6 pull-right">
+                            <button type="submit" className="btn btn-default pull-right passwd-reset-btn" disabled={Auth.isResetting}>Reset Password</button>
+                          </div>
+                        </div>
+
+                      </form>
                     </div>
-                    <button type="submit" className="btn btn-default pull-right" disabled={Auth.isResetting}>Reset Password</button>
 
-                    <div className="clearfix"></div>
-                </form>
+                  </div>
+                </div>
+              </div>
             </div>
-
+          </section>
         );
     }
 }
