@@ -4,6 +4,7 @@ import Auth from './AuthReducers'
 import Profile from './ProfileReducers'
 import Settings from './SettingsReducers'
 import Notification from './NotificationReducers'
+import Project from './ProjectReducers'
 import Task from './TaskReducers'
 import User from './UserReducers'
 import Comment from './CommentReducers'
@@ -19,6 +20,7 @@ const TungaApp = combineReducers({
     Profile,
     Settings,
     Notification,
+    Project,
     Task,
     User,
     Comment,

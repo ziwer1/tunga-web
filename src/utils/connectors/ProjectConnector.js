@@ -1,19 +1,19 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import * as CommentActions from '../actions/CommentActions'
+import * as ProjectActions from '../../actions/ProjectActions'
 
 function mapStateToProps(state) {
-    return {Auth: state.Auth, Comment: state.Comment};
+    return {Auth: state.Auth, Project: state.Project};
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        CommentActions: bindActionCreators(CommentActions, dispatch)
+        ProjectActions: bindActionCreators(ProjectActions, dispatch)
     }
 }
 
-export default function connectToComments(component) {
+export default function connectToProjects(component) {
     return connect(mapStateToProps, mapDispatchToProps)(component);
 };
 

@@ -1,7 +1,7 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import * as SkillSelectionActions from '../actions/SkillSelectionActions'
+import * as SkillSelectionActions from '../../actions/SkillSelectionActions'
 
 function mapStateToProps(state) {
     return {Auth: state.Auth, SkillSelection: state.SkillSelection};

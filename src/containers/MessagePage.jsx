@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router'
-import connect from '../utils/MessageConnector'
+import connect from '../utils/connectors/MessageConnector'
 
 class MessagePage extends React.Component {
 

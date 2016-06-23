@@ -15,6 +15,10 @@ import * as SkillSelectionActions from '../actions/SkillSelectionActions'
 import { UNAUTHED_ONLY_PATH, UNAUTHED_ACCESS_PATH, PROFILE_COMPLETE_PATH } from '../constants/patterns'
 
 class App extends React.Component {
+    static contextTypes = {
+        router: React.PropTypes.object.isRequired
+    };
+
     componentDidMount() {
         if(!this.props.Auth.isVerifying) {
             this.props.AuthActions.verify();
@@ -22,21 +26,27 @@ class App extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const { Auth, location, NavActions } = this.props;
+        const { router } = this.context;
+        const { Auth, location, NavActions, AuthActions } = this.props;
         if((prevProps.location.pathname != location.pathname) || (prevProps.Auth.isAuthenticated != Auth.isAuthenticated) || (prevProps.Auth.isVerifying != Auth.isVerifying && !Auth.isVerifying)) {
             if(UNAUTHED_ONLY_PATH.test(location.pathname) && Auth.isAuthenticated) {
-                this.props.history.replaceState(null, '/home');
+                var next = Auth.next;
+                if(!next) {
+                    next = '/home';
+                }
+                router.replace(next);
                 return;
             }
 
             if(!UNAUTHED_ACCESS_PATH.test(location.pathname) && !Auth.isAuthenticated) {
-                this.props.history.replaceState(null, '/signin');
+                AuthActions.authRedirect(location.pathname);
+                router.replace('/signin');
                 return;
             }
         }
 
         if(Auth.isAuthenticated && !Auth.user.type && !PROFILE_COMPLETE_PATH.test(location.pathname)) {
-            this.props.history.replaceState(null, '/profile/complete');
+            router.replace('/profile/complete');
             return;
         }
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import connect from '../utils/TaskConnector'
+import connect from '../utils/connectors/TaskConnector'
 
 class TaskPage extends React.Component {
 

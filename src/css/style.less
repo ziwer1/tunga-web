@@ -8,18 +8,26 @@
 @orange: #ff7e00;
 @side-bar-bg: #f5f5f5;
 
+.font-size(@sizeValue) {
+    @remValue: @sizeValue;
+    @pxValue: (@sizeValue * 10);
+    font-size: ~"@{pxValue}px";
+    font-size: ~"@{remValue}rem";
+}
+
 html {
     width: 100%;
     height: 100%;
 }
 
 body {
-    font-family: 'Roboto Light', sans-serif !important;
+    font-family: 'Roboto', sans-serif !important;
     padding: 0;
     width: 100%;
     height: 100%;
     overflow-x: hidden;
     word-break: break-word;
+    .font-size(1.4);
 }
 
 #content {
@@ -109,12 +117,30 @@ form {
     }
 }
 
+.modal-header {
+    border-bottom-width: 0;
+    padding-bottom: 0;
+}
+
+@media (min-width: 640px) {
+    .modal-md.modal-dialog {
+        width: 500px;
+        margin-top: 80px;
+    }
+
+}
+
 .modal form {
     margin: 0 auto;
 }
 
 .btn {
     margin: 2px;
+    text-shadow: none;
+}
+
+.btn.btn-primary {
+    outline-color: @brand !important;
 }
 
 .btn.btn-action {
@@ -143,6 +169,18 @@ form[name="task"] {
     }
 }
 
+form {
+    .step {
+        min-height: 450px;
+    }
+}
+
+form.steps-all {
+    .step {
+        min-height: auto;
+    }
+}
+
 .form-control, .input-group-addon, .btn {
     border-radius: 0;
 }
@@ -156,6 +194,15 @@ form[name="task"] {
 .input-group-addon {
     color: @brand;
     background-color: #fff;
+}
+
+form[name='comment'] {
+    .input-group-btn {
+        .btn {
+            background: #fff none;
+            color: #333;
+        }
+    }
 }
 
 .auth-form-wrapper {
@@ -401,6 +448,7 @@ form[name='compose'] {
 }
 
 .card, .well.card {
+    position: relative;
     background: #fff none;
     border-radius: 0;
     border-color: #ccc;
@@ -408,8 +456,7 @@ form[name='compose'] {
     padding-bottom: 10px;
 
     .title {
-        font-size: 20px;
-        margin-top: 5px;
+
     }
 
     .pledge {
@@ -471,7 +518,9 @@ form[name='compose'] {
     box-shadow: 3px 3px 2px #ddd;
 
     .title {
+        font-size: 20px;
         height: 44px;
+        margin-top: 5px;
         overflow-y: hidden;
     }
 
@@ -487,19 +536,48 @@ form[name='compose'] {
     }
 }
 
-.card.task {
-    .status {
-        .open {
-            color: @green;
+.card.application {
+    .title {
+        margin-top: 10px;
+        margin-bottom: 3px;
+    }
+
+    .description {
+        margin-top: 0;
+    }
+
+    .actions {
+        position: absolute;
+        top: 0;
+        right: 2px;
+
+        .btn {
+            border-color: #ccc;
+            margin: 0 2px;
         }
 
-        .in-progress {
-            color: @orange;
+        .btn:hover, btn:active {
+            color: @brand;
+            border-color: @brand;
         }
+    }
+}
 
-        .closed {
-            color: @red;
-        }
+.card.application.rejected {
+    opacity: 0.7;
+}
+
+.task-status {
+    .open {
+        color: @green;
+    }
+
+    .in-progress {
+        color: @orange;
+    }
+
+    .closed {
+        color: @red;
     }
 }
 
@@ -622,6 +700,23 @@ form[name='compose'] {
     color: #fff;
     border-color: @brand;
     margin-left: 5px;
+}
+
+.popup-actions {
+    margin: 10px auto;
+
+    .btn {
+        width: 100%;
+        color: #333;
+        background: #fff none;
+        border-color: #ccc;
+        margin: 0;
+    }
+
+    .btn:hover, .btn:active {
+        border-color: @brand;
+        outline-color: @brand;
+    }
 }
 
 .workflow-actions {
@@ -787,6 +882,8 @@ form[name='compose'] {
 
 .rating {
     color: @brand;
+    font-size: 25px;
+    margin-top: 5px;
 }
 
 
@@ -814,6 +911,165 @@ form[name='compose'] {
                 flex-grow: 1;
                 justify-content: flex-end;
             }
+        }
+    }
+}
+
+.workflow-head {
+    margin-bottom: 10px;
+
+    .dropdown {
+        .dropdown-toggle {
+            background: #fff none;
+            border-color: #ccc;
+        }
+
+        .dropdown-menu {
+            padding: 5px;
+            min-width: 100%;
+            border-radius: 0;
+        }
+
+        .dropdown-menu.workflow-actions {
+            .btn {
+                display: block;
+                width: 100%;
+                color: #333;
+                background-color: #fff;
+                border-color: #ccc;
+                margin: 2px 0;
+            }
+
+            .btn:hover, .btn:active {
+                color: @brand;
+                background-color: #fff;
+                border-color: @brand;
+            }
+
+            hr {
+                margin-top: 10px;
+                margin-bottom: 5px;
+            }
+        }
+    }
+}
+
+.timeline {
+    position: relative;
+    left: -8px;
+    height: 40px;
+    margin: 5px 10px;
+
+    .line {
+        position: absolute;
+        left: 0;
+        top: 18px;
+        width: 100%;
+        height: 3px;
+    }
+
+    .duration-line {
+        background-color: @brand;
+    }
+
+    .progress-line {
+        background-color: #333;
+    }
+
+    .event {
+        position: absolute;
+        top: 10px;
+        display: inline-block;
+        color: @brand;
+    }
+
+    .event.past {
+        color: #333;
+    }
+}
+
+.popover {
+    border-radius: 0;
+    border-color: @brand;
+
+    .popover-content {
+        .title {
+            margin: -10px -15px 5px;
+            padding: 9px 14px;
+            text-align: center;
+            color: #fff;
+            background-color: @brand;
+        }
+    }
+}
+
+.popover.top > .arrow {
+    border-top-color: @brand;
+}
+
+.popover.botom > .arrow {
+    border-botom-color: @brand;
+}
+
+.popover.left > .arrow {
+    border-left-color: @brand;
+}
+
+.popover.right > .arrow {
+    border-right-color: @brand;
+}
+
+.workflow-overview {
+    border: 1px solid #ccc;
+    display: flex;
+
+	.chatbox {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        border-right: 1px solid #ccc;
+        width: 70%;
+        height: 100%;
+
+		.card, .card.well {
+			border-width: 0;
+			margin: 0;
+			box-shadow: none;
+		}
+
+        .comment-box {
+
+        }
+
+        .list-box {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+
+            .comment-list {
+                overflow-x: hidden;
+                overflow-y: auto;
+            }
+        }
+	}
+
+    .sidebox {
+        width: 30%;
+        height: 100%;
+
+        .overview-details {
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+            box-shadow: 3px 3px 2px #ccc;
+            height: 50%;
+            overflow-y: auto;
+        }
+
+        .overview-files {
+            padding: 10px;
+            height: 50%;
+            overflow-y: auto;
         }
     }
 }
@@ -888,7 +1144,7 @@ form[name='compose'] {
     }
     #head-wrapper {
         height: 100%;
-        background-color: rgba(33, 33, 33, 0.68);
+        /*background-color: rgba(33, 33, 33, 0.68);*/
         color: #fff;
         padding-top: 24px;
     }
@@ -1418,11 +1674,12 @@ form[name='signup'] div.form-group input {
     margin: 0 auto;
 }
 
-
-label {
-    color: white;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 300;
+.signup-lp {
+    label {
+        color: white;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 300;
+    }
 }
 
 .forgot_passwd {

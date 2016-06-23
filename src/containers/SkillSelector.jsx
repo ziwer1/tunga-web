@@ -1,6 +1,6 @@
 import React from 'react'
 import _ from 'underscore'
-import connect from '../utils/SkillSelectionConnector'
+import connect from '../utils/connectors/SkillSelectionConnector'
 
 class SkillSelector extends React.Component {
 

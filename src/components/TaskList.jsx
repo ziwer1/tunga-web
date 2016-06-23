@@ -8,35 +8,54 @@ import SearchBox from './SearchBox'
 
 export default class TaskList extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {filter: null};
+    }
+
     componentDidMount() {
-        var filter = this.props.params.filter || null;
-        this.props.TaskActions.listTasks({filter});
+        var filter = null;
+        if(this.props.params && this.props.params.filter) {
+            filter = this.props.params.filter;
+        }
+        this.props.TaskActions.listTasks({filter, ...this.props.filters});
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if(prevProps.location.pathname != this.props.location.pathname) {
-            var filter = this.props.params.filter || null;
-            this.props.TaskActions.listTasks({filter});
+        if(prevProps.location && this.props.location && prevProps.location.pathname != this.props.location.pathname) {
+            var filter = null;
+            if(this.props.params && this.props.params.filter) {
+                filter = this.props.params.filter;
+            }
+            this.props.TaskActions.listTasks({filter, ...this.props.filters});
         }
     }
 
     render() {
-        const { Auth, Task, TaskActions, filter } = this.props;
+        const { Auth, Task, TaskActions, hide_header } = this.props;
+        var filter = null;
+        if(this.props.params && this.props.params.filter) {
+            filter = this.props.params.filter;
+        }
         return (
             <div>
-                <h2>{this.props.params.filter == 'my-tasks' && !Auth.user.is_developer?'My ':null}Tasks</h2>
-                {this.props.params.filter == 'my-tasks' && !Auth.user.is_developer?null:(
-                <ul className="nav nav-pills nav-top-filter">
-                    <li role="presentation"><IndexLink to="/task" activeClassName="active">All Tasks</IndexLink></li>
-                    <li role="presentation"><Link to="/task/filter/skills" activeClassName="active">My Skills</Link></li>
-                    <li role="presentation"><Link to="/task/filter/project-owners" activeClassName="active">My Companies</Link></li>
-                    <li role="presentation"><Link to="/task/filter/saved" activeClassName="active">Saved</Link></li>
-                    {Auth.user.is_developer?(
-                    <li role="presentation"><Link to="/task/filter/my-tasks" activeClassName="active">My Tasks</Link></li>
-                        ):null}
-                </ul>
+                {this.props.hide_header?null:(
+                <div>
+                    <h2>{filter == 'my-tasks' && !Auth.user.is_developer?'My ':null}Tasks</h2>
+                    {filter == 'my-tasks' && !Auth.user.is_developer?null:(
+                    <ul className="nav nav-pills nav-top-filter">
+                        <li role="presentation"><IndexLink to="/task" activeClassName="active">All Tasks</IndexLink></li>
+                        <li role="presentation"><Link to="/task/filter/skills" activeClassName="active">My Skills</Link></li>
+                        <li role="presentation"><Link to="/task/filter/project-owners" activeClassName="active">My Clients</Link></li>
+                        <li role="presentation"><Link to="/task/filter/saved" activeClassName="active">Saved</Link></li>
+                        {Auth.user.is_developer?(
+                        <li role="presentation"><Link to="/task/filter/my-tasks" activeClassName="active">My Tasks</Link></li>
+                            ):null}
+                    </ul>
+                        )}
+                    <SearchBox filter={{filter: filter, ...this.props.filters}} placeholder="Search for tasks" onSearch={TaskActions.listTasks}/>
+                </div>
                     )}
-                <SearchBox filter={{filter: filter}} placeholder="Search for tasks" onSearch={TaskActions.listTasks}/>
                 {Task.list.isFetching?
                     (<Progress/>)
                     :

@@ -1,17 +1,24 @@
 import React from 'react'
-import connect from '../utils/CommentConnector'
+import connect from '../utils/connectors/CommentConnector'
 import CommentForm from '../components/CommentForm'
 import CommentList from '../components/CommentList'
 
 class CommentSection extends React.Component {
 
-    render() {
-        const { Auth, Comment, CommentActions, object_details, filter } = this.props;
-        return (
-            <div>
-                <CommentList filter={filter} Comment={Comment} CommentActions={CommentActions}/>
+    renderChildren() {
+        return React.Children.map(this.props.children, function (child) {
+            return React.cloneElement(child, {
+                Auth: this.props.Auth,
+                Comment: this.props.Comment,
+                CommentActions: this.props.CommentActions
+            });
+        }.bind(this));
+    }
 
-                <CommentForm object_details={object_details} Comment={Comment} CommentActions={CommentActions} Auth={Auth}/>
+    render() {
+        return (
+            <div className={this.props.className}>
+                {this.renderChildren()}
             </div>
         );
     }

@@ -15,10 +15,15 @@ export default class Task extends React.Component {
         this.props.TaskActions.retrieveTask(this.props.params.id);
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        if(prevProps.location.pathname != this.props.location.pathname) {
-            this.props.TaskActions.retrieveTask(this.props.params.id);
-        }
+    renderChildren() {
+        return React.Children.map(this.props.children, function (child) {
+            return React.cloneElement(child, {
+                Auth: this.props.Auth,
+                Task: this.props.Task,
+                task: this.props.Task.detail,
+                TaskActions: this.props.TaskActions
+            });
+        }.bind(this));
     }
 
     render() {
@@ -26,30 +31,30 @@ export default class Task extends React.Component {
         const { task, meta } = Task.detail;
 
         return (
+            Task.detail.isRetrieving?
+            (<Progress/>)
+            :task.id?(
             <div>
-                {Task.detail.isRetrieving?
-                    (<Progress/>)
-                    :task.id?(
-                <div>
-                    <Helmet
-                        title={task.summary}
-                        meta={[
+                <Helmet
+                    title={task.summary}
+                    meta={[
                             {"name": "description", "content": task.description || task.summary},
                             {"name": "participation", "content": meta.participation},
                             {"name": "tunga", "content": meta.payment}
                         ]}
-                    />
-                    {task.user == Auth.user.id || task.is_participant || Auth.user.is_staff?(
+                />
+                {task.user == Auth.user.id || task.is_participant || Auth.user.is_staff?(
+                <div>
                     <TaskWorflow Auth={Auth} Task={Task} TaskActions={TaskActions} params={params}/>
-                        ):(
-                    <TaskDetail Auth={Auth} Task={Task} TaskActions={TaskActions} params={params}/>
-                        )}
+                    {this.renderChildren()}
                 </div>
                     ):(
-                <div className="alert alert-danger">Task not found</div>
+                <TaskDetail Auth={Auth} Task={Task} TaskActions={TaskActions} params={params}/>
                     )}
             </div>
-
+        ):(
+            <div className="alert alert-danger">Task not found</div>
+        )
         );
     }
 }

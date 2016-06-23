@@ -3,7 +3,7 @@ import { Link } from 'react-router'
 import Progress from '../components/status/Progress'
 import Error from '../components/status/Error'
 import SocialSignIn from '../components/SocialSignIn'
-import connect from '../utils/AuthConnector'
+import connect from '../utils/connectors/AuthConnector'
 
 class SignIn extends React.Component {
     constructor(props) {

@@ -1,14 +1,14 @@
 import React from 'react'
-import connect from '../utils/connectors/UserConnector'
+import connect from '../utils/connectors/ProjectConnector'
 
-class UserPage extends React.Component {
+class ProjectPage extends React.Component {
 
     renderChildren() {
         return React.Children.map(this.props.children, function (child) {
             return React.cloneElement(child, {
                 Auth: this.props.Auth,
-                User: this.props.User,
-                UserActions: this.props.UserActions
+                Project: this.props.Project,
+                ProjectActions: this.props.ProjectActions
             });
         }.bind(this));
     }
@@ -22,4 +22,4 @@ class UserPage extends React.Component {
     }
 }
 
-export default connect(UserPage);
+export default connect(ProjectPage);

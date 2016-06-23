@@ -29,6 +29,17 @@ function ids(state = [], action) {
             return action.items.map((application) => {
                 return application.id;
             });
+        case ApplicationActions.UPDATE_APPLICATION_SUCCESS:
+            if(action.application.responded && !action.application.accepted) {
+                var idx = state.indexOf(action.application.id);
+                if(idx > -1) {
+                    return [...state.slice(0, idx), ...state.slice(idx+1), action.application.id];
+                }
+                var application = state[action.application.id];
+                var new_ref = action.application;
+                new_ref[application.id] = action.application;
+            }
+            return state;
         case ApplicationActions.LIST_APPLICATIONS_START:
         case ApplicationActions.LIST_APPLICATIONS_FAILED:
             return [];

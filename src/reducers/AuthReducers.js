@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux'
 import * as AuthActions from '../actions/AuthActions'
 import * as ProfileActions from '../actions/ProfileActions'
+import { running as runningProjects } from './ProjectReducers'
+import { running as runningTasks } from './TaskReducers'
 
 function user(state = {}, action) {
     switch (action.type) {
@@ -139,6 +141,22 @@ function error(state = {}, action) {
     }
 }
 
+function next(state = null, action) {
+    switch (action.type) {
+        case AuthActions.AUTH_REDIRECT:
+            return action.path;
+        case AuthActions.LOGOUT_SUCCESS:
+            return null;
+        default:
+            return state;
+    }
+}
+
+const running = combineReducers({
+    projects: runningProjects,
+    tasks: runningTasks
+});
+
 const Auth = combineReducers({
     user,
     isAuthenticating,
@@ -148,7 +166,9 @@ const Auth = combineReducers({
     isRegistered,
     isResetting,
     isReset,
-    error
+    error,
+    next,
+    running
 });
 
 export default Auth;

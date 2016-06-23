@@ -1,18 +1,20 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import * as SettingsActions from '../actions/SettingsActions'
+import * as ReplyActions from '../../actions/ReplyActions'
 
 function mapStateToProps(state) {
-    return {Auth: state.Auth, Settings: state.Settings};
+    return {Auth: state.Auth, Reply: state.Reply};
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        SettingsActions: bindActionCreators(SettingsActions, dispatch)
+        ReplyActions: bindActionCreators(ReplyActions, dispatch)
     }
 }
 
-export default function connectToSettings(component) {
+export default function connectToReplies(component) {
     return connect(mapStateToProps, mapDispatchToProps)(component);
 };
+
+

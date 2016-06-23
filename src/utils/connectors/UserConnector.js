@@ -1,8 +1,8 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import * as UserActions from '../actions/UserActions'
-import * as ConnectionActions from '../actions/ConnectionActions'
+import * as UserActions from '../../actions/UserActions'
+import * as ConnectionActions from '../../actions/ConnectionActions'
 
 function mapStateToProps(state) {
     return {Auth: state.Auth, User: state.User};

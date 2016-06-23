@@ -5,6 +5,7 @@ import Progress from './status/Progress'
 import FormStatus from './status/FormStatus'
 import FieldError from './status/FieldError'
 import {TINY_MCE_CONFIG } from '../constants/settings'
+import { nl_to_br } from '../utils/html'
 
 export default class CommentForm extends React.Component {
     constructor(props) {
@@ -21,7 +22,10 @@ export default class CommentForm extends React.Component {
     }
 
     onBodyChange(e) {
-        this.setState({body: e.target.getContent()});
+        this.setState({body: e.target.value.trim()});
+        if (e.keyCode === 13 && e.ctrlKey) {
+            this.handleSubmit(e);
+        }
     }
 
     onDrop(attachments) {
@@ -35,7 +39,9 @@ export default class CommentForm extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        var body = this.state.body;
+        //var body = markdown.toHTML(this.state.body);
+        var body = nl_to_br(this.state.body);
+		console.log(body);
         const attachments = this.state.attachments;
         const { CommentActions, object_details } = this.props;
         CommentActions.createComment({ ...object_details, body}, attachments);
@@ -45,45 +51,38 @@ export default class CommentForm extends React.Component {
     render() {
         const { Comment } = this.props;
         return (
-            <div className="well card">
-                <form onSubmit={this.handleSubmit} name="comment" role="comment" ref="comment_form">
-                    <FormStatus loading={Comment.detail.isSaving}
-                                error={Comment.detail.error.create}/>
+            <form onSubmit={this.handleSubmit} name="comment" role="comment" ref="comment_form">
+                <FormStatus loading={Comment.detail.isSaving}
+                            error={Comment.detail.error.create}/>
 
-                    {(Comment.detail.error.create && Comment.detail.error.create.body)?
-                        (<FieldError message={Comment.detail.error.create.body}/>):''}
-                    <div className="form-group">
-                        <div>
-                            <TinyMCE
-                                config={TINY_MCE_CONFIG}
-                                onChange={this.onBodyChange.bind(this)}/>
-                        </div>
-                    </div>
+                <Dropzone ref="dropzone" onDrop={this.onDrop.bind(this)} style={{display: 'none'}}>
+                    <div>Try dropping some files here, or click to select files to upload.</div>
+                </Dropzone>
+                {this.state.attachments?(
+                <div>
+                    {this.state.attachments.map((file) => {
+                        return (<div><i className="fa fa-file-text-o"/> {file.name}</div>)
+                        })}
+                </div>
+                    ):null}
 
-                    <Dropzone ref="dropzone" onDrop={this.onDrop.bind(this)} style={{display: 'none'}}>
-                        <div>Try dropping some files here, or click to select files to upload.</div>
-                    </Dropzone>
-                    {this.state.attachments?(
-                    <div>
-                        <div>{this.state.attachments.map((file) => {
-                            return (<div><i className="fa fa-file-text-o"/> {file.name}</div>)
-                            })}</div>
-                    </div>
-                        ):null}
-
-                    <div className="pull-right">
-                        <button type="button" className="btn btn-default" style={{marginRight: '5px'}}
-                                onClick={this.onAddAttachment.bind(this)}>
-                            <i className="fa fa-paperclip"/> Add attachment
-                        </button>
-                        <button type="submit" className="btn btn-default pull-right" disabled={Comment.detail.isSaving}>
-                            Comment
-                        </button>
-                    </div>
-                    <div className="clearfix"></div>
-                </form>
-            </div>
-
+                {(Comment.detail.error.create && Comment.detail.error.create.body)?
+                    (<FieldError message={Comment.detail.error.create.body}/>):''}
+                <div className="input-group">
+                        <span className="input-group-btn">
+                            <button type="button" className="btn btn-default" onClick={this.onAddAttachment.bind(this)}>
+                                <i className="fa fa-paperclip"/>
+                            </button>
+                        </span>
+                        <textarea type="text" className="form-control" placeholder="Write your message here" rows="1"
+                                  onKeyUp={this.onBodyChange.bind(this)}/>
+                        <span className="input-group-btn">
+                            <button type="submit" className="btn btn-default"  disabled={Comment.detail.isSaving}>
+                                <i className="fa fa-paper-plane"/>
+                            </button>
+                        </span>
+                </div>
+            </form>
         );
     }
 }

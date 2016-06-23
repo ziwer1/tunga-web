@@ -31,17 +31,9 @@ export default class UserList extends React.Component {
         };
         return (
             <div>
-                {Auth.user.is_developer && ['developers', 'project-owners'].indexOf(this.props.params.filter) > -1?(
-                <div>
-                    <h2>Tunga Tribe</h2>
-                    <ul className="nav nav-pills nav-top-filter">
-                        <li role="presentation"><Link to="/member/filter/developers" activeClassName="active">Developers</Link></li>
-                        <li role="presentation"><Link to="/member/filter/project-owners" activeClassName="active">Project Owners</Link></li>
-                    </ul>
-                </div>
-                    ):(page_title[this.props.params.filter]?(
+                {page_title[this.props.params.filter]?(
                 <h2>{page_title[this.props.params.filter]}</h2>
-                    ):null)}
+                    ):null}
                 <SearchBox filter={{filter: filter}} placeholder="Search by name or skills" onSearch={UserActions.listUsers}/>
                 {User.list.isFetching?
                     (<Progress/>)

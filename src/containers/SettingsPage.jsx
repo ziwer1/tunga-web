@@ -4,7 +4,7 @@ import FormStatus from './../components/status/FormStatus'
 import FieldError from './../components/status/FieldError'
 import VisibilitySetting from './../components/VisibilitySetting'
 import SwitchSetting from './../components/SwitchSetting'
-import connect from '../utils/SettingsConnector'
+import connect from '../utils/connectors/SettingsConnector'
 
 import { USER_TYPE_DEVELOPER, SETTINGS_VISIBILITY_CHOICES, VISIBILITY_DEVELOPERS, VISIBILITY_CUSTOM } from '../constants/Api'
 

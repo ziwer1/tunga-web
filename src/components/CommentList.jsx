@@ -19,15 +19,14 @@ export default class CommentList extends React.Component {
     render() {
         const { Comment, CommentActions } = this.props;
         return (
-            <div>
-                {Comment.list.isFetching?
-                    (<Progress/>)
-                    :
-                    (<div>
-                        <LoadMore url={Comment.list.next} callback={CommentActions.listMoreComments}
-                                  loading={Comment.list.isFetchingMore} direction="up" text="Show older comments"/>
+            Comment.list.isFetching?
+                (<Progress/>)
+                :
+                (<div className="comment-list">
+                    <LoadMore url={Comment.list.next} callback={CommentActions.listMoreComments}
+                              loading={Comment.list.isFetchingMore} direction="up" text="Show older comments"/>
 
-                        {Comment.list.comments.map((comment) => {
+                    {Comment.list.comments.map((comment) => {
                         return(
                         <div className="well card media" key={comment.id}>
                             <div className="media-left">
@@ -42,11 +41,10 @@ export default class CommentList extends React.Component {
                                 {comment.uploads.length?(<Attachments attachments={comment.uploads}/>):null}
                             </div>
                         </div>
-                        );
+                            );
                         })}
-                    </div>)
-                    }
-            </div>
+                </div>)
+
         );
     }
 }

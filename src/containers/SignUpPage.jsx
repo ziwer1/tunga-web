@@ -4,7 +4,7 @@ import Error from '../components/status/Error'
 import Success from '../components/status/Success'
 import FieldError from '../components/status/FieldError'
 import SocialSignIn from '../components/SocialSignIn'
-import connect from '../utils/AuthConnector';
+import connect from '../utils/connectors/AuthConnector';
 
 import { SOCIAL_LOGIN_URLS } from '../constants/Api'
 

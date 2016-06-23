@@ -91,7 +91,7 @@ export function listTasks(filter) {
         dispatch(listTasksStart(filter));
         axios.get(ENDPOINT_TASK, {params: filter})
             .then(function(response) {
-                dispatch(listTasksSuccess(response.data))
+                dispatch(listTasksSuccess(response.data, filter))
             }).catch(function(response) {
                 dispatch(listTasksFailed(response.data))
             });
@@ -105,12 +105,13 @@ export function listTasksStart(filter) {
     }
 }
 
-export function listTasksSuccess(response) {
+export function listTasksSuccess(response, filter) {
     return {
         type: LIST_TASKS_SUCCESS,
         items: response.results,
         previous: response.previous,
-        next: response.next
+        next: response.next,
+        filter
     }
 }
 

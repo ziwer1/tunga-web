@@ -4,7 +4,7 @@ import FormStatus from '../components/status/FormStatus'
 import Error from '../components/status/Error'
 import FieldError from '../components/status/FieldError'
 import SocialSignIn from '../components/SocialSignIn'
-import connect from '../utils/AuthConnector'
+import connect from '../utils/connectors/AuthConnector'
 
 class PasswordResetConfirm extends React.Component {
     constructor(props) {

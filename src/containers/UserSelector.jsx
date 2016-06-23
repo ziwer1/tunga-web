@@ -1,7 +1,7 @@
 import React from 'react'
 import _ from 'underscore'
 import randomstring from 'randomstring'
-import connect from '../utils/UserSelectionConnector'
+import connect from '../utils/connectors/UserSelectionConnector'
 
 class UserSelector extends React.Component {
 

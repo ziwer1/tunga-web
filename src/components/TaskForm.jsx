@@ -1,5 +1,7 @@
 import React from 'react'
 import moment from 'moment'
+import _ from 'lodash'
+import {Button, OverlayTrigger, Tooltip, ButtonGroup} from 'react-bootstrap'
 import momentLocalizer from 'react-widgets/lib/localizers/moment'
 import DateTimePicker from 'react-widgets/lib/DateTimePicker'
 import TinyMCE  from 'react-tinymce'
@@ -9,12 +11,21 @@ import FormStatus from './status/FormStatus'
 import FieldError from './status/FieldError'
 import UserSelector from '../containers/UserSelector'
 import SkillSelector from '../containers/SkillSelector'
+import ComponentWithModal from './ComponentWithModal'
+import LargeModal from './ModalLarge'
+import MilestoneForm from './MilestoneForm'
+
 import { USER_TYPE_DEVELOPER, TASK_VISIBILITY_CHOICES, VISIBILITY_DEVELOPERS, VISIBILITY_CUSTOM, UPDATE_SCHEDULE_CHOICES } from '../constants/Api'
 import {TINY_MCE_CONFIG } from '../constants/settings'
 
 momentLocalizer(moment);
 
-export default class TaskForm extends React.Component {
+export default class TaskForm extends ComponentWithModal {
+
+    static contextTypes = {
+        router: React.PropTypes.object.isRequired
+    };
+
     constructor(props) {
         super(props);
         var schedule_options = [];
@@ -26,7 +37,7 @@ export default class TaskForm extends React.Component {
         this.state = {
             deadline: null, skills: [], description: '', visibility: VISIBILITY_DEVELOPERS,
             assignee: null, participants: [], schedule_options, schedule_map,
-            step: 1, schedule: null, attachments: [], showAll: false
+            step: 1, schedule: null, attachments: [], showAll: false, milestones: [], modalMilestone: null
         };
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -44,7 +55,10 @@ export default class TaskForm extends React.Component {
                     }
                 });
             }
-            this.setState({visibility: task.visibility, assignee, participants, description, schedule: this.getScheduleId()});
+            this.setState({
+                visibility: task.visibility, assignee, participants, description,
+                schedule: this.getScheduleId(), milestones: task.milestones
+            });
         }
     }
 
@@ -55,11 +69,11 @@ export default class TaskForm extends React.Component {
                 this.refs.task_form.reset();
                 this.setState({
                     deadline: null, skills: [], description: '', visibility: VISIBILITY_DEVELOPERS,
-                    assignee: null, participants: [], schedule: null, attachments: [], showAll: false
+                    assignee: null, participants: [], schedule: null, attachments: [], showAll: false,
+                    step: 1, milestones: [], modalMilestone: null
                 });
-                if(this.props.history) {
-                    this.props.history.replaceState(null, '/task/'+ Task.detail.task.id);
-                }
+                const { router } = this.context;
+                router.replace('/task/'+ Task.detail.task.id);
             }
         }
     }
@@ -162,14 +176,21 @@ export default class TaskForm extends React.Component {
         if(assignee) {
             participants.push(assignee);
         }
+        var milestones = this.state.milestones;
 
-        const { TaskActions } = this.props;
+        const { TaskActions, project } = this.props;
+        var project_id = null;
+        if(project) {
+            project_id = project.id;
+        } else {
+            project_id = this.refs.project.value.trim();
+        }
         const task = this.props.task || {};
         const selected_skills = this.state.skills;
         const skills = selected_skills.join(',');
         const attachments = this.state.attachments;
 
-        const task_info = {title, description, skills, url, fee, deadline, visibility, ...update_schedule, assignee, participants};
+        const task_info = {project: project_id, title, description, skills, url, fee, deadline, visibility, ...update_schedule, assignee, participants, milestones};
         if(task.id) {
             TaskActions.updateTask(task.id, task_info);
         } else {
@@ -178,23 +199,52 @@ export default class TaskForm extends React.Component {
         return;
     }
 
+    onComposeMilestone(milestone) {
+        this.setState({modalMilestone: milestone});
+        this.open();
+    }
+
+    onAddMilestone(milestone){
+        var new_milestones = this.state.milestones;
+        if(milestone.idx > -1) {
+            new_milestones[milestone.idx] = milestone;
+        } else {
+            new_milestones = [...new_milestones, milestone];
+        }
+        this.setState({milestones: new_milestones});
+    }
+
+    renderModalContent() {
+        return (
+            <div>
+                <LargeModal title="Add milestone" show={this.state.showModal} onHide={this.close.bind(this)}>
+                    <MilestoneForm
+                        milestone={this.state.modalMilestone}
+                        onSave={this.onAddMilestone.bind(this)}
+                        close={this.close.bind(this)}/>
+                </LargeModal>
+            </div>
+        );
+    }
+
     render() {
-        const { Task } = this.props;
+        const { Auth, Task, project } = this.props;
         const task = this.props.task || {};
         const description = this.props.task?task.description:'';
         const has_error = Task.detail.error.create || Task.detail.error.update;
         return (
             <div>
-                {task.id?null:(
+                {this.renderModalContent()}
+                {task.id || project?null:(
                 <h3>Post a new task</h3>
                     )}
-                <form onSubmit={this.handleSubmit} name="task" role="form" ref="task_form">
+                <form onSubmit={this.handleSubmit} name="task" role="form" ref="task_form" className={has_error || this.state.showAll?'steps-all':null}>
                     <FormStatus loading={Task.detail.isSaving}
                                 success={Task.detail.isSaved}
                                 message={'Task saved successfully'}
                                 error={Task.detail.error.create || Task.detail.error.update}/>
 
-                    <div className={[2,3].indexOf(this.state.step) == -1 || has_error || this.state.showAll?null:'sr-only'}>
+                    <div className={[2,3].indexOf(this.state.step) == -1 || has_error || this.state.showAll?'step':'sr-only'}>
                         {(Task.detail.error.create && Task.detail.error.create.title)?
                             (<FieldError message={Task.detail.error.create.title}/>):null}
                         {(Task.detail.error.update && Task.detail.error.update.title)?
@@ -224,9 +274,35 @@ export default class TaskForm extends React.Component {
                             <label className="control-label">Skills required for this task *</label>
                             <SkillSelector filter={{filter: null}} onChange={this.onSkillChange.bind(this)} skills={task.details?task.details.skills:[]}/>
                         </div>
+
+                        {(Task.detail.error.create && Task.detail.error.create.project)?
+                            (<FieldError message={Task.detail.error.create.project}/>):null}
+                        {(Task.detail.error.update && Task.detail.error.update.project)?
+                            (<FieldError message={Task.detail.error.update.project}/>):null}
+                        <div className="form-group">
+                            {project?(
+                            <div>
+                                <label>Project:</label>
+                                <strong>{project.title}</strong>
+                            </div>
+                                ):(
+                            <div>
+                                <label className="control-label">Is this task part of a project?</label>
+                                <div>
+                                    <select type="text" className="form-control" ref="project"
+                                            defaultValue={0}>
+                                        <option value=''>-- No this task is not part of a project  --</option>
+                                        {Auth.running.projects.map((project) => {
+                                         return (<option key={project.id} value={project.id}>{project.title}</option>);
+                                         })}
+                                    </select>
+                                </div>
+                            </div>
+                                )}
+                        </div>
                     </div>
 
-                    <div className={this.state.step == 2 || has_error || this.state.showAll?null:'sr-only'}>
+                    <div className={this.state.step == 2 || has_error || this.state.showAll?'step':'sr-only'}>
                         {(Task.detail.error.create && Task.detail.error.create.fee)?
                             (<FieldError message={Task.detail.error.create.fee}/>):null}
                         {(Task.detail.error.update && Task.detail.error.update.fee)?
@@ -300,7 +376,7 @@ export default class TaskForm extends React.Component {
                         </div>
                     </div>
 
-                    <div className={this.state.step == 3 || has_error || this.state.showAll?null:'sr-only'}>
+                    <div className={this.state.step == 3 || has_error || this.state.showAll?'step':'sr-only'}>
                         {(Task.detail.error.create && Task.detail.error.create.visibility)?
                             (<FieldError message={Task.detail.error.create.visibility}/>):null}
                         {(Task.detail.error.update && Task.detail.error.update.visibility)?
@@ -339,18 +415,50 @@ export default class TaskForm extends React.Component {
                                 ):null}
                         </div>
 
+                        <div className="form-group">
+                            <label className="control-label">Milestones</label>
+                            <div>
+                                <ButtonGroup className="btn-choices select">
+                                    {this.state.milestones.map((milestone, idx) => {
+                                        const tooltip = (<Tooltip id="tooltip"><strong>{milestone.title}</strong><br/>{milestone.due_at?moment.utc(milestone.due_at).local().format('Do, MMMM YYYY, h:mm a'):null}</Tooltip>);
+                                        return (
+                                        <OverlayTrigger key={milestone.due_at} placement="top"
+                                                        overlay={tooltip}>
+                                            <Button bsStyle="default"
+                                                    onClick={this.onComposeMilestone.bind(this, {...milestone, idx})}>
+                                                {_.truncate(milestone.title, {length: 25})}
+                                            </Button>
+                                        </OverlayTrigger>
+                                            )
+                                        })}
+                                    {this.state.deadline?(
+                                    <OverlayTrigger placement="top"
+                                                    overlay={<Tooltip id="tooltip">
+                                                    <strong>Hand over final draft</strong><br/>
+                                                    {moment.utc(this.state.deadline).subtract(1, 'days').local().format('Do, MMMM YYYY, h:mm a')}
+                                                    </Tooltip>}>
+                                        <Button bsStyle="default">{_.truncate('Hand over final draft', {length: 25})}</Button>
+                                    </OverlayTrigger>
+                                        ):null}
+                                </ButtonGroup>
+                            </div>
+                            <div>
+                                <Button bStyle="default" onClick={this.onComposeMilestone.bind(this, null)}>Add milestone</Button>
+                            </div>
+                        </div>
+
                         <div className="text-center">
                             <button type="submit" onClick={this.showAll.bind(this)} className="btn btn-default btn-action" disabled={Task.detail.isSaving}>{task.id?'Update task':'Publish task'}</button>
                         </div>
                     </div>
                     <div className="nav pull-right">
                         {this.state.step > 1?(
-                        <button type="button" className="btn btn-default" onClick={this.changeStep.bind(this, false)}>
+                        <button type="button" className="btn" onClick={this.changeStep.bind(this, false)}>
                             <i className="fa fa-angle-left fa-lg"/>
                         </button>
                             ):null}
                         {this.state.step < 3?(
-                        <button type="button" className="btn btn-default" onClick={this.changeStep.bind(this, true)}>
+                        <button type="button" className="btn" onClick={this.changeStep.bind(this, true)}>
                             <i className="fa fa-angle-right fa-lg"/>
                         </button>
                             ):null}

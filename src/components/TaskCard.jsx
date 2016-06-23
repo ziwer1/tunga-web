@@ -9,6 +9,7 @@ import LargeModal from './ModalLarge'
 import ApplicationForm from './ApplicationForm'
 import ComponentWithModal from './ComponentWithModal'
 import { render_excerpt } from '../utils/html'
+import { parse_task_status } from '../utils/tasks'
 
 export default class TaskCard extends ComponentWithModal {
 
@@ -23,14 +24,7 @@ export default class TaskCard extends ComponentWithModal {
 
     render() {
         const { Auth, Task, TaskActions, task } = this.props;
-        var task_status = {message: 'This task is open', css: 'open'};
-        if(task.closed) {
-            task_status.message = 'This task is closed';
-            task_status.css = 'closed';
-        } else if(!task.apply) {
-            task_status.message =  'This task is in progress';
-            task_status.css = 'in-progress';
-        }
+        var task_status = parse_task_status(task);
 
         return (
             <div className="well card task">
@@ -39,7 +33,7 @@ export default class TaskCard extends ComponentWithModal {
                 </LargeModal>
                 <div className="top">
                     <h3 className="title"><Link to={`/task/${task.id}/`}>{task.title}</Link></h3>
-                    <div className="status"><i className={"fa fa-circle " + task_status.css}/> {task_status.message}</div>
+                    <div className="task-status"><i className={"fa fa-circle " + task_status.css}/> {task_status.message}</div>
                     <div>
                         Posted <TimeAgo date={moment.utc(task.created_at).local().format()} /> by
                     </div>

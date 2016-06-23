@@ -1,5 +1,5 @@
 import React from 'react'
-import connect from '../utils/ReplyConnector'
+import connect from '../utils/connectors/ReplyConnector'
 import ReplyForm from '../components/ReplyForm'
 import ReplyList from '../components/ReplyList'
 

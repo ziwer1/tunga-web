@@ -154,7 +154,9 @@ export default class ApplicationForm extends React.Component {
                     </div>
                         ):null}
 
-                    <button type="submit" className="btn btn-default pull-right" disabled={Task.detail.applications.isSaving}>Apply</button>
+                    <div className="text-center">
+                        <button type="submit" className="btn btn-default btn-action" disabled={Task.detail.applications.isSaving}>Apply</button>
+                    </div>
                     <div className="clearfix"></div>
                 </form>
                     )}

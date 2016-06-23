@@ -1,5 +1,7 @@
 import axios from 'axios'
 import { ENDPOINT_LOGIN, ENDPOINT_LOGOUT, ENDPOINT_VERIFY, ENDPOINT_REGISTER, ENDPOINT_RESET_PASSWORD, ENDPOINT_RESET_PASSWORD_CONFIRM } from '../constants/Api'
+import { listRunningProjects } from './ProjectActions'
+import { listRunningTasks } from './TaskActions'
 
 export const LOGIN_START = 'LOGIN_START';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
@@ -19,15 +21,18 @@ export const RESET_PASSWORD_FAILED = 'RESET_PASSWORD_FAILED';
 export const RESET_PASSWORD_CONFIRM_START = 'RESET_PASSWORD_CONFIRM_START';
 export const RESET_PASSWORD_CONFIRM_SUCCESS = 'RESET_PASSWORD_CONFIRM_SUCCESS';
 export const RESET_PASSWORD_CONFIRM_FAILED = 'RESET_PASSWORD_CONFIRM_FAILED';
+export const AUTH_REDIRECT = 'AUTH_REDIRECT';
 
 export function authenticate(credentials) {
     return dispatch => {
         dispatch(authStart(credentials));
         axios.post(ENDPOINT_LOGIN, credentials)
             .then(function(response) {
-                dispatch(authSuccess(response.data))
+                dispatch(authSuccess(response.data));
+                dispatch(listRunningTasks());
+                dispatch(listRunningProjects());
             }).catch(function(response) {
-                dispatch(authFailed(response.data))
+                dispatch(authFailed(response.data));
             });
     }
 }
@@ -58,7 +63,9 @@ export function verify() {
         dispatch(verifyStart());
         axios.get(ENDPOINT_VERIFY)
             .then(function(response) {
-                dispatch(verifySuccess(response.data))
+                dispatch(verifySuccess(response.data));
+                dispatch(listRunningTasks());
+                dispatch(listRunningProjects());
             }).catch(function(response) {
                 dispatch(verifyFailed(response.data))
             });
@@ -213,5 +220,12 @@ export function resetPasswordConfirmFailed(error) {
     return {
         type: RESET_PASSWORD_CONFIRM_FAILED,
         error
+    }
+}
+
+export function authRedirect(path) {
+    return {
+        type: AUTH_REDIRECT,
+        path
     }
 }

@@ -24,11 +24,15 @@ import SignUpPage from 'containers/SignUpPage'
 import PasswordResetPage from 'containers/PasswordResetPage'
 import PasswordResetConfirmPage from 'containers/PasswordResetConfirmPage'
 import SettingsPage from 'containers/SettingsPage'
+import ProjectPage from 'containers/ProjectPage'
+import ProjectForm from 'components/ProjectForm'
+import Project from 'components/Project'
 import TaskPage from 'containers/TaskPage'
 import TaskList from 'components/TaskList'
 import TaskForm from 'components/TaskForm'
 import Task from 'components/Task'
 import TaskWorflow from 'components/TaskWorflow'
+import TaskOverview from 'components/TaskOverview'
 import ApplicationList from 'components/ApplicationList'
 import UserPage from 'containers/UserPage'
 import UserList from 'components/UserList'
@@ -68,16 +72,20 @@ ReactDOM.render(
                     <Route path="complete" component={ProfileType} />
                 </Route>
                 <Route path="settings" component={SettingsPage} />
+                <Route path="project" component={ProjectPage}>
+                    <IndexRedirect to="new"/>
+                    <Route path="new" component={ProjectForm} />
+                    <Route path=":id" component={Project} />
+                </Route>
                 <Route path="task" component={TaskPage}>
                     <IndexRoute component={TaskList}/>
                     <Route path="new" component={TaskForm} />
                     <Route path="tag/:tag" component={TaskList} />
                     <Route path="filter/:filter" component={TaskList} />
                     <Route path=":id" component={Task}>
-                        <IndexRoute component={Task} />
-                        <Route path="" component={TaskWorflow}>
-                            <Route path=":section" />
-                        </Route>
+                        <IndexRoute component={TaskOverview} />
+                        <Route path="applications" component={ApplicationList}/>
+                        <Route path=":section" />
                     </Route>
                 </Route>
                 <Route path="member" component={UserPage}>

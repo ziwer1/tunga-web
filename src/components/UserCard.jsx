@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router'
 import Progress from './status/Progress'
 import UserCardProfile from './UserCardProfile'
+import TagList from './TagList'
 
 export default class UserCard extends React.Component {
 
@@ -27,6 +28,17 @@ export default class UserCard extends React.Component {
         return (
             <div className="well card user">
                 <UserCardProfile user={user}/>
+                {user.profile?(
+                <div>
+                    {user.profile.skills.length?(
+                    <TagList tags={user.profile.skills} max={3} link={`/member/${user.id}/`}/>
+                        ):(
+                    <div style={{height: '20px'}}></div>
+                        )}
+                </div>
+                    ):(
+                <div style={{height: '20px'}}></div>
+                    )}
                 <div className="actions">
                     <div className="row">
                         <div className="col-sm-12">

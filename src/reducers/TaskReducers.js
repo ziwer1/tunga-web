@@ -4,6 +4,7 @@ import * as ApplicationActions from '../actions/ApplicationActions'
 import * as SavedTaskActions from '../actions/SavedTaskActions'
 import { PATH_CHANGE } from '../actions/NavActions'
 import Application from './ApplicationReducers'
+import { LOGOUT_SUCCESS } from '../actions/AuthActions'
 
 function task(state = {}, action) {
     switch (action.type) {
@@ -89,6 +90,18 @@ function previous(state = null, action) {
         case TaskActions.LIST_TASKS_SUCCESS:
         case TaskActions.LIST_MORE_TASKS_SUCCESS:
             return action.previous;
+        default:
+            return state;
+    }
+}
+
+function filter(state = null, action) {
+    switch (action.type) {
+        case TaskActions.LIST_TASKS_SUCCESS:
+            return action.filter;
+        case TaskActions.LIST_TASKS_START:
+        case TaskActions.LIST_TASKS_FAILED:
+            return null;
         default:
             return state;
     }
@@ -191,12 +204,14 @@ function error(state = {}, action) {
     }
 }
 
-function running(state = [], action) {
+export function running(state = [], action) {
     switch (action.type) {
         case TaskActions.LIST_RUNNING_TASKS_SUCCESS:
             return action.items;
         case TaskActions.CREATE_TASK_SUCCESS:
             return [action.task, ...state];
+        case LOGOUT_SUCCESS:
+            return [];
         default:
             return state;
     }
@@ -230,7 +245,8 @@ const list = combineReducers({
     isFetching,
     isFetchingMore,
     next,
-    previous
+    previous,
+    filter
 });
 
 const Task = combineReducers({

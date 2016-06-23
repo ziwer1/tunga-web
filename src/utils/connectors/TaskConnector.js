@@ -1,9 +1,10 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import * as TaskActions from '../actions/TaskActions'
-import * as ApplicationActions from '../actions/ApplicationActions'
-import * as SavedTaskActions from '../actions/SavedTaskActions'
+import * as TaskActions from '../../actions/TaskActions'
+import * as ProjectActions from '../../actions/ProjectActions'
+import * as ApplicationActions from '../../actions/ApplicationActions'
+import * as SavedTaskActions from '../../actions/SavedTaskActions'
 
 function mapStateToProps(state) {
     return {Auth: state.Auth, Task: state.Task};
