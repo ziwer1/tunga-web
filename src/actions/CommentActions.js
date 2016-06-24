@@ -103,7 +103,8 @@ export function listCommentsSuccess(response) {
         type: LIST_COMMENTS_SUCCESS,
         items: response.results,
         previous: response.previous,
-        next: response.next
+        next: response.next,
+        count: response.count
     }
 }
 
@@ -238,7 +239,8 @@ export function listMoreCommentsSuccess(response) {
         type: LIST_MORE_COMMENTS_SUCCESS,
         items: response.results,
         previous: response.previous,
-        next: response.next
+        next: response.next,
+        count: response.count
     }
 }
 

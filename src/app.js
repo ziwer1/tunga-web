@@ -11,7 +11,7 @@ import "script!js/js.cookie.js";
 import React from 'react'
 import ReactDOM  from 'react-dom'
 import { Provider } from 'react-redux'
-import { Router, Route, IndexRoute, IndexRedirect } from 'react-router'
+import { Router, Route, IndexRoute, IndexRedirect, Redirect } from 'react-router'
 import store from './store'
 
 import history from './history'
@@ -42,6 +42,7 @@ import Inbox from 'components/Inbox'
 import Compose from 'components/Compose'
 import Sent from 'components/Sent'
 import MessageDetail from 'components/MessageDetail'
+import MessageList from 'components/MessageList'
 import ProfilePage from 'containers/ProfilePage'
 import Profile from 'components/Profile'
 import Stack from 'components/Stack'
@@ -50,6 +51,7 @@ import ProfilePicture from 'components/ProfilePicture'
 import PasswordChangeForm from 'components/PasswordChangeForm'
 import ProfileType from 'components/ProfileType'
 import PaymentList from 'components/PaymentList'
+import SearchPage from 'containers/SearchPage'
 
 ReactDOM.render(
     <Provider store={store}>
@@ -104,7 +106,13 @@ ReactDOM.render(
                     <IndexRedirect to="pending"/>
                     <Route path=":filter" component={PaymentList} />
                 </Route>
-                <Route path=":unknown" component={Home} />
+                <Route path="search" component={SearchPage}>
+                    <IndexRedirect to="developers"/>
+                    <Route path="developers" component={UserList} />
+                    <Route path="tasks" component={TaskList} />
+                    <Route path="messages" component={MessageList} />
+                </Route>
+                <Redirect path="*" to="home" />
             </Route>
         </Router>
     </Provider>,

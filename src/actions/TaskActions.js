@@ -111,6 +111,7 @@ export function listTasksSuccess(response, filter) {
         items: response.results,
         previous: response.previous,
         next: response.next,
+        count: response.count,
         filter
     }
 }
@@ -247,7 +248,8 @@ export function listRunningTasksSuccess(response) {
         type: LIST_RUNNING_TASKS_SUCCESS,
         items: response.results,
         previous: response.previous,
-        next: response.next
+        next: response.next,
+        count: response.count
     }
 }
 
@@ -282,7 +284,8 @@ export function listMoreTasksSuccess(response) {
         type: LIST_MORE_TASKS_SUCCESS,
         items: response.results,
         previous: response.previous,
-        next: response.next
+        next: response.next,
+        count: response.count
     }
 }
 

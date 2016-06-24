@@ -33,7 +33,8 @@ export function getSkillSuggestionsSuccess(response) {
         type: GET_SKILL_SUGGESTIONS_SUCCESS,
         items: response.results,
         previous: response.previous,
-        next: response.next
+        next: response.next,
+        count: response.count
     }
 }
 

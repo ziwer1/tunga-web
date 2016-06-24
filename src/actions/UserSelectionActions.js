@@ -35,6 +35,7 @@ export function getUserSuggestionsSuccess(response, selection) {
         items: response.results,
         previous: response.previous,
         next: response.next,
+        count: response.count,
         selection
     }
 }

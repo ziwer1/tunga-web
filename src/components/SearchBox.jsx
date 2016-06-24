@@ -1,8 +1,19 @@
 import React from 'react'
 import _ from 'underscore'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+
+import * as SearchActions from '../actions/SearchActions'
+
+import { SEARCH_PATH } from '../constants/patterns'
 
 
-export default class SearchBox extends React.Component {
+class SearchBox extends React.Component {
+
+    static contextTypes = {
+        router: React.PropTypes.object.isRequired,
+        location: React.PropTypes.object.isRequired
+    };
 
     constructor(props){
         super(props);
@@ -22,6 +33,12 @@ export default class SearchBox extends React.Component {
         if(this.props.onSearch) {
             var filter = this.props.filter || {};
             this.props.onSearch({search: this.state.search, ...filter});
+        } else {
+            this.props.SearchActions.searchStart(this.state.search);
+            const { router, location } = this.context;
+            if(!SEARCH_PATH.test(location.pathname)) {
+                router.replace('/search');
+            }
         }
     }
 
@@ -36,10 +53,22 @@ export default class SearchBox extends React.Component {
                         <input type="text" className="form-control" placeholder={this.props.placeholder || "Search"} ref="search" value={this.state.search} onChange={this.handleChange.bind(this)}/>
                     </div>
                 </form>
-                {this.state.search?(
+                {!this.props.hide_results && this.state.search?(
                 <div className="results">Results for "<strong>{this.state.search}</strong>"</div>
                     ):null}
             </div>
         );
     }
 }
+
+function mapStateToProps(state) {
+    return {Auth: state.Auth, Search: state.Search};
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        SearchActions: bindActionCreators(SearchActions, dispatch),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchBox);

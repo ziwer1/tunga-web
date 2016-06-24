@@ -105,7 +105,7 @@ export default class TaskOverview extends React.Component {
                                 {task.details.participation.map((participation) => {
                                     const participant = participation.user;
                                     return (
-                                        participant.id != task.assignee.user && (participation.accepted || !participation.responded)?(
+                                        (task.assignee && participant.id != task.assignee.user) && (participation.accepted || !participation.responded)?(
                                         <div className="collaborator" key={participant.id}>
                                             <Avatar src={participant.avatar_url}/>
                                             <Link to={`/member/${participant.id}/`}>{participant.display_name}</Link>

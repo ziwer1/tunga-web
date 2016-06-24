@@ -10,9 +10,14 @@ import SearchBox from './SearchBox'
 export default class MessageList extends React.Component {
 
     componentDidMount() {
-        const { MessageActions, filter } = this.props;
-        if(filter) {
-            MessageActions.listMessages({filter});
+        const { MessageActions, filter, search } = this.props;
+        MessageActions.listMessages({filter, search});
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if(prevProps.filter != this.props.filter || prevProps.search != this.props.search) {
+            const { MessageActions, filter } = this.props;
+            MessageActions.listMessages({filter, search});
         }
     }
 
@@ -20,7 +25,9 @@ export default class MessageList extends React.Component {
         const { Message, MessageActions, filter } = this.props;
         return (
             <div>
+                {this.props.hide_header?null:(
                 <SearchBox filter={{filter: filter}} placeholder="Search for messages" onSearch={MessageActions.listMessages}/>
+                    )}
                 {Message.list.isFetching?
                     (<Progress/>)
                     :

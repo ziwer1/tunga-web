@@ -1,11 +1,13 @@
 import React, { PropTypes } from 'react'
 import { Link } from 'react-router'
 import Avatar from './Avatar'
+import SearchBox from './SearchBox'
 
 export default class NavBar extends React.Component {
+
     constructor(props) {
         super(props);
-        this.handleClick = this.handleClick.bind(this);
+        this.handleLogout = this.handleLogout.bind(this);
     }
 
     static propTypes = {
@@ -16,7 +18,7 @@ export default class NavBar extends React.Component {
         }).isRequired
     };
 
-    handleClick(e) {
+    handleLogout(e) {
         e.preventDefault();
         this.props.AuthActions.logout();
     }
@@ -39,6 +41,7 @@ export default class NavBar extends React.Component {
                         <div id="navbar" className="navbar-collapse collapse">
                             {Auth.isAuthenticated?(
                             <ul className="nav navbar-nav navbar-right">
+                                <li><SearchBox placeholder="Search" hide_results={true}/></li>
                                 <li className="dropdown">
                                     <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                         <Avatar src={Auth.user.avatar_url}/> {Auth.user.display_name} <span className="caret" style={{marginLeft: 5+'px'}}></span>
@@ -47,7 +50,7 @@ export default class NavBar extends React.Component {
                                         <li><Link to="/profile"><i className="fa fa-user"/> My Profile</Link></li>
                                         <li><Link to="/settings"><i className="fa fa-cog"/> Settings</Link></li>
                                         <li role="separator" className="divider"/>
-                                        <li><Link to="" onClick={this.handleClick}><i className="fa fa-sign-out"></i> Sign Out</Link></li>
+                                        <li><Link to="" onClick={this.handleLogout}><i className="fa fa-sign-out"></i> Sign Out</Link></li>
                                     </ul>
                                 </li>
                             </ul>

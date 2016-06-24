@@ -35,7 +35,8 @@ export function listUsersSuccess(response) {
         type: LIST_USERS_SUCCESS,
         items: response.results,
         previous: response.previous,
-        next: response.next
+        next: response.next,
+        count: response.count
     }
 }
 
@@ -103,7 +104,8 @@ export function listMoreUsersSuccess(response) {
         type: LIST_MORE_USERS_SUCCESS,
         items: response.results,
         previous: response.previous,
-        next: response.next
+        next: response.next,
+        count: response.count
     }
 }
 

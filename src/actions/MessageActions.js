@@ -105,7 +105,8 @@ export function listMessagesSuccess(response) {
         type: LIST_MESSAGES_SUCCESS,
         items: response.results,
         previous: response.previous,
-        next: response.next
+        next: response.next,
+        count: response.count
     }
 }
 
@@ -273,7 +274,8 @@ export function listMoreMessagesSuccess(response) {
         type: LIST_MORE_MESSAGES_SUCCESS,
         items: response.results,
         previous: response.previous,
-        next: response.next
+        next: response.next,
+        count: response.count
     }
 }
 

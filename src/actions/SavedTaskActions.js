@@ -74,7 +74,8 @@ export function listSavedTasksSuccess(response) {
         type: LIST_SAVED_TASKS_SUCCESS,
         items: response.results,
         previous: response.previous,
-        next: response.next
+        next: response.next,
+        count: response.count
     }
 }
 

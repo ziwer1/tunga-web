@@ -185,6 +185,10 @@ form.steps-all {
     border-radius: 0;
 }
 
+.form-control {
+    height: 30px;
+}
+
 .input-group {
     .btn {
         margin: 0;
@@ -318,29 +322,34 @@ form[name='compose'] {
 
 .nav-top-filter a,
 .nav-top-filter.nav-pills > li > a {
-    color: @tunga-blue;
-    border: 1px @tunga-blue solid;
-    margin: 5px 3px 15px;
+    color: @brand;
+    background-color: #fff;
+    border: 1px #ccc solid;
+    margin: 5px 0 15px;
     padding: 5px 15px;
     text-align: center;
     min-width: 100px;
+}
+
+.nav-top-filter li+li,
+.nav-top-filter.nav-pills > li+li {
+    margin: 0;
 }
 
 .nav-top-filter a:hover,
 .nav-top-filter.nav-pills > li > a:hover,
 .nav-top-filter a:focus,
 .nav-top-filter.nav-pills > li > a:focus {
-    color: @tunga-blue;
-    background-color: #fff;
-    border-color: @tunga-blue;
+    border-color: @brand;
 }
 
 .nav-top-filter a.active,
+.nav-top-filter.nav-pills > li > a.active,
 .nav-top-filter a.active:hover,
-.nav-top-filter a.active:focus {
-    color: #fff !important;
-    background-color: @tunga-blue !important;
-    border-color: @tunga-blue;
+.nav-top-filter.nav-pills > li > a.active:hover,
+.nav-top-filter a.active:focus,
+.nav-top-filter.nav-pills > li > a.active:focus {
+    border-color: @brand;
 }
 
 .nav-pills > li > a  {
@@ -689,6 +698,23 @@ form[name='compose'] {
 
     .results {
         margin: 10px 0;
+    }
+}
+
+.navbar {
+    .search-box {
+
+        form {
+            max-width: 180px;
+        }
+
+        .form-control {
+            max-width: 150px;
+        }
+
+        .form-control:focus {
+            max-width: 180px;
+        }
     }
 }
 

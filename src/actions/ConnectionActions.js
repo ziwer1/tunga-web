@@ -74,7 +74,8 @@ export function listConnectionsSuccess(response) {
         type: LIST_CONNECTIONS_SUCCESS,
         items: response.results,
         previous: response.previous,
-        next: response.next
+        next: response.next,
+        count: response.count
     }
 }
 

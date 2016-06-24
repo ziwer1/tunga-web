@@ -8,19 +8,25 @@ import SearchBox from './SearchBox'
 export default class UserList extends React.Component {
 
     componentDidMount() {
-        var filter = this.props.params.filter || null;
-        this.props.UserActions.listUsers({filter});
+        var filter = null;
+        if(this.props.params && this.props.params.filter) {
+            filter = this.props.params.filter;
+        }
+        this.props.UserActions.listUsers({filter, ...this.props.filters, search: this.props.search});
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if(prevProps.location.pathname != this.props.location.pathname) {
-            var filter = this.props.params.filter || null;
-            this.props.UserActions.listUsers({filter});
+        if(prevProps.location && this.props.location && prevProps.location.pathname != this.props.location.pathname || prevProps.search != this.props.search) {
+            var filter = null;
+            if(this.props.params && this.props.params.filter) {
+                filter = this.props.params.filter;
+            }
+            this.props.UserActions.listUsers({filter, ...this.props.filters, search: this.props.search});
         }
     }
 
     render() {
-        const { Auth, User, UserActions, filter } = this.props;
+        const { Auth, User, UserActions } = this.props;
         const page_title = {
             developers: 'All Developers',
             'project-owners': 'Project Owners',
@@ -29,12 +35,20 @@ export default class UserList extends React.Component {
             team: Auth.user.is_project_owner?'My Team':'My Friends',
             'my-project-owners': 'My Project Owners'
         };
+        var filter = null;
+        if(this.props.params && this.props.params.filter) {
+            filter = this.props.params.filter;
+        }
         return (
             <div>
-                {page_title[this.props.params.filter]?(
-                <h2>{page_title[this.props.params.filter]}</h2>
-                    ):null}
-                <SearchBox filter={{filter: filter}} placeholder="Search by name or skills" onSearch={UserActions.listUsers}/>
+                {this.props.hide_header?null:(
+                <div>
+                    {page_title[filter]?(
+                    <h2>{page_title[filter]}</h2>
+                        ):null}
+                    <SearchBox filter={{filter: filter}} placeholder="Search by name or skills" onSearch={UserActions.listUsers}/>
+                </div>
+                    )}
                 {User.list.isFetching?
                     (<Progress/>)
                     :

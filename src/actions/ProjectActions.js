@@ -107,7 +107,8 @@ export function listProjectsSuccess(response) {
         type: LIST_PROJECTS_SUCCESS,
         items: response.results,
         previous: response.previous,
-        next: response.next
+        next: response.next,
+        count: response.count
     }
 }
 
@@ -242,7 +243,8 @@ export function listRunningProjectsSuccess(response) {
         type: LIST_RUNNING_PROJECTS_SUCCESS,
         items: response.results,
         previous: response.previous,
-        next: response.next
+        next: response.next,
+        count: response.count
     }
 }
 
@@ -277,7 +279,8 @@ export function listMoreProjectsSuccess(response) {
         type: LIST_MORE_PROJECTS_SUCCESS,
         items: response.results,
         previous: response.previous,
-        next: response.next
+        next: response.next,
+        count: response.count
     }
 }
 

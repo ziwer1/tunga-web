@@ -13,6 +13,7 @@ import Reply from './ReplyReducers'
 import UserSelection from './UserSelectionReducers'
 import SkillSelection from './SkillSelectionReducers'
 import Utility from './UtilityReducers'
+import Search from './SearchReducers'
 
 
 const TungaApp = combineReducers({
@@ -29,6 +30,7 @@ const TungaApp = combineReducers({
     UserSelection,
     SkillSelection,
     Utility,
+    Search,
     routing: routerReducer
 });
 

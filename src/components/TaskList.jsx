@@ -8,26 +8,21 @@ import SearchBox from './SearchBox'
 
 export default class TaskList extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {filter: null};
-    }
-
     componentDidMount() {
         var filter = null;
         if(this.props.params && this.props.params.filter) {
             filter = this.props.params.filter;
         }
-        this.props.TaskActions.listTasks({filter, ...this.props.filters});
+        this.props.TaskActions.listTasks({filter, ...this.props.filters, search: this.props.search});
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if(prevProps.location && this.props.location && prevProps.location.pathname != this.props.location.pathname) {
+        if(prevProps.location && this.props.location && prevProps.location.pathname != this.props.location.pathname || prevProps.search != this.props.search) {
             var filter = null;
             if(this.props.params && this.props.params.filter) {
                 filter = this.props.params.filter;
             }
-            this.props.TaskActions.listTasks({filter, ...this.props.filters});
+            this.props.TaskActions.listTasks({filter, ...this.props.filters, search: this.props.search});
         }
     }
 

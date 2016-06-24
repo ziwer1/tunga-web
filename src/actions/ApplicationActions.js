@@ -77,7 +77,8 @@ export function listApplicationsSuccess(response) {
         type: LIST_APPLICATIONS_SUCCESS,
         items: response.results,
         previous: response.previous,
-        next: response.next
+        next: response.next,
+        count: response.count
     }
 }
 
