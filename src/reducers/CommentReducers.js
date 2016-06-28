@@ -9,6 +9,12 @@ function comment(state = {}, action) {
         case CommentActions.UPDATE_COMMENT_SUCCESS:
             return action.comment;
         case CommentActions.DELETE_COMMENT_SUCCESS:
+        case CommentActions.CREATE_COMMENT_START:
+        case CommentActions.CREATE_COMMENT_FAILED:
+        case CommentActions.UPDATE_COMMENT_START:
+        case CommentActions.UPDATE_COMMENT_FAILED:
+        case CommentActions.RETRIEVE_COMMENT_START:
+        case CommentActions.RETRIEVE_COMMENT_FAILED:
             return {};
         default:
             return state;

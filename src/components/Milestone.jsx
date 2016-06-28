@@ -46,6 +46,10 @@ export default class Milestone extends React.Component {
         const { milestone } = Milestone.detail;
         const { report } = milestone;
 
+        const timestamp = moment.utc(milestone.due_at).unix();
+        const ts_now = moment.utc().unix();
+        let is_missed = ((timestamp + 24*60*60) < ts_now && milestone.type); // Developers have 24 hrs before a task update is missed
+
         return (
             Milestone.detail.isRetrieving?
             (<Progress/>)
@@ -80,7 +84,7 @@ export default class Milestone extends React.Component {
                         <div dangerouslySetInnerHTML={{__html: report.accomplished}}/>
                     </div>
                         ):null}
-                    {report.uploads?(
+                    {report.uploads && report.uploads.length?(
                     <div>
                         <strong>Files</strong>
                         {report.uploads.map(upload => {
@@ -112,17 +116,23 @@ export default class Milestone extends React.Component {
                         </div>
                     </div>
                         ):null}
-                    {Auth.user.is_developer?(
+                    {Auth.user.is_developer && !is_missed?(
                     <button className="btn btn-default" onClick={this.onEditReport.bind(this)}><i className="fa fa-pencil"/> Edit Report</button>
                         ):null}
                 </div>
                     ):(
+                    is_missed?(
+                    <div>
+                        <strong>{event.type == 3?'Milestone':'Update'} missed</strong>
+                    </div>
+                        ):(
                     Auth.user.is_developer?(
-                <ProgressReportForm milestone={milestone}
-                                    progress_report={report}
-                                    ProgressReport={ProgressReport}
-                                    ProgressReportActions={ProgressReportActions}/>
-                    ):null
+                    <ProgressReportForm milestone={milestone}
+                                        progress_report={report}
+                                        ProgressReport={ProgressReport}
+                                        ProgressReportActions={ProgressReportActions}/>
+                        ):null
+                        )
                     )}
             </div>
         ):(

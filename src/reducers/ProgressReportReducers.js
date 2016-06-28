@@ -11,6 +11,12 @@ function progress_report(state = {}, action) {
         case ProgressReportActions.UPDATE_PROGRESS_REPORT_SUCCESS:
             return {...state, ...action.progress_report};
         case ProgressReportActions.DELETE_PROGRESS_REPORT_SUCCESS:
+        case ProgressReportActions.CREATE_PROGRESS_REPORT_START:
+        case ProgressReportActions.CREATE_PROGRESS_REPORT_FAILED:
+        case ProgressReportActions.UPDATE_PROGRESS_REPORT_START:
+        case ProgressReportActions.UPDATE_PROGRESS_REPORT_FAILED:
+        case ProgressReportActions.RETRIEVE_PROGRESS_REPORT_START:
+        case ProgressReportActions.RETRIEVE_PROGRESS_REPORT_FAILED:
             return {};
         default:
             return state;

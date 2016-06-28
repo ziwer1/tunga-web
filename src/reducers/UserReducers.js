@@ -6,6 +6,7 @@ function user(state = {}, action) {
     switch (action.type) {
         case UserActions.RETRIEVE_USER_SUCCESS:
             return action.user;
+        case UserActions.RETRIEVE_USER_START:
         case UserActions.RETRIEVE_USER_FAILED:
             return {};
         default:

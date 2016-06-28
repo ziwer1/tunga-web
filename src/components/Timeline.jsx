@@ -80,6 +80,8 @@ export default class Timeline extends ComponentWithModal {
         const timestamp = moment.utc(event.due_at).unix();
         const length = timestamp - this.state.min;
         const pos = (length/this.state.duration)*100;
+        const ts_now = moment.utc().unix();
+        let is_missed = ((timestamp + 24*60*60) < ts_now && event.type); // Developers have 24 hrs before a task update is missed
 
         const popover = (
             <Popover id="popover">
@@ -92,10 +94,19 @@ export default class Timeline extends ComponentWithModal {
                 </div>
                     ):(
                 <div>
-                    {event.due_at?moment.utc(event.due_at).local().format('Do, MMMM YYYY, h:mm a'):null}
+                    {event.due_at?moment.utc(event.due_at).local().format('ddd Do, MMMM YYYY, h:mm a'):null}
                     {event.report?(
-                    <div><strong>Status: </strong><span>{event.report.status_display}</span></div>
-                        ):null}
+                    <div>
+                        <strong>Status: </strong><span>{event.report.status_display}</span><br/>
+                        <strong>Completed: </strong><span>{event.report.percentage}%</span>
+                    </div>
+                        ):(
+                        is_missed?(
+                        <div>
+                            <strong>{event.type == 3?'Milestone':'Update'} missed</strong>
+                        </div>
+                            ):null
+                        )}
                 </div>
                     )}
             </Popover>);

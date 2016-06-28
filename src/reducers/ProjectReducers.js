@@ -11,6 +11,12 @@ function project(state = {}, action) {
         case ProjectActions.UPDATE_PROJECT_SUCCESS:
             return {...state, ...action.project};
         case ProjectActions.DELETE_PROJECT_SUCCESS:
+        case ProjectActions.CREATE_PROJECT_START:
+        case ProjectActions.CREATE_PROJECT_FAILED:
+        case ProjectActions.UPDATE_PROJECT_START:
+        case ProjectActions.UPDATE_PROJECT_FAILED:
+        case ProjectActions.RETRIEVE_PROJECT_START:
+        case ProjectActions.RETRIEVE_PROJECT_FAILED:
             return {};
         default:
             return state;

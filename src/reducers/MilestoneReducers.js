@@ -12,6 +12,12 @@ function milestone(state = {}, action) {
         case MilestoneActions.UPDATE_MILESTONE_SUCCESS:
             return {...state, ...action.milestone};
         case MilestoneActions.DELETE_MILESTONE_SUCCESS:
+        case MilestoneActions.CREATE_MILESTONE_START:
+        case MilestoneActions.CREATE_MILESTONE_FAILED:
+        case MilestoneActions.UPDATE_MILESTONE_START:
+        case MilestoneActions.UPDATE_MILESTONE_FAILED:
+        case MilestoneActions.RETRIEVE_MILESTONE_START:
+        case MilestoneActions.RETRIEVE_MILESTONE_FAILED:
             return {};
         case ProgressReportActions.CREATE_PROGRESS_REPORT_SUCCESS:
         case ProgressReportActions.UPDATE_PROGRESS_REPORT_SUCCESS:

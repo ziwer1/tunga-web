@@ -11,6 +11,12 @@ function channel(state = {}, action) {
         case ChannelActions.RETRIEVE_DIRECT_CHANNEL_SUCCESS:
             return action.channel;
         case ChannelActions.DELETE_CHANNEL_SUCCESS:
+        case ChannelActions.CREATE_CHANNEL_START:
+        case ChannelActions.CREATE_CHANNEL_FAILED:
+        case ChannelActions.UPDATE_CHANNEL_START:
+        case ChannelActions.UPDATE_CHANNEL_FAILED:
+        case ChannelActions.RETRIEVE_CHANNEL_START:
+        case ChannelActions.RETRIEVE_CHANNEL_FAILED:
             return {};
         case MessageActions.LIST_MESSAGES_SUCCESS:
             if(action.filter && action.filter.channel == state.id) {
