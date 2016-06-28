@@ -40,8 +40,12 @@ export default class ProjectForm extends React.Component {
             if(!this.props.project) {
                 this.refs.project_form.reset();
                 this.setState({deadline: null, description: ''});
-                const { router } = this.context;
-                router.replace('/project/'+ Project.detail.project.id);
+                if(this.props.onSuccess) {
+                    this.props.onSuccess(Project.detail.project);
+                } else {
+                    const { router } = this.context;
+                    router.replace('/project/'+ Project.detail.project.id);
+                }
             }
         }
     }
@@ -79,7 +83,7 @@ export default class ProjectForm extends React.Component {
 
         return (
             <div>
-                {project.id?null:(
+                {project.id || this.props.hide_title?null:(
                 <h3>Create a project</h3>
                     )}
                 <form onSubmit={this.handleSubmit} name="project" role="form" ref="project_form">

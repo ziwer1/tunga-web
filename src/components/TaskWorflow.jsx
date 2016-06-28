@@ -14,19 +14,34 @@ import LargeModal from './ModalLarge'
 import ComponentWithModal from './ComponentWithModal'
 import Timeline from './Timeline'
 import { parse_task_status } from '../utils/tasks'
+import { RATING_CRITERIA_CODING, RATING_CRITERIA_COMMUNICATION, RATING_CRITERIA_SPEED, RATING_CRITERIA_CHOICES } from '../constants/Api'
 
 export default class TaskWorflow extends ComponentWithModal {
 
     constructor(props) {
         super(props);
-        this.state = {showModal: false, modalContent: null, modalTitle: ''};
+        this.state = {showModal: false, modalContent: null, modalTitle: '', ratings_map: null};
     }
 
     componentDidMount() {
-        const { Auth, Task, TaskActions } = this.props;
+        this.mapRatings();
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if(this.props.Task.detail.isSaved && !prevProps.Task.detail.isSaved) {
+            this.mapRatings();
+        }
+    }
+
+    mapRatings() {
+        const { Task } = this.props;
         const { task } = Task.detail;
-        if(this.props.params.section == 'applications' && (Auth.id == task.user || Auth.user.is_staff)) {
-            this.handleViewApplications();
+        if(task && task.ratings && task.ratings.length) {
+            var ratings_map = {}
+            task.ratings.forEach(rating => {
+                ratings_map[rating.criteria] = rating.score;
+            });
+            this.setState({ratings_map});
         }
     }
 
@@ -61,10 +76,9 @@ export default class TaskWorflow extends ComponentWithModal {
         TaskActions.updateTask(Task.detail.task.id, {closed: false, closed_at: null});
     }
 
-    handleRating(rating) {
+    handleRating(criteria, rating) {
         const { TaskActions, Task } = this.props;
-        console.log(rating);
-        TaskActions.updateTask(Task.detail.task.id, {satisfaction: rating});
+        TaskActions.updateTask(Task.detail.task.id, {ratings: [{criteria, score: rating}]});
     }
 
     handleMarkPaid() {
@@ -156,7 +170,7 @@ export default class TaskWorflow extends ComponentWithModal {
                             ):null}
                         <div>
                             <div className="dropdown" style={{display: 'inline-block'}}>
-                                <button type="button" className="btn dropdown-toggle" data-toggle="dropdown">
+                                <button id="task-actions-toggle" type="button" className="btn dropdown-toggle" data-toggle="dropdown">
                                     <span className="task-status"><i className={"fa fa-circle " + task_status.css}/></span> {task_status.message} <span className="caret"></span>
                                 </button>
                                 {(Auth.user.id == task.user || Auth.user.is_staff)?(
@@ -174,9 +188,16 @@ export default class TaskWorflow extends ComponentWithModal {
                                         <div>
                                             <hr/>
                                             <div>Rate Developers</div>
-                                            <Rating start={0} stop={10} step={2} fractions={2} initialRate={task.satisfaction}
-                                                    empty={'fa fa-star-o fa-lg rating'} full={'fa fa-star fa-lg rating'}
-                                                    onChange={this.handleRating.bind(this)}/>
+                                            {RATING_CRITERIA_CHOICES.map(criteria => {
+                                                return (
+                                                <div key={criteria.id} style={{marginTop: '4px'}}>
+                                                    <div>{criteria.name}</div>
+                                                    <Rating start={0} stop={10} step={2} fractions={2} initialRate={this.state.ratings_map?this.state.ratings_map[criteria.id]:0}
+                                                            empty={'fa fa-star-o fa-lg rating'} full={'fa fa-star fa-lg rating'}
+                                                            onChange={this.handleRating.bind(this, criteria.id)}/>
+                                                </div>
+                                                    );
+                                                })}
                                         </div>
                                     </div>
                                         ):(
@@ -194,7 +215,8 @@ export default class TaskWorflow extends ComponentWithModal {
                                 </div>):null}
                             </div>
                         </div>
-                        <Timeline start={task.created_at} end={task.deadline} events={task.progress_events}/>
+                        <Timeline start={task.created_at} end={task.deadline} events={task.progress_events}
+                                  selected={this.props.params && this.props.params.eventId?this.props.params.eventId:null}/>
                     </div>
                 </div>
                     )}

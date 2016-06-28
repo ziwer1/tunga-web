@@ -8,8 +8,10 @@ import Project from './ProjectReducers'
 import Task from './TaskReducers'
 import User from './UserReducers'
 import Comment from './CommentReducers'
+import Channel from './ChannelReducers'
 import Message from './MessageReducers'
-import Reply from './ReplyReducers'
+import Milestone from './MilestoneReducers'
+import ProgressReport from './ProgressReportReducers'
 import UserSelection from './UserSelectionReducers'
 import SkillSelection from './SkillSelectionReducers'
 import Utility from './UtilityReducers'
@@ -25,8 +27,10 @@ const TungaApp = combineReducers({
     Task,
     User,
     Comment,
+    Channel,
     Message,
-    Reply,
+    Milestone,
+    ProgressReport,
     UserSelection,
     SkillSelection,
     Utility,

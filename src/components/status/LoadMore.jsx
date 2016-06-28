@@ -2,6 +2,7 @@ import React from 'react'
 import Progress from './Progress'
 import Waypoint from 'react-waypoint'
 
+
 export default class LoadMore extends React.Component {
 
     constructor(props) {
@@ -9,26 +10,32 @@ export default class LoadMore extends React.Component {
     }
 
     handleLoadMore() {
-        if(this.props.callback) {
+        if(!this.props.loading && this.props.callback) {
             this.props.callback(this.props.url);
+            console.log('Loaded more: '+this.props.url);
         }
     }
 
     render() {
         return (
-            <div>
+            <div style={{position: 'relative'}}>
                 {this.props.url?
                     (
                         <div className="load-more">
                             {this.props.loading?
                                 (<Progress/>)
                                 :
-                                (<button type='button' className="btn btn-default btn-sm" onClick={this.handleLoadMore.bind(this)}><span className={"fa fa-angle-" + (this.props.direction == 'up'?"up":"down")}/> {this.props.text || 'Load More'}</button>)
+                                (
+                                <button type='button'
+                                        className="btn btn-default btn-sm"
+                                        onClick={this.handleLoadMore.bind(this)}>
+                                    <span className={"fa fa-angle-" + (this.props.direction == 'up'?"up":"down")}/> {this.props.text || 'Load More'}
+                                </button>
+                                    )
                             }
-                            <Waypoint
-                                onEnter={this.handleLoadMore()}
-                                threshold={0.2}
-                            />
+                            {this.props.loading?null:(
+                            <Waypoint onEnter={this.handleLoadMore.bind(this)} threshold={0.2}/>
+                                )}
                         </div>
                     ):null
                 }

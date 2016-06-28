@@ -14,7 +14,7 @@ momentLocalizer(moment);
 export default class ApplicationForm extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {deliver_at: null, pitch: '', agree_schedule: false, agree_deadline: false};
+        this.state = {deliver_at: null, pitch: '', agree_schedule: false, agree_deadline: false, remarks: ''};
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -31,7 +31,7 @@ export default class ApplicationForm extends React.Component {
             }
             const task = this.props.task || {};
             var deliver_at = task.deadline?(new Date(moment.utc(task.deadline).format())):null;
-            this.setState({deliver_at: deliver_at, pitch: ''});
+            this.setState({deliver_at: deliver_at, pitch: '', remarks: ''});
         }
     }
 
@@ -51,12 +51,17 @@ export default class ApplicationForm extends React.Component {
         this.setState({agree_deadline: !this.state.agree_deadline});
     }
 
+    onRemarksChange(e) {
+        this.setState({remarks: e.target.getContent()});
+    }
+
     handleSubmit(e) {
         e.preventDefault();
         var pitch = this.state.pitch;
         var hours_needed = this.refs.hours_needed.value.trim() || null;
         var hours_available = this.refs.hours_available.value.trim() || null;
         var deliver_at = this.state.deliver_at;
+        var remarks = this.state.remarks;
 
         const task = this.props.task || {};
         var errors = null;
@@ -70,7 +75,7 @@ export default class ApplicationForm extends React.Component {
 
         const { TaskActions } = this.props;
 
-        TaskActions.createApplication({task: task.id, pitch, hours_needed, hours_available, deliver_at}, errors);
+        TaskActions.createApplication({task: task.id, pitch, hours_needed, hours_available, deliver_at, remarks}, errors);
         return;
     }
 
@@ -153,6 +158,15 @@ export default class ApplicationForm extends React.Component {
                         </div>
                     </div>
                         ):null}
+
+                    {(Task.detail.applications.error.create && Task.detail.applications.error.create.remarks)?
+                        (<FieldError message={Task.detail.applications.error.create.remarks}/>):null}
+                    <div className="form-group">
+                        <label className="control-label">Do you have a question or remark for the client?</label>
+                        <TinyMCE
+                            config={TINY_MCE_CONFIG}
+                            onChange={this.onRemarksChange.bind(this)}/>
+                    </div>
 
                     <div className="text-center">
                         <button type="submit" className="btn btn-default btn-action" disabled={Task.detail.applications.isSaving}>Apply</button>

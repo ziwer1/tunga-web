@@ -6,12 +6,12 @@ import FormStatus from './status/FormStatus'
 import FieldError from './status/FieldError'
 import {TINY_MCE_CONFIG } from '../constants/settings'
 import { nl_to_br } from '../utils/html'
+import MessageWidget from './MessageWidget'
 
 export default class CommentForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {body: '', attachments: []};
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -21,11 +21,8 @@ export default class CommentForm extends React.Component {
         }
     }
 
-    onBodyChange(e) {
-        this.setState({body: e.target.value.trim()});
-        if (e.keyCode === 13 && e.ctrlKey) {
-            this.handleSubmit(e);
-        }
+    onBodyChange(body) {
+        this.setState({body});
     }
 
     onDrop(attachments) {
@@ -39,7 +36,6 @@ export default class CommentForm extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        //var body = markdown.toHTML(this.state.body);
         var body = nl_to_br(this.state.body);
 		console.log(body);
         const attachments = this.state.attachments;
@@ -67,21 +63,13 @@ export default class CommentForm extends React.Component {
                     ):null}
 
                 {(Comment.detail.error.create && Comment.detail.error.create.body)?
-                    (<FieldError message={Comment.detail.error.create.body}/>):''}
-                <div className="input-group">
-                        <span className="input-group-btn">
-                            <button type="button" className="btn btn-default" onClick={this.onAddAttachment.bind(this)}>
-                                <i className="fa fa-paperclip"/>
-                            </button>
-                        </span>
-                        <textarea type="text" className="form-control" placeholder="Write your message here" rows="1"
-                                  onKeyUp={this.onBodyChange.bind(this)}/>
-                        <span className="input-group-btn">
-                            <button type="submit" className="btn btn-default"  disabled={Comment.detail.isSaving}>
-                                <i className="fa fa-paper-plane"/>
-                            </button>
-                        </span>
-                </div>
+                    (<FieldError message={Comment.detail.error.create.body}/>):null}
+
+                <MessageWidget onAddAttachment={this.onAddAttachment.bind(this)}
+                               onBodyChange={this.onBodyChange.bind(this)}
+                               onSend={this.handleSubmit.bind(this)}
+                               errors={Comment.detail.error.create}
+                               loading={Comment.detail.isSaving}/>
             </form>
         );
     }

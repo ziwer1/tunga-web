@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
 import * as MessageActions from '../actions/MessageActions'
+import * as ChannelActions from '../actions/ChannelActions'
 import { PATH_CHANGE } from '../actions/NavActions'
 
 function message(state = {}, action) {
@@ -18,11 +19,29 @@ function message(state = {}, action) {
 function messages(state = [], action) {
     switch (action.type) {
         case MessageActions.LIST_MESSAGES_SUCCESS:
-            return action.items;
+            return [...action.items].reverse();
         case MessageActions.LIST_MORE_MESSAGES_SUCCESS:
-            return [...state, ...action.items];
+            var old_msgs = [...action.items].reverse();
+            return [...old_msgs, ...state];
+        case MessageActions.LIST_NEW_MESSAGES_SUCCESS:
+            var new_msgs = [...action.items].reverse();
+            return [...state, ...new_msgs];
         case MessageActions.CREATE_MESSAGE_SUCCESS:
-            return [action.message, ...state];
+            return [...state, action.message];
+        default:
+            return state;
+    }
+}
+
+function last_read(state = 0, action) {
+    switch (action.type) {
+        case ChannelActions.CREATE_CHANNEL_SUCCESS:
+        case ChannelActions.RETRIEVE_CHANNEL_SUCCESS:
+        case ChannelActions.UPDATE_CHANNEL_SUCCESS:
+        case ChannelActions.RETRIEVE_DIRECT_CHANNEL_SUCCESS:
+            return action.channel.last_read;
+        case ChannelActions.DELETE_CHANNEL_SUCCESS:
+            return 0;
         default:
             return state;
     }
@@ -145,6 +164,7 @@ const detail = combineReducers({
 
 const list = combineReducers({
     messages,
+    last_read,
     isFetching,
     isFetchingMore,
     next,

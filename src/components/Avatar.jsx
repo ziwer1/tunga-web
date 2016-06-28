@@ -11,7 +11,7 @@ export default class Avatar extends React.Component {
                     <img src={image}/>
                 </div>
                     ):(
-                <i className={"glyphicon glyphicon-user avatar-icon " + (size?size:'')}/>
+                <i className={"glyphicon glyphicon-user avatar-icon " + (size?size:null)}/>
                     )}
             </div>
         );

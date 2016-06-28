@@ -6,56 +6,68 @@ import Progress from './status/Progress'
 import LoadMore from './status/LoadMore'
 import Avatar from './Avatar'
 import SearchBox from './SearchBox'
+import Attachments from './Attachments'
 
 export default class MessageList extends React.Component {
 
     componentDidMount() {
-        const { MessageActions, filter, search } = this.props;
-        MessageActions.listMessages({filter, search});
+        const { MessageActions, filters, search, channel } = this.props;
+        MessageActions.listMessages({...filters, search});
+        if(channel) {
+            setInterval(this.getNewMessages.bind(this), 5000);
+        }
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if(prevProps.filter != this.props.filter || prevProps.search != this.props.search) {
-            const { MessageActions, filter } = this.props;
-            MessageActions.listMessages({filter, search});
+        if(prevProps.search != this.props.search) {
+            const { MessageActions, filters, search } = this.props;
+            MessageActions.listMessages({...filters, search});
+        }
+    }
+
+    getNewMessages() {
+        const { Message, MessageActions, search, filters, channel } = this.props;
+        if(channel && !Message.list.isFetching && Message.list.messages.length) {
+            var since = 0;
+            if(Message.list.messages.length) {
+                since = Message.list.messages[Message.list.messages.length-1].id;
+            }
+            MessageActions.listMessages({...filters, search, channel: channel.id, since});
         }
     }
 
     render() {
-        const { Message, MessageActions, filter } = this.props;
+        const { Message, MessageActions, filters, channel } = this.props;
         return (
-            <div>
-                {this.props.hide_header?null:(
-                <SearchBox filter={{filter: filter}} placeholder="Search for messages" onSearch={MessageActions.listMessages}/>
-                    )}
+            <div className="message-list">
                 {Message.list.isFetching?
                     (<Progress/>)
                     :
                     (<div>
-                        <div className="message-list">
-                            {Message.list.messages.map((message) => {
-                                return(
-                                <div className={"message"+(message.is_read?'':' new')} key={message.id}>
-                                    <Link to={`/message/${message.id}/`}>
-                                        <div className="row">
-                                            <div className="col-md-3">
-                                                <Avatar src={message.details.user.avatar_url}/> {message.details.user.display_name}
-                                            </div>
-                                            <div className="col-md-3">{message.subject}</div>
-                                            <div className="col-md-3"><div dangerouslySetInnerHTML={{__html: message.body}}/></div>
-                                            <div className="col-md-3">
-                                                <TimeAgo date={moment.utc(message.created_at).local().format()} className="pull-right"/>
-                                            </div>
-                                        </div>
-                                    </Link>
+                        <LoadMore url={Message.list.next} callback={MessageActions.listMoreMessages}
+                                  loading={Message.list.isFetchingMore} direction="up" text="Show older messages"/>
+
+                        {Message.list.messages.map((message) => {
+                            return(
+                            <div key={message.id} id={"message" + message.id}
+                                 className={"well card media message" + (channel && Message.list.last_read < message.id?' new':'')}>
+                                <div className="media-left">
+                                    <Avatar src={message.user.avatar_url}/>
                                 </div>
-                                    );
-                                })}
-                            <LoadMore url={Message.list.next} callback={MessageActions.listMoreMessages} loading={Message.list.isFetchingMore}/>
-                            {Message.list.messages.length?'':(
-                            <div className="alert alert-info">No messages</div>
-                                )}
-                        </div>
+                                <div className="media-body">
+                                    <p>
+                                        <Link to={channel?`/member/${message.user.id}/`:`/channel/${message.channel}/#message${message.id}`}>{message.user.display_name}</Link>
+                                        <TimeAgo date={moment.utc(message.created_at).local().format()} className="pull-right"/>
+                                    </p>
+                                    <div dangerouslySetInnerHTML={{__html: message.body}}/>
+                                    {message.attachments.length?(<Attachments attachments={message.attachments}/>):null}
+                                </div>
+                            </div>
+                                );
+                            })}
+                        {Message.list.messages.length?'':(
+                        <div className="alert alert-info">No messages</div>
+                            )}
                     </div>)
                     }
             </div>

@@ -38,10 +38,8 @@ import UserPage from 'containers/UserPage'
 import UserList from 'components/UserList'
 import User from 'components/User'
 import MessagePage from 'containers/MessagePage'
-import Inbox from 'components/Inbox'
-import Compose from 'components/Compose'
-import Sent from 'components/Sent'
-import MessageDetail from 'components/MessageDetail'
+import ChannelForm from 'components/ChannelForm'
+import ChatBox from 'components/ChatBox'
 import MessageList from 'components/MessageList'
 import ProfilePage from 'containers/ProfilePage'
 import Profile from 'components/Profile'
@@ -87,6 +85,7 @@ ReactDOM.render(
                     <Route path=":id" component={Task}>
                         <IndexRoute component={TaskOverview} />
                         <Route path="applications" component={ApplicationList}/>
+                        <Route path="event/:eventId" component={TaskOverview}/>
                         <Route path=":section" />
                     </Route>
                 </Route>
@@ -95,12 +94,10 @@ ReactDOM.render(
                     <Route path="filter/:filter" component={UserList} />
                     <Route path=":id" component={User} />
                 </Route>
-                <Route path="message" component={MessagePage}>
-                    <IndexRedirect to="inbox"/>
-                    <Route path="inbox" component={Inbox} />
-                    <Route path="compose" component={Compose} />
-                    <Route path="sent" component={Sent} />
-                    <Route path=":id" component={MessageDetail} />
+                <Route path="channel" component={MessagePage}>
+                    {/*<IndexRoute component="MessageDetail"/>*/}
+                    <Route path="start" component={ChannelForm} />
+                    <Route path=":id" component={ChatBox} />
                 </Route>
                 <Route path="payments" component={TaskPage}>
                     <IndexRedirect to="pending"/>

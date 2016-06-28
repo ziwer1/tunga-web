@@ -20,7 +20,7 @@ export function resizeOverviewBox() {
     var w_h = $(window).height();
     var nav_h = $('nav.navbar').height();
     var wf_h = $('.workflow-head').height();
-    var t_h = nav_h + wf_h + 90;
+    var t_h = nav_h + wf_h + 90;//($('.workflow-head .timeline').size()?70:40);
     if(w_h > t_h) {
         $('.workflow-overview').css('height', (w_h - t_h)+'px');
     }
@@ -30,7 +30,6 @@ export default class TaskOverview extends React.Component {
 
     componentDidMount() {
         $(document).ready(resizeOverviewBox);
-
         $(window).resize(resizeOverviewBox);
     }
 
@@ -43,8 +42,8 @@ export default class TaskOverview extends React.Component {
                 {Task.detail.isRetrieving?
                     (<Progress/>)
                     :(
-                <div className="workflow-overview">
-                    <div className="chatbox">
+                <div className="workflow-overview overview">
+                    <div className="mainbox chatbox">
                         {task.details?(
                         <CommentSection className="list-box">
                             <CommentList filter={{task: task.id}}/>

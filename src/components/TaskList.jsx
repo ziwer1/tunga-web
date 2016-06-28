@@ -42,10 +42,6 @@ export default class TaskList extends React.Component {
                         <li role="presentation"><IndexLink to="/task" activeClassName="active">All Tasks</IndexLink></li>
                         <li role="presentation"><Link to="/task/filter/skills" activeClassName="active">My Skills</Link></li>
                         <li role="presentation"><Link to="/task/filter/project-owners" activeClassName="active">My Clients</Link></li>
-                        <li role="presentation"><Link to="/task/filter/saved" activeClassName="active">Saved</Link></li>
-                        {Auth.user.is_developer?(
-                        <li role="presentation"><Link to="/task/filter/my-tasks" activeClassName="active">My Tasks</Link></li>
-                            ):null}
                     </ul>
                         )}
                     <SearchBox filter={{filter: filter, ...this.props.filters}} placeholder="Search for tasks" onSearch={TaskActions.listTasks}/>

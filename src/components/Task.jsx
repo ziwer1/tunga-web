@@ -1,8 +1,6 @@
-
-
 import React from 'react'
 import { Link } from 'react-router'
-import Helmet from "react-helmet";
+import Helmet from "react-helmet"
 import TagList from './TagList'
 import Progress from './status/Progress'
 import CommentSection from '../containers/CommentSection'

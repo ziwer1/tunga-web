@@ -200,7 +200,7 @@ form.steps-all {
     background-color: #fff;
 }
 
-form[name='comment'] {
+.input-group.message-widget {
     .input-group-btn {
         .btn {
             background: #fff none;
@@ -286,13 +286,18 @@ form[name='compose'] {
     color: @brand;
 }
 
+.badge {
+    margin-left: 5px;
+}
+
 .badge,
 .workflow-actions .btn .badge {
     color: @brand;
     background-color: #fff;
 }
 
-.nav-sidebar .badge {
+.nav-sidebar .badge,
+.channel-list .badge {
     border: 1px @brand solid;
 }
 
@@ -415,8 +420,17 @@ form[name='compose'] {
 .avatar-icon {
     font-size: 30px;
     margin: 5px;
-    color: @brand;
+    color: @brand !important;
     vertical-align: middle;
+}
+
+.avatar.small {
+    width: 20px;
+    height: 20px;
+}
+
+.avatar-icon.small {
+    font-size: 20px;
 }
 
 .avatar.medium {
@@ -812,29 +826,11 @@ form[name='compose'] {
 }
 
 .message {
-    border: 1px solid #ccc;
-    line-height: 40px;
-    padding: 2px 10px;
-    margin: 10px 0;
-}
-
-.message, .message a {
-    color: #333;
-}
-
-.message > * {
-    max-height: 40px;
-    display: block;
-    overflow: hidden;
+    margin: 5px 0;
 }
 
 .message.new {
    font-weight: bold;
-}
-
-.message .avatar,
-.message .avatar-icon {
-    margin: 0 5px 0;
 }
 
 .load-more {
@@ -942,7 +938,6 @@ form[name='compose'] {
 }
 
 .workflow-head {
-    margin-bottom: 10px;
 
     .dropdown {
         .dropdown-toggle {
@@ -1007,6 +1002,7 @@ form[name='compose'] {
         top: 10px;
         display: inline-block;
         color: @brand;
+        cursor: pointer;
     }
 
     .event.past {
@@ -1045,26 +1041,36 @@ form[name='compose'] {
     border-right-color: @brand;
 }
 
-.workflow-overview {
+.overview {
     border: 1px solid #ccc;
     display: flex;
 
-	.chatbox {
+    .sidebox {
+        width: 30%;
+        height: 100%;
+    }
+
+	.mainbox {
+        width: 70%;
+        height: 100%;
+	}
+
+    .chatbox {
         position: relative;
         display: flex;
         flex-direction: column;
         border-right: 1px solid #ccc;
-        width: 70%;
         height: 100%;
 
-		.card, .card.well {
-			border-width: 0;
-			margin: 0;
-			box-shadow: none;
-		}
+        .alert {
+            margin: 0;
+            width: 100%;
+        }
 
-        .comment-box {
-
+        .card, .card.well {
+            border-width: 0;
+            margin: 0;
+            box-shadow: none;
         }
 
         .list-box {
@@ -1073,16 +1079,23 @@ form[name='compose'] {
             flex-direction: column;
             justify-content: flex-end;
 
-            .comment-list {
+            .comment-list,
+            .message-list {
                 overflow-x: hidden;
                 overflow-y: auto;
             }
         }
-	}
+
+        form {
+            max-width: none;
+        }
+    }
+}
+
+.workflow-overview {
 
     .sidebox {
-        width: 30%;
-        height: 100%;
+        border-right: 1px solid #ccc;
 
         .overview-details {
             padding: 10px;
@@ -1096,6 +1109,73 @@ form[name='compose'] {
             padding: 10px;
             height: 50%;
             overflow-y: auto;
+        }
+    }
+
+    .chatbox {
+        border-right: 1px solid #ccc;
+    }
+}
+
+.chat-overview {
+    .channelbox {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        border-right: 1px solid #ccc;
+
+        .list-box {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+
+            .channel-list {
+                overflow-x: hidden;
+                overflow-y: auto;
+            }
+        }
+    }
+
+    .mainbox {
+        .new-channel {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+            overflow-y: auto;
+
+            form {
+                margin: 0 auto;
+            }
+        }
+    }
+
+    .search-box {
+        margin: 0;
+
+        form {
+            max-width: none;
+            width: 100%;
+        }
+    }
+
+    .chat-actions {
+        .search-box {
+
+            form {
+                max-width: 200px;
+            }
+        }
+    }
+
+    .chatbox-top {
+        padding: 0 0 0 10px;
+    }
+
+    .channelbox {
+        a {
+            display: block;
+            padding: 5px 10px;
         }
     }
 }

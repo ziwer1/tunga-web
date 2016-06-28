@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { ENDPOINT_MESSAGE } from '../constants/Api'
+import { updateChannelRead } from './ChannelActions'
 
 export const CREATE_MESSAGE_START = 'CREATE_MESSAGE_START';
 export const CREATE_MESSAGE_SUCCESS = 'CREATE_MESSAGE_SUCCESS';
@@ -22,6 +23,9 @@ export const UPDATE_MESSAGE_READ_FAILED = 'UPDATE_MESSAGE_READ_FAILED';
 export const LIST_MORE_MESSAGES_START = 'LIST_MORE_MESSAGES_START';
 export const LIST_MORE_MESSAGES_SUCCESS = 'LIST_MORE_MESSAGES_SUCCESS';
 export const LIST_MORE_MESSAGES_FAILED = 'LIST_MORE_MESSAGES_FAILED';
+export const LIST_NEW_MESSAGES_START = 'LIST_NEW_MESSAGES_START';
+export const LIST_NEW_MESSAGES_SUCCESS = 'LIST_NEW_MESSAGES_SUCCESS';
+export const LIST_NEW_MESSAGES_FAILED = 'LIST_NEW_MESSAGES_FAILED';
 
 export function createMessage(message, attachments) {
     return dispatch => {
@@ -83,37 +87,43 @@ export function createMessageFailed(error) {
 
 export function listMessages(filter) {
     return dispatch => {
-        dispatch(listMessagesStart(filter));
+        let get_new = filter && filter.since > -1;
+        dispatch(listMessagesStart(filter, get_new));
         axios.get(ENDPOINT_MESSAGE, {params: filter})
             .then(function(response) {
-                dispatch(listMessagesSuccess(response.data))
+                if(filter && filter.channel && response.data.results && response.data.results.length) {
+                    dispatch(updateChannelRead(filter.channel, {last_read: response.data.results[0].id}));
+                }
+                dispatch(listMessagesSuccess(response.data, filter, get_new));
             }).catch(function(response) {
-                dispatch(listMessagesFailed(response.data))
+                dispatch(listMessagesFailed(response.data, filter, get_new));
             });
     }
 }
 
-export function listMessagesStart(filter) {
+export function listMessagesStart(filter, new_only=false) {
     return {
-        type: LIST_MESSAGES_START,
+        type: new_only?LIST_NEW_MESSAGES_START:LIST_MESSAGES_START,
         filter
     }
 }
 
-export function listMessagesSuccess(response) {
+export function listMessagesSuccess(response, filter, new_only=false) {
     return {
-        type: LIST_MESSAGES_SUCCESS,
+        type: new_only?LIST_NEW_MESSAGES_SUCCESS:LIST_MESSAGES_SUCCESS,
         items: response.results,
         previous: response.previous,
         next: response.next,
-        count: response.count
+        count: response.count,
+        filter
     }
 }
 
-export function listMessagesFailed(error) {
+export function listMessagesFailed(error, filter, new_only=false) {
     return {
-        type: LIST_MESSAGES_FAILED,
-        error
+        type: new_only?LIST_NEW_MESSAGES_FAILED:LIST_MESSAGES_FAILED,
+        error,
+        filter
     }
 }
 
@@ -150,10 +160,10 @@ export function retrieveMessageFailed(error) {
     }
 }
 
-export function updateMessage(id) {
+export function updateMessage(id, data) {
     return dispatch => {
         dispatch(updateMessageStart(id));
-        axios.patch(ENDPOINT_MESSAGE + id + '/')
+        axios.patch(ENDPOINT_MESSAGE + id + '/', data)
             .then(function(response) {
                 dispatch(updateMessageSuccess(response.data))
             }).catch(function(response) {

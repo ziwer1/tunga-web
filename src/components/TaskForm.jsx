@@ -14,6 +14,8 @@ import SkillSelector from '../containers/SkillSelector'
 import ComponentWithModal from './ComponentWithModal'
 import LargeModal from './ModalLarge'
 import MilestoneForm from './MilestoneForm'
+import ProjectPage from '../containers/ProjectPage'
+import ProjectForm from './ProjectForm'
 
 import { USER_TYPE_DEVELOPER, TASK_VISIBILITY_CHOICES, VISIBILITY_DEVELOPERS, VISIBILITY_CUSTOM, UPDATE_SCHEDULE_CHOICES } from '../constants/Api'
 import {TINY_MCE_CONFIG } from '../constants/settings'
@@ -35,9 +37,10 @@ export default class TaskForm extends ComponentWithModal {
             schedule_map[`${schedule.number}_${schedule.unit}`] = {update_interval: schedule.number, update_interval_units: schedule.unit};
         })
         this.state = {
-            deadline: null, skills: [], description: '', visibility: VISIBILITY_DEVELOPERS,
+            deadline: null, skills: [], description: '', remarks: '', visibility: VISIBILITY_DEVELOPERS,
             assignee: null, participants: [], schedule_options, schedule_map,
-            step: 1, schedule: null, attachments: [], showAll: false, milestones: [], modalMilestone: null
+            step: 1, schedule: null, attachments: [], showAll: false, milestones: [],
+            modalMilestone: null, modalContent: null, modalTitle: '', selected_project: ''
         };
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -47,6 +50,7 @@ export default class TaskForm extends ComponentWithModal {
         if(task.id) {
             const assignee = task.assignee?task.assignee.user:null;
             const description = task.description || '';
+            const remarks = task.remarks || '';
             var participants = [];
             if(task.details) {
                 task.details.participation.forEach((participant) => {
@@ -56,7 +60,7 @@ export default class TaskForm extends ComponentWithModal {
                 });
             }
             this.setState({
-                visibility: task.visibility, assignee, participants, description,
+                visibility: task.visibility, assignee, participants, description, remarks,
                 schedule: this.getScheduleId(), milestones: task.milestones
             });
         }
@@ -68,9 +72,10 @@ export default class TaskForm extends ComponentWithModal {
             if(!this.props.task) {
                 this.refs.task_form.reset();
                 this.setState({
-                    deadline: null, skills: [], description: '', visibility: VISIBILITY_DEVELOPERS,
+                    deadline: null, skills: [], description: '', remarks: '', visibility: VISIBILITY_DEVELOPERS,
                     assignee: null, participants: [], schedule: null, attachments: [], showAll: false,
-                    step: 1, milestones: [], modalMilestone: null
+                    step: 1, milestones: [], modalMilestone: null, modalContent: null, modalTitle: '',
+                    selected_project: ''
                 });
                 const { router } = this.context;
                 router.replace('/task/'+ Task.detail.task.id);
@@ -111,6 +116,20 @@ export default class TaskForm extends ComponentWithModal {
 
     onDescriptionChange(e) {
         this.setState({description: e.target.getContent()});
+    }
+
+    onRemarksChange(e) {
+        this.setState({remarks: e.target.getContent()});
+    }
+
+    onProjectChange(e) {
+        let selected_project = e.target.value.trim();
+        if(selected_project == 'new') {
+            this.setState({modalContent: 'project', modalTitle: 'Create project', selected_project: ''});
+            this.open();
+        } else {
+            this.setState({selected_project});
+        }
     }
 
     onSkillChange(skills) {
@@ -158,10 +177,32 @@ export default class TaskForm extends ComponentWithModal {
         }
     }
 
+    onComposeMilestone(milestone) {
+        this.setState({modalMilestone: milestone, modalContent: 'milestone', modalTitle: 'Add milestone'});
+        this.open();
+    }
+
+    onAddMilestone(milestone){
+        var new_milestones = this.state.milestones;
+        if(milestone.idx > -1) {
+            new_milestones[milestone.idx] = milestone;
+        } else {
+            new_milestones = [...new_milestones, milestone];
+        }
+        this.setState({milestones: new_milestones});
+    }
+
+    onAddProject(project) {
+        let selected_project = project.id || '';
+        this.setState({selected_project})
+        this.close();
+    }
+
     handleSubmit(e) {
         e.preventDefault();
         var title = this.refs.title.value.trim();
         var description = this.state.description;
+        var remarks = this.state.remarks;
         var fee = this.refs.fee.value.trim();
         var deadline = this.state.deadline;
         var url = this.refs.url.value.trim();
@@ -190,7 +231,7 @@ export default class TaskForm extends ComponentWithModal {
         const skills = selected_skills.join(',');
         const attachments = this.state.attachments;
 
-        const task_info = {project: project_id, title, description, skills, url, fee, deadline, visibility, ...update_schedule, assignee, participants, milestones};
+        const task_info = {project: project_id, title, description, remarks, skills, url, fee, deadline, visibility, ...update_schedule, assignee, participants, milestones};
         if(task.id) {
             TaskActions.updateTask(task.id, task_info);
         } else {
@@ -199,29 +240,21 @@ export default class TaskForm extends ComponentWithModal {
         return;
     }
 
-    onComposeMilestone(milestone) {
-        this.setState({modalMilestone: milestone});
-        this.open();
-    }
-
-    onAddMilestone(milestone){
-        var new_milestones = this.state.milestones;
-        if(milestone.idx > -1) {
-            new_milestones[milestone.idx] = milestone;
-        } else {
-            new_milestones = [...new_milestones, milestone];
-        }
-        this.setState({milestones: new_milestones});
-    }
-
     renderModalContent() {
         return (
             <div>
-                <LargeModal title="Add milestone" show={this.state.showModal} onHide={this.close.bind(this)}>
+                <LargeModal title={this.state.modalTitle} show={this.state.showModal} onHide={this.close.bind(this)}>
+                    {this.state.modalContent == 'project'?(
+                    <ProjectPage>
+                        <ProjectForm hide_title={true} onSuccess={this.onAddProject.bind(this)}/>
+                    </ProjectPage>
+                        ):null}
+                    {this.state.modalContent == 'milestone'?(
                     <MilestoneForm
                         milestone={this.state.modalMilestone}
                         onSave={this.onAddMilestone.bind(this)}
                         close={this.close.bind(this)}/>
+                        ):null}
                 </LargeModal>
             </div>
         );
@@ -231,6 +264,7 @@ export default class TaskForm extends ComponentWithModal {
         const { Auth, Task, project } = this.props;
         const task = this.props.task || {};
         const description = this.props.task?task.description:'';
+        const remarks = this.props.task?task.remarks:'';
         const has_error = Task.detail.error.create || Task.detail.error.update;
         return (
             <div>
@@ -282,7 +316,7 @@ export default class TaskForm extends ComponentWithModal {
                         <div className="form-group">
                             {project?(
                             <div>
-                                <label>Project:</label>
+                                <label className="control-label">Project:</label>
                                 <strong>{project.title}</strong>
                             </div>
                                 ):(
@@ -290,11 +324,12 @@ export default class TaskForm extends ComponentWithModal {
                                 <label className="control-label">Is this task part of a project?</label>
                                 <div>
                                     <select type="text" className="form-control" ref="project"
-                                            defaultValue={0}>
+                                            value={this.state.selected_project} onChange={this.onProjectChange.bind(this)}>
                                         <option value=''>-- No this task is not part of a project  --</option>
                                         {Auth.running.projects.map((project) => {
                                          return (<option key={project.id} value={project.id}>{project.title}</option>);
                                          })}
+                                        <option value='new'>Create a project</option>
                                     </select>
                                 </div>
                             </div>
@@ -346,9 +381,21 @@ export default class TaskForm extends ComponentWithModal {
                                     ):null}
                                 <button type="button" className="btn btn-default" style={{marginRight: '5px'}}
                                         onClick={this.onAddAttachment.bind(this)}>
-                                    <i className="fa fa-upload"/> Upload file
+                                    <i className="fa fa-upload"/> Upload files
                                 </button>
                             </div>
+                        </div>
+
+                        {(Task.detail.error.create && Task.detail.error.create.remarks)?
+                            (<FieldError message={Task.detail.error.create.remarks}/>):null}
+                        {(Task.detail.error.update && Task.detail.error.update.remarks)?
+                            (<FieldError message={Task.detail.error.update.remarks}/>):null}
+                        <div className="form-group">
+                            <label className="control-label">Which files can you deliver in order to provide more details for this task?</label>
+                            <TinyMCE
+                                content={remarks}
+                                config={TINY_MCE_CONFIG}
+                                onChange={this.onRemarksChange.bind(this)}/>
                         </div>
 
                         {(Task.detail.error.create && Task.detail.error.create.update_schedule)?

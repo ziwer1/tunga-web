@@ -43,14 +43,29 @@ export default class TaskDetail extends ComponentWithModal {
                     </div>
                         ):null}
                     <div dangerouslySetInnerHTML={{__html: task.description}}/>
+
+                    <div className="overview-files">
+                        {task.uploads?(
+                        <div>
+                            <h4>Files</h4>
+                            {task.uploads.map(upload => {
+                                return (
+                                <div key={upload.id} className="file">
+                                    <a href={upload.url}><i className="fa fa-download"/> {upload.name} <strong>[{upload.display_size}]</strong></a>
+                                </div>
+                                    );
+                                })}
+                        </div>
+                            ):null}
+                    </div>
                     {task.can_apply?(
                     <button type="button" className="btn btn-default"
                             onClick={this.handleApplication.bind(this)}>Apply for this task</button>
                         ):null}
-                    {task.can_save?(
+                    {/*task.can_save?(
                     <button type="button" className="btn btn-default"
                             onClick={this.handleSaveTask.bind(this)}>Save Task</button>
-                        ):null}
+                        ):null*/}
                 </div>
                     )}
             </div>

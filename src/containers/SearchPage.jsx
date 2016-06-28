@@ -30,7 +30,9 @@ class SearchPage extends React.Component {
 
         return (
             <div>
+                {Search.query?(
                 <h3 className="results">{Search.count?Search.count:"Search"} results for "<strong>{Search.query}</strong>"</h3>
+                    ):null}
                 <ul className="nav nav-pills nav-top-filter">
                     <li role="presentation"><Link to="/search/developers/" activeClassName="active">Developers</Link></li>
                     <li role="presentation"><Link to="/search/tasks/" activeClassName="active">Tasks</Link></li>

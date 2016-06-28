@@ -68,11 +68,15 @@ export const ENDPOINT_PROJECT = getEndpointUrl('project/');
 export const ENDPOINT_TASK = getEndpointUrl('task/');
 export const ENDPOINT_USER = getEndpointUrl('user/');
 export const ENDPOINT_COMMENT = getEndpointUrl('comment/');
+export const ENDPOINT_CHANNEL = getEndpointUrl('channel/');
+export const ENDPOINT_DIRECT_CHANNEL = getEndpointUrl('channel/direct/');
 export const ENDPOINT_MESSAGE = getEndpointUrl('message/');
 export const ENDPOINT_REPLY = getEndpointUrl('reply/');
 export const ENDPOINT_CONNECTION = getEndpointUrl('connection/');
 export const ENDPOINT_APPLICATION = getEndpointUrl('application/');
 export const ENDPOINT_SAVED_TASK = getEndpointUrl('saved-task/');
+export const ENDPOINT_MILESTONE = getEndpointUrl('progress-event/');
+export const ENDPOINT_PROGRESS_REPORT = getEndpointUrl('progress-report/');
 export const ENDPOINT_SKILL = getEndpointUrl('skill/');
 export const ENDPOINT_COUNTRIES = getEndpointUrl('countries/');
 export const ENDPOINT_CONTACT_REQUEST = getEndpointUrl('contact-request/');
@@ -115,4 +119,24 @@ export const UPDATE_SCHEDULE_CHOICES = [
     {number: 3, unit: UPDATE_INTERVAL_UNIT_DAILY, name: 'Every 3 Days'},
     {number: 4, unit: UPDATE_INTERVAL_UNIT_DAILY, name: 'Every 4 Days'},
     {number: 1, unit: UPDATE_INTERVAL_UNIT_WEEKLY, name: 'Weekly'},
-]
+];
+
+export const RATING_CRITERIA_CODING = 1;
+export const RATING_CRITERIA_COMMUNICATION = 2;
+export const RATING_CRITERIA_SPEED = 3;
+
+export const RATING_CRITERIA_CHOICES = [
+    {id: RATING_CRITERIA_CODING, name: 'Coding skills'},
+    {id: RATING_CRITERIA_COMMUNICATION, name: 'Communication skills'},
+    {id: RATING_CRITERIA_SPEED, name: 'Speed'}
+];
+
+export const PROGRESS_REPORT_STATUS_ON_SCHEDULE = 1;
+export const PROGRESS_REPORT_STATUS_BEHIND = 2;
+export const PROGRESS_REPORT_STATUS_STUCK = 3;
+
+export const PROGRESS_REPORT_STATUS_CHOICES = [
+    {id: PROGRESS_REPORT_STATUS_ON_SCHEDULE, name: 'On schedule'},
+    {id: PROGRESS_REPORT_STATUS_BEHIND, name: 'Behind'},
+    {id: PROGRESS_REPORT_STATUS_STUCK, name: 'Stuck'}
+];
