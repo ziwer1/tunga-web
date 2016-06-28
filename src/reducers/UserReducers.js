@@ -81,6 +81,18 @@ function previous(state = null, action) {
     }
 }
 
+function count(state = null, action) {
+    switch (action.type) {
+        case UserActions.LIST_USERS_SUCCESS:
+            return action.count;
+        case UserActions.LIST_USERS_START:
+        case UserActions.LIST_USERS_FAILED:
+            return 0;
+        default:
+            return state;
+    }
+}
+
 function isFetching(state = false, action) {
     switch (action.type) {
         case UserActions.LIST_USERS_START:
@@ -128,7 +140,8 @@ const list = combineReducers({
     isFetching,
     isFetchingMore,
     next,
-    previous
+    previous,
+    count
 });
 
 const User = combineReducers({

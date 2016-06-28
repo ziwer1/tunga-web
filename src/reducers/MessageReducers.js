@@ -67,6 +67,18 @@ function previous(state = null, action) {
     }
 }
 
+function count(state = null, action) {
+    switch (action.type) {
+        case MessageActions.LIST_MESSAGES_SUCCESS:
+            return action.count;
+        case MessageActions.LIST_MESSAGES_START:
+        case MessageActions.LIST_MESSAGES_FAILED:
+            return 0;
+        default:
+            return state;
+    }
+}
+
 function isSaving(state = false, action) {
     switch (action.type) {
         case MessageActions.CREATE_MESSAGE_START:
@@ -168,7 +180,8 @@ const list = combineReducers({
     isFetching,
     isFetchingMore,
     next,
-    previous
+    previous,
+    count
 });
 
 const Message = combineReducers({

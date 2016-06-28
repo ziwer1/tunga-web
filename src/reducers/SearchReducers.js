@@ -18,11 +18,8 @@ function query(state = null, action) {
 function count(state = 0, action) {
     switch (action.type) {
         case UserActions.LIST_USERS_SUCCESS:
-        case UserActions.LIST_MORE_USERS_SUCCESS:
         case TaskActions.LIST_TASKS_SUCCESS:
-        case TaskActions.LIST_MORE_TASKS_SUCCESS:
         case MessageActions.LIST_MESSAGES_SUCCESS:
-        case MessageActions.LIST_MORE_MESSAGES_SUCCESS:
             return action.count;
         case UserActions.LIST_USERS_START:
         case UserActions.LIST_USERS_FAILED:

@@ -37,7 +37,7 @@ export default class MessageList extends React.Component {
     }
 
     render() {
-        const { Message, MessageActions, filters, channel } = this.props;
+        const { Auth, Message, MessageActions, filters, channel } = this.props;
         return (
             <div className="message-list">
                 {Message.list.isFetching?
@@ -50,7 +50,7 @@ export default class MessageList extends React.Component {
                         {Message.list.messages.map((message) => {
                             return(
                             <div key={message.id} id={"message" + message.id}
-                                 className={"well card media message" + (channel && Message.list.last_read < message.id?' new':'')}>
+                                 className={"well card media message" + (channel && message.user.id != Auth.user.id && Message.list.last_read < message.id?' new':'')}>
                                 <div className="media-left">
                                     <Avatar src={message.user.avatar_url}/>
                                 </div>

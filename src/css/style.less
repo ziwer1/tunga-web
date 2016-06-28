@@ -858,14 +858,19 @@ form[name='compose'] {
     }
 }
 
-.attachments {
-    margin: 5px auto;
+.file {
+    margin: 5px;
 }
 
-.attachments .file {
-    display: inline-block;
-    margin-right: 10px;
+.attachments {
+    margin: 5px auto;
+
+    .file {
+        display: inline-block;
+        margin: 0 10px 0 0;
+    }
 }
+
 
 .collaborator {
     .status {
@@ -1080,9 +1085,15 @@ form[name='compose'] {
             justify-content: flex-end;
 
             .comment-list,
-            .message-list {
+            .message-list,
+            .attachment-list {
                 overflow-x: hidden;
                 overflow-y: auto;
+            }
+
+            .attachment-list {
+                flex-grow: 1;
+                padding: 10px;
             }
         }
 
@@ -1163,8 +1174,13 @@ form[name='compose'] {
         .search-box {
 
             form {
-                max-width: 200px;
+                max-width: 250px;
             }
+        }
+
+        .btn {
+            height: 30px;
+            line-height: 20px;
         }
     }
 

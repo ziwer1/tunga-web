@@ -46,7 +46,10 @@ export default class UserList extends React.Component {
                     {page_title[filter]?(
                     <h2>{page_title[filter]}</h2>
                         ):null}
-                    <SearchBox filter={{filter: filter}} placeholder="Search by name or skills" onSearch={UserActions.listUsers}/>
+                    <SearchBox placeholder="Search by name or skills"
+                               filter={{filter: filter}}
+                               onSearch={UserActions.listUsers}
+                               count={User.list.count}/>
                 </div>
                     )}
                 {User.list.isFetching?

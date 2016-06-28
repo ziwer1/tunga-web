@@ -44,7 +44,10 @@ export default class TaskList extends React.Component {
                         <li role="presentation"><Link to="/task/filter/project-owners" activeClassName="active">My Clients</Link></li>
                     </ul>
                         )}
-                    <SearchBox filter={{filter: filter, ...this.props.filters}} placeholder="Search for tasks" onSearch={TaskActions.listTasks}/>
+                    <SearchBox placeholder="Search for tasks"
+                               filter={{filter: filter, ...this.props.filters}}
+                               onSearch={TaskActions.listTasks}
+                               count={Task.list.count}/>
                 </div>
                     )}
                 {Task.list.isFetching?

@@ -43,6 +43,9 @@ class SearchBox extends React.Component {
     }
 
     render() {
+        const { Search } = this.props;
+        const count = this.props.count || Search.count;
+
         return (
             <div className="search-box">
                 <form name="search" role="form">
@@ -54,7 +57,7 @@ class SearchBox extends React.Component {
                     </div>
                 </form>
                 {!this.props.hide_results && this.state.search?(
-                <div className="results">Results for "<strong>{this.state.search}</strong>"</div>
+                <div className="results">{count?count:"Search"} results for "<strong>{this.state.search}</strong>"</div>
                     ):null}
             </div>
         );

@@ -153,7 +153,7 @@ export default class TaskWorflow extends ComponentWithModal {
                     <div className="workflow-head clearfix">
                         {(Auth.user.id == task.user || Auth.user.is_staff)?(
                         <div className="pull-right" style={{marginTop: '20px'}}>
-                            <div className="btn-group btn-choices select" role="group" aria-label="update preference">
+                            <div className="btn-group btn-choices select" role="group">
                                 <IndexLink to={`/task/${task.id}/`}
                                            className="btn btn-default" activeClassName="active">Task page</IndexLink>
                                 <Link to={`/task/${task.id}/applications/`}

@@ -51,7 +51,7 @@ class MessagePage extends React.Component {
 
                 <div className="chat-overview overview">
                     <div className="sidebox channelbox">
-                        <SearchBox placeholder="Search" onSearch={ChannelActions.listChannels}/>
+                        <SearchBox placeholder="Search" onSearch={ChannelActions.listChannels} count={Channel.list.count}/>
                         <div>
                             <Link to="/channel/start/"><i className="fa fa-plus"/> Start a new conversation</Link>
                         </div>

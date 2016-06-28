@@ -95,6 +95,18 @@ function previous(state = null, action) {
     }
 }
 
+function count(state = null, action) {
+    switch (action.type) {
+        case TaskActions.LIST_TASKS_SUCCESS:
+            return action.count;
+        case TaskActions.LIST_MORE_TASKS_START:
+        case TaskActions.LIST_TASKS_FAILED:
+            return 0;
+        default:
+            return state;
+    }
+}
+
 function filter(state = null, action) {
     switch (action.type) {
         case TaskActions.LIST_TASKS_SUCCESS:
@@ -246,6 +258,7 @@ const list = combineReducers({
     isFetchingMore,
     next,
     previous,
+    count,
     filter
 });
 

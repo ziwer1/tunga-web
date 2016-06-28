@@ -13,8 +13,6 @@ function channel(state = {}, action) {
         case ChannelActions.DELETE_CHANNEL_SUCCESS:
             return {};
         case MessageActions.LIST_MESSAGES_SUCCESS:
-            console.log(action);
-            console.log(state);
             if(action.filter && action.filter.channel == state.id) {
                 return {...state, new: 0};
             }
@@ -84,6 +82,18 @@ function previous(state = null, action) {
         case ChannelActions.LIST_CHANNELS_SUCCESS:
         case ChannelActions.LIST_MORE_CHANNELS_SUCCESS:
             return action.previous;
+        default:
+            return state;
+    }
+}
+
+function count(state = null, action) {
+    switch (action.type) {
+        case ChannelActions.LIST_CHANNELS_SUCCESS:
+            return action.count;
+        case ChannelActions.LIST_CHANNELS_START:
+        case ChannelActions.LIST_CHANNELS_FAILED:
+            return 0;
         default:
             return state;
     }
@@ -193,7 +203,8 @@ const list = combineReducers({
     isFetching,
     isFetchingMore,
     next,
-    previous
+    previous,
+    count
 });
 
 const Channel = combineReducers({
