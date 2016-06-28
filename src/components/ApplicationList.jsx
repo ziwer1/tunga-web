@@ -54,7 +54,6 @@ export default class ApplicationList extends ComponentWithModal {
     renderModalContent() {
         const { TaskActions, Task, Auth } = this.props;
         const { task } = Task.detail;
-        console.log(this.state.application);
         return (
             <div>
                 <LargeModal title="Developer Section" modalSize="medium"
@@ -91,7 +90,14 @@ export default class ApplicationList extends ComponentWithModal {
 
     render() {
         const { Task } = this.props;
-        const { applications } =  Task.detail;
+        const { task, applications } =  Task.detail;
+
+        var milestone_summary = '';
+        if(task.milestones) {
+            milestone_summary = task.milestones.map(milestone => {
+                return milestone.title;
+            }).join(', ');
+        }
 
         return (
             <div>
@@ -103,11 +109,11 @@ export default class ApplicationList extends ComponentWithModal {
                         <div className="row">
                             {applications.ids.map((id) => {
                                 const application = applications.items[id];
-                                const user = application.details.user;
+                                const { user } =  application.details;
                                 return(
                                 <div className="col-xs-12" key={id}>
                                     <div className={"well card application" + ((application.responded && !application.accepted)?' rejected':'')}>
-                                        {application.responded?null:(
+                                        {task.closed || application.responded?null:(
                                         <div className="actions pull-right">
                                             <div>
                                                 <button type="button" className="btn btn-block btn-default"
@@ -151,7 +157,10 @@ export default class ApplicationList extends ComponentWithModal {
                                                 ):null}
                                             <div>
                                                 <p className="title">Agreements</p>
-                                                <div>{application.details.user.first_name} has agreed to the deadline, update preferences* and milestones* you've set for this task</div>
+                                                <div>{application.details.user.first_name} has agreed to the deadline {task.update_interval || task.milestones.length?(
+                                                    (task.update_interval?((task.milestones.length?', ':' and ')+'update preferences'):'')+
+                                                        (task.milestones.length?` and milestones (${milestone_summary})`:'')
+                                                    ):null} you've set for this task</div>
                                             </div>
                                         </div>
                                     </div>
