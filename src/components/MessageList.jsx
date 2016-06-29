@@ -10,11 +10,16 @@ import Attachments from './Attachments'
 
 export default class MessageList extends React.Component {
 
+    componentWillMount() {
+        this.intervals = [];
+    }
+
     componentDidMount() {
         const { MessageActions, filters, search, channel } = this.props;
         MessageActions.listMessages({...filters, search});
+
         if(channel) {
-            setInterval(this.getNewMessages.bind(this), 5000);
+            this.setInterval(this.getNewMessages.bind(this), 5000);
         }
     }
 
@@ -23,6 +28,14 @@ export default class MessageList extends React.Component {
             const { MessageActions, filters, search } = this.props;
             MessageActions.listMessages({...filters, search});
         }
+    }
+
+    componentWillUnmount() {
+        this.intervals.map(clearInterval);
+    }
+
+    setInterval() {
+        this.intervals.push(setInterval.apply(null, arguments));
     }
 
     getNewMessages() {

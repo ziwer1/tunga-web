@@ -34,6 +34,9 @@ function messages(state = [], action) {
             return [...state, ...new_msgs];
         case MessageActions.CREATE_MESSAGE_SUCCESS:
             return [...state, action.message];
+        case MessageActions.LIST_MESSAGES_START:
+        case MessageActions.LIST_MESSAGES_FAILED:
+            return [];
         default:
             return state;
     }

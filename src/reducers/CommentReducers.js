@@ -30,6 +30,9 @@ function comments(state = [], action) {
             return [...old_comments, ...state];
         case CommentActions.CREATE_COMMENT_SUCCESS:
             return [...state, action.comment];
+        case CommentActions.LIST_COMMENTS_START:
+        case CommentActions.LIST_COMMENTS_FAILED:
+            return [];
         default:
             return state;
     }
