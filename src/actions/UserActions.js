@@ -16,7 +16,7 @@ export function listUsers(filter) {
         dispatch(listUsersStart(filter));
         axios.get(ENDPOINT_USER, {params: filter})
             .then(function(response) {
-                dispatch(listUsersSuccess(response.data))
+                dispatch(listUsersSuccess(response.data, filter))
             }).catch(function(response) {
                 dispatch(listUsersFailed(response.data))
             });
@@ -30,13 +30,14 @@ export function listUsersStart(filter) {
     }
 }
 
-export function listUsersSuccess(response) {
+export function listUsersSuccess(response, filter) {
     return {
         type: LIST_USERS_SUCCESS,
         items: response.results,
         previous: response.previous,
         next: response.next,
-        count: response.count
+        count: response.count,
+        filter
     }
 }
 

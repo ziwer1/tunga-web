@@ -75,14 +75,17 @@ ReactDOM.render(
                 <Route path="project" component={ProjectPage}>
                     <IndexRedirect to="new"/>
                     <Route path="new" component={ProjectForm} />
-                    <Route path=":id" component={Project} />
+                    <Route path=":projectId">
+                        <IndexRoute  component={Project}/>
+                        <Route path="task" component={TaskForm} />
+                    </Route>
                 </Route>
                 <Route path="task" component={TaskPage}>
                     <IndexRoute component={TaskList}/>
                     <Route path="new" component={TaskForm} />
                     <Route path="tag/:tag" component={TaskList} />
                     <Route path="filter/:filter" component={TaskList} />
-                    <Route path=":id" component={Task}>
+                    <Route path=":taskId" component={Task}>
                         <IndexRoute component={TaskOverview} />
                         <Route path="applications" component={ApplicationList}/>
                         <Route path="event/:eventId" component={TaskOverview}/>
@@ -92,12 +95,12 @@ ReactDOM.render(
                 <Route path="member" component={UserPage}>
                     <IndexRedirect to="filter/developers"/>
                     <Route path="filter/:filter" component={UserList} />
-                    <Route path=":id" component={User} />
+                    <Route path=":userId" component={User} />
                 </Route>
                 <Route path="channel" component={MessagePage}>
                     {/*<IndexRoute component="MessageDetail"/>*/}
                     <Route path="start" component={ChannelForm} />
-                    <Route path=":id" component={ChatBox} />
+                    <Route path=":channelId" component={ChatBox} />
                 </Route>
                 <Route path="payments" component={TaskPage}>
                     <IndexRedirect to="pending"/>

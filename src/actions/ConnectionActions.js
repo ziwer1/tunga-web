@@ -124,9 +124,9 @@ export function updateConnection(id, data) {
         dispatch(updateConnectionStart(id));
         axios.patch(ENDPOINT_CONNECTION + id + '/', data)
             .then(function(response) {
-                dispatch(updateConnectionSuccess(response.data))
+                dispatch(updateConnectionSuccess(response.data));
             }).catch(function(response) {
-                dispatch(updateConnectionFailed(response.data))
+                dispatch(updateConnectionFailed(response.data));
             });
     }
 }
@@ -152,30 +152,31 @@ export function updateConnectionFailed(error) {
     }
 }
 
-
-export function deleteConnection(id) {
+export function deleteConnection(id, user) {
     return dispatch => {
-        dispatch(deleteConnectionStart(id));
+        dispatch(deleteConnectionStart(id, user));
         axios.delete(ENDPOINT_CONNECTION + id + '/', {})
             .then(function() {
-                dispatch(deleteConnectionSuccess(id))
+                dispatch(deleteConnectionSuccess(id, user))
             }).catch(function(response) {
                 dispatch(deleteConnectionFailed(response.data))
             });
     }
 }
 
-export function deleteConnectionStart(id) {
+export function deleteConnectionStart(id, user) {
     return {
         type: DELETE_CONNECTION_START,
-        id
+        id,
+        user
     }
 }
 
 export function deleteConnectionSuccess(id) {
     return {
         type: DELETE_CONNECTION_SUCCESS,
-        id
+        id,
+        user
     }
 }
 

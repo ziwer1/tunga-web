@@ -16,13 +16,23 @@ export default class UserCard extends React.Component {
         UserActions.updateConnection(user.request, {accepted, responded: true});
     }
 
+    handleDeleteConnection() {
+        const { UserActions, user } = this.props;
+        if(user.connection) {
+            UserActions.deleteConnection(user.connection.id, user);
+        }
+    }
+
     render() {
         const { Auth, user } = this.props;
         var connection_msg = 'Send friend request';
+        var remove_msg = 'Remove friend';
         if(Auth.user.is_project_owner) {
             connection_msg = 'Add to my team';
+            remove_msg = 'Remove from my team';
         } else if(user.is_project_owner) {
             connection_msg = 'Send request to join team';
+            remove_msg = 'Leave team';
         }
 
         return (
@@ -66,6 +76,14 @@ export default class UserCard extends React.Component {
                             </div>
                         </div>
                             ):null)}
+                    {user.connection && user.connection.accepted?(
+                    <div className="row">
+                        <div className="col-sm-12">
+                            <button type="button" className="btn btn-block btn-default"
+                                    onClick={this.handleDeleteConnection.bind(this)}>{remove_msg}</button>
+                        </div>
+                    </div>
+                        ):null}
                 </div>
             </div>
         );

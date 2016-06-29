@@ -22,13 +22,13 @@ export default class ChatBox extends React.Component {
 
     componentDidMount() {
         const { ChannelActions } = this.props;
-        ChannelActions.retrieveChannel(this.props.params.id);
+        ChannelActions.retrieveChannel(this.props.params.channelId);
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if(this.props.params.id != prevProps.params.id) {
+        if(this.props.params.channelId != prevProps.params.channelId) {
             const { ChannelActions } = this.props;
-            ChannelActions.retrieveChannel(this.props.params.id);
+            ChannelActions.retrieveChannel(this.props.params.channelId);
             this.onViewChange('messages');
         }
     }

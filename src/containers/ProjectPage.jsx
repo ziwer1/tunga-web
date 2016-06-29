@@ -8,7 +8,9 @@ class ProjectPage extends React.Component {
             return React.cloneElement(child, {
                 Auth: this.props.Auth,
                 Project: this.props.Project,
-                ProjectActions: this.props.ProjectActions
+                Task: this.props.Task,
+                ProjectActions: this.props.ProjectActions,
+                TaskActions: this.props.TaskActions
             });
         }.bind(this));
     }

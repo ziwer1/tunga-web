@@ -47,6 +47,10 @@ export default class TaskForm extends ComponentWithModal {
 
     componentDidMount() {
         const task = this.props.task || {};
+        var selected_project = '';
+        if(this.props.params && this.props.params.projectId) {
+            selected_project = this.props.params.projectId;
+        }
         if(task.id) {
             const assignee = task.assignee?task.assignee.user:null;
             const description = task.description || '';
@@ -61,8 +65,10 @@ export default class TaskForm extends ComponentWithModal {
             }
             this.setState({
                 visibility: task.visibility, assignee, participants, description, remarks,
-                schedule: this.getScheduleId(), milestones: task.milestones
+                schedule: this.getScheduleId(), milestones: task.milestones, selected_project
             });
+        } else if(selected_project) {
+            this.setState({selected_project});
         }
     }
 
@@ -77,8 +83,17 @@ export default class TaskForm extends ComponentWithModal {
                     step: 1, milestones: [], modalMilestone: null, modalContent: null, modalTitle: '',
                     selected_project: ''
                 });
+
+                var selected_project = '';
+                if(this.props.params && this.props.params.projectId) {
+                    selected_project = this.props.params.projectId;
+                }
                 const { router } = this.context;
-                router.replace('/task/'+ Task.detail.task.id);
+                var next = `/task/${Task.detail.task.id}`;
+                if(selected_project) {
+                    next = `/project/${selected_project}`;
+                }
+                router.replace(next);
             }
         }
     }
@@ -219,19 +234,14 @@ export default class TaskForm extends ComponentWithModal {
         }
         var milestones = this.state.milestones;
 
-        const { TaskActions, project } = this.props;
-        var project_id = null;
-        if(project) {
-            project_id = project.id;
-        } else {
-            project_id = this.refs.project.value.trim();
-        }
+        const { TaskActions } = this.props;
+        var project = this.refs.project.value.trim();
         const task = this.props.task || {};
         const selected_skills = this.state.skills;
         const skills = selected_skills.join(',');
         const attachments = this.state.attachments;
 
-        const task_info = {project: project_id, title, description, remarks, skills, url, fee, deadline, visibility, ...update_schedule, assignee, participants, milestones};
+        const task_info = {project, title, description, remarks, skills, url, fee, deadline, visibility, ...update_schedule, assignee, participants, milestones};
         if(task.id) {
             TaskActions.updateTask(task.id, task_info);
         } else {
@@ -261,7 +271,7 @@ export default class TaskForm extends ComponentWithModal {
     }
 
     render() {
-        const { Auth, Task, project } = this.props;
+        const { Auth, Task } = this.props;
         const task = this.props.task || {};
         const description = this.props.task?task.description:'';
         const remarks = this.props.task?task.remarks:'';
@@ -269,7 +279,7 @@ export default class TaskForm extends ComponentWithModal {
         return (
             <div>
                 {this.renderModalContent()}
-                {task.id || project?null:(
+                {task.id?null:(
                 <h3>Post a new task</h3>
                     )}
                 <form onSubmit={this.handleSubmit} name="task" role="form" ref="task_form" className={has_error || this.state.showAll?'steps-all':null}>
@@ -314,12 +324,6 @@ export default class TaskForm extends ComponentWithModal {
                         {(Task.detail.error.update && Task.detail.error.update.project)?
                             (<FieldError message={Task.detail.error.update.project}/>):null}
                         <div className="form-group">
-                            {project?(
-                            <div>
-                                <label className="control-label">Project:</label>
-                                <strong>{project.title}</strong>
-                            </div>
-                                ):(
                             <div>
                                 <label className="control-label">Is this task part of a project?</label>
                                 <div>
@@ -327,13 +331,12 @@ export default class TaskForm extends ComponentWithModal {
                                             value={this.state.selected_project} onChange={this.onProjectChange.bind(this)}>
                                         <option value=''>-- No this task is not part of a project  --</option>
                                         {Auth.running.projects.map((project) => {
-                                         return (<option key={project.id} value={project.id}>{project.title}</option>);
-                                         })}
+                                            return (<option key={project.id} value={project.id}>{project.title}</option>);
+                                            })}
                                         <option value='new'>Create a project</option>
                                     </select>
                                 </div>
                             </div>
-                                )}
                         </div>
                     </div>
 

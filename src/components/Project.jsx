@@ -13,7 +13,7 @@ import TaskList from './TaskList'
 export default class Project extends ComponentWithModal {
 
     componentDidMount() {
-        this.props.ProjectActions.retrieveProject(this.props.params.id);
+        this.props.ProjectActions.retrieveProject(this.props.params.projectId);
     }
 
     handleCreateTask() {
@@ -47,7 +47,7 @@ export default class Project extends ComponentWithModal {
     }
 
     render() {
-        const { Auth, Project, ProjectActions, params } = this.props;
+        const { Auth, Project, ProjectActions } = this.props;
         const { project } = Project.detail;
 
         return (
@@ -63,7 +63,7 @@ export default class Project extends ComponentWithModal {
                     <div>
                         {project.deadline?"Deadline "+moment.utc(project.deadline).local().format('Do, MMMM YYYY'):null}
                     </div>
-                    <button type="button" className="btn btn-default" onClick={this.handleCreateTask.bind(this)}>Create a new task for this project</button>
+                    <Link to={`/project/${project.id}/task`} className="btn btn-action">Create a new task for this project</Link>
 
                     <div style={{marginTop: '10px'}}>
                         <TaskPage>

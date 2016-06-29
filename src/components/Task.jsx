@@ -10,7 +10,7 @@ import TaskWorflow from './TaskWorflow'
 export default class Task extends React.Component {
 
     componentDidMount() {
-        this.props.TaskActions.retrieveTask(this.props.params.id);
+        this.props.TaskActions.retrieveTask(this.props.params.taskId);
     }
 
     renderChildren() {

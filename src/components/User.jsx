@@ -5,7 +5,7 @@ import Avatar from './Avatar'
 export default class User extends React.Component {
 
     componentDidMount() {
-        this.props.UserActions.retrieveUser(this.props.params.id);
+        this.props.UserActions.retrieveUser(this.props.params.userId);
     }
 
     render() {

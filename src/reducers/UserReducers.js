@@ -29,15 +29,25 @@ function users(state = {}, action) {
         case ConnectionActions.CREATE_CONNECTION_SUCCESS:
             var user = state[action.connection.to_user];
             user.can_connect = false;
+            user.connection =  action.connection;
             var new_ref = {};
             new_ref[user.id] = user;
             return {...state, ...new_ref};
         case ConnectionActions.UPDATE_CONNECTION_SUCCESS:
             user = state[action.connection.from_user];
             user.can_connect = false;
+            user.connection =  action.connection;
             if(action.connection.responded) {
                 user.request = null;
             }
+            new_ref = {};
+            new_ref[user.id] = user;
+            return {...state, ...new_ref};
+        case ConnectionActions.DELETE_CONNECTION_SUCCESS:
+            user = state[action.user.id];
+            user.can_connect = false;
+            user.request = null;
+            user.connection = null;
             new_ref = {};
             new_ref[user.id] = user;
             return {...state, ...new_ref};
