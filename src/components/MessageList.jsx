@@ -51,6 +51,11 @@ export default class MessageList extends React.Component {
 
     render() {
         const { Auth, Message, MessageActions, filters, channel } = this.props;
+        var last_sender = null;
+        let day_format = 'd/MM/YYYY';
+        var last_sent_day = '';
+        let today = moment.utc().local().format(day_format);
+
         return (
             <div className="message-list">
                 {Message.list.isFetching?
@@ -61,22 +66,38 @@ export default class MessageList extends React.Component {
                                   loading={Message.list.isFetchingMore} direction="up" text="Show older messages"/>
 
                         {Message.list.messages.map((message) => {
-                            return(
-                            <div key={message.id} id={"message" + message.id}
-                                 className={"well card media message" + (channel && message.user.id != Auth.user.id && Message.list.last_read < message.id?' new':'')}>
-                                <div className="media-left">
-                                    <Avatar src={message.user.avatar_url}/>
+                            let sent_day = moment.utc(message.created_at).local().format(day_format);
+                            let msg_box = (
+                                <div key={message.id} id={"message" + message.id}
+                                     className={
+                                     "well card media message" +
+                                     (message.user.id == last_sender?' continued':'') +
+                                     (channel && message.user.id != Auth.user.id && Message.list.last_read < message.id?' new':'')}>
+                                    <div className="media-left">
+                                        {message.user.id == last_sender?null:(<Avatar src={message.user.avatar_url}/>)}
+                                    </div>
+                                    <div className="media-body">
+                                        {message.user.id == last_sender?(
+                                            (sent_day == last_sent_day || sent_day != today?null:(
+                                                <p>
+                                                    <TimeAgo date={moment.utc(message.created_at).local().format()} className="pull-right"/>
+                                                </p>
+                                            ))
+                                        ):(
+                                            <p>
+                                                <Link to={channel?`/member/${message.user.id}/`:`/channel/${message.channel}/#message${message.id}`}>{message.user.display_name}</Link>
+                                                <TimeAgo date={moment.utc(message.created_at).local().format()} className="pull-right"/>
+                                            </p>
+                                        )}
+                                        <div dangerouslySetInnerHTML={{__html: message.body}}/>
+                                        {message.attachments.length?(<Attachments attachments={message.attachments}/>):null}
+                                    </div>
                                 </div>
-                                <div className="media-body">
-                                    <p>
-                                        <Link to={channel?`/member/${message.user.id}/`:`/channel/${message.channel}/#message${message.id}`}>{message.user.display_name}</Link>
-                                        <TimeAgo date={moment.utc(message.created_at).local().format()} className="pull-right"/>
-                                    </p>
-                                    <div dangerouslySetInnerHTML={{__html: message.body}}/>
-                                    {message.attachments.length?(<Attachments attachments={message.attachments}/>):null}
-                                </div>
-                            </div>
-                                );
+                            );
+
+                            last_sender = message.user.id;
+                            last_sent_day = sent_day;
+                            return msg_box;
                             })}
                         {Message.list.messages.length?'':(
                         <div className="alert alert-info">No messages</div>

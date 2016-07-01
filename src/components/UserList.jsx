@@ -26,7 +26,13 @@ export default class UserList extends React.Component {
     }
 
     render() {
-        const { Auth, User, UserActions } = this.props;
+        const { Auth, User, UserActions, params } = this.props;
+
+        var filter = null;
+        if(params && params.filter) {
+            filter = this.props.params.filter;
+        }
+
         const page_title = {
             developers: 'All Developers',
             'project-owners': 'Project Owners',
@@ -35,10 +41,7 @@ export default class UserList extends React.Component {
             team: Auth.user.is_project_owner?'My Team':'My Friends',
             'my-project-owners': 'My Project Owners'
         };
-        var filter = null;
-        if(this.props.params && this.props.params.filter) {
-            filter = this.props.params.filter;
-        }
+
         return (
             <div>
                 {this.props.hide_header?null:(
@@ -61,7 +64,7 @@ export default class UserList extends React.Component {
                                 const user = User.list.users[id];
                                 return(
                                 <div className="col-sm-6 col-md-4" key={id}>
-                                    <UserCard Auth={Auth} user={user} UserActions={UserActions}/>
+                                    <UserCard Auth={Auth} user={user} UserActions={UserActions} hideOnDisconnect={filter == 'team'}/>
                                 </div>
                                     );
                                 })}

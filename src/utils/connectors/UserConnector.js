@@ -10,7 +10,10 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        UserActions: {...bindActionCreators(UserActions, dispatch), ...bindActionCreators(ConnectionActions, dispatch)}
+        UserActions: {
+            ...bindActionCreators(UserActions, dispatch),
+            ...bindActionCreators(ConnectionActions, dispatch)
+        }
     }
 }
 

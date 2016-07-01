@@ -17,9 +17,9 @@ export default class UserCard extends React.Component {
     }
 
     handleDeleteConnection() {
-        const { UserActions, user } = this.props;
+        const { UserActions, user, hideOnDisconnect } = this.props;
         if(user.connection) {
-            UserActions.deleteConnection(user.connection.id, user);
+            UserActions.deleteConnection(user.connection.id, user, hideOnDisconnect);
         }
     }
 

@@ -152,12 +152,12 @@ export function updateConnectionFailed(error) {
     }
 }
 
-export function deleteConnection(id, user) {
+export function deleteConnection(id, user, hide=false) {
     return dispatch => {
         dispatch(deleteConnectionStart(id, user));
         axios.delete(ENDPOINT_CONNECTION + id + '/', {})
             .then(function() {
-                dispatch(deleteConnectionSuccess(id, user))
+                dispatch(deleteConnectionSuccess(id, user, hide))
             }).catch(function(response) {
                 dispatch(deleteConnectionFailed(response.data))
             });
@@ -172,11 +172,12 @@ export function deleteConnectionStart(id, user) {
     }
 }
 
-export function deleteConnectionSuccess(id) {
+export function deleteConnectionSuccess(id, user, hide=false) {
     return {
         type: DELETE_CONNECTION_SUCCESS,
         id,
-        user
+        user,
+        hide
     }
 }
 

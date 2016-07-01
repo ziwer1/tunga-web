@@ -44,13 +44,16 @@ function users(state = {}, action) {
             new_ref[user.id] = user;
             return {...state, ...new_ref};
         case ConnectionActions.DELETE_CONNECTION_SUCCESS:
-            user = state[action.user.id];
-            user.can_connect = false;
-            user.request = null;
-            user.connection = null;
-            new_ref = {};
-            new_ref[user.id] = user;
-            return {...state, ...new_ref};
+            if(action.user)  {
+                user = state[action.user.id];
+                user.can_connect = false;
+                user.request = null;
+                user.connection = null;
+                new_ref = {};
+                new_ref[user.id] = user;
+                return {...state, ...new_ref};
+            }
+            return state;
         default:
             return state;
     }
@@ -67,6 +70,14 @@ function ids(state = [], action) {
         case UserActions.LIST_USERS_START:
         case UserActions.LIST_USERS_FAILED:
             return [];
+        case ConnectionActions.DELETE_CONNECTION_SUCCESS:
+            if(action.user && action.hide) {
+                var idx = state.indexOf(action.user.id);
+                if(idx > -1) {
+                    return [...state.slice(0, idx), ...state.slice(idx+1)];
+                }
+            }
+            return state;
         default:
             return state;
     }
