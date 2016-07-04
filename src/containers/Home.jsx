@@ -32,7 +32,7 @@ class Home extends React.Component {
                     {Notification.notifications?(
                     <ul>
                         {Notification.notifications.messages?(
-                        <li><Link to="/message/inbox">You have {Notification.notifications.messages} unread messages <i className="fa fa-caret-right"/></Link></li>
+                        <li><Link to="/channel">You have {Notification.notifications.messages} unread messages <i className="fa fa-caret-right"/></Link></li>
                             ):null}
                         {Notification.notifications.tasks?(
                         <li><Link to="/task">You have {Notification.notifications.tasks} tasks running <i className="fa fa-caret-right"/></Link></li>

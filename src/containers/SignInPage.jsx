@@ -33,19 +33,19 @@ class SignIn extends React.Component {
                     <div className="row">
                         <div className="col-md-12 col-sm-12 col-xs-12">
                             <div className="login-form-container">
-                              
+
                                 <div className="form-elements-container">
                                     <form onSubmit={this.handleSubmit} name="signin" role="signin">
 
                                         <p className="account-login-txt">Sign in with</p>
 
-                                        <SocialSignIn SOCIAL_MEDIA_LINKS_CLASSES={'social-media-section social-media-section-login'} />
+                                        <SocialSignIn className={'social-media-section social-media-section-login'} />
 
                                         <div className="row">
                                             <div className="col-md-5 col-sm-5 col-xs-5">
                                                 <hr />
                                             </div>
-                                            
+
                                             <div className="col-md-2 col-sm-2 col-xs-2">
                                                 <p className="login_alternative">or</p>
                                             </div>

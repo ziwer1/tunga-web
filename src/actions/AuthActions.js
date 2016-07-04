@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { ENDPOINT_LOGIN, ENDPOINT_LOGOUT, ENDPOINT_VERIFY, ENDPOINT_REGISTER, ENDPOINT_RESET_PASSWORD, ENDPOINT_RESET_PASSWORD_CONFIRM } from '../constants/Api'
+import { ENDPOINT_LOGIN, ENDPOINT_LOGOUT, ENDPOINT_VERIFY, ENDPOINT_REGISTER, ENDPOINT_APPLY, ENDPOINT_RESET_PASSWORD, ENDPOINT_RESET_PASSWORD_CONFIRM } from '../constants/Api'
 import { listRunningProjects } from './ProjectActions'
 import { listRunningTasks } from './TaskActions'
 
@@ -15,6 +15,12 @@ export const LOGOUT_FAILED = 'LOGOUT_FAILED';
 export const REGISTER_START = 'REGISTER_START';
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
 export const REGISTER_FAILED = 'REGISTER_FAILED';
+export const APPLY_START = 'APPLY_START';
+export const APPLY_SUCCESS = 'APPLY_SUCCESS';
+export const APPLY_FAILED = 'APPLY_FAILED';
+export const RETRIEVE_APPLICATION_START = 'RETRIEVE_APPLICATION_START';
+export const RETRIEVE_APPLICATION_SUCCESS = 'RETRIEVE_APPLICATION_SUCCESS';
+export const RETRIEVE_APPLICATION_FAILED = 'RETRIEVE_APPLICATION_FAILED';
 export const RESET_PASSWORD_START = 'RESET_PASSWORD_START';
 export const RESET_PASSWORD_SUCCESS = 'RESET_PASSWORD_SUCCESS';
 export const RESET_PASSWORD_FAILED = 'RESET_PASSWORD_FAILED';
@@ -152,6 +158,72 @@ export function registerSuccess(data) {
 export function registerFailed(error) {
     return {
         type: REGISTER_FAILED,
+        error
+    }
+}
+
+export function apply(details) {
+    return dispatch => {
+        dispatch(applyStart(details));
+        axios.post(ENDPOINT_APPLY, details)
+            .then(function(response) {
+                dispatch(applySuccess(response.data))
+            }).catch(function(response) {
+                dispatch(applyFailed(response.data))
+            });
+    }
+}
+
+export function applyStart(details) {
+    return {
+        type: APPLY_START,
+        details
+    }
+}
+
+export function applySuccess(application) {
+    return {
+        type: APPLY_SUCCESS,
+        application
+    }
+}
+
+export function applyFailed(error) {
+    return {
+        type: APPLY_FAILED,
+        error
+    }
+}
+
+export function retrieveApplication(key) {
+    return dispatch => {
+        dispatch(retrieveApplicationStart(key));
+        axios.get(ENDPOINT_APPLY + 'key/' + key + '/')
+            .then(function(response) {
+                dispatch(retrieveApplicationSuccess(response.data))
+            }).catch(function(response) {
+                dispatch(retrieveApplicationFailed(response.data))
+            });
+    }
+}
+
+export function retrieveApplicationStart(key) {
+    return {
+        type: RETRIEVE_APPLICATION_START,
+        key
+    }
+}
+
+export function retrieveApplicationSuccess(application) {
+    return {
+        type: RETRIEVE_APPLICATION_SUCCESS,
+        application
+    }
+}
+
+export function retrieveApplicationFailed(error) {
+    return {
+        type: RETRIEVE_APPLICATION_FAILED,
         error
     }
 }

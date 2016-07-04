@@ -12,7 +12,7 @@ import * as NavActions from '../actions/NavActions'
 import * as UserSelectionActions from '../actions/UserSelectionActions'
 import * as SkillSelectionActions from '../actions/SkillSelectionActions'
 
-import { UNAUTHED_ONLY_PATH, UNAUTHED_ACCESS_PATH, PROFILE_COMPLETE_PATH } from '../constants/patterns'
+import { UNAUTHED_ACCESS_PATH, PROFILE_COMPLETE_PATH } from '../constants/patterns'
 
 class App extends React.Component {
     static contextTypes = {
@@ -29,7 +29,7 @@ class App extends React.Component {
         const { router } = this.context;
         const { Auth, location, NavActions, AuthActions } = this.props;
         if((prevProps.location.pathname != location.pathname) || (prevProps.Auth.isAuthenticated != Auth.isAuthenticated) || (prevProps.Auth.isVerifying != Auth.isVerifying && !Auth.isVerifying)) {
-            if(UNAUTHED_ONLY_PATH.test(location.pathname) && Auth.isAuthenticated) {
+            if(UNAUTHED_ACCESS_PATH.test(location.pathname) && Auth.isAuthenticated) {
                 var next = Auth.next;
                 if(!next) {
                     next = '/home';

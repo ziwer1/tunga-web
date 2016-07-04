@@ -19,8 +19,9 @@ import App from 'containers/App'
 import LandingPage from 'containers/LandingPage'
 import Home from 'containers/Home'
 import SignInPage from 'containers/SignInPage'
-import SignupLandingPage from 'containers/SignupLandingPage'
+import AccountType from 'containers/AccountType'
 import SignUpPage from 'containers/SignUpPage'
+import DeveloperApplication from 'containers/DeveloperApplication'
 import PasswordResetPage from 'containers/PasswordResetPage'
 import PasswordResetConfirmPage from 'containers/PasswordResetConfirmPage'
 import SettingsPage from 'containers/SettingsPage'
@@ -57,7 +58,14 @@ ReactDOM.render(
             <Route path="/" component={App}>
                 <IndexRoute component={LandingPage}/>
                 <Route path="signin" component={SignInPage} />
-                <Route path="signup" component={SignupLandingPage} />
+                <Route path="signup">
+                    <IndexRoute component={AccountType} />
+                    <Route path="project-owner" component={SignUpPage} />
+                    <Route path="developer">
+                        <IndexRoute component={DeveloperApplication}/>
+                        <Route path=":confirmationKey" component={SignUpPage} />
+                    </Route>
+                </Route>
                 <Route path="reset-password" component={PasswordResetPage} />
                 <Route path="reset-password/confirm/:uid/:token" component={PasswordResetConfirmPage} />
                 <Route path="home" component={Home} />

@@ -67,7 +67,7 @@ export default class ChatBox extends React.Component {
                             </div>
                             <h4>
                                 {channel.user?(
-                                <span><Avatar src={channel.user.avatar_url} size="small"/> {channel.user.display_name}</span>
+                                <span><Avatar src={channel.user.avatar_url} /> {channel.user.display_name}</span>
                                 ):null}
                                 {channel.user && channel.subject?(
                                 <span>: </span>

@@ -22,7 +22,7 @@ $.ajaxSetup({
 
 var BACKEND_PATH = '/';
 var API_PATH = 'api/';
-var SOCIAL_LOGIN_PATH = 'accounts/';
+var SOCIAL_LOGIN_PATH = 'accounts/social/';
 if(__DEV__) {
     BACKEND_PATH = 'http://localhost:8000/';
 } else if(__PRERELEASE__) {
@@ -33,10 +33,9 @@ const API_ROOT = BACKEND_PATH + API_PATH;
 export default API_ROOT;
 
 export const SOCIAL_LOGIN_PREFIX = BACKEND_PATH + SOCIAL_LOGIN_PATH;
-export const SOCIAL_LOGIN_SUFFIX = '/login/';
 
 function createSocialLoginUrl(provider) {
-    return SOCIAL_LOGIN_PREFIX + provider + SOCIAL_LOGIN_SUFFIX;
+    return SOCIAL_LOGIN_PREFIX + provider + '/';
 }
 
 export const SOCIAL_LOGIN_URLS = {
@@ -54,6 +53,7 @@ export const ENDPOINT_LOGIN = getEndpointUrl('auth/login/');
 export const ENDPOINT_LOGOUT = getEndpointUrl('auth/logout/');
 export const ENDPOINT_VERIFY = getEndpointUrl('auth/verify/');
 export const ENDPOINT_REGISTER = getEndpointUrl('auth/register/');
+export const ENDPOINT_APPLY = getEndpointUrl('apply/');
 export const ENDPOINT_CHANGE_PASSWORD = getEndpointUrl('auth/password/change/');
 export const ENDPOINT_RESET_PASSWORD = getEndpointUrl('auth/password/reset/');
 export const ENDPOINT_RESET_PASSWORD_CONFIRM = getEndpointUrl('auth/password/reset/confirm/');

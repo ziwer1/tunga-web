@@ -3,6 +3,7 @@ import * as AuthActions from '../actions/AuthActions'
 import * as ProfileActions from '../actions/ProfileActions'
 import { running as runningProjects } from './ProjectReducers'
 import { running as runningTasks } from './TaskReducers'
+import { PATH_CHANGE } from '../actions/NavActions'
 
 function user(state = {}, action) {
     switch (action.type) {
@@ -14,6 +15,19 @@ function user(state = {}, action) {
             var user = action.user;
             return {...state, ...user};
         case AuthActions.LOGOUT_SUCCESS:
+            return {};
+        default:
+            return state;
+    }
+}
+
+function application(state = {}, action) {
+    switch (action.type) {
+        case AuthActions.RETRIEVE_APPLICATION_SUCCESS:
+            return action.application;
+        case ProfileActions.RETRIEVE_PROFILE_START:
+        case ProfileActions.RETRIEVE_PROFILE_FAILED:
+        case PATH_CHANGE:
             return {};
         default:
             return state;
@@ -75,8 +89,44 @@ function isRegistered(state = false, action) {
     switch (action.type) {
         case AuthActions.REGISTER_SUCCESS:
             return true;
-        case AuthActions.RESET_PASSWORD_START:
-        case AuthActions.RESET_PASSWORD_FAILED:
+        case AuthActions.REGISTER_START:
+        case AuthActions.REGISTER_FAILED:
+            return false;
+        default:
+            return state;
+    }
+}
+
+function isApplying(state = false, action) {
+    switch (action.type) {
+        case AuthActions.APPLY_START:
+            return true;
+        case AuthActions.APPLY_SUCCESS:
+        case AuthActions.APPLY_FAILED:
+            return false;
+        default:
+            return state;
+    }
+}
+
+function hasApplied(state = false, action) {
+    switch (action.type) {
+        case AuthActions.APPLY_SUCCESS:
+            return true;
+        case AuthActions.APPLY_START:
+        case AuthActions.APPLY_FAILED:
+            return false;
+        default:
+            return state;
+    }
+}
+
+function isRetrievingApplication(state = false, action) {
+    switch (action.type) {
+        case AuthActions.APPLY_START:
+            return true;
+        case AuthActions.APPLY_SUCCESS:
+        case AuthActions.APPLY_FAILED:
             return false;
         default:
             return state;
@@ -126,6 +176,11 @@ function error(state = {}, action) {
         case AuthActions.REGISTER_START:
         case AuthActions.REGISTER_SUCCESS:
             return {...state, register: null};
+        case AuthActions.APPLY_FAILED:
+            return {...state, apply: action.error};
+        case AuthActions.APPLY_START:
+        case AuthActions.APPLY_SUCCESS:
+            return {...state, apply: null};
         case AuthActions.RESET_PASSWORD_FAILED:
             return {...state, reset: action.error};
         case AuthActions.RESET_PASSWORD_START:
@@ -159,11 +214,15 @@ const running = combineReducers({
 
 const Auth = combineReducers({
     user,
+    application,
     isAuthenticating,
     isVerifying,
     isAuthenticated,
     isRegistering,
     isRegistered,
+    isApplying,
+    hasApplied,
+    isRetrievingApplication,
     isResetting,
     isReset,
     error,

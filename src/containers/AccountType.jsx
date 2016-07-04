@@ -1,8 +1,9 @@
-import React, {Component} from 'react';
+import React from 'react'
+import { Link } from 'react-router'
 
 import { USER_TYPE_CHOICES } from '../constants/Api';
 
-class AccountType extends Component {
+class AccountType extends React.Component {
 	render() {
 		return(
 			<section className="signup-lp">
@@ -15,13 +16,9 @@ class AccountType extends Component {
 
 				                <p className="crt-info-text">I want to ...</p>
 
-			                  	<button value={USER_TYPE_CHOICES[1].id} onClick={this.props.displayForm} className="btn btn-default acct-type-btn">
-			                    	create an account as a project owner
-			                  	</button>
+                                <Link to="/signup/project-owner" className="btn btn-default acct-type-btn">Create an account as a project owner</Link>
 
-			                  	<button value={USER_TYPE_CHOICES[0].id} onClick={this.props.displayForm} className="btn btn-default acct-type-btn">
-			                  		apply as a developer
-			                  	</button>
+                                <Link to="/signup/developer" className="btn btn-default acct-type-btn">Apply as a developer</Link>
 
 				            </div>
 			          	</div>

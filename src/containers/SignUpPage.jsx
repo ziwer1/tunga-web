@@ -4,116 +4,166 @@ import Error from '../components/status/Error'
 import Success from '../components/status/Success'
 import FieldError from '../components/status/FieldError'
 import SocialSignIn from '../components/SocialSignIn'
-import connect from '../utils/connectors/AuthConnector';
+import connect from '../utils/connectors/AuthConnector'
 
-import { SOCIAL_LOGIN_URLS } from '../constants/Api'
+import { SOCIAL_LOGIN_URLS, USER_TYPE_DEVELOPER, USER_TYPE_PROJECT_OWNER } from '../constants/Api'
 
 class SignUp extends React.Component {
 
+    componentDidMount() {
+        let confirmationKey = this.props.params.confirmationKey;
+        if(confirmationKey) {
+            this.props.AuthActions.retrieveApplication(confirmationKey);
+        }
+    }
+
     componentDidUpdate(prevProps, prevState) {
-      if(this.props.Auth.isRegistered && !prevProps.Auth.isRegistered) {
-        this.refs.signup_form.reset();
-      }
+        if (this.props.Auth.isRegistered && !prevProps.Auth.isRegistered) {
+            this.refs.signup_form.reset();
+        }
     }
 
     handleSubmit(e) {
-      e.preventDefault();
-      var username = this.refs.username.value.trim();
-      var email = this.refs.email.value.trim();
-      var password1 = this.refs.password1.value.trim();
-      var password2 = this.refs.password2.value.trim();
-      var first_name = this.refs.first_name.value.trim();
-      var last_name = this.refs.last_name.value.trim();
-      // var type = this.refs.user_type.value.trim();
-      var type = this.props.userType;
-      if ((!username || !first_name || !last_name || !email) || (!password1 || !password2)) {
-          return;
-      }
+        e.preventDefault();
+        const { Auth } = this.props;
+        const { application } = Auth;
 
-      this.props.AuthActions.register({
-        username, email, password1, password2,
-        first_name, last_name, type
-      });
-      return;
+        var key = this.props.params.confirmationKey;
+        var username = this.refs.username.value.trim();
+        var first_name = null;
+        var last_name = null;
+        var email = null;
+
+        if(key) {
+            first_name = application.first_name;
+            last_name = application.last_name;
+            email = application.email;
+        } else {
+            first_name = this.refs.first_name.value.trim();
+            last_name = this.refs.last_name.value.trim();
+            email = this.refs.email.value.trim();
+        }
+        var password1 = this.refs.password1.value.trim();
+        var password2 = this.refs.password2.value.trim();
+        var user_type = key?USER_TYPE_DEVELOPER:USER_TYPE_PROJECT_OWNER;
+
+        this.props.AuthActions.register({
+            username, email, password1, password2,
+            first_name, last_name, type: user_type, key
+        });
+        return;
     }
 
     render() {
         const { Auth } = this.props;
+        const { application } = Auth;
+        let confirmationKey = this.props.params.confirmationKey;
+        let is_developer = confirmationKey?true:false;
+
         return (
-          <section className="signup-lp">
-            <div className="container">
-              <div className="row">
-                <div className="col-md-12 col-sm-12 col-xs-12">
-                  <div className="acct-type-container">
+            <section className="signup-lp">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-md-12 col-sm-12 col-xs-12">
+                            <div className="acct-type-container">
 
-                    <h2 className="crt-acc-heading">Create your Tunga account</h2>
-                    <p className="crt-acc-signup-txt">Sign up with</p>
+                                <h2 className="crt-acc-heading">Create your Tunga account as a {is_developer?'developer':'project owner'}</h2>
 
-                    <SocialSignIn SOCIAL_MEDIA_LINKS_CLASSES={'social-media-section'} />
+                                {is_developer?null:(
+                                    <div>
+                                        <p className="crt-acc-signup-txt">Sign up with</p>
 
-                    <p className="acct-type-or-txt">or</p>
+                                        <SocialSignIn className={'social-media-section'} user_type={USER_TYPE_PROJECT_OWNER} action="register"/>
 
-                    <div className="form-elements-container">
-                      <form onSubmit={this.handleSubmit.bind(this)} name="signup" role="form" ref="signup_form">
+                                        <p className="acct-type-or-txt">or</p>
+                                    </div>
+                                )}
 
-                        {Auth.isRegistering? (<Progress/>) : '' }
+                                <div className="form-elements-container">
+                                    {Auth.isRetrievingApplication && is_developer?(
+                                        <Progress/>
+                                    ):(
+                                    <form onSubmit={this.handleSubmit.bind(this)} name="signup" role="form" ref="signup_form">
 
-                        {Auth.isRegistered?
-                          (<Success message="Your account has been created successfully.
-                            Please check your e-mail for further instructions."/>) : '' }
+                                        {Auth.isRegistering?(<Progress/>):null}
 
-                        {Auth.error.register?
-                          (<Error
-                            message={Auth.error.register.non_field_errors || 'Please correct the errors below'}/>) : '' }
+                                        {Auth.isRegistered?
+                                            (<Success message="Your account has been created successfully. Please check your e-mail for further instructions."/>):null}
 
-                        {(Auth.error.register && Auth.error.register.username)?
-                          (<FieldError message={Auth.error.register.username}/>) : ''}
-                        <div className="form-group">
-                          <input type="text" className="form-control" id="username" ref="username" required placeholder="Username" />
+                                        {Auth.error.register?
+                                            (<Error
+                                                message={Auth.error.register.non_field_errors || 'Please correct the errors below'}/>):null}
+
+                                        {is_developer?(
+                                            <div style={{color: '#fff'}}>
+                                                <p>Name: {application.display_name}</p>
+
+                                                <p>Email: {application.email}</p>
+                                            </div>
+                                        ):null}
+
+                                        {(Auth.error.register && Auth.error.register.username) ?
+                                            (<FieldError message={Auth.error.register.username}/>):null}
+                                        <div className="form-group">
+                                            <input type="text" className="form-control" id="username" ref="username"
+                                                   required placeholder="Username"/>
+                                        </div>
+
+                                        {is_developer?null:(
+                                            <div>
+                                                {(Auth.error.register && Auth.error.register.first_name) ?
+                                                    (<FieldError message={Auth.error.register.first_name}/>):null}
+                                                <div className="form-group">
+                                                    <input type="text" className="form-control" id="fname" ref="first_name"
+                                                           required placeholder="First name"/>
+                                                </div>
+
+                                                {(Auth.error.register && Auth.error.register.last_name) ?
+                                                    (<FieldError message={Auth.error.register.last_name}/>):null}
+                                                <div className="form-group">
+                                                    <input type="text" className="form-control" id="lname" ref="last_name"
+                                                           required placeholder="Last name"/>
+                                                </div>
+
+                                                {(Auth.error.register && Auth.error.register.email) ?
+                                                    (<FieldError message={Auth.error.register.email}/>):null}
+                                                <div className="form-group">
+                                                    <input type="email" className="form-control" id="email" ref="email"
+                                                           required placeholder="Email"/>
+                                                </div>
+                                            </div>
+                                        )}
+
+
+                                        {(Auth.error.register && Auth.error.register.password1) ?
+                                            (<FieldError message={Auth.error.register.password1}/>):null}
+                                        <div className="form-group">
+                                            <input type="password" className="form-control" id="pwd" ref="password1"
+                                                   required placeholder="Password"/>
+                                        </div>
+
+                                        {(Auth.error.register && Auth.error.register.password2) ?
+                                            (<FieldError message={Auth.error.register.password2}/>):null}
+                                        <div className="form-group">
+                                            <input type="password" className="form-control" id="pwd-confirm"
+                                                   ref="password2" required placeholder="Confirm Password"/>
+                                        </div>
+
+                                        <div className="form-group">
+                                            <button type="submit" className="btn btn-default signup-btn"
+                                                    disabled={Auth.isRegistering}>Sign up
+                                            </button>
+                                        </div>
+                                    </form>
+                                    )}
+                                </div>
+
+                            </div>
                         </div>
-
-                        {(Auth.error.register && Auth.error.register.first_name)?
-                          (<FieldError message={Auth.error.register.first_name}/>):''}
-                        <div className="form-group">
-                          <input type="text" className="form-control" id="fname" ref="first_name" required placeholder="First name" />
-                        </div>
-
-                        {(Auth.error.register && Auth.error.register.last_name)?
-                          (<FieldError message={Auth.error.register.last_name}/>):''}
-                        <div className="form-group">
-                          <input type="text" className="form-control" id="lname" ref="last_name" required placeholder="Last name" />
-                        </div>
-
-                        {(Auth.error.register && Auth.error.register.email)?
-                          (<FieldError message={Auth.error.register.email}/>):''}
-                        <div className="form-group">
-                          <input type="email" className="form-control" id="email" ref="email" required placeholder="Email" />
-                        </div>
-
-                        {(Auth.error.register && Auth.error.register.password1)?
-                          (<FieldError message={Auth.error.register.password1}/>):''}
-                        <div className="form-group">
-                          <input type="password" className="form-control" id="pwd" ref="password1" required placeholder="Password" />
-                        </div>
-
-                        {(Auth.error.register && Auth.error.register.password2)?
-                          (<FieldError message={Auth.error.register.password2}/>):''}
-                        <div className="form-group">
-                          <input type="password" className="form-control" id="pwd-confirm" ref="password2" required placeholder="Confirm Password" />
-                        </div>
-
-                        <div className="form-group">
-                          <button type="submit" className="btn btn-default signup-btn" disabled={Auth.isRegistering}>Sign up</button>
-                        </div>
-                      </form>
                     </div>
-
-                  </div>
                 </div>
-              </div>
-            </div>
-            <div className="footer navbar-fixed-bottom"></div>
-          </section>
+                <div className="footer navbar-fixed-bottom"></div>
+            </section>
         );
     }
 }

@@ -1764,13 +1764,8 @@ section.signup-lp {
 
 /* form */
 .form-elements-container {
-    width: 60%;
+    max-width: 350px;
     margin: 0 auto;
-}
-
-.form-elements-container input, .signup-btn {
-    border-radius: 0;
-    font-weight: 300;
 }
 
 .signup-btn {
@@ -1789,19 +1784,18 @@ section.signup-lp {
     box-shadow: none;
 }
 
-form[name='signup'] div.form-group input {
-    background: rgba(255, 255, 255, 0.8);
+form[name='signup'] {
+    .form-group {
+        input, select, textarea {
+            background: rgba(255, 255, 255, 0.8);
+        }
+    }
 }
 
 /*   Login  Styles   */
 .login-form-container {
     margin-top: 6%;
     margin-bottom: 88px;
-}
-
-.login-form-container .form-elements-container {
-    width: 30%;
-    margin: 0 auto;
 }
 
 .signup-lp {
@@ -1861,23 +1855,8 @@ a.forgot_passwd:hover {
 }
 
 /*  Login  Responsive  */
-@media (max-width: 1200px) {
-    .login-form-container .form-elements-container {
-        width: 35%;
-    }
-}
 
 
-@media (max-width: 990px) {
-    .login-form-container .form-elements-container {
-        width: 50%;
-    }
-
-    .col-sm-2 {
-        padding-right: 0;
-        padding-left: 0;
-    }
-}
 
 @media (max-width: 485px) {
 
@@ -1889,11 +1868,6 @@ a.forgot_passwd:hover {
     .forgot_passwd {
         font-size: 13px;
         margin-top: 6px;
-    }
-
-    .col-sm-2 {
-        padding-right: 0;
-        padding-left: 0;
     }
 }
 
