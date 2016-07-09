@@ -14,9 +14,7 @@ class AccountType extends React.Component {
 
 				                <h2 className="crt-acc-heading">Create your Tunga account</h2>
 
-				                <p className="crt-info-text">I want to ...</p>
-
-                                <Link to="/signup/project-owner" className="btn btn-default acct-type-btn">Create an account as a project owner</Link>
+                                <Link to="/signup/project-owner" className="btn btn-default acct-type-btn">I am looking for developers </Link>
 
                                 <Link to="/signup/developer" className="btn btn-default acct-type-btn">Apply as a developer</Link>
 
