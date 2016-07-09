@@ -10,7 +10,7 @@ function integration(state = {}, action) {
         case TaskActions.CREATE_TASK_INTEGRATION_START:
         //case TaskActions.CREATE_TASK_INTEGRATION_FAILED:
         case TaskActions.RETRIEVE_TASK_INTEGRATION_START:
-        //case TaskActions.RETRIEVE_TASK_INTEGRATION_FAILED:
+        case TaskActions.RETRIEVE_TASK_INTEGRATION_FAILED:
             return {};
         default:
             return state;

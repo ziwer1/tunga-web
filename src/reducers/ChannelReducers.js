@@ -13,8 +13,6 @@ function channel(state = {}, action) {
         case ChannelActions.DELETE_CHANNEL_SUCCESS:
         case ChannelActions.CREATE_CHANNEL_START:
         case ChannelActions.CREATE_CHANNEL_FAILED:
-        case ChannelActions.UPDATE_CHANNEL_START:
-        case ChannelActions.UPDATE_CHANNEL_FAILED:
         case ChannelActions.RETRIEVE_CHANNEL_START:
         case ChannelActions.RETRIEVE_CHANNEL_FAILED:
             return {};

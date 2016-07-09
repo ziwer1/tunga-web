@@ -12,8 +12,6 @@ function message(state = {}, action) {
         case MessageActions.DELETE_MESSAGE_SUCCESS:
         case MessageActions.CREATE_MESSAGE_START:
         case MessageActions.CREATE_MESSAGE_FAILED:
-        case MessageActions.UPDATE_MESSAGE_START:
-        case MessageActions.UPDATE_MESSAGE_FAILED:
         case MessageActions.RETRIEVE_MESSAGE_START:
         case MessageActions.RETRIEVE_MESSAGE_FAILED:
             return {};

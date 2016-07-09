@@ -18,8 +18,6 @@ function task(state = {}, action) {
         case TaskActions.DELETE_TASK_SUCCESS:
         case TaskActions.CREATE_TASK_START:
         case TaskActions.CREATE_TASK_FAILED:
-        case TaskActions.UPDATE_TASK_START:
-        case TaskActions.UPDATE_TASK_FAILED:
         case TaskActions.RETRIEVE_TASK_START:
         case TaskActions.RETRIEVE_TASK_FAILED:
             return {};
