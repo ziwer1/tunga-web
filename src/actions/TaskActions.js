@@ -16,15 +16,18 @@ export const UPDATE_TASK_FAILED = 'UPDATE_TASK_FAILED';
 export const DELETE_TASK_START = 'DELETE_TASK_START';
 export const DELETE_TASK_SUCCESS = 'DELETE_TASK_SUCCESS';
 export const DELETE_TASK_FAILED = 'DELETE_TASK_FAILED';
-export const LIST_RUNNING_TASKS_START = 'LIST_RUNNING_TASKS_START';
-export const LIST_RUNNING_TASKS_SUCCESS = 'LIST_RUNNING_TASKS_SUCCESS';
-export const LIST_RUNNING_TASKS_FAILED = 'LIST_RUNNING_TASKS_FAILED';
 export const LIST_MORE_TASKS_START = 'LIST_MORE_TASKS_START';
 export const LIST_MORE_TASKS_SUCCESS = 'LIST_MORE_TASKS_SUCCESS';
 export const LIST_MORE_TASKS_FAILED = 'LIST_MORE_TASKS_FAILED';
 export const RETRIEVE_TASK_META_START = 'RETRIEVE_TASK_META_START';
 export const RETRIEVE_TASK_META_SUCCESS = 'RETRIEVE_TASK_META_SUCCESS';
 export const RETRIEVE_TASK_META_FAILED = 'RETRIEVE_TASK_META_FAILED';
+export const CREATE_TASK_INTEGRATION_START = 'CREATE_TASK_INTEGRATION_START';
+export const CREATE_TASK_INTEGRATION_SUCCESS = 'CREATE_TASK_INTEGRATION_SUCCESS';
+export const CREATE_TASK_INTEGRATION_FAILED = 'CREATE_TASK_INTEGRATION_FAILED';
+export const RETRIEVE_TASK_INTEGRATION_START = 'RETRIEVE_TASK_INTEGRATION_START';
+export const RETRIEVE_TASK_INTEGRATION_SUCCESS = 'RETRIEVE_TASK_INTEGRATION_SUCCESS';
+export const RETRIEVE_TASK_INTEGRATION_FAILED = 'RETRIEVE_TASK_INTEGRATION_FAILED';
 
 
 export function createTask(task, attachments) {
@@ -223,43 +226,6 @@ export function deleteTaskFailed(error) {
     }
 }
 
-export function listRunningTasks() {
-    return dispatch => {
-        var filter = {filter: 'running'};
-        dispatch(listRunningTasksStart(filter));
-        axios.get(ENDPOINT_TASK, {params: filter})
-            .then(function(response) {
-                dispatch(listRunningTasksSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(listRunningTasksFailed(response.data))
-            });
-    }
-}
-
-export function listRunningTasksStart(filter) {
-    return {
-        type: LIST_RUNNING_TASKS_START,
-        filter
-    }
-}
-
-export function listRunningTasksSuccess(response) {
-    return {
-        type: LIST_RUNNING_TASKS_SUCCESS,
-        items: response.results,
-        previous: response.previous,
-        next: response.next,
-        count: response.count
-    }
-}
-
-export function listRunningTasksFailed(error) {
-    return {
-        type: LIST_RUNNING_TASKS_FAILED,
-        error
-    }
-}
-
 export function listMoreTasks(url) {
     return dispatch => {
         dispatch(listMoreTasksStart(url));
@@ -327,5 +293,79 @@ export function retrieveTaskMetaFailed(error) {
     return {
         type: RETRIEVE_TASK_META_FAILED,
         error
+    }
+}
+
+export function createTaskIntegration(id, provider, data) {
+    return dispatch => {
+        dispatch(createTaskIntegrationStart(id));
+        axios.post(ENDPOINT_TASK + id + '/integration/' + provider + '/', data)
+            .then(function(response) {
+                dispatch(createTaskIntegrationSuccess(response.data, provider))
+            }).catch(function(response) {
+            dispatch(createTaskIntegrationFailed(response.data, provider))
+        });
+    }
+}
+
+export function createTaskIntegrationStart(id, provider) {
+    return {
+        type: CREATE_TASK_INTEGRATION_START,
+        id,
+        provider
+    }
+}
+
+export function createTaskIntegrationSuccess(response, provider) {
+    return {
+        type: CREATE_TASK_INTEGRATION_SUCCESS,
+        task: response.task,
+        provider,
+        integration: response
+    }
+}
+
+export function createTaskIntegrationFailed(error, provider) {
+    return {
+        type: CREATE_TASK_INTEGRATION_FAILED,
+        error,
+        provider
+    }
+}
+
+export function retrieveTaskIntegration(id, provider) {
+    return dispatch => {
+        dispatch(retrieveTaskIntegrationStart(id));
+        axios.get(ENDPOINT_TASK + id + '/integration/' + provider + '/')
+            .then(function(response) {
+                dispatch(retrieveTaskIntegrationSuccess(response.data, provider))
+            }).catch(function(response) {
+            dispatch(retrieveTaskIntegrationFailed(response.data, provider))
+        });
+    }
+}
+
+export function retrieveTaskIntegrationStart(id, provider) {
+    return {
+        type: RETRIEVE_TASK_INTEGRATION_START,
+        id,
+        provider
+    }
+}
+
+export function retrieveTaskIntegrationSuccess(response, provider) {
+    return {
+        type: RETRIEVE_TASK_INTEGRATION_SUCCESS,
+        task: response.task,
+        provider,
+        integration: response
+    }
+}
+
+export function retrieveTaskIntegrationFailed(error, provider) {
+    return {
+        type: RETRIEVE_TASK_INTEGRATION_FAILED,
+        error,
+        provider
     }
 }

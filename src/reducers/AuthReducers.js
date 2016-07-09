@@ -21,19 +21,6 @@ function user(state = {}, action) {
     }
 }
 
-function application(state = {}, action) {
-    switch (action.type) {
-        case AuthActions.RETRIEVE_APPLICATION_SUCCESS:
-            return action.application;
-        case ProfileActions.RETRIEVE_PROFILE_START:
-        case ProfileActions.RETRIEVE_PROFILE_FAILED:
-        case PATH_CHANGE:
-            return {};
-        default:
-            return state;
-    }
-}
-
 function isAuthenticating(state = false, action) {
     switch (action.type) {
         case AuthActions.LOGIN_START:
@@ -92,6 +79,19 @@ function isRegistered(state = false, action) {
         case AuthActions.REGISTER_START:
         case AuthActions.REGISTER_FAILED:
             return false;
+        default:
+            return state;
+    }
+}
+
+function application(state = {}, action) {
+    switch (action.type) {
+        case AuthActions.RETRIEVE_APPLICATION_SUCCESS:
+            return action.application;
+        case ProfileActions.RETRIEVE_PROFILE_START:
+        case ProfileActions.RETRIEVE_PROFILE_FAILED:
+        case PATH_CHANGE:
+            return {};
         default:
             return state;
     }
@@ -160,6 +160,103 @@ function isReset(state = false, action) {
     }
 }
 
+function repoItems(state = {}, action) {
+    switch (action.type) {
+        case AuthActions.LIST_REPOS_SUCCESS:
+            var all_repos = {};
+            action.repos.forEach((repo) => {
+                all_repos[repo.id] = repo;
+            });
+            return all_repos;
+        case AuthActions.LIST_REPOS_START:
+        case AuthActions.LIST_ISSUES_FAILED:
+            return {};
+        default:
+            return state;
+    }
+}
+
+function repoIds(state = [], action) {
+    switch (action.type) {
+        case AuthActions.LIST_REPOS_SUCCESS:
+            return action.repos.map((repo) => {
+                return repo.id;
+            });
+        case AuthActions.LIST_REPOS_START:
+        case AuthActions.LIST_REPOS_FAILED:
+            return [];
+        default:
+            return state;
+    }
+}
+
+function isFetchingRepos(state = false, action) {
+    switch (action.type) {
+        case AuthActions.LIST_REPOS_START:
+            return true;
+        case AuthActions.LIST_REPOS_SUCCESS:
+        case AuthActions.LIST_REPOS_FAILED:
+            return false;
+        default:
+            return state;
+    }
+}
+
+function issueItems(state = {}, action) {
+    switch (action.type) {
+        case AuthActions.LIST_ISSUES_SUCCESS:
+            var all_issues = {};
+            action.issues.forEach((issue) => {
+                all_issues[issue.id] = issue;
+            });
+            return all_issues;
+        case AuthActions.LIST_ISSUES_START:
+        case AuthActions.LIST_ISSUES_FAILED:
+            return {};
+        default:
+            return state;
+    }
+}
+
+function issueIds(state = [], action) {
+    switch (action.type) {
+        case AuthActions.LIST_ISSUES_SUCCESS:
+            return action.issues.map((issue) => {
+                return issue.id;
+            });
+        case AuthActions.LIST_ISSUES_START:
+        case AuthActions.LIST_ISSUES_FAILED:
+            return [];
+        default:
+            return state;
+    }
+}
+
+function isFetchingIssues(state = false, action) {
+    switch (action.type) {
+        case AuthActions.LIST_ISSUES_START:
+            return true;
+        case AuthActions.LIST_ISSUES_SUCCESS:
+        case AuthActions.LIST_ISSUES_FAILED:
+            return false;
+        default:
+            return state;
+    }
+}
+
+function isConnected(state = false, action) {
+    switch (action.type) {
+        case AuthActions.LIST_REPOS_SUCCESS:
+        case AuthActions.LIST_ISSUES_SUCCESS:
+            return true;
+        case AuthActions.LIST_REPOS_FAILED:
+        case AuthActions.LIST_ISSUES_FAILED:
+            return false;
+        default:
+            return state;
+    }
+}
+
 function error(state = {}, action) {
     switch (action.type) {
         case AuthActions.LOGIN_FAILED:
@@ -212,6 +309,24 @@ const running = combineReducers({
     tasks: runningTasks
 });
 
+const repos = combineReducers({
+    ids: repoIds,
+    items: repoItems,
+    isFetching: isFetchingRepos
+});
+
+const issues = combineReducers({
+    ids: issueIds,
+    items: issueItems,
+    isFetching: isFetchingIssues
+});
+
+const code = combineReducers({
+    repos,
+    issues,
+    isConnected
+});
+
 const Auth = combineReducers({
     user,
     application,
@@ -227,7 +342,8 @@ const Auth = combineReducers({
     isReset,
     error,
     next,
-    running
+    running,
+    code
 });
 
 export default Auth;

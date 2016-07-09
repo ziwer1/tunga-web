@@ -13,6 +13,12 @@ export default class Task extends React.Component {
         this.props.TaskActions.retrieveTask(this.props.params.taskId);
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        if(this.props.params.taskId != prevProps.params.taskId) {
+            this.props.TaskActions.retrieveTask(this.props.params.taskId);
+        }
+    }
+
     renderChildren() {
         return React.Children.map(this.props.children, function (child) {
             return React.cloneElement(child, {

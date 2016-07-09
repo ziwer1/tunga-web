@@ -3,8 +3,10 @@ import * as TaskActions from '../actions/TaskActions'
 import * as ApplicationActions from '../actions/ApplicationActions'
 import * as SavedTaskActions from '../actions/SavedTaskActions'
 import { PATH_CHANGE } from '../actions/NavActions'
+import { LOGOUT_SUCCESS, LIST_RUNNING_TASKS_SUCCESS } from '../actions/AuthActions'
+
 import Application from './ApplicationReducers'
-import { LOGOUT_SUCCESS } from '../actions/AuthActions'
+import Integration from './IntegrationReducers'
 
 function task(state = {}, action) {
     switch (action.type) {
@@ -224,7 +226,7 @@ function error(state = {}, action) {
 
 export function running(state = [], action) {
     switch (action.type) {
-        case TaskActions.LIST_RUNNING_TASKS_SUCCESS:
+        case LIST_RUNNING_TASKS_SUCCESS:
             return action.items;
         case TaskActions.CREATE_TASK_SUCCESS:
             return [action.task, ...state];
@@ -253,6 +255,7 @@ const detail = combineReducers({
     isSaved,
     isDeleting,
     applications: Application,
+    integrations: Integration,
     meta,
     error
 });

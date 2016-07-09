@@ -35,6 +35,7 @@ import Task from 'components/Task'
 import TaskWorflow from 'components/TaskWorflow'
 import TaskOverview from 'components/TaskOverview'
 import ApplicationList from 'components/ApplicationList'
+import IntegrationList from 'components/IntegrationList'
 import UserPage from 'containers/UserPage'
 import UserList from 'components/UserList'
 import User from 'components/User'
@@ -96,6 +97,10 @@ ReactDOM.render(
                     <Route path=":taskId" component={Task}>
                         <IndexRoute component={TaskOverview} />
                         <Route path="applications" component={ApplicationList}/>
+                        <Route path="integrations" component={IntegrationList}>
+                            <IndexRedirect to="github" />
+                            <Route path=":provider"/>
+                        </Route>
                         <Route path="event/:eventId" component={TaskOverview}/>
                         <Route path=":section" />
                     </Route>

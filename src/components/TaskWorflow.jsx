@@ -158,6 +158,8 @@ export default class TaskWorflow extends ComponentWithModal {
                                            className="btn btn-default" activeClassName="active">Task page</IndexLink>
                                 <Link to={`/task/${task.id}/applications/`}
                                       className="btn btn-default" activeClassName="active">Go to applications</Link>
+                                <Link to={`/task/${task.id}/integrations/`}
+                                      className="btn btn-default" activeClassName="active">Integrations</Link>
                             </div>
                         </div>
                             ):null}

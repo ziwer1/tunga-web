@@ -64,6 +64,7 @@ export const ENDPOINT_ACCOUNT_SETTINGS = getEndpointUrl('me/settings/');
 export const ENDPOINT_USER_INFO = getEndpointUrl('me/user/');
 export const ENDPOINT_USER_EDUCATION = getEndpointUrl('me/education/');
 export const ENDPOINT_USER_WORK = getEndpointUrl('me/work/');
+export const ENDPOINT_MY_CODE = getEndpointUrl('me/code/');
 export const ENDPOINT_PROJECT = getEndpointUrl('project/');
 export const ENDPOINT_TASK = getEndpointUrl('task/');
 export const ENDPOINT_USER = getEndpointUrl('user/');
@@ -140,3 +141,34 @@ export const PROGRESS_REPORT_STATUS_CHOICES = [
     {id: PROGRESS_REPORT_STATUS_BEHIND, name: 'Behind'},
     {id: PROGRESS_REPORT_STATUS_STUCK, name: 'Stuck'}
 ];
+
+export const INTEGRATION_TYPE_REPO = 1;
+export const INTEGRATION_TYPE_ISSUE = 2;
+
+export const INTEGRATION_TYPE_CHOICES = [
+    {id: INTEGRATION_TYPE_REPO, name: 'Repository'},
+    {id: INTEGRATION_TYPE_ISSUE, name: 'Issue'},
+];
+
+export const INTEGRATION_EVENT_PUSH = 'push';
+export const INTEGRATION_EVENT_BRANCH = 'branch';
+export const INTEGRATION_EVENT_TAG = 'tag';
+export const INTEGRATION_EVENT_COMMIT_COMMENT = 'commit_comment';
+export const INTEGRATION_EVENT_PULL_REQUEST = 'pull_request';
+export const INTEGRATION_EVENT_PULL_REQUEST_COMMENT = 'pull_request_comment';
+export const INTEGRATION_EVENT_ISSUE = 'issue';
+export const INTEGRATION_EVENT_ISSUE_COMMENT = 'issue_comment';
+export const INTEGRATION_EVENT_WIKI = 'wiki';
+export const INTEGRATION_EVENT_RELEASE = 'release';
+
+export const INTEGRATION_EVENT_CHOICES = [
+    {'id': INTEGRATION_EVENT_PUSH, 'name': 'Push events'},
+    {'id': INTEGRATION_EVENT_BRANCH, 'name': 'Branch creation and deletion'},
+    {'id': INTEGRATION_EVENT_TAG, 'name': 'Tag creation and deletion'},
+    {'id': INTEGRATION_EVENT_COMMIT_COMMENT, 'name': 'Commit comments'},
+    {'id': INTEGRATION_EVENT_PULL_REQUEST, 'name': 'Pull requests'},
+    {'id': INTEGRATION_EVENT_PULL_REQUEST_COMMENT, 'name': 'Pull request comments'},
+    {'id': INTEGRATION_EVENT_ISSUE, 'name': 'Issue creation and modification'},
+    {'id': INTEGRATION_EVENT_ISSUE_COMMENT, 'name': 'Issue comments'},
+    {'id': INTEGRATION_EVENT_WIKI, 'name': 'Wiki updates'},
+]

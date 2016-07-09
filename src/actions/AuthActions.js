@@ -1,7 +1,6 @@
 import axios from 'axios'
-import { ENDPOINT_LOGIN, ENDPOINT_LOGOUT, ENDPOINT_VERIFY, ENDPOINT_REGISTER, ENDPOINT_APPLY, ENDPOINT_RESET_PASSWORD, ENDPOINT_RESET_PASSWORD_CONFIRM } from '../constants/Api'
+import { ENDPOINT_LOGIN, ENDPOINT_LOGOUT, ENDPOINT_VERIFY, ENDPOINT_REGISTER, ENDPOINT_APPLY, ENDPOINT_RESET_PASSWORD, ENDPOINT_RESET_PASSWORD_CONFIRM, ENDPOINT_MY_CODE, ENDPOINT_TASK } from '../constants/Api'
 import { listRunningProjects } from './ProjectActions'
-import { listRunningTasks } from './TaskActions'
 
 export const LOGIN_START = 'LOGIN_START';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
@@ -28,6 +27,15 @@ export const RESET_PASSWORD_CONFIRM_START = 'RESET_PASSWORD_CONFIRM_START';
 export const RESET_PASSWORD_CONFIRM_SUCCESS = 'RESET_PASSWORD_CONFIRM_SUCCESS';
 export const RESET_PASSWORD_CONFIRM_FAILED = 'RESET_PASSWORD_CONFIRM_FAILED';
 export const AUTH_REDIRECT = 'AUTH_REDIRECT';
+export const LIST_RUNNING_TASKS_START = 'LIST_RUNNING_TASKS_START';
+export const LIST_RUNNING_TASKS_SUCCESS = 'LIST_RUNNING_TASKS_SUCCESS';
+export const LIST_RUNNING_TASKS_FAILED = 'LIST_RUNNING_TASKS_FAILED';
+export const LIST_REPOS_START = 'LIST_REPOS_START';
+export const LIST_REPOS_SUCCESS = 'LIST_REPOS_SUCCESS';
+export const LIST_REPOS_FAILED = 'LIST_REPOS_FAILED';
+export const LIST_ISSUES_START = 'LIST_ISSUES_START';
+export const LIST_ISSUES_SUCCESS = 'LIST_ISSUES_SUCCESS';
+export const LIST_ISSUES_FAILED = 'LIST_ISSUES_FAILED';
 
 export function authenticate(credentials) {
     return dispatch => {
@@ -299,5 +307,115 @@ export function authRedirect(path) {
     return {
         type: AUTH_REDIRECT,
         path
+    }
+}
+
+export function listRunningTasks() {
+    return dispatch => {
+        var filter = {filter: 'running'};
+        dispatch(listRunningTasksStart(filter));
+        axios.get(ENDPOINT_TASK, {params: filter})
+            .then(function(response) {
+                dispatch(listRunningTasksSuccess(response.data))
+            }).catch(function(response) {
+            dispatch(listRunningTasksFailed(response.data))
+        });
+    }
+}
+
+export function listRunningTasksStart(filter) {
+    return {
+        type: LIST_RUNNING_TASKS_START,
+        filter
+    }
+}
+
+export function listRunningTasksSuccess(response) {
+    return {
+        type: LIST_RUNNING_TASKS_SUCCESS,
+        items: response.results,
+        previous: response.previous,
+        next: response.next,
+        count: response.count
+    }
+}
+
+export function listRunningTasksFailed(error) {
+    return {
+        type: LIST_RUNNING_TASKS_FAILED,
+        error
+    }
+}
+
+export function listRepos(provider) {
+    return dispatch => {
+        dispatch(listReposStart(provider));
+        axios.get(ENDPOINT_MY_CODE + provider + '/repos/')
+            .then(function(response) {
+                dispatch(listReposSuccess(response.data, provider))
+            }).catch(function(response) {
+            dispatch(listReposFailed(response.data, response.status, provider))
+        });
+    }
+}
+
+export function listReposStart(provider) {
+    return {
+        type: LIST_REPOS_START,
+        provider
+    }
+}
+
+export function listReposSuccess(repos, status_code, provider) {
+    return {
+        type: LIST_REPOS_SUCCESS,
+        repos,
+        provider
+    }
+}
+
+export function listReposFailed(error, status_code, provider) {
+    return {
+        type: LIST_REPOS_FAILED,
+        error,
+        status_code,
+        provider
+    }
+}
+
+
+export function listIssues(provider) {
+    return dispatch => {
+        dispatch(listIssuesStart(provider));
+        axios.get(ENDPOINT_MY_CODE + provider + '/issues/')
+            .then(function(response) {
+                dispatch(listIssuesSuccess(response.data, provider))
+            }).catch(function(response) {
+            dispatch(listIssuesFailed(response.data, response.status, provider))
+        });
+    }
+}
+
+export function listIssuesStart(provider) {
+    return {
+        type: LIST_ISSUES_START,
+        provider
+    }
+}
+
+export function listIssuesSuccess(issues, provider) {
+    return {
+        type: LIST_ISSUES_SUCCESS,
+        issues,
+        provider
+    }
+}
+
+export function listIssuesFailed(error, status_code, provider) {
+    return {
+        type: LIST_ISSUES_FAILED,
+        error,
+        status_code,
+        provider
     }
 }
