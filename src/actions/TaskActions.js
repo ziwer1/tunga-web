@@ -7,6 +7,9 @@ export const CREATE_TASK_FAILED = 'CREATE_TASK_FAILED';
 export const LIST_TASKS_START = 'LIST_TASKS_START';
 export const LIST_TASKS_SUCCESS = 'LIST_TASKS_SUCCESS';
 export const LIST_TASKS_FAILED = 'LIST_TASKS_FAILED';
+export const LIST_MORE_TASKS_START = 'LIST_MORE_TASKS_START';
+export const LIST_MORE_TASKS_SUCCESS = 'LIST_MORE_TASKS_SUCCESS';
+export const LIST_MORE_TASKS_FAILED = 'LIST_MORE_TASKS_FAILED';
 export const RETRIEVE_TASK_START = 'RETRIEVE_TASK_START';
 export const RETRIEVE_TASK_SUCCESS = 'RETRIEVE_TASK_SUCCESS';
 export const RETRIEVE_TASK_FAILED = 'RETRIEVE_TASK_FAILED';
@@ -16,12 +19,15 @@ export const UPDATE_TASK_FAILED = 'UPDATE_TASK_FAILED';
 export const DELETE_TASK_START = 'DELETE_TASK_START';
 export const DELETE_TASK_SUCCESS = 'DELETE_TASK_SUCCESS';
 export const DELETE_TASK_FAILED = 'DELETE_TASK_FAILED';
-export const LIST_MORE_TASKS_START = 'LIST_MORE_TASKS_START';
-export const LIST_MORE_TASKS_SUCCESS = 'LIST_MORE_TASKS_SUCCESS';
-export const LIST_MORE_TASKS_FAILED = 'LIST_MORE_TASKS_FAILED';
 export const RETRIEVE_TASK_META_START = 'RETRIEVE_TASK_META_START';
 export const RETRIEVE_TASK_META_SUCCESS = 'RETRIEVE_TASK_META_SUCCESS';
 export const RETRIEVE_TASK_META_FAILED = 'RETRIEVE_TASK_META_FAILED';
+export const LIST_TASK_ACTIVITY_START = 'LIST_TASK_ACTIVITY_START';
+export const LIST_TASK_ACTIVITY_SUCCESS = 'LIST_TASK_ACTIVITY_SUCCESS';
+export const LIST_TASK_ACTIVITY_FAILED = 'LIST_TASK_ACTIVITY_FAILED';
+export const LIST_MORE_TASK_ACTIVITY_START = 'LIST_MORE_TASK_ACTIVITY_START';
+export const LIST_MORE_TASK_ACTIVITY_SUCCESS = 'LIST_MORE_TASK_ACTIVITY_SUCCESS';
+export const LIST_MORE_TASK_ACTIVITY_FAILED = 'LIST_MORE_TASK_ACTIVITY_FAILED';
 export const CREATE_TASK_INTEGRATION_START = 'CREATE_TASK_INTEGRATION_START';
 export const CREATE_TASK_INTEGRATION_SUCCESS = 'CREATE_TASK_INTEGRATION_SUCCESS';
 export const CREATE_TASK_INTEGRATION_FAILED = 'CREATE_TASK_INTEGRATION_FAILED';
@@ -126,6 +132,42 @@ export function listTasksFailed(error) {
     }
 }
 
+export function listMoreTasks(url) {
+    return dispatch => {
+        dispatch(listMoreTasksStart(url));
+        axios.get(url)
+            .then(function(response) {
+                dispatch(listMoreTasksSuccess(response.data))
+            }).catch(function(response) {
+            dispatch(listMoreTasksFailed(response.data))
+        });
+    }
+}
+
+export function listMoreTasksStart(url) {
+    return {
+        type: LIST_MORE_TASKS_START,
+        url
+    }
+}
+
+export function listMoreTasksSuccess(response) {
+    return {
+        type: LIST_MORE_TASKS_SUCCESS,
+        items: response.results,
+        previous: response.previous,
+        next: response.next,
+        count: response.count
+    }
+}
+
+export function listMoreTasksFailed(error) {
+    return {
+        type: LIST_MORE_TASKS_FAILED,
+        error
+    }
+}
+
 export function retrieveTask(id) {
     return dispatch => {
         dispatch(retrieveTaskStart(id));
@@ -226,42 +268,6 @@ export function deleteTaskFailed(error) {
     }
 }
 
-export function listMoreTasks(url) {
-    return dispatch => {
-        dispatch(listMoreTasksStart(url));
-        axios.get(url)
-            .then(function(response) {
-                dispatch(listMoreTasksSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(listMoreTasksFailed(response.data))
-            });
-    }
-}
-
-export function listMoreTasksStart(url) {
-    return {
-        type: LIST_MORE_TASKS_START,
-        url
-    }
-}
-
-export function listMoreTasksSuccess(response) {
-    return {
-        type: LIST_MORE_TASKS_SUCCESS,
-        items: response.results,
-        previous: response.previous,
-        next: response.next,
-        count: response.count
-    }
-}
-
-export function listMoreTasksFailed(error) {
-    return {
-        type: LIST_MORE_TASKS_FAILED,
-        error
-    }
-}
-
 export function retrieveTaskMeta(id) {
     return dispatch => {
         dispatch(retrieveTaskMetaStart(id));
@@ -292,6 +298,82 @@ export function retrieveTaskMetaSuccess(response) {
 export function retrieveTaskMetaFailed(error) {
     return {
         type: RETRIEVE_TASK_META_FAILED,
+        error
+    }
+}
+
+export function listTaskActivity(id, filter) {
+    return dispatch => {
+        dispatch(listTaskActivityStart(id, filter));
+        axios.get(ENDPOINT_TASK + id + '/activity/', {params: filter})
+            .then(function(response) {
+                dispatch(listTaskActivitySuccess(response.data, id, filter))
+            }).catch(function(response) {
+            dispatch(listTaskActivityFailed(response.data, id))
+        });
+    }
+}
+
+export function listTaskActivityStart(id, filter) {
+    return {
+        type: LIST_TASK_ACTIVITY_START,
+        id,
+        filter
+    }
+}
+
+export function listTaskActivitySuccess(response, id, filter) {
+    return {
+        type: LIST_TASK_ACTIVITY_SUCCESS,
+        items: response.results,
+        previous: response.previous,
+        next: response.next,
+        count: response.count,
+        id,
+        filter
+    }
+}
+
+export function listTaskActivityFailed(error, id) {
+    return {
+        type: LIST_TASK_ACTIVITY_FAILED,
+        error,
+        id
+    }
+}
+
+export function listMoreTaskActivity(url) {
+    return dispatch => {
+        dispatch(listMoreTaskActivityStart(url));
+        axios.get(url)
+            .then(function(response) {
+                dispatch(listMoreTaskActivitySuccess(response.data))
+            }).catch(function(response) {
+            dispatch(listMoreTaskActivityFailed(response.data))
+        });
+    }
+}
+
+export function listMoreTaskActivityStart(url) {
+    return {
+        type: LIST_MORE_TASK_ACTIVITY_START,
+        url
+    }
+}
+
+export function listMoreTaskActivitySuccess(response) {
+    return {
+        type: LIST_MORE_TASK_ACTIVITY_SUCCESS,
+        items: response.results,
+        previous: response.previous,
+        next: response.next,
+        count: response.count
+    }
+}
+
+export function listMoreTaskActivityFailed(error) {
+    return {
+        type: LIST_MORE_TASK_ACTIVITY_FAILED,
         error
     }
 }

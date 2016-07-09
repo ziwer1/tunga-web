@@ -1,7 +1,7 @@
 import React from 'react'
 import connect from '../utils/connectors/CommentConnector'
 import CommentForm from '../components/CommentForm'
-import CommentList from '../components/CommentList'
+import CommentList from '../components/ActivityList'
 
 class CommentSection extends React.Component {
 

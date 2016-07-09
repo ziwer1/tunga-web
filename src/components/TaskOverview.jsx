@@ -13,7 +13,7 @@ import TaskForm from './TaskForm'
 import LargeModal from './ModalLarge'
 import ComponentWithModal from './ComponentWithModal'
 import CommentForm from './CommentForm'
-import CommentList from './CommentList'
+import ActivityList from './ActivityList'
 import { parse_task_status } from '../utils/tasks'
 
 export function resizeOverviewBox() {
@@ -35,7 +35,7 @@ export default class TaskOverview extends React.Component {
 
     render() {
         const { Auth, Task, TaskActions } = this.props;
-        const { task } = Task.detail;
+        const { task, uploads } = Task.detail;
 
         return (
             <div>
@@ -45,9 +45,9 @@ export default class TaskOverview extends React.Component {
                 <div className="workflow-overview overview">
                     <div className="mainbox chatbox">
                         {task.details?(
-                        <CommentSection className="list-box">
-                            <CommentList filter={{task: task.id}}/>
-                        </CommentSection>
+                        <div className="list-box">
+                            <ActivityList Auth={Auth} Task={Task} TaskActions={TaskActions} task={task}/>
+                        </div>
                             ):null}
                         {task.details?(
                         <CommentSection className="comment-box">
@@ -137,10 +137,10 @@ export default class TaskOverview extends React.Component {
                                 ):null}
                         </div>
                         <div className="overview-files">
-                            {task.all_uploads?(
+                            {uploads?(
                             <div>
                                 <h4>Files</h4>
-                                {task.all_uploads.map(upload => {
+                                {uploads.map(upload => {
                                     return (
                                     <div key={upload.id} className="file">
                                         <a href={upload.url}><i className="fa fa-download"/> {upload.name} <strong>[{upload.display_size}]</strong></a>

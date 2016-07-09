@@ -49,12 +49,59 @@ export default class MessageList extends React.Component {
         }
     }
 
+    renderThread(thread) {
+        const { Auth, Message, channel } = this.props;
+        if(thread.first) {
+            let message = thread.first;
+            let day_format = 'd/MM/YYYY';
+            var last_sent_day = '';
+            let today = moment.utc().local().format(day_format);
+
+            return (
+                <div key={message.id} id={"message" + message.id}
+                     className={"well card media message" + (channel && message.user.id != Auth.user.id && Message.list.last_read < message.id?' new':'')}>
+                    <div className="media-left">
+                        <Avatar src={message.user.avatar_url}/>
+                    </div>
+                    <div className="media-body">
+                        <p>
+                            <Link to={channel?`/member/${message.user.id}/`:`/channel/${message.channel}/#message${message.id}`}>{message.user.display_name}</Link>
+                            <TimeAgo date={moment.utc(message.created_at).local().format()} className="pull-right"/>
+                        </p>
+                        <div dangerouslySetInnerHTML={{__html: message.body}}/>
+                        {message.attachments.length?(<Attachments attachments={message.attachments}/>):null}
+
+                        {thread.others?(
+                            thread.others.map(other_msg => {
+                                let sent_day = moment.utc(other_msg.created_at).local().format(day_format);
+                                let msg = (
+                                    <div style={{marginTop: '5px'}}>
+                                        {sent_day == last_sent_day || sent_day != today?null:(
+                                            <p>
+                                                <TimeAgo date={moment.utc(other_msg.created_at).local().format()} className="pull-right"/>
+                                            </p>
+                                        )}
+                                        <div dangerouslySetInnerHTML={{__html: other_msg.body}}/>
+                                        {other_msg.attachments.length?(<Attachments attachments={other_msg.attachments}/>):null}
+                                    </div>
+                                );
+
+                                last_sent_day = sent_day;
+                                return msg;
+                            })
+                        ):null}
+                    </div>
+                </div>
+            );
+        }
+        return null
+    }
+
     render() {
-        const { Auth, Message, MessageActions, filters, channel } = this.props;
+        const { Auth, Message, MessageActions, channel } = this.props;
         var last_sender = null;
-        let day_format = 'd/MM/YYYY';
-        var last_sent_day = '';
-        let today = moment.utc().local().format(day_format);
+        var last_channel = null;
+        var thread = {};
 
         return (
             <div className="message-list">
@@ -65,39 +112,21 @@ export default class MessageList extends React.Component {
                         <LoadMore url={Message.list.next} callback={MessageActions.listMoreMessages}
                                   loading={Message.list.isFetchingMore} direction="up" text="Show older messages"/>
 
-                        {Message.list.messages.map((message) => {
-                            let sent_day = moment.utc(message.created_at).local().format(day_format);
-                            let msg_box = (
-                                <div key={message.id} id={"message" + message.id}
-                                     className={
-                                     "well card media message" +
-                                     (message.user.id == last_sender?' continued':'') +
-                                     (channel && message.user.id != Auth.user.id && Message.list.last_read < message.id?' new':'')}>
-                                    <div className="media-left">
-                                        {message.user.id == last_sender?null:(<Avatar src={message.user.avatar_url}/>)}
-                                    </div>
-                                    <div className="media-body">
-                                        {message.user.id == last_sender?(
-                                            (sent_day == last_sent_day || sent_day != today?null:(
-                                                <p>
-                                                    <TimeAgo date={moment.utc(message.created_at).local().format()} className="pull-right"/>
-                                                </p>
-                                            ))
-                                        ):(
-                                            <p>
-                                                <Link to={channel?`/member/${message.user.id}/`:`/channel/${message.channel}/#message${message.id}`}>{message.user.display_name}</Link>
-                                                <TimeAgo date={moment.utc(message.created_at).local().format()} className="pull-right"/>
-                                            </p>
-                                        )}
-                                        <div dangerouslySetInnerHTML={{__html: message.body}}/>
-                                        {message.attachments.length?(<Attachments attachments={message.attachments}/>):null}
-                                    </div>
-                                </div>
-                            );
-
+                        {Message.list.messages.map((message, idx, all_msgs) => {
+                            var msgs = [];
+                            if(message.user.id == last_sender && message.channel == last_channel) {
+                                thread.others = [...thread.others, message];
+                            } else {
+                                msgs = [...msgs, this.renderThread(thread)];
+                                thread.first = message;
+                                thread.others = [];
+                            }
+                            if(idx+1 == all_msgs.length) {
+                                msgs = [...msgs, this.renderThread(thread)];
+                            }
                             last_sender = message.user.id;
-                            last_sent_day = sent_day;
-                            return msg_box;
+                            last_channel = message.channel;
+                            return msgs;
                             })}
                         {Message.list.messages.length?'':(
                         <div className="alert alert-info">No messages</div>

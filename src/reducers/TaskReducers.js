@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
 import * as TaskActions from '../actions/TaskActions'
+import { CREATE_COMMENT_SUCCESS } from '../actions/CommentActions'
 import * as ApplicationActions from '../actions/ApplicationActions'
 import * as SavedTaskActions from '../actions/SavedTaskActions'
 import { PATH_CHANGE } from '../actions/NavActions'
@@ -7,6 +8,7 @@ import { LOGOUT_SUCCESS, LIST_RUNNING_TASKS_SUCCESS } from '../actions/AuthActio
 
 import Application from './ApplicationReducers'
 import Integration from './IntegrationReducers'
+import Activity from './ActivityReducers'
 
 function task(state = {}, action) {
     switch (action.type) {
@@ -31,6 +33,24 @@ function task(state = {}, action) {
                 return {...state, can_save: false};
             }
             return state;
+        default:
+            return state;
+    }
+}
+
+function uploads(state = [], action) {
+    switch (action.type) {
+        case TaskActions.CREATE_TASK_SUCCESS:
+        case TaskActions.RETRIEVE_TASK_SUCCESS:
+            return action.task.all_uploads;
+        case CREATE_COMMENT_SUCCESS:
+            return [...action.comment.uploads, ...state];
+        case TaskActions.DELETE_TASK_SUCCESS:
+        case TaskActions.CREATE_TASK_START:
+        case TaskActions.CREATE_TASK_FAILED:
+        case TaskActions.RETRIEVE_TASK_START:
+        case TaskActions.RETRIEVE_TASK_FAILED:
+            return [];
         default:
             return state;
     }
@@ -252,7 +272,9 @@ const detail = combineReducers({
     isSaving,
     isSaved,
     isDeleting,
+    uploads,
     applications: Application,
+    activity: Activity,
     integrations: Integration,
     meta,
     error
