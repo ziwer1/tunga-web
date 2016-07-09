@@ -39,7 +39,7 @@ export default class ChatBox extends React.Component {
 
     render() {
         const { Auth, Channel, Message, MessageActions } = this.props;
-        const { channel } = Channel.detail;
+        const { channel, attachments } = Channel.detail;
 
         return (Channel.detail.isRetrieving?
                 (<Progress/>)
@@ -80,10 +80,10 @@ export default class ChatBox extends React.Component {
                         <div className="list-box">
                             {this.state.view == 'attachments'?(
                             <div className="attachment-list">
-                                {channel.attachments?(
+                                {attachments?(
                                 <div>
                                     <strong>Attachments</strong>
-                                    {channel.attachments.map(upload => {
+                                    {attachments.map(upload => {
                                         return (
                                         <div key={upload.id} className="file">
                                             <a href={upload.url}><i className="fa fa-download"/> {upload.name} <strong>[{upload.display_size}]</strong></a>

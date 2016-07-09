@@ -26,6 +26,32 @@ function channel(state = {}, action) {
     }
 }
 
+function attachments(state = [], action) {
+    switch (action.type) {
+        case ChannelActions.CREATE_CHANNEL_SUCCESS:
+        case ChannelActions.RETRIEVE_CHANNEL_SUCCESS:
+        case ChannelActions.UPDATE_CHANNEL_SUCCESS:
+        case ChannelActions.RETRIEVE_DIRECT_CHANNEL_SUCCESS:
+            return action.channel.attachments;
+        case MessageActions.CREATE_MESSAGE_SUCCESS:
+            return [...action.message.attachments, ...state];
+        case MessageActions.LIST_NEW_MESSAGES_SUCCESS:
+            var new_attachments = [];
+            action.items.forEach((message) => {
+                new_attachments = [...new_attachments, ...message.attachments];
+            });
+            return [...new_attachments, ...state];
+        case ChannelActions.DELETE_CHANNEL_SUCCESS:
+        case ChannelActions.CREATE_CHANNEL_START:
+        case ChannelActions.CREATE_CHANNEL_FAILED:
+        case ChannelActions.RETRIEVE_CHANNEL_START:
+        case ChannelActions.RETRIEVE_CHANNEL_FAILED:
+            return [];
+        default:
+            return state;
+    }
+}
+
 function channels(state = {}, action) {
     switch (action.type) {
         case ChannelActions.LIST_CHANNELS_SUCCESS:
@@ -194,6 +220,7 @@ function error(state = {}, action) {
 
 const detail = combineReducers({
     channel,
+    attachments,
     isRetrieving,
     isSaving,
     isSaved,
