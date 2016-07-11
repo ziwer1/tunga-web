@@ -2,10 +2,10 @@
   "name": "tunga-web",
   "scripts": {
     "build:dev": "webpack --progress --profile --colors",
-    "build": "set NODE_ENV=production && set BUILD_DEV=0 && set BUILD_PRERELEASE=0 && webpack -p --config webpack.production.config.js --progress --profile --colors --optimize-minimize --optimize-dedupe",
-    "build:sandbox": "set NODE_ENV=production && set BUILD_DEV=0 && set BUILD_PRERELEASE=1 && webpack -p --config webpack.production.config.js --progress --profile --colors --optimize-minimize --optimize-dedupe",
+    "build": "cross-env NODE_ENV=production && cross-env BUILD_DEV=0 && cross-env BUILD_PRERELEASE=0 && webpack -p --config webpack.production.config.js --progress --profile --colors --optimize-minimize --optimize-dedupe",
+    "build:sandbox": "cross-env NODE_ENV=production && cross-env BUILD_DEV=0 && cross-env BUILD_PRERELEASE=1 && webpack -p --config webpack.production.config.js --progress --profile --colors --optimize-minimize --optimize-dedupe",
     "watch:dev": "webpack-dev-server --hot --inline --progress --colors",
-    "watch": "set NODE_ENV=production && set BUILD_DEV=0 && set BUILD_PRERELEASE=1 && webpack-dev-server --hot --inline --progress --colors",
+    "watch": "cross-env NODE_ENV=production && cross-env BUILD_DEV=0 && cross-env BUILD_PRERELEASE=1 && webpack-dev-server --hot --inline --progress --colors",
     "test": "echo \"No unit tests and e2e tests yet\" && exit 0"
   },
   "version": "0.1.0",
@@ -49,6 +49,7 @@
     "clean-webpack-plugin": "^0.1.9",
     "coffee-loader": "^0.7.2",
     "coffee-script": "^1.10.0",
+    "cross-env": "^1.0.8",
     "css-loader": "^0.23.0",
     "expose-loader": "^0.7.1",
     "file-loader": "^0.8.4",
