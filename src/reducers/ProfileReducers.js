@@ -9,6 +9,7 @@ function profile(state = {}, action) {
         case ProfileActions.UPDATE_PROFILE_SUCCESS:
             var profile = action.profile;
             profile.skills = profile.details.skills;
+            profile.btc_wallet = profile.details.btc_wallet;
             return profile;
         case ProfileActions.RETRIEVE_PROFILE_FAILED:
             return {};

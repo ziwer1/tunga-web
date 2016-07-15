@@ -1,13 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router'
-import moment from 'moment'
 import Progress from './status/Progress'
 import FormStatus from './status/FormStatus'
-import TaskHead from './TaskHead'
-import UserCardProfile from './UserCardProfile'
-import TagList from './TagList'
 import ComponentWithModal from './ComponentWithModal'
-import LargeModal from './ModalLarge'
 
 import { SOCIAL_LOGIN_URLS, INTEGRATION_TYPE_CHOICES, INTEGRATION_TYPE_REPO, INTEGRATION_TYPE_ISSUE, INTEGRATION_EVENT_CHOICES, INTEGRATION_EVENT_ISSUE_COMMENT } from '../constants/Api'
 
@@ -200,7 +195,7 @@ export default class IntegrationList extends ComponentWithModal {
                             </form>
                         ):(
                             <a href={SOCIAL_LOGIN_URLS.github + `?action=connect&next=/task/${task.id}/integrations/github`}
-                               className="btn btn-default" title="Sign In with GitHub"
+                               className="btn btn-default" title="Connect with GitHub"
                                style={{color: '#333', background: '#fff none'}}>
                                 <i className="fa fa-github-square fa-lg"/> Connect with GitHub
                             </a>

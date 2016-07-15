@@ -1,9 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router'
 import moment from 'moment'
-import TagList from './TagList'
 import Progress from './status/Progress'
-import CommentSection from '../containers/CommentSection'
 import TaskHead from './TaskHead'
 import LargeModal from './ModalLarge'
 import ApplicationForm from './ApplicationForm'
@@ -35,7 +33,7 @@ export default class TaskDetail extends ComponentWithModal {
                         <ApplicationForm Auth={Auth} Task={Task} TaskActions={TaskActions} task={task}/>
                     </LargeModal>
                     <TaskHead task={task}/>
-                    <h4 className="title">{task.currency} {task.fee}</h4>
+                    <h4 className="title">{task.display_fee}</h4>
                     {task.deadline?(
                     <div>
                         <strong>Deadline</strong>
@@ -45,7 +43,7 @@ export default class TaskDetail extends ComponentWithModal {
                     <div dangerouslySetInnerHTML={{__html: task.description}}/>
 
                     <div className="overview-files">
-                        {task.uploads?(
+                        {task.uploads.length?(
                         <div>
                             <h4>Files</h4>
                             {task.uploads.map(upload => {

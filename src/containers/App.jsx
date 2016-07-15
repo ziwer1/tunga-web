@@ -1,7 +1,7 @@
 import React from 'react'
-import { Link } from 'react-router'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import Helmet from "react-helmet"
 
 import Progress from '../components/status/Progress'
 import NavBar from '../components/NavBar'
@@ -71,6 +71,12 @@ class App extends React.Component {
                 :
                 this.props.location.pathname=='/'?children:(
                     <div className="app-wrapper" onClick={this.handleAppClick.bind(this)}>
+                        <Helmet
+                            title="Tunga"
+                            meta={[
+                                {"name": "description", "content": "Have top African coders work on your software tasks within minutes."}
+                              ]}
+                        />
                         <NavBar Auth={Auth} AuthActions={AuthActions} location={location}/>
 
                         <div className="container-fluid">

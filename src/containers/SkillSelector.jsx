@@ -72,7 +72,7 @@ class SkillSelector extends React.Component {
         const { SkillSelection } = this.props;
 
         return (
-            <div className="form-group skill-selector tag-selector" onclick={this.handleComponentClick.bind(this)}>
+            <div className="form-group skill-selector tag-selector" onClick={this.handleComponentClick.bind(this)}>
                 <div className="selections">
                     {SkillSelection.selected.map((skill) => {
                         return (

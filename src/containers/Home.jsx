@@ -31,6 +31,9 @@ class Home extends React.Component {
                 <div className="notification-list">
                     {Notification.notifications?(
                     <ul>
+                        {Auth.user.can_contribute?null:(
+                            <li><Link to="/profile">You need to complete your profile before you can {Auth.user.is_developer?'apply for':'post'} tasks</Link></li>
+                        )}
                         {Notification.notifications.messages?(
                         <li><Link to="/channel">You have {Notification.notifications.messages} unread messages <i className="fa fa-caret-right"/></Link></li>
                             ):null}

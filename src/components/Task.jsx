@@ -40,7 +40,6 @@ export default class Task extends React.Component {
                     title={task.summary}
                     meta={[
                             {"name": "description", "content": task.description || task.summary},
-                            {"name": "participation", "content": meta.participation},
                             {"name": "tunga", "content": meta.payment}
                         ]}
                 />

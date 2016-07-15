@@ -2,7 +2,6 @@ import React from 'react'
 import { Link } from 'react-router'
 import moment from 'moment'
 import btoa from 'btoa'
-import Progress from './status/Progress'
 
 export default class PaymentCard extends React.Component {
     render() {

@@ -34,6 +34,12 @@ export const CREATE_TASK_INTEGRATION_FAILED = 'CREATE_TASK_INTEGRATION_FAILED';
 export const RETRIEVE_TASK_INTEGRATION_START = 'RETRIEVE_TASK_INTEGRATION_START';
 export const RETRIEVE_TASK_INTEGRATION_SUCCESS = 'RETRIEVE_TASK_INTEGRATION_SUCCESS';
 export const RETRIEVE_TASK_INTEGRATION_FAILED = 'RETRIEVE_TASK_INTEGRATION_FAILED';
+export const CREATE_TASK_INVOICE_START = 'CREATE_TASK_INVOICE_START';
+export const CREATE_TASK_INVOICE_SUCCESS = 'CREATE_TASK_INVOICE_SUCCESS';
+export const CREATE_TASK_INVOICE_FAILED = 'CREATE_TASK_INVOICE_FAILED';
+export const RETRIEVE_TASK_INVOICE_START = 'RETRIEVE_TASK_INVOICE_START';
+export const RETRIEVE_TASK_INVOICE_SUCCESS = 'RETRIEVE_TASK_INVOICE_SUCCESS';
+export const RETRIEVE_TASK_INVOICE_FAILED = 'RETRIEVE_TASK_INVOICE_FAILED';
 
 
 export function createTask(task, attachments) {
@@ -449,5 +455,72 @@ export function retrieveTaskIntegrationFailed(error, provider) {
         type: RETRIEVE_TASK_INTEGRATION_FAILED,
         error,
         provider
+    }
+}
+
+
+export function createTaskInvoice(id, data) {
+    return dispatch => {
+        dispatch(createTaskInvoiceStart(id));
+        axios.post(ENDPOINT_TASK + id + '/invoice/', data)
+            .then(function(response) {
+                dispatch(createTaskInvoiceSuccess(response.data))
+            }).catch(function(response) {
+            dispatch(createTaskInvoiceFailed(response.data))
+        });
+    }
+}
+
+export function createTaskInvoiceStart(id) {
+    return {
+        type: CREATE_TASK_INVOICE_START,
+        id
+    }
+}
+
+export function createTaskInvoiceSuccess(response) {
+    return {
+        type: CREATE_TASK_INVOICE_SUCCESS,
+        invoice: response
+    }
+}
+
+export function createTaskInvoiceFailed(error) {
+    return {
+        type: CREATE_TASK_INVOICE_FAILED,
+        error
+    }
+}
+
+export function retrieveTaskInvoice(id) {
+    return dispatch => {
+        dispatch(retrieveTaskInvoiceStart(id));
+        axios.get(ENDPOINT_TASK + id + '/invoice/')
+            .then(function(response) {
+                dispatch(retrieveTaskInvoiceSuccess(response.data))
+            }).catch(function(response) {
+            dispatch(retrieveTaskInvoiceFailed(response.data))
+        });
+    }
+}
+
+export function retrieveTaskInvoiceStart(id) {
+    return {
+        type: RETRIEVE_TASK_INVOICE_START,
+        id
+    }
+}
+
+export function retrieveTaskInvoiceSuccess(response) {
+    return {
+        type: RETRIEVE_TASK_INVOICE_SUCCESS,
+        invoice: response
+    }
+}
+
+export function retrieveTaskInvoiceFailed(error) {
+    return {
+        type: RETRIEVE_TASK_INVOICE_FAILED,
+        error
     }
 }

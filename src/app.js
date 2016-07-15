@@ -35,6 +35,8 @@ import Task from 'components/Task'
 import TaskOverview from 'components/TaskOverview'
 import ApplicationList from 'components/ApplicationList'
 import IntegrationList from 'components/IntegrationList'
+import TaskPay from 'components/TaskPay'
+import Participation from 'components/Participation'
 import UserPage from 'containers/UserPage'
 import UserList from 'components/UserList'
 import User from 'components/User'
@@ -45,6 +47,7 @@ import MessageList from 'components/MessageList'
 import ProfilePage from 'containers/ProfilePage'
 import Profile from 'components/Profile'
 import Stack from 'components/Stack'
+import PaymentMethod from 'components/PaymentMethod'
 import Account from 'components/Account'
 import ProfilePicture from 'components/ProfilePicture'
 import PasswordChangeForm from 'components/PasswordChangeForm'
@@ -78,6 +81,8 @@ ReactDOM.render(
                     <IndexRedirect to="personal"/>
                     <Route path="personal" component={Profile} />
                     <Route path="stack" component={Stack} />
+                    <Route path="payment" component={PaymentMethod} />
+                    <Route path="payment/:provider" component={PaymentMethod} />
                     <Route path="account" component={Account} />
                     <Route path="photo" component={ProfilePicture} />
                     <Route path="security" component={PasswordChangeForm} />
@@ -105,8 +110,10 @@ ReactDOM.render(
                             <IndexRedirect to="github" />
                             <Route path=":provider"/>
                         </Route>
+                        <Route path="pay" component={TaskPay} />
+                        <Route path="participation" component={Participation} />
                         <Route path="event/:eventId" component={TaskOverview}/>
-                        <Route path=":section" />
+                        <Route path="edit" />
                     </Route>
                 </Route>
                 <Route path="member" component={UserPage}>
@@ -119,8 +126,8 @@ ReactDOM.render(
                     <Route path=":channelId" component={ChatBox} />
                 </Route>
                 <Route path="payments" component={TaskPage}>
-                    <IndexRedirect to="pending"/>
-                    <Route path=":filter" component={PaymentList} />
+                    <IndexRoute component={PaymentList}/>
+                    <Route path=":filter" component={PaymentList}/>
                 </Route>
                 <Route path="support" component={SupportPage}>
                     <IndexRoute component={SupportSectionList}/>

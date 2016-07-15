@@ -12,7 +12,11 @@ function user(state = {}, action) {
             return action.user;
         case ProfileActions.UPDATE_ACCOUNT_INFO_SUCCESS:
         case ProfileActions.UPDATE_AUTH_USER_SUCCESS:
+        case ProfileActions.RETRIEVE_PROFILE_SUCCESS:
             var user = action.user;
+            return {...state, ...user};
+        case ProfileActions.UPDATE_PROFILE_SUCCESS:
+            user = action.profile.details.user;
             return {...state, ...user};
         case AuthActions.LOGOUT_SUCCESS:
             return {};

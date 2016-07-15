@@ -97,13 +97,23 @@ export default class TaskWorflow extends ComponentWithModal {
 
     handleAcceptTask() {
         const { TaskActions, Task, Auth } = this.props;
-        TaskActions.updateTask(Task.detail.task.id, {participants: [Auth.user.id], confirmed_participants: [Auth.user.id]});
+        TaskActions.updateTask(
+            Task.detail.task.id,
+            {
+                participation: [{user: Auth.user.id, accepted: true, responded: true}]
+            }
+        );
     }
 
     handleRejectTask() {
         const { TaskActions, Task, Auth } = this.props;
         if(confirm('Confirm reject task')) {
-            TaskActions.updateTask(Task.detail.task.id, {participants: [Auth.user.id], rejected_participants: [Auth.user.id]});
+            TaskActions.updateTask(
+                Task.detail.task.id,
+                {
+                    participation: [{user: Auth.user.id, accepted: false, responded: true}]
+                }
+            );
         }
     }
 
@@ -142,6 +152,8 @@ export default class TaskWorflow extends ComponentWithModal {
         const { Auth, Task, TaskActions } = this.props;
         const { task } = Task.detail;
         var task_status = parse_task_status(task);
+        let is_admin_or_owner = Auth.user.id == task.user || Auth.user.is_staff;
+        let is_confirmed_assignee = task.assignee && task.assignee.accepted && task.assignee.user == Auth.user.id;
 
         return (
             <div>
@@ -151,15 +163,23 @@ export default class TaskWorflow extends ComponentWithModal {
                 <div>
                     {this.renderModalContent()}
                     <div className="workflow-head clearfix">
-                        {(Auth.user.id == task.user || Auth.user.is_staff)?(
+                        {(is_admin_or_owner || is_confirmed_assignee)?(
                         <div className="pull-right" style={{marginTop: '20px'}}>
                             <div className="btn-group btn-choices select" role="group">
                                 <IndexLink to={`/task/${task.id}/`}
                                            className="btn btn-default" activeClassName="active">Task page</IndexLink>
-                                <Link to={`/task/${task.id}/applications/`}
-                                      className="btn btn-default" activeClassName="active">Go to applications</Link>
-                                <Link to={`/task/${task.id}/integrations/`}
-                                      className="btn btn-default" activeClassName="active">Integrations</Link>
+                                {is_admin_or_owner?(
+                                    [
+                                        <Link to={`/task/${task.id}/applications/`}
+                                           className="btn btn-default" activeClassName="active">Go to applications</Link>,
+                                        <Link to={`/task/${task.id}/integrations/`}
+                                              className="btn btn-default" activeClassName="active">Integrations</Link>
+                                    ]
+                                ):null}
+                                {is_confirmed_assignee?(
+                                    <Link to={`/task/${task.id}/participation/`}
+                                          className="btn btn-default" activeClassName="active">Participation</Link>
+                                ):null}
                             </div>
                         </div>
                             ):null}
@@ -180,9 +200,11 @@ export default class TaskWorflow extends ComponentWithModal {
                                     {task.closed?(
                                     <div>
                                         {/* Actions for closed tasks*/}
-                                        <button type="button" className="btn btn-primary" onClick={this.handleOpenTask.bind(this)}>Open task</button>
                                         {!task.paid?(
-                                        <button type="button" className="btn btn-primary" onClick={this.handleMakePayment.bind(this)}>Make payment</button>
+                                        [
+                                            <button type="button" className="btn btn-primary" onClick={this.handleOpenTask.bind(this)}>Open task</button>,
+                                            <Link to={`/task/${task.id}/pay/`} className="btn btn-primary">Make payment</Link>
+                                        ]
                                             ):null}
                                         {!task.paid && Auth.user.is_staff?(
                                         <button type="button" className="btn btn-primary" onClick={this.handleMarkPaid.bind(this)}>Mark as paid</button>

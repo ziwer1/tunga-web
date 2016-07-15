@@ -1,20 +1,11 @@
 import React from 'react'
-import { Link, IndexLink } from 'react-router'
-import { Modal } from 'react-bootstrap'
+import { Link } from 'react-router'
 import moment from 'moment'
-import Rating from 'react-rating'
-import TagList from './TagList'
 import Progress from './status/Progress'
 import CommentSection from '../containers/CommentSection'
-import TaskHead from './TaskHead'
 import Avatar from './Avatar'
-import ApplicationList from './ApplicationList'
-import TaskForm from './TaskForm'
-import LargeModal from './ModalLarge'
-import ComponentWithModal from './ComponentWithModal'
 import CommentForm from './CommentForm'
 import ActivityList from './ActivityList'
-import { parse_task_status } from '../utils/tasks'
 
 export function resizeOverviewBox() {
     var w_h = $(window).height();

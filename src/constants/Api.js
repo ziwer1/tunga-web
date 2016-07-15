@@ -42,7 +42,8 @@ export const SOCIAL_LOGIN_URLS = {
     facebook: createSocialLoginUrl('facebook'),
     google: createSocialLoginUrl('google'),
     linkedin: createSocialLoginUrl('linkedin_oauth2'),
-    github: createSocialLoginUrl('github')
+    github: createSocialLoginUrl('github'),
+    coinbase: createSocialLoginUrl('coinbase')
 };
 
 function getEndpointUrl(path) {
@@ -91,6 +92,19 @@ export const USER_TYPE_CHOICES = [
     {id: USER_TYPE_DEVELOPER, name: 'Developer'},
     {id: USER_TYPE_PROJECT_OWNER, name: 'Project Owner'}
 ];
+
+export const PAYMENT_METHOD_BTC_WALLET = 'btc_wallet';
+export const PAYMENT_METHOD_BTC_ADDRESS = 'btc_address';
+export const PAYMENT_METHOD_MOBILE_MONEY = 'mobile_money';
+
+export const PAYMENT_METHOD_CHOICES = [
+    {id: PAYMENT_METHOD_BTC_WALLET, name: 'Bitcoin Wallet'},
+    {id: PAYMENT_METHOD_MOBILE_MONEY, name: 'Mobile Money'},
+    {id: PAYMENT_METHOD_BTC_ADDRESS, name: 'Bitcoin Address'},
+];
+
+export const BTC_WALLET_PROVIDER_COINBASE = 'coinbase';
+
 
 export const VISIBILITY_DEVELOPERS = 1;
 export const VISIBILITY_MY_TEAM = 2;
@@ -173,4 +187,14 @@ export const INTEGRATION_EVENT_CHOICES = [
     {'id': INTEGRATION_EVENT_ISSUE, 'name': 'Issue creation and modification'},
     {'id': INTEGRATION_EVENT_ISSUE_COMMENT, 'name': 'Issue comments'},
     {'id': INTEGRATION_EVENT_WIKI, 'name': 'Wiki updates'},
-]
+];
+
+export const TASK_PAYMENT_METHOD_BITONIC = 'bitonic';
+export const TASK_PAYMENT_METHOD_BITCOIN = 'bitcoin';
+export const TASK_PAYMENT_METHOD_BANK = 'bank';
+
+export const TASK_PAYMENT_METHOD_CHOICES = [
+    {id: TASK_PAYMENT_METHOD_BITONIC, name: 'Pay with ideal / mister cash'},
+    {id: TASK_PAYMENT_METHOD_BITCOIN, name: 'Pay with bitcoin'},
+    {id: TASK_PAYMENT_METHOD_BANK, name: 'Pay by bank transfer'}
+];

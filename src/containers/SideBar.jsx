@@ -67,13 +67,7 @@ class SideBar extends React.Component {
                             </ul>
                         </li>
 
-                        <li>
-                            <a href="#" data-toggle="collapse" data-target="#payments-menu" className="collapsed"><i className="fa fa-caret-down"/><i className="fa fa-caret-right"/> Payments</a>
-                            <ul id="payments-menu" className="nav collapse">
-                                <li><Link to="/payments/pending" activeClassName="active">Pending Payments</Link></li>
-                                <li><Link to="/payments/history" activeClassName="active">History</Link></li>
-                            </ul>
-                        </li>
+                        <li><Link to="/payments" activeClassName="active">Payments</Link></li>
 
                         {Support.Section.list.sections.length?(
                             <li>

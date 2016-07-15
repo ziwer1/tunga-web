@@ -9,6 +9,7 @@ import { LOGOUT_SUCCESS, LIST_RUNNING_TASKS_SUCCESS } from '../actions/AuthActio
 import Application from './ApplicationReducers'
 import Integration from './IntegrationReducers'
 import Activity from './ActivityReducers'
+import Invoice from './InvoiceReducers'
 
 function task(state = {}, action) {
     switch (action.type) {
@@ -31,6 +32,13 @@ function task(state = {}, action) {
         case SavedTaskActions.CREATE_SAVED_TASK_SUCCESS:
             if(state.id == action.saved_task.task) {
                 return {...state, can_save: false};
+            }
+            return state;
+        case TaskActions.CREATE_TASK_INVOICE_SUCCESS:
+        case TaskActions.RETRIEVE_TASK_INVOICE_SUCCESS:
+            if(state.id == action.invoice.id) {
+                let invoice = action.invoice;
+                return {...state, fee: invoice.fee, payment_method: invoice.payment_method, btc_address: invoice.btc_address};
             }
             return state;
         default:
@@ -85,14 +93,18 @@ function tasks(state = {}, action) {
     }
 }
 
+function getIds(items) {
+    return items.map((item) => {
+        return item.id;
+    });
+}
+
 function ids(state = [], action) {
     switch (action.type) {
         case TaskActions.LIST_TASKS_SUCCESS:
+            return getIds(action.items);
         case TaskActions.LIST_MORE_TASKS_SUCCESS:
-            var new_tasks = action.items.map((task) => {
-                return task.id;
-            });
-            return [...state, ...new_tasks];
+            return [...state, ...getIds(action.items)];
         case TaskActions.LIST_TASKS_START:
         case TaskActions.LIST_TASKS_FAILED:
             return [];
@@ -276,6 +288,7 @@ const detail = combineReducers({
     applications: Application,
     activity: Activity,
     integrations: Integration,
+    Invoice: Invoice,
     meta,
     error
 });

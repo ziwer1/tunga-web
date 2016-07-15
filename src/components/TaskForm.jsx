@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router'
 import moment from 'moment'
 import _ from 'lodash'
 import {Button, OverlayTrigger, Tooltip, ButtonGroup} from 'react-bootstrap'
@@ -42,7 +43,6 @@ export default class TaskForm extends ComponentWithModal {
             step: 1, schedule: null, attachments: [], showAll: false, milestones: [],
             modalMilestone: null, modalContent: null, modalTitle: '', selected_project: ''
         };
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
@@ -273,16 +273,31 @@ export default class TaskForm extends ComponentWithModal {
     render() {
         const { Auth, Task } = this.props;
         const task = this.props.task || {};
+
+        if(!Auth.user.can_contribute) {
+            return (
+                <div>
+                    {task.id?null:(
+                        <h3>Post a new task</h3>
+                    )}
+                    <div className="alert alert-info">You need to complete your profile before you can post tasks</div>
+                    <div>
+                        <Link to="/profile"><i className="fa fa-arrow-right"/> Continue to your profile</Link>
+                    </div>
+                </div>
+            );
+        }
         const description = this.props.task?task.description:'';
         const remarks = this.props.task?task.remarks:'';
         const has_error = Task.detail.error.create || Task.detail.error.update;
+
         return (
             <div>
                 {this.renderModalContent()}
                 {task.id?null:(
                 <h3>Post a new task</h3>
                     )}
-                <form onSubmit={this.handleSubmit} name="task" role="form" ref="task_form" className={has_error || this.state.showAll?'steps-all':null}>
+                <form onSubmit={this.handleSubmit.bind(this)} name="task" role="form" ref="task_form" className={has_error || this.state.showAll?'steps-all':null}>
                     <FormStatus loading={Task.detail.isSaving}
                                 success={Task.detail.isSaved}
                                 message={'Task saved successfully'}
@@ -347,7 +362,7 @@ export default class TaskForm extends ComponentWithModal {
                             (<FieldError message={Task.detail.error.update.fee}/>):null}
                         <div className="form-group">
                             <label className="control-label">Pledge (in Euro) *</label>
-                            <div><input type="text" className="form-control" ref="fee" required placeholder="Pledge in €" defaultValue={task.fee}/></div>
+                            <div><input type="text" className="form-control" ref="fee" required placeholder="Pledge in €" defaultValue={parseFloat(task.fee).toPrecision(2)}/></div>
                             <div style={{marginTop: '10px'}}>13% of pledge goes to Tunga</div>
                         </div>
 

@@ -34,7 +34,7 @@ export default class Stack extends React.Component {
         var bio = this.state.bio;
         const { Profile, ProfileActions } = this.props;
         const selected_skills = this.state.skills;
-        const skills = selected_skills.join(',');
+        const skills = selected_skills.join(',') || null;
         ProfileActions.updateProfile(Profile.profile.id, {website, bio, skills});
         return;
     }
@@ -87,7 +87,7 @@ export default class Stack extends React.Component {
                                 error={Profile.error.profile}/>
 
                     {(Profile.error.profile && Profile.error.profile.bio)?
-                        (<FieldError message={Profile.error.profile.bio}/>):''}
+                        (<FieldError message={Profile.error.profile.bio}/>):null}
                     <div className="form-group">
                         <label className="control-label">Bio</label>
                         <TinyMCE
@@ -97,7 +97,7 @@ export default class Stack extends React.Component {
                     </div>
 
                     {(Auth.user.is_project_owner && Profile.error.profile && Profile.error.profile.website)?
-                        (<FieldError message={Profile.error.profile.website}/>):''}
+                        (<FieldError message={Profile.error.profile.website}/>):null}
                     {Auth.user.is_project_owner?(
                     <div className="form-group">
                         <label className="control-label">Website</label>
@@ -106,7 +106,7 @@ export default class Stack extends React.Component {
                         ):null}
 
                     {(Profile.error.profile && Profile.error.profile.skills)?
-                        (<FieldError message={Profile.error.profile.skills}/>):''}
+                        (<FieldError message={Profile.error.profile.skills}/>):null}
                     <div className="form-group">
                         <label className="control-label">Skills</label>
                         <SkillSelector filter={{filter: null}} onChange={this.onSkillChange.bind(this)} skills={Profile.profile.skills?Profile.profile.skills:[]}/>

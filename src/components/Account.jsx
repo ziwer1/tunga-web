@@ -2,7 +2,6 @@ import React from 'react'
 import Progress from './status/Progress'
 import FormStatus from './status/FormStatus'
 import FieldError from './status/FieldError'
-import SkillSelector from '../containers/SkillSelector'
 
 export default class Profile extends React.Component {
     constructor(props) {
@@ -20,9 +19,6 @@ export default class Profile extends React.Component {
         var last_name = this.refs.last_name.value.trim();
         var email = this.refs.email.value.trim();
         var password = this.refs.password.value.trim();
-        if(!first_name || !last_name || !email || !password) {
-            return;
-        }
         const { ProfileActions } = this.props;
         ProfileActions.updateAccountInfo({first_name, last_name, email, password});
         return;
@@ -45,21 +41,21 @@ export default class Profile extends React.Component {
                     {(Profile.error.account && Profile.error.account.first_name)?
                         (<FieldError message={Profile.error.account.first_name}/>):''}
                     <div className="form-group">
-                        <label className="control-label">First Name</label>
+                        <label className="control-label">First Name *</label>
                         <div><input type="text" className="form-control" ref="first_name" placeholder="First Name" required defaultValue={Auth.user.first_name}/></div>
                     </div>
 
                     {(Profile.error.account && Profile.error.account.last_name)?
                         (<FieldError message={Profile.error.account.last_name}/>):''}
                     <div className="form-group">
-                        <label className="control-label">Last Name</label>
+                        <label className="control-label">Last Name *</label>
                         <div><input type="text" className="form-control" ref="last_name" placeholder="Last Name" required defaultValue={Auth.user.last_name}/></div>
                     </div>
 
                     {(Profile.error.account && Profile.error.account.email)?
                         (<FieldError message={Profile.error.account.email}/>):''}
                     <div className="form-group">
-                        <label className="control-label">Email Address</label>
+                        <label className="control-label">Email Address *</label>
                         <div><input type="text" className="form-control" ref="email" placeholder="Email Address" required defaultValue={Auth.user.email}/></div>
                     </div>
 

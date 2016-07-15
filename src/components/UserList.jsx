@@ -34,12 +34,12 @@ export default class UserList extends React.Component {
         }
 
         const page_title = {
-            developers: 'All Developers',
-            'project-owners': 'Project Owners',
+            developers: 'All Coders',
+            'project-owners': 'Clients',
             requests: 'Requests',
             relevant: 'Relevant',
             team: Auth.user.is_project_owner?'My Team':'My Friends',
-            'my-project-owners': 'My Project Owners'
+            'my-project-owners': 'My Clients'
         };
 
         return (
