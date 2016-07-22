@@ -34,7 +34,7 @@ export default class TaskList extends React.Component {
         }
         return (
             <div>
-                {this.props.hide_header?null:(
+                {hide_header?null:(
                 <div>
                     <h2>{filter == 'my-tasks' && !Auth.user.is_developer?'My ':null}Tasks</h2>
                     {filter == 'my-tasks' && !Auth.user.is_developer?null:(

@@ -32,7 +32,6 @@ import TaskPage from 'containers/TaskPage'
 import TaskList from 'components/TaskList'
 import TaskForm from 'components/TaskForm'
 import Task from 'components/Task'
-import TaskWorflow from 'components/TaskWorflow'
 import TaskOverview from 'components/TaskOverview'
 import ApplicationList from 'components/ApplicationList'
 import IntegrationList from 'components/IntegrationList'
@@ -51,7 +50,12 @@ import ProfilePicture from 'components/ProfilePicture'
 import PasswordChangeForm from 'components/PasswordChangeForm'
 import ProfileType from 'components/ProfileType'
 import PaymentList from 'components/PaymentList'
+import SupportPage from 'containers/SupportPage'
+import SupportSectionList from 'components/SupportSectionList'
+import SupportSectionPageList from 'components/SupportSectionPageList'
+import SupportPageDetail from 'components/SupportPageDetail'
 import SearchPage from 'containers/SearchPage'
+import SupportPageList from 'components/SupportPageList'
 
 ReactDOM.render(
     <Provider store={store}>
@@ -111,7 +115,6 @@ ReactDOM.render(
                     <Route path=":userId" component={User} />
                 </Route>
                 <Route path="channel" component={MessagePage}>
-                    {/*<IndexRoute component="MessageDetail"/>*/}
                     <Route path="start" component={ChannelForm} />
                     <Route path=":channelId" component={ChatBox} />
                 </Route>
@@ -119,11 +122,19 @@ ReactDOM.render(
                     <IndexRedirect to="pending"/>
                     <Route path=":filter" component={PaymentList} />
                 </Route>
+                <Route path="support" component={SupportPage}>
+                    <IndexRoute component={SupportSectionList}/>
+                    <Route path=":section">
+                        <IndexRoute component={SupportSectionPageList}/>
+                        <Route path=":page" component={SupportPageDetail} />
+                    </Route>
+                </Route>
                 <Route path="search" component={SearchPage}>
                     <IndexRedirect to="developers"/>
                     <Route path="developers" component={UserList} />
                     <Route path="tasks" component={TaskList} />
                     <Route path="messages" component={MessageList} />
+                    <Route path="support" component={SupportPageList} />
                 </Route>
                 <Redirect path="*" to="home" />
             </Route>

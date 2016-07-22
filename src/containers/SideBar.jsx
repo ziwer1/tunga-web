@@ -1,7 +1,13 @@
 import React from 'react'
 import { Link, IndexLink } from 'react-router'
-import RunningTasks from './RunningTasks'
-import connect from '../utils/connectors/NotificationConnector'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+
+  import RunningTasks from './RunningTasks'
+ import * as AuthActions from '../actions/AuthActions' 
+import * as NotificationActions from '../actions/NotificationActions' 
+import * as SupportSectionActions from '../actions/SupportSectionActions'
+ import * as SupportPageActions from '../actions/SupportPageActions'
 
 function resizeSideBar() {
     var running = $('#running-tasks');
@@ -22,13 +28,17 @@ class SideBar extends React.Component {
             this.props.NotificationActions.getNotifications();
             setInterval(this.props.NotificationActions.getNotifications, 15000);
         }
+
+        const { SupportActions } = this.props;
+        SupportActions.listSupportSections();
     }
 
     render() {
-        const { Auth, Notification } = this.props;
+        const { Auth, Notification, Support } = this.props;
         const messages = Notification.notifications?Notification.notifications.messages:0;
         const tasks = Notification.notifications?Notification.notifications.tasks:0;
         const requests = Notification.notifications?Notification.notifications.requests:0;
+
         return (
             <div id="sidebar" className="col-sm-3 col-md-2 sidebar">
                 <div className="wrapper" onClick={resizeSideBar()}>
@@ -64,6 +74,19 @@ class SideBar extends React.Component {
                                 <li><Link to="/payments/history" activeClassName="active">History</Link></li>
                             </ul>
                         </li>
+
+                        {Support.Section.list.sections.length?(
+                            <li>
+                                <a href="#" data-toggle="collapse" data-target="#support-menu" className="collapsed"><i className="fa fa-caret-down"/><i className="fa fa-caret-right"/> Support</a>
+                                <ul id="support-menu" className="nav collapse">
+                                    {Support.Section.list.sections.map(section => {
+                                        return (
+                                            <li key={section.id}><Link to={`/support/${section.slug}`} activeClassName="active">{section.title}</Link></li>
+                                        );
+                                    })}
+                                </ul>
+                            </li>
+                        ):null}
                     </ul>
 
                     <RunningTasks onChange={resizeSideBar} num_tasks={tasks}/>
@@ -73,4 +96,19 @@ class SideBar extends React.Component {
     }
 }
 
-export default connect(SideBar);
+function mapStateToProps(state) { 
+    return {Auth: state.Auth, Support: state.Support, Notification: state.Notification}; 
+}
+
+  function mapDispatchToProps(dispatch) { 
+  return { 
+      AuthActions: bindActionCreators(AuthActions, dispatch), 
+      NotificationActions: bindActionCreators(NotificationActions, dispatch), 
+      SupportActions: { 
+          ...bindActionCreators(SupportSectionActions, dispatch), 
+          ...bindActionCreators(SupportPageActions, dispatch) 
+      } 
+  } 
+}
+
+ export default connect(mapStateToProps, mapDispatchToProps)(SideBar);

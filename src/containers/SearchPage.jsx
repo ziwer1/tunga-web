@@ -6,6 +6,8 @@ import { connect } from 'react-redux'
 import * as UserActions from '../actions/UserActions'
 import * as TaskActions from '../actions/TaskActions'
 import * as MessageActions from '../actions/MessageActions'
+import * as SupportSectionActions from '../actions/SupportSectionActions'
+import * as SupportPageActions from '../actions/SupportPageActions'
 
 class SearchPage extends React.Component {
 
@@ -16,9 +18,11 @@ class SearchPage extends React.Component {
                 User: this.props.User,
                 Task: this.props.Task,
                 Message: this.props.Message,
+                Support: this.props.Support,
                 UserActions: this.props.UserActions,
                 TaskActions: this.props.TaskActions,
                 MessageActions: this.props.MessageActions,
+                SupportActions: this.props.SupportActions,
                 search: this.props.Search.query,
                 hide_header: true
             });
@@ -26,7 +30,7 @@ class SearchPage extends React.Component {
     }
 
     render() {
-        const { Search } = this.props;
+        const { Auth, Search } = this.props;
 
         return (
             <div>
@@ -34,9 +38,10 @@ class SearchPage extends React.Component {
                 <h3 className="results">{Search.count?Search.count:"Search"} results for "<strong>{Search.query}</strong>"</h3>
                     ):null}
                 <ul className="nav nav-pills nav-top-filter">
-                    <li role="presentation"><Link to="/search/developers/" activeClassName="active">Developers</Link></li>
+                    <li role="presentation"><Link to="/search/developers/" activeClassName="active">{Auth.user.staff?'Users':'Developers'}</Link></li>
                     <li role="presentation"><Link to="/search/tasks/" activeClassName="active">Tasks</Link></li>
-                    <li role="presentation" style={{marginLeft: '20px'}}><Link to="/search/messages/" activeClassName="active">Messages</Link></li>
+                    <li role="presentation" style={{marginLeft: '10px'}}><Link to="/search/messages/" activeClassName="active">Messages</Link></li>
+                    <li role="presentation" style={{marginLeft: '10px'}}><Link to="/search/support/" activeClassName="active">Support</Link></li>
                 </ul>
 
                 {this.renderChildren()}
@@ -46,14 +51,25 @@ class SearchPage extends React.Component {
 }
 
 function mapStateToProps(state) {
-    return {Auth: state.Auth, Search: state.Search, User: state.User, Task: state.Task, Message: state.Message};
+    return {
+        Auth: state.Auth,
+        Search: state.Search,
+        User: state.User,
+        Task: state.Task,
+        Message: state.Message,
+        Support: state.Support
+    };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         UserActions: bindActionCreators(UserActions, dispatch),
         TaskActions: bindActionCreators(TaskActions, dispatch),
-        MessageActions: bindActionCreators(MessageActions, dispatch)
+        MessageActions: bindActionCreators(MessageActions, dispatch),
+        SupportActions: {
+            ...bindActionCreators(SupportSectionActions, dispatch),
+            ...bindActionCreators(SupportPageActions, dispatch)
+        }
     }
 }
 

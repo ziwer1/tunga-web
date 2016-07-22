@@ -81,6 +81,8 @@ export const ENDPOINT_PROGRESS_REPORT = getEndpointUrl('progress-report/');
 export const ENDPOINT_SKILL = getEndpointUrl('skill/');
 export const ENDPOINT_COUNTRIES = getEndpointUrl('countries/');
 export const ENDPOINT_CONTACT_REQUEST = getEndpointUrl('contact-request/');
+export const ENDPOINT_SUPPORT_SECTION = getEndpointUrl('support/section/');
+export const ENDPOINT_SUPPORT_PAGE = getEndpointUrl('support/page/');
 
 export const USER_TYPE_DEVELOPER = 1;
 export const USER_TYPE_PROJECT_OWNER = 2;

@@ -16,7 +16,14 @@ import UserSelection from './UserSelectionReducers'
 import SkillSelection from './SkillSelectionReducers'
 import Utility from './UtilityReducers'
 import Search from './SearchReducers'
+import SupportSection from './SupportSectionReducers'
+import SupportPage from './SupportPageReducers'
 
+
+const Support = combineReducers({
+    Section: SupportSection,
+    Page: SupportPage
+});
 
 const TungaApp = combineReducers({
     Auth,
@@ -35,6 +42,7 @@ const TungaApp = combineReducers({
     SkillSelection,
     Utility,
     Search,
+    Support,
     routing: routerReducer
 });
 

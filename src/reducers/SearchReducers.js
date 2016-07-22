@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux'
 import * as SearchActions from '../actions/SearchActions'
-import { PATH_CHANGE } from '../actions/NavActions'
 import * as UserActions from '../actions/UserActions'
 import * as TaskActions from '../actions/TaskActions'
 import * as MessageActions from '../actions/MessageActions'
+import * as SupportPageActions from '../actions/SupportPageActions'
 
 
 function query(state = null, action) {
@@ -20,6 +20,7 @@ function count(state = 0, action) {
         case UserActions.LIST_USERS_SUCCESS:
         case TaskActions.LIST_TASKS_SUCCESS:
         case MessageActions.LIST_MESSAGES_SUCCESS:
+        case SupportPageActions.LIST_SUPPORT_PAGES_SUCCESS:
             return action.count;
         case UserActions.LIST_USERS_START:
         case UserActions.LIST_USERS_FAILED:
@@ -27,6 +28,8 @@ function count(state = 0, action) {
         case TaskActions.LIST_TASKS_FAILED:
         case MessageActions.LIST_MESSAGES_START:
         case MessageActions.LIST_MESSAGES_FAILED:
+        case SupportPageActions.LIST_SUPPORT_PAGES_START:
+        case SupportPageActions.LIST_SUPPORT_PAGES_FAILED:
             return 0;
         default:
             return state;
