@@ -49,6 +49,7 @@ import Profile from 'components/Profile'
 import Stack from 'components/Stack'
 import PaymentMethod from 'components/PaymentMethod'
 import Account from 'components/Account'
+import IDDocument from 'components/IDDocument'
 import ProfilePicture from 'components/ProfilePicture'
 import PasswordChangeForm from 'components/PasswordChangeForm'
 import ProfileType from 'components/ProfileType'
@@ -84,10 +85,12 @@ ReactDOM.render(
                     <Route path="payment" component={PaymentMethod} />
                     <Route path="payment/:provider" component={PaymentMethod} />
                     <Route path="account" component={Account} />
+                    <Route path="id-document" component={IDDocument} />
                     <Route path="photo" component={ProfilePicture} />
                     <Route path="security" component={PasswordChangeForm} />
                     <Route path="security" component={PasswordChangeForm} />
                     <Route path="complete" component={ProfileType} />
+                    <Redirect path="*" to="personal" />
                 </Route>
                 <Route path="settings" component={SettingsPage} />
                 <Route path="project" component={ProjectPage}>

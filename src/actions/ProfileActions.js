@@ -152,20 +152,32 @@ export function retrieveProfileFailed(error) {
 export function updateProfile(id, profile) {
     return dispatch => {
         dispatch(updateProfileStart(id));
-        if(id) {
-            axios.patch(ENDPOINT_PROFILE + id + '/', profile)
-                .then(function(response) {
-                    dispatch(updateProfileSuccess(response.data))
-                }).catch(function(response) {
-                    dispatch(updateProfileFailed(response.data))
-                });
+        let request_method = id?"patch":"post";
+
+        if(profile.id_document) {
+            var data = new FormData();
+            Object.keys(profile).map((key) => {
+                data.append(key, profile[key]);
+            });
+
+            $.ajax({
+                url: ENDPOINT_PROFILE,
+                type: request_method.toUpperCase(),
+                data: data,
+                processData: false,
+                contentType: false
+            }).then(function (data) {
+                dispatch(updateProfileSuccess(data))
+            }, function (data) {
+                dispatch(updateProfileFailed(data));
+            });
         } else {
-            axios.post(ENDPOINT_PROFILE, profile)
+            axios.request({url: ENDPOINT_PROFILE, method: request_method, data: profile})
                 .then(function(response) {
                     dispatch(updateProfileSuccess(response.data))
                 }).catch(function(response) {
-                    dispatch(updateProfileFailed(response.data))
-                });
+                dispatch(updateProfileFailed(response.data))
+            });
         }
     }
 }

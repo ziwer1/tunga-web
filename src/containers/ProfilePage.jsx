@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, IndexLink } from 'react-router'
+import { Link } from 'react-router'
 import connect from '../utils/connectors/ProfileConnector'
 import { PROFILE_COMPLETE_PATH } from '../constants/patterns'
 
@@ -19,7 +19,7 @@ class ProfilePage extends React.Component {
         const { Auth } = this.props;
         return (
             <div>
-                {PROFILE_COMPLETE_PATH.test(this.props.location.pathname)?'':(
+                {PROFILE_COMPLETE_PATH.test(this.props.location.pathname)?null:(
 				<div>
 					<h2 className="title">Profile</h2>
 					<ul className="nav nav-pills nav-top-filter">
@@ -27,6 +27,7 @@ class ProfilePage extends React.Component {
                         {Auth.user.is_developer?(
                             [
                                 <li role="presentation"><Link to="/profile/stack" activeClassName="active">{Auth.user.is_developer?'Experience':'Stack'}</Link></li>,
+                                <li role="presentation"><Link to="/profile/id-document" activeClassName="active">ID Document</Link></li>,
                                 <li role="presentation"><Link to="/profile/payment" activeClassName="active">Payment</Link></li>
                             ]
                         ):null}

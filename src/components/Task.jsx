@@ -29,7 +29,7 @@ export default class Task extends React.Component {
 
     render() {
         const { Auth, Task, TaskActions, params } = this.props;
-        const { task, meta } = Task.detail;
+        const { task } = Task.detail;
 
         return (
             Task.detail.isRetrieving?
@@ -39,8 +39,7 @@ export default class Task extends React.Component {
                 <Helmet
                     title={task.summary}
                     meta={[
-                            {"name": "description", "content": task.description || task.summary},
-                            {"name": "tunga", "content": meta.payment}
+                            {"name": "description", "content": task.description || task.summary}
                         ]}
                 />
                 {task.user == Auth.user.id || task.is_participant || Auth.user.is_staff?(

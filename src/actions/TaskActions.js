@@ -19,9 +19,6 @@ export const UPDATE_TASK_FAILED = 'UPDATE_TASK_FAILED';
 export const DELETE_TASK_START = 'DELETE_TASK_START';
 export const DELETE_TASK_SUCCESS = 'DELETE_TASK_SUCCESS';
 export const DELETE_TASK_FAILED = 'DELETE_TASK_FAILED';
-export const RETRIEVE_TASK_META_START = 'RETRIEVE_TASK_META_START';
-export const RETRIEVE_TASK_META_SUCCESS = 'RETRIEVE_TASK_META_SUCCESS';
-export const RETRIEVE_TASK_META_FAILED = 'RETRIEVE_TASK_META_FAILED';
 export const LIST_TASK_ACTIVITY_START = 'LIST_TASK_ACTIVITY_START';
 export const LIST_TASK_ACTIVITY_SUCCESS = 'LIST_TASK_ACTIVITY_SUCCESS';
 export const LIST_TASK_ACTIVITY_FAILED = 'LIST_TASK_ACTIVITY_FAILED';
@@ -177,7 +174,6 @@ export function listMoreTasksFailed(error) {
 export function retrieveTask(id) {
     return dispatch => {
         dispatch(retrieveTaskStart(id));
-        dispatch(retrieveTaskMeta(id));
         axios.get(ENDPOINT_TASK + id + '/')
             .then(function(response) {
                 dispatch(retrieveTaskSuccess(response.data))
@@ -270,40 +266,6 @@ export function deleteTaskSuccess(id) {
 export function deleteTaskFailed(error) {
     return {
         type: DELETE_TASK_FAILED,
-        error
-    }
-}
-
-export function retrieveTaskMeta(id) {
-    return dispatch => {
-        dispatch(retrieveTaskMetaStart(id));
-        axios.get(ENDPOINT_TASK + id + '/meta/')
-            .then(function(response) {
-                dispatch(retrieveTaskMetaSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(retrieveTaskMetaFailed(response.data))
-            });
-    }
-}
-
-export function retrieveTaskMetaStart(id) {
-    return {
-        type: RETRIEVE_TASK_META_START,
-        id
-    }
-}
-
-export function retrieveTaskMetaSuccess(response) {
-    return {
-        type: RETRIEVE_TASK_META_SUCCESS,
-        task: response.task,
-        meta: {participation: response.participation, payment: response.payment}
-    }
-}
-
-export function retrieveTaskMetaFailed(error) {
-    return {
-        type: RETRIEVE_TASK_META_FAILED,
         error
     }
 }

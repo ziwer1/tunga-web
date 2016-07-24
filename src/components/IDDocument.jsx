@@ -2,7 +2,6 @@ import React from 'react'
 import Dropzone from 'react-dropzone'
 import Progress from './status/Progress'
 import FormStatus from './status/FormStatus'
-import Avatar from './Avatar'
 
 export default class ProfilePicture extends React.Component {
     constructor(props) {
@@ -26,15 +25,16 @@ export default class ProfilePicture extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
 
-        const image = this.state.photo;
-        const { ProfileActions } = this.props;
+        const id_document = this.state.photo;
+        const { Profile, ProfileActions } = this.props;
 
-        ProfileActions.updateProfile({image});
+        ProfileActions.updateProfile(Profile.profile.id, {id_document});
         return;
     }
 
     render() {
         const { Auth, Profile } = this.props;
+        let id_doc = this.state.photo?this.state.photo.preview:Profile.profile.id_document;
 
         return (
             <div>
@@ -42,26 +42,31 @@ export default class ProfilePicture extends React.Component {
                 <Progress/>
                     ):(
                 <form onSubmit={this.handleSubmit} name="profile" role="form" ref="profile_form">
-                    <FormStatus loading={Profile.isSaving.user}
-                                success={Profile.isSaved.user}
-                                message={'Profile picture saved'}
-                                error={Profile.error.user}/>
+                    <FormStatus loading={Profile.isSaving.profile}
+                                success={Profile.isSaved.profile}
+                                message={'ID document saved'}
+                                error={Profile.error.profile}/>
+
+                    <label>Upload a scan of your National ID, Passport or Driver's license *</label>
 
                     <Dropzone ref="dropzone" className="dropzone" multiple={false} accept={'image/*'}
                               onDrop={this.onDrop.bind(this)}>
                         <div className="msg">
-                            {this.state.photo?(
+                            {id_doc?(
                             <div>
-                                <Avatar src={this.state.photo.preview} size="large"/>
-                                <p>{this.state.photo.name}</p>
+                                <img src={id_doc} style={{maxWidth: '100%', maxHeight: '300px'}}/>
+                                {this.state.photo?(
+                                    <p>{this.state.photo.name}</p>
+                                ):null}
                             </div>
                                 ):(
-                            <i className="fa fa-cloud-upload fa-2x" style={{marginTop: '30px'}}/>)}
+                            <i className="fa fa-cloud-upload fa-2x" style={{marginTop: '30px'}}/>
+                            )}
                             <div>Drop an image here or click to select an image to upload.</div>
                         </div>
                     </Dropzone>
 
-                    <button type="submit" className="btn btn-default pull-right" disabled={Profile.isSaving.user}>Upload</button>
+                    <button type="submit" className="btn btn-default pull-right" disabled={Profile.isSaving.profile}>Upload</button>
                     <div className="clearfix"></div>
                 </form>
                     )}

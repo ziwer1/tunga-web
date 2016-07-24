@@ -267,17 +267,6 @@ export function running(state = [], action) {
     }
 }
 
-function meta(state = {}, action) {
-    switch (action.type) {
-        case TaskActions.RETRIEVE_TASK_META_SUCCESS:
-            return action.meta;
-        case TaskActions.UPDATE_TASK_FAILED:
-            return {};
-        default:
-            return state;
-    }
-}
-
 const detail = combineReducers({
     task,
     isRetrieving,
@@ -289,7 +278,6 @@ const detail = combineReducers({
     activity: Activity,
     integrations: Integration,
     Invoice: Invoice,
-    meta,
     error
 });
 
