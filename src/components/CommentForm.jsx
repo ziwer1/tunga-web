@@ -14,8 +14,13 @@ export default class CommentForm extends React.Component {
         this.state = {body: '', attachments: []};
     }
 
+    static propTypes = {
+        uploadCallback: React.PropTypes.func,
+        uploadSaved: React.PropTypes.bool
+    };
+
     componentDidUpdate(prevProps, prevState) {
-        if(this.props.Comment.detail.isSaved && !prevProps.Comment.detail.isSaved) {
+        if(this.props.Comment.detail.isSaved && !prevProps.Comment.detail.isSaved || this.props.uploadSaved && !prevProps.uploadSaved) {
             this.refs.comment_form.reset();
             this.setState({body: '', attachments: []});
         }
@@ -37,10 +42,14 @@ export default class CommentForm extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
         var body = nl_to_br(this.state.body);
-		console.log(body);
+
         const attachments = this.state.attachments;
         const { CommentActions, object_details } = this.props;
-        CommentActions.createComment({ ...object_details, body}, attachments);
+        if(body) {
+            CommentActions.createComment({ ...object_details, body}, attachments);
+        } else if(attachments && attachments.length && this.props.uploadCallback) {
+            this.props.uploadCallback(attachments);
+        }
         return;
     }
 

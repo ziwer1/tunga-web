@@ -20,8 +20,18 @@ export function resizeOverviewBox() {
 export default class TaskOverview extends React.Component {
 
     componentDidMount() {
+        const { TaskActions, Task } = this.props;
+        const { task } = Task.detail;
+        TaskActions.listTaskActivity(task.id);
+
         $(document).ready(resizeOverviewBox);
         $(window).resize(resizeOverviewBox);
+    }
+
+    onUpload(files) {
+        const { Task, TaskActions } = this.props;
+        const { task } = Task.detail;
+        TaskActions.updateTask(task.id, null, files);
     }
 
     render() {
@@ -37,12 +47,23 @@ export default class TaskOverview extends React.Component {
                     <div className="mainbox chatbox">
                         {task.details?(
                         <div className="list-box">
-                            <ActivityList Auth={Auth} Task={Task} TaskActions={TaskActions} task={task}/>
+                            <ActivityList
+                                Auth={Auth}
+                                activities={Task.detail.activity.items}
+                                isLoading={Task.detail.activity.isFetching}
+                                isLoadingMore={Task.detail.activity.isFetchingMore}
+                                loadMoreUrl={Task.detail.activity.next}
+                                loadMoreCallback={TaskActions.listMoreTaskActivity}
+                                loadMoreText="Show older activity"
+                            />
                         </div>
                             ):null}
                         {task.details?(
                         <CommentSection className="comment-box">
-                            <CommentForm object_details={{content_type: task.content_type, object_id: task.id}}/>
+                            <CommentForm
+                                object_details={{content_type: task.content_type, object_id: task.id}}
+                                uploadCallback={this.onUpload.bind(this)}
+                                uploadSaved={Task.detail.isSaved}/>
                         </CommentSection>
                             ):null}
                     </div>

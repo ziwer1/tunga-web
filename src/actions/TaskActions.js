@@ -26,6 +26,7 @@ export const LIST_MORE_TASK_ACTIVITY_START = 'LIST_MORE_TASK_ACTIVITY_START';
 export const LIST_MORE_TASK_ACTIVITY_SUCCESS = 'LIST_MORE_TASK_ACTIVITY_SUCCESS';
 export const LIST_MORE_TASK_ACTIVITY_FAILED = 'LIST_MORE_TASK_ACTIVITY_FAILED';
 export const CREATE_TASK_INTEGRATION_START = 'CREATE_TASK_INTEGRATION_START';
+export const SHARE_TASK_UPLOAD_SUCESS = 'SHARE_TASK_UPLOAD_SUCESS';
 export const CREATE_TASK_INTEGRATION_SUCCESS = 'CREATE_TASK_INTEGRATION_SUCCESS';
 export const CREATE_TASK_INTEGRATION_FAILED = 'CREATE_TASK_INTEGRATION_FAILED';
 export const RETRIEVE_TASK_INTEGRATION_START = 'RETRIEVE_TASK_INTEGRATION_START';
@@ -43,9 +44,9 @@ export function createTask(task, attachments) {
     return dispatch => {
         dispatch(createTaskStart(task));
 
-        if(attachments.length) {
+        if(attachments && attachments.length) {
             var data = new FormData();
-            Object.keys(task).map((key, idx) => {
+            Object.keys(task).map((key) => {
                 if((Array.isArray(task[key]) && task[key].length) || (!Array.isArray(task[key]) && task[key] != null)) {
                     data.append(key, task[key]);
                 }
@@ -204,15 +205,46 @@ export function retrieveTaskFailed(error) {
     }
 }
 
-export function updateTask(id, data) {
+export function updateTask(id, data, uploads) {
     return dispatch => {
         dispatch(updateTaskStart(id));
-        axios.patch(ENDPOINT_TASK + id + '/', data)
-            .then(function(response) {
-                dispatch(updateTaskSuccess(response.data))
-            }).catch(function(response) {
+
+        if(uploads && uploads.length) {
+            var form_data = new FormData();
+            if(data) {
+                Object.keys(data).map((key) => {
+                    if((Array.isArray(data[key]) && data[key].length) || (!Array.isArray(data[key]) && data[key] != null)) {
+                        form_data.append(key, data[key]);
+                    }
+                });
+            }
+
+            uploads.map((file, idx) => {
+                form_data.append('file' + idx, file);
+            });
+
+            $.ajax({
+                url: ENDPOINT_TASK + id + '/',
+                type: "PATCH",
+                data: form_data,
+                processData: false,
+                contentType: false
+            }).then(function (response) {
+                dispatch(updateTaskSuccess(response));
+                if(!data) {
+                    dispatch(shareTaskUploadSuccess(response, uploads.length));
+                }
+            }, function (response) {
+                dispatch(updateTaskFailed(response));
+            });
+        } else {
+            axios.patch(ENDPOINT_TASK + id + '/', data)
+                .then(function(response) {
+                    dispatch(updateTaskSuccess(response.data))
+                }).catch(function(response) {
                 dispatch(updateTaskFailed(response.data))
             });
+        }
     }
 }
 
@@ -234,6 +266,15 @@ export function updateTaskFailed(error) {
     return {
         type: UPDATE_TASK_FAILED,
         error
+    }
+}
+
+export function shareTaskUploadSuccess(task, number) {
+    let uploads = task.all_uploads.slice(0, number);
+    return {
+        type: SHARE_TASK_UPLOAD_SUCESS,
+        task,
+        uploads
     }
 }
 

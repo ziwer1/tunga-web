@@ -1,16 +1,9 @@
 import React from 'react'
-import { Link, IndexLink } from 'react-router'
-import { Modal } from 'react-bootstrap'
-import moment from 'moment'
-import TagList from './TagList'
 import Progress from './status/Progress'
 import Avatar from './Avatar'
-import LargeModal from './ModalLarge'
-import ComponentWithModal from './ComponentWithModal'
 import MessageForm from './MessageForm'
-import MessageList from './MessageList'
+import ActivityList from './ActivityList'
 import SearchBox from './SearchBox'
-import { parse_task_status } from '../utils/tasks'
 
 
 export default class ChatBox extends React.Component {
@@ -20,16 +13,45 @@ export default class ChatBox extends React.Component {
         this.state = {view: 'messages'};
     }
 
+    componentWillMount() {
+        this.intervals = [];
+    }
+
     componentDidMount() {
         const { ChannelActions } = this.props;
         ChannelActions.retrieveChannel(this.props.params.channelId);
+        ChannelActions.listChannelActivity(this.props.params.channelId);
+
+        if(this.props.params.channelId) {
+            this.setInterval(this.getNewMessages.bind(this), 5000);
+        }
     }
 
     componentDidUpdate(prevProps, prevState) {
         if(this.props.params.channelId != prevProps.params.channelId) {
             const { ChannelActions } = this.props;
             ChannelActions.retrieveChannel(this.props.params.channelId);
+            ChannelActions.listChannelActivity(this.props.params.channelId);
             this.onViewChange('messages');
+        }
+    }
+
+    componentWillUnmount() {
+        this.intervals.map(clearInterval);
+    }
+
+    setInterval() {
+        this.intervals.push(setInterval.apply(null, arguments));
+    }
+
+    getNewMessages() {
+        const { Channel, ChannelActions, search, filters } = this.props;
+        if(this.props.params.channelId && !Channel.detail.activity.isFetching && Channel.detail.activity.items.length) {
+            var since = 0;
+            if(Channel.detail.activity.items.length) {
+                since = Channel.detail.activity.items[Channel.detail.activity.items.length-1].id;
+            }
+            ChannelActions.listChannelActivity(this.props.params.channelId, {since, ...filters, search});
         }
     }
 
@@ -37,8 +59,20 @@ export default class ChatBox extends React.Component {
         this.setState({view});
     }
 
+    onUpload(files) {
+        const { Channel, ChannelActions } = this.props;
+        const { channel } = Channel.detail;
+        ChannelActions.updateChannel(channel.id, null, files);
+    }
+
+    onSearch(filters) {
+        const { Channel, ChannelActions } = this.props;
+        const { channel } = Channel.detail;
+        ChannelActions.listChannelActivity(channel.id, filters);
+    }
+
     render() {
-        const { Auth, Channel, Message, MessageActions } = this.props;
+        const { Auth, Channel, ChannelActions, Message, MessageActions } = this.props;
         const { channel, attachments } = Channel.detail;
 
         return (Channel.detail.isRetrieving?
@@ -60,9 +94,8 @@ export default class ChatBox extends React.Component {
                                 </div>
                                 {this.state.view == 'messages'?(
                                 <SearchBox placeholder="Search messages"
-                                           filter={{channel: channel.id}}
-                                           onSearch={MessageActions.listMessages}
-                                           count={Message.list.count}/>
+                                           onSearch={this.onSearch.bind(this)}
+                                           count={Channel.detail.activity.count}/>
                                     ):null}
                             </div>
                             <h4>
@@ -82,7 +115,7 @@ export default class ChatBox extends React.Component {
                             <div className="attachment-list">
                                 {attachments?(
                                 <div>
-                                    <strong>Attachments</strong>
+                                    <strong>Files</strong>
                                     {attachments.map(upload => {
                                         return (
                                         <div key={upload.id} className="file">
@@ -94,11 +127,25 @@ export default class ChatBox extends React.Component {
                                     ):null}
                             </div>
                                 ):(
-                            <MessageList Auth={Auth} channel={channel} Message={Message}
-                                         MessageActions={MessageActions} filters={{channel: channel.id}}/>
+                            <ActivityList
+                                Auth={Auth}
+                                activities={Channel.detail.activity.items}
+                                isLoading={Channel.detail.activity.isFetching}
+                                isLoadingMore={Channel.detail.activity.isFetchingMore}
+                                loadMoreUrl={Channel.detail.activity.next}
+                                loadMoreCallback={ChannelActions.listMoreChannelActivity}
+                                loadMoreText="Show older messages"
+                                last_read={Channel.detail.last_read}
+                            />
                                 )}
                         </div>
-                        <MessageForm Auth={Auth} channel={channel} Message={Message} MessageActions={MessageActions}/>
+                        <MessageForm
+                            Auth={Auth}
+                            channel={channel}
+                            Message={Message}
+                            MessageActions={MessageActions}
+                            uploadCallback={this.onUpload.bind(this)}
+                            uploadSaved={Channel.detail.isSaved}/>
                     </div>
                 ):null
             )

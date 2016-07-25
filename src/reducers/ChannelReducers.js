@@ -3,6 +3,8 @@ import * as ChannelActions from '../actions/ChannelActions'
 import * as MessageActions from '../actions/MessageActions'
 import { PATH_CHANGE } from '../actions/NavActions'
 
+import Activity from './ActivityReducers'
+
 function channel(state = {}, action) {
     switch (action.type) {
         case ChannelActions.CREATE_CHANNEL_SUCCESS:
@@ -47,6 +49,20 @@ function attachments(state = [], action) {
         case ChannelActions.RETRIEVE_CHANNEL_START:
         case ChannelActions.RETRIEVE_CHANNEL_FAILED:
             return [];
+        default:
+            return state;
+    }
+}
+
+function last_read(state = 0, action) {
+    switch (action.type) {
+        case ChannelActions.CREATE_CHANNEL_SUCCESS:
+        case ChannelActions.RETRIEVE_CHANNEL_SUCCESS:
+        case ChannelActions.UPDATE_CHANNEL_SUCCESS:
+        case ChannelActions.RETRIEVE_DIRECT_CHANNEL_SUCCESS:
+            return action.channel.last_read;
+        case ChannelActions.DELETE_CHANNEL_SUCCESS:
+            return 0;
         default:
             return state;
     }
@@ -132,9 +148,12 @@ function count(state = null, action) {
 function isSaving(state = false, action) {
     switch (action.type) {
         case ChannelActions.CREATE_CHANNEL_START:
+        case ChannelActions.UPDATE_CHANNEL_START:
             return true;
         case ChannelActions.CREATE_CHANNEL_SUCCESS:
         case ChannelActions.CREATE_CHANNEL_FAILED:
+        case ChannelActions.UPDATE_CHANNEL_SUCCESS:
+        case ChannelActions.UPDATE_CHANNEL_FAILED:
             return false;
         default:
             return state;
@@ -144,9 +163,12 @@ function isSaving(state = false, action) {
 function isSaved(state = false, action) {
     switch (action.type) {
         case ChannelActions.CREATE_CHANNEL_SUCCESS:
+        case ChannelActions.UPDATE_CHANNEL_SUCCESS:
             return true;
         case ChannelActions.CREATE_CHANNEL_START:
         case ChannelActions.CREATE_CHANNEL_FAILED:
+        case ChannelActions.UPDATE_CHANNEL_START:
+        case ChannelActions.UPDATE_CHANNEL_FAILED:
         case PATH_CHANGE:
             return false;
         default:
@@ -221,10 +243,12 @@ function error(state = {}, action) {
 const detail = combineReducers({
     channel,
     attachments,
+    last_read,
     isRetrieving,
     isSaving,
     isSaved,
     isDeleting,
+    activity: Activity,
     error
 });
 

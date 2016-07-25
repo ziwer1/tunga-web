@@ -50,6 +50,7 @@ function uploads(state = [], action) {
     switch (action.type) {
         case TaskActions.CREATE_TASK_SUCCESS:
         case TaskActions.RETRIEVE_TASK_SUCCESS:
+        case TaskActions.UPDATE_TASK_SUCCESS:
             return action.task.all_uploads;
         case CREATE_COMMENT_SUCCESS:
             return [...action.comment.uploads, ...state];

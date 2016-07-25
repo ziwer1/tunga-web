@@ -9,78 +9,55 @@ import Attachments from './Attachments'
 
 export default class ActivityList extends React.Component {
 
-    componentDidMount() {
-        const { TaskActions, task } = this.props;
-        TaskActions.listTaskActivity(task.id);
-    }
-
-    renderComment(comment) {
-        return(
-            <div className="well card media" key={comment.id}>
-                <div className="media-left">
-                    <Avatar src={comment.user.avatar_url}/>
-                </div>
-                <div className="media-body">
-                    <p>
-                        <Link to={`/member/${comment.user.id}/`}>{comment.user.display_name}</Link>
-                        <TimeAgo date={moment.utc(comment.created_at).local().format()} className="pull-right"/>
-                    </p>
-                    <div dangerouslySetInnerHTML={{__html: comment.body}}/>
-                    {comment.uploads.length?(<Attachments attachments={comment.uploads}/>):null}
-                </div>
-            </div>
-        );
-    }
-
-    renderAction(id, user_id, user_full_name, avatar_url, created_at, body, summary) {
-        return(
-            <div className="well card media" key={id}>
-                <div className="media-left">
-                    <Avatar src={avatar_url}/>
-                </div>
-                <div className="media-body">
-                    <p>
-                        {user_id?(
-                            <Link to={`/member/${user_id}/`}>{user_full_name}</Link>
-                        ):(
-                            <span>{user_full_name}</span>
-                        )}
-                        {summary?(<span> {summary}</span>):null}
-
-                        <TimeAgo date={moment.utc(created_at).local().format()} className="pull-right"/>
-                    </p>
-                    <div>{body}</div>
-                </div>
-            </div>
-        );
-    }
-
-    renderAcitivity(item) {
+    cleanActivity(item) {
         let object = item.activity;
         let activity_type = item.activity_type;
+        var creator = null;
+        var created_at = item.timestamp;
+        var body = null;
+        var summary = null;
+        var uploads = null;
         switch (item.action) {
+            case 'send':
+                if(activity_type == 'message') {
+                    creator = object.user;
+                    created_at = object.created_at;
+                    body = (<div dangerouslySetInnerHTML={{__html: object.body}}/>);
+                    uploads = object.attachments;
+                }
+                break;
             case 'comment':
-                return this.renderComment(object);
+                creator = object.user;
+                created_at = object.created_at;
+                body = (<div dangerouslySetInnerHTML={{__html: object.body}}/>);
+                uploads = object.uploads;
+                break;
+            case 'upload':
+                creator = object.user;
+                created_at = object.created_at;
+                uploads = [object];
                 break;
             case 'add':
                 if(activity_type == 'participation') {
-                    let creator = object.details.created_by;
+                    creator = object.details.created_by;
+                    created_at = object.created_at;
                     let participant = object.details.user;
-                    let body = (
+                    body = (
                         <div>
                             <span>Added a participant: </span>
                             <Link to={`/member/${participant.id}/`}>{participant.display_name}</Link>
                         </div>
                     );
-                    return this.renderAction(
-                        item.id, creator.id, creator.display_name, creator.avatar_url, object.created_at, body
-                    );
                 }
                 break;
             case 'report':
                 if(activity_type == 'integration_activity') {
-                    let summary = object.url?(<a href={object.url} target="_blank">{object.summary}</a>):object.summary;
-                    let body = (
+                    creator = {
+                        display_name: object.user_display_name,
+                        avatar_url: object.avatar_url
+                    };
+                    created_at = object.created_at;
+                    body = (
                         <div>
                             {object.title || object.body}
                             {!(object.title || object.body) && object.url?(
@@ -88,29 +65,106 @@ export default class ActivityList extends React.Component {
                             ):null}
                         </div>
                     );
-
-                    return this.renderAction(
-                        item.id, null, object.user_display_name, object.avatar_url, object.created_at, body, summary
-                    );
+                    summary = object.url?(<a href={object.url} target="_blank">{object.summary}</a>):object.summary;
                 }
                 break;
             default:
                 break;
         }
+        if(creator) {
+            return {id: item.id, type: activity_type, user: creator, created_at, body, summary, uploads};
+        }
         return null;
     }
+
+    renderThread(thread) {
+        if(!thread.first) {
+            return null;
+        }
+
+        const { Auth, last_read } = this.props;
+        let activity = thread.first;
+        let day_format = 'd/MM/YYYY';
+        var last_sent_day = '';
+        let today = moment.utc().local().format(day_format);
+
+        return(
+            <div key={activity.id}  id={"activity" + activity.id}
+                 className={"well card media message" + (last_read != null && activity.user.id != Auth.user.id && last_read < activity.id?' new':'')}>
+                <div className="media-left">
+                    <Avatar src={activity.user.avatar_url}/>
+                </div>
+                <div className="media-body">
+                    <p>
+                        {activity.user.id?(
+                            <Link to={`/member/${activity.user.id}/`}>{activity.user.display_name}</Link>
+                        ):(
+                            <span>{activity.user.display_name}</span>
+                        )}
+                        {activity.summary?(<span> {activity.summary}</span>):null}
+
+                        <TimeAgo date={moment.utc(activity.created_at).local().format()} className="pull-right"/>
+                    </p>
+                    <div>{activity.body}</div>
+                    {activity.uploads && activity.uploads.length?(<Attachments attachments={activity.uploads}/>):null}
+
+                    {thread.others?(
+                        thread.others.map(other_msg => {
+                            let sent_day = moment.utc(other_msg.created_at).local().format(day_format);
+                            let msg = (
+                                <div style={{marginTop: '5px'}}>
+                                    {sent_day == last_sent_day || sent_day != today || activity.summary?null:(
+                                        <p>
+                                            {activity.summary?(<span> {activity.summary}</span>):null}
+                                            <TimeAgo date={moment.utc(other_msg.created_at).local().format()} className="pull-right"/>
+                                        </p>
+                                    )}
+                                    <div>{other_msg.body}</div>
+                                    {other_msg.uploads && other_msg.uploads.length?(<Attachments attachments={other_msg.uploads}/>):null}
+                                </div>
+                            );
+
+                            last_sent_day = sent_day;
+                            return msg;
+                        })
+                    ):null}
+                </div>
+            </div>
+        );
+    }
+
     render() {
-        const { Task, TaskActions } = this.props;
+        const { activities, isLoading, isLoadingMore, loadMoreUrl, loadMoreCallback, loadMoreText } = this.props;
+        var last_sender = null;
+        var thread = {};
+
         return (
-            Task.detail.activity.isFetching?
+            isLoading?
                 (<Progress/>)
                 :
-                (<div className="comment-list">
-                    {<LoadMore url={Task.detail.activity.next} callback={TaskActions.listMoreTaskActivity}
-                              loading={Task.detail.activity.isFetchingMore} direction="up" text="Show older comments"/>}
+                (<div className="activity-list">
+                    {<LoadMore url={loadMoreUrl} callback={loadMoreCallback}
+                              loading={isLoadingMore} direction="up" text={loadMoreText || "Show older activity"}/>}
 
-                    {Task.detail.activity.items.map((item) => {
-                        return this.renderAcitivity(item);
+                    {activities.map((item, idx, all_msgs) => {
+                        var activity = this.cleanActivity(item);
+                        var msgs = [];
+                        if(activity) {
+                            if(activity.user.id == last_sender) {
+                                thread.others = [...thread.others, activity];
+                            } else {
+                                msgs = [...msgs, this.renderThread(thread)];
+                                thread.first = activity;
+                                thread.others = [];
+                            }
+
+                            last_sender = activity.user.id;
+                        }
+
+                        if(idx+1 == all_msgs.length) {
+                            msgs = [...msgs, this.renderThread(thread)];
+                        }
+                        return msgs;
                         })}
                 </div>)
 

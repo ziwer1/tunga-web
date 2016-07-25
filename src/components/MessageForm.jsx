@@ -1,12 +1,7 @@
 import React from 'react'
 import Dropzone from 'react-dropzone'
-import TinyMCE  from 'react-tinymce'
-import Progress from './status/Progress'
 import FormStatus from './status/FormStatus'
 import FieldError from './status/FieldError'
-import UserSelector from '../containers/UserSelector'
-import Avatar from './Avatar'
-import {TINY_MCE_CONFIG } from '../constants/settings'
 import { nl_to_br } from '../utils/html'
 import MessageWidget from './MessageWidget'
 
@@ -16,9 +11,14 @@ export default class Compose extends React.Component {
         this.state = {body: '', attachments: []};
     }
 
+    static propTypes = {
+        uploadCallback: React.PropTypes.func,
+        uploadSaved: React.PropTypes.bool
+    };
+
     componentDidUpdate(prevProps, prevState) {
-        if(this.props.Message.detail.isSaved && !prevProps.Message.detail.isSaved) {
-            this.refs.compose.reset();
+        if(this.props.Message.detail.isSaved && !prevProps.Message.detail.isSaved || this.props.uploadSaved && !prevProps.uploadSaved) {
+            this.refs.message_form.reset();
             this.setState({body: '', attachments: []})
         }
     }
@@ -42,7 +42,11 @@ export default class Compose extends React.Component {
         var channel = this.props.channel;
         const { MessageActions } = this.props;
         const attachments = this.state.attachments;
-        MessageActions.createMessage({channel: channel.id, body}, attachments);
+        if(body) {
+            MessageActions.createMessage({channel: channel.id, body}, attachments);
+        } else if(attachments && attachments.length && this.props.uploadCallback) {
+            this.props.uploadCallback(attachments);
+        }
         return;
     }
 
@@ -50,7 +54,7 @@ export default class Compose extends React.Component {
         const { Message, Auth } = this.props;
         return (
             <div>
-                <form onSubmit={this.handleSubmit.bind(this)} name="compose" role="form" ref="compose">
+                <form onSubmit={this.handleSubmit.bind(this)} name="compose" role="form" ref="message_form">
                     <FormStatus loading={Message.detail.isSaving}
                                 error={Message.detail.error.create}/>
 

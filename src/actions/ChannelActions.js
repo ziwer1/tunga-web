@@ -25,8 +25,18 @@ export const UPDATE_CHANNEL_READ_FAILED = 'UPDATE_CHANNEL_READ_FAILED';
 export const LIST_MORE_CHANNELS_START = 'LIST_MORE_CHANNELS_START';
 export const LIST_MORE_CHANNELS_SUCCESS = 'LIST_MORE_CHANNELS_SUCCESS';
 export const LIST_MORE_CHANNELS_FAILED = 'LIST_MORE_CHANNELS_FAILED';
+export const LIST_CHANNEL_ACTIVITY_START = 'LIST_CHANNEL_ACTIVITY_START';
+export const LIST_CHANNEL_ACTIVITY_SUCCESS = 'LIST_CHANNEL_ACTIVITY_SUCCESS';
+export const LIST_CHANNEL_ACTIVITY_FAILED = 'LIST_CHANNEL_ACTIVITY_FAILED';
+export const LIST_MORE_CHANNEL_ACTIVITY_START = 'LIST_MORE_CHANNEL_ACTIVITY_START';
+export const LIST_MORE_CHANNEL_ACTIVITY_SUCCESS = 'LIST_MORE_CHANNEL_ACTIVITY_SUCCESS';
+export const LIST_MORE_CHANNEL_ACTIVITY_FAILED = 'LIST_MORE_CHANNEL_ACTIVITY_FAILED';
+export const LIST_NEW_CHANNEL_ACTIVITY_START = 'LIST_NEW_CHANNEL_ACTIVITY_START';
+export const LIST_NEW_CHANNEL_ACTIVITY_SUCCESS = 'LIST_NEW_CHANNEL_ACTIVITY_SUCCESS';
+export const LIST_NEW_CHANNEL_ACTIVITY_FAILED = 'LIST_NEW_CHANNEL_ACTIVITY_FAILED';
+export const SHARE_CHANNEL_UPLOAD_SUCESS = 'SHARE_CHANNEL_UPLOAD_SUCESS';
 
-export function createChannel(channel, attachments) {
+export function createChannel(channel) {
     return dispatch => {
         dispatch(createChannelStart(channel));
         axios.post(ENDPOINT_CHANNEL, channel)
@@ -161,15 +171,45 @@ export function retrieveDirectChannelFailed(error) {
     }
 }
 
-export function updateChannel(id, data) {
+export function updateChannel(id, data, uploads) {
     return dispatch => {
         dispatch(updateChannelStart(id));
-        axios.patch(ENDPOINT_CHANNEL + id + '/', data)
-            .then(function(response) {
-                dispatch(updateChannelSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(updateChannelFailed(response.data))
+
+        if(uploads && uploads.length) {
+            var form_data = new FormData();
+            if(data) {
+                Object.keys(data).map((key) => {
+                    if((Array.isArray(data[key]) && data[key].length) || (!Array.isArray(data[key]) && data[key] != null)) {
+                        form_data.append(key, data[key]);
+                    }
+                });
+            }
+
+            uploads.map((file, idx) => {
+                form_data.append('file' + idx, file);
             });
+
+            $.ajax({
+                url: ENDPOINT_CHANNEL + id + '/',
+                type: "PATCH",
+                data: form_data,
+                processData: false,
+                contentType: false
+            }).then(function (response) {
+                dispatch(updateChannelSuccess(response));
+                dispatch(shareChannelUploadSuccess(response, uploads.length));
+            }, function (response) {
+                dispatch(updateChannelFailed(response));
+            });
+        } else {
+            axios.patch(ENDPOINT_CHANNEL + id + '/', data)
+                .then(function(response) {
+                    dispatch(updateChannelSuccess(response.data))
+                })
+                .catch(function(response) {
+                    dispatch(updateChannelFailed(response.data))
+                });
+        }
     }
 }
 
@@ -191,6 +231,15 @@ export function updateChannelFailed(error) {
     return {
         type: UPDATE_CHANNEL_FAILED,
         error
+    }
+}
+
+export function shareChannelUploadSuccess(channel, number) {
+    let uploads = channel.attachments.slice(0, number);
+    return {
+        type: SHARE_CHANNEL_UPLOAD_SUCESS,
+        channel,
+        uploads
     }
 }
 
@@ -293,6 +342,86 @@ export function listMoreChannelsSuccess(response) {
 export function listMoreChannelsFailed(error) {
     return {
         type: LIST_MORE_CHANNELS_FAILED,
+        error
+    }
+}
+
+export function listChannelActivity(id, filter) {
+    return dispatch => {
+        let get_new = filter && filter.since > -1;
+        dispatch(listChannelActivityStart(id, filter, get_new));
+        axios.get(ENDPOINT_CHANNEL + id + '/activity/', {params: filter})
+            .then(function(response) {
+                if(response.data.results && response.data.results.length) {
+                    dispatch(updateChannelRead(id, {last_read: response.data.results[0].id}));
+                }
+                dispatch(listChannelActivitySuccess(response.data, id, filter, get_new));
+            }).catch(function(response) {
+            dispatch(listChannelActivityFailed(response.data, id, get_new))
+        });
+    }
+}
+
+export function listChannelActivityStart(id, filter, new_only=false) {
+    return {
+        type: new_only?LIST_NEW_CHANNEL_ACTIVITY_START:LIST_CHANNEL_ACTIVITY_START,
+        id,
+        filter
+    }
+}
+
+export function listChannelActivitySuccess(response, id, filter, new_only=false) {
+    return {
+        type: new_only?LIST_NEW_CHANNEL_ACTIVITY_SUCCESS:LIST_CHANNEL_ACTIVITY_SUCCESS,
+        items: response.results,
+        previous: response.previous,
+        next: response.next,
+        count: response.count,
+        id,
+        filter
+    }
+}
+
+export function listChannelActivityFailed(error, id, new_only=false) {
+    return {
+        type: new_only?LIST_NEW_CHANNEL_ACTIVITY_FAILED:LIST_CHANNEL_ACTIVITY_FAILED,
+        error,
+        id
+    }
+}
+
+export function listMoreChannelActivity(url) {
+    return dispatch => {
+        dispatch(listMoreChannelActivityStart(url));
+        axios.get(url)
+            .then(function(response) {
+                dispatch(listMoreChannelActivitySuccess(response.data))
+            }).catch(function(response) {
+            dispatch(listMoreChannelActivityFailed(response.data))
+        });
+    }
+}
+
+export function listMoreChannelActivityStart(url) {
+    return {
+        type: LIST_MORE_CHANNEL_ACTIVITY_START,
+        url
+    }
+}
+
+export function listMoreChannelActivitySuccess(response) {
+    return {
+        type: LIST_MORE_CHANNEL_ACTIVITY_SUCCESS,
+        items: response.results,
+        previous: response.previous,
+        next: response.next,
+        count: response.count
+    }
+}
+
+export function listMoreChannelActivityFailed(error) {
+    return {
+        type: LIST_MORE_CHANNEL_ACTIVITY_FAILED,
         error
     }
 }

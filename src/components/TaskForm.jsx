@@ -243,7 +243,7 @@ export default class TaskForm extends ComponentWithModal {
 
         const task_info = {project, title, description, remarks, skills, url, fee, deadline, visibility, ...update_schedule, assignee, participants, milestones};
         if(task.id) {
-            TaskActions.updateTask(task.id, task_info);
+            TaskActions.updateTask(task.id, task_info, attachments);
         } else {
             TaskActions.createTask(task_info, attachments);
         }
