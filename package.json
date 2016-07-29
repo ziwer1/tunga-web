@@ -2,10 +2,10 @@
   "name": "tunga-web",
   "scripts": {
     "build:dev": "webpack --progress --profile --colors",
-    "build": "cross-env NODE_ENV=production && cross-env BUILD_DEV=0 && cross-env BUILD_PRERELEASE=0 && webpack -p --config webpack.production.config.js --progress --profile --colors --optimize-minimize --optimize-dedupe",
-    "build:sandbox": "cross-env NODE_ENV=production && cross-env BUILD_DEV=0 && cross-env BUILD_PRERELEASE=1 && webpack -p --config webpack.production.config.js --progress --profile --colors --optimize-minimize --optimize-dedupe",
+    "build": "export NODE_ENV=production && export BUILD_DEV=0 && export BUILD_PRERELEASE=0 && webpack -p --config webpack.production.config.js --progress --profile --colors --optimize-minimize --optimize-dedupe",
+    "build:sandbox": "export NODE_ENV=production && export BUILD_DEV=0 && export BUILD_PRERELEASE=1 && webpack -p --config webpack.production.config.js --progress --profile --colors --optimize-minimize --optimize-dedupe",
     "watch:dev": "webpack-dev-server --hot --inline --progress --colors",
-    "watch": "cross-env NODE_ENV=production && cross-env BUILD_DEV=0 && cross-env BUILD_PRERELEASE=1 && webpack-dev-server --hot --inline --progress --colors",
+    "watch": "export NODE_ENV=production && export BUILD_DEV=0 && export BUILD_PRERELEASE=1 && webpack-dev-server --hot --inline --progress --colors",
     "test": "echo \"No unit tests and e2e tests yet\" && exit 0"
   },
   "version": "0.1.0",
@@ -32,7 +32,7 @@
     "react-timeago": "^3.0.0",
     "react-tinymce": "^0.5.1",
     "react-waypoint": "^2.0.3",
-    "react-widgets": "^3.3.2",
+    "react-widgets": "^3.4.3",
     "react-youtube": "^7.0.0",
     "redux": "^3.5.2",
     "redux-thunk": "^2.1.0",
