@@ -7,7 +7,22 @@ import LoadMore from './status/LoadMore'
 import Avatar from './Avatar'
 import Attachments from './Attachments'
 
+export function scrollList () {
+    var a_list = $('.activity-list');
+    a_list.scrollTop(a_list.height()+20);
+}
+
 export default class ActivityList extends React.Component {
+
+    componentDidMount() {
+        scrollList();
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if(this.props.activities && this.props.activities.length != prevProps.activities.length) {
+            scrollList();
+        }
+    }
 
     cleanActivity(item) {
         let object = item.activity;
@@ -88,18 +103,29 @@ export default class ActivityList extends React.Component {
         var last_sent_day = '';
         let today = moment.utc().local().format(day_format);
 
+        let is_current_user = (activity.user.id == Auth.user.id);
+        let display_name = is_current_user?'Me':activity.user.display_name;
+
+        let avatar_div = (
+            <div className={is_current_user?"media-right":"media-left"}>
+                <Avatar src={activity.user.avatar_url}/>
+            </div>
+        );
+
         return(
-            <div key={activity.id}  id={"activity" + activity.id}
-                 className={"well card media message" + (last_read != null && activity.user.id != Auth.user.id && last_read < activity.id?' new':'')}>
-                <div className="media-left">
-                    <Avatar src={activity.user.avatar_url}/>
-                </div>
+            <div key={activity.id} id={"activity" + activity.id}
+                 className={
+                 "media message" +
+                 (last_read != null && activity.user.id != Auth.user.id && last_read < activity.id?' new':'') +
+                 (is_current_user?' pull-right clearfix':'')
+                 }>
+                {is_current_user?null:avatar_div}
                 <div className="media-body">
                     <p>
                         {activity.user.id?(
-                            <Link to={`/member/${activity.user.id}/`}>{activity.user.display_name}</Link>
+                            <Link to={`/member/${activity.user.id}/`}>{display_name}</Link>
                         ):(
-                            <span>{activity.user.display_name}</span>
+                            <span>{display_name}</span>
                         )}
                         {activity.summary?(<span> {activity.summary}</span>):null}
 
@@ -112,7 +138,7 @@ export default class ActivityList extends React.Component {
                         thread.others.map(other_msg => {
                             let sent_day = moment.utc(other_msg.created_at).local().format(day_format);
                             let msg = (
-                                <div style={{marginTop: '5px'}}>
+                                <div style={{marginTop: '5px'}} id={"activity" + other_msg.id}>
                                     {sent_day == last_sent_day || sent_day != today || activity.summary?null:(
                                         <p>
                                             {activity.summary?(<span> {activity.summary}</span>):null}
@@ -129,6 +155,7 @@ export default class ActivityList extends React.Component {
                         })
                     ):null}
                 </div>
+                {is_current_user?avatar_div:null}
             </div>
         );
     }

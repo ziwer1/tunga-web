@@ -17,19 +17,36 @@ class SearchBox extends React.Component {
 
     constructor(props){
         super(props);
-        this.handleSearch = _.debounce(this.handleSearch, 250);
+        this.onSearch = _.debounce(this.onSearch, 250);
         this.state = {search: ''};
     }
 
-    handleChange(e) {
+    componentDidMount() {
+        if(this.context.location.query && this.context.location.query.search) {
+            let search = this.context.location.query.search;
+            this.setState({search});
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if(this.state.search != prevState.search) {
+            this.performSearch();
+        }
+    }
+
+    onSearchChange(e) {
         e.preventDefault();
         var search = e.target.value;
         this.setState({search: search});
-        this.handleSearch(e);
     }
 
-    handleSearch(e) {
+    onSearch(e) {
         e.preventDefault();
+        this.performSearch();
+        return;
+    }
+
+    performSearch() {
         if(this.props.onSearch) {
             var filter = this.props.filter || {};
             this.props.onSearch({search: this.state.search, ...filter});
@@ -48,12 +65,12 @@ class SearchBox extends React.Component {
 
         return (
             <div className="search-box">
-                <form name="search" role="form">
+                <form name="search" role="form" onSubmit={this.onSearch.bind(this)}>
                     <div className="input-group">
                         <span className="input-group-addon">
                             <i className="fa fa-search"/>
                         </span>
-                        <input type="text" className="form-control" placeholder={this.props.placeholder || "Search"} ref="search" value={this.state.search} onChange={this.handleChange.bind(this)}/>
+                        <input type="text" name="search" className="form-control" placeholder={this.props.placeholder || "Search"} ref="search" value={this.state.search} onChange={this.onSearchChange.bind(this)}/>
                     </div>
                 </form>
                 {!this.props.hide_results && this.state.search?(

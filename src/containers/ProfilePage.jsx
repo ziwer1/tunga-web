@@ -26,11 +26,13 @@ class ProfilePage extends React.Component {
 						<li role="presentation"><Link to="/profile/personal" activeClassName="active">Personal</Link></li>
                         {Auth.user.is_developer?(
                             [
-                                <li role="presentation"><Link to="/profile/stack" activeClassName="active">{Auth.user.is_developer?'Experience':'Stack'}</Link></li>,
+                                <li role="presentation"><Link to="/profile/stack" activeClassName="active">Experience</Link></li>,
                                 <li role="presentation"><Link to="/profile/id-document" activeClassName="active">ID Document</Link></li>,
                                 <li role="presentation"><Link to="/profile/payment" activeClassName="active">Payment</Link></li>
                             ]
-                        ):null}
+                        ):(
+                            <li role="presentation"><Link to="/profile/company" activeClassName="active">Company Profile</Link></li>
+                        )}
                         {/*<li role="presentation"><Link to="/profile/account" activeClassName="active">Account</Link></li>*/}
 						<li role="presentation"><Link to="/profile/photo" activeClassName="active">Photo</Link></li>
 						<li role="presentation"><Link to="/profile/security" activeClassName="active">Security</Link></li>

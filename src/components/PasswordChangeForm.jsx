@@ -64,7 +64,7 @@ export default class PasswordChangeForm extends React.Component {
                         <div><input type="password" className="form-control" ref="new_password2" required placeholder="Confirm New Password"/></div>
                     </div>
 
-                    <button type="submit" className="btn btn-default pull-right" disabled={Profile.isSaving.security}>Save</button>
+                    <button type="submit" className="btn  pull-right" disabled={Profile.isSaving.security}>Save</button>
                     <div className="clearfix"></div>
                 </form>
                     )}

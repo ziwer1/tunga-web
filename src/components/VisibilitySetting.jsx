@@ -41,7 +41,7 @@ export default class VisibilitySetting extends React.Component {
                 {SETTINGS_VISIBILITY_CHOICES.map(visibility => {
                     return (
                     <button key={visibility.id} type="button"
-                            className={"btn btn-default" + (this.state.visibility == visibility.id?' active':'')}
+                            className={"btn " + (this.state.visibility == visibility.id?' active':'')}
                             onClick={this.onChange.bind(this, visibility.id)}>{visibility.name}
                     </button>
                         )

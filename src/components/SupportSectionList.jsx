@@ -23,7 +23,7 @@ export default class SupportSectionList extends React.Component {
                             {Support.Section.list.sections.map((section) => {
                                 return(
                                 <div key={section.id}>
-                                    <Link to={`/support/${section.slug}/`}>{section.title}</Link>
+                                    <Link to={`/support/${section.slug}/`}><i className="fa fa-caret-right"/> {section.title}</Link>
                                 </div>
                                     );
                                 })}

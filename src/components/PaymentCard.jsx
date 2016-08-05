@@ -10,7 +10,7 @@ export default class PaymentCard extends React.Component {
         console.log(task_url);
 
         return (
-            <div className="well card">
+            <div className="card">
                 <div className="pledge">{task.display_fee}</div>
                 <h4><Link to={`/task/${task.id}/`}>{task.title}</Link></h4>
                 {task.closed && !task.paid?(

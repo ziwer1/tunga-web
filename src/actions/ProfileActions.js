@@ -154,7 +154,7 @@ export function updateProfile(id, profile) {
         dispatch(updateProfileStart(id));
         let request_method = id?"patch":"post";
 
-        if(profile.id_document) {
+        if(profile && profile.id_document) {
             var data = new FormData();
             Object.keys(profile).map((key) => {
                 data.append(key, profile[key]);

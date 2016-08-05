@@ -1,8 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router'
 
-import { USER_TYPE_CHOICES } from '../constants/Api';
-
 class AccountType extends React.Component {
 	render() {
 		return(
@@ -14,9 +12,9 @@ class AccountType extends React.Component {
 
 				                <h2 className="crt-acc-heading">Create your Tunga account</h2>
 
-                                <Link to="/signup/project-owner" className="btn btn-default acct-type-btn">I am looking for developers </Link>
-
-                                <Link to="/signup/developer" className="btn btn-default acct-type-btn">Apply as a developer</Link>
+                                <Link to="/signup/project-owner" className="btn acct-type-btn">I am looking for developers</Link>
+                                <br/>
+                                <Link to="/signup/developer" className="btn acct-type-btn">Apply as a developer</Link>
 
 				            </div>
 			          	</div>

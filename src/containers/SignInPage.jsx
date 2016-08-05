@@ -71,7 +71,7 @@ class SignIn extends React.Component {
 
                                         <Link to="/reset-password" className="forgot_passwd">Forgot Password?</Link>
 
-                                        <button type="submit" className="btn btn-default signin-btn" disabled={Auth.isAuthenticating}>Sign In</button>
+                                        <button type="submit" className="btn pull-right" disabled={Auth.isAuthenticating}>Sign In</button>
 
                                     </form>
                                 </div>

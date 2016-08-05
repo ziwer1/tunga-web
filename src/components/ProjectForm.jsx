@@ -84,7 +84,7 @@ export default class ProjectForm extends React.Component {
         return (
             <div>
                 {project.id || this.props.hide_title?null:(
-                <h3>Create a project</h3>
+                <h3 className="title">Create a project</h3>
                     )}
                 <form onSubmit={this.handleSubmit} name="project" role="form" ref="project_form">
                     <FormStatus loading={Project.detail.isSaving}
@@ -119,11 +119,11 @@ export default class ProjectForm extends React.Component {
                         (<FieldError message={Project.detail.error.update.deadline}/>):null}
                     <div className="form-group">
                         <label className="control-label">Deadline</label>
-                        <DateTimePicker ref="deadline" onChange={this.onDeadlineChange.bind(this)} defaultValue={project.deadline?(new Date(moment.utc(project.deadline).format())):null}/>
+                        <DateTimePicker ref="deadline" onChange={this.onDeadlineChange.bind(this)} />
                     </div>
 
                     <div className="text-center">
-                        <button type="submit" className="btn btn-default btn-action" disabled={Project.detail.isSaving}>{project.id?'Update project':'Create project'}</button>
+                        <button type="submit" className="btn  " disabled={Project.detail.isSaving}>{project.id?'Update project':'Create project'}</button>
                     </div>
                     <div className="clearfix"></div>
                 </form>

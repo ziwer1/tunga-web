@@ -70,11 +70,9 @@ export default class PaymentList extends React.Component {
                                                     <td>{task.amount.currency}{task.amount.tunga}</td>,
                                                     <td>{task.amount.currency}{task.amount.developer}</td>
                                                 ]
-                                            ):(
-                                                [<td>{task.display_fee}</td>,<td>{task.invoice_number?(
-                                                    <a href={`${ENDPOINT_TASK}${task.id}/download/invoice/?format=pdf`} target="_blank">{task.invoice_number}</a>
-                                                ):null}</td>]
+                                            ):(<td>{task.display_fee}</td>
                                             )}
+                                            <td><a href={`${ENDPOINT_TASK}${task.id}/download/invoice/?format=pdf`} target="_blank">{task.invoice_number || <span><i className="fa fa-download"/> Download Invoice</span>}</a></td>
                                             <td>{task.payment_status}</td>
                                         </tr>
                                     );

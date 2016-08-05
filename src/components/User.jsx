@@ -20,7 +20,7 @@ export default class User extends React.Component {
                 <div>
                     <div className="media">
                         <div className="media-left">
-                            <Avatar src={user.avatar_url} size="large"/>
+                            <Avatar src={user.avatar_url} size="xl"/>
                         </div>
                         <div className="media-body">
                             <h4 className="title">{user.display_name}</h4>
@@ -44,9 +44,9 @@ export default class User extends React.Component {
                         <div>
                             {user.profile.company || user.profile.country_name || user.profile.city?(
                             <div className="media">
-                                <div className="media-left"><i className="fa fa-map-marker fa-2x"/></div>
+                                <div className="media-left"><i className="tunga-icon-location fa-2x"/></div>
                                 <div className="media-body">
-                                    <div className="profile-field">
+                                    <div className="card">
                                         <div>{user.profile.company}</div>
                                         <div>{user.profile.plot_number} {user.profile.street}</div>
                                         <div>{user.profile.city}</div>
@@ -58,9 +58,9 @@ export default class User extends React.Component {
                             <p/>
                             {user.profile.bio?(
                             <div className="media">
-                                <div className="media-left"><i className="fa fa-user fa-2x"/></div>
+                                <div className="media-left"><i className="tunga-icon-profile fa-2x"/></div>
                                 <div className="media-body">
-                                    <div className="profile-field">
+                                    <div className="card">
                                         <div dangerouslySetInnerHTML={{__html: user.profile.bio}}/>
                                     </div>
                                 </div>
@@ -70,7 +70,7 @@ export default class User extends React.Component {
                             <div className="media">
                                 <div className="media-left"><i className="fa fa-globe fa-2x"/></div>
                                 <div className="media-body">
-                                    <div className="profile-field">
+                                    <div className="card">
                                         <a target="_blank" href={user.profile.website}>{user.profile.website}</a>
                                     </div>
                                 </div>
@@ -78,7 +78,7 @@ export default class User extends React.Component {
                                 ):null}
                             {user.profile.skills && user.profile.skills.length?(
                             <div className="media">
-                                <div className="media-left"><i className="fa fa-tags fa-2x"/></div>
+                                <div className="media-left"><i className="tunga-icon-tag fa-2x"/></div>
                                 <div className="media-body">
                                     <TagList tags={user.profile.skills}/>
                                 </div>
@@ -86,15 +86,15 @@ export default class User extends React.Component {
                                 ):null}
                             {user.work.length?(
                             <div className="media">
-                                <div className="media-left"><i className="fa fa-briefcase fa-2x"/></div>
+                                <div className="media-left"><i className="tunga-icon-cv fa-2x"/></div>
                                 <div className="media-body">
                                     {user.work.map(item => {
                                         return (
-                                        <div key={item.id} className="well card" style={{margin: '5px 0', maxWidth: '500px'}}>
-                                            <div><strong>Position: {item.position}</strong></div>
-                                            <div><strong>Company: {item.company}</strong></div>
+                                        <div key={item.id} className="card" style={{margin: '5px 0', maxWidth: '500px'}}>
+                                            <div><strong>{item.position}</strong></div>
+                                            <div><strong>{item.company}</strong></div>
                                             <div>
-                                                Period: {item.start_month_display}/{item.start_year} - {item.end_year?`${item.start_month_display}/${item.start_year}`:'Present'}
+                                                {item.start_month_display}/{item.start_year} - {item.end_year?`${item.start_month_display}/${item.start_year}`:'Present'}
                                             </div>
                                             <div dangerouslySetInnerHTML={{__html: item.details}} style={{margin: '5px 0'}}/>
                                         </div>
@@ -105,15 +105,15 @@ export default class User extends React.Component {
                                 ):null}
                             {user.education.length?(
                             <div className="media">
-                                <div className="media-left"><i className="fa fa-graduation-cap fa-2x"/></div>
+                                <div className="media-left"><i className="tunga-icon-education fa-2x"/></div>
                                 <div className="media-body">
                                     {user.education.map(item => {
                                         return (
-                                        <div key={item.id} className="well card" style={{margin: '5px 0', maxWidth: '500px'}}>
-                                            <div><strong>Institution: {item.institution}</strong></div>
-                                            <div><strong>Award: {item.award}</strong></div>
+                                        <div key={item.id} className="card">
+                                            <div><strong>{item.institution}</strong></div>
+                                            <div><strong>{item.award}</strong></div>
                                             <div>
-                                                Period: {item.start_month_display}/{item.start_year} - {item.end_year?`${item.start_month_display}/${item.start_year}`:'Present'}
+                                                {item.start_month_display}/{item.start_year} - {item.end_year?`${item.start_month_display}/${item.start_year}`:'Present'}
                                             </div>
                                             <div dangerouslySetInnerHTML={{__html: item.details}} style={{margin: '5px 0'}}/>
                                         </div>

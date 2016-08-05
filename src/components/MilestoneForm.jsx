@@ -81,7 +81,7 @@ export default class MilestoneForm extends React.Component {
                     </div>
 
                     <div className="text-center">
-                        <button type="submit" className="btn btn-default btn-action">{milestone.idx > -1?'Update':'Add'} milestone</button>
+                        <button type="submit" className="btn  ">{milestone.idx > -1?'Update':'Add'} milestone</button>
                     </div>
                 </form>
             </div>

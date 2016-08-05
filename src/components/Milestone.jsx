@@ -117,7 +117,7 @@ export default class Milestone extends React.Component {
                     </div>
                         ):null}
                     {Auth.user.is_developer && !is_missed?(
-                    <button className="btn btn-default" onClick={this.onEditReport.bind(this)}><i className="fa fa-pencil"/> Edit Report</button>
+                    <button className="btn " onClick={this.onEditReport.bind(this)}><i className="fa fa-pencil"/> Edit Report</button>
                         ):null}
                 </div>
                     ):(

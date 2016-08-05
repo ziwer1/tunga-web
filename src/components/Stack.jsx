@@ -117,20 +117,21 @@ export default class Stack extends React.Component {
                         <div className="form-group">
                             <label className="control-label">Work Experience</label>
                             <div className="pull-right clearfix">
-                                <button type="button" onClick={this.handleAddWork.bind(this)}><i className="fa fa-plus-circle"/> Add Entry</button>
+                                <button type="button" className="btn btn-alt" onClick={this.handleAddWork.bind(this)}><i className="fa fa-plus-circle"/> Add Entry</button>
                             </div>
+                            <div className="clearfix"></div>
                             <div>
                                 {Profile.work.ids.map(id => {
                                     var item = Profile.work.items[id];
                                     return (
-                                        <div key={item.id} className="well card" style={{margin: '5px 0'}}>
+                                        <div key={item.id} className="card" style={{margin: '5px 0'}}>
                                             <div><strong>Position: {item.position}</strong></div>
                                             <div><strong>Company: {item.company}</strong></div>
                                             <div>
                                                 Period: {item.start_month_display}/{item.start_year} - {item.end_year?`${item.start_month_display}/${item.start_year}`:'Present'}
                                             </div>
-                                            <div dangerouslySetInnerHTML={{__html: item.details}} style={{margin: '5px 0', maxHeight: '50px'}}/>
-                                            <button type="button" onClick={this.handleAddWork.bind(this, item)}><i className="fa fa-pencil"/> Edit</button>
+                                            <div className="short-description" dangerouslySetInnerHTML={{__html: item.details}}/>
+                                            <button type="button" className="btn btn-alt" onClick={this.handleAddWork.bind(this, item)}><i className="fa fa-pencil"/> Edit</button>
                                         </div>
                                         )
                                     })}
@@ -140,20 +141,21 @@ export default class Stack extends React.Component {
                         <div className="form-group">
                             <label className="control-label">Education</label>
                             <div className="pull-right clearfix">
-                                <button type="button" onClick={this.handleAddEducation.bind(this)}><i className="fa fa-plus-circle"/> Add Entry</button>
+                                <button type="button" className="btn btn-alt" onClick={this.handleAddEducation.bind(this)}><i className="fa fa-plus-circle"/> Add Entry</button>
                             </div>
+                            <div className="clearfix"></div>
                             <div>
                                 {Profile.education.ids.map(id => {
                                     var item = Profile.education.items[id];
                                     return (
-                                    <div key={item.id} className="well card" style={{margin: '5px 0'}}>
+                                    <div key={item.id} className="card" style={{margin: '5px 0'}}>
                                         <div><strong>Institution: {item.institution}</strong></div>
                                         <div><strong>Award: {item.award}</strong></div>
                                         <div>
                                             Period: {item.start_month_display}/{item.start_year} - {item.end_year?`${item.start_month_display}/${item.start_year}`:'Present'}
                                         </div>
-                                        <div dangerouslySetInnerHTML={{__html: item.details}} style={{margin: '5px 0', maxHeight: '50px'}}/>
-                                        <button type="button" onClick={this.handleAddEducation.bind(this, item)}><i className="fa fa-pencil"/> Edit</button>
+                                        <div className="short-description" dangerouslySetInnerHTML={{__html: item.details}}/>
+                                        <button type="button" className="btn btn-alt" onClick={this.handleAddEducation.bind(this, item)}><i className="fa fa-pencil"/> Edit</button>
                                     </div>
                                         )
                                     })}
@@ -162,7 +164,7 @@ export default class Stack extends React.Component {
                     </div>
                         ):null}
 
-                    <button type="submit" className="btn btn-default pull-right" disabled={Profile.isSaving.profile}>Save</button>
+                    <button type="submit" className="btn  pull-right" disabled={Profile.isSaving.profile}>Save</button>
                     <div className="clearfix"></div>
                 </form>
                     )}

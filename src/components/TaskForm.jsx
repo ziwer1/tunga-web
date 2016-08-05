@@ -278,7 +278,7 @@ export default class TaskForm extends ComponentWithModal {
             return (
                 <div>
                     {task.id?null:(
-                        <h3>Post a new task</h3>
+                        <h2>Post a new task</h2>
                     )}
                     <div className="alert alert-info">You need to complete your profile before you can post tasks</div>
                     <div>
@@ -295,8 +295,9 @@ export default class TaskForm extends ComponentWithModal {
             <div>
                 {this.renderModalContent()}
                 {task.id?null:(
-                <h3>Post a new task</h3>
+                <h2 className="title">Post a new task</h2>
                     )}
+
                 <form onSubmit={this.handleSubmit.bind(this)} name="task" role="form" ref="task_form" className={has_error || this.state.showAll?'steps-all':null}>
                     <FormStatus loading={Task.detail.isSaving}
                                 success={Task.detail.isSaved}
@@ -362,7 +363,7 @@ export default class TaskForm extends ComponentWithModal {
                             (<FieldError message={Task.detail.error.update.fee}/>):null}
                         <div className="form-group">
                             <label className="control-label">Pledge (in Euro) *</label>
-                            <div><input type="text" className="form-control" ref="fee" required placeholder="Pledge in €" defaultValue={parseFloat(task.fee).toPrecision(2)}/></div>
+                            <div><input type="text" className="form-control" ref="fee" required placeholder="Pledge in €" defaultValue={task.fee?parseFloat(task.fee).toPrecision(2):''}/></div>
                             <div style={{marginTop: '10px'}}>13% of pledge goes to Tunga</div>
                         </div>
 
@@ -397,7 +398,7 @@ export default class TaskForm extends ComponentWithModal {
                                         })}
                                 </div>
                                     ):null}
-                                <button type="button" className="btn btn-default" style={{marginRight: '5px'}}
+                                <button type="button" className="btn btn-alt" style={{marginRight: '5px'}}
                                         onClick={this.onAddAttachment.bind(this)}>
                                     <i className="fa fa-upload"/> Upload files
                                 </button>
@@ -415,7 +416,9 @@ export default class TaskForm extends ComponentWithModal {
                                 config={TINY_MCE_CONFIG}
                                 onChange={this.onRemarksChange.bind(this)}/>
                         </div>
+                    </div>
 
+                    <div className={this.state.step == 3 || has_error || this.state.showAll?'step':'sr-only'}>
                         {(Task.detail.error.create && Task.detail.error.create.update_schedule)?
                             (<FieldError message={Task.detail.error.create.update_schedule}/>):null}
                         {(Task.detail.error.update && Task.detail.error.update.update_schedule)?
@@ -423,25 +426,23 @@ export default class TaskForm extends ComponentWithModal {
                         <div className="form-group">
                             <label className="control-label">Update preferences *</label>
                             <div>
-                                <div className="btn-group btn-choices select" role="group" aria-label="update preference">
+                                <div className="btn-group btn-choices" role="group" aria-label="update preference">
                                     <button type="button"
-                                            className={"btn btn-default" + (!this.state.schedule?' active':'')}
+                                            className={"btn " + (!this.state.schedule?' active':'')}
                                             onClick={this.onUpdateScheduleChange.bind(this, null)}>No updates
                                     </button>
                                     {this.state.schedule_options.map(schedule => {
                                         return (
-                                        <button key={schedule.id} type="button"
-                                                className={"btn btn-default" + (this.state.schedule == schedule.id?' active':'')}
-                                                onClick={this.onUpdateScheduleChange.bind(this, schedule.id)}>{schedule.name}
-                                        </button>
-                                            )
-                                        })}
+                                            <button key={schedule.id} type="button"
+                                                    className={"btn " + (this.state.schedule == schedule.id?' active':'')}
+                                                    onClick={this.onUpdateScheduleChange.bind(this, schedule.id)}>{schedule.name}
+                                            </button>
+                                        )
+                                    })}
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div className={this.state.step == 3 || has_error || this.state.showAll?'step':'sr-only'}>
                         {(Task.detail.error.create && Task.detail.error.create.visibility)?
                             (<FieldError message={Task.detail.error.create.visibility}/>):null}
                         {(Task.detail.error.update && Task.detail.error.update.visibility)?
@@ -449,11 +450,11 @@ export default class TaskForm extends ComponentWithModal {
                         <div className="form-group">
                             <label className="control-label">Visibility *</label>
                             <br/>
-                            <div className="btn-group btn-choices select" role="group" aria-label="visibility">
+                            <div className="btn-group btn-choices" role="group" aria-label="visibility">
                                 {TASK_VISIBILITY_CHOICES.map(visibility => {
                                     return (
                                     <button key={visibility.id} type="button"
-                                            className={"btn btn-default" + (this.state.visibility == visibility.id?' active':'')}
+                                            className={"btn " + (this.state.visibility == visibility.id?' active':'')}
                                             onClick={this.onVisibilityChange.bind(this, visibility.id)}>{visibility.name}
                                     </button>
                                         )
@@ -483,7 +484,7 @@ export default class TaskForm extends ComponentWithModal {
                         <div className="form-group">
                             <label className="control-label">Milestones</label>
                             <div>
-                                <ButtonGroup className="btn-choices select">
+                                <ButtonGroup className="btn-choices">
                                     {this.state.milestones.map((milestone, idx) => {
                                         const tooltip = (<Tooltip id="tooltip"><strong>{milestone.title}</strong><br/>{milestone.due_at?moment.utc(milestone.due_at).local().format('Do, MMMM YYYY, h:mm a'):null}</Tooltip>);
                                         return (
@@ -508,23 +509,23 @@ export default class TaskForm extends ComponentWithModal {
                                 </ButtonGroup>
                             </div>
                             <div>
-                                <Button bStyle="default" onClick={this.onComposeMilestone.bind(this, null)}>Add milestone</Button>
+                                <Button className="btn-alt" onClick={this.onComposeMilestone.bind(this, null)}>Add milestone</Button>
                             </div>
                         </div>
 
                         <div className="text-center">
-                            <button type="submit" onClick={this.showAll.bind(this)} className="btn btn-default btn-action" disabled={Task.detail.isSaving}>{task.id?'Update task':'Publish task'}</button>
+                            <button type="submit" onClick={this.showAll.bind(this)} className="btn" disabled={Task.detail.isSaving}>{task.id?'Update task':'Publish task'}</button>
                         </div>
                     </div>
                     <div className="nav pull-right">
                         {this.state.step > 1?(
                         <button type="button" className="btn" onClick={this.changeStep.bind(this, false)}>
-                            <i className="fa fa-angle-left fa-lg"/>
+                            <i className="tunga-icon-previous"/>
                         </button>
                             ):null}
                         {this.state.step < 3?(
                         <button type="button" className="btn" onClick={this.changeStep.bind(this, true)}>
-                            <i className="fa fa-angle-right fa-lg"/>
+                            <i className="tunga-icon-next"/>
                         </button>
                             ):null}
                     </div>

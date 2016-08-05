@@ -1,9 +1,7 @@
 import React from 'react'
-import Progress from '../components/status/Progress'
 import FormStatus from '../components/status/FormStatus'
 import Error from '../components/status/Error'
 import FieldError from '../components/status/FieldError'
-import SocialSignIn from '../components/SocialSignIn'
 import connect from '../utils/connectors/AuthConnector'
 
 class PasswordResetConfirm extends React.Component {
@@ -63,7 +61,7 @@ class PasswordResetConfirm extends React.Component {
                         <div><input type="password" className="form-control" ref="new_password2" required placeholder="Confirm New Password"/></div>
                     </div>
 
-                    <button type="submit" className="btn btn-default pull-right" disabled={Auth.isResetting}>Change Password</button>
+                    <button type="submit" className="btn  pull-right" disabled={Auth.isResetting}>Change Password</button>
 
                     <div className="clearfix"></div>
                 </form>

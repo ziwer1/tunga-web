@@ -1,85 +1,35 @@
 import React from 'react'
-import Dropzone from 'react-dropzone'
-import TinyMCE  from 'react-tinymce'
-import Progress from './status/Progress'
-import FormStatus from './status/FormStatus'
-import FieldError from './status/FieldError'
-import {TINY_MCE_CONFIG } from '../constants/settings'
-import { nl_to_br } from '../utils/html'
-import MessageWidget from './MessageWidget'
+import MessageForm from './MessageForm'
 
 export default class CommentForm extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {body: '', attachments: []};
-    }
 
     static propTypes = {
         uploadCallback: React.PropTypes.func,
-        uploadSaved: React.PropTypes.bool
+        uploadSaved: React.PropTypes.bool,
+        isSaving: React.PropTypes.bool
     };
 
-    componentDidUpdate(prevProps, prevState) {
-        if(this.props.Comment.detail.isSaved && !prevProps.Comment.detail.isSaved || this.props.uploadSaved && !prevProps.uploadSaved) {
-            this.refs.comment_form.reset();
-            this.setState({body: '', attachments: []});
-        }
-    }
-
-    onBodyChange(body) {
-        this.setState({body});
-    }
-
-    onDrop(attachments) {
-        var current = this.state.attachments;
-        this.setState({attachments: current.concat(attachments)});
-    }
-
-    onAddAttachment() {
-        this.refs.dropzone.open();
-    }
-
-    handleSubmit(e) {
-        e.preventDefault();
-        var body = nl_to_br(this.state.body);
-
-        const attachments = this.state.attachments;
+    onComment(body, attachments) {
         const { CommentActions, object_details } = this.props;
-        if(body) {
-            CommentActions.createComment({ ...object_details, body}, attachments);
-        } else if(attachments && attachments.length && this.props.uploadCallback) {
-            this.props.uploadCallback(attachments);
+        CommentActions.createComment({ ...object_details, body}, attachments);
+    }
+
+    onUpload(files) {
+        if(this.props.uploadCallback) {
+            this.props.uploadCallback(files);
         }
-        return;
     }
 
     render() {
         const { Comment } = this.props;
         return (
-            <form onSubmit={this.handleSubmit} name="comment" role="comment" ref="comment_form">
-                <FormStatus loading={Comment.detail.isSaving}
-                            error={Comment.detail.error.create}/>
-
-                <Dropzone ref="dropzone" onDrop={this.onDrop.bind(this)} style={{display: 'none'}}>
-                    <div>Try dropping some files here, or click to select files to upload.</div>
-                </Dropzone>
-                {this.state.attachments?(
-                <div>
-                    {this.state.attachments.map((file) => {
-                        return (<div><i className="fa fa-file-text-o"/> {file.name}</div>)
-                        })}
-                </div>
-                    ):null}
-
-                {(Comment.detail.error.create && Comment.detail.error.create.body)?
-                    (<FieldError message={Comment.detail.error.create.body}/>):null}
-
-                <MessageWidget onAddAttachment={this.onAddAttachment.bind(this)}
-                               onBodyChange={this.onBodyChange.bind(this)}
-                               onSend={this.handleSubmit.bind(this)}
-                               errors={Comment.detail.error.create}
-                               loading={Comment.detail.isSaving}/>
-            </form>
+            <MessageForm
+                messageCallback={this.onComment.bind(this)}
+                messageSaved={Comment.detail.isSaved}
+                uploadCallback={this.props.uploadCallback}
+                uploadSaved={this.props.uploadSaved}
+                isSending={Comment.detail.isSaving || this.props.isSaving}
+                placeholder="Write your comment here"/>
         );
     }
 }

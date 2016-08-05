@@ -4,6 +4,7 @@ import FormStatus from './status/FormStatus'
 import FieldError from './status/FieldError'
 
 import { TASK_PAYMENT_METHOD_CHOICES, TASK_PAYMENT_METHOD_BITONIC, TASK_PAYMENT_METHOD_BITCOIN, TASK_PAYMENT_METHOD_BANK, ENDPOINT_TASK } from '../constants/Api'
+import { objectToQueryString } from '../utils/html'
 
 export default class TaskPay extends React.Component {
 
@@ -13,7 +14,7 @@ export default class TaskPay extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {showForm: true};
+        this.state = {pay_method: null, pay_details: null, showForm: true};
     }
 
     componentDidMount() {
@@ -42,15 +43,32 @@ export default class TaskPay extends React.Component {
         this.setState({showForm: true});
     }
 
+    onChangePayMethod(pay_method) {
+        this.setState({pay_method: pay_method.id, pay_details: pay_method.details});
+    }
+
     handleSubmit(e) {
         e.preventDefault();
         var fee = this.refs.fee.value.trim();
-        var payment_method = this.refs.payment_method.value.trim();
+        var payment_method = this.state.pay_method;
 
         const { Task, TaskActions } = this.props;
         const { task } =  Task.detail;
         TaskActions.createTaskInvoice(task.id, {fee, payment_method});
     }
+
+    getBitonicPaymentUrl() {
+        const { Task } = this.props;
+        const { task } =  Task.detail;
+
+        return 'https://bitonic.nl/partner/263?'+ objectToQueryString({
+                bitcoinaddress: encodeURIComponent(task.btc_address),
+                ext_data: encodeURIComponent(task.summary),
+                ordertype: 'buy',
+                euros: encodeURIComponent(task.fee)
+            });
+    }
+
 
     render() {
         const { Task, Auth } = this.props;
@@ -69,11 +87,11 @@ export default class TaskPay extends React.Component {
                 {Task.detail.isRetrieving || Task.detail.Invoice.isRetrieving?
                     (<Progress/>)
                     :
-                    (<div style={{marginTop: '20px'}}>
+                    (<div>
                         <h4 className="title">Make Payment</h4>
 
                         {this.state.showForm || !invoice.id?(
-                            <form onSubmit={this.handleSubmit.bind(this)} name="task" role="form" ref="invoice_form">
+                            <form onSubmit={this.handleSubmit.bind(this)} name="invoice" role="form" ref="invoice_form">
 
                                 <FormStatus loading={Task.detail.Invoice.isSaving}
                                             success={Task.detail.Invoice.isSaved}
@@ -91,21 +109,30 @@ export default class TaskPay extends React.Component {
                                 {(Task.detail.Invoice.error.create && Task.detail.Invoice.error.create.payment_method)?
                                     (<FieldError message={Task.detail.Invoice.error.create.payment_method}/>):null}
                                 <div className="form-group">
-                                    <div>
-                                        <label className="control-label">Payment method</label>
-                                        <div>
-                                            <select type="text" className="form-control" ref="payment_method">
-                                                <option value=''>-- Choose a payment method  --</option>
-                                                {TASK_PAYMENT_METHOD_CHOICES.map((payment_method) => {
-                                                    return (<option key={payment_method.id} value={payment_method.id}>{payment_method.name}</option>);
-                                                })}
-                                            </select>
-                                        </div>
+                                    <label className="control-label">Payment method</label>
+                                    <hr style={{marginTop: '0'}}/>
+                                    <div className="pay-choices">
+                                        {TASK_PAYMENT_METHOD_CHOICES.map((payment_method) => {
+                                            return (
+                                                <div key={payment_method.id}  className="row">
+                                                    <div className="col-md-6">
+                                                        <button type="button"
+                                                                className={"btn btn-block "+(this.state.pay_method == payment_method.id?'active':'')}
+                                                                onClick={this.onChangePayMethod.bind(this, payment_method)}>
+                                                            <i className={payment_method.icon_class + " fa-lg pull-left"}/>{payment_method.name}
+                                                        </button>
+                                                    </div>
+                                                    <div className="col-md-6">{payment_method.meta}</div>
+                                                </div>
+                                            );
+                                        })}
                                     </div>
                                 </div>
 
+                                {this.state.pay_details?(<div className="card">{this.state.pay_details}</div>):null}
+
                                 <div className="text-center">
-                                    <button type="submit" className="btn btn-default btn-action" disabled={Task.detail.Invoice.isSaving}>Continue</button>
+                                    <button type="submit" className="btn" disabled={Task.detail.Invoice.isSaving}>Continue</button>
                                 </div>
                             </form>
                         ):(
@@ -126,19 +153,24 @@ export default class TaskPay extends React.Component {
 
                                 {invoice.payment_method == TASK_PAYMENT_METHOD_BANK?(
                                     <div>
-                                        <a href={`${ENDPOINT_TASK}${task.id}/download/invoice/?format=pdf`} target="_blank" className="btn btn-action"><i className="fa fa-download"/> Download Invoice</a>
+                                        <a href={`${ENDPOINT_TASK}${task.id}/download/invoice/?format=pdf`} target="_blank" className="btn "><i className="fa fa-download"/> Download Invoice</a>
                                     </div>
                                 ):null}
 
                                 {invoice.payment_method == TASK_PAYMENT_METHOD_BITONIC?(
                                     <div>
-                                        <a href={`${ENDPOINT_TASK}${task.id}/pay/bitonic/`} className="btn btn-action"><i className="fa fa-money"/> Pay with ideal / mister cash</a>
+                                        <div>
+                                            {/*<iframe src={this.getBitonicPaymentUrl()}
+                                                    style={{border: "none"}}
+                                                    width="400px" height="413px" sandbox/>*/}
+                                        </div>
+                                        <a href={`${ENDPOINT_TASK}${task.id}/pay/bitonic/`} className="btn "><i className="fa fa-money"/> Pay with iDeal</a>
                                     </div>
                                 ):null}
 
                                 {!task.paid?(
                                     <div style={{marginTop: '20px'}}>
-                                        <button className="btn btn-default" onClick={this.changePayMethod.bind(this)}><i className="fa fa-pencil"/> Change Payment Method</button>
+                                        <button className="btn btn-alt" onClick={this.changePayMethod.bind(this)}><i className="fa fa-pencil"/> Change Payment Method</button>
                                     </div>
                                 ):null}
                             </div>

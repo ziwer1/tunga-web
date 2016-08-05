@@ -24,7 +24,7 @@ export function createComment(comment, attachments) {
     return dispatch => {
         dispatch(createCommentStart(comment));
 
-        if(attachments.length) {
+        if(attachments && attachments.length) {
             var data = new FormData();
             Object.keys(comment).map((key, idx) => {
                 if(!Array.isArray(comment[key]) || comment[key].length) {

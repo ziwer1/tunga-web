@@ -1,13 +1,14 @@
 import React from 'react'
-import Dropzone from 'react-dropzone'
-import TinyMCE  from 'react-tinymce'
-import Progress from './status/Progress'
-import FormStatus from './status/FormStatus'
-import FieldError from './status/FieldError'
-import {TINY_MCE_CONFIG } from '../constants/settings'
-import { nl_to_br } from '../utils/html'
 
 export default class MessageWidget extends React.Component {
+
+    static propTypes = {
+        onSend: React.PropTypes.func.required,
+        onBodyChange: React.PropTypes.func,
+        onAddAttachment: React.PropTypes.func,
+        isSending: React.PropTypes.bool,
+        placeholder: React.PropTypes.string
+    };
 
     onBodyChange(e) {
         var body = e.target.value.trim();
@@ -35,16 +36,19 @@ export default class MessageWidget extends React.Component {
         return (
             <div className="input-group message-widget">
                 <span className="input-group-btn">
-                    <button type="button" className="btn btn-default" onClick={this.onAddAttachment.bind(this)}>
-                        <i className="fa fa-paperclip"/>
+                    <button type="button" className="btn btn-borderless" onClick={this.onAddAttachment.bind(this)}>
+                        <i className="fa fa-image fa-lg"/>
+                    </button>
+                    <button type="button" className="btn btn-borderless" onClick={this.onAddAttachment.bind(this)}>
+                        <i className="fa fa-paperclip fa-lg"/>
                     </button>
                 </span>
-                <textarea type="text" className="form-control" placeholder="Write your message here" rows="1"
+                <textarea type="text" className="form-control" placeholder={this.props.placeholder || "Write your message here"} rows="3"
                           onKeyUp={this.onBodyChange.bind(this)}/>
                 <span className="input-group-btn">
-                    <button type="button" className="btn btn-default" disabled={this.props.loading}
+                    <button type="button" className="btn" disabled={this.props.isSending}
                             onClick={this.onSend.bind(this)}>
-                        <i className="fa fa-paper-plane"/>
+                        <i className="fa fa-paper-plane"/> Send
                     </button>
                 </span>
             </div>

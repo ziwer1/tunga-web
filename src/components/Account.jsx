@@ -66,7 +66,7 @@ export default class Profile extends React.Component {
                         <div><input type="password" className="form-control" ref="password" required placeholder="Password"/></div>
                     </div>
 
-                    <button type="submit" className="btn btn-default pull-right" disabled={Profile.isSaving.account}>Save</button>
+                    <button type="submit" className="btn  pull-right" disabled={Profile.isSaving.account}>Save</button>
                     <div className="clearfix"></div>
                 </form>
                     )}

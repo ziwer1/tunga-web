@@ -1,56 +1,87 @@
 import React from 'react'
-import { Link } from 'react-router'
+import {Link} from 'react-router'
 import connect from '../utils/connectors/NotificationConnector'
 import Progress from '../components/status/Progress'
 import Clock from '../components/Clock'
 
 class Home extends React.Component {
     componentDidMount() {
-        if(this.props.Auth.isAuthenticated) {
+        if (this.props.Auth.isAuthenticated) {
             this.props.NotificationActions.getNotifications();
         }
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if(prevProps.Auth.isAuthenticated != this.props.Auth.isAuthenticated) {
+        if (prevProps.Auth.isAuthenticated != this.props.Auth.isAuthenticated) {
             this.props.NotificationActions.getNotifications();
         }
     }
 
+    getGreetingTime() {
+        var greeting = null; //return g
+
+        const currentTime = new Date();
+        let currentHour = currentTime.getHours();
+
+        let start_afternoon = 12;
+        let start_evening = 17;
+
+        console.log(currentHour);
+
+        if (currentHour >= start_afternoon && currentHour < start_evening) {
+            greeting = "afternoon";
+        } else if (currentHour >= start_evening) {
+            greeting = "evening";
+        } else {
+            greeting = "morning";
+        }
+
+        return greeting;
+    }
+
     render() {
-        const { Notification, Auth } = this.props;
+        const {Notification, Auth} = this.props;
         return (
             <div className="home-page">
                 <div className="bg-wrapper">
                     <div className="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
-                        <img src={require("../images/home-bg.jpg")} />
+                        <img src={require("../images/home-bg.jpg")}/>
                     </div>
                 </div>
-                <h1 className="title">Hi {Auth.user.first_name || Auth.user.display_name}!</h1>
+
                 <Clock/>
+
+                <h1 className="title">
+                    Good {this.getGreetingTime()} {Auth.user.first_name || Auth.user.display_name}!</h1>
                 <div className="notification-list">
-                    {Notification.notifications?(
-                    <ul>
-                        {Auth.user.can_contribute?null:(
-                            <li><Link to="/profile">You need to complete your profile before you can {Auth.user.is_developer?'apply for':'post'} tasks</Link></li>
-                        )}
-                        {Notification.notifications.messages?(
-                        <li><Link to="/channel">You have {Notification.notifications.messages} unread messages <i className="fa fa-caret-right"/></Link></li>
-                            ):null}
-                        {Notification.notifications.tasks?(
-                        <li><Link to="/task">You have {Notification.notifications.tasks} tasks running <i className="fa fa-caret-right"/></Link></li>
-                            ):null}
-                        {Notification.notifications.notifications?(
-                        <li><Link to="">You have new {Notification.notifications.notifications} notification</Link></li>
-                            ):null}
-                        {Notification.notifications.profile && Notification.notifications.profile.missing.length?(
-                        <li><Link to="/profile">Update your profile now, there {Notification.notifications.profile.missing.length==1?'is 1 field':`are ${Notification.notifications.profile.missing.length} fields`} missing</Link></li>
-                            ):null}
-                        {Notification.notifications.requests?(
-                        <li><Link to="/member/filter/requests">You have {Notification.notifications.requests} requests {Auth.user.is_project_owner?'from developers':''}</Link></li>
-                            ):null}
-                    </ul>
-                        ):(<div className="alert">You have no new notifications</div>)}
+                    {Notification.notifications ? (
+                        <ul>
+                            {Notification.notifications.profile || !Auth.user.can_contribute ? (
+                                <li>
+                                    <Link to="/profile">Update profile</Link>
+                                    <div>Please update <strong>your profile</strong></div>
+                                </li>
+                            ) : null}
+                            {Notification.notifications.messages ? (
+                                <li>
+                                    <Link to="/channel">View messages</Link>
+                                    <div>Please read <strong>your messages</strong></div>
+                                </li>
+                            ) : null}
+                            {Notification.notifications.tasks ? (
+                                <li>
+                                    <Link to="/task">View tasks</Link>
+                                    <div>Please check on <strong>your running tasks</strong></div>
+                                </li>
+                            ) : null}
+                            {Notification.notifications.requests ? (
+                                <li>
+                                    <Link to="/member/filter/requests">View requests {Auth.user.is_project_owner ? 'from developers' : ''}</Link>
+                                    <div>Please respond to <strong>your requests</strong></div>
+                                </li>
+                            ) : null}
+                        </ul>
+                    ) : (<div className="alert">You have no new notifications</div>)}
                 </div>
             </div>
 

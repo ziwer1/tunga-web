@@ -15,6 +15,12 @@ export default class ProfilePicture extends React.Component {
         this.props.ProfileActions.retrieveProfile();
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        if(this.props.Profile.isSaved.user && !prevProps.Profile.isSaved.user) {
+            this.setState({photo: null});
+        }
+    }
+
     onDrop(files) {
         this.setState({photo: files[0]});
     }
@@ -29,7 +35,7 @@ export default class ProfilePicture extends React.Component {
         const image = this.state.photo;
         const { ProfileActions } = this.props;
 
-        ProfileActions.updateProfile({image});
+        ProfileActions.updateAuthUser({image});
         return;
     }
 
@@ -52,7 +58,7 @@ export default class ProfilePicture extends React.Component {
                         <div className="msg">
                             {this.state.photo?(
                             <div>
-                                <Avatar src={this.state.photo.preview} size="large"/>
+                                <Avatar src={this.state.photo.preview} size="xxl"/>
                                 <p>{this.state.photo.name}</p>
                             </div>
                                 ):(
@@ -61,7 +67,7 @@ export default class ProfilePicture extends React.Component {
                         </div>
                     </Dropzone>
 
-                    <button type="submit" className="btn btn-default pull-right" disabled={Profile.isSaving.user}>Upload</button>
+                    <button type="submit" className="btn  pull-right" disabled={Profile.isSaving.user || !this.state.photo}>Upload</button>
                     <div className="clearfix"></div>
                 </form>
                     )}

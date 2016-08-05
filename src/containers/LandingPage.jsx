@@ -88,7 +88,7 @@ class LandingPage extends React.Component {
                             <div className="col-md-8 col-md-offset-1 row" id="head-desc">
                                 <h1>Have top African coders work on your software tasks within minutes.</h1>
                                 <p className="col-md-12 row"><span className="col-md-7 row">Tunga is a market network that allows you to build a flexible team of skilled African software programmers, that you can mobilize on-demand</span></p>
-                                <Link className="btn btn-default" to="/signup" id="btn-publish">TRY NOW</Link>
+                                <Link className="btn " to="/signup" id="btn-publish">TRY NOW</Link>
                             </div>
                         </div>
                     </div>
@@ -216,14 +216,14 @@ class LandingPage extends React.Component {
                             <div className="col-xs-6 col-sm-4 col-md-3"><Link to="/signup"><img src={require("../images/devs/Roy.jpg")} className="img-responsive"/></Link></div>
                             <div className="col-xs-6 col-sm-4 col-md-3"><Link to="/signup"><img src={require("../images/devs/David.jpg")} className="img-responsive"/></Link></div>
                         </div>
-                        <div className="row text-center"><Link to="/signup" className="btn btn-default" id="join-btn">JOIN OUR TEAM</Link></div>
+                        <div className="row text-center"><Link to="/signup" className="btn " id="join-btn">JOIN OUR TEAM</Link></div>
                     </div>
                 </section>
                 <section id="contact-us" className="row">
                     <div className="container text-center">
                         <p className="text-center">Want to find out more?<br/>Create an account and check out our platform.</p>
                         <h3>It's free!</h3>
-                        <a href="mailto:bart@tunga.io" className="btn btn-default">CONTACT US</a>
+                        <a href="mailto:bart@tunga.io" className="btn ">CONTACT US</a>
                     </div>
                 </section>
                 <footer className="row" id="main-footer">
@@ -251,7 +251,7 @@ class LandingPage extends React.Component {
                                 <div className="input-group input-group-lg">
                                     <input className="form-control" ref="email" name="email" type="email" placeholder="Drop your email here and we will contact you" required/>
                                     <span className="input-group-btn">
-                                        <button className="btn btn-default" type="submit" disabled={Utility.contact.isSending}>
+                                        <button className="btn " type="submit" disabled={Utility.contact.isSending}>
                                             <i className="fa fa-envelope" onClick={this.sendEmail.bind(this)}></i>
                                         </button>
                                     </span>

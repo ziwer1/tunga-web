@@ -22,28 +22,52 @@ export default class TaskCard extends ComponentWithModal {
         TaskActions.createSavedTask({task: task.id});
     }
 
+    getSplitFee() {
+        const { Auth, task } = this.props;
+        var context_fee = 0;
+        if(task && task.amount) {
+            if(Auth.user.is_developer) {
+                context_fee = task.amount.developer;
+            } else {
+                context_fee = task.amount.pledge;
+            }
+        }
+        let float_fee = parseFloat(context_fee).toFixed(2);
+        let whole_part = Math.floor(float_fee);
+        return {whole: whole_part, decimal: float_fee.substring(whole_part.toString().length+1) || '00'}
+    }
+
     render() {
         const { Auth, Task, TaskActions, task } = this.props;
         var task_status = parse_task_status(task);
+        let split_fee = this.getSplitFee();
 
         return (
-            <div className="well card task">
+            <div className="card task-card">
                 <LargeModal title={<div>Apply for Task: <Link to={`/task/${task.id}/`}>{task.title}</Link></div>} show={this.state.showModal} onHide={this.close.bind(this)}>
                     <ApplicationForm Auth={Auth} Task={Task} TaskActions={TaskActions} task={task}/>
                 </LargeModal>
+                <div className="time text-right">
+                    Posted <TimeAgo date={moment.utc(task.created_at).local().format()}/>
+                </div>
                 <div className="top">
                     <h3 className="title"><Link to={`/task/${task.id}/`}>{task.title}</Link></h3>
                     <div className="task-status"><i className={"fa fa-circle " + task_status.css}/> {task_status.message}</div>
-                    <div>
-                        Posted <TimeAgo date={moment.utc(task.created_at).local().format()} /> by
+                    <div className="pledge text-center">
+                        {task.amount?task.amount.currency:'&euro;'}{split_fee.whole}
+                        <span className="decimal" style={{fontSize: '50%'}}>{split_fee.decimal}</span>
                     </div>
-                    <div>
-                        <Avatar src={task.details.user.avatar_url}/> <Link to={`/member/${task.user}/`}>{task.details.user.display_name}</Link>
-                        {task.details.user.company?(
-                        <span>, {task.details.user.company}</span>
+                    <div className="media">
+                        <div className="media-left">
+                            <Avatar src={task.details.user.avatar_url}/>
+                        </div>
+                        <div className="media-body">
+                            <Link to={`/member/${task.user}/`}>{task.details.user.display_name}</Link>
+                            {task.details.user.company?(
+                                <div>{task.details.user.company}</div>
                             ):null}
+                        </div>
                     </div>
-                    <div className="pledge">{task.display_fee}</div>
                     <div>
                         {task.deadline?"Deadline "+moment.utc(task.deadline).local().format('Do, MMMM YYYY'):<span dangerouslySetInnerHTML={{__html: '&nbsp;'}}/>}
                     </div>
@@ -56,16 +80,15 @@ export default class TaskCard extends ComponentWithModal {
                         )}
                 </div>
                 <div className="bottom">
-                    <div className="description" dangerouslySetInnerHTML={{__html: render_excerpt(task.excerpt)}}/>
+                    <div className="short-description" dangerouslySetInnerHTML={{__html: render_excerpt(task.excerpt)}}/>
                     <div className="actions">
                         {Auth.user.is_developer?(
                         <div className="row">
                             <div className="col-sm-12">
                                 {task.can_apply?(
-                                <button type="button" className="btn btn-block btn-default"
-                                        onClick={this.handleApplication.bind(this)}>Apply for this task</button>
+                                <Link to={`/task/${task.id}/apply`} className="btn btn-block">Apply for this task</Link>
                                     ):(task.closed || !task.apply?(
-                                <div className="btn btn-block btn-default">Applications are closed for this task</div>
+                                <div className="btn btn-block">Applications are closed for this task</div>
                                     ):(
                                 <div className="btn btn-block" style={{visibility: 'hidden'}}></div>
                                     ))}
@@ -74,7 +97,7 @@ export default class TaskCard extends ComponentWithModal {
                             ):null}
                         <div className="row">
                             <div className="col-sm-12">
-                                <Link to={`/task/${task.id}/`} className="btn btn-block btn-default">View detailed page</Link>
+                                <Link to={`/task/${task.id}/`} className="btn btn-block">View detailed page</Link>
                             </div>
                         </div>
                     </div>

@@ -44,13 +44,13 @@ export default class NavBar extends React.Component {
                                 <li><SearchBox placeholder="Search" hide_results={true}/></li>
                                 <li className="dropdown">
                                     <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                        <Avatar src={Auth.user.avatar_url}/> {Auth.user.display_name} <span className="caret" style={{marginLeft: 5+'px'}}></span>
+                                        {Auth.user.display_name} <span className="caret" style={{marginLeft: 5+'px'}}></span> <Avatar src={Auth.user.avatar_url}/>
                                     </a>
                                     <ul className="dropdown-menu">
-                                        <li><Link to="/profile"><i className="fa fa-user"/> My Profile</Link></li>
-                                        <li><Link to="/settings"><i className="fa fa-cog"/> Settings</Link></li>
+                                        <li><Link to="/profile"><i className="nav-icon tunga-icon-profile"/> My Profile</Link></li>
+                                        <li><Link to="/settings"><i className="nav-icon tunga-icon-settings"/> Settings</Link></li>
                                         <li role="separator" className="divider"/>
-                                        <li><Link to="" onClick={this.handleLogout}><i className="fa fa-sign-out"></i> Sign Out</Link></li>
+                                        <li><Link to="" onClick={this.handleLogout}><i className="nav-icon tunga-icon-sign-out"/> Sign Out</Link></li>
                                     </ul>
                                 </li>
                             </ul>

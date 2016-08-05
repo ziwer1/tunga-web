@@ -1,8 +1,9 @@
 import React from 'react'
 import Helmet from "react-helmet"
-import Progress from './status/Progress'
+import TaskCrumb from '../containers/TaskCrumb'
 import TaskDetail from './TaskDetail'
-import TaskWorflow from './TaskWorflow'
+import Progress from './status/Progress'
+import Success from './status/Success'
 
 export default class Task extends React.Component {
 
@@ -16,13 +17,30 @@ export default class Task extends React.Component {
         }
     }
 
+    getLastRoute() {
+        const { routes } = this.props;
+        if(routes && routes.length) {
+            return routes[routes.length-1];
+        }
+        return null;
+    }
+
+    getCrumb() {
+        let lastRoute = this.getLastRoute();
+        if(lastRoute) {
+            return lastRoute.crumb;
+        }
+        return null;
+    }
+
     renderChildren() {
         return React.Children.map(this.props.children, function (child) {
             return React.cloneElement(child, {
                 Auth: this.props.Auth,
                 Task: this.props.Task,
-                task: this.props.Task.detail,
-                TaskActions: this.props.TaskActions
+                task: this.props.Task.detail.task,
+                TaskActions: this.props.TaskActions,
+                Nav: this.props.Nav
             });
         }.bind(this));
     }
@@ -30,6 +48,7 @@ export default class Task extends React.Component {
     render() {
         const { Auth, Task, TaskActions, params } = this.props;
         const { task } = Task.detail;
+        let lastRoute = this.getLastRoute();
 
         return (
             Task.detail.isRetrieving?
@@ -42,9 +61,15 @@ export default class Task extends React.Component {
                             {"name": "description", "content": task.description || task.summary}
                         ]}
                 />
-                {task.user == Auth.user.id || task.is_participant || Auth.user.is_staff?(
+
+                {Task.detail.applications.isSaved?(
+                    <Success message="Application sent successfully"/>
+                ):null}
+
+                {task.user == Auth.user.id || task.is_participant || Auth.user.is_staff || (lastRoute && lastRoute.path == 'apply' && task.can_apply)?(
                 <div>
-                    <TaskWorflow Auth={Auth} Task={Task} TaskActions={TaskActions} params={params}/>
+                    <TaskCrumb section={this.getCrumb()}/>
+
                     {this.renderChildren()}
                 </div>
                     ):(

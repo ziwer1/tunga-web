@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 export function nl_to_br(str) {
     if(str) {
         return str.replace(/\n/g, "<br />");

@@ -61,11 +61,11 @@ export default class PaymentMethod extends React.Component {
                     <div className="form-group">
                         <label className="control-label">Payment Method *</label>
                         <div>
-                            <div className="btn-group btn-choices select" role="group" aria-label="payment method">
+                            <div className="btn-group btn-choices" role="group" aria-label="payment method">
                                 {PAYMENT_METHOD_CHOICES.map(payment_method => {
                                     return (
                                         <button key={payment_method.id} type="button"
-                                                className={"btn btn-default" + (this.state.payment_method == payment_method.id?' active':'')}
+                                                className={"btn " + (this.state.payment_method == payment_method.id?' active':'')}
                                                 onClick={this.onPaymentMethodChange.bind(this, payment_method.id)}>{payment_method.name}
                                         </button>
                                     )
@@ -79,16 +79,16 @@ export default class PaymentMethod extends React.Component {
                             {Profile.profile.payment_method == PAYMENT_METHOD_BTC_WALLET && Profile.profile.btc_wallet && Profile.profile.btc_wallet.provider == 'coinbase'?(
                                 <div style={{color: '#0168bb'}}>
                                     <i className="fa fa-check-square-o"/>
-                                    <div className="btn btn-default"
-                                         style={{color: '#0168bb', background: '#fff none', marginLeft: '5px'}}>
-                                        <i className="fa fa-btc fa-lg"/> Connected to Coinbase
+                                    <div className="btn "
+                                         style={{color: '#0168bb', background: '#fff none', borderColor: '#0168bb', marginLeft: '5px'}}>
+                                        <i className="tunga-icon-coinbase fa-lg"/> Connected to Coinbase
                                     </div>
                                 </div>
                             ):(
                                 <a href={SOCIAL_LOGIN_URLS.coinbase + `?action=connect&next=/profile/payment/coinbase/`}
-                                   className="btn btn-default" title="Connect with Coinbase"
-                                   style={{color: '#0168bb', background: '#fff none'}}>
-                                    <i className="fa fa-btc fa-lg"/> Connect with Coinbase
+                                   className="btn " title="Connect with Coinbase"
+                                   style={{color: '#0168bb', background: '#fff none', borderColor: '#0168bb'}}>
+                                    <i className="tunga-icon-coinbase fa-lg"/> Connect with Coinbase
                                 </a>
                             )}
                         </div>
@@ -118,7 +118,7 @@ export default class PaymentMethod extends React.Component {
                     ):null}
 
                     {this.state.payment_method != PAYMENT_METHOD_BTC_WALLET && this.state.payment_method != null?(
-                        <button type="submit" className="btn btn-default pull-right" disabled={Profile.isSaving.profile}>Save</button>
+                        <button type="submit" className="btn  pull-right" disabled={Profile.isSaving.profile}>Save</button>
                     ):null}
                     <div className="clearfix"></div>
                 </form>

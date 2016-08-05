@@ -101,7 +101,7 @@ export default class TaskPay extends React.Component {
 
                             <div className="text-center">
                                 <button type="submit"
-                                        className="btn btn-default btn-action"
+                                        className="btn  "
                                         disabled={Task.detail.isSaving || total_shares != 100}>Save</button>
                             </div>
                         </form>

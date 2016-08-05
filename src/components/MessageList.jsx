@@ -59,7 +59,7 @@ export default class MessageList extends React.Component {
 
             return (
                 <div key={message.id} id={"message" + message.id}
-                     className={"well card media message" + (channel && message.user.id != Auth.user.id && Message.list.last_read < message.id?' new':'')}>
+                     className={"card media message" + (channel && message.user.id != Auth.user.id && Message.list.last_read < message.id?' new':'')}>
                     <div className="media-left">
                         <Avatar src={message.user.avatar_url}/>
                     </div>

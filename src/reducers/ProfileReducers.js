@@ -221,8 +221,7 @@ function error(state = {}, action) {
         case ProfileActions.UPDATE_ACCOUNT_INFO_SUCCESS:
             return {...state, account: null};
         case ProfileActions.UPDATE_PASSWORD_FAILED:
-            error = action.error;
-            return {...state, security: error};
+            return {...state, security: action.error};
         case ProfileActions.UPDATE_PASSWORD_START:
         case ProfileActions.UPDATE_PASSWORD_SUCCESS:
             return {...state, security: null};

@@ -1,12 +1,7 @@
 import React from 'react'
-import Dropzone from 'react-dropzone'
-import TinyMCE  from 'react-tinymce'
-import Progress from './status/Progress'
 import FormStatus from './status/FormStatus'
 import FieldError from './status/FieldError'
 import UserSelector from '../containers/UserSelector'
-import Avatar from './Avatar'
-import {TINY_MCE_CONFIG } from '../constants/settings'
 
 export default class ChannelForm extends React.Component {
 
@@ -74,7 +69,7 @@ export default class ChannelForm extends React.Component {
                     </div>
 
                     <div className="text-center">
-                        <button type="submit" className="btn btn-action" disabled={Channel.detail.isSaving}>
+                        <button type="submit" className="btn " disabled={Channel.detail.isSaving}>
                             Start
                         </button>
                     </div>

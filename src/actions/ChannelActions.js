@@ -299,7 +299,7 @@ export function updateChannelReadStart(id) {
 export function updateChannelReadSuccess(response) {
     return {
         type: UPDATE_CHANNEL_READ_SUCCESS,
-        channel: response.channel
+        channel: response
     }
 }
 

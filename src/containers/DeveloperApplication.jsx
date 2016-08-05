@@ -150,7 +150,7 @@ class DeveloperApplication extends React.Component {
                                         </div>
 
                                         <div className="form-group">
-                                            <button type="submit" className="btn btn-default signup-btn"
+                                            <button type="submit" className="btn  signup-btn"
                                                     disabled={Auth.isApplying}>Apply
                                             </button>
                                         </div>

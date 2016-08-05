@@ -21,6 +21,10 @@ function resizeSideBar() {
 
 class SideBar extends React.Component {
 
+    static contextTypes = {
+        router: React.PropTypes.object.isRequired
+    };
+
     componentDidMount() {
         $(document).ready(resizeSideBar);
         $(window).resize(resizeSideBar);
@@ -33,6 +37,17 @@ class SideBar extends React.Component {
         SupportActions.listSupportSections();
     }
 
+    isActive(routes, index_only=true) {
+        var results = routes.map(route => {
+            return this.context.router.isActive(route, index_only);
+        });
+        return results.indexOf(true) > -1?true:false;
+    }
+
+    getActiveClass(routes, index_only=true) {
+        return this.isActive(routes, index_only)?'active':'';
+    }
+
     render() {
         const { Auth, Notification, Support } = this.props;
         const messages = Notification.notifications?Notification.notifications.messages:0;
@@ -43,21 +58,21 @@ class SideBar extends React.Component {
             <div id="sidebar" className="col-sm-3 col-md-2 sidebar">
                 <div className="wrapper" onClick={resizeSideBar()}>
                     <ul className="nav nav-sidebar">
-                        <li><Link to="/home" activeClassName="active">Home</Link></li>
-                        {Auth.user.is_developer || Auth.user.is_staff?(<li><IndexLink to="/task" activeClassName="active">Find a task</IndexLink></li>):null}
+                        <li><Link to="/home" activeClassName="active"><i className="menu-icon tunga-icon-home"/> Home</Link></li>
+                        {Auth.user.is_developer || Auth.user.is_staff?(<li><IndexLink to="/task" activeClassName="active"><i className="menu-icon tunga-icon-search"/> Find task</IndexLink></li>):null}
                         {Auth.user.is_project_owner || Auth.user.is_staff?(
-                        <li>
-                            <a href="#" data-toggle="collapse" data-target="#dashboard-menu"><i className="fa fa-caret-down"/><i className="fa fa-caret-right"/> Work</a>
-                            <ul id="dashboard-menu" className="nav">
+                        <li className={this.getActiveClass(['/task/new', '/project/new'])}>
+                            <a href="#" data-toggle="collapse" data-target="#dashboard-menu"><i className="menu-icon tunga-icon-work"/> Work </a>
+                            <ul id="dashboard-menu" className="nav collapse in">
                                 {Auth.user.is_project_owner || Auth.user.is_staff?(<li><Link to="/task/new" activeClassName="active">Post a new task</Link></li>):null}
                                 {Auth.user.is_project_owner || Auth.user.is_staff?(<li><Link to="/project/new" activeClassName="active">Create a project</Link></li>):null}
                             </ul>
                         </li>
                             ):null}
-                        <li><Link to="/channel" activeClassName="active">Messages {messages?<span className="badge">{messages}</span>:null}</Link></li>
-                        <li>
-                            <a href="#" data-toggle="collapse" data-target="#tribe-menu" className="collapsed"><i className="fa fa-caret-down"/><i className="fa fa-caret-right"/> Tribe</a>
-                            <ul id="tribe-menu" className="nav collapse">
+                        <li><Link to="/channel" activeClassName="active"><i className="menu-icon tunga-icon-message"/> Messages {messages?<span className="badge">{messages}</span>:null}</Link></li>
+                        <li className={this.getActiveClass(['/member'], false)}>
+                            <a href="#" data-toggle="collapse" data-target="#tribe-menu"  className={this.isActive(['/member'], false)?"":"collapsed"}><i className="menu-icon tunga-icon-tribe"/> Tribe </a>
+                            <ul id="tribe-menu" className={"nav "+ (this.isActive(['/member'], false)?"":"collapse in")}>
                                 <li><Link to="/member/filter/developers" activeClassName="active">Coders</Link></li>
                                 {Auth.user.is_developer|| Auth.user.is_staff?(<li><Link to="/member/filter/project-owners" activeClassName="active">Clients</Link></li>):null}
                                 {Auth.user.is_project_owner || Auth.user.is_staff?(<li><Link to="/member/filter/relevant" activeClassName="active">Relevant to me</Link></li>):null}
@@ -67,12 +82,12 @@ class SideBar extends React.Component {
                             </ul>
                         </li>
 
-                        <li><Link to="/payments" activeClassName="active">Payments</Link></li>
+                        <li><Link to="/payments" activeClassName="active"><i className="menu-icon tunga-icon-wallet"/> Payments</Link></li>
 
                         {Support.Section.list.sections.length?(
-                            <li>
-                                <a href="#" data-toggle="collapse" data-target="#support-menu" className="collapsed"><i className="fa fa-caret-down"/><i className="fa fa-caret-right"/> Support</a>
-                                <ul id="support-menu" className="nav collapse">
+                            <li className={this.getActiveClass(['/support'], false)}>
+                                <a href="#" data-toggle="collapse" data-target="#support-menu" className={this.isActive(['/support'], false)?"":"collapsed"}><i className="menu-icon tunga-icon-support"/> Support </a>
+                                <ul id="support-menu" className={"nav "+ (this.isActive(['/support'], false)?"":"collapse in")}>
                                     {Support.Section.list.sections.map(section => {
                                         return (
                                             <li key={section.id}><Link to={`/support/${section.slug}`} activeClassName="active">{section.title}</Link></li>

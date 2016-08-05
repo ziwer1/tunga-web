@@ -72,7 +72,7 @@ export default class Profile extends React.Component {
                         </select>
                     </div>
 
-                    <button type="submit" className="btn btn-default pull-right" disabled={Profile.isSaving.user}>Save</button>
+                    <button type="submit" className="btn  pull-right" disabled={Profile.isSaving.user}>Save</button>
                     <div className="clearfix"></div>
                 </form>
                     )}

@@ -11,6 +11,7 @@ function channel(state = {}, action) {
         case ChannelActions.RETRIEVE_CHANNEL_SUCCESS:
         case ChannelActions.UPDATE_CHANNEL_SUCCESS:
         case ChannelActions.RETRIEVE_DIRECT_CHANNEL_SUCCESS:
+        case ChannelActions.UPDATE_CHANNEL_READ_SUCCESS:
             return action.channel;
         case ChannelActions.DELETE_CHANNEL_SUCCESS:
         case ChannelActions.CREATE_CHANNEL_START:
@@ -81,9 +82,10 @@ function channels(state = {}, action) {
         case ChannelActions.LIST_CHANNELS_FAILED:
             return {};
         case ChannelActions.CREATE_CHANNEL_SUCCESS:
-            var new_channel = {}
+        case ChannelActions.UPDATE_CHANNEL_READ_SUCCESS:
+            var new_channel = {};
             new_channel[action.channel.id] = action.channel;
-            return {...new_channel, ...state};
+            return {...state, ...new_channel};
         default:
             return state;
     }

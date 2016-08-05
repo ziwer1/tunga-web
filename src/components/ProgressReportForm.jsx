@@ -116,7 +116,7 @@ export default class ProgressReportForm extends React.Component {
                                 {PROGRESS_REPORT_STATUS_CHOICES.map(status => {
                                     return (
                                     <button key={status.id} type="button"
-                                            className={"btn btn-default" + (this.state.status == status.id?' active':'')}
+                                            className={"btn " + (this.state.status == status.id?' active':'')}
                                             onClick={this.onProgressStatusChange.bind(this, status.id)}>{status.name}
                                     </button>
                                         )
@@ -161,7 +161,7 @@ export default class ProgressReportForm extends React.Component {
                                     })}
                             </div>
                                 ):null}
-                            <button type="button" className="btn btn-default" style={{marginRight: '5px'}}
+                            <button type="button" className="btn " style={{marginRight: '5px'}}
                                     onClick={this.onAddAttachment.bind(this)}>
                                 <i className="fa fa-upload"/> Upload files
                             </button>
@@ -193,7 +193,7 @@ export default class ProgressReportForm extends React.Component {
                     </div>
 
                     <div className="text-center">
-                        <button type="submit" className="btn btn-default btn-action" disabled={ProgressReport.detail.isSaving}>{progress_report.id?'Update Report':'Save Report'}</button>
+                        <button type="submit" className="btn  " disabled={ProgressReport.detail.isSaving}>{progress_report.id?'Update Report':'Save Report'}</button>
                     </div>
                     <div className="clearfix"></div>
                 </form>

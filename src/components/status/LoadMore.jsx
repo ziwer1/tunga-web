@@ -27,15 +27,15 @@ export default class LoadMore extends React.Component {
                                 :
                                 (
                                 <button type='button'
-                                        className="btn btn-default btn-sm"
+                                        className="btn btn-alt btn-sm"
                                         onClick={this.handleLoadMore.bind(this)}>
                                     <span className={"fa fa-angle-" + (this.props.direction == 'up'?"up":"down")}/> {this.props.text || 'Load More'}
                                 </button>
                                     )
                             }
-                            {this.props.loading?null:(
+                            {/*this.props.loading?null:(
                             <Waypoint onEnter={this.handleLoadMore.bind(this)} threshold={0.2}/>
-                                )}
+                                )*/}
                         </div>
                     ):null
                 }

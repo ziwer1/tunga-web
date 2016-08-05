@@ -11,7 +11,7 @@ export function resizeOverviewBox() {
     var w_h = $(window).height();
     var nav_h = $('nav.navbar').height();
     var wf_h = $('.chat-head').height();
-    var t_h = nav_h + wf_h + 70;
+    var t_h = nav_h + wf_h + 90;
 
     if(w_h > t_h) {
         $('.chat-overview').css('height', (w_h - t_h)+'px');
@@ -21,7 +21,7 @@ export function resizeOverviewBox() {
 class MessagePage extends React.Component {
 
     componentDidMount() {
-        $(document).ready(resizeOverviewBox);
+        resizeOverviewBox();
         $(window).resize(resizeOverviewBox);
 
         const { Auth, ChannelActions } = this.props;
@@ -63,15 +63,19 @@ class MessagePage extends React.Component {
                                 {Channel.list.ids.map((id) => {
                                     let channel = Channel.list.channels[id];
                                     return(
-                                    <Link to={`/channel/${channel.id}/`}>
-                                        {channel.user?(
-                                        <span><Avatar src={channel.user.avatar_url} size="small"/> {channel.user.display_name}</span>
+                                    <Link to={`/channel/${channel.id}/`} className="media" activeClassName="active">
+                                        <div className="media-left">
+                                            <Avatar src={channel.user?channel.user.avatar_url:null}
+                                                    icon={channel.user?null:"glypichon-comment"}
+                                                    badge={channel.new || null}/>
+                                        </div>
+                                        <div className="media-body channel-details">
+                                            {channel.user?(
+                                                <div>{channel.user.display_name}</div>
                                             ):null}
-                                        {channel.user && channel.subject?(
-                                        <span>: </span>
-                                            ):null}
-                                        <span>{channel.subject} </span>{channel.user?null:`(${channel.participants.length} participants)`}
-                                        {channel.new?<span className="badge">{channel.new}</span>:null}
+                                            <div>{channel.subject} </div>
+                                            <div style={{fontSize: '90%'}}>{channel.user?null:`${channel.participants.length} participants`}</div>
+                                        </div>
                                     </Link>
                                         );
                                     })}

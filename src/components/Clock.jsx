@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 
 export default class Clock extends React.Component {
 
@@ -37,10 +38,12 @@ export default class Clock extends React.Component {
             s = '0' + s;
         }
 
+        const currentMoment = moment(currentTime);
         return {
-            hours: h,
-            minutes: m,
-            seconds: s
+            day: currentMoment.format('dddd Do, MMMM'),
+            hours: currentMoment.format('HH'),
+            minutes: currentMoment.format('mm'),
+            seconds: currentMoment.format('ss')
         };
     }
 
@@ -51,9 +54,12 @@ export default class Clock extends React.Component {
 
     render() {
         return (
-            <h3 className='clock'>
-                { this.state.hours }:{ this.state.minutes }:{ this.state.seconds }
-            </h3>
+            <div className='clock'>
+                <div className="day">{this.state.day}</div>
+                <div className="time">
+                    {this.state.hours}:{this.state.minutes}
+                </div>
+            </div>
         );
     }
 }

@@ -1,7 +1,6 @@
 import React from 'react'
 import moment from 'moment'
 import { Link } from 'react-router'
-import Progress from './status/Progress'
 import TagList from './TagList'
 import Avatar from './Avatar'
 import { parse_task_status } from '../utils/tasks'
@@ -24,7 +23,7 @@ export default class TaskHead extends React.Component {
                         <strong>Created</strong> <span>{moment.utc(task.created_at).local().format('Do, MMMM YYYY, h:mm a')}</span>
                     </div>
                 </div>
-                    ):''}
+                    ):null}
             </div>
         );
     }

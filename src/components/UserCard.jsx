@@ -36,7 +36,7 @@ export default class UserCard extends React.Component {
         }
 
         return (
-            <div className="well card user">
+            <div className="card user-card">
                 <UserCardProfile user={user}/>
                 {user.profile?(
                 <div>
@@ -49,17 +49,22 @@ export default class UserCard extends React.Component {
                     ):(
                 <div style={{height: '20px'}}></div>
                     )}
+                <div className="short-description">
+                    {user.profile?(
+                        <div dangerouslySetInnerHTML={{__html: user.profile.bio}}/>
+                    ):null}
+                </div>
                 <div className="actions">
                     <div className="row">
                         <div className="col-sm-12">
-                            <Link to={`/member/${user.id}/`} className="btn btn-block btn-default">View full profile</Link>
+                            <Link to={`/member/${user.id}/`} className="btn btn-block ">Go to profile</Link>
                         </div>
                     </div>
 
                     {user.can_connect?(
                     <div className="row">
                         <div className="col-sm-12">
-                            <button type="button" className="btn btn-block btn-default"
+                            <button type="button" className="btn btn-block "
                                     onClick={this.handleConnectRequest.bind(this)}>{connection_msg}</button>
                         </div>
                     </div>
@@ -67,19 +72,19 @@ export default class UserCard extends React.Component {
                         user.request?(
                         <div className="row">
                             <div className="col-sm-6">
-                                <button type="button" className="btn btn-block btn-default"
-                                        onClick={this.handleConnectResponse.bind(this, true)}>Accept</button>
+                                <button type="button" className="btn btn-block "
+                                        onClick={this.handleConnectResponse.bind(this, true)}>Accept Request</button>
                             </div>
                             <div className="col-sm-6">
-                                <button type="button" className="btn btn-block btn-default"
-                                        onClick={this.handleConnectResponse.bind(this, false)}>Decline</button>
+                                <button type="button" className="btn btn-block "
+                                        onClick={this.handleConnectResponse.bind(this, false)}>Decline Request</button>
                             </div>
                         </div>
                             ):null)}
                     {user.connection && user.connection.accepted?(
                     <div className="row">
                         <div className="col-sm-12">
-                            <button type="button" className="btn btn-block btn-default"
+                            <button type="button" className="btn btn-block "
                                     onClick={this.handleDeleteConnection.bind(this)}>{remove_msg}</button>
                         </div>
                     </div>

@@ -25,8 +25,11 @@ export const LIST_TASK_ACTIVITY_FAILED = 'LIST_TASK_ACTIVITY_FAILED';
 export const LIST_MORE_TASK_ACTIVITY_START = 'LIST_MORE_TASK_ACTIVITY_START';
 export const LIST_MORE_TASK_ACTIVITY_SUCCESS = 'LIST_MORE_TASK_ACTIVITY_SUCCESS';
 export const LIST_MORE_TASK_ACTIVITY_FAILED = 'LIST_MORE_TASK_ACTIVITY_FAILED';
-export const CREATE_TASK_INTEGRATION_START = 'CREATE_TASK_INTEGRATION_START';
+export const LIST_NEW_TASK_ACTIVITY_START = 'LIST_NEW_TASK_ACTIVITY_START';
+export const LIST_NEW_TASK_ACTIVITY_SUCCESS = 'LIST_NEW_TASK_ACTIVITY_SUCCESS';
+export const LIST_NEW_TASK_ACTIVITY_FAILED = 'LIST_NEW_TASK_ACTIVITY_FAILED';
 export const SHARE_TASK_UPLOAD_SUCESS = 'SHARE_TASK_UPLOAD_SUCESS';
+export const CREATE_TASK_INTEGRATION_START = 'CREATE_TASK_INTEGRATION_START';
 export const CREATE_TASK_INTEGRATION_SUCCESS = 'CREATE_TASK_INTEGRATION_SUCCESS';
 export const CREATE_TASK_INTEGRATION_FAILED = 'CREATE_TASK_INTEGRATION_FAILED';
 export const RETRIEVE_TASK_INTEGRATION_START = 'RETRIEVE_TASK_INTEGRATION_START';
@@ -313,27 +316,28 @@ export function deleteTaskFailed(error) {
 
 export function listTaskActivity(id, filter) {
     return dispatch => {
-        dispatch(listTaskActivityStart(id, filter));
+        let get_new = filter && filter.since > -1;
+        dispatch(listTaskActivityStart(id, filter, get_new));
         axios.get(ENDPOINT_TASK + id + '/activity/', {params: filter})
             .then(function(response) {
-                dispatch(listTaskActivitySuccess(response.data, id, filter))
+                dispatch(listTaskActivitySuccess(response.data, id, filter, get_new))
             }).catch(function(response) {
-            dispatch(listTaskActivityFailed(response.data, id))
+            dispatch(listTaskActivityFailed(response.data, id, get_new))
         });
     }
 }
 
-export function listTaskActivityStart(id, filter) {
+export function listTaskActivityStart(id, filter, new_only=false) {
     return {
-        type: LIST_TASK_ACTIVITY_START,
+        type: new_only?LIST_NEW_TASK_ACTIVITY_START:LIST_TASK_ACTIVITY_START,
         id,
         filter
     }
 }
 
-export function listTaskActivitySuccess(response, id, filter) {
+export function listTaskActivitySuccess(response, id, filter, new_only=false) {
     return {
-        type: LIST_TASK_ACTIVITY_SUCCESS,
+        type: new_only?LIST_NEW_TASK_ACTIVITY_SUCCESS:LIST_TASK_ACTIVITY_SUCCESS,
         items: response.results,
         previous: response.previous,
         next: response.next,
@@ -343,9 +347,9 @@ export function listTaskActivitySuccess(response, id, filter) {
     }
 }
 
-export function listTaskActivityFailed(error, id) {
+export function listTaskActivityFailed(error, id, new_only=false) {
     return {
-        type: LIST_TASK_ACTIVITY_FAILED,
+        type: new_only?LIST_NEW_TASK_ACTIVITY_FAILED:LIST_TASK_ACTIVITY_FAILED,
         error,
         id
     }

@@ -85,7 +85,7 @@ class SkillSelector extends React.Component {
                         })}
                 </div>
                 <div className="input-group">
-                    <span className="input-group-addon"><i className="fa fa-tags"/></span>
+                    <span className="input-group-addon"><i className="tunga-icon-tag"/></span>
                     <input type="text" className="form-control" placeholder="Type here to get suggestions or Press enter to add a new skill"
                            onChange={this.handleSkillChange}
                            onKeyPress={this.handleSkillChange}

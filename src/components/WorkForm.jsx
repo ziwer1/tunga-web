@@ -153,7 +153,7 @@ export default class WorkForm extends React.Component {
                     </div>
 
 
-                    <button type="submit" className="btn btn-default pull-right" disabled={Profile.isSaving.work}>Save{work.id?' Changes':null}</button>
+                    <button type="submit" className="btn  pull-right" disabled={Profile.isSaving.work}>Save{work.id?' Changes':null}</button>
                     <div className="clearfix"></div>
                 </form>
             </div>

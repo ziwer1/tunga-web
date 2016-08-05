@@ -30,7 +30,7 @@ export const LIST_NEW_MESSAGES_FAILED = 'LIST_NEW_MESSAGES_FAILED';
 export function createMessage(message, attachments) {
     return dispatch => {
         dispatch(createMessageStart(message));
-        if(attachments.length) {
+        if(attachments && attachments.length) {
             var data = new FormData();
             Object.keys(message).map((key, idx) => {
                 if(!Array.isArray(message[key]) || message[key].length) {

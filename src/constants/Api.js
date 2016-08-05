@@ -99,7 +99,7 @@ export const PAYMENT_METHOD_MOBILE_MONEY = 'mobile_money';
 
 export const PAYMENT_METHOD_CHOICES = [
     {id: PAYMENT_METHOD_BTC_WALLET, name: 'Bitcoin Wallet'},
-    {id: PAYMENT_METHOD_MOBILE_MONEY, name: 'Mobile Money'},
+    //{id: PAYMENT_METHOD_MOBILE_MONEY, name: 'Mobile Money'},
     {id: PAYMENT_METHOD_BTC_ADDRESS, name: 'Bitcoin Address'},
 ];
 
@@ -194,7 +194,22 @@ export const TASK_PAYMENT_METHOD_BITCOIN = 'bitcoin';
 export const TASK_PAYMENT_METHOD_BANK = 'bank';
 
 export const TASK_PAYMENT_METHOD_CHOICES = [
-    {id: TASK_PAYMENT_METHOD_BITONIC, name: 'Pay with ideal / mister cash'},
-    {id: TASK_PAYMENT_METHOD_BITCOIN, name: 'Pay with bitcoin'},
-    {id: TASK_PAYMENT_METHOD_BANK, name: 'Pay by bank transfer'}
+    {
+        id: TASK_PAYMENT_METHOD_BITONIC,
+        name: 'Pay with iDeal (NL)',
+        meta: '3% payment fee',
+        icon_class: 'tunga-icon-iDeal',
+        details: "Our payment partner Bitonic makes it possible to send bitcoins to our developers in Africa. Tunga uses Bitcoins because it is the easiest and fastest way of sending money to Africa. Our developers in Africa can very conveniently convert the received Bitcoins to local currency. if you continue with paying with iDeal you will be directed to the website of Bitonic where you can complete the payment. Note: When it is your first time paying via Bitonic you need to verify your bank account. This process will take less than a minute. "},
+    {
+        id: TASK_PAYMENT_METHOD_BITCOIN,
+        name: 'Pay with bitcoin',
+        meta: 'No payment fee',
+        icon_class: 'fa fa-bitcoin',
+        details: "Click on continue to view the BTC address the payment needs to be send to or scan our QR code."},
+    {
+        id: TASK_PAYMENT_METHOD_BANK,
+        name: 'Pay by bank transfer via invoice',
+        meta: '5% payment fee',
+        icon_class: 'fa fa-bank',
+        details: "Click on continue to be able to download the invoice. Please make the payment within a week. To be able to perform a bank transfer you need to fill in VAT number on your profile."}
 ];

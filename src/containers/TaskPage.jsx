@@ -8,7 +8,8 @@ class TaskPage extends React.Component {
             return React.cloneElement(child, {
                 Auth: this.props.Auth,
                 Task: this.props.Task,
-                TaskActions: this.props.TaskActions
+                TaskActions: this.props.TaskActions,
+                Nav: this.props.Nav
             });
         }.bind(this));
     }

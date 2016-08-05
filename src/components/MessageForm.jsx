@@ -12,12 +12,17 @@ export default class Compose extends React.Component {
     }
 
     static propTypes = {
+        messageCallback: React.PropTypes.func,
+        messageSaved: React.PropTypes.bool,
         uploadCallback: React.PropTypes.func,
-        uploadSaved: React.PropTypes.bool
+        uploadSaved: React.PropTypes.bool,
+        isSending: React.PropTypes.bool,
+        error: React.PropTypes.object,
+        placeholder: React.PropTypes.string
     };
 
     componentDidUpdate(prevProps, prevState) {
-        if(this.props.Message.detail.isSaved && !prevProps.Message.detail.isSaved || this.props.uploadSaved && !prevProps.uploadSaved) {
+        if(this.props.messageSaved && !prevProps.messageSaved || this.props.uploadSaved && !prevProps.uploadSaved) {
             this.refs.message_form.reset();
             this.setState({body: '', attachments: []})
         }
@@ -39,11 +44,11 @@ export default class Compose extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
         var body = nl_to_br(this.state.body);
-        var channel = this.props.channel;
-        const { MessageActions } = this.props;
         const attachments = this.state.attachments;
         if(body) {
-            MessageActions.createMessage({channel: channel.id, body}, attachments);
+            if(this.props.messageCallback) {
+                this.props.messageCallback(body);
+            }
         } else if(attachments && attachments.length && this.props.uploadCallback) {
             this.props.uploadCallback(attachments);
         }
@@ -51,12 +56,12 @@ export default class Compose extends React.Component {
     }
 
     render() {
-        const { Message, Auth } = this.props;
+        const { Message } = this.props;
         return (
             <div>
                 <form onSubmit={this.handleSubmit.bind(this)} name="compose" role="form" ref="message_form">
-                    <FormStatus loading={Message.detail.isSaving}
-                                error={Message.detail.error.create}/>
+                    <FormStatus loading={this.props.isSending}
+                                error={this.props.errors}/>
 
                     <Dropzone ref="dropzone" onDrop={this.onDrop.bind(this)} style={{display: 'none'}}>
                         <div>Try dropping some files here, or click to select files to upload.</div>
@@ -69,13 +74,13 @@ export default class Compose extends React.Component {
                     </div>
                         ):null}
 
-                    {(Message.detail.error.create && Message.detail.error.create.body)?
-                        (<FieldError message={Message.detail.error.create.body}/>):''}
-                    <MessageWidget onAddAttachment={this.onAddAttachment.bind(this)}
+                    {(this.props.errors && this.props.errors.body)?
+                        (<FieldError message={Message.detail.error.create.body}/>):null}
+                    <MessageWidget onSend={this.handleSubmit.bind(this)}
                                    onBodyChange={this.onBodyChange.bind(this)}
-                                   onSend={this.handleSubmit.bind(this)}
-                                   errors={Message.detail.error.create}
-                                   loading={Message.detail.isSaving}/>
+                                   onAddAttachment={this.onAddAttachment.bind(this)}
+                                   isSending={this.props.isSending}
+                                   placeholder={this.props.placeholder}/>
                 </form>
             </div>
         );

@@ -50,7 +50,7 @@ export default class ReplyForm extends React.Component {
     render() {
         const { Reply, Auth } = this.props;
         return (
-            <div className="well card">
+            <div className="card">
                 <form onSubmit={this.handleSubmit} name="reply" role="reply" ref="reply_form">
                     <FormStatus loading={Reply.detail.isSaving}
                                 error={Reply.detail.error.create}/>
@@ -80,11 +80,11 @@ export default class ReplyForm extends React.Component {
                         ):null}
 
                     <div className="pull-right">
-                        <button type="button" className="btn btn-default" style={{marginRight: '5px'}}
+                        <button type="button" className="btn " style={{marginRight: '5px'}}
                                 onClick={this.onAddAttachment.bind(this)}>
                             <i className="fa fa-paperclip"/> Add attachment
                         </button>
-                        <button type="submit" className="btn btn-default pull-right" disabled={Reply.detail.isSaving}>
+                        <button type="submit" className="btn  pull-right" disabled={Reply.detail.isSaving}>
                             <i className="fa fa-paper-plane"/> Send
                         </button>
                     </div>

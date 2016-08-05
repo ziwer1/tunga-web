@@ -50,6 +50,14 @@ export default class ChatBox extends React.Component {
             var since = 0;
             if(Channel.detail.activity.items.length) {
                 since = Channel.detail.activity.items[Channel.detail.activity.items.length-1].id;
+                if(since === undefined || since === null) {
+                    [...Channel.detail.activity.items].reverse().some(item => {
+                        if(item.id) {
+                            since = item.id;
+                        }
+                        return item.id;
+                    });
+                }
             }
             ChannelActions.listChannelActivity(this.props.params.channelId, {since, ...filters, search});
         }
@@ -57,6 +65,12 @@ export default class ChatBox extends React.Component {
 
     onViewChange(view) {
         this.setState({view});
+    }
+
+    onSendMessage(body, attachments) {
+        const { MessageActions, Channel } = this.props;
+        const { channel } = Channel.detail;
+        MessageActions.createMessage({channel: channel.id, body}, attachments);
     }
 
     onUpload(files) {
@@ -72,7 +86,7 @@ export default class ChatBox extends React.Component {
     }
 
     render() {
-        const { Auth, Channel, ChannelActions, Message, MessageActions } = this.props;
+        const { Auth, Channel, ChannelActions, Message } = this.props;
         const { channel, attachments } = Channel.detail;
 
         return (Channel.detail.isRetrieving?
@@ -83,11 +97,11 @@ export default class ChatBox extends React.Component {
                         <div className="chatbox-top clearfix">
                             <div className="chat-actions pull-right">
                                 <div className="btn-group btn-choices select pull-right" role="group">
-                                    <button className="btn"
+                                    <button className="btn btn-borderless"
                                             onClick={this.onViewChange.bind(this, 'messages')}>
                                         <i className="fa fa-comments"/>
                                     </button>
-                                    <button className="btn"
+                                    <button className="btn btn-borderless"
                                             onClick={this.onViewChange.bind(this, 'attachments')}>
                                         <i className="fa fa-paperclip"/>
                                     </button>
@@ -98,17 +112,23 @@ export default class ChatBox extends React.Component {
                                            count={Channel.detail.activity.count}/>
                                     ):null}
                             </div>
-                            <h4>
-                                {channel.user?(
-                                <span><Avatar src={channel.user.avatar_url} /> {channel.user.display_name}</span>
-                                ):null}
-                                {channel.user && channel.subject?(
-                                <span>: </span>
+                            <div className="media">
+                                <div className="media-left">
+                                    {channel.user?(
+                                        <Avatar src={channel.user.avatar_url} />
                                     ):null}
-                                <span>{channel.subject} </span>
-                                {channel.user?null:`(${channel.participants.length} participants)`}
-                            </h4>
-
+                                </div>
+                                <div className="media-body">
+                                    {channel.user?(
+                                        [<h4>{channel.user.display_name}</h4>,
+                                        <div>{channel.subject} </div>]
+                                    ):(
+                                        <h4>{channel.subject} </h4>
+                                    )}
+                                    <div>{channel.user?null:`${channel.participants.length} participants`}</div>
+                                </div>
+                            </div>
+                            <div className="clearfix"></div>
                         </div>
                         <div className="list-box">
                             {this.state.view == 'attachments'?(
@@ -140,12 +160,11 @@ export default class ChatBox extends React.Component {
                                 )}
                         </div>
                         <MessageForm
-                            Auth={Auth}
-                            channel={channel}
-                            Message={Message}
-                            MessageActions={MessageActions}
+                            messageCallback={this.onSendMessage.bind(this)}
+                            messageSaved={Message.detail.isSaved}
                             uploadCallback={this.onUpload.bind(this)}
-                            uploadSaved={Channel.detail.isSaved}/>
+                            uploadSaved={Channel.detail.isSaved}
+                            isSending={Message.detail.isSaving || Channel.detail.isSaving}/>
                     </div>
                 ):null
             )

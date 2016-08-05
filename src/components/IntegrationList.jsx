@@ -130,7 +130,7 @@ export default class IntegrationList extends ComponentWithModal {
                                             {INTEGRATION_TYPE_CHOICES.map(integration_type => {
                                                 return (
                                                     <button key={integration_type.id} type="button"
-                                                            className={"btn btn-default" + (this.state.integration_type == integration_type.id?' active':'')}
+                                                            className={"btn " + (this.state.integration_type == integration_type.id?' active':'')}
                                                             onClick={this.onIntegrationTypeChange.bind(this, integration_type.id)}>{integration_type.name}
                                                     </button>
                                                 )
@@ -190,15 +190,20 @@ export default class IntegrationList extends ComponentWithModal {
                                     })}
                                 </div>
                                 <div className="text-center">
-                                    <button type="submit" className="btn btn-default btn-action" disabled={Task.detail.integrations.isSaving}>Save Integration</button>
+                                    <button type="submit" className="btn  " disabled={Task.detail.integrations.isSaving}>Save Integration</button>
                                 </div>
                             </form>
                         ):(
-                            <a href={SOCIAL_LOGIN_URLS.github + `?action=connect&next=/task/${task.id}/integrations/github`}
-                               className="btn btn-default" title="Connect with GitHub"
-                               style={{color: '#333', background: '#fff none'}}>
-                                <i className="fa fa-github-square fa-lg"/> Connect with GitHub
-                            </a>
+                            <div>
+                                <div className="card" style={{maxWidth: '500px'}}>
+                                    Connect your task to a GitHub repository or issue to show GitHub activity (e.g comments, pull requests, push events) in your task activity stream.
+                                </div>
+                                <a href={SOCIAL_LOGIN_URLS.github + `?action=connect&next=/task/${task.id}/integrations/github`}
+                                   className="btn " title="Connect with GitHub"
+                                   style={{color: '#333', background: '#fff none', borderColor: "#333"}}>
+                                    <i className="fa fa-github-square fa-lg"/> Connect with GitHub
+                                </a>
+                            </div>
                         )}
                     </div>)
                     }

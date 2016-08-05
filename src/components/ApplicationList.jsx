@@ -1,10 +1,7 @@
 import React from 'react'
-import { Link } from 'react-router'
 import moment from 'moment'
 import Progress from './status/Progress'
-import TaskHead from './TaskHead'
 import UserCardProfile from './UserCardProfile'
-import TagList from './TagList'
 import ComponentWithModal from './ComponentWithModal'
 import LargeModal from './ModalLarge'
 
@@ -30,6 +27,18 @@ export default class ApplicationList extends ComponentWithModal {
                 });
             }
         }
+    }
+
+    handleCloseApplications() {
+        const { TaskActions, Task } = this.props;
+        if(confirm('Confirm close applications')) {
+            TaskActions.updateTask(Task.detail.task.id, {apply: false, apply_closed_at: moment.utc().format()});
+        }
+    }
+
+    handleOpenApplications() {
+        const { TaskActions, Task } = this.props;
+        TaskActions.updateTask(Task.detail.task.id, {apply: true, apply_closed_at: null});
     }
 
     handleSelectDeveloper(application, accepted=false) {
@@ -106,22 +115,29 @@ export default class ApplicationList extends ComponentWithModal {
                     (<Progress/>)
                     :
                     (<div>
+                        <div className="nav-top-filter pull-right">
+                            {task.apply?(
+                                <button type="button" className="btn " onClick={this.handleCloseApplications.bind(this)}>Close applications</button>
+                            ):(
+                                <button type="button" className="btn " onClick={this.handleOpenApplications.bind(this)}>Open applications</button>
+                            )}
+                        </div>
                         <div className="row">
                             {applications.ids.map((id) => {
                                 const application = applications.items[id];
                                 const { user } =  application.details;
                                 return(
                                 <div className="col-xs-12" key={id}>
-                                    <div className={"well card application" + ((application.responded && !application.accepted)?' rejected':'')}>
+                                    <div className={"card application-card" + ((application.responded && !application.accepted)?' rejected':'')}>
                                         {task.closed || application.responded?null:(
                                         <div className="actions pull-right">
                                             <div>
-                                                <button type="button" className="btn btn-block btn-default"
+                                                <button type="button" className="btn btn-alt btn-block "
                                                         onClick={this.handleSelectDeveloper.bind(this, application, true)}>
                                                     Select developer</button>
                                             </div>
                                             <div>
-                                                <button type="button" className="btn btn-block btn-default"
+                                                <button type="button" className="btn btn-alt btn-block "
                                                         onClick={this.handleRejectApplication.bind(this, application)}>
                                                     Decline application</button>
                                             </div>

@@ -1,7 +1,6 @@
 require('es6-promise').polyfill(); // Add Promises polyfill to global environment
 
 //Import local css
-import "css/dashboard.css"
 import 'react-widgets/lib/less/react-widgets.less'
 import "css/style.less"
 
@@ -28,15 +27,18 @@ import SettingsPage from 'containers/SettingsPage'
 import ProjectPage from 'containers/ProjectPage'
 import ProjectForm from 'components/ProjectForm'
 import Project from 'components/Project'
+import ProjectDetail from 'components/ProjectDetail'
 import TaskPage from 'containers/TaskPage'
 import TaskList from 'components/TaskList'
 import TaskForm from 'components/TaskForm'
 import Task from 'components/Task'
-import TaskOverview from 'components/TaskOverview'
+import ApplicationForm from 'components/ApplicationForm'
+import TaskWorflow from 'components/TaskWorflow'
 import ApplicationList from 'components/ApplicationList'
 import IntegrationList from 'components/IntegrationList'
 import TaskPay from 'components/TaskPay'
 import Participation from 'components/Participation'
+import RateDevelopers from 'components/RateDevelopers'
 import UserPage from 'containers/UserPage'
 import UserList from 'components/UserList'
 import User from 'components/User'
@@ -47,6 +49,7 @@ import MessageList from 'components/MessageList'
 import ProfilePage from 'containers/ProfilePage'
 import Profile from 'components/Profile'
 import Stack from 'components/Stack'
+import CompanyProfile from 'components/CompanyProfile'
 import PaymentMethod from 'components/PaymentMethod'
 import Account from 'components/Account'
 import IDDocument from 'components/IDDocument'
@@ -56,7 +59,6 @@ import ProfileType from 'components/ProfileType'
 import PaymentList from 'components/PaymentList'
 import SupportPage from 'containers/SupportPage'
 import SupportSectionList from 'components/SupportSectionList'
-import SupportSectionPageList from 'components/SupportSectionPageList'
 import SupportPageDetail from 'components/SupportPageDetail'
 import SearchPage from 'containers/SearchPage'
 import SupportPageList from 'components/SupportPageList'
@@ -82,6 +84,7 @@ ReactDOM.render(
                     <IndexRedirect to="personal"/>
                     <Route path="personal" component={Profile} />
                     <Route path="stack" component={Stack} />
+                    <Route path="company" component={CompanyProfile} />
                     <Route path="payment" component={PaymentMethod} />
                     <Route path="payment/:provider" component={PaymentMethod} />
                     <Route path="account" component={Account} />
@@ -96,9 +99,10 @@ ReactDOM.render(
                 <Route path="project" component={ProjectPage}>
                     <IndexRedirect to="new"/>
                     <Route path="new" component={ProjectForm} />
-                    <Route path=":projectId">
-                        <IndexRoute  component={Project}/>
-                        <Route path="task" component={TaskForm} />
+                    <Route path=":projectId" component={Project}>
+                        <IndexRoute component={ProjectDetail}/>
+                        <Route path="edit" component={ProjectForm} crumb="Edit"/>
+                        <Route path="task" component={TaskForm} crumb="Create Task"/>
                     </Route>
                 </Route>
                 <Route path="task" component={TaskPage}>
@@ -107,16 +111,18 @@ ReactDOM.render(
                     <Route path="tag/:tag" component={TaskList} />
                     <Route path="filter/:filter" component={TaskList} />
                     <Route path=":taskId" component={Task}>
-                        <IndexRoute component={TaskOverview} />
-                        <Route path="applications" component={ApplicationList}/>
-                        <Route path="integrations" component={IntegrationList}>
+                        <IndexRoute component={TaskWorflow} />
+                        <Route path="edit" component={TaskForm} crumb="Edit"/>
+                        <Route path="apply" component={ApplicationForm} crumb="Apply"/>
+                        <Route path="applications" component={ApplicationList} crumb="Applications"/>
+                        <Route path="integrations" component={IntegrationList} crumb="Integrations">
                             <IndexRedirect to="github" />
-                            <Route path=":provider"/>
+                            <Route path=":provider" crumb="Integrations"/>
                         </Route>
-                        <Route path="pay" component={TaskPay} />
-                        <Route path="participation" component={Participation} />
-                        <Route path="event/:eventId" component={TaskOverview}/>
-                        <Route path="edit" />
+                        <Route path="pay" component={TaskPay} crumb="Pay"/>
+                        <Route path="participation" component={Participation} crumb="Edit Participation"/>
+                        <Route path="rate" component={RateDevelopers} crumb="Rate Developers"/>
+                        <Route path="event/:eventId" component={TaskWorflow}/>
                     </Route>
                 </Route>
                 <Route path="member" component={UserPage}>
@@ -125,6 +131,7 @@ ReactDOM.render(
                     <Route path=":userId" component={User} />
                 </Route>
                 <Route path="channel" component={MessagePage}>
+                    <IndexRedirect to="start"/>
                     <Route path="start" component={ChannelForm} />
                     <Route path=":channelId" component={ChatBox} />
                 </Route>
@@ -135,7 +142,8 @@ ReactDOM.render(
                 <Route path="support" component={SupportPage}>
                     <IndexRoute component={SupportSectionList}/>
                     <Route path=":section">
-                        <IndexRoute component={SupportSectionPageList}/>
+                        <IndexRoute component={SupportPageList}/>
+                        <Route path="tag/:tag" component={SupportPageList} />
                         <Route path=":page" component={SupportPageDetail} />
                     </Route>
                 </Route>

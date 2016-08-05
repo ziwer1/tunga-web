@@ -1,12 +1,9 @@
 import React from 'react'
 import Progress from './../components/status/Progress'
 import FormStatus from './../components/status/FormStatus'
-import FieldError from './../components/status/FieldError'
 import VisibilitySetting from './../components/VisibilitySetting'
 import SwitchSetting from './../components/SwitchSetting'
 import connect from '../utils/connectors/SettingsConnector'
-
-import { USER_TYPE_DEVELOPER, SETTINGS_VISIBILITY_CHOICES, VISIBILITY_DEVELOPERS, VISIBILITY_CUSTOM } from '../constants/Api'
 
 export default class Settings extends React.Component {
     constructor(props) {
@@ -84,11 +81,11 @@ export default class Settings extends React.Component {
 
         return (
             <div>
+                <h2>Settings</h2>
                 {Settings.isRetrieving?(
                 <Progress/>
                     ):(
                 <div>
-                    <h3>Settings</h3>
                     <div>
                         <FormStatus loading={Settings.isSaving}
                                     success={Settings.isSaved}
@@ -133,7 +130,7 @@ export default class Settings extends React.Component {
                                 )
                             })}
 
-                        <button type="button" className="btn btn-default" disabled={Settings.isSaving} onClick={this.handleSubmit}>Save Changes</button>
+                        <button type="button" className="btn " disabled={Settings.isSaving} onClick={this.handleSubmit}>Save Changes</button>
                         <div className="clearfix"></div>
                     </div>
                 </div>

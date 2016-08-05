@@ -27,7 +27,7 @@ export default class ReplyList extends React.Component {
 
                         {Reply.list.replies.map((reply) => {
                         return(
-                        <div className="well card media" key={reply.id}>
+                        <div className="card media" key={reply.id}>
                             <div className="media-left">
                                 <Avatar src={reply.details?reply.details.user.avatar_url:null}/>
                             </div>

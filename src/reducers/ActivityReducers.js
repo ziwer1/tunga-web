@@ -14,9 +14,16 @@ function activity(state = [], action) {
         case ChannelActions.LIST_MORE_CHANNEL_ACTIVITY_SUCCESS:
             var old_activity = [...action.items].reverse();
             return [...old_activity, ...state];
+        case TaskActions.LIST_NEW_TASK_ACTIVITY_SUCCESS:
         case ChannelActions.LIST_NEW_CHANNEL_ACTIVITY_SUCCESS:
             var new_activity = [...action.items].reverse();
-            return [...state, ...new_activity];
+            var old_concrete_acitiviy = [];
+            state.forEach(item => {
+                if(item.id) {
+                    old_concrete_acitiviy.push(item);
+                }
+            });
+            return [...old_concrete_acitiviy, ...new_activity];
         case CREATE_COMMENT_SUCCESS:
             return [...state, {action: 'comment', activity_type: 'comment', activity: action.comment}];
         case CREATE_MESSAGE_SUCCESS:

@@ -58,7 +58,7 @@ class PasswordReset extends React.Component {
 
                         <div className="row">
                           <div className="col-md-6 col-sm-6 col-xs-6 pull-right">
-                            <button type="submit" className="btn btn-default pull-right passwd-reset-btn" disabled={Auth.isResetting}>Reset Password</button>
+                            <button type="submit" className="btn pull-right" disabled={Auth.isResetting}>Reset Password</button>
                           </div>
                         </div>
 

@@ -14,6 +14,12 @@ export default class ProfilePicture extends React.Component {
         this.props.ProfileActions.retrieveProfile();
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        if(this.props.Profile.isSaved.profile && !prevProps.Profile.isSaved.profile) {
+            this.setState({photo: null});
+        }
+    }
+
     onDrop(files) {
         this.setState({photo: files[0]});
     }
@@ -49,6 +55,8 @@ export default class ProfilePicture extends React.Component {
 
                     <label>Upload a scan of your National ID, Passport or Driver's license *</label>
 
+                    <p className="alert alert-info">This must be a PNG or JPG/JPEG file not exceeding 5MB</p>
+
                     <Dropzone ref="dropzone" className="dropzone" multiple={false} accept={'image/*'}
                               onDrop={this.onDrop.bind(this)}>
                         <div className="msg">
@@ -66,7 +74,7 @@ export default class ProfilePicture extends React.Component {
                         </div>
                     </Dropzone>
 
-                    <button type="submit" className="btn btn-default pull-right" disabled={Profile.isSaving.profile}>Upload</button>
+                    <button type="submit" className="btn pull-right" disabled={Profile.isSaving.profile || !this.state.photo}>Upload</button>
                     <div className="clearfix"></div>
                 </form>
                     )}
