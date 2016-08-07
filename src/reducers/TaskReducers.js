@@ -38,7 +38,8 @@ function task(state = {}, action) {
         case TaskActions.RETRIEVE_TASK_INVOICE_SUCCESS:
             if(state.id == action.invoice.id) {
                 let invoice = action.invoice;
-                return {...state, fee: invoice.fee, payment_method: invoice.payment_method, btc_address: invoice.btc_address};
+                var fee = (action.type == TaskActions.CREATE_TASK_INVOICE_SUCCESS)?invoice.fee:state.fee;
+                return {...state, fee, payment_method: invoice.payment_method, btc_address: invoice.btc_address};
             }
             return state;
         default:

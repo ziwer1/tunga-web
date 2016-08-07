@@ -150,10 +150,11 @@ class SignUp extends React.Component {
                                         </div>
 
                                         <div className="form-group">
-                                            <button type="submit" className="btn pull-right"
+                                            <button type="submit" className="btn signup-btn"
                                                     disabled={Auth.isRegistering}>Sign up
                                             </button>
                                         </div>
+                                        <div className="clearfix"></div>
                                     </form>
                                     )}
                                 </div>

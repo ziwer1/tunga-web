@@ -14,6 +14,8 @@ import * as SkillSelectionActions from '../actions/SkillSelectionActions'
 
 import { UNAUTHED_ACCESS_PATH, PROFILE_COMPLETE_PATH } from '../constants/patterns'
 
+import { initNavUIController } from '../utils/ui';
+
 class App extends React.Component {
     static contextTypes = {
         router: React.PropTypes.object.isRequired
@@ -23,6 +25,8 @@ class App extends React.Component {
         if(!this.props.Auth.isVerifying) {
             this.props.AuthActions.verify();
         }
+        
+        initNavUIController();
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -65,9 +69,11 @@ class App extends React.Component {
         const {Auth, AuthActions, children, location} = this.props;
         return (
             Auth.isVerifying?
-                (<div className="app-loading">
-                    <Progress message="Initializing Tunga ..."/>
-                </div>)
+                (
+                    <div className="app-loading">
+                        <Progress message="Initializing Tunga ..."/>
+                    </div>
+                )
                 :
                 this.props.location.pathname=='/'?children:(
                     <div className="app-wrapper" onClick={this.handleAppClick.bind(this)}>
@@ -81,10 +87,16 @@ class App extends React.Component {
 
                         <div className="container-fluid">
                             <div className="row">
-                                {Auth.isAuthenticated && !PROFILE_COMPLETE_PATH.test(this.props.location.pathname)?(<SideBar Auth={Auth} location={location}/>):null}
-                                <div className={Auth.isAuthenticated && !PROFILE_COMPLETE_PATH.test(this.props.location.pathname)?"col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main":"col-sm-12"}>
-                                    {children}
-                                </div>
+                                {Auth.isAuthenticated && !PROFILE_COMPLETE_PATH.test(this.props.location.pathname)?(
+                                    [
+                                        <SideBar Auth={Auth} location={location}/>,
+                                        <div className="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
+                                            <div className="main">{children}</div>
+                                        </div>
+                                    ]
+                                ):(
+                                    <div>{children}</div>
+                                )}
                             </div>
                         </div>
                     </div>

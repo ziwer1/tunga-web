@@ -1,14 +1,11 @@
-import React, { PropTypes } from 'react'
-import { Link } from 'react-router'
-import Avatar from './Avatar'
-import SearchBox from './SearchBox'
+import React, { PropTypes } from 'react';
+import { Link } from 'react-router';
+import Avatar from './Avatar';
+import SearchBox from './SearchBox';
+
+import { initSideBarToggle } from '../utils/ui';
 
 export default class NavBar extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.handleLogout = this.handleLogout.bind(this);
-    }
 
     static propTypes = {
         Auth: PropTypes.shape({
@@ -17,6 +14,15 @@ export default class NavBar extends React.Component {
             user: PropTypes.object
         }).isRequired
     };
+
+    constructor(props) {
+        super(props);
+        this.handleLogout = this.handleLogout.bind(this);
+    }
+
+    componentDidMount() {
+        initSideBarToggle();
+    }
 
     handleLogout(e) {
         e.preventDefault();
@@ -27,23 +33,26 @@ export default class NavBar extends React.Component {
         const { Auth } = this.props;
         return (
             <div className="navbar-wrapper row">
-                <nav className="navbar navbar-fixed-top navbar-inverse">
-                    <div className="container-fluid">
-                        <div className="row navbar-header">
-                            <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                                <span className="sr-only">Toggle navigation</span>
-                                <span className="icon-bar"></span>
-                                <span className="icon-bar"></span>
-                                <span className="icon-bar"></span>
+                <nav className="navbar navbar-fixed-top">
+                    <div className="navbar-header">
+                        {Auth.isAuthenticated?(
+                            <button type="button" className="sidebar-toggle navbar-toggle collapsed" data-toggle="sidebar-collapse" data-target="#sidebar" aria-expanded="false" aria-controls="sidebar">
+                                <span className="sr-only">Toggle side bar</span>
+                                <i className="fa fa-navicon fa-lg"></i>
                             </button>
-                            <Link to="/" className="navbar-brand"><img src={require('../images/tunga-newlogo-small.png')} /></Link>
-                        </div>
-                        <div id="navbar" className="navbar-collapse collapse">
-                            {Auth.isAuthenticated?(
+                        ):null}
+                        <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                            <span className="sr-only">Toggle navigation</span>
+                            <i className="fa fa-ellipsis-v fa-lg"></i>
+                        </button>
+                        <Link to="/" className="navbar-brand"><img src={require('../images/tunga-newlogo-small.png')} /></Link>
+                    </div>
+                    <div id="navbar" className="navbar-collapse collapse">
+                        {Auth.isAuthenticated?(
                             <ul className="nav navbar-nav navbar-right">
                                 <li><SearchBox placeholder="Search" hide_results={true}/></li>
                                 <li className="dropdown">
-                                    <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                    <a href="#" className="dropdown-toggle account-actions-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                         {Auth.user.display_name} <span className="caret" style={{marginLeft: 5+'px'}}></span> <Avatar src={Auth.user.avatar_url}/>
                                     </a>
                                     <ul className="dropdown-menu">
@@ -54,13 +63,12 @@ export default class NavBar extends React.Component {
                                     </ul>
                                 </li>
                             </ul>
-                                ):(
+                        ):(
                             <ul className="nav navbar-nav navbar-right">
                                 <li><Link to="/signup">JOIN</Link></li>
                                 <li><Link to="/signin">LOGIN</Link></li>
                             </ul>
-                                )}
-                        </div>
+                        )}
                     </div>
                 </nav>
             </div>

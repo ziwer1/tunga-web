@@ -18,11 +18,18 @@ export default class TaskPay extends React.Component {
     }
 
     componentDidMount() {
-        const { Task, TaskActions } = this.props;
+        const { Auth, Task, TaskActions } = this.props;
         const { task, Invoice } =  Task.detail;
-        if(task.id && task.payment_method) {
-            TaskActions.retrieveTaskInvoice(task.id);
-            this.setState({showForm: false});
+        if(task.id) {
+            if(Auth.user.id == task.user && task.closed && task.paid) {
+                const { router } = this.context;
+                router.replace(`/task/${Task.detail.task.id}/rate`);
+            }
+
+            if(task.payment_method) {
+                TaskActions.retrieveTaskInvoice(task.id);
+                this.setState({showForm: false});
+            }
         }
     }
 
@@ -102,7 +109,7 @@ export default class TaskPay extends React.Component {
                                     (<FieldError message={Task.detail.Invoice.error.create.fee}/>):null}
                                 <div className="form-group">
                                     <label className="control-label">Fee (in Euro) *</label>
-                                    <div><input type="text" className="form-control" ref="fee" required placeholder="Fee in €" defaultValue={parseFloat(task.fee).toPrecision(2)}/></div>
+                                    <div><input type="text" className="form-control" ref="fee" required placeholder="Fee in €" defaultValue={parseFloat(task.fee).toFixed(2)}/></div>
                                     <div style={{marginTop: '10px'}}>13% of fee goes to Tunga</div>
                                 </div>
 

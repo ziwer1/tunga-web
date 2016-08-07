@@ -8,8 +8,11 @@ import TaskList from './TaskList'
 
 export default class ProjectDetail extends ComponentWithModal {
 
-    handleCreateTask() {
-        this.open();
+    handleDeleteProject() {
+        const { ProjectActions, Project } = this.props;
+        if(confirm('Confirm delete Project')) {
+            ProjectActions.deleteProject(Project.detail.project.id);
+        }
     }
 
     renderChildren() {
@@ -34,11 +37,15 @@ export default class ProjectDetail extends ComponentWithModal {
             <div>
                 {project.user == Auth.user.id || Auth.user.is_staff?(
                 <div>
-                    <h2>{project.title}</h2>
+                    <h2 className="pull-left">{project.title}</h2>
+                    <div className="quick-actions">
+                        <Link to={`/project/${project.id}/edit`} className="btn btn-borderless">Edit</Link>
+                        <button type="button" className="btn btn-borderless" onClick={this.handleDeleteProject.bind(this)}>Delete</button>
+                    </div>
+                    <div className="clearfix"></div>
                     <div className="description" dangerouslySetInnerHTML={{__html: project.description}}/>
                     {project.deadline?<p><i className="tunga-icon-agenda"/> Deadline: {moment.utc(project.deadline).local().format('Do, MMMM YYYY')}</p>:null}
                     <Link to={`/project/${project.id}/task`} className="btn">Create a new task for this project</Link>
-                    <Link to={`/project/${project.id}/edit`} className="btn btn-alt">Edit project</Link>
 
                     <div style={{marginTop: '10px'}}>
                         <TaskPage>

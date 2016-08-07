@@ -26,8 +26,6 @@ class Home extends React.Component {
         let start_afternoon = 12;
         let start_evening = 17;
 
-        console.log(currentHour);
-
         if (currentHour >= start_afternoon && currentHour < start_evening) {
             greeting = "afternoon";
         } else if (currentHour >= start_evening) {

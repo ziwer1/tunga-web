@@ -51,19 +51,7 @@ export default class TaskWorflow extends ComponentWithModal {
         const { task } = Task.detail;
 
         if(!Nav.isChanging) {
-            if(Auth.user.id == task.user && task.closed && (!this.context.location.query || !this.context.location.query.nr)) {
-                const { router } = this.context;
-                var next = null;
-                if(task.paid) {
-                    next = `/task/${Task.detail.task.id}/rate`;
-                } else {
-                    next = `/task/${Task.detail.task.id}/pay`;
-                }
-
-                if(next) {
-                    router.replace(next);
-                }
-            }
+            this.redirectToNextStep();
 
             TaskActions.listTaskActivity(task.id);
         }
@@ -84,6 +72,10 @@ export default class TaskWorflow extends ComponentWithModal {
         if(this.props.params && this.props.params.eventId != prevProps.params.eventId) {
             this.openMilestone(this.props.params.eventId);
         }
+
+        if(this.props.Task.detail.task.closed != prevProps.Task.detail.task.closed) {
+            this.redirectToNextStep();
+        }
     }
 
     componentWillUnmount() {
@@ -92,6 +84,26 @@ export default class TaskWorflow extends ComponentWithModal {
 
     setInterval() {
         this.intervals.push(setInterval.apply(null, arguments));
+    }
+
+    redirectToNextStep() {
+        const { Auth, Task } = this.props;
+        const { task } = Task.detail;
+
+        if(Auth.user.id == task.user && task.closed && (!this.context.location.query || !this.context.location.query.nr)) {
+            const { router } = this.context;
+            var next = null;
+            if(task.paid) {
+                next = `/task/${Task.detail.task.id}/rate`;
+            } else {
+                next = `/task/${Task.detail.task.id}/pay`;
+            }
+
+            if(next) {
+                router.replace(next);
+            }
+        }
+
     }
 
     getNewActivity() {
@@ -216,7 +228,7 @@ export default class TaskWorflow extends ComponentWithModal {
                     </div>
                     <div className="clearfix"></div>
 
-                    {(is_admin_or_owner || is_confirmed_assignee)?(
+                    {(is_admin_or_owner || task.is_participant)?(
                         <div className="nav-top-filter pull-right">
                             {!task.closed && task.is_participant && task.my_participation && !task.my_participation.responded?(
                                 [
@@ -226,7 +238,7 @@ export default class TaskWorflow extends ComponentWithModal {
                             ):null}
 
 
-                            {(Auth.user.id == task.user || Auth.user.is_staff)?(
+                            {is_admin_or_owner?(
                                 task.closed?(
                                     task.paid?(
                                         <Link to={`/task/${task.id}/rate/`}>Rate Developers</Link>

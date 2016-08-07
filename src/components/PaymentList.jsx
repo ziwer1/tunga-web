@@ -51,8 +51,9 @@ export default class PaymentList extends React.Component {
                                             <th>To Receive</th>
                                         ]
                                     ):(
-                                        [<th>Pledge</th>,<th>Invoice</th>]
+                                        <th>Pledge</th>
                                     )}
+                                    <th>Invoice</th>
                                     <th>Status</th>
                                 </tr>
                                 </thead>
@@ -65,14 +66,25 @@ export default class PaymentList extends React.Component {
                                             <td>{moment.utc(task.invoice_date || task.closed_at).local().format('Do, MMMM YYYY')}</td>
                                             {Auth.user.is_developer?(
                                                 [
-                                                    <td>{task.amount.currency}{task.amount.pledge}</td>,
-                                                    <td>{task.amount.currency}{task.amount.processing}</td>,
-                                                    <td>{task.amount.currency}{task.amount.tunga}</td>,
-                                                    <td>{task.amount.currency}{task.amount.developer}</td>
+                                                    <td>{task.amount.currency}{parseFloat(task.amount.pledge).toFixed(2)}</td>,
+                                                    <td>{task.amount.currency}{parseFloat(task.amount.processing).toFixed(2)}</td>,
+                                                    <td>{task.amount.currency}{parseFloat(task.amount.tunga).toFixed(2)}</td>,
+                                                    <td>{task.amount.currency}{parseFloat(task.amount.developer).toFixed(2)}</td>
                                                 ]
                                             ):(<td>{task.display_fee}</td>
                                             )}
-                                            <td><a href={`${ENDPOINT_TASK}${task.id}/download/invoice/?format=pdf`} target="_blank">{task.invoice_number || <span><i className="fa fa-download"/> Download Invoice</span>}</a></td>
+                                            <td>
+                                                <a href={`${ENDPOINT_TASK}${task.id}/download/invoice/?format=pdf&type=client`}
+                                                   target="_blank">
+                                                    <span><i className="fa fa-download"/> {Auth.user.is_developer || Auth.user.is_staff?'Client':'Download'} Invoice</span>
+                                                </a>
+                                                {Auth.user.is_developer || Auth.user.is_staff?(
+                                                    <a href={`${ENDPOINT_TASK}${task.id}/download/invoice/?format=pdf&type=developer`}
+                                                       target="_blank" style={{marginLeft: '5px'}}>
+                                                        <span><i className="fa fa-download"/> Developer Invoice</span>
+                                                    </a>
+                                                ):null}
+                                            </td>
                                             <td>{task.payment_status}</td>
                                         </tr>
                                     );

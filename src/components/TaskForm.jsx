@@ -295,7 +295,7 @@ export default class TaskForm extends ComponentWithModal {
             <div>
                 {this.renderModalContent()}
                 {task.id?null:(
-                <h2 className="title">Post a new task</h2>
+                <h2 className="title">Post a task</h2>
                     )}
 
                 <form onSubmit={this.handleSubmit.bind(this)} name="task" role="form" ref="task_form" className={has_error || this.state.showAll?'steps-all':null}>
@@ -345,7 +345,7 @@ export default class TaskForm extends ComponentWithModal {
                                 <div>
                                     <select type="text" className="form-control" ref="project"
                                             value={this.state.selected_project} onChange={this.onProjectChange.bind(this)}>
-                                        <option value=''>-- No this task is not part of a project  --</option>
+                                        <option value=''>-- No  --</option>
                                         {Auth.running.projects.map((project) => {
                                             return (<option key={project.id} value={project.id}>{project.title}</option>);
                                             })}
@@ -363,7 +363,7 @@ export default class TaskForm extends ComponentWithModal {
                             (<FieldError message={Task.detail.error.update.fee}/>):null}
                         <div className="form-group">
                             <label className="control-label">Pledge (in Euro) *</label>
-                            <div><input type="text" className="form-control" ref="fee" required placeholder="Pledge in €" defaultValue={task.fee?parseFloat(task.fee).toPrecision(2):''}/></div>
+                            <div><input type="text" className="form-control" ref="fee" required placeholder="Pledge in €" defaultValue={task.fee?parseFloat(task.fee).toFixed(2):''}/></div>
                             <div style={{marginTop: '10px'}}>13% of pledge goes to Tunga</div>
                         </div>
 
@@ -398,7 +398,7 @@ export default class TaskForm extends ComponentWithModal {
                                         })}
                                 </div>
                                     ):null}
-                                <button type="button" className="btn btn-alt" style={{marginRight: '5px'}}
+                                <button type="button" className="btn" style={{marginRight: '5px'}}
                                         onClick={this.onAddAttachment.bind(this)}>
                                     <i className="fa fa-upload"/> Upload files
                                 </button>
@@ -509,7 +509,7 @@ export default class TaskForm extends ComponentWithModal {
                                 </ButtonGroup>
                             </div>
                             <div>
-                                <Button className="btn-alt" onClick={this.onComposeMilestone.bind(this, null)}>Add milestone</Button>
+                                <Button onClick={this.onComposeMilestone.bind(this, null)}>Add milestone</Button>
                             </div>
                         </div>
 

@@ -34,39 +34,40 @@ class PasswordResetConfirm extends React.Component {
         const { Auth } = this.props;
 
         return (
-            <div className="auth-form-wrapper">
-                <form onSubmit={this.handleSubmit} name="reset-confirm-confirm" role="form" className="well" ref="reset_confirm_form">
-                    <h2>Reset Password</h2>
+            <div className="signup-lp">
+                <div className="form-elements-container login-form-container">
+                    <form onSubmit={this.handleSubmit} name="reset-confirm-confirm" role="form" ref="reset_confirm_form">
+                        <h2 className="account-reset-txt">Reset Password</h2>
 
-                    {(Auth.error.reset_confirm && Auth.error.reset_confirm.token)?(
-                    <Error message="Invalid token"/>
+                        {(Auth.error.reset_confirm && Auth.error.reset_confirm.token)?(
+                            <Error message="Invalid token"/>
                         ):(
-                    <FormStatus loading={Auth.isResetting}
-                                success={Auth.isReset}
-                                message={'Password changed'}
-                                error={Auth.error.reset_confirm}/>
+                            <FormStatus loading={Auth.isResetting}
+                                        success={Auth.isReset}
+                                        message={'Password changed'}
+                                        error={Auth.error.reset_confirm}/>
                         )}
 
-                    {(Auth.error.reset_confirm && Auth.error.reset_confirm.new_password1)?
-                        (<FieldError message={Auth.error.reset_confirm.new_password1}/>):''}
-                    <div className="form-group">
-                        <label className="control-label">New Password</label>
-                        <div><input type="password" className="form-control" ref="new_password1" required placeholder="New Password"/></div>
-                    </div>
+                        {(Auth.error.reset_confirm && Auth.error.reset_confirm.new_password1)?
+                            (<FieldError message={Auth.error.reset_confirm.new_password1}/>):''}
+                        <div className="form-group">
+                            <label className="control-label">New Password</label>
+                            <div><input type="password" className="form-control" ref="new_password1" required placeholder="New Password"/></div>
+                        </div>
 
-                    {(Auth.error.reset_confirm && Auth.error.reset_confirm.new_password2)?
-                        (<FieldError message={Auth.error.reset_confirm.new_password2}/>):''}
-                    <div className="form-group">
-                        <label className="control-label">Confirm New Password</label>
-                        <div><input type="password" className="form-control" ref="new_password2" required placeholder="Confirm New Password"/></div>
-                    </div>
+                        {(Auth.error.reset_confirm && Auth.error.reset_confirm.new_password2)?
+                            (<FieldError message={Auth.error.reset_confirm.new_password2}/>):''}
+                        <div className="form-group">
+                            <label className="control-label">Confirm New Password</label>
+                            <div><input type="password" className="form-control" ref="new_password2" required placeholder="Confirm New Password"/></div>
+                        </div>
 
-                    <button type="submit" className="btn  pull-right" disabled={Auth.isResetting}>Change Password</button>
+                        <button type="submit" className="btn  pull-right" disabled={Auth.isResetting}>Change Password</button>
 
-                    <div className="clearfix"></div>
-                </form>
+                        <div className="clearfix"></div>
+                    </form>
+                </div>
             </div>
-
         );
     }
 }

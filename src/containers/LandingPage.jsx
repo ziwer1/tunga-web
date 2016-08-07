@@ -64,14 +64,12 @@ class LandingPage extends React.Component {
             <div id="landing-page">
                 <header id="main-header">
                     <div id="head-wrapper">
-                        <nav className="navbar navbar-default">
+                        <nav className="navbar">
                             <div className="container">
                                 <div className="navbar-header">
-                                    <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#tunga-navbar" aria-expanded="false">
+                                    <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#tunga-navbar" aria-expanded="false" aria-controls="navbar">
                                         <span className="sr-only">Toggle navigation</span>
-                                        <span className="icon-bar"></span>
-                                        <span className="icon-bar"></span>
-                                        <span className="icon-bar"></span>
+                                        <i className="fa fa-ellipsis-v fa-lg"></i>
                                     </button>
                                     <a className="navbar-brand" href="#"><img src={require('../images/tunga-newlogo-small.png')} /></a>
                                 </div>
