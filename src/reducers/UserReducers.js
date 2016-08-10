@@ -1,6 +1,7 @@
-import { combineReducers } from 'redux'
-import * as UserActions from '../actions/UserActions'
-import * as ConnectionActions from '../actions/ConnectionActions'
+import { combineReducers } from 'redux';
+import * as UserActions from '../actions/UserActions';
+import * as ConnectionActions from '../actions/ConnectionActions';
+import { getIds } from '../utils/reducers';
 
 function user(state = {}, action) {
     switch (action.type) {
@@ -62,11 +63,9 @@ function users(state = {}, action) {
 function ids(state = [], action) {
     switch (action.type) {
         case UserActions.LIST_USERS_SUCCESS:
+            return getIds(action.items);
         case UserActions.LIST_MORE_USERS_SUCCESS:
-            var new_users = action.items.map((user) => {
-                return user.id;
-            });
-            return [...state, ...new_users];
+            return [...state, ...getIds(action.items)];
         case UserActions.LIST_USERS_START:
         case UserActions.LIST_USERS_FAILED:
             return [];

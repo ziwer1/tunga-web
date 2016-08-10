@@ -1,14 +1,14 @@
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
-import * as TaskActions from '../../actions/TaskActions'
-import * as AuthActions from '../../actions/AuthActions'
-import * as ApplicationActions from '../../actions/ApplicationActions'
-import * as SavedTaskActions from '../../actions/SavedTaskActions'
-import * as CommentActions from '../../actions/CommentActions'
+import * as TaskActions from '../../actions/TaskActions';
+import * as AuthActions from '../../actions/AuthActions';
+import * as ApplicationActions from '../../actions/ApplicationActions';
+import * as SavedTaskActions from '../../actions/SavedTaskActions';
+import * as CommentActions from '../../actions/CommentActions';
 
 function mapStateToProps(state) {
-    return {Auth: state.Auth, Task: state.Task, Nav: state.Nav};
+    return {Auth: state.Auth, Task: state.Task};
 }
 
 function mapDispatchToProps(dispatch) {

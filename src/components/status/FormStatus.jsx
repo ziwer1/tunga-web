@@ -1,7 +1,7 @@
-import React from 'react'
-import Progress from './Progress'
-import DismissError from './Error'
-import Success from './Success'
+import React from 'react';
+import Progress from './Progress';
+import DismissError from './Error';
+import Success from './Success';
 
 export default class FormStatus extends React.Component {
     render() {

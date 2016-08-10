@@ -1,13 +1,13 @@
-import React from 'react'
-import { Link } from 'react-router'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import React from 'react';
+import { Link, IndexLink } from 'react-router';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
-import * as UserActions from '../actions/UserActions'
-import * as TaskActions from '../actions/TaskActions'
-import * as MessageActions from '../actions/MessageActions'
-import * as SupportSectionActions from '../actions/SupportSectionActions'
-import * as SupportPageActions from '../actions/SupportPageActions'
+import * as UserActions from '../actions/UserActions';
+import * as TaskActions from '../actions/TaskActions';
+import * as MessageActions from '../actions/MessageActions';
+import * as SupportSectionActions from '../actions/SupportSectionActions';
+import * as SupportPageActions from '../actions/SupportPageActions';
 
 class SearchPage extends React.Component {
 
@@ -38,13 +38,16 @@ class SearchPage extends React.Component {
                 <h3 className="results">{Search.count?Search.count:"Search"} results for "<strong>{Search.query}</strong>"</h3>
                     ):null}
                 <ul className="nav nav-pills nav-top-filter">
-                    <li role="presentation"><Link to="/search/developers/" activeClassName="active">{Auth.user.staff?'Users':'Developers'}</Link></li>
-                    <li role="presentation"><Link to="/search/tasks/" activeClassName="active">Tasks</Link></li>
-                    <li role="presentation" style={{marginLeft: '10px'}}><Link to="/search/messages/" activeClassName="active">Messages</Link></li>
-                    <li role="presentation" style={{marginLeft: '10px'}}><Link to="/search/support/" activeClassName="active">Support</Link></li>
+                    <li role="presentation"><Link to="/search/developers" activeClassName="active">{Auth.user.staff?'Users':'Developers'}</Link></li>
+                    <li role="presentation"><Link to="/search/tasks" activeClassName="active">Tasks</Link></li>
+                    <li role="presentation" style={{marginLeft: '10px'}}><Link to="/search/messages" activeClassName="active">Messages</Link></li>
+                    <li role="presentation" style={{marginLeft: '10px'}}><Link to="/search/support" activeClassName="active">Support</Link></li>
                 </ul>
 
-                {this.renderChildren()}
+                {Search.query?
+                    this.renderChildren():(
+                    <div className="alert alert-info">Search results will appear here</div>
+                )}
             </div>
         );
     }

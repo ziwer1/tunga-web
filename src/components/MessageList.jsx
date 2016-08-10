@@ -1,12 +1,11 @@
-import React from 'react'
-import { Link } from 'react-router'
-import moment from 'moment'
-import TimeAgo from 'react-timeago'
-import Progress from './status/Progress'
-import LoadMore from './status/LoadMore'
-import Avatar from './Avatar'
-import SearchBox from './SearchBox'
-import Attachments from './Attachments'
+import React from 'react';
+import { Link } from 'react-router';
+import moment from 'moment';
+import TimeAgo from 'react-timeago';
+import Progress from './status/Progress';
+import LoadMore from './status/LoadMore';
+import Avatar from './Avatar';
+import Attachments from './Attachments';
 
 export default class MessageList extends React.Component {
 
@@ -59,13 +58,13 @@ export default class MessageList extends React.Component {
 
             return (
                 <div key={message.id} id={"message" + message.id}
-                     className={"card media message" + (channel && message.user.id != Auth.user.id && Message.list.last_read < message.id?' new':'')}>
+                     className={"message" + (channel && message.user.id != Auth.user.id && Message.list.last_read < message.id?' new':'')}>
                     <div className="media-left">
                         <Avatar src={message.user.avatar_url}/>
                     </div>
                     <div className="media-body">
                         <p>
-                            <Link to={channel?`/member/${message.user.id}/`:`/channel/${message.channel}/#message${message.id}`}>{message.user.display_name}</Link>
+                            <Link to={channel?`/people/${message.user.username}/`:`/conversation/${message.channel}/#message${message.id}`}>{message.user.display_name}</Link>
                             <TimeAgo date={moment.utc(message.created_at).local().format()} className="pull-right"/>
                         </p>
                         <div dangerouslySetInnerHTML={{__html: message.body}}/>
@@ -109,9 +108,6 @@ export default class MessageList extends React.Component {
                     (<Progress/>)
                     :
                     (<div>
-                        <LoadMore url={Message.list.next} callback={MessageActions.listMoreMessages}
-                                  loading={Message.list.isFetchingMore} direction="up" text="Show older messages"/>
-
                         {Message.list.messages.map((message, idx, all_msgs) => {
                             var msgs = [];
                             if(message.user.id == last_sender && message.channel == last_channel) {
@@ -128,9 +124,13 @@ export default class MessageList extends React.Component {
                             last_channel = message.channel;
                             return msgs;
                             })}
+
                         {Message.list.messages.length?'':(
                         <div className="alert alert-info">No messages</div>
                             )}
+
+                        <LoadMore url={Message.list.next} callback={MessageActions.listMoreMessages}
+                                  loading={Message.list.isFetchingMore} direction="down" text="Show older messages"/>
                     </div>)
                     }
             </div>

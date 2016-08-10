@@ -1,17 +1,17 @@
-import React from 'react'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import React from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
-import Progress from '../components/status/Progress'
-import Error from '../components/status/Error'
-import Success from '../components/status/Success'
-import FieldError from '../components/status/FieldError'
-import SocialSignIn from '../components/SocialSignIn'
+import Progress from '../components/status/Progress';
+import Error from '../components/status/Error';
+import Success from '../components/status/Success';
+import FieldError from '../components/status/FieldError';
+import SocialSignIn from '../components/SocialSignIn';
 
-import * as AuthActions from '../actions/AuthActions'
-import * as ProfileActions from '../actions/ProfileActions'
+import * as AuthActions from '../actions/AuthActions';
+import * as ProfileActions from '../actions/ProfileActions';
 
-import { nl_to_br } from '../utils/html'
+import { nl_to_br } from '../utils/html';
 
 class DeveloperApplication extends React.Component {
 

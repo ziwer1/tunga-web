@@ -1,5 +1,5 @@
-import axios from 'axios'
-import { ENDPOINT_SKILL } from '../constants/Api'
+import axios from 'axios';
+import { ENDPOINT_SKILL } from '../constants/Api';
 
 export const GET_SKILL_SUGGESTIONS_START = 'GET_SKILL_SUGGESTIONS_START';
 export const GET_SKILL_SUGGESTIONS_SUCCESS = 'GET_SKILL_SUGGESTIONS_SUCCESS';

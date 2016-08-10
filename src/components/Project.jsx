@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 import Helmet from "react-helmet"
-import ProjectCrumb from '../containers/ProjectCrumb'
-import Progress from './status/Progress'
+import ProjectCrumb from '../containers/ProjectCrumb';
+import Progress from './status/Progress';
 
 export default class Project extends React.Component {
 

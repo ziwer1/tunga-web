@@ -1,7 +1,7 @@
-import React from 'react'
-import { Link } from 'react-router'
-import moment from 'moment'
-import btoa from 'btoa'
+import React from 'react';
+import { Link } from 'react-router';
+import moment from 'moment';
+import btoa from 'btoa';
 
 export default class PaymentCard extends React.Component {
     render() {
@@ -18,7 +18,7 @@ export default class PaymentCard extends React.Component {
                     {task.closed_at?(
                     <p>Closed on {moment.utc(task.closed_at).local().format('Do, MMMM YYYY')}</p>
                         ):null}
-                    {Auth.user.id == task.user || Auth.user.is_staff?(
+                    {Auth.user.id == task.user.id || Auth.user.is_staff?(
                     <p><Link to={`/task/${task.id}/`}>Go to Payment</Link></p>
                         ):null}
                 </div>

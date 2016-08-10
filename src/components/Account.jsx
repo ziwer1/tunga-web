@@ -1,7 +1,7 @@
-import React from 'react'
-import Progress from './status/Progress'
-import FormStatus from './status/FormStatus'
-import FieldError from './status/FieldError'
+import React from 'react';
+import Progress from './status/Progress';
+import FormStatus from './status/FormStatus';
+import FieldError from './status/FieldError';
 
 export default class Profile extends React.Component {
     constructor(props) {

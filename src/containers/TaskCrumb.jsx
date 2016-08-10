@@ -1,13 +1,9 @@
-import React from 'react'
-import { Link } from 'react-router'
-import { Breadcrumb } from 'react-bootstrap'
-import connect from '../utils/connectors/TaskConnector'
+import React from 'react';
+import { Link } from 'react-router';
+import { Breadcrumb } from 'react-bootstrap';
+import connect from '../utils/connectors/TaskConnector';
 
 class TaskCrumb extends React.Component {
-
-    static propTypes = {
-        section: React.PropTypes.string.required
-    };
 
     render() {
         const { Task, section } = this.props;
@@ -23,5 +19,9 @@ class TaskCrumb extends React.Component {
         );
     }
 }
+
+TaskCrumb.propTypes = {
+    section: React.PropTypes.string.required
+};
 
 export default connect(TaskCrumb);

@@ -1,5 +1,5 @@
-import axios from 'axios'
-import { ENDPOINT_USER } from '../constants/Api'
+import axios from 'axios';
+import { ENDPOINT_USER } from '../constants/Api';
 
 export const LIST_USERS_START = 'LIST_USERS_START';
 export const LIST_USERS_SUCCESS = 'LIST_USERS_SUCCESS';

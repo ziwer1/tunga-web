@@ -1,5 +1,5 @@
-import axios from 'axios'
-import { ENDPOINT_MILESTONE } from '../constants/Api'
+import axios from 'axios';
+import { ENDPOINT_MILESTONE } from '../constants/Api';
 
 export const CREATE_MILESTONE_START = 'CREATE_MILESTONE_START';
 export const CREATE_MILESTONE_SUCCESS = 'CREATE_MILESTONE_SUCCESS';

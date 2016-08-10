@@ -1,15 +1,15 @@
-import React from 'react'
-import { Link, IndexLink } from 'react-router'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import React from 'react';
+import { Link, IndexLink } from 'react-router';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
-  import RunningTasks from './RunningTasks'
+  import RunningTasks from './RunningTasks';
  import * as AuthActions from '../actions/AuthActions' 
 import * as NotificationActions from '../actions/NotificationActions' 
-import * as SupportSectionActions from '../actions/SupportSectionActions'
- import * as SupportPageActions from '../actions/SupportPageActions'
+import * as SupportSectionActions from '../actions/SupportSectionActions';
+ import * as SupportPageActions from '../actions/SupportPageActions';
 
-import { resizeSideBar } from '../utils/ui'
+import { resizeSideBar } from '../utils/ui';
 
 class SideBar extends React.Component {
 
@@ -53,16 +53,16 @@ class SideBar extends React.Component {
                         <li><Link to="/home" activeClassName="active"><i className="menu-icon tunga-icon-home"/> Home</Link></li>
                         {Auth.user.is_developer || Auth.user.is_staff?(<li><IndexLink to="/task" activeClassName="active"><i className="menu-icon tunga-icon-search"/> Find a task</IndexLink></li>):null}
                         {Auth.user.is_project_owner || Auth.user.is_staff?(<li><Link to="/task/new" activeClassName="active"><i className="menu-icon tunga-icon-work"/> Post a task</Link></li>):null}
-                        <li><Link to="/channel" activeClassName="active"><i className="menu-icon tunga-icon-message"/> Messages {messages?<span className="badge">{messages}</span>:null}</Link></li>
-                        <li className={this.getActiveClass(['/member'], false)}>
-                            <a href="#" data-toggle="collapse" data-target="#tribe-menu"  className={this.isActive(['/member'], false)?"":"collapsed"}><i className="menu-icon tunga-icon-tribe"/> Tribe </a>
-                            <ul id="tribe-menu" className={"nav collapse "+ (this.isActive(['/member'], false)?"in":"")}>
-                                <li><Link to="/member/filter/developers" activeClassName="active">Coders</Link></li>
-                                {Auth.user.is_developer|| Auth.user.is_staff?(<li><Link to="/member/filter/project-owners" activeClassName="active">Clients</Link></li>):null}
-                                {Auth.user.is_project_owner || Auth.user.is_staff?(<li><Link to="/member/filter/relevant" activeClassName="active">Relevant to me</Link></li>):null}
-                                <li><Link to="/member/filter/team" activeClassName="active">{Auth.user.is_developer?'My friends':'My team'}</Link></li>
-                                {Auth.user.is_developer?(<li><Link to="/member/filter/my-project-owners" activeClassName="active">My clients</Link></li>):null}
-                                <li><Link to="/member/filter/requests" activeClassName="active">Requests {requests?<span className="badge">{requests}</span>:null}</Link></li>
+                        <li><Link to="/conversation" activeClassName="active"><i className="menu-icon tunga-icon-message"/> Messages {messages?<span className="badge">{messages}</span>:null}</Link></li>
+                        <li className={this.getActiveClass(['/people'], false)}>
+                            <a href="#" data-toggle="collapse" data-target="#tribe-menu"  className={this.isActive(['/people'], false)?"":"collapsed"}><i className="menu-icon tunga-icon-tribe"/> Tribe </a>
+                            <ul id="tribe-menu" className={"nav collapse "+ (this.isActive(['/people'], false)?"in":"")}>
+                                <li><Link to="/people/filter/developers" activeClassName="active">Coders</Link></li>
+                                {Auth.user.is_developer|| Auth.user.is_staff?(<li><Link to="/people/filter/clients" activeClassName="active">Clients</Link></li>):null}
+                                {Auth.user.is_project_owner || Auth.user.is_staff?(<li><Link to="/people/filter/relevant" activeClassName="active">Relevant to me</Link></li>):null}
+                                <li><Link to="/people/filter/team" activeClassName="active">{Auth.user.is_developer?'My friends':'My team'}</Link></li>
+                                {Auth.user.is_developer?(<li><Link to="/people/filter/my-clients" activeClassName="active">My clients</Link></li>):null}
+                                <li><Link to="/people/filter/requests" activeClassName="active">Requests {requests?<span className="badge">{requests}</span>:null}</Link></li>
                             </ul>
                         </li>
 

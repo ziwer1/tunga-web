@@ -1,7 +1,6 @@
-import React from 'react'
-import { Link } from 'react-router'
-import TagList from './TagList'
-import Avatar from './Avatar'
+import React from 'react';
+import { Link } from 'react-router';
+import Avatar from './Avatar';
 
 export default class UserCardProfile extends React.Component {
 
@@ -14,7 +13,7 @@ export default class UserCardProfile extends React.Component {
                     <Avatar src={user.avatar_url} size="large"/>
                 </div>
                 <div className="media-body">
-                    <Link to={`/member/${user.id}/`}>{user.display_name}</Link>
+                    <Link to={`/people/${user.username}/`}>{user.display_name}</Link>
                     {user.is_project_owner?(
                     <p>{user.company}</p>
                         ):null}

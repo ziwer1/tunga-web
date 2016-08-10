@@ -1,11 +1,11 @@
-import React from 'react'
-import { Link, IndexLink } from 'react-router'
-import { Table } from 'react-bootstrap'
-import moment from 'moment'
-import Progress from './status/Progress'
-import LoadMore from './status/LoadMore'
+import React from 'react';
+import { Link, IndexLink } from 'react-router';
+import { Table } from 'react-bootstrap';
+import moment from 'moment';
+import Progress from './status/Progress';
+import LoadMore from './status/LoadMore';
 
-import { ENDPOINT_TASK } from '../constants/Api'
+import { ENDPOINT_TASK } from '../constants/Api';
 
 export default class PaymentList extends React.Component {
 

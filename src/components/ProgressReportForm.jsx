@@ -1,16 +1,16 @@
-import React from 'react'
-import moment from 'moment'
-import momentLocalizer from 'react-widgets/lib/localizers/moment'
-import DateTimePicker from 'react-widgets/lib/DateTimePicker'
-import TinyMCE  from 'react-tinymce'
-import Dropzone from 'react-dropzone'
-import Progress from './status/Progress'
-import FormStatus from './status/FormStatus'
-import FieldError from './status/FieldError'
-import UserSelector from '../containers/UserSelector'
-import SkillSelector from '../containers/SkillSelector'
-import { PROGRESS_REPORT_STATUS_CHOICES, PROGRESS_REPORT_STATUS_ON_SCHEDULE } from '../constants/Api'
-import {TINY_MCE_CONFIG } from '../constants/settings'
+import React from 'react';
+import moment from 'moment';
+import momentLocalizer from 'react-widgets/lib/localizers/moment';
+import DateTimePicker from 'react-widgets/lib/DateTimePicker';
+import TinyMCE  from 'react-tinymce';
+import Dropzone from 'react-dropzone';
+import Progress from './status/Progress';
+import FormStatus from './status/FormStatus';
+import FieldError from './status/FieldError';
+import UserSelector from '../containers/UserSelector';
+import SkillSelector from '../containers/SkillSelector';
+import { PROGRESS_REPORT_STATUS_CHOICES, PROGRESS_REPORT_STATUS_ON_SCHEDULE } from '../constants/Api';
+import {TINY_MCE_CONFIG } from '../constants/settings';
 
 momentLocalizer(moment);
 

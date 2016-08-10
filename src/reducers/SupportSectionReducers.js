@@ -1,6 +1,6 @@
-import { combineReducers } from 'redux'
-import * as SupportSectionActions from '../actions/SupportSectionActions'
-import { PATH_CHANGE } from '../actions/NavActions'
+import { combineReducers } from 'redux';
+import * as SupportSectionActions from '../actions/SupportSectionActions';
+import { PATH_CHANGE } from '../actions/NavActions';
 
 function section(state = {}, action) {
     switch (action.type) {

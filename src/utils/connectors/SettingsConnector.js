@@ -1,7 +1,7 @@
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
-import * as SettingsActions from '../../actions/SettingsActions'
+import * as SettingsActions from '../../actions/SettingsActions';
 
 function mapStateToProps(state) {
     return {Auth: state.Auth, Settings: state.Settings};

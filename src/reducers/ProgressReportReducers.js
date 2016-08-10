@@ -1,7 +1,7 @@
-import { combineReducers } from 'redux'
-import * as ProgressReportActions from '../actions/ProgressReportActions'
-import { LOGOUT_SUCCESS } from '../actions/AuthActions'
-import { PATH_CHANGE } from '../actions/NavActions'
+import { combineReducers } from 'redux';
+import * as ProgressReportActions from '../actions/ProgressReportActions';
+import { LOGOUT_SUCCESS } from '../actions/AuthActions';
+import { PATH_CHANGE } from '../actions/NavActions';
 
 function progress_report(state = {}, action) {
     switch (action.type) {

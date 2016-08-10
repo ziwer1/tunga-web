@@ -1,8 +1,7 @@
-import React from 'react'
-import { Link } from 'react-router'
-import Progress from './status/Progress'
-import UserCardProfile from './UserCardProfile'
-import TagList from './TagList'
+import React from 'react';
+import { Link } from 'react-router';
+import UserCardProfile from './UserCardProfile';
+import TagList from './TagList';
 
 export default class UserCard extends React.Component {
 
@@ -41,7 +40,7 @@ export default class UserCard extends React.Component {
                 {user.profile?(
                 <div>
                     {user.profile.skills.length?(
-                    <TagList tags={user.profile.skills} max={3} link={`/member/${user.id}/`}/>
+                    <TagList tags={user.profile.skills} max={3} linkPrefix="/people/skill/" moreLink={`/people/${user.username}/`}/>
                         ):(
                     <div style={{height: '20px'}}></div>
                         )}
@@ -57,7 +56,7 @@ export default class UserCard extends React.Component {
                 <div className="actions">
                     <div className="row">
                         <div className="col-sm-12">
-                            <Link to={`/member/${user.id}/`} className="btn btn-block ">Go to profile</Link>
+                            <Link to={`/people/${user.username}/`} className="btn btn-block ">Go to profile</Link>
                         </div>
                     </div>
 

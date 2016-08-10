@@ -1,11 +1,9 @@
-import React from 'react'
-import { Link } from 'react-router'
-import moment from 'moment'
-import TagList from './TagList'
-import Avatar from './Avatar'
-import Progress from './status/Progress'
-import CommentSection from '../containers/CommentSection'
-import ProgressReportForm from './ProgressReportForm'
+import React from 'react';
+import { Link } from 'react-router';
+import moment from 'moment';
+import Avatar from './Avatar';
+import Progress from './status/Progress';
+import ProgressReportForm from './ProgressReportForm';
 
 export default class Milestone extends React.Component {
 
@@ -112,7 +110,7 @@ export default class Milestone extends React.Component {
                     <div>
                         <strong>Posted by</strong>
                         <div>
-                            <Avatar src={report.user.avatar_url}/> <Link to={`/member/${report.user.id}/`}>{report.user.display_name}</Link>
+                            <Avatar src={report.user.avatar_url}/> <Link to={`/people/${report.user.username}/`}>{report.user.display_name}</Link>
                         </div>
                     </div>
                         ):null}

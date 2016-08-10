@@ -1,5 +1,5 @@
-import React from 'react'
-import connect from '../utils/connectors/MilestoneConnector'
+import React from 'react';
+import connect from '../utils/connectors/MilestoneConnector';
 
 class MilestonePage extends React.Component {
 

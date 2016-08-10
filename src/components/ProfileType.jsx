@@ -1,9 +1,9 @@
-import React from 'react'
-import Progress from './status/Progress'
-import FormStatus from './status/FormStatus'
-import FieldError from './status/FieldError'
-import SkillSelector from '../containers/SkillSelector'
-import { USER_TYPE_CHOICES } from '../constants/Api'
+import React from 'react';
+import Progress from './status/Progress';
+import FormStatus from './status/FormStatus';
+import FieldError from './status/FieldError';
+import SkillSelector from '../containers/SkillSelector';
+import { USER_TYPE_CHOICES } from '../constants/Api';
 
 export default class Profile extends React.Component {
     constructor(props) {

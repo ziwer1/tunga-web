@@ -1,6 +1,6 @@
-import React from 'react'
+import React from 'react';
 
-import { SETTINGS_VISIBILITY_CHOICES, VISIBILITY_DEVELOPERS } from '../constants/Api'
+import { SETTINGS_VISIBILITY_CHOICES, VISIBILITY_DEVELOPERS } from '../constants/Api';
 
 export default class VisibilitySetting extends React.Component {
 

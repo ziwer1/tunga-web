@@ -1,9 +1,9 @@
-import { combineReducers } from 'redux'
-import * as ChannelActions from '../actions/ChannelActions'
-import * as MessageActions from '../actions/MessageActions'
-import { PATH_CHANGE } from '../actions/NavActions'
+import { combineReducers } from 'redux';
+import * as ChannelActions from '../actions/ChannelActions';
+import * as MessageActions from '../actions/MessageActions';
+import { PATH_CHANGE } from '../actions/NavActions';
 
-import Activity from './ActivityReducers'
+import Activity from './ActivityReducers';
 
 function channel(state = {}, action) {
     switch (action.type) {

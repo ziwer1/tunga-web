@@ -1,12 +1,12 @@
-import React from 'react'
-import { Link } from 'react-router'
-import moment from 'moment'
-import TimeAgo from 'react-timeago'
-import Progress from './status/Progress'
-import TagList from './TagList'
-import Avatar from './Avatar'
+import React from 'react';
+import { Link } from 'react-router';
+import moment from 'moment';
+import TimeAgo from 'react-timeago';
+import Progress from './status/Progress';
+import TagList from './TagList';
+import Avatar from './Avatar';
 
-import { parse_task_status } from '../utils/tasks'
+import { parse_task_status } from '../utils/tasks';
 
 export default class TaskDetail extends React.Component {
 
@@ -42,21 +42,18 @@ export default class TaskDetail extends React.Component {
                     <div className="clearfix"></div>
                     <div className="pledge">{task.display_fee}</div>
                     <div className="task-status"><i className={"fa fa-circle " + task_status.css}/> {task_status.message}</div>
+
+                    <Avatar src={task.user.avatar_url}/> <Link to={`/people/${task.user.username}/`}>{task.user.display_name}</Link>
+                    <div className="title">
+                        <span>Deadline: </span>
+                        <span>{moment.utc(task.deadline).local().format('Do, MMMM YYYY, h:mm a')}</span>
+                    </div>
                     {task.details?(
-                        <div>
-                            <Avatar src={task.details.user.avatar_url}/> <Link to={`/member/${task.user}/`}>{task.details.user.display_name}</Link>
-                            {task.deadline?(
-                                <div className="title">
-                                    <span>Deadline: </span>
-                                    <span>{moment.utc(task.deadline).local().format('Do, MMMM YYYY, h:mm a')}</span>
-                                </div>
-                            ):null}
-                            <TagList tags={task.details.skills}/>
-                            <div>
-                                <strong>Created</strong> <span>{moment.utc(task.created_at).local().format('Do, MMMM YYYY, h:mm a')}</span>
-                            </div>
-                        </div>
+                        <TagList tags={task.details.skills} linkPrefix="/task/skill/"/>
                     ):null}
+                    <div>
+                        <strong>Created</strong> <span>{moment.utc(task.created_at).local().format('Do, MMMM YYYY, h:mm a')}</span>
+                    </div>
 
                     <h5>Task description</h5>
                     <div className="card" dangerouslySetInnerHTML={{__html: task.description}}/>
@@ -110,7 +107,7 @@ export default class TaskDetail extends React.Component {
 
                     {task.remarks?(
                         <div>
-                            <h5>Files {task.details?`${task.details.user.display_name} can provide`:' that can be provided'}</h5>
+                            <h5>Files {task.user.display_name} can provide</h5>
                             <div className="card" dangerouslySetInnerHTML={{__html: task.remarks}}/>
                         </div>
                     ):null}

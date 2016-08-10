@@ -580,6 +580,12 @@ form[name='compose'] {
         position: absolute;
         width: 100%;
         z-index: 100;
+
+        a:hover {
+            .secondary {
+                color: @active-white;
+            }
+        }
     }
 
     .selections {
@@ -590,6 +596,10 @@ form[name='compose'] {
             padding: 5px 10px;
             margin: 5px 2px;
             border-radius: 0;
+
+            .avatar {
+                margin: 0 5px 0 0;
+            }
 
             .close {
                 color: red;
@@ -606,12 +616,17 @@ form[name='compose'] {
 .list-group.suggestions {
     a {
         color: @primary;
+        background-color: @active-white;
         cursor: pointer;
     }
 
     a:hover {
-        color: #fff;
+        color: @active-white;
         background-color: @primary;
+    }
+
+    .avatar {
+        margin: 0 5px 0 0;
     }
 }
 
@@ -652,12 +667,21 @@ form[name='compose'] {
 }
 
 .avatar.xs {
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
 }
 
 .avatar.avatar-icon.xs {
-    font-size: 20px;
+    font-size: 18px;
+}
+
+.avatar.small {
+    width: 30px;
+    height: 30px;
+}
+
+.avatar.avatar-icon.small {
+    font-size: 30px;
 }
 
 .avatar.medium {
@@ -711,6 +735,8 @@ form[name='compose'] {
     }
 }
 
+
+
 .title {
     color: @primary;
     font-weight: 400;
@@ -755,6 +781,11 @@ description {
     .media {
         margin-top: 5px;
     }
+}
+
+.secondary {
+    font-size: 90%;
+    color: @secondary-text;
 }
 
 .card.task-card, .card.user-card {
@@ -1435,14 +1466,6 @@ activity-list {
         margin: 0 auto;
     }
 
-    /*.duration-line {
-        background-color: @primary;
-    }
-
-    .progress-line {
-        background-color: @primary-text;
-    }*/
-
     .content {
         display: table-cell;
         color: @primary;
@@ -1544,14 +1567,21 @@ activity-list {
             .activity-list,
             .comment-list,
             .message-list,
-            .attachment-list {
+            .attachment-list,
+            .people-list {
                 overflow-x: hidden;
                 overflow-y: auto;
             }
 
-            .attachment-list {
+            .attachment-list,
+            .people-list {
                 flex-grow: 1;
                 padding: 10px;
+
+                .card {
+                    padding: 5px;
+                    margin: 5px auto;
+                }
             }
         }
 
@@ -1724,8 +1754,28 @@ activity-list {
 
                     .btn {
                         height: 30px;
-                        font-size: 20px;
                         line-height: 20px;
+
+                        .fa, [class^="tunga-icon-"], [class*=" tunga-icon-"], .glyphicon {
+                            font-size: 20px;
+                        }
+                    }
+
+                    .dropdown {
+                        .dropdown-menu {
+                            border-radius: 0;
+
+                            >li>a {
+                                font-weight: 300;
+                                color: @primary;
+                                background: @active-white none;
+                            }
+                            >li>a:hover,
+                            >li>a:active {
+                                color: @active-white;
+                                background-color: @primary;
+                            }
+                        }
                     }
                 }
             }
@@ -1740,6 +1790,7 @@ activity-list {
 
             form {
                 margin: 0 auto;
+                max-width: 500px;
             }
         }
     }

@@ -1,8 +1,8 @@
-import React from 'react'
-import {} from 'react'
-import Progress from './status/Progress'
-import FormStatus from './status/FormStatus'
-import Error from './status/Error'
+import React from 'react';
+import {} from 'react';
+import Progress from './status/Progress';
+import FormStatus from './status/FormStatus';
+import Error from './status/Error';
 
 export default class TaskPay extends React.Component {
 

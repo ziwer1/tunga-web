@@ -1,56 +1,68 @@
-import React from 'react'
-import { Link, IndexLink } from 'react-router'
-import Progress from './status/Progress'
-import LoadMore from './status/LoadMore'
-import UserCard from './UserCard'
-import SearchBox from './SearchBox'
+import React from 'react';
+import { Link, IndexLink } from 'react-router';
+import Progress from './status/Progress';
+import LoadMore from './status/LoadMore';
+import UserCard from './UserCard';
+import SearchBox from './SearchBox';
 
 export default class UserList extends React.Component {
 
     componentDidMount() {
-        var filter = null;
-        if(this.props.params && this.props.params.filter) {
-            filter = this.props.params.filter;
-        }
-        this.props.UserActions.listUsers({filter, ...this.props.filters, search: this.props.search});
+        this.props.UserActions.listUsers({filter: this.getFilter(), skill: this.getSkill(), ...this.props.filters, search: this.props.search});
     }
 
     componentDidUpdate(prevProps, prevState) {
+        console.log(this.props.search);
         if(prevProps.location && this.props.location && prevProps.location.pathname != this.props.location.pathname || prevProps.search != this.props.search) {
-            var filter = null;
-            if(this.props.params && this.props.params.filter) {
-                filter = this.props.params.filter;
-            }
-            this.props.UserActions.listUsers({filter, ...this.props.filters, search: this.props.search});
+            this.props.UserActions.listUsers({filter: this.getFilter(), skill: this.getSkill(), ...this.props.filters, search: this.props.search});
         }
+    }
+
+    getFilter() {
+        if(this.props.params && this.props.params.filter) {
+            return this.props.params.filter;
+        }
+        return null;
+    }
+
+    getSkill() {
+        if(this.props.params && this.props.params.skill) {
+            return this.props.params.skill;
+        }
+        return null;
     }
 
     render() {
         const { Auth, User, UserActions, params } = this.props;
 
-        var filter = null;
-        if(params && params.filter) {
-            filter = this.props.params.filter;
-        }
+        let filter = this.getFilter();
+        let skill = this.getSkill();
 
         const page_title = {
             developers: 'All Coders',
-            'project-owners': 'Clients',
+            clients: 'Clients',
             requests: 'Requests',
             relevant: 'Relevant',
             team: Auth.user.is_project_owner?'My Team':'My Friends',
-            'my-project-owners': 'My Clients'
+            'my-clients': 'My Clients'
         };
 
         return (
             <div>
                 {this.props.hide_header?null:(
                 <div>
-                    {page_title[filter]?(
-                    <h2>{page_title[filter]}</h2>
+                    {page_title[filter] || skill?(
+                    <h2>{page_title[filter] || 'People'}</h2>
                         ):null}
+                    {skill?(
+                        <div className="nav-top-filter">
+                            <Link to={`/people/skill/${skill}/`} className="active" style={{marginRight: '40px'}}><i className="tunga-icon-tag"/> {skill}</Link>
+                            <Link to={`/people/skill/${skill}/developers/`} activeClassName="active">Coders</Link>
+                            <Link to={`/people/skill/${skill}/clients/`} activeClassName="active">Clients</Link>
+                        </div>
+                    ):null}
                     <SearchBox placeholder="Search by name or skills"
-                               filter={{filter: filter}}
+                               filter={{filter, skill}}
                                onSearch={UserActions.listUsers}
                                count={User.list.count}/>
                 </div>
@@ -70,7 +82,7 @@ export default class UserList extends React.Component {
                                 })}
                         </div>
                         <LoadMore url={User.list.next} callback={UserActions.listMoreUsers} loading={User.list.isFetchingMore}/>
-                        {User.list.ids.length?'':(
+                        {User.list.ids.length?null:(
                         <div className="alert alert-info">No users match your query</div>
                             )}
                     </div>)

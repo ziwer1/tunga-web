@@ -1,13 +1,7 @@
-import React from 'react'
-import MessageForm from './MessageForm'
+import React from 'react';
+import MessageForm from './MessageForm';
 
 export default class CommentForm extends React.Component {
-
-    static propTypes = {
-        uploadCallback: React.PropTypes.func,
-        uploadSaved: React.PropTypes.bool,
-        isSaving: React.PropTypes.bool
-    };
 
     onComment(body, attachments) {
         const { CommentActions, object_details } = this.props;
@@ -33,3 +27,9 @@ export default class CommentForm extends React.Component {
         );
     }
 }
+
+CommentForm.propTypes = {
+    uploadCallback: React.PropTypes.func,
+    uploadSaved: React.PropTypes.bool,
+    isSaving: React.PropTypes.bool
+};

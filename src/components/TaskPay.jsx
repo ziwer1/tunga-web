@@ -1,10 +1,10 @@
-import React from 'react'
-import Progress from './status/Progress'
-import FormStatus from './status/FormStatus'
-import FieldError from './status/FieldError'
+import React from 'react';
+import Progress from './status/Progress';
+import FormStatus from './status/FormStatus';
+import FieldError from './status/FieldError';
 
-import { TASK_PAYMENT_METHOD_CHOICES, TASK_PAYMENT_METHOD_BITONIC, TASK_PAYMENT_METHOD_BITCOIN, TASK_PAYMENT_METHOD_BANK, ENDPOINT_TASK } from '../constants/Api'
-import { objectToQueryString } from '../utils/html'
+import { TASK_PAYMENT_METHOD_CHOICES, TASK_PAYMENT_METHOD_BITONIC, TASK_PAYMENT_METHOD_BITCOIN, TASK_PAYMENT_METHOD_BANK, ENDPOINT_TASK } from '../constants/Api';
+import { objectToQueryString } from '../utils/html';
 
 export default class TaskPay extends React.Component {
 
@@ -21,7 +21,7 @@ export default class TaskPay extends React.Component {
         const { Auth, Task, TaskActions } = this.props;
         const { task, Invoice } =  Task.detail;
         if(task.id) {
-            if(Auth.user.id == task.user && task.closed && task.paid) {
+            if(Auth.user.id == task.user.id && task.closed && task.paid) {
                 const { router } = this.context;
                 router.replace(`/task/${Task.detail.task.id}/rate`);
             }

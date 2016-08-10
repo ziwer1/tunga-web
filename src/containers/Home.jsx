@@ -1,8 +1,8 @@
-import React from 'react'
-import {Link} from 'react-router'
-import connect from '../utils/connectors/NotificationConnector'
-import Progress from '../components/status/Progress'
-import Clock from '../components/Clock'
+import React from 'react';
+import {Link} from 'react-router';
+import connect from '../utils/connectors/NotificationConnector';
+import Progress from '../components/status/Progress';
+import Clock from '../components/Clock';
 
 class Home extends React.Component {
     componentDidMount() {
@@ -62,7 +62,7 @@ class Home extends React.Component {
                             ) : null}
                             {Notification.notifications.messages ? (
                                 <li>
-                                    <Link to="/channel">View messages</Link>
+                                    <Link to="/conversation">View messages</Link>
                                     <div>Please read <strong>your messages</strong></div>
                                 </li>
                             ) : null}
@@ -74,7 +74,7 @@ class Home extends React.Component {
                             ) : null}
                             {Notification.notifications.requests ? (
                                 <li>
-                                    <Link to="/member/filter/requests">View requests {Auth.user.is_project_owner ? 'from developers' : ''}</Link>
+                                    <Link to="/people/filter/requests">View requests {Auth.user.is_project_owner ? 'from developers' : ''}</Link>
                                     <div>Please respond to <strong>your requests</strong></div>
                                 </li>
                             ) : null}

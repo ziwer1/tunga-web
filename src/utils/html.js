@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import _ from 'lodash';
 
 export function nl_to_br(str) {
     if(str) {

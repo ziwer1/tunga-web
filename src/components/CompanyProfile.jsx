@@ -1,10 +1,10 @@
-import React from 'react'
-import TinyMCE  from 'react-tinymce'
-import Progress from './status/Progress'
-import FormStatus from './status/FormStatus'
-import FieldError from './status/FieldError'
-import SkillSelector from '../containers/SkillSelector'
-import {TINY_MCE_CONFIG } from '../constants/settings'
+import React from 'react';
+import TinyMCE  from 'react-tinymce';
+import Progress from './status/Progress';
+import FormStatus from './status/FormStatus';
+import FieldError from './status/FieldError';
+import SkillSelector from '../containers/SkillSelector';
+import {TINY_MCE_CONFIG } from '../constants/settings';
 
 export default class Profile extends React.Component {
     constructor(props) {

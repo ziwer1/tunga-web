@@ -1,14 +1,6 @@
-import React from 'react'
+import React from 'react';
 
 export default class MessageWidget extends React.Component {
-
-    static propTypes = {
-        onSend: React.PropTypes.func.required,
-        onBodyChange: React.PropTypes.func,
-        onAddAttachment: React.PropTypes.func,
-        isSending: React.PropTypes.bool,
-        placeholder: React.PropTypes.string
-    };
 
     onBodyChange(e) {
         var body = e.target.value.trim();
@@ -55,3 +47,11 @@ export default class MessageWidget extends React.Component {
         );
     }
 }
+
+MessageWidget.propTypes = {
+    onSend: React.PropTypes.func.required,
+    onBodyChange: React.PropTypes.func,
+    onAddAttachment: React.PropTypes.func,
+    isSending: React.PropTypes.bool,
+    placeholder: React.PropTypes.string
+};

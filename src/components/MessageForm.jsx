@@ -1,25 +1,15 @@
-import React from 'react'
-import Dropzone from 'react-dropzone'
-import FormStatus from './status/FormStatus'
-import FieldError from './status/FieldError'
-import { nl_to_br } from '../utils/html'
-import MessageWidget from './MessageWidget'
+import React from 'react';
+import Dropzone from 'react-dropzone';
+import FormStatus from './status/FormStatus';
+import FieldError from './status/FieldError';
+import { nl_to_br } from '../utils/html';
+import MessageWidget from './MessageWidget';
 
-export default class Compose extends React.Component {
+export default class MessageForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {body: '', attachments: []};
     }
-
-    static propTypes = {
-        messageCallback: React.PropTypes.func,
-        messageSaved: React.PropTypes.bool,
-        uploadCallback: React.PropTypes.func,
-        uploadSaved: React.PropTypes.bool,
-        isSending: React.PropTypes.bool,
-        error: React.PropTypes.object,
-        placeholder: React.PropTypes.string
-    };
 
     componentDidUpdate(prevProps, prevState) {
         if(this.props.messageSaved && !prevProps.messageSaved || this.props.uploadSaved && !prevProps.uploadSaved) {
@@ -86,3 +76,13 @@ export default class Compose extends React.Component {
         );
     }
 }
+
+MessageForm.propTypes = {
+    messageCallback: React.PropTypes.func,
+    messageSaved: React.PropTypes.bool,
+    uploadCallback: React.PropTypes.func,
+    uploadSaved: React.PropTypes.bool,
+    isSending: React.PropTypes.bool,
+    error: React.PropTypes.object,
+    placeholder: React.PropTypes.string
+};

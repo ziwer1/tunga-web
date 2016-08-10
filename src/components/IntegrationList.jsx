@@ -1,10 +1,10 @@
-import React from 'react'
-import { Link } from 'react-router'
-import Progress from './status/Progress'
-import FormStatus from './status/FormStatus'
-import ComponentWithModal from './ComponentWithModal'
+import React from 'react';
+import { Link } from 'react-router';
+import Progress from './status/Progress';
+import FormStatus from './status/FormStatus';
+import ComponentWithModal from './ComponentWithModal';
 
-import { SOCIAL_LOGIN_URLS, INTEGRATION_TYPE_CHOICES, INTEGRATION_TYPE_REPO, INTEGRATION_TYPE_ISSUE, INTEGRATION_EVENT_CHOICES, INTEGRATION_EVENT_ISSUE_COMMENT } from '../constants/Api'
+import { SOCIAL_LOGIN_URLS, INTEGRATION_TYPE_CHOICES, INTEGRATION_TYPE_REPO, INTEGRATION_TYPE_ISSUE, INTEGRATION_EVENT_CHOICES, INTEGRATION_EVENT_ISSUE_COMMENT } from '../constants/Api';
 
 export default class IntegrationList extends ComponentWithModal {
 

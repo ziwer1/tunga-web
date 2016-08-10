@@ -1,5 +1,5 @@
-import axios from 'axios'
-import { ENDPOINT_APPLICATION } from '../constants/Api'
+import axios from 'axios';
+import { ENDPOINT_APPLICATION } from '../constants/Api';
 
 export const CREATE_APPLICATION_START = 'CREATE_APPLICATION_START';
 export const CREATE_APPLICATION_SUCCESS = 'CREATE_APPLICATION_SUCCESS';

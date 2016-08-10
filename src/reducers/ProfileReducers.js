@@ -1,6 +1,6 @@
-import { combineReducers } from 'redux'
-import * as ProfileActions from '../actions/ProfileActions'
-import { PATH_CHANGE } from '../actions/NavActions'
+import { combineReducers } from 'redux';
+import * as ProfileActions from '../actions/ProfileActions';
+import { PATH_CHANGE } from '../actions/NavActions';
 
 function profile(state = {}, action) {
     switch (action.type) {

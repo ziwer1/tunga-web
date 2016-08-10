@@ -1,8 +1,8 @@
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
-import * as SupportSectionActions from '../../actions/SupportSectionActions'
-import * as SupportPageActions from '../../actions/SupportPageActions'
+import * as SupportSectionActions from '../../actions/SupportSectionActions';
+import * as SupportPageActions from '../../actions/SupportPageActions';
 
 function mapStateToProps(state) {
     return {Auth: state.Auth, Support: state.Support};

@@ -1,5 +1,5 @@
-import axios from 'axios'
-import { ENDPOINT_CHANNEL, ENDPOINT_DIRECT_CHANNEL } from '../constants/Api'
+import axios from 'axios';
+import { ENDPOINT_CHANNEL, ENDPOINT_DIRECT_CHANNEL } from '../constants/Api';
 
 export const CREATE_CHANNEL_START = 'CREATE_CHANNEL_START';
 export const CREATE_CHANNEL_SUCCESS = 'CREATE_CHANNEL_SUCCESS';
@@ -141,7 +141,7 @@ export function retrieveChannelFailed(error) {
 export function retrieveDirectChannel(user_id) {
     return dispatch => {
         dispatch(retrieveDirectChannelStart(user_id));
-        axios.get(ENDPOINT_DIRECT_DIRECT_CHANNEL)
+        axios.get(ENDPOINT_DIRECT_CHANNEL)
             .then(function(response) {
                 dispatch(retrieveDirectChannelSuccess(response.data))
             }).catch(function(response) {

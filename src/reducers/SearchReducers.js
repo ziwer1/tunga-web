@@ -1,9 +1,9 @@
-import { combineReducers } from 'redux'
-import * as SearchActions from '../actions/SearchActions'
-import * as UserActions from '../actions/UserActions'
-import * as TaskActions from '../actions/TaskActions'
-import * as MessageActions from '../actions/MessageActions'
-import * as SupportPageActions from '../actions/SupportPageActions'
+import { combineReducers } from 'redux';
+import * as SearchActions from '../actions/SearchActions';
+import * as UserActions from '../actions/UserActions';
+import * as TaskActions from '../actions/TaskActions';
+import * as MessageActions from '../actions/MessageActions';
+import * as SupportPageActions from '../actions/SupportPageActions';
 
 
 function query(state = null, action) {

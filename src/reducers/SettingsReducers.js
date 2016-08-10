@@ -1,6 +1,6 @@
-import { combineReducers } from 'redux'
-import * as SettingsActions from '../actions/SettingsActions'
-import { PATH_CHANGE } from '../actions/NavActions'
+import { combineReducers } from 'redux';
+import * as SettingsActions from '../actions/SettingsActions';
+import { PATH_CHANGE } from '../actions/NavActions';
 
 function settings(state = {switches: {}, visibility: {}}, action) {
     switch (action.type) {

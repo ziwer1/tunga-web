@@ -1,9 +1,9 @@
-import { combineReducers } from 'redux'
-import * as AuthActions from '../actions/AuthActions'
-import * as ProfileActions from '../actions/ProfileActions'
-import { running as runningProjects } from './ProjectReducers'
-import { running as runningTasks } from './TaskReducers'
-import { PATH_CHANGE } from '../actions/NavActions'
+import { combineReducers } from 'redux';
+import * as AuthActions from '../actions/AuthActions';
+import * as ProfileActions from '../actions/ProfileActions';
+import { running as runningProjects } from './ProjectReducers';
+import { running as runningTasks } from './TaskReducers';
+import { PATH_CHANGE } from '../actions/NavActions';
 
 function user(state = {}, action) {
     switch (action.type) {

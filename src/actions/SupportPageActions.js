@@ -1,5 +1,5 @@
-import axios from 'axios'
-import { ENDPOINT_SUPPORT_PAGE } from '../constants/Api'
+import axios from 'axios';
+import { ENDPOINT_SUPPORT_PAGE } from '../constants/Api';
 
 export const CREATE_SUPPORT_PAGE_START = 'CREATE_SUPPORT_PAGE_START';
 export const CREATE_SUPPORT_PAGE_SUCCESS = 'CREATE_SUPPORT_PAGE_SUCCESS';

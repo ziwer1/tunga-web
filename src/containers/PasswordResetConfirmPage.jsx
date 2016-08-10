@@ -1,8 +1,8 @@
-import React from 'react'
-import FormStatus from '../components/status/FormStatus'
-import Error from '../components/status/Error'
-import FieldError from '../components/status/FieldError'
-import connect from '../utils/connectors/AuthConnector'
+import React from 'react';
+import FormStatus from '../components/status/FormStatus';
+import Error from '../components/status/Error';
+import FieldError from '../components/status/FieldError';
+import connect from '../utils/connectors/AuthConnector';
 
 class PasswordResetConfirm extends React.Component {
     constructor(props) {

@@ -1,9 +1,9 @@
-import React from 'react'
-import Progress from './status/Progress'
-import FormStatus from './status/FormStatus'
-import FieldError from './status/FieldError'
+import React from 'react';
+import Progress from './status/Progress';
+import FormStatus from './status/FormStatus';
+import FieldError from './status/FieldError';
 
-import { PAYMENT_METHOD_CHOICES, PAYMENT_METHOD_BTC_WALLET, PAYMENT_METHOD_MOBILE_MONEY, PAYMENT_METHOD_BTC_ADDRESS, SOCIAL_LOGIN_URLS } from '../constants/Api'
+import { PAYMENT_METHOD_CHOICES, PAYMENT_METHOD_BTC_WALLET, PAYMENT_METHOD_MOBILE_MONEY, PAYMENT_METHOD_BTC_ADDRESS, SOCIAL_LOGIN_URLS } from '../constants/Api';
 
 export default class PaymentMethod extends React.Component {
     constructor(props) {

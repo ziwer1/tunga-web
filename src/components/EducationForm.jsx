@@ -1,10 +1,10 @@
-import React from 'react'
-import moment from 'moment'
-import TinyMCE  from 'react-tinymce'
-import Progress from './status/Progress'
-import FormStatus from './status/FormStatus'
-import FieldError from './status/FieldError'
-import {TINY_MCE_CONFIG } from '../constants/settings'
+import React from 'react';
+import moment from 'moment';
+import TinyMCE  from 'react-tinymce';
+import Progress from './status/Progress';
+import FormStatus from './status/FormStatus';
+import FieldError from './status/FieldError';
+import {TINY_MCE_CONFIG } from '../constants/settings';
 
 export default class EducationForm extends React.Component {
     constructor(props) {

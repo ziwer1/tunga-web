@@ -1,6 +1,6 @@
-import { combineReducers } from 'redux'
-import * as ApplicationActions from '../actions/ApplicationActions'
-import { PATH_CHANGE } from '../actions/NavActions'
+import { combineReducers } from 'redux';
+import * as ApplicationActions from '../actions/ApplicationActions';
+import { PATH_CHANGE } from '../actions/NavActions';
 
 function applications(state = {}, action) {
     switch (action.type) {

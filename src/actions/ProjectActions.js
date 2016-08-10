@@ -1,5 +1,5 @@
-import axios from 'axios'
-import { ENDPOINT_PROJECT } from '../constants/Api'
+import axios from 'axios';
+import { ENDPOINT_PROJECT } from '../constants/Api';
 
 export const CREATE_PROJECT_START = 'CREATE_PROJECT_START';
 export const CREATE_PROJECT_SUCCESS = 'CREATE_PROJECT_SUCCESS';

@@ -1,5 +1,5 @@
-import React from 'react'
-import connect from '../utils/connectors/UserConnector'
+import React from 'react';
+import connect from '../utils/connectors/UserConnector';
 
 class UserPage extends React.Component {
 

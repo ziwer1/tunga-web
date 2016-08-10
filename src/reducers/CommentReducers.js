@@ -1,6 +1,6 @@
-import { combineReducers } from 'redux'
-import * as CommentActions from '../actions/CommentActions'
-import { PATH_CHANGE } from '../actions/NavActions'
+import { combineReducers } from 'redux';
+import * as CommentActions from '../actions/CommentActions';
+import { PATH_CHANGE } from '../actions/NavActions';
 
 function comment(state = {}, action) {
     switch (action.type) {

@@ -1,5 +1,5 @@
-import axios from 'axios'
-import { ENDPOINT_USER } from '../constants/Api'
+import axios from 'axios';
+import { ENDPOINT_USER } from '../constants/Api';
 
 export const GET_USER_SUGGESTIONS_START = 'GET_USER_SUGGESTIONS_START';
 export const GET_USER_SUGGESTIONS_SUCCESS = 'GET_USER_SUGGESTIONS_SUCCESS';

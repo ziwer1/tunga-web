@@ -1,5 +1,5 @@
-import axios from 'axios'
-import { ENDPOINT_NOTIFICATION } from '../constants/Api'
+import axios from 'axios';
+import { ENDPOINT_NOTIFICATION } from '../constants/Api';
 
 export const GET_NOTIFICATIONS_START = 'GET_NOTIFICATIONS_START';
 export const GET_NOTIFICATIONS_SUCCESS = 'GET_NOTIFICATIONS_SUCCESS';

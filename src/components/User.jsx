@@ -1,6 +1,6 @@
-import React from 'react'
-import TagList from './TagList'
-import Avatar from './Avatar'
+import React from 'react';
+import TagList from './TagList';
+import Avatar from './Avatar';
 
 export default class User extends React.Component {
 
@@ -80,7 +80,7 @@ export default class User extends React.Component {
                             <div className="media">
                                 <div className="media-left"><i className="tunga-icon-tag fa-2x"/></div>
                                 <div className="media-body">
-                                    <TagList tags={user.profile.skills}/>
+                                    <TagList tags={user.profile.skills} linkPrefix="/people/skill/"/>
                                 </div>
                             </div>
                                 ):null}

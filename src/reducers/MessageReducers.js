@@ -1,7 +1,7 @@
-import { combineReducers } from 'redux'
-import * as MessageActions from '../actions/MessageActions'
-import * as ChannelActions from '../actions/ChannelActions'
-import { PATH_CHANGE } from '../actions/NavActions'
+import { combineReducers } from 'redux';
+import * as MessageActions from '../actions/MessageActions';
+import * as ChannelActions from '../actions/ChannelActions';
+import { PATH_CHANGE } from '../actions/NavActions';
 
 function message(state = {}, action) {
     switch (action.type) {
@@ -23,15 +23,13 @@ function message(state = {}, action) {
 function messages(state = [], action) {
     switch (action.type) {
         case MessageActions.LIST_MESSAGES_SUCCESS:
-            return [...action.items].reverse();
+            return action.items;
         case MessageActions.LIST_MORE_MESSAGES_SUCCESS:
-            var old_msgs = [...action.items].reverse();
-            return [...old_msgs, ...state];
+            return [...state, ...action.items];
         case MessageActions.LIST_NEW_MESSAGES_SUCCESS:
-            var new_msgs = [...action.items].reverse();
-            return [...state, ...new_msgs];
+            return [...action.items, ...state];
         case MessageActions.CREATE_MESSAGE_SUCCESS:
-            return [...state, action.message];
+            return [action.message, ...state];
         case MessageActions.LIST_MESSAGES_START:
         case MessageActions.LIST_MESSAGES_FAILED:
             return [];

@@ -1,24 +1,17 @@
-import React from 'react'
-import { Link, IndexLink } from 'react-router'
-import moment from 'moment'
-import { Modal } from 'react-bootstrap'
+import React from 'react';
+import { Link } from 'react-router';
+import moment from 'moment';
+import CommentSection from '../containers/CommentSection';
+import Avatar from './Avatar';
+import CommentForm from './CommentForm';
+import ActivityList from './ActivityList';
+import LargeModal from './ModalLarge';
+import ComponentWithModal from './ComponentWithModal';
+import Timeline from './Timeline';
+import MilestonePage from '../containers/MilestonePage';
+import Milestone from './Milestone';
 
-import TaskHead from './TaskHead'
-import TagList from './TagList'
-import CommentSection from '../containers/CommentSection'
-import Avatar from './Avatar'
-import CommentForm from './CommentForm'
-import ActivityList from './ActivityList'
-import Progress from './status/Progress'
-import TaskForm from './TaskForm'
-import LargeModal from './ModalLarge'
-import ComponentWithModal from './ComponentWithModal'
-import Timeline from './Timeline'
-import MilestonePage from '../containers/MilestonePage'
-import Milestone from './Milestone'
-
-import { parse_task_status } from '../utils/tasks'
-import { RATING_CRITERIA_CODING, RATING_CRITERIA_COMMUNICATION, RATING_CRITERIA_SPEED, RATING_CRITERIA_CHOICES } from '../constants/Api'
+import { parse_task_status } from '../utils/tasks';
 
 export function resizeOverviewBox() {
     var w_h = $(window).height();
@@ -44,17 +37,18 @@ export default class TaskWorflow extends ComponentWithModal {
 
     componentWillMount() {
         this.intervals = [];
+        this.redirectToNextStep(this.props);
+
+        if(this.props.params && this.props.params.eventId) {
+            this.openMilestone(this.props.params.eventId);
+        }
     }
 
     componentDidMount() {
-        const { Auth, TaskActions, Task, Nav } = this.props;
+        const { Auth, TaskActions, Task } = this.props;
         const { task } = Task.detail;
 
-        if(!Nav.isChanging) {
-            this.redirectToNextStep();
-
-            TaskActions.listTaskActivity(task.id);
-        }
+        TaskActions.listTaskActivity(task.id);
 
         resizeOverviewBox();
         $(window).resize(resizeOverviewBox);
@@ -62,19 +56,15 @@ export default class TaskWorflow extends ComponentWithModal {
         if(this.props.params.taskId) {
             this.setInterval(this.getNewActivity.bind(this), 5000);
         }
-
-        if(this.props.params && this.props.params.eventId) {
-            this.openMilestone(this.props.params.eventId);
-        }
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        if(this.props.params && this.props.params.eventId != prevProps.params.eventId) {
-            this.openMilestone(this.props.params.eventId);
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.params && nextProps.params.eventId != this.props.params.eventId) {
+            this.openMilestone(nextProps.params.eventId);
         }
 
-        if(this.props.Task.detail.task.closed != prevProps.Task.detail.task.closed) {
-            this.redirectToNextStep();
+        if(nextProps.Task.detail.task.closed != this.props.Task.detail.task.closed) {
+            this.redirectToNextStep(nextProps);
         }
     }
 
@@ -86,11 +76,11 @@ export default class TaskWorflow extends ComponentWithModal {
         this.intervals.push(setInterval.apply(null, arguments));
     }
 
-    redirectToNextStep() {
-        const { Auth, Task } = this.props;
+    redirectToNextStep(props) {
+        const { Auth, Task } = props;
         const { task } = Task.detail;
 
-        if(Auth.user.id == task.user && task.closed && (!this.context.location.query || !this.context.location.query.nr)) {
+        if(Auth.user.id == task.user.id && task.closed && (!this.context.location.query || !this.context.location.query.nr) && (!props.params || !props.params.eventId)) {
             const { router } = this.context;
             var next = null;
             if(task.paid) {
@@ -214,8 +204,8 @@ export default class TaskWorflow extends ComponentWithModal {
         const { Auth, Task, TaskActions, params } = this.props;
         const { task, uploads } = Task.detail;
         var task_status = parse_task_status(task);
-        let is_admin_or_owner = Auth.user.id == task.user || Auth.user.is_staff;
-        let is_confirmed_assignee = task.assignee && task.assignee.accepted && task.assignee.user == Auth.user.id;
+        let is_admin_or_owner = Auth.user.id == task.user.id || Auth.user.is_staff;
+        let is_confirmed_assignee = task.assignee && task.assignee.accepted && task.assignee.user.id == Auth.user.id;
 
         return (
             <div>
@@ -333,36 +323,32 @@ export default class TaskWorflow extends ComponentWithModal {
                                     </div>
                                 ):null}
 
-                                {task.details?(
-                                    <div>
-                                        <strong>Posted by</strong>
-                                        <div>
-                                            <Avatar src={task.details.user.avatar_url}/> <Link to={`/member/${task.user}/`}>{task.details.user.display_name}</Link>
-                                        </div>
-                                    </div>
-                                ):null}
+                                <strong>Posted by</strong>
+                                <div>
+                                    <Avatar src={task.user.avatar_url}/> <Link to={`/people/${task.user.username}/`}>{task.user.display_name}</Link>
+                                </div>
 
-                                {task.assignee && task.details?(
+                                {task.assignee?(
                                     <div>
                                         <strong>Assignee</strong>
                                         <div className="collaborator">
-                                            <Avatar src={task.details.assignee.user.avatar_url}/>
-                                            <Link to={`/member/${task.assignee.user}/`}>{task.details.assignee.user.display_name}</Link>
+                                            <Avatar src={task.assignee.user.avatar_url}/>
+                                            <Link to={`/people/${task.assignee.user.username}/`}>{task.assignee.user.display_name}</Link>
                                             <span className="status">{task.assignee.accepted?<i className="fa fa-check-circle accepted"/>:'[Invited]'}</span>
                                         </div>
                                     </div>
                                 ):null}
 
-                                {task.details && task.details.participation && task.details.participation.length?(
+                                {task.details && task.details.participation && task.details.participation.length > (task.assignee?1:0)?(
                                     <div>
                                         <strong>Developers</strong>
                                         {task.details.participation.map((participation) => {
                                             const participant = participation.user;
                                             return (
-                                                (task.assignee && participant.id != task.assignee.user) && (participation.accepted || !participation.responded)?(
+                                                (task.assignee && participant.id != task.assignee.user.id) && (participation.accepted || !participation.responded)?(
                                                     <div className="collaborator" key={participant.id}>
                                                         <Avatar src={participant.avatar_url}/>
-                                                        <Link to={`/member/${participant.id}/`}>{participant.display_name}</Link>
+                                                        <Link to={`/people/${participant.username}/`}>{participant.display_name}</Link>
                                                         <span className="status">{participation.accepted?<i className="fa fa-check-circle accepted"/>:'[Invited]'}</span>
                                                     </div>
                                                 ):null

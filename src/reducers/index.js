@@ -1,24 +1,23 @@
-import { combineReducers } from 'redux'
-import { routerReducer } from 'react-router-redux'
-import Auth from './AuthReducers'
-import Profile from './ProfileReducers'
-import Settings from './SettingsReducers'
-import Notification from './NotificationReducers'
-import Project from './ProjectReducers'
-import Task from './TaskReducers'
-import User from './UserReducers'
-import Comment from './CommentReducers'
-import Channel from './ChannelReducers'
-import Message from './MessageReducers'
-import Milestone from './MilestoneReducers'
-import ProgressReport from './ProgressReportReducers'
-import UserSelection from './UserSelectionReducers'
-import SkillSelection from './SkillSelectionReducers'
-import Utility from './UtilityReducers'
-import Search from './SearchReducers'
-import SupportSection from './SupportSectionReducers'
-import SupportPage from './SupportPageReducers'
-import Nav from './NavReducers'
+import { combineReducers } from 'redux';
+import { routerReducer } from 'react-router-redux';
+import Auth from './AuthReducers';
+import Profile from './ProfileReducers';
+import Settings from './SettingsReducers';
+import Notification from './NotificationReducers';
+import Project from './ProjectReducers';
+import Task from './TaskReducers';
+import User from './UserReducers';
+import Comment from './CommentReducers';
+import Channel from './ChannelReducers';
+import Message from './MessageReducers';
+import Milestone from './MilestoneReducers';
+import ProgressReport from './ProgressReportReducers';
+import UserSelection from './UserSelectionReducers';
+import SkillSelection from './SkillSelectionReducers';
+import Utility from './UtilityReducers';
+import Search from './SearchReducers';
+import SupportSection from './SupportSectionReducers';
+import SupportPage from './SupportPageReducers';
 
 
 const Support = combineReducers({
@@ -44,7 +43,6 @@ const TungaApp = combineReducers({
     Utility,
     Search,
     Support,
-    Nav,
     routing: routerReducer
 });
 

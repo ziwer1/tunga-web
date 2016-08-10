@@ -1,9 +1,9 @@
-import React from 'react'
-import Progress from './../components/status/Progress'
-import FormStatus from './../components/status/FormStatus'
-import VisibilitySetting from './../components/VisibilitySetting'
-import SwitchSetting from './../components/SwitchSetting'
-import connect from '../utils/connectors/SettingsConnector'
+import React from 'react';
+import Progress from './../components/status/Progress';
+import FormStatus from './../components/status/FormStatus';
+import VisibilitySetting from './../components/VisibilitySetting';
+import SwitchSetting from './../components/SwitchSetting';
+import connect from '../utils/connectors/SettingsConnector';
 
 export default class Settings extends React.Component {
     constructor(props) {

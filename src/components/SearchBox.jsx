@@ -1,11 +1,11 @@
-import React from 'react'
-import _ from 'underscore'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import React from 'react';
+import _ from 'underscore';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
-import * as SearchActions from '../actions/SearchActions'
+import * as SearchActions from '../actions/SearchActions';
 
-import { SEARCH_PATH } from '../constants/patterns'
+import { SEARCH_PATH } from '../constants/patterns';
 
 
 class SearchBox extends React.Component {
@@ -18,26 +18,32 @@ class SearchBox extends React.Component {
     constructor(props){
         super(props);
         this.onSearch = _.debounce(this.onSearch, 250);
-        this.state = {search: ''};
+        this.state = {q: ''};
+    }
+
+    componentWillMount() {
+        if(this.context.location.query && this.context.location.query.q) {
+            let q = this.context.location.query.q;
+            this.setState({q});
+        }
     }
 
     componentDidMount() {
-        if(this.context.location.query && this.context.location.query.search) {
-            let search = this.context.location.query.search;
-            this.setState({search});
+        if(this.state.q) {
+            this.performSearch();
         }
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if(this.state.search != prevState.search) {
+        if(this.state.q != prevState.q) {
             this.performSearch();
         }
     }
 
     onSearchChange(e) {
         e.preventDefault();
-        var search = e.target.value;
-        this.setState({search: search});
+        var q = e.target.value;
+        this.setState({q});
     }
 
     onSearch(e) {
@@ -49,9 +55,9 @@ class SearchBox extends React.Component {
     performSearch() {
         if(this.props.onSearch) {
             var filter = this.props.filter || {};
-            this.props.onSearch({search: this.state.search, ...filter});
+            this.props.onSearch({search: this.state.q, ...filter});
         } else {
-            this.props.SearchActions.searchStart(this.state.search);
+            this.props.SearchActions.searchStart(this.state.q);
             const { router, location } = this.context;
             if(!SEARCH_PATH.test(location.pathname)) {
                 router.replace('/search');
@@ -70,11 +76,11 @@ class SearchBox extends React.Component {
                         <span className="input-group-addon">
                             <i className="fa fa-search"/>
                         </span>
-                        <input type="text" name="search" className="form-control" placeholder={this.props.placeholder || "Search"} ref="search" value={this.state.search} onChange={this.onSearchChange.bind(this)}/>
+                        <input type="text" name="q" className="form-control" placeholder={this.props.placeholder || "Search"} value={this.state.q} onChange={this.onSearchChange.bind(this)}/>
                     </div>
                 </form>
-                {!this.props.hide_results && this.state.search?(
-                <div className="results">{count?count:"Search"} results for "<strong>{this.state.search}</strong>"</div>
+                {!this.props.hide_results && this.state.q?(
+                <div className="results">{count?count:"Search"} results for "<strong>{this.state.q}</strong>"</div>
                     ):null}
             </div>
         );

@@ -1,15 +1,16 @@
-import { combineReducers } from 'redux'
-import * as TaskActions from '../actions/TaskActions'
-import { CREATE_COMMENT_SUCCESS } from '../actions/CommentActions'
-import * as ApplicationActions from '../actions/ApplicationActions'
-import * as SavedTaskActions from '../actions/SavedTaskActions'
-import { PATH_CHANGE } from '../actions/NavActions'
-import { LOGOUT_SUCCESS, LIST_RUNNING_TASKS_SUCCESS } from '../actions/AuthActions'
+import { combineReducers } from 'redux';
+import * as TaskActions from '../actions/TaskActions';
+import { CREATE_COMMENT_SUCCESS } from '../actions/CommentActions';
+import * as ApplicationActions from '../actions/ApplicationActions';
+import * as SavedTaskActions from '../actions/SavedTaskActions';
+import { PATH_CHANGE } from '../actions/NavActions';
+import { LOGOUT_SUCCESS, LIST_RUNNING_TASKS_SUCCESS } from '../actions/AuthActions';
+import { getIds } from '../utils/reducers';
 
-import Application from './ApplicationReducers'
-import Integration from './IntegrationReducers'
-import Activity from './ActivityReducers'
-import Invoice from './InvoiceReducers'
+import Application from './ApplicationReducers';
+import Integration from './IntegrationReducers';
+import Activity from './ActivityReducers';
+import Invoice from './InvoiceReducers';
 
 function task(state = {}, action) {
     switch (action.type) {
@@ -93,12 +94,6 @@ function tasks(state = {}, action) {
         default:
             return state;
     }
-}
-
-function getIds(items) {
-    return items.map((item) => {
-        return item.id;
-    });
 }
 
 function ids(state = [], action) {

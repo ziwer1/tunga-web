@@ -1,12 +1,12 @@
-import React from 'react'
-import { Link } from 'react-router'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import YouTube from 'react-youtube'
+import React from 'react';
+import { Link } from 'react-router';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import YouTube from 'react-youtube';
 
-import * as UtilityActions from '../actions/UtilityActions'
-import Success from '../components/status/Success'
-import Error from '../components/status/Error'
+import * as UtilityActions from '../actions/UtilityActions';
+import Success from '../components/status/Success';
+import Error from '../components/status/Error';
 
 class LandingPage extends React.Component {
     constructor(props) {

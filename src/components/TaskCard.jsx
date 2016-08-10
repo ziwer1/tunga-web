@@ -1,15 +1,15 @@
-import React from 'react'
-import { Link } from 'react-router'
-import moment from 'moment'
-import TimeAgo from 'react-timeago'
-import Progress from './status/Progress'
-import TagList from './TagList'
-import Avatar from './Avatar'
-import LargeModal from './ModalLarge'
-import ApplicationForm from './ApplicationForm'
-import ComponentWithModal from './ComponentWithModal'
-import { render_excerpt } from '../utils/html'
-import { parse_task_status } from '../utils/tasks'
+import React from 'react';
+import { Link } from 'react-router';
+import moment from 'moment';
+import TimeAgo from 'react-timeago';
+import Progress from './status/Progress';
+import TagList from './TagList';
+import Avatar from './Avatar';
+import LargeModal from './ModalLarge';
+import ApplicationForm from './ApplicationForm';
+import ComponentWithModal from './ComponentWithModal';
+import { render_excerpt } from '../utils/html';
+import { parse_task_status } from '../utils/tasks';
 
 export default class TaskCard extends ComponentWithModal {
 
@@ -59,13 +59,11 @@ export default class TaskCard extends ComponentWithModal {
                     </div>
                     <div className="media">
                         <div className="media-left">
-                            <Avatar src={task.details.user.avatar_url}/>
+                            <Avatar src={task.user.avatar_url}/>
                         </div>
                         <div className="media-body">
-                            <Link to={`/member/${task.user}/`}>{task.details.user.display_name}</Link>
-                            {task.details.user.company?(
-                                <div>{task.details.user.company}</div>
-                            ):null}
+                            <Link to={`/people/${task.user.username}/`}>{task.user.display_name}</Link>
+                            <div>{task.user.company}</div>
                         </div>
                     </div>
                     <div>
@@ -74,7 +72,7 @@ export default class TaskCard extends ComponentWithModal {
                 </div>
                 <div className="middle">
                     {task.details.skills.length?(
-                    <TagList tags={task.details.skills} max={3} link={`/task/${task.id}/`}/>
+                    <TagList tags={task.details.skills} max={3} linkPrefix="/task/skill/" moreLink={`/task/${task.id}/`}/>
                         ):(
                     <div style={{height: '20px'}}></div>
                         )}

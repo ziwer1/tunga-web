@@ -1,7 +1,7 @@
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
-import * as NotificationActions from '../../actions/NotificationActions'
+import * as NotificationActions from '../../actions/NotificationActions';
 
 function mapStateToProps(state) {
     return {Auth: state.Auth, Notification: state.Notification};

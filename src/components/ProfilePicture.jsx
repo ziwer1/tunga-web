@@ -1,8 +1,8 @@
-import React from 'react'
-import Dropzone from 'react-dropzone'
-import Progress from './status/Progress'
-import FormStatus from './status/FormStatus'
-import Avatar from './Avatar'
+import React from 'react';
+import Dropzone from 'react-dropzone';
+import Progress from './status/Progress';
+import FormStatus from './status/FormStatus';
+import Avatar from './Avatar';
 
 export default class ProfilePicture extends React.Component {
     constructor(props) {

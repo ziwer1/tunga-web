@@ -1,6 +1,6 @@
-import axios from 'axios'
-import { ENDPOINT_MESSAGE } from '../constants/Api'
-import { updateChannelRead } from './ChannelActions'
+import axios from 'axios';
+import { ENDPOINT_MESSAGE } from '../constants/Api';
+import { updateChannelRead } from './ChannelActions';
 
 export const CREATE_MESSAGE_START = 'CREATE_MESSAGE_START';
 export const CREATE_MESSAGE_SUCCESS = 'CREATE_MESSAGE_SUCCESS';

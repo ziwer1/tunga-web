@@ -1,5 +1,5 @@
-import { combineReducers } from 'redux'
-import * as NotificationActions from '../actions/NotificationActions'
+import { combineReducers } from 'redux';
+import * as NotificationActions from '../actions/NotificationActions';
 
 function notifications(state = null, action) {
     switch (action.type) {

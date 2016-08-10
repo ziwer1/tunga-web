@@ -1,5 +1,5 @@
-import axios from 'axios'
-import { ENDPOINT_PROGRESS_REPORT } from '../constants/Api'
+import axios from 'axios';
+import { ENDPOINT_PROGRESS_REPORT } from '../constants/Api';
 
 export const CREATE_PROGRESS_REPORT_START = 'CREATE_PROGRESS_REPORT_START';
 export const CREATE_PROGRESS_REPORT_SUCCESS = 'CREATE_PROGRESS_REPORT_SUCCESS';

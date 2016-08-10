@@ -1,9 +1,9 @@
-import React from 'react'
-import moment from 'moment'
-import Progress from './status/Progress'
-import UserCardProfile from './UserCardProfile'
-import ComponentWithModal from './ComponentWithModal'
-import LargeModal from './ModalLarge'
+import React from 'react';
+import moment from 'moment';
+import Progress from './status/Progress';
+import UserCardProfile from './UserCardProfile';
+import ComponentWithModal from './ComponentWithModal';
+import LargeModal from './ModalLarge';
 
 export default class ApplicationList extends ComponentWithModal {
 

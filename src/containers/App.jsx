@@ -1,31 +1,42 @@
-import React from 'react'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import React from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import Helmet from "react-helmet"
 
-import Progress from '../components/status/Progress'
-import NavBar from '../components/NavBar'
-import SideBar from './SideBar'
+import Progress from '../components/status/Progress';
+import NavBar from '../components/NavBar';
+import SideBar from './SideBar';
 
-import * as AuthActions from '../actions/AuthActions'
-import * as NavActions from '../actions/NavActions'
-import * as UserSelectionActions from '../actions/UserSelectionActions'
-import * as SkillSelectionActions from '../actions/SkillSelectionActions'
+import * as AuthActions from '../actions/AuthActions';
+import * as NavActions from '../actions/NavActions';
+import * as UserSelectionActions from '../actions/UserSelectionActions';
+import * as SkillSelectionActions from '../actions/SkillSelectionActions';
 
-import { UNAUTHED_ACCESS_PATH, PROFILE_COMPLETE_PATH } from '../constants/patterns'
+import { UNAUTHED_ACCESS_PATH, PROFILE_COMPLETE_PATH } from '../constants/patterns';
 
 import { initNavUIController } from '../utils/ui';
 
 class App extends React.Component {
     static contextTypes = {
-        router: React.PropTypes.object.isRequired
+        router: React.PropTypes.object.isRequired,
+        location: React.PropTypes.object.isRequired
     };
+
+    static childContextTypes = {
+        router: React.PropTypes.object,
+        location: React.PropTypes.object
+    };
+
+    getChildContext() {
+        const { router, location } = this.context;
+        return {router: router, location: location};
+    }
 
     componentDidMount() {
         if(!this.props.Auth.isVerifying) {
             this.props.AuthActions.verify();
         }
-        
+
         initNavUIController();
     }
 

@@ -1,8 +1,8 @@
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
-import * as ChannelActions from '../../actions/ChannelActions'
-import * as MessageActions from '../../actions/MessageActions'
+import * as ChannelActions from '../../actions/ChannelActions';
+import * as MessageActions from '../../actions/MessageActions';
 
 function mapStateToProps(state) {
     return {Auth: state.Auth, Channel: state.Channel, Message: state.Message};

@@ -1,6 +1,6 @@
-import React from 'react'
-import { Link, IndexLink } from 'react-router'
-import connect from '../utils/connectors/TaskConnector'
+import React from 'react';
+import { Link, IndexLink } from 'react-router';
+import connect from '../utils/connectors/TaskConnector';
 
 class RunningTasks extends React.Component {
 

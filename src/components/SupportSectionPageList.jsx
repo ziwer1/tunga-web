@@ -1,6 +1,6 @@
-import React from 'react'
-import { Link } from 'react-router'
-import Progress from './status/Progress'
+import React from 'react';
+import { Link } from 'react-router';
+import Progress from './status/Progress';
 
 export default class SupportSectionPageList extends React.Component {
 

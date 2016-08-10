@@ -1,5 +1,5 @@
-import axios from 'axios'
-import { ENDPOINT_COMMENT } from '../constants/Api'
+import axios from 'axios';
+import { ENDPOINT_COMMENT } from '../constants/Api';
 
 export const CREATE_COMMENT_START = 'CREATE_COMMENT_START';
 export const CREATE_COMMENT_SUCCESS = 'CREATE_COMMENT_SUCCESS';

@@ -1,5 +1,5 @@
-import axios from 'axios'
-import { ENDPOINT_CONNECTION } from '../constants/Api'
+import axios from 'axios';
+import { ENDPOINT_CONNECTION } from '../constants/Api';
 
 export const CREATE_CONNECTION_START = 'CREATE_CONNECTION_START';
 export const CREATE_CONNECTION_SUCCESS = 'CREATE_CONNECTION_SUCCESS';

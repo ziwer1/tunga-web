@@ -1,5 +1,5 @@
-import { combineReducers } from 'redux'
-import * as UtilityActions from '../actions/UtilityActions'
+import { combineReducers } from 'redux';
+import * as UtilityActions from '../actions/UtilityActions';
 
 
 function isSending(state = false, action) {

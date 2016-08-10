@@ -1,5 +1,5 @@
-import axios from 'axios'
-import { ENDPOINT_CONTACT_REQUEST } from '../constants/Api'
+import axios from 'axios';
+import { ENDPOINT_CONTACT_REQUEST } from '../constants/Api';
 
 export const SEND_CONTACT_REQUEST_START = 'SEND_CONTACT_REQUEST_START';
 export const SEND_CONTACT_REQUEST_SUCCESS = 'SEND_CONTACT_REQUEST_SUCCESS';

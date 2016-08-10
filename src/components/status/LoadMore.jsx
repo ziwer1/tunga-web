@@ -1,6 +1,6 @@
-import React from 'react'
-import Progress from './Progress'
-import Waypoint from 'react-waypoint'
+import React from 'react';
+import Progress from './Progress';
+import Waypoint from 'react-waypoint';
 
 
 export default class LoadMore extends React.Component {

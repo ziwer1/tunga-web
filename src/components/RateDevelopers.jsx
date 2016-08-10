@@ -1,7 +1,7 @@
-import React from 'react'
-import Rating from 'react-rating'
+import React from 'react';
+import Rating from 'react-rating';
 
-import { RATING_CRITERIA_CODING, RATING_CRITERIA_COMMUNICATION, RATING_CRITERIA_SPEED, RATING_CRITERIA_CHOICES } from '../constants/Api'
+import { RATING_CRITERIA_CODING, RATING_CRITERIA_COMMUNICATION, RATING_CRITERIA_SPEED, RATING_CRITERIA_CHOICES } from '../constants/Api';
 
 export default class RateDevelopers extends React.Component {
 

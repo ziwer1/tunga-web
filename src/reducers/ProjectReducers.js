@@ -1,7 +1,7 @@
-import { combineReducers } from 'redux'
-import * as ProjectActions from '../actions/ProjectActions'
-import { LOGOUT_SUCCESS } from '../actions/AuthActions'
-import { PATH_CHANGE } from '../actions/NavActions'
+import { combineReducers } from 'redux';
+import * as ProjectActions from '../actions/ProjectActions';
+import { LOGOUT_SUCCESS } from '../actions/AuthActions';
+import { PATH_CHANGE } from '../actions/NavActions';
 
 function project(state = {}, action) {
     switch (action.type) {

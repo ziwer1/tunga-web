@@ -1,8 +1,8 @@
-import { combineReducers } from 'redux'
-import * as TaskActions from '../actions/TaskActions'
-import * as ChannelActions from '../actions/ChannelActions'
-import { CREATE_COMMENT_SUCCESS } from '../actions/CommentActions'
-import { CREATE_MESSAGE_SUCCESS } from '../actions/MessageActions'
+import { combineReducers } from 'redux';
+import * as TaskActions from '../actions/TaskActions';
+import * as ChannelActions from '../actions/ChannelActions';
+import { CREATE_COMMENT_SUCCESS } from '../actions/CommentActions';
+import { CREATE_MESSAGE_SUCCESS } from '../actions/MessageActions';
 
 
 function activity(state = [], action) {

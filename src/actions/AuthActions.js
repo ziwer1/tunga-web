@@ -1,6 +1,6 @@
-import axios from 'axios'
-import { ENDPOINT_LOGIN, ENDPOINT_LOGOUT, ENDPOINT_VERIFY, ENDPOINT_REGISTER, ENDPOINT_APPLY, ENDPOINT_RESET_PASSWORD, ENDPOINT_RESET_PASSWORD_CONFIRM, ENDPOINT_MY_CODE, ENDPOINT_TASK } from '../constants/Api'
-import { listRunningProjects } from './ProjectActions'
+import axios from 'axios';
+import { ENDPOINT_LOGIN, ENDPOINT_LOGOUT, ENDPOINT_VERIFY, ENDPOINT_REGISTER, ENDPOINT_APPLY, ENDPOINT_RESET_PASSWORD, ENDPOINT_RESET_PASSWORD_CONFIRM, ENDPOINT_MY_CODE, ENDPOINT_TASK } from '../constants/Api';
+import { listRunningProjects } from './ProjectActions';
 
 export const LOGIN_START = 'LOGIN_START';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';

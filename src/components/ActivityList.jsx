@@ -1,11 +1,11 @@
-import React from 'react'
-import { Link } from 'react-router'
-import moment from 'moment'
-import TimeAgo from 'react-timeago'
-import Progress from './status/Progress'
-import LoadMore from './status/LoadMore'
-import Avatar from './Avatar'
-import Attachments from './Attachments'
+import React from 'react';
+import { Link } from 'react-router';
+import moment from 'moment';
+import TimeAgo from 'react-timeago';
+import Progress from './status/Progress';
+import LoadMore from './status/LoadMore';
+import Avatar from './Avatar';
+import Attachments from './Attachments';
 
 export function scrollList () {
     var a_list = $('.activity-list');
@@ -60,7 +60,7 @@ export default class ActivityList extends React.Component {
                     body = (
                         <div>
                             <span>Added a participant: </span>
-                            <Link to={`/member/${participant.id}/`}>{participant.display_name}</Link>
+                            <Link to={`/people/${participant.username}/`}>{participant.display_name}</Link>
                         </div>
                     );
                 }
@@ -123,7 +123,7 @@ export default class ActivityList extends React.Component {
                 <div className="media-body">
                     <p>
                         {activity.user.id?(
-                            <Link to={`/member/${activity.user.id}/`}>{display_name}</Link>
+                            <Link to={`/people/${activity.user.username}/`}>{display_name}</Link>
                         ):(
                             <span>{display_name}</span>
                         )}

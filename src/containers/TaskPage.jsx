@@ -1,5 +1,5 @@
-import React from 'react'
-import connect from '../utils/connectors/TaskConnector'
+import React from 'react';
+import connect from '../utils/connectors/TaskConnector';
 
 class TaskPage extends React.Component {
 
@@ -8,8 +8,7 @@ class TaskPage extends React.Component {
             return React.cloneElement(child, {
                 Auth: this.props.Auth,
                 Task: this.props.Task,
-                TaskActions: this.props.TaskActions,
-                Nav: this.props.Nav
+                TaskActions: this.props.TaskActions
             });
         }.bind(this));
     }

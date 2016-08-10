@@ -1,6 +1,6 @@
-import { combineReducers } from 'redux'
-import * as SupportPageActions from '../actions/SupportPageActions'
-import { PATH_CHANGE } from '../actions/NavActions'
+import { combineReducers } from 'redux';
+import * as SupportPageActions from '../actions/SupportPageActions';
+import { PATH_CHANGE } from '../actions/NavActions';
 
 function page(state = {}, action) {
     switch (action.type) {

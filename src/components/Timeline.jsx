@@ -1,9 +1,9 @@
-import React from 'react'
-import moment from 'moment'
-import TimeAgo from 'react-timeago'
-import {OverlayTrigger, Popover} from 'react-bootstrap'
-import { resizeOverviewBox } from './TaskWorflow'
-import Milestone from './Milestone'
+import React from 'react';
+import moment from 'moment';
+import TimeAgo from 'react-timeago';
+import {OverlayTrigger, Popover} from 'react-bootstrap';
+import { resizeOverviewBox } from './TaskWorflow';
+import Milestone from './Milestone';
 
 export default class Timeline extends React.Component {
 
@@ -111,19 +111,6 @@ export default class Timeline extends React.Component {
     }
 
     render() {
-        if(this.state.all_events.length < 2 || this.state.min == null || this.state.duration == 0) {
-            return null;
-        }
-
-        const timestamp = moment.utc().unix();
-        const length = timestamp - this.state.min;
-        var progress_width = (length/this.state.duration)*100;
-        if(progress_width > 100) {
-            progress_width = 100;
-        } else if(progress_width < 0) {
-            progress_width = 0;
-        }
-
         return (
             <div className="timeline">
                 <div className="line duration-line">

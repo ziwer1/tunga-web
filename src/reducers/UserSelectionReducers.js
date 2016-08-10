@@ -1,6 +1,6 @@
-import { combineReducers } from 'redux'
-import * as UserSelectionActions from '../actions/UserSelectionActions'
-import { CREATE_MESSAGE_SUCCESS } from '../actions/MessageActions'
+import { combineReducers } from 'redux';
+import * as UserSelectionActions from '../actions/UserSelectionActions';
+import { CREATE_MESSAGE_SUCCESS } from '../actions/MessageActions';
 
 function users(state = {default: {}}, action) {
     switch (action.type) {

@@ -1,8 +1,8 @@
-import React from 'react'
-import { Link, IndexLink } from 'react-router'
-import { Panel, Accordion } from 'react-bootstrap'
-import Progress from './status/Progress'
-import LoadMore from './status/LoadMore'
+import React from 'react';
+import { Link, IndexLink } from 'react-router';
+import { Panel, Accordion } from 'react-bootstrap';
+import Progress from './status/Progress';
+import LoadMore from './status/LoadMore';
 
 export default class SupportPageList extends React.Component {
 

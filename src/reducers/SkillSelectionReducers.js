@@ -1,7 +1,7 @@
-import { combineReducers } from 'redux'
-import * as SkillSelectionActions from '../actions/SkillSelectionActions'
-import { CREATE_TASK_SUCCESS } from '../actions/TaskActions'
-import { RETRIEVE_PROFILE_SUCCESS } from '../actions/ProfileActions'
+import { combineReducers } from 'redux';
+import * as SkillSelectionActions from '../actions/SkillSelectionActions';
+import { CREATE_TASK_SUCCESS } from '../actions/TaskActions';
+import { RETRIEVE_PROFILE_SUCCESS } from '../actions/ProfileActions';
 
 function selected(state = [], action) {
     switch (action.type) {

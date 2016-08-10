@@ -1,10 +1,10 @@
-import React from 'react'
-import { Link } from 'react-router'
-import moment from 'moment'
-import Progress from './status/Progress'
-import ComponentWithModal from './ComponentWithModal'
-import TaskPage from '../containers/TaskPage'
-import TaskList from './TaskList'
+import React from 'react';
+import { Link } from 'react-router';
+import moment from 'moment';
+import Progress from './status/Progress';
+import ComponentWithModal from './ComponentWithModal';
+import TaskPage from '../containers/TaskPage';
+import TaskList from './TaskList';
 
 export default class ProjectDetail extends ComponentWithModal {
 

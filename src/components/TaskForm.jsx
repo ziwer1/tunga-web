@@ -1,25 +1,25 @@
-import React from 'react'
-import { Link } from 'react-router'
-import moment from 'moment'
-import _ from 'lodash'
-import {Button, OverlayTrigger, Tooltip, ButtonGroup} from 'react-bootstrap'
-import momentLocalizer from 'react-widgets/lib/localizers/moment'
-import DateTimePicker from 'react-widgets/lib/DateTimePicker'
-import TinyMCE  from 'react-tinymce'
-import Dropzone from 'react-dropzone'
-import Progress from './status/Progress'
-import FormStatus from './status/FormStatus'
-import FieldError from './status/FieldError'
-import UserSelector from '../containers/UserSelector'
-import SkillSelector from '../containers/SkillSelector'
-import ComponentWithModal from './ComponentWithModal'
-import LargeModal from './ModalLarge'
-import MilestoneForm from './MilestoneForm'
-import ProjectPage from '../containers/ProjectPage'
-import ProjectForm from './ProjectForm'
+import React from 'react';
+import { Link } from 'react-router';
+import moment from 'moment';
+import _ from 'lodash';
+import {Button, OverlayTrigger, Tooltip, ButtonGroup} from 'react-bootstrap';
+import momentLocalizer from 'react-widgets/lib/localizers/moment';
+import DateTimePicker from 'react-widgets/lib/DateTimePicker';
+import TinyMCE  from 'react-tinymce';
+import Dropzone from 'react-dropzone';
+import Progress from './status/Progress';
+import FormStatus from './status/FormStatus';
+import FieldError from './status/FieldError';
+import UserSelector from '../containers/UserSelector';
+import SkillSelector from '../containers/SkillSelector';
+import ComponentWithModal from './ComponentWithModal';
+import LargeModal from './ModalLarge';
+import MilestoneForm from './MilestoneForm';
+import ProjectPage from '../containers/ProjectPage';
+import ProjectForm from './ProjectForm';
 
-import { USER_TYPE_DEVELOPER, TASK_VISIBILITY_CHOICES, VISIBILITY_DEVELOPERS, VISIBILITY_CUSTOM, UPDATE_SCHEDULE_CHOICES } from '../constants/Api'
-import {TINY_MCE_CONFIG } from '../constants/settings'
+import { USER_TYPE_DEVELOPER, TASK_VISIBILITY_CHOICES, VISIBILITY_DEVELOPERS, VISIBILITY_CUSTOM, UPDATE_SCHEDULE_CHOICES } from '../constants/Api';
+import {TINY_MCE_CONFIG } from '../constants/settings';
 
 momentLocalizer(moment);
 
@@ -45,14 +45,14 @@ export default class TaskForm extends ComponentWithModal {
         };
     }
 
-    componentDidMount() {
+    componentWillMount() {
         const task = this.props.task || {};
         var selected_project = '';
         if(this.props.params && this.props.params.projectId) {
             selected_project = this.props.params.projectId;
         }
         if(task.id) {
-            const assignee = task.assignee?task.assignee.user:null;
+            const assignee = task.assignee && task.assignee.user?task.assignee.user.id:null;
             const description = task.description || '';
             const remarks = task.remarks || '';
             var participants = [];
@@ -466,7 +466,7 @@ export default class TaskForm extends ComponentWithModal {
                                     <label className="control-label">Assignee *</label>
                                     <UserSelector filter={{type: USER_TYPE_DEVELOPER}}
                                                   onChange={this.onAssigneeChange.bind(this)}
-                                                  selected={task.details && task.details.assignee && task.details.assignee.user?[task.details.assignee.user]:[]}
+                                                  selected={task.assignee && task.assignee.user?[task.assignee.user]:[]}
                                                   max={1}/>
                                 </div>
                                 <div className="form-group">

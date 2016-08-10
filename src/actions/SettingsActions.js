@@ -1,5 +1,5 @@
-import axios from 'axios'
-import { ENDPOINT_ACCOUNT_SETTINGS } from '../constants/Api'
+import axios from 'axios';
+import { ENDPOINT_ACCOUNT_SETTINGS } from '../constants/Api';
 
 export const RETRIEVE_SETTINGS_START = 'RETRIEVE_SETTINGS_START';
 export const RETRIEVE_SETTINGS_SUCCESS = 'RETRIEVE_SETTINGS_SUCCESS';

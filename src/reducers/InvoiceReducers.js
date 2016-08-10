@@ -1,6 +1,6 @@
-import { combineReducers } from 'redux'
-import * as TaskActions from '../actions/TaskActions'
-import { PATH_CHANGE } from '../actions/NavActions'
+import { combineReducers } from 'redux';
+import * as TaskActions from '../actions/TaskActions';
+import { PATH_CHANGE } from '../actions/NavActions';
 
 function invoice(state = {}, action) {
     switch (action.type) {

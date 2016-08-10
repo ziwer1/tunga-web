@@ -1,5 +1,5 @@
-import React from 'react'
-import connect from '../utils/connectors/SupportConnector'
+import React from 'react';
+import connect from '../utils/connectors/SupportConnector';
 
 class SupportPage extends React.Component {
 

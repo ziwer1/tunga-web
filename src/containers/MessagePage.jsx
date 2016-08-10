@@ -1,11 +1,11 @@
-import React from 'react'
-import { Link } from 'react-router'
+import React from 'react';
+import { Link } from 'react-router';
 
-import SearchBox from '../components/SearchBox'
-import Progress from '../components/status/Progress'
-import LoadMore from '../components/status/LoadMore'
-import Avatar from '../components/Avatar'
-import connect from '../utils/connectors/ChannelConnector'
+import SearchBox from '../components/SearchBox';
+import Progress from '../components/status/Progress';
+import LoadMore from '../components/status/LoadMore';
+import Avatar from '../components/Avatar';
+import connect from '../utils/connectors/ChannelConnector';
 
 export function resizeOverviewBox() {
     var w_h = $(window).height();
@@ -53,7 +53,7 @@ class MessagePage extends React.Component {
                     <div className="sidebox channelbox">
                         <SearchBox placeholder="Search" onSearch={ChannelActions.listChannels} count={Channel.list.count}/>
                         <div>
-                            <Link to="/channel/start/"><i className="fa fa-plus"/> Start a new conversation</Link>
+                            <Link to="/conversation/start/"><i className="fa fa-plus"/> Start a new conversation</Link>
                         </div>
                         {Channel.list.isFetching?(
                         <Progress/>
@@ -63,7 +63,7 @@ class MessagePage extends React.Component {
                                 {Channel.list.ids.map((id) => {
                                     let channel = Channel.list.channels[id];
                                     return(
-                                    <Link to={`/channel/${channel.id}/`} className="media" activeClassName="active">
+                                    <Link to={`/conversation/${channel.id}/`} className="media" activeClassName="active">
                                         <div className="media-left">
                                             <Avatar src={channel.user?channel.user.avatar_url:null}
                                                     icon={channel.user?null:"glypichon-comment"}
@@ -74,7 +74,7 @@ class MessagePage extends React.Component {
                                                 <div>{channel.user.display_name}</div>
                                             ):null}
                                             <div>{channel.subject} </div>
-                                            <div style={{fontSize: '90%'}}>{channel.user?null:`${channel.participants.length} participants`}</div>
+                                            <div style={{fontSize: '90%'}}>{channel.user?null:`${channel.participants.length} people`}</div>
                                         </div>
                                     </Link>
                                         );

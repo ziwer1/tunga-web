@@ -1,10 +1,10 @@
-import React from 'react'
-import { Link } from 'react-router'
-import { Modal } from 'react-bootstrap'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import React from 'react';
+import { Link } from 'react-router';
+import { Modal } from 'react-bootstrap';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
-import * as NavActions from '../actions/NavActions'
+import * as NavActions from '../actions/NavActions';
 
 class ModalLarge extends React.Component {
 

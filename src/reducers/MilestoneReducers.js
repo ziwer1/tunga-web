@@ -1,8 +1,8 @@
-import { combineReducers } from 'redux'
-import * as MilestoneActions from '../actions/MilestoneActions'
-import * as ProgressReportActions from '../actions/ProgressReportActions'
-import { LOGOUT_SUCCESS } from '../actions/AuthActions'
-import { PATH_CHANGE } from '../actions/NavActions'
+import { combineReducers } from 'redux';
+import * as MilestoneActions from '../actions/MilestoneActions';
+import * as ProgressReportActions from '../actions/ProgressReportActions';
+import { LOGOUT_SUCCESS } from '../actions/AuthActions';
+import { PATH_CHANGE } from '../actions/NavActions';
 
 function milestone(state = {}, action) {
     switch (action.type) {

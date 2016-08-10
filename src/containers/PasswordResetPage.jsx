@@ -1,9 +1,9 @@
-import React from 'react'
-import Progress from '../components/status/Progress'
-import Error from '../components/status/Error'
-import Success from '../components/status/Success'
-import SocialSignIn from '../components/SocialSignIn'
-import connect from '../utils/connectors/AuthConnector'
+import React from 'react';
+import Progress from '../components/status/Progress';
+import Error from '../components/status/Error';
+import Success from '../components/status/Success';
+import SocialSignIn from '../components/SocialSignIn';
+import connect from '../utils/connectors/AuthConnector';
 
 class PasswordReset extends React.Component {
     constructor(props) {

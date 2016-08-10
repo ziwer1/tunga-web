@@ -1,6 +1,6 @@
-import React from 'react'
-import { SOCIAL_LOGIN_URLS } from '../constants/Api'
-import { objectToQueryString } from '../utils/html'
+import React from 'react';
+import { SOCIAL_LOGIN_URLS } from '../constants/Api';
+import { objectToQueryString } from '../utils/html';
 
 export default class SocialSignIn extends React.Component {
 

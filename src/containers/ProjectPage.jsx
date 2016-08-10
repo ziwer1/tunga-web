@@ -1,5 +1,5 @@
-import React from 'react'
-import connect from '../utils/connectors/ProjectConnector'
+import React from 'react';
+import connect from '../utils/connectors/ProjectConnector';
 
 class ProjectPage extends React.Component {
 

@@ -1,9 +1,9 @@
-import React from 'react'
+import React from 'react';
 import Helmet from "react-helmet"
-import TaskCrumb from '../containers/TaskCrumb'
-import TaskDetail from './TaskDetail'
-import Progress from './status/Progress'
-import Success from './status/Success'
+import TaskCrumb from '../containers/TaskCrumb';
+import TaskDetail from './TaskDetail';
+import Progress from './status/Progress';
+import Success from './status/Success';
 
 export default class Task extends React.Component {
 
@@ -39,8 +39,7 @@ export default class Task extends React.Component {
                 Auth: this.props.Auth,
                 Task: this.props.Task,
                 task: this.props.Task.detail.task,
-                TaskActions: this.props.TaskActions,
-                Nav: this.props.Nav
+                TaskActions: this.props.TaskActions
             });
         }.bind(this));
     }
@@ -53,7 +52,7 @@ export default class Task extends React.Component {
         return (
             Task.detail.isRetrieving?
             (<Progress/>)
-            :task.id?(
+            :task.id && task.id == this.props.params.taskId?(
             <div>
                 <Helmet
                     title={task.summary}
@@ -66,7 +65,7 @@ export default class Task extends React.Component {
                     <Success message="Application sent successfully"/>
                 ):null}
 
-                {task.user == Auth.user.id || task.is_participant || Auth.user.is_staff || (lastRoute && lastRoute.path == 'apply' && task.can_apply)?(
+                {task.user.id == Auth.user.id || task.is_participant || Auth.user.is_staff || (lastRoute && lastRoute.path == 'apply' && task.can_apply)?(
                 <div>
                     <TaskCrumb section={this.getCrumb()}/>
 

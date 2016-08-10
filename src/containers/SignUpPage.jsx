@@ -1,12 +1,12 @@
-import React from 'react'
-import Progress from '../components/status/Progress'
-import Error from '../components/status/Error'
-import Success from '../components/status/Success'
-import FieldError from '../components/status/FieldError'
-import SocialSignIn from '../components/SocialSignIn'
-import connect from '../utils/connectors/AuthConnector'
+import React from 'react';
+import Progress from '../components/status/Progress';
+import Error from '../components/status/Error';
+import Success from '../components/status/Success';
+import FieldError from '../components/status/FieldError';
+import SocialSignIn from '../components/SocialSignIn';
+import connect from '../utils/connectors/AuthConnector';
 
-import { SOCIAL_LOGIN_URLS, USER_TYPE_DEVELOPER, USER_TYPE_PROJECT_OWNER } from '../constants/Api'
+import { SOCIAL_LOGIN_URLS, USER_TYPE_DEVELOPER, USER_TYPE_PROJECT_OWNER } from '../constants/Api';
 
 class SignUp extends React.Component {
 

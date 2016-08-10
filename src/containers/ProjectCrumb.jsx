@@ -1,7 +1,7 @@
-import React from 'react'
-import { Link } from 'react-router'
-import { Breadcrumb } from 'react-bootstrap'
-import connect from '../utils/connectors/ProjectConnector'
+import React from 'react';
+import { Link } from 'react-router';
+import { Breadcrumb } from 'react-bootstrap';
+import connect from '../utils/connectors/ProjectConnector';
 
 class ProjectCrumb extends React.Component {
 
