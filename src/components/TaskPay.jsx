@@ -8,10 +8,6 @@ import { objectToQueryString } from '../utils/html';
 
 export default class TaskPay extends React.Component {
 
-    static contextTypes = {
-        router: React.PropTypes.object.isRequired
-    };
-
     constructor(props) {
         super(props);
         this.state = {pay_method: null, pay_details: null, showForm: true};
@@ -189,3 +185,7 @@ export default class TaskPay extends React.Component {
         );
     }
 }
+
+TaskPay.contextTypes = {
+    router: React.PropTypes.object.isRequired
+};

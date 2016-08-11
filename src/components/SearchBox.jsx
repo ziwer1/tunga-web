@@ -10,11 +10,6 @@ import { SEARCH_PATH } from '../constants/patterns';
 
 class SearchBox extends React.Component {
 
-    static contextTypes = {
-        router: React.PropTypes.object.isRequired,
-        location: React.PropTypes.object.isRequired
-    };
-
     constructor(props){
         super(props);
         this.onSearch = _.debounce(this.onSearch, 250);
@@ -96,5 +91,10 @@ function mapDispatchToProps(dispatch) {
         SearchActions: bindActionCreators(SearchActions, dispatch),
     }
 }
+
+SearchBox.contextTypes = {
+    router: React.PropTypes.object.isRequired,
+    location: React.PropTypes.object.isRequired
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchBox);

@@ -3,22 +3,13 @@ import moment from 'moment';
 import momentLocalizer from 'react-widgets/lib/localizers/moment';
 import DateTimePicker from 'react-widgets/lib/DateTimePicker';
 import TinyMCE  from 'react-tinymce';
-import Dropzone from 'react-dropzone';
-import Progress from './status/Progress';
 import FormStatus from './status/FormStatus';
 import FieldError from './status/FieldError';
-import UserSelector from '../containers/UserSelector';
-import SkillSelector from '../containers/SkillSelector';
-import { USER_TYPE_DEVELOPER, TASK_VISIBILITY_CHOICES, VISIBILITY_DEVELOPERS, VISIBILITY_CUSTOM, UPDATE_SCHEDULE_CHOICES } from '../constants/Api';
 import {TINY_MCE_CONFIG } from '../constants/settings';
 
 momentLocalizer(moment);
 
 export default class ProjectForm extends React.Component {
-
-    static contextTypes = {
-        router: React.PropTypes.object.isRequired
-    };
 
     constructor(props) {
         super(props);
@@ -132,3 +123,7 @@ export default class ProjectForm extends React.Component {
         );
     }
 }
+
+ProjectForm.contextTypes = {
+    router: React.PropTypes.object.isRequired
+};

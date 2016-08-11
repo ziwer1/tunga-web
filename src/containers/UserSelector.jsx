@@ -95,7 +95,7 @@ class UserSelector extends React.Component {
     }
 
     render() {
-        const { UserSelection, max, noRemove, unremovable } = this.props;
+        const { UserSelection, max, canRemove, unremovable } = this.props;
         const selections = UserSelection.selected.ids[this.state.selection_key] || [];
         const selection_users = UserSelection.selected.users[this.state.selection_key] || {};
         const suggestions = UserSelection.suggestions[this.state.selection_key] || [];
@@ -109,7 +109,7 @@ class UserSelector extends React.Component {
                         <div key={id} className="list-group-item selected-item">
                             <Avatar src={user.avatar_url} size="xs"/>
                             {user.display_name} @{user.username}
-                            {!noRemove && (!unremovable || unremovable.indexOf(user.id) == -1)?(
+                            {canRemove && (!unremovable || unremovable.indexOf(user.id) == -1)?(
                             <a onClick={this.onUserRemove.bind(this, user)} className="close">
                                 <i className="fa fa-remove" />
                             </a>
@@ -155,10 +155,13 @@ UserSelector.propTypes = {
     onChange: React.PropTypes.func.required,
     max: React.PropTypes.number,
     selected: React.PropTypes.array,
-    noRemove: React.PropTypes.bool,
+    canRemove: React.PropTypes.bool,
     deselected: React.PropTypes.array,
     unremovable: React.PropTypes.array
 };
 
+UserSelector.defaultProps = {
+    canRemove: true
+};
 
 export default connect(UserSelector);

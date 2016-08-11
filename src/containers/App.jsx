@@ -17,15 +17,6 @@ import { UNAUTHED_ACCESS_PATH, PROFILE_COMPLETE_PATH } from '../constants/patter
 import { initNavUIController } from '../utils/ui';
 
 class App extends React.Component {
-    static contextTypes = {
-        router: React.PropTypes.object.isRequired,
-        location: React.PropTypes.object.isRequired
-    };
-
-    static childContextTypes = {
-        router: React.PropTypes.object,
-        location: React.PropTypes.object
-    };
 
     getChildContext() {
         const { router, location } = this.context;
@@ -129,4 +120,15 @@ function mapDispatchToProps(dispatch) {
         SkillSelectionActions: bindActionCreators(SkillSelectionActions, dispatch)
     }
 }
+
+App.contextTypes = {
+    router: React.PropTypes.object.isRequired,
+    location: React.PropTypes.object.isRequired
+};
+
+App.childContextTypes = {
+    router: React.PropTypes.object,
+    location: React.PropTypes.object
+};
+
 export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -5,10 +5,6 @@ import connect from '../utils/connectors/ProjectConnector';
 
 class ProjectCrumb extends React.Component {
 
-    static propTypes = {
-        section: React.PropTypes.string.required
-    };
-
     render() {
         const { Project, section } = this.props;
         const { project } = Project.detail;
@@ -23,5 +19,9 @@ class ProjectCrumb extends React.Component {
         );
     }
 }
+
+ProjectCrumb.propTypes = {
+    section: React.PropTypes.string.required
+};
 
 export default connect(ProjectCrumb);

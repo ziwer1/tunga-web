@@ -3,12 +3,6 @@ import { Link } from 'react-router';
 
 export default class TagList extends React.Component {
 
-    static propTypes = {
-        tags: React.PropTypes.array.required,
-        linkPrefix: React.PropTypes.string,
-        moreLink: React.PropTypes.string
-    };
-
     render() {
         const { tags, linkPrefix, moreLink } = this.props;
         const max = this.props.max || tags.length;
@@ -27,3 +21,9 @@ export default class TagList extends React.Component {
         );
     }
 }
+
+TagList.propTypes = {
+    tags: React.PropTypes.array.required,
+    linkPrefix: React.PropTypes.string,
+    moreLink: React.PropTypes.string
+};

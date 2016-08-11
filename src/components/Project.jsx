@@ -37,10 +37,8 @@ export default class Project extends React.Component {
     }
 
     render() {
-        const { Auth, Project, ProjectActions, params, route } = this.props;
+        const { Auth, Project } = this.props;
         const { project } = Project.detail;
-
-        console.log(this.props);
 
         return (
             Project.detail.isRetrieving?

@@ -7,14 +7,6 @@ import { initSideBarToggle } from '../utils/ui';
 
 export default class NavBar extends React.Component {
 
-    static propTypes = {
-        Auth: PropTypes.shape({
-            isAuthenticating: PropTypes.bool.isRequired,
-            isAuthenticated: PropTypes.bool.isRequired,
-            user: PropTypes.object
-        }).isRequired
-    };
-
     constructor(props) {
         super(props);
         this.handleLogout = this.handleLogout.bind(this);
@@ -75,3 +67,11 @@ export default class NavBar extends React.Component {
         );
     }
 }
+
+NavBar.propTypes = {
+    Auth: PropTypes.shape({
+        isAuthenticating: PropTypes.bool.isRequired,
+        isAuthenticated: PropTypes.bool.isRequired,
+        user: PropTypes.object
+    }).isRequired
+};

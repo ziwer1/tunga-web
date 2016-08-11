@@ -25,10 +25,6 @@ momentLocalizer(moment);
 
 export default class TaskForm extends ComponentWithModal {
 
-    static contextTypes = {
-        router: React.PropTypes.object.isRequired
-    };
-
     constructor(props) {
         super(props);
         var schedule_options = [];
@@ -536,3 +532,7 @@ export default class TaskForm extends ComponentWithModal {
         );
     }
 }
+
+TaskForm.contextTypes = {
+    router: React.PropTypes.object.isRequired
+};

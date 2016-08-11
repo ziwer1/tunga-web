@@ -13,10 +13,6 @@ import { resizeSideBar } from '../utils/ui';
 
 class SideBar extends React.Component {
 
-    static contextTypes = {
-        router: React.PropTypes.object.isRequired
-    };
-
     componentDidMount() {
         $(document).ready(resizeSideBar);
         $(window).resize(resizeSideBar);
@@ -104,4 +100,8 @@ function mapStateToProps(state) { 
   } 
 }
 
- export default connect(mapStateToProps, mapDispatchToProps)(SideBar);
+SideBar.contextTypes = {
+    router: React.PropTypes.object.isRequired
+};
+
+    export default connect(mapStateToProps, mapDispatchToProps)(SideBar);

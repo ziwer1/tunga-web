@@ -781,6 +781,10 @@ description {
     .media {
         margin-top: 5px;
     }
+
+    .rating {
+        margin: 2px 5px 2px 0;
+    }
 }
 
 .secondary {
@@ -1362,11 +1366,19 @@ activity-list {
 }
 
 .rating {
+    display: inline-block;
     color: @primary;
-    font-size: 25px;
-    margin-top: 5px;
+    font-size: 1.2em;
+    margin: 2px;
+
+    .fa {
+        margin: 0 1px;
+    }
 }
 
+.rating.large {
+    font-size: 1.7em;
+}
 
 @media (min-width: 768px) {
     .flex-row.row {

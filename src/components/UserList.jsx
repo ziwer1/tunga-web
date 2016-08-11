@@ -12,7 +12,6 @@ export default class UserList extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        console.log(this.props.search);
         if(prevProps.location && this.props.location && prevProps.location.pathname != this.props.location.pathname || prevProps.search != this.props.search) {
             this.props.UserActions.listUsers({filter: this.getFilter(), skill: this.getSkill(), ...this.props.filters, search: this.props.search});
         }

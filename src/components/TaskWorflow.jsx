@@ -25,11 +25,6 @@ export function resizeOverviewBox() {
 
 export default class TaskWorflow extends ComponentWithModal {
 
-    static contextTypes = {
-        router: React.PropTypes.object.isRequired,
-        location: React.PropTypes.object.isRequired
-    };
-
     constructor(props) {
         super(props);
         this.state = {ratings_map: null, modalEvent: {}};
@@ -400,3 +395,8 @@ export default class TaskWorflow extends ComponentWithModal {
         );
     }
 }
+
+TaskWorflow.contextTypes = {
+    router: React.PropTypes.object.isRequired,
+    location: React.PropTypes.object.isRequired
+};

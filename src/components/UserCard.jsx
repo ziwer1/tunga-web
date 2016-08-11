@@ -37,17 +37,19 @@ export default class UserCard extends React.Component {
         return (
             <div className="card user-card">
                 <UserCardProfile user={user}/>
-                {user.profile?(
-                <div>
-                    {user.profile.skills.length?(
-                    <TagList tags={user.profile.skills} max={3} linkPrefix="/people/skill/" moreLink={`/people/${user.username}/`}/>
-                        ):(
-                    <div style={{height: '20px'}}></div>
-                        )}
+                <div style={{minHeight: user.is_developer?'20px':'40px'}}>
+                    {user.profile?(
+                        <div>
+                            {!user.is_developer?(
+                                <div className="secondary">Skills I need:</div>
+                            ):null}
+                            {user.profile.skills.length?(
+                                <TagList tags={user.profile.skills} max={3} linkPrefix="/people/skill/" moreLink={`/people/${user.username}/`}/>
+                            ):null}
+                        </div>
+                    ):null}
                 </div>
-                    ):(
-                <div style={{height: '20px'}}></div>
-                    )}
+
                 <div className="short-description">
                     {user.profile?(
                         <div dangerouslySetInnerHTML={{__html: user.profile.bio}}/>

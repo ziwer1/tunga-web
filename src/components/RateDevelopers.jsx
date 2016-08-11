@@ -1,7 +1,7 @@
 import React from 'react';
 import Rating from 'react-rating';
 
-import { RATING_CRITERIA_CODING, RATING_CRITERIA_COMMUNICATION, RATING_CRITERIA_SPEED, RATING_CRITERIA_CHOICES } from '../constants/Api';
+import { RATING_CRITERIA_CHOICES } from '../constants/Api';
 
 export default class RateDevelopers extends React.Component {
 
@@ -10,29 +10,31 @@ export default class RateDevelopers extends React.Component {
         this.state = {ratings_map: null};
     }
 
-    componentDidMount() {
-        this.mapRatings();
+    componentWillMount() {
+        this.mapUserRatings(this.props);
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        if(this.props.Task.detail.isSaved && !prevProps.Task.detail.isSaved) {
-            this.mapRatings();
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.Task.detail.isSaved && !this.props.Task.detail.isSaved) {
+            this.mapUserRatings(nextProps);
         }
     }
 
-    mapRatings() {
-        const { Task } = this.props;
+    mapUserRatings(props) {
+        const { Auth, Task } = props;
         const { task } = Task.detail;
         if(task && task.ratings && task.ratings.length) {
             var ratings_map = {};
             task.ratings.forEach(rating => {
-                ratings_map[rating.criteria] = rating.score;
+                if(rating.created_by.id == Auth.user.id) {
+                    ratings_map[rating.criteria] = rating.score;
+                }
             });
             this.setState({ratings_map});
         }
     }
 
-    handleRating(criteria, rating) {
+    onRatingChange(criteria, rating) {
         const { TaskActions, Task } = this.props;
         TaskActions.updateTask(Task.detail.task.id, {ratings: [{criteria, score: rating}]});
     }
@@ -61,9 +63,11 @@ export default class RateDevelopers extends React.Component {
                     return (
                         <div key={criteria.id} style={{margin: '15px 0'}}>
                             <h5>{criteria.name}</h5>
-                            <Rating start={0} stop={10} step={2} fractions={2} initialRate={this.state.ratings_map?this.state.ratings_map[criteria.id]:0}
-                                    empty={'fa fa-star-o fa-lg rating'} full={'fa fa-star fa-lg rating'}
-                                    onChange={this.handleRating.bind(this, criteria.id)}/>
+                            <div className="rating large">
+                                <Rating start={0} stop={10} step={2} fractions={2} initialRate={this.state.ratings_map?this.state.ratings_map[criteria.id]:0}
+                                        empty={'fa fa-star-o'} full={'fa fa-star'}
+                                        onChange={this.onRatingChange.bind(this, criteria.id)}/>
+                            </div>
                         </div>
                     );
                 })}
