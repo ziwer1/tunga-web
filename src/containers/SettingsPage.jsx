@@ -5,6 +5,8 @@ import VisibilitySetting from './../components/VisibilitySetting';
 import SwitchSetting from './../components/SwitchSetting';
 import connect from '../utils/connectors/SettingsConnector';
 
+import * as UserSettings from '../utils/UserSettings';
+
 export default class Settings extends React.Component {
     constructor(props) {
         super(props);
@@ -38,45 +40,35 @@ export default class Settings extends React.Component {
     render() {
         const { Auth, Settings } = this.props;
         const { settings } = Settings;
-        const visibility_settings = [
-            {name: 'profile_visibility', label: 'Profile visibility'},
-            {name: 'social_links', label: 'Social links'},
-            {name: 'location_details', label: 'Location details'}
-        ];
-        const notify_buttons = {on: 'send an email', off: 'notifications only'}
-        const switch_settings = [
-            {name: 'daily_update_email', label: 'Daily update e-mail'},
-            {name: 'direct_messages_email', label: 'Direct messages', buttons: notify_buttons},
-            {name: 'new_friend_request_email', label: 'New friend request', buttons: notify_buttons},
-            // owner
-            {name: 'team_invitation_response_email', label: 'Reply from developer on invitation', buttons: notify_buttons},
-            //dev
-            {name: 'friend_request_response_email', label: 'Reply to friend request', buttons: notify_buttons},
-            {name: 'join_team_request_response_email', label: 'Reply to join team request', buttons: notify_buttons},
-            {name: 'new_friend_request_email', label: 'Invitation to join a team', buttons: notify_buttons},
-            // dev end
-            {name: 'new_task_application_email', label: 'New application for a task', buttons: notify_buttons}, //owner
-            {name: 'task_update_email', label: 'Task updates', buttons: notify_buttons},
-            {name: 'payment_request_email', label: 'Payment requests', buttons: notify_buttons}, //owner
-            {name: 'payment_update_email', label: 'Payment updates', buttons: notify_buttons}, //dev
-        ];
 
         var user_switches = [
-            'daily_update_email', 'direct_messages_email', 'new_friend_request_email'
+            UserSettings.DAILY_UPDATE_EMAIL, UserSettings.DIRECT_MESSAGES_EMAIL, UserSettings.NEW_FRIEND_REQUEST_EMAIL
         ];
 
         if(Auth.user.is_developer) {
-            user_switches = user_switches.concat(['friend_request_response_email', 'join_team_request_response_email', 'new_team_invitation_email']);
+            user_switches = user_switches.concat([
+                UserSettings.FRIEND_REQUEST_RESPONSE_EMAIL,
+                UserSettings.JOIN_TEAM_REQUEST_RESPONSE_EMAIL,
+                UserSettings.NEW_TEAM_INVITATION_EMAIL,
+                UserSettings.NEW_TASK_EMAIL,
+                UserSettings.NEW_TASK_INVITATION_EMAIL,
+                UserSettings.TASK_APPLICATION_RESPONSE_EMAIL,
+                UserSettings.TASK_PROGRESS_REPORT_REMINDER_EMAIL
+            ]);
         } else {
-            user_switches = user_switches.concat(['team_invitation_response_email', 'new_task_application_email']);
+            user_switches = user_switches.concat([
+                UserSettings.TEAM_INVITATION_RESPONSE_EMAIL,
+                UserSettings.NEW_TASK_APPLICATION_EMAIL,
+                UserSettings.TASK_INVITATION_RESPONSE_EMAIL
+            ]);
         }
 
-        user_switches.push('task_update_email');
+        user_switches.push(UserSettings.TASK_ACTIVITY_UPDATE_EMAIL);
 
         if(Auth.user.is_developer) {
-            user_switches.push('payment_update_email');
+            user_switches.push(UserSettings.PAYMENT_UPDATE_EMAIL);
         } else {
-            user_switches.push('payment_request_email');
+            user_switches.push(UserSettings.PAYMENT_REQUEST_EMAIL);
         }
 
         return (
@@ -95,7 +87,7 @@ export default class Settings extends React.Component {
                         {Auth.user.is_developer?null:(
                         <div>
                             <h4 className="title">Privacy settings</h4>
-                            {visibility_settings.map(setting => {
+                            {UserSettings.VISIBILITY_SETTINGS.map(setting => {
                                 return (
                                 <div key={setting.name} className="form-group row">
                                     <div className="col-md-3">{setting.label}</div>
@@ -112,7 +104,7 @@ export default class Settings extends React.Component {
                             )}
 
                         <h4 className="title">Email Settings</h4>
-                        {switch_settings.map(setting => {
+                        {UserSettings.SWITCH_SETTINGS.map(setting => {
                             if(user_switches.indexOf(setting.name) == -1) {
                                 return null;
                                 }
