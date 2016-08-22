@@ -64,7 +64,8 @@ export default class ActivityList extends React.Component {
                     let participant = object.details.user;
                     body = (
                         <div>
-                            <span>Added a participant: </span>
+                            <div>Added a participant:</div>
+                            <Avatar src={participant.avatar_url} size="xs"/>
                             <Link to={`/people/${participant.username}/`}>{participant.display_name}</Link>
                         </div>
                     );
@@ -85,7 +86,7 @@ export default class ActivityList extends React.Component {
                                 <div><i className={"fa fa-flag"+((object.type==4)?'-checkered':'-o')}/> Created a milestone:</div>
                             ):null}
                             <Link to={`/task/${object.task}/event/${object.id}/`}>
-                                {object.title || 'Scheduled an update'}
+                                {object.title || (<span><i className="fa fa-flag-o"/> Scheduled an update</span>)}
                             </Link>
                             <div>Due: {moment.utc(object.due_at).local().format('Do, MMMM YYYY')}</div>
                         </div>
@@ -256,7 +257,7 @@ export default class ActivityList extends React.Component {
                         if(idx+1 == all_msgs.length) {
                             msgs = [...msgs, this.renderThread(thread)];
                         }
-                        
+
                         return msgs;
                         })}
                 </div>)
