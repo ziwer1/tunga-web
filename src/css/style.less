@@ -1243,11 +1243,39 @@ activity-list {
 
     .media-body {
         background-color: @inactive-grey;
-        padding: 10px 15px;
+        /*padding: 10px 15px;*/
     }
 
     time, .time {
         color: @secondary-text;
+    }
+
+    .sub-message, .body {
+        padding: 5px 15px;
+    }
+
+    .sub-thread {
+        /*margin: 0 -15px;*/
+        padding: 5px 15px;
+        border-width: 5px 0;
+        border-color: #fff;
+        border-style: solid;
+    }
+
+    .sub-thread + .sub-thread {
+        border-top-width: 0;
+    }
+
+    .sub-thread:last-child {
+        border-bottom-width: 0;
+    }
+
+    .progress {
+        margin: 5px auto;
+    }
+
+    p {
+        margin-bottom: 5px;
     }
 }
 
@@ -1363,6 +1391,14 @@ activity-list {
         font-size: 20px;
         font-weight: 500;
     }
+}
+
+.progress {
+    max-width: 500px;
+}
+
+.milestone-page {
+    max-width: 600px;
 }
 
 .rating {
@@ -1488,7 +1524,7 @@ activity-list {
         overflow: hidden;
 
         .pledge {
-            font-size: 40px;
+            font-size: 35px;
             font-weight: 500;
         }
 

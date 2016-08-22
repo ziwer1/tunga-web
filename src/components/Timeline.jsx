@@ -1,9 +1,12 @@
 import React from 'react';
 import moment from 'moment';
+import { Link } from 'react-router';
 import TimeAgo from 'react-timeago';
-import {OverlayTrigger, Popover} from 'react-bootstrap';
+import { OverlayTrigger, Popover } from 'react-bootstrap';
 import { resizeOverviewBox } from './TaskWorflow';
 import Milestone from './Milestone';
+
+import { PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT } from '../constants/Api';
 
 export default class Timeline extends React.Component {
 
@@ -71,12 +74,14 @@ export default class Timeline extends React.Component {
         let is_missed = ((timestamp + 24*60*60) < ts_now && event.type); // Developers have 24 hrs before a task update is missed
         var angle = ((length/this.state.duration)*360+270) % 360;
 
+        const { task } = this.props;
+
         const popover = (
             <Popover id="popover">
                 <div className="title">{event.title || 'Scheduled Update'}</div>
                 {event.is_now?(
                 <div>
-                    {this.state.next_event.type?('Next '+(this.state.next_event.type ==3?'Milestone':'Update')):'Deadline'}
+                    {this.state.next_event.type?('Next '+([PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT].indexOf(event.type) > -1?'Milestone':'Update')):'Deadline'}
                     <span> is </span>
                     <TimeAgo date={moment.utc(this.state.next_event.due_at).local().format()}/>
                 </div>
@@ -91,7 +96,7 @@ export default class Timeline extends React.Component {
                         ):(
                         is_missed?(
                         <div>
-                            <strong>{event.type == 3?'Milestone':'Update'} missed</strong>
+                            <strong>{[PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT].indexOf(event.type) > -1?'Milestone':'Update'} missed</strong>
                         </div>
                             ):null
                         )}
@@ -99,14 +104,15 @@ export default class Timeline extends React.Component {
                     )}
             </Popover>);
         return (
-            <OverlayTrigger key={event.due_at} placement={timestamp == this.state.max?"left":"top"} overlay={popover}
-                            onClick={this.openMilestone.bind(this, event)}>
-                <div key={event.id}
-                     className={"event" + (moment.utc(event.due_at) < moment.utc() && !event.is_now?' past':'')}
-                     style={{transform: `rotate(${angle}deg) translate(98px)`}}>
-                    <span>{event.is_now?<i className="fa fa-square"/>:<i className="fa fa-circle"/>}</span>
-                </div>
-            </OverlayTrigger>
+            <Link to={`/task/${task.id}/event/${event.id}`}>
+                <OverlayTrigger key={event.due_at} placement="top" overlay={popover}>
+                    <div key={event.id}
+                         className={"event" + (moment.utc(event.due_at) < moment.utc() && !event.is_now?' past':'')}
+                         style={{transform: `rotate(${angle}deg) translate(98px)`}}>
+                        <span>{event.is_now?<i className="fa fa-square"/>:<i className="fa fa-circle"/>}</span>
+                    </div>
+                </OverlayTrigger>
+            </Link>
         );
     }
 

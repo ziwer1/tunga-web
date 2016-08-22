@@ -5,7 +5,7 @@ import * as MilestoneActions from '../../actions/MilestoneActions';
 import * as ProgressReportActions from '../../actions/ProgressReportActions';
 
 function mapStateToProps(state) {
-    return {Auth: state.Auth, Milestone: state.Milestone, ProgressReport: state.ProgressReport};
+    return {Auth: state.Auth, Task: state.Task, Milestone: state.Milestone, ProgressReport: state.ProgressReport};
 }
 
 function mapDispatchToProps(dispatch) {

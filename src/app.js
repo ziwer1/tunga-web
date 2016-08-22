@@ -35,6 +35,8 @@ import Task from 'components/Task';
 import ApplicationForm from 'components/ApplicationForm';
 import TaskWorflow from 'components/TaskWorflow';
 import ApplicationList from 'components/ApplicationList';
+import MilestonePage from 'containers/MilestonePage';
+import Milestone from 'components/Milestone';
 import IntegrationList from 'components/IntegrationList';
 import TaskPay from 'components/TaskPay';
 import Participation from 'components/Participation';
@@ -123,7 +125,9 @@ ReactDOM.render(
                         <Route path="pay" component={TaskPay} crumb="Pay"/>
                         <Route path="participation" component={Participation} crumb="Edit Participation"/>
                         <Route path="rate" component={RateDevelopers} crumb="Rate Developers"/>
-                        <Route path="event/:eventId" component={TaskWorflow}/>
+                        <Route path="event" component={MilestonePage}>
+                            <Route path=":eventId" component={Milestone}/>
+                        </Route>
                     </Route>
                 </Route>
                 <Route path="people" component={UserPage}>

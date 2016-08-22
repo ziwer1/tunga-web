@@ -63,18 +63,20 @@ export default class MessageList extends React.Component {
                         <Avatar src={message.user.avatar_url}/>
                     </div>
                     <div className="media-body">
-                        <p>
-                            <Link to={channel?`/people/${message.user.username}/`:`/conversation/${message.channel}/#message${message.id}`}>{message.user.display_name}</Link>
-                            <TimeAgo date={moment.utc(message.created_at).local().format()} className="pull-right"/>
-                        </p>
-                        <div dangerouslySetInnerHTML={{__html: message.body}}/>
-                        {message.attachments.length?(<Attachments attachments={message.attachments}/>):null}
+                        <div className="body">
+                            <p>
+                                <Link to={channel?`/people/${message.user.username}/`:`/conversation/${message.channel}/#message${message.id}`}>{message.user.display_name}</Link>
+                                <TimeAgo date={moment.utc(message.created_at).local().format()} className="pull-right"/>
+                            </p>
+                            <div dangerouslySetInnerHTML={{__html: message.body}}/>
+                            {message.attachments.length?(<Attachments attachments={message.attachments}/>):null}
+                        </div>
 
                         {thread.others?(
                             thread.others.map(other_msg => {
                                 let sent_day = moment.utc(other_msg.created_at).local().format(day_format);
                                 let msg = (
-                                    <div style={{marginTop: '5px'}}>
+                                    <div className="sub-message">
                                         {sent_day == last_sent_day || sent_day != today?null:(
                                             <p>
                                                 <TimeAgo date={moment.utc(other_msg.created_at).local().format()} className="pull-right"/>

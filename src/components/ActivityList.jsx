@@ -2,10 +2,13 @@ import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
 import TimeAgo from 'react-timeago';
+import { ProgressBar } from 'react-bootstrap';
 import Progress from './status/Progress';
 import LoadMore from './status/LoadMore';
 import Avatar from './Avatar';
 import Attachments from './Attachments';
+
+import { PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT } from '../constants/Api';
 
 export function scrollList () {
     var a_list = $('.activity-list');
@@ -32,6 +35,8 @@ export default class ActivityList extends React.Component {
         var body = null;
         var summary = null;
         var uploads = null;
+        var more = null;
+
         switch (item.action) {
             case 'send':
                 if(activity_type == 'message') {
@@ -54,7 +59,7 @@ export default class ActivityList extends React.Component {
                 break;
             case 'add':
                 if(activity_type == 'participation') {
-                    creator = object.details.created_by;
+                    creator = object.created_by;
                     created_at = object.created_at;
                     let participant = object.details.user;
                     body = (
@@ -65,8 +70,54 @@ export default class ActivityList extends React.Component {
                     );
                 }
                 break;
+            case 'create':
+                if(activity_type == 'progress_event') {
+                    creator = object.created_by || {
+                            id: 'tunga',
+                            username: 'tunga',
+                            display_name: 'Tunga Bot',
+                            avatar_url: 'https://tunga.io/static/tunga/img/email/tunga_round.png'
+                        };
+                    created_at = object.created_at;
+                    body = (
+                        <div>
+                            {[PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT].indexOf(object.type) > -1?(
+                                <div><i className={"fa fa-flag"+((object.type==4)?'-checkered':'-o')}/> Created a milestone:</div>
+                            ):null}
+                            <Link to={`/task/${object.task}/event/${object.id}/`}>
+                                {object.title || 'Scheduled an update'}
+                            </Link>
+                            <div>Due: {moment.utc(object.due_at).local().format('Do, MMMM YYYY')}</div>
+                        </div>
+                    );
+                }
+                break;
             case 'report':
-                if(activity_type == 'integration_activity') {
+                if(activity_type == 'progress_report') {
+                    creator = object.user;
+                    created_at = object.created_at;
+                    uploads = object.uploads;
+                    more = {
+                        link: `/task/${object.details.event.task}/event/${object.event}/`,
+                        text: 'View full report'
+                    };
+                    let progress = object.percentage || 0;
+                    body = (
+                        <div>
+                            <p><i className="fa fa-newspaper-o"/> Progress report: </p>
+                            <Link to={`/task/${object.details.event.task}/event/${object.event}/`}>
+                                {object.details.event.title || 'Scheduled Update'}
+                            </Link>
+                            <div>Status: {object.status_display}</div>
+                            <div>
+                                <ProgressBar bsStyle="success" now={progress} label={`${progress}% Completed`} />
+                            </div>
+                            {object.accomplished?(
+                                <div dangerouslySetInnerHTML={{__html: object.accomplished}}/>
+                            ):null}
+                        </div>
+                    );
+                } else if(activity_type == 'integration_activity') {
                     creator = {
                         display_name: object.user_display_name,
                         avatar_url: object.avatar_url
@@ -87,7 +138,7 @@ export default class ActivityList extends React.Component {
                 break;
         }
         if(creator) {
-            return {id: item.id, type: activity_type, user: creator, created_at, body, summary, uploads};
+            return {id: item.id, type: activity_type, user: creator, created_at, body, summary, uploads, more};
         }
         return null;
     }
@@ -121,24 +172,33 @@ export default class ActivityList extends React.Component {
                  }>
                 {is_current_user?null:avatar_div}
                 <div className="media-body">
-                    <p>
-                        {activity.user.id?(
-                            <Link to={`/people/${activity.user.username}/`}>{display_name}</Link>
-                        ):(
-                            <span>{display_name}</span>
-                        )}
-                        {activity.summary?(<span> {activity.summary}</span>):null}
+                    <div className="body">
+                        <p>
+                            {activity.user.id?(
+                                <Link to={`/people/${activity.user.username}/`}>{display_name}</Link>
+                            ):(
+                                <span>{display_name}</span>
+                            )}
+                            {activity.summary?(<span> {activity.summary}</span>):null}
 
-                        <TimeAgo date={moment.utc(activity.created_at).local().format()} className="pull-right"/>
-                    </p>
-                    <div>{activity.body}</div>
-                    {activity.uploads && activity.uploads.length?(<Attachments attachments={activity.uploads}/>):null}
+                            <TimeAgo date={moment.utc(activity.created_at).local().format()} className="pull-right"/>
+                        </p>
+                        <div>{activity.body}</div>
+                        {activity.uploads && activity.uploads.length?(
+                            <Attachments attachments={activity.uploads}/>
+                        ):null}
+                        {activity.more?(
+                            <div className="clearfix">
+                                <Link to={activity.more.link} className="pull-right">{activity.more.text || 'Read more'}</Link>
+                            </div>
+                        ):null}
+                    </div>
 
                     {thread.others?(
                         thread.others.map(other_msg => {
                             let sent_day = moment.utc(other_msg.created_at).local().format(day_format);
                             let msg = (
-                                <div style={{marginTop: '5px'}} id={"activity" + other_msg.id}>
+                                <div className={['message', 'comment', 'upload'].indexOf(other_msg.type) > -1?"sub-message":"sub-thread"} id={"activity" + other_msg.id}>
                                     {sent_day == last_sent_day || sent_day != today || activity.summary?null:(
                                         <p>
                                             {activity.summary?(<span> {activity.summary}</span>):null}
@@ -147,6 +207,11 @@ export default class ActivityList extends React.Component {
                                     )}
                                     <div>{other_msg.body}</div>
                                     {other_msg.uploads && other_msg.uploads.length?(<Attachments attachments={other_msg.uploads}/>):null}
+                                    {other_msg.more?(
+                                        <div className="clearfix">
+                                            <Link to={other_msg.more.link} className="pull-right">{other_msg.more.text || 'Read more'}</Link>
+                                        </div>
+                                    ):null}
                                 </div>
                             );
 
@@ -177,7 +242,7 @@ export default class ActivityList extends React.Component {
                         var activity = this.cleanActivity(item);
                         var msgs = [];
                         if(activity) {
-                            if(activity.user.id == last_sender) {
+                            if(activity.user.id != null && activity.user.id == last_sender) {
                                 thread.others = [...thread.others, activity];
                             } else {
                                 msgs = [...msgs, this.renderThread(thread)];
@@ -191,6 +256,7 @@ export default class ActivityList extends React.Component {
                         if(idx+1 == all_msgs.length) {
                             msgs = [...msgs, this.renderThread(thread)];
                         }
+                        
                         return msgs;
                         })}
                 </div>)

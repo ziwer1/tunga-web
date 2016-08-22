@@ -293,7 +293,9 @@ export default class TaskWorflow extends ComponentWithModal {
                     <div className="sidebox">
                         <div className="overview-details">
                             <div className="wrapper">
-                                <Timeline start={task.created_at} end={task.deadline}
+                                <Timeline task={task}
+                                          start={task.created_at}
+                                          end={task.deadline}
                                           events={task.progress_events}
                                           openMilestone={this.openMilestone.bind(this)}>
                                     <div className="pledge">{task.display_fee}</div>
