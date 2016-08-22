@@ -15,6 +15,11 @@ export default class ChannelForm extends React.Component {
         if(channel.id && channel.details) {
             this.setState({participants: channel.details.participants});
         }
+
+        let recipientId = this.getRecipient();
+        if(recipientId) {
+            this.saveChannel([recipientId]);
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -25,6 +30,13 @@ export default class ChannelForm extends React.Component {
             const { router } = this.context;
             router.replace('/conversation/'+ Channel.detail.channel.id);
         }
+    }
+
+    getRecipient() {
+        if(this.props.params && this.props.params.recipientId) {
+            return this.props.params.recipientId;
+        }
+        return null;
     }
 
     onParticipantChange(participants) {
@@ -46,19 +58,24 @@ export default class ChannelForm extends React.Component {
         return participants;
     }
 
-    handleSubmit(e) {
-        e.preventDefault();
-        var subject = this.refs.subject.value.trim();
+    saveChannel(participants=[], subject=null) {
         const { ChannelActions } = this.props;
-        let channel = this.props.channel || {};
 
-        const participants = this.state.participants;
+        let channel = this.props.channel || {};
         let channel_info = {subject, participants};
         if(channel.id) {
             ChannelActions.updateChannel(channel.id, channel_info);
         } else {
             ChannelActions.createChannel(channel_info);
         }
+    }
+
+    handleSubmit(e) {
+        e.preventDefault();
+        var subject = this.refs.subject.value.trim();
+        const participants = this.state.participants;
+
+        this.saveChannel(participants, subject);
         return;
     }
 

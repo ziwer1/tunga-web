@@ -38,7 +38,7 @@ export default class UserCardProfile extends React.Component {
                                 <div className="rating">
                                     <Rating start={0} stop={10} step={2} fractions={2} initialRate={user.ratings.avg}
                                             empty={'fa fa-star-o'} full={'fa fa-star'} readonly={true}/>
-                                </div> ({user.ratings.display_avg} rating)
+                                </div><span className="secondary">({user.ratings.display_avg} rating)</span>
                             </div>
                         ):(
                             <div className="secondary">No ratings yet!</div>

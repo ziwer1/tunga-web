@@ -139,7 +139,9 @@ ReactDOM.render(
                 <Redirect path="member*" to="people*"/>
                 <Route path="conversation" component={MessagePage}>
                     <IndexRedirect to="start"/>
-                    <Route path="start" component={ChannelForm} />
+                    <Route path="start" component={ChannelForm}>
+                        <Route path=":recipientId" />
+                    </Route>
                     <Route path=":channelId" component={Channel}>
                         <IndexRedirect to="messages" />
                         <Route path="edit" component={ChannelForm} />

@@ -10,6 +10,31 @@ function user(state = {}, action) {
         case UserActions.RETRIEVE_USER_START:
         case UserActions.RETRIEVE_USER_FAILED:
             return {};
+        case ConnectionActions.CREATE_CONNECTION_SUCCESS:
+            if(action.connection.to_user == state.id) {
+                return {...state, can_connect: false};
+            }
+            return state;
+        case ConnectionActions.UPDATE_CONNECTION_SUCCESS:
+            if(action.connection.from_user == state.id) {
+                var new_user = {...state};
+                new_user.can_connect = false;
+                new_user.connection =  action.connection;
+                if(action.connection.responded) {
+                    new_user.request = null;
+                }
+                return new_user;
+            }
+            return state;
+        case ConnectionActions.DELETE_CONNECTION_SUCCESS:
+            if(action.user && action.user.id == state.id) {
+                new_user = {...state};
+                new_user.can_connect = true;
+                new_user.request = null;
+                new_user.connection = null;
+                return new_user;
+            }
+            return state;
         default:
             return state;
     }
@@ -29,30 +54,38 @@ function users(state = {}, action) {
             return {};
         case ConnectionActions.CREATE_CONNECTION_SUCCESS:
             var user = state[action.connection.to_user];
-            user.can_connect = false;
-            user.connection =  action.connection;
-            var new_ref = {};
-            new_ref[user.id] = user;
-            return {...state, ...new_ref};
+            if(user) {
+                user.can_connect = false;
+                user.connection =  action.connection;
+                var new_ref = {};
+                new_ref[user.id] = user;
+                return {...state, ...new_ref};
+            }
+            return state;
         case ConnectionActions.UPDATE_CONNECTION_SUCCESS:
             user = state[action.connection.from_user];
-            user.can_connect = false;
-            user.connection =  action.connection;
-            if(action.connection.responded) {
-                user.request = null;
-            }
-            new_ref = {};
-            new_ref[user.id] = user;
-            return {...state, ...new_ref};
-        case ConnectionActions.DELETE_CONNECTION_SUCCESS:
-            if(action.user)  {
-                user = state[action.user.id];
+            if(user) {
                 user.can_connect = false;
-                user.request = null;
-                user.connection = null;
+                user.connection =  action.connection;
+                if(action.connection.responded) {
+                    user.request = null;
+                }
                 new_ref = {};
                 new_ref[user.id] = user;
                 return {...state, ...new_ref};
+            }
+            return state;
+        case ConnectionActions.DELETE_CONNECTION_SUCCESS:
+            if(action.user)  {
+                user = state[action.user.id];
+                if(user) {
+                    user.can_connect = true;
+                    user.request = null;
+                    user.connection = null;
+                    new_ref = {};
+                    new_ref[user.id] = user;
+                    return {...state, ...new_ref};
+                }
             }
             return state;
         default:

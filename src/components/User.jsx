@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 import TagList from './TagList';
 import Rating from 'react-rating';
 import Avatar from './Avatar';
@@ -38,9 +39,39 @@ export default class User extends React.Component {
         }
     }
 
-    render() {
-        const { User } = this.props;
+    handleConnectRequest() {
+        const { User, UserActions } = this.props;
         const { user } = User.detail;
+        UserActions.createConnection({to_user: user.id});
+    }
+
+    handleConnectResponse(accepted=false) {
+        const { User, UserActions } = this.props;
+        const { user } = User.detail;
+        UserActions.updateConnection(user.request, {accepted, responded: true});
+    }
+
+    handleDeleteConnection() {
+        const { User, UserActions } = this.props;
+        const { user } = User.detail;
+        if(user.connection) {
+            UserActions.deleteConnection(user.connection.id, user, false);
+        }
+    }
+
+    render() {
+        const { Auth, User } = this.props;
+        const { user } = User.detail;
+
+        var connection_msg = 'Send friend request';
+        var remove_msg = 'Remove friend';
+        if(Auth.user.is_project_owner) {
+            connection_msg = 'Add to my team';
+            remove_msg = 'Remove from my team';
+        } else if(user.is_project_owner) {
+            connection_msg = 'Send request to join team';
+            remove_msg = 'Leave team';
+        }
 
         return (
             <div className="profile-page">
@@ -49,7 +80,25 @@ export default class User extends React.Component {
                     :(
                 <div>
                     <UserCardProfile user={user} avatarSize="xl" profileLink={false}/>
-                    <p/>
+                    <div className="actions">
+                        <Link to={`/conversation/start/${user.id}`} className="btn">Send message</Link>
+                        {user.can_connect?(
+                            <button type="button" className="btn"
+                                    onClick={this.handleConnectRequest.bind(this)}>{connection_msg}</button>
+                        ):(
+                            user.request?(
+                                [
+                                    <button type="button" className="btn"
+                                            onClick={this.handleConnectResponse.bind(this, true)}>Accept Request</button>,
+                                    <button type="button" className="btn"
+                                            onClick={this.handleConnectResponse.bind(this, false)}>Decline Request</button>
+                                ]
+                            ):null)}
+                        {user.connection && user.connection.accepted?(
+                            <button type="button" className="btn"
+                                    onClick={this.handleDeleteConnection.bind(this)}>{remove_msg}</button>
+                        ):null}
+                    </div>
                     <div>
                         {user.profile?(
                         <div>
