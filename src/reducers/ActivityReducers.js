@@ -28,8 +28,8 @@ function activity(state = [], action) {
             return [...state, {action: 'comment', activity_type: 'comment', activity: action.comment}];
         case CREATE_MESSAGE_SUCCESS:
             return [...state, {action: 'send', activity_type: 'message', activity: action.message}];
-        case ChannelActions.SHARE_CHANNEL_UPLOAD_SUCESS:
-        case TaskActions.SHARE_TASK_UPLOAD_SUCESS:
+        case ChannelActions.SHARE_CHANNEL_UPLOAD_SUCCESS:
+        case TaskActions.SHARE_TASK_UPLOAD_SUCCESS:
             var all_uploads = action.uploads.map(upload => {
                 return {action: 'upload', activity_type: 'upload', activity: upload}
             });

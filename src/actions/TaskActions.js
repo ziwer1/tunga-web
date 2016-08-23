@@ -28,7 +28,10 @@ export const LIST_MORE_TASK_ACTIVITY_FAILED = 'LIST_MORE_TASK_ACTIVITY_FAILED';
 export const LIST_NEW_TASK_ACTIVITY_START = 'LIST_NEW_TASK_ACTIVITY_START';
 export const LIST_NEW_TASK_ACTIVITY_SUCCESS = 'LIST_NEW_TASK_ACTIVITY_SUCCESS';
 export const LIST_NEW_TASK_ACTIVITY_FAILED = 'LIST_NEW_TASK_ACTIVITY_FAILED';
-export const SHARE_TASK_UPLOAD_SUCESS = 'SHARE_TASK_UPLOAD_SUCESS';
+export const SHARE_TASK_UPLOAD_SUCCESS = 'SHARE_TASK_UPLOAD_SUCCESS';
+export const UPDATE_TASK_READ_START = 'UPDATE_TASK_READ_START';
+export const UPDATE_TASK_READ_SUCCESS = 'UPDATE_TASK_READ_SUCCESS';
+export const UPDATE_TASK_READ_FAILED = 'UPDATE_TASK_READ_FAILED';
 export const CREATE_TASK_INTEGRATION_START = 'CREATE_TASK_INTEGRATION_START';
 export const CREATE_TASK_INTEGRATION_SUCCESS = 'CREATE_TASK_INTEGRATION_SUCCESS';
 export const CREATE_TASK_INTEGRATION_FAILED = 'CREATE_TASK_INTEGRATION_FAILED';
@@ -275,7 +278,7 @@ export function updateTaskFailed(error) {
 export function shareTaskUploadSuccess(task, number) {
     let uploads = task.all_uploads.slice(0, number);
     return {
-        type: SHARE_TASK_UPLOAD_SUCESS,
+        type: SHARE_TASK_UPLOAD_SUCCESS,
         task,
         uploads
     }
@@ -320,6 +323,9 @@ export function listTaskActivity(id, filter) {
         dispatch(listTaskActivityStart(id, filter, get_new));
         axios.get(ENDPOINT_TASK + id + '/activity/', {params: filter})
             .then(function(response) {
+                if(response.data.results && response.data.results.length) {
+                    dispatch(updateTaskRead(id, {last_read: response.data.results[0].id}));
+                }
                 dispatch(listTaskActivitySuccess(response.data, id, filter, get_new))
             }).catch(function(response) {
             dispatch(listTaskActivityFailed(response.data, id, get_new))
@@ -400,6 +406,39 @@ export function createTaskIntegration(id, provider, data) {
             }).catch(function(response) {
             dispatch(createTaskIntegrationFailed(response.data, provider))
         });
+    }
+}
+
+export function updateTaskRead(id, data) {
+    return dispatch => {
+        dispatch(updateTaskReadStart(id));
+        axios.post(ENDPOINT_TASK + id + '/read/', data)
+            .then(function(response) {
+                dispatch(updateTaskReadSuccess(response.data));
+            }).catch(function(response) {
+            dispatch(updateTaskReadFailed(response.data));
+        });
+    }
+}
+
+export function updateTaskReadStart(id) {
+    return {
+        type: UPDATE_TASK_READ_START,
+        id
+    }
+}
+
+export function updateTaskReadSuccess(response) {
+    return {
+        type: UPDATE_TASK_READ_SUCCESS,
+        task: response
+    }
+}
+
+export function updateTaskReadFailed(error) {
+    return {
+        type: UPDATE_TASK_READ_FAILED,
+        error
     }
 }
 
