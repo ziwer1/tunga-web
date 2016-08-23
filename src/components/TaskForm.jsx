@@ -51,6 +51,7 @@ export default class TaskForm extends ComponentWithModal {
             const assignee = task.assignee && task.assignee.user?task.assignee.user.id:null;
             const description = task.description || '';
             const remarks = task.remarks || '';
+            selected_project = task.project || '';
             var participants = [];
             if(task.details) {
                 task.details.participation.forEach((participant) => {
