@@ -37,7 +37,7 @@ export default class NavBar extends React.Component {
                             <span className="sr-only">Toggle navigation</span>
                             <i className="fa fa-ellipsis-v fa-lg"></i>
                         </button>
-                        <Link to="/" className="navbar-brand"><img src={require('../images/tunga-newlogo-small.png')} /></Link>
+                        <Link to="/" className="navbar-brand"><img src={require('../images/header-logo.png')} /></Link>
                     </div>
                     <div id="navbar" className="navbar-collapse collapse">
                         {Auth.isAuthenticated?(

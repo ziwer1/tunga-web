@@ -13,7 +13,24 @@
 @orange: #ff7e00;
 @sidebar-bg: #f6f6f6;
 
+@facebook: #3d5b99;
+@google: #e25714;
+@linkedin: #0073a4;
 @github: #333;
+
+@screen-xs-bp: 368;
+@screen-sm-bp: 768;
+@screen-md-bp: 992;
+@screen-lg-bp: 1200;
+
+@screen-xxs-max: ~"@{screen-xs-bp}px";
+@screen-xs-min: @screen-xxs-max;
+@screen-xs-max: ~"@{screen-sm-bp}px";
+@screen-sm-min: @screen-sm-max;
+@screen-sm-max: ~"@{screen-md-bp}px";
+@screen-md-min: @screen-sm-max;
+@screen-md-max: ~"@{screen-lg-bp}px";
+@screen-lg-min: @screen-md-max;
 
 .font-size(@sizeValue) {
     @remValue: @sizeValue;
@@ -191,7 +208,7 @@ form .alert {
         min-width: 200px;
     }
 }
-@media (min-width: 768px) {
+@media (min-width: @screen-xs-max) {
     .navbar {
 
         .dropdown {
@@ -235,7 +252,7 @@ form .alert {
     }
 }
 
-@media (min-width: 768px) {
+@media (min-width: @screen-xs-max) {
     .main {
         padding: 50px 60px 20px 80px;
     }
@@ -484,15 +501,15 @@ form[name='compose'] {
 }
 
 .facebook-button, .facebook-button:hover {
-    color: #3d5b99 !important;
+    color: @facebook !important;
 }
 
 .google-plus-button, .google-plus-button:hover {
-    color: #e25714 !important;
+    color: @google !important;
 }
 
 .linkedin-button, .linkedin-button:hover {
-    color: #0073a4 !important;
+    color: @linkedin !important;
 }
 
 .github-button, .github-button:hover {
@@ -994,7 +1011,7 @@ description {
 
 }
 
-@media (min-width: 768px) {
+@media (min-width: @screen-xs-max) {
     .home-page {
         .title {
             margin-top: 90px;
@@ -1078,7 +1095,7 @@ activity-list {
     }
 }
 
-@media (min-width: 768px) {
+@media (min-width: @screen-xs-max) {
     .navbar {
         .search-box {
             form {
@@ -1254,7 +1271,6 @@ activity-list {
     }
 
     .sub-thread {
-        /*margin: 0 -15px;*/
         padding: 5px 15px;
         border-width: 5px 0;
         border-color: #fff;
@@ -1423,7 +1439,7 @@ activity-list {
     font-size: 1.7em;
 }
 
-@media (min-width: 768px) {
+@media (min-width: @screen-xs-max) {
     .flex-row.row {
         display: flex;
         flex-wrap: wrap;
@@ -1916,7 +1932,7 @@ activity-list {
 
     #main-header {
         min-height: 100%;
-        background-image: url('../images/header-bg.jpg');
+        background-image: url('../images/header-bgx@{screen-xs-bp}.jpg');
         background-repeat: no-repeat;
         background-position: center;
         background-size: cover;
@@ -1997,7 +2013,7 @@ activity-list {
     #how-it-works #demo-mbp {
         position: relative;
         right: -16%;
-        background-image: url('../images/mbp.png');
+        background-image: url('../images/mbp.jpg');
         background-size: contain;
         background-repeat: no-repeat;
         background-position: right;
@@ -2103,9 +2119,11 @@ activity-list {
         background-color: #14181d;
         height: 70%;
         min-height: 300px;
+        background-image: url("../images/video.jpg");
+        background-size: contain;
     }
 
-    @media (min-width: 768px) {
+    @media (min-width: @screen-xs-max) {
         #watch-our-video {
             min-height: 450px;
         }
@@ -2152,7 +2170,7 @@ activity-list {
         display: block;
     }
     #contact-us {
-        background: url("../images/footer.png") 47% 80%;
+        background: transparent url("../images/footerx@{screen-xs-bp}.jpg");
         background-size: 100%;
         background-repeat: no-repeat;
         color: #fff;
@@ -2248,8 +2266,30 @@ activity-list {
         font-size: 10px;
         font-weight: 100;
     }
+    /*XTRA SMALL*/
+    @media (min-width: @screen-xs-min) and (max-width: @screen-xs-max) {
+        #main-header {
+            background-image: url('../images/header-bgx@{screen-sm-bp}.jpg');
+        }
+        #head-desc h1 {
+            font-size: 36px;
+            line-height: 36px;
+        }
+        #head-desc p {
+            font-size: 16px;
+        }
+        #how-it-works {
+            padding-top: 2em;
+        }
+        #contact-us {
+            background-image: url("../images/footerx@{screen-sm-bp}.jpg");
+        }
+    }
     /*SMALL SCREENS*/
-    @media (max-width: 991px) {
+    @media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+        #main-header {
+            background-image: url('../images/header-bgx@{screen-md-bp}.jpg');
+        }
         #how-it-works {
             height: auto;
         }
@@ -2261,7 +2301,7 @@ activity-list {
         }
 
         #contact-us {
-            background: url("../images/footer.png") 51% 104%;
+            background-image: url("../images/footerx@{screen-md-bp}.jpg");
         }
 
         #main-footer #social-networks {
@@ -2286,38 +2326,36 @@ activity-list {
             padding: 9px 16px !important;
         }
     }
-    /*XTRA SMALL*/
-    @media (max-width: 768px) {
-        #head-desc h1 {
-            font-size: 36px;
-            line-height: 36px;
-        }
-        #head-desc p {
-            font-size: 16px;
-        }
-        #how-it-works {
-            padding-top: 2em;
-        }
-        #contact-us {
-            background: url("../images/footer.png") 51% 97%;
-        }
-    }
     /*MEDIUM SCREENS*/
-    @media (min-width: 992px) and (max-width: 1199px) {
+    @media (min-width: @screen-md-min) and (max-width: @screen-md-max) {
+        #main-header {
+            background-image: url('../images/header-bgx@{screen-lg-bp}.jpg');
+        }
         /*meet our developers*/
         #meet-our-developers #our-devs img {
             width: auto;
             height: 220px;
         }
+        #contact-us {
+            background-image: url("../images/footerx@{screen-lg-bp}.jpg");
+        }
     }
     /*LARGE SCREENS*/
+    @media (min-width: @screen-lg-min) {
+        #main-header {
+            background-image: url('../images/header-bg.jpg');
+        }
+        #contact-us {
+            background-image: url("../images/footer.jpg");
+        }
+    }
 }
 
 /* Singup Landing Page Styles - Added by Jonathan */
 
 .signup-lp {
     min-height: 100%;
-    background-image: url(../images/header-bg.jpg);
+    background-image: url("../images/header-bgx@{screen-xs-bp}.jpg");
     background-repeat: no-repeat;
     background-position: center;
     background-attachment: fixed;
@@ -2551,5 +2589,30 @@ a.forgot_passwd:hover {
 @media (max-width: 450px) {
     .account-reset-txt {
         font-size: 18px;
+    }
+}
+
+/*XTRA SMALL*/
+@media (min-width: @screen-xs-min) and (max-width: @screen-xs-max) {
+    .signup-lp {
+        background-image: url('../images/header-bgx@{screen-sm-bp}.jpg');
+    }
+}
+/*SMALL SCREENS*/
+@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+    .signup-lp {
+        background-image: url('../images/header-bgx@{screen-md-bp}.jpg');
+    }
+}
+/*MEDIUM SCREENS*/
+@media (min-width: @screen-md-min) and (max-width: @screen-md-max) {
+    .signup-lp {
+        background-image: url('../images/header-bgx@{screen-lg-bp}.jpg');
+    }
+}
+/*LARGE SCREENS*/
+@media (min-width: @screen-lg-min) {
+    .signup-lp {
+        background-image: url('../images/header-bg.jpg');
     }
 }

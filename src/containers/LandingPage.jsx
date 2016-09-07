@@ -71,7 +71,7 @@ class LandingPage extends React.Component {
                                         <span className="sr-only">Toggle navigation</span>
                                         <i className="fa fa-ellipsis-v fa-lg"></i>
                                     </button>
-                                    <a className="navbar-brand" href="#"><img src={require('../images/tunga-newlogo-small.png')} /></a>
+                                    <a className="navbar-brand" href="#"><img src={require('../images/header-logo.png')} /></a>
                                 </div>
 
                                 <div className="collapse navbar-collapse" id="tunga-navbar">
@@ -156,7 +156,6 @@ class LandingPage extends React.Component {
                     </div>
                 </section>*/}
                 <section id="watch-our-video" className="row">
-                    <img src={require("../images/video.png")} />
                     <a id="play-btn" href="#"  onClick={this.playIntroVideo.bind(this)}>
                         <span>WATCH OUR VIDEO</span>
                     </a>
