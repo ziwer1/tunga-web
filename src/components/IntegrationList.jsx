@@ -126,7 +126,7 @@ export default class IntegrationList extends ComponentWithModal {
                                 <div className="form-group">
                                     <label className="control-label">Integration type *</label>
                                     <div>
-                                        <div className="btn-group btn-choices select" role="group" aria-label="update preference">
+                                        <div className="btn-group btn-choices select" role="group" aria-label="integration type">
                                             {INTEGRATION_TYPE_CHOICES.map(integration_type => {
                                                 return (
                                                     <button key={integration_type.id} type="button"

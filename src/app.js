@@ -12,8 +12,13 @@ import ReactDOM  from 'react-dom';
 import { Provider } from 'react-redux';
 import { Router, Route, IndexRoute, IndexRedirect, Redirect } from 'react-router';
 import store from './store';
-
 import history from './history';
+
+history.listen(location => {
+    ga('send', 'pageview');
+    twq('track','PageView');
+});
+
 import App from 'containers/App';
 import LandingPage from 'containers/LandingPage';
 import Home from 'containers/Home';

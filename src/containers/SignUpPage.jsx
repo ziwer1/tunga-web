@@ -6,7 +6,7 @@ import FieldError from '../components/status/FieldError';
 import SocialSignIn from '../components/SocialSignIn';
 import connect from '../utils/connectors/AuthConnector';
 
-import { SOCIAL_LOGIN_URLS, USER_TYPE_DEVELOPER, USER_TYPE_PROJECT_OWNER } from '../constants/Api';
+import { USER_TYPE_DEVELOPER, USER_TYPE_PROJECT_OWNER } from '../constants/Api';
 
 class SignUp extends React.Component {
 

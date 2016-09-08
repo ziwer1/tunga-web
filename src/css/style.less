@@ -313,9 +313,10 @@ form {
 .btn.btn-borderless:focus,
 .btn.btn-borderless:active {
     color: @primary;
-    background: transparent none;
-    border-width: 0;
-    outline-width: 0;
+    background: transparent none !important;
+    border-width: 0 !important;
+    outline-width: 0 !important;
+    box-shadow: none !important;
 }
 
 .btn.btn-alt,
@@ -868,7 +869,7 @@ description {
         right: 2px;
 
         .btn {
-            margin: 0 2px;
+            margin: 2px;
         }
     }
 }
@@ -1191,16 +1192,23 @@ activity-list {
         margin-right: 5px;
         text-align: left;
         padding: 3px 10px;
-        color: @primary;
-        background: @active-white none;
-        border-color: @active-grey;
+        color: @primary-text;
+        background: @inactive-grey none;
+        border-color: @inactive-grey;
         outline-width: 0;
         text-shadow: none;
+    }
+
+    .btn:hover, .btn:focus {
+        color: @primary;
+        background-color: @active-white;
+        border-color: @primary;
     }
 
     .btn.active {
         color: @active-white;
         background: @primary none;
+        border-color: @primary;
     }
 }
 
@@ -1826,6 +1834,7 @@ activity-list {
                     .btn {
                         height: 30px;
                         line-height: 20px;
+                        color: @primary;
 
                         .fa, [class^="tunga-icon-"], [class*=" tunga-icon-"], .glyphicon {
                             font-size: 20px;

@@ -10,6 +10,13 @@ export default class Profile extends React.Component {
         this.props.ProfileActions.retrieveProfile();
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        var status_msg = $('.alert');
+        if(status_msg.size()) {
+            $('html, body').animate({scrollTop: status_msg.offset().top - 70});
+        }
+    }
+
     handleSubmit(e) {
         e.preventDefault();
         const { Profile, ProfileActions } = this.props;

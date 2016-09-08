@@ -6,7 +6,6 @@ import Progress from '../components/status/Progress';
 import Error from '../components/status/Error';
 import Success from '../components/status/Success';
 import FieldError from '../components/status/FieldError';
-import SocialSignIn from '../components/SocialSignIn';
 
 import * as AuthActions from '../actions/AuthActions';
 import * as ProfileActions from '../actions/ProfileActions';

@@ -2,7 +2,6 @@ import React from 'react';
 import Progress from '../components/status/Progress';
 import Error from '../components/status/Error';
 import Success from '../components/status/Success';
-import SocialSignIn from '../components/SocialSignIn';
 import connect from '../utils/connectors/AuthConnector';
 
 class PasswordReset extends React.Component {
@@ -52,7 +51,7 @@ class PasswordReset extends React.Component {
                             (<Error message={Auth.error.reset.non_field_errors || "Sorry, we couldn't reset your password. Please try again."}/>) :null}
 
                         <div className="form-group">
-                          <label for="email">Email:</label>
+                          <label htmlFor="email">Email:</label>
                           <input type="email" className="form-control" ref="email" required placeholder="Email" />
                         </div>
 

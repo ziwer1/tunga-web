@@ -112,10 +112,14 @@ export default class ChatBox extends React.Component {
                         <div className="chatbox-top clearfix">
                             <div className="chat-actions pull-right">
                                 <div className="btn-group btn-choices select pull-right" role="group">
-                                    <Link to={`/conversation/${channel.id}`} className="btn btn-borderless">
+                                    <Link to={`/conversation/${channel.id}/messages`}
+                                          className="btn btn-borderless"
+                                          activeClassName="active">
                                         <i className="fa fa-comments"/>
                                     </Link>
-                                    <Link to={`/conversation/${channel.id}/files`} className="btn btn-borderless">
+                                    <Link to={`/conversation/${channel.id}/files`}
+                                          className="btn btn-borderless"
+                                          activeClassName="active">
                                         <i className="fa fa-paperclip"/>
                                     </Link>
                                     <div className="dropdown" style={{display: 'inline-block'}}>
@@ -124,14 +128,12 @@ export default class ChatBox extends React.Component {
                                         </button>
                                         <ul className="dropdown-menu dropdown-menu-right" aria-labelledby="chat-overflow">
                                             <li>
-                                                <Link to={`/conversation/${channel.id}/edit`}
-                                                      id="edit-channel">
+                                                <Link id="edit-channel" to={`/conversation/${channel.id}/edit`}>
                                                     <i className="fa fa-pencil-square-o"/> Edit
                                                 </Link>
                                             </li>
                                             <li>
-                                                <Link to={`/conversation/${channel.id}/people`}
-                                                      id="edit-channel">
+                                                <Link id="channel-people" to={`/conversation/${channel.id}/people`}>
                                                     <i className="glyphicon glyphicon-user"/> People
                                                 </Link>
                                             </li>

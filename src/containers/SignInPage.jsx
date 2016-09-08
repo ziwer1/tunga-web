@@ -60,12 +60,12 @@ class SignIn extends React.Component {
                                         (<Error message={Auth.error.auth.non_field_errors || "Sorry, we couldn't log you in. Please try again."}/>) :''}
 
                                         <div className="form-group">
-                                            <label for="username">Username</label>
+                                            <label htmlFor="username">Username</label>
                                             <input type="text" className="form-control" name="username" ref="username" required placeholder="Username" />
                                         </div>
 
                                         <div className="form-group">
-                                            <label for="pwd">Password</label>
+                                            <label htmlFor="pwd">Password</label>
                                             <input type="password" className="form-control" name="pwd" ref="password" required placeholder="Password" />
                                         </div>
 

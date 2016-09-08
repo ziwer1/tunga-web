@@ -117,7 +117,7 @@ export default class Stack extends React.Component {
                         <div className="form-group">
                             <label className="control-label">Work Experience</label>
                             <div className="pull-right clearfix">
-                                <button type="button" className="btn btn-alt" onClick={this.handleAddWork.bind(this)}><i className="fa fa-plus-circle"/> Add Entry</button>
+                                <button type="button" className="btn" onClick={this.handleAddWork.bind(this)}><i className="fa fa-plus-circle"/> Add Entry</button>
                             </div>
                             <div className="clearfix"></div>
                             <div>
@@ -131,7 +131,7 @@ export default class Stack extends React.Component {
                                                 Period: {item.start_month_display}/{item.start_year} - {item.end_year?`${item.start_month_display}/${item.start_year}`:'Present'}
                                             </div>
                                             <div className="short-description" dangerouslySetInnerHTML={{__html: item.details}}/>
-                                            <button type="button" className="btn btn-alt" onClick={this.handleAddWork.bind(this, item)}><i className="fa fa-pencil"/> Edit</button>
+                                            <button type="button" className="btn" onClick={this.handleAddWork.bind(this, item)}><i className="fa fa-pencil"/> Edit</button>
                                         </div>
                                         )
                                     })}
@@ -141,7 +141,7 @@ export default class Stack extends React.Component {
                         <div className="form-group">
                             <label className="control-label">Education</label>
                             <div className="pull-right clearfix">
-                                <button type="button" className="btn btn-alt" onClick={this.handleAddEducation.bind(this)}><i className="fa fa-plus-circle"/> Add Entry</button>
+                                <button type="button" className="btn" onClick={this.handleAddEducation.bind(this)}><i className="fa fa-plus-circle"/> Add Entry</button>
                             </div>
                             <div className="clearfix"></div>
                             <div>
@@ -155,7 +155,7 @@ export default class Stack extends React.Component {
                                             Period: {item.start_month_display}/{item.start_year} - {item.end_year?`${item.start_month_display}/${item.start_year}`:'Present'}
                                         </div>
                                         <div className="short-description" dangerouslySetInnerHTML={{__html: item.details}}/>
-                                        <button type="button" className="btn btn-alt" onClick={this.handleAddEducation.bind(this, item)}><i className="fa fa-pencil"/> Edit</button>
+                                        <button type="button" className="btn" onClick={this.handleAddEducation.bind(this, item)}><i className="fa fa-pencil"/> Edit</button>
                                     </div>
                                         )
                                     })}

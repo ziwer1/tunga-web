@@ -173,7 +173,7 @@ export default class TaskPay extends React.Component {
 
                                 {!task.paid?(
                                     <div style={{marginTop: '20px'}}>
-                                        <button className="btn btn-alt" onClick={this.changePayMethod.bind(this)}><i className="fa fa-pencil"/> Change Payment Method</button>
+                                        <button className="btn" onClick={this.changePayMethod.bind(this)}><i className="fa fa-pencil"/> Change Payment Method</button>
                                     </div>
                                 ):null}
                             </div>

@@ -44,10 +44,12 @@ export default class TaskDetail extends React.Component {
                     <div className="task-status"><i className={"fa fa-circle " + task_status.css}/> {task_status.message}</div>
 
                     <Avatar src={task.user.avatar_url}/> <Link to={`/people/${task.user.username}/`}>{task.user.display_name}</Link>
-                    <div className="title">
-                        <span>Deadline: </span>
-                        <span>{moment.utc(task.deadline).local().format('Do, MMMM YYYY, h:mm a')}</span>
-                    </div>
+                    {task.deadline?(
+                        <div className="title">
+                            <span>Deadline: </span>
+                            <span>{moment.utc(task.deadline).local().format('Do, MMMM YYYY, h:mm a')}</span>
+                        </div>
+                    ):null}
                     {task.details?(
                         <TagList tags={task.details.skills} linkPrefix="/task/skill/"/>
                     ):null}

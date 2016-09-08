@@ -132,12 +132,12 @@ export default class ApplicationList extends ComponentWithModal {
                                         {task.closed || application.responded?null:(
                                         <div className="actions pull-right">
                                             <div>
-                                                <button type="button" className="btn btn-alt btn-block "
+                                                <button type="button" className="btn btn-block "
                                                         onClick={this.handleSelectDeveloper.bind(this, application, true)}>
                                                     Select developer</button>
                                             </div>
                                             <div>
-                                                <button type="button" className="btn btn-alt btn-block "
+                                                <button type="button" className="btn btn-block "
                                                         onClick={this.handleRejectApplication.bind(this, application)}>
                                                     Decline application</button>
                                             </div>
