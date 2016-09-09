@@ -2128,8 +2128,10 @@ activity-list {
         background-color: #14181d;
         height: 70%;
         min-height: 300px;
-        background-image: url("../images/video.jpg");
-        background-size: contain;
+        background-image: url("../images/videox@{screen-xs-bp}.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
     }
 
     @media (min-width: @screen-xs-max) {
@@ -2146,20 +2148,18 @@ activity-list {
     #watch-our-video #play-btn {
         position: absolute;
         top: 35%;
-        left: 45%;
-        background-image: url(../images/icons/play.png);
-        background-size: contain;
-        background-repeat: no-repeat;
+        width: 100%;
         height: 100px;
-        width: 100px;
-        display: inline-block;
+        text-align: center;
+        background-image: url(../images/icons/play.png);
+        background-repeat: no-repeat;
+        background-position: center;
     }
     #watch-our-video #play-btn span {
         color: #fff;
         font-size: 10px;
         position: relative;
         top: 80%;
-        left: 10px;
     }
     #watch-our-video #play-btn:hover {
         text-decoration: none;
@@ -2214,48 +2214,58 @@ activity-list {
         padding: 30px 0;
         background-color: #202020;
         color: #fff;
+
+        h4 {
+            font-size: 18px;
+            -webkit-font-smoothing: antialiased;
+            font-smoothing: antialiased;
+            text-shadow: rgba(0, 0, 0, 0.01) 0 0 1px;
+        }
+
+        #tunga-logo-btm img {
+            width: 140px;
+        }
+
+        .fa {
+            color: @primary;
+        }
+
+        p, a {
+            font-size: 12px;
+            font-weight: 100;
+            color: #fff;
+        }
+
+        a:hover {
+            color: #A0A0A0;
+            text-decoration: none;
+        }
+
+        form {
+            margin-top: 16px;
+        }
+
+        #social-networks {
+            margin-top: 40px;
+
+            a {
+                display: inline-block;
+                text-align: center;
+                font-size: 18px;
+                color: @active-white;
+                width: 50px;
+                height: 50px;
+                padding-top: 11px;
+                border: 1px solid @active-white;
+                border-radius: 50%;
+
+                .fa {
+                    color: @active-white;
+                }
+            }
+        }
     }
-    #main-footer h4 {
-        font-size: 18px;
-        -webkit-font-smoothing: antialiased;
-        font-smoothing: antialiased;
-        text-shadow: rgba(0, 0, 0, 0.01) 0 0 1px;
-    }
-    #main-footer #tunga-logo-btm img {
-        width: 140px;
-    }
-    #main-footer #social-networks {
-        margin-top: 60px;
-    }
-    #main-footer #social-networks a {
-        padding: 16px 18px;
-        font-size: 18px;
-        color: #fff;
-        border: 1px solid;
-        border-radius: 50%;
-    }
-    #main-footer #social-networks a .fa {
-        color: #fff;
-    }
-    #main-footer #social-networks #fb {
-        padding: 17px 22px !important;
-    }
-    #main-footer .fa {
-        color: @primary;
-    }
-    #main-footer p,
-    #main-footer a {
-        font-size: 12px;
-        font-weight: 100;
-        color: #fff;
-    }
-    #main-footer a:hover {
-        color: #A0A0A0;
-        text-decoration: none;
-    }
-    #main-footer form {
-        margin-top: 16px;
-    }
+
     form#contact-form input.form-control {
         font-size: 13px;
         border-radius: 0;
@@ -2290,6 +2300,9 @@ activity-list {
         #how-it-works {
             padding-top: 2em;
         }
+        #watch-our-video {
+            background-image: url("../images/videox@{screen-sm-bp}.jpg");
+        }
         #contact-us {
             background-image: url("../images/footerx@{screen-sm-bp}.jpg");
         }
@@ -2307,6 +2320,10 @@ activity-list {
         #meet-our-developers #our-devs img {
             width: auto;
             height: 170px;
+        }
+
+        #watch-our-video {
+            background-image: url("../images/videox@{screen-md-bp}.jpg");
         }
 
         #contact-us {
@@ -2345,6 +2362,9 @@ activity-list {
             width: auto;
             height: 220px;
         }
+        #watch-our-video {
+            background-image: url("../images/videox@{screen-lg-bp}.jpg");
+        }
         #contact-us {
             background-image: url("../images/footerx@{screen-lg-bp}.jpg");
         }
@@ -2353,6 +2373,9 @@ activity-list {
     @media (min-width: @screen-lg-min) {
         #main-header {
             background-image: url('../images/header-bg.jpg');
+        }
+        #watch-our-video {
+            background-image: url("../images/video.jpg");
         }
         #contact-us {
             background-image: url("../images/footer.jpg");
