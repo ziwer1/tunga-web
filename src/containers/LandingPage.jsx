@@ -84,7 +84,7 @@ class LandingPage extends React.Component {
                         </nav>
                         <div className="container">
                             <div className="col-md-8 col-md-offset-1 row" id="head-desc">
-                                <h1>Have top African coders work on your software tasks within minutes.</h1>
+                                <h1>Unlocking Africa's Tech talent potential.</h1>
                                 <p className="col-md-12 row"><span className="col-md-7 row">Tunga is a market network that allows you to build a flexible team of skilled African software programmers, that you can mobilize on-demand</span></p>
                                 <Link className="btn " to="/signup" id="btn-publish">TRY NOW</Link>
                             </div>
