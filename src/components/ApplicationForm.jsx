@@ -166,6 +166,7 @@ export default class ApplicationForm extends React.Component {
                         <TinyMCE
                             config={TINY_MCE_CONFIG}
                             onChange={this.onRemarksChange.bind(this)}/>
+                        <div class="alert alert-info" style="margin-top: 10px;">Any question or remark will be sent to the client as a direct message</div>
                     </div>
 
                     <div className="text-center">
