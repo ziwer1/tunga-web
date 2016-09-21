@@ -15,8 +15,8 @@ import store from './store';
 import history from './history';
 
 history.listen(location => {
-    ga('send', 'pageview');
-    twq('track','PageView');
+    window.ga('send', 'pageview');
+    window.twq('track','PageView');
 });
 
 import App from 'containers/App';

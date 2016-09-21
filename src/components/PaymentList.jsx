@@ -60,30 +60,42 @@ export default class PaymentList extends React.Component {
                                 <tbody>
                                 {Task.list.ids.map((id) => {
                                     const task = Task.list.tasks[id];
+                                    const invoice = task.invoice || {
+                                            amount: task.amount,
+                                            developer_amount: {},
+                                            created_at: task.invoice_date
+                                        };
                                     return(
                                         <tr>
                                             <td><Link to={`/task/${task.id}/`}>{task.title}</Link></td>
-                                            <td>{moment.utc(task.invoice_date || task.closed_at).local().format('Do, MMMM YYYY')}</td>
+                                            <td>{moment.utc(invoice.created_at || task.closed_at).local().format('D/MMM/YYYY')}</td>
                                             {Auth.user.is_developer?(
                                                 [
-                                                    <td>{task.amount.currency}{parseFloat(task.amount.pledge).toFixed(2)}</td>,
-                                                    <td>{task.amount.currency}{parseFloat(task.amount.processing).toFixed(2)}</td>,
-                                                    <td>{task.amount.currency}{parseFloat(task.amount.tunga).toFixed(2)}</td>,
-                                                    <td>{task.amount.currency}{parseFloat(task.amount.developer).toFixed(2)}</td>
+                                                    <td>{invoice.amount.currency}{parseFloat(invoice.amount.pledge).toFixed(2)}</td>,
+                                                    <td>{invoice.amount.currency}{parseFloat(invoice.developer_amount.processing || 0).toFixed(2)}</td>,
+                                                    <td>{invoice.amount.currency}{parseFloat(invoice.developer_amount.tunga || 0).toFixed(2)}</td>,
+                                                    <td>{invoice.amount.currency}{parseFloat(invoice.developer_amount.developer || 0).toFixed(2)}</td>
                                                 ]
-                                            ):(<td>{task.display_fee}</td>
+                                            ):(
+                                                <td>{task.display_fee}</td>
                                             )}
                                             <td>
-                                                <a href={`${ENDPOINT_TASK}${task.id}/download/invoice/?format=pdf&type=client`}
-                                                   target="_blank">
-                                                    <span><i className="fa fa-download"/> {Auth.user.is_developer || Auth.user.is_staff?'Client':'Download'} Invoice</span>
-                                                </a>
-                                                {Auth.user.is_developer || Auth.user.is_staff?(
-                                                    <a href={`${ENDPOINT_TASK}${task.id}/download/invoice/?format=pdf&type=developer`}
-                                                       target="_blank" style={{marginLeft: '5px'}}>
-                                                        <span><i className="fa fa-download"/> Developer Invoice</span>
-                                                    </a>
-                                                ):null}
+                                                {task.invoice?(
+                                                    <div>
+                                                        <a href={`${ENDPOINT_TASK}${task.id}/download/invoice/?format=pdf&type=client`}
+                                                           target="_blank">
+                                                            <span><i className="fa fa-download"/> {Auth.user.is_developer || Auth.user.is_staff?'Client':'Download'} Invoice(s)</span>
+                                                        </a><br/>
+                                                        {Auth.user.is_developer || Auth.user.is_staff?(
+                                                            <a href={`${ENDPOINT_TASK}${task.id}/download/invoice/?format=pdf&type=developer`}
+                                                               target="_blank">
+                                                                <span><i className="fa fa-download"/> Developer Invoice(s)</span>
+                                                            </a>
+                                                        ):null}
+                                                    </div>
+                                                ):(
+                                                    <div>Contact <a href="mailto:support@tunga.io">support@tunga.io</a></div>
+                                                )}
                                             </td>
                                             <td>{task.payment_status}</td>
                                         </tr>
