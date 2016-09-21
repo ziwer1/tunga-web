@@ -38,9 +38,13 @@ class App extends React.Component {
             if(UNAUTHED_ACCESS_PATH.test(location.pathname) && Auth.isAuthenticated) {
                 var next = Auth.next;
                 if(!next) {
-                    next = '/home';
+                    next = location.query.next || '/home';
                 }
-                router.replace(next);
+                if(/^\/api\//i.test(next)) {
+                    window.location.href = next;
+                } else {
+                    router.replace(next);
+                }
                 return;
             }
 
@@ -82,7 +86,7 @@ class App extends React.Component {
                         <Helmet
                             title="Tunga"
                             meta={[
-                                {"name": "description", "content": "Have top African coders work on your software tasks within minutes."}
+                                {"name": "description", "content": "Unlocking Africa's Tech talent potential."}
                               ]}
                         />
                         <NavBar Auth={Auth} AuthActions={AuthActions} location={location}/>
