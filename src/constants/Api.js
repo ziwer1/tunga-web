@@ -192,10 +192,9 @@ export const INTEGRATION_EVENT_ISSUE_COMMENT = 'issue_comment';
 export const INTEGRATION_EVENT_WIKI = 'wiki';
 export const INTEGRATION_EVENT_RELEASE = 'release';
 
-export const INTEGRATION_EVENT_COMMENT = 'comment';
-export const INTEGRATION_EVENT_UPLOAD = 'upload';
-export const INTEGRATION_EVENT_PROGRESS_REPORT = 'progress_report';
-export const INTEGRATION_EVENT_TASK_APPLY_OR_ACCEPT = 'task_apply_or_accept'
+export const INTEGRATION_EVENT_COMMUNICATION = 'communication';
+export const INTEGRATION_EVENT_PROGRESS = 'progress';
+export const INTEGRATION_EVENT_APPLICATION = 'application'
 
 export const GIT_INTEGRATION_EVENT_CHOICES = [
     {'id': INTEGRATION_EVENT_PUSH, 'name': 'Push events'},
@@ -210,10 +209,9 @@ export const GIT_INTEGRATION_EVENT_CHOICES = [
 ];
 
 export const CHAT_INTEGRATION_EVENT_CHOICES = [
-    {'id': INTEGRATION_EVENT_COMMENT, 'name': 'Comments'},
-    {'id': INTEGRATION_EVENT_UPLOAD, 'name': 'Uploads'},
-    {'id': INTEGRATION_EVENT_PROGRESS_REPORT, 'name': 'Progress reports'},
-    {'id': INTEGRATION_EVENT_TASK_APPLY_OR_ACCEPT, 'name': 'Developer applies or accepts task'}
+    {'id': INTEGRATION_EVENT_COMMUNICATION, 'name': 'Comments and file uploads'},
+    {'id': INTEGRATION_EVENT_PROGRESS, 'name': 'Progress reports and milestone updates'},
+    {'id': INTEGRATION_EVENT_APPLICATION, 'name': 'Developer applications and invitations'}
 ];
 
 export const TASK_PAYMENT_METHOD_BITONIC = 'bitonic';
