@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ENDPOINT_LOGIN, ENDPOINT_LOGOUT, ENDPOINT_VERIFY, ENDPOINT_REGISTER, ENDPOINT_APPLY, ENDPOINT_RESET_PASSWORD, ENDPOINT_RESET_PASSWORD_CONFIRM, ENDPOINT_MY_CODE, ENDPOINT_TASK } from '../constants/Api';
+import { ENDPOINT_LOGIN, ENDPOINT_LOGOUT, ENDPOINT_VERIFY, ENDPOINT_REGISTER, ENDPOINT_APPLY, ENDPOINT_RESET_PASSWORD, ENDPOINT_RESET_PASSWORD_CONFIRM, ENDPOINT_MY_APPS, ENDPOINT_TASK, SOCIAL_PROVIDERS } from '../constants/Api';
 import { listRunningProjects } from './ProjectActions';
 import { sendGAEvent, sendTwitterSignUpEvent, GA_EVENT_CATEGORIES, AUTH_METHODS, getUserTypeString } from '../utils/tracking';
 
@@ -37,6 +37,9 @@ export const LIST_REPOS_FAILED = 'LIST_REPOS_FAILED';
 export const LIST_ISSUES_START = 'LIST_ISSUES_START';
 export const LIST_ISSUES_SUCCESS = 'LIST_ISSUES_SUCCESS';
 export const LIST_ISSUES_FAILED = 'LIST_ISSUES_FAILED';
+export const GET_SLACK_APP_START = 'GET_SLACK_APP_START';
+export const GET_SLACK_APP_SUCCESS = 'GET_SLACK_APP_SUCCESS';
+export const GET_SLACK_APP_FAILED = 'GET_SLACK_APP_FAILED';
 
 export function authenticate(credentials) {
     return dispatch => {
@@ -150,7 +153,7 @@ export function register(details) {
 
                 sendGAEvent(GA_EVENT_CATEGORIES.SIGN_UP, user_type, method);
                 sendTwitterSignUpEvent({user_type, method});
-                
+
             }).catch(function(response) {
                 dispatch(registerFailed(response.data));
             });
@@ -358,7 +361,7 @@ export function listRunningTasksFailed(error) {
 export function listRepos(provider) {
     return dispatch => {
         dispatch(listReposStart(provider));
-        axios.get(ENDPOINT_MY_CODE + provider + '/repos/')
+        axios.get(ENDPOINT_MY_APPS + provider + '/repos/')
             .then(function(response) {
                 dispatch(listReposSuccess(response.data, provider))
             }).catch(function(response) {
@@ -395,7 +398,7 @@ export function listReposFailed(error, status_code, provider) {
 export function listIssues(provider) {
     return dispatch => {
         dispatch(listIssuesStart(provider));
-        axios.get(ENDPOINT_MY_CODE + provider + '/issues/')
+        axios.get(ENDPOINT_MY_APPS + provider + '/issues/')
             .then(function(response) {
                 dispatch(listIssuesSuccess(response.data, provider))
             }).catch(function(response) {
@@ -425,5 +428,37 @@ export function listIssuesFailed(error, status_code, provider) {
         error,
         status_code,
         provider
+    }
+}
+
+export function getSlackApp() {
+    return dispatch => {
+        dispatch(getSlackAppStart());
+        axios.get(ENDPOINT_MY_APPS  + `${SOCIAL_PROVIDERS.slack}/`)
+            .then(function(response) {
+                dispatch(getSlackAppSuccess(response.data))
+            }).catch(function(response) {
+            dispatch(getSlackAppFailed(response.data))
+        });
+    }
+}
+
+export function getSlackAppStart() {
+    return {
+        type: GET_SLACK_APP_START
+    }
+}
+
+export function getSlackAppSuccess(details) {
+    return {
+        type: GET_SLACK_APP_SUCCESS,
+        details
+    }
+}
+
+export function getSlackAppFailed(error) {
+    return {
+        type: GET_SLACK_APP_FAILED,
+        error
     }
 }

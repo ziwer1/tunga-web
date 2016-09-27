@@ -17,7 +17,8 @@ function mapDispatchToProps(dispatch) {
             ...bindActionCreators({
                 listRunningTasks: AuthActions.listRunningTasks,
                 listRepos: AuthActions.listRepos,
-                listIssues: AuthActions.listIssues
+                listIssues: AuthActions.listIssues,
+                getSlackApp: AuthActions.getSlackApp
             }, dispatch),
             ...bindActionCreators(TaskActions, dispatch),
             ...bindActionCreators(ApplicationActions, dispatch),

@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import YouTube from 'react-youtube';
+import _ from 'underscore';
 
 import * as UtilityActions from '../actions/UtilityActions';
 import Success from '../components/status/Success';
@@ -64,7 +65,7 @@ class LandingPage extends React.Component {
             <div id="landing-page">
                 <header id="main-header">
                     <div id="head-wrapper">
-                        <nav className="navbar">
+                        {/*<nav className="navbar">
                             <div className="container">
                                 <div className="navbar-header">
                                     <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#tunga-navbar" aria-expanded="false" aria-controls="navbar">
@@ -78,10 +79,11 @@ class LandingPage extends React.Component {
                                     <ul className="nav navbar-nav navbar-right nav-actions">
                                         <li><Link to="/signup" className="join">JOIN</Link></li>
                                         <li><Link to="/signin" className="login">LOGIN</Link></li>
+                                        <li><a href="https://blog.tunga.io" target="_blank" className="login">BLOG</a></li>
                                     </ul>
                                 </div>
                             </div>
-                        </nav>
+                        </nav>*/}
                         <div className="container">
                             <div className="col-md-8 col-md-offset-1 row" id="head-desc">
                                 <h1>Unlocking Africa's Tech talent potential.</h1>
@@ -118,43 +120,22 @@ class LandingPage extends React.Component {
                         </div>
                     </div>
                 </section>
-                {/*<section id="clients-testmonial" className="row">
+                <section id="clients-testmonial" className="row">
                     <div className="container">
                         <h2><span className="h2-bold">Clients</span> testimonials</h2>
                         <div className="testimonials-slider text-center">
-                            <div>
-                                <p className="testimonial-body">Just then her head struck against the roof of the hall: in fact she was now more than nine feet high, and she at once took up the little golden key and hurried off to the garden door.</p>
-                                <img src="images/devs/daniel_portrait.jpg" className="img-circle" />
-                                <span className="author">JOHN SMITH</span>
-                            </div>
-                            <div>
-                                <p className="testimonial-body">Just then her head struck against the roof of the hall: in fact she was now more than nine feet high, and she at once took up the little golden key and hurried off to the garden door.</p>
-                                <img src="images/devs/daniel_portrait.jpg" className="img-circle" />
-                                <span className="author">JOHN SMITH</span>
-                            </div>
-                            <div>
-                                <p className="testimonial-body">Just then her head struck against the roof of the hall: in fact she was now more than nine feet high, and she at once took up the little golden key and hurried off to the garden door.</p>
-                                <img src="images/devs/daniel_portrait.jpg" className="img-circle" />
-                                <span className="author">JOHN SMITH</span>
-                            </div>
-                            <div>
-                                <p className="testimonial-body">Just then her head struck against the roof of the hall: in fact she was now more than nine feet high, and she at once took up the little golden key and hurried off to the garden door.</p>
-                                <img src="images/devs/daniel_portrait.jpg" className="img-circle" />
-                                <span className="author">JOHN SMITH</span>
-                            </div>
-                            <div>
-                                <p className="testimonial-body">Just then her head struck against the roof of the hall: in fact she was now more than nine feet high, and she at once took up the little golden key and hurried off to the garden door.</p>
-                                <img src="images/devs/daniel_portrait.jpg" className="img-circle" />
-                                <span className="author">JOHN SMITH</span>
-                            </div>
-                            <div>
-                                <p className="testimonial-body">Just then her head struck against the roof of the hall: in fact she was now more than nine feet high, and she at once took up the little golden key and hurried off to the garden door.</p>
-                                <img src="images/devs/daniel_portrait.jpg" className="img-circle" />
-                                <span className="author">JOHN SMITH</span>
-                            </div>
+                            {_.range(1,6).map(x => {
+                                return (
+                                    <div>
+                                        <p className="testimonial-body">Just then her head struck against the roof of the hall: in fact she was now more than nine feet high, and she at once took up the little golden key and hurried off to the garden door.</p>
+                                        <img src={require("../images/devs/David.jpg")} className="img-circle" />
+                                        <span className="author">JOHN SMITH</span>
+                                    </div>
+                                );
+                            })}
                         </div>
                     </div>
-                </section>*/}
+                </section>
                 <section id="watch-our-video" className="row">
                     <a id="play-btn" href="#"  onClick={this.playIntroVideo.bind(this)}>
                         <span>WATCH OUR VIDEO</span>
@@ -164,7 +145,6 @@ class LandingPage extends React.Component {
                         opts={{height: '100%', width: '80%'}}
                         onReady={this.onVideoReady.bind(this)}
                     />
-                    {/*<iframe width="80%" height="100%" src="https://www.youtube.com/embed/FQHxc5VNs7A?enablejsapi=1" frameBorder="0" allowFullScreen id="learn-video"></iframe>*/}
                 </section>
                 <section id="what-we-can-do" className="row">
                     <div className="container">
@@ -282,6 +262,9 @@ class LandingPage extends React.Component {
                         <small>&copy; 2016 Tunga.io &mdash; All rights reserved.</small>
                     </div>
                 </footer>
+                <div>{this.props.children?this.props.children:(
+                    <Link to="/customer/help/" id="chat-btn" className=""> <i className="fa fa-question-circle fa-lg"/> Need Help? Chat with us.</Link>
+                )}</div>
             </div>
         );
     }

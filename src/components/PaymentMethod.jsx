@@ -1,4 +1,6 @@
 import React from 'react';
+import { DropdownList } from 'react-widgets';
+
 import Progress from './status/Progress';
 import FormStatus from './status/FormStatus';
 import FieldError from './status/FieldError';
@@ -8,7 +10,7 @@ import { PAYMENT_METHOD_CHOICES, PAYMENT_METHOD_BTC_WALLET, PAYMENT_METHOD_MOBIL
 export default class PaymentMethod extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {payment_method: PAYMENT_METHOD_BTC_WALLET};
+        this.state = {payment_method: PAYMENT_METHOD_BTC_WALLET, country_code: null};
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -32,18 +34,34 @@ export default class PaymentMethod extends React.Component {
         this.setState({payment_method});
     }
 
+    onCountryCodeChange(country_code) {
+        this.setState({country_code: country_code.id});
+    }
+
     handleSubmit(e) {
         e.preventDefault();
-        var payment_method = this.state.payment_method;
-        var mobile_money_number = this.refs.mobile_money_number?this.refs.mobile_money_number.value.trim():null;
-        var btc_address = this.refs.btc_address?this.refs.btc_address.value.trim():null;
+
         const { Profile, ProfileActions } = this.props;
-        ProfileActions.updateProfile(Profile.profile.id, {payment_method, mobile_money_number, btc_address});
+        const { profile } = Profile;
+
+        var payment_method = this.state.payment_method;
+        var mobile_money_cc = this.state.country_code || profile.mobile_money_cc;
+        var mobile_money_number = this.refs.mobile_money_number?this.refs.mobile_money_number.value.trim():profile.mobile_money_number;
+        var btc_address = this.refs.btc_address?this.refs.btc_address.value.trim():profile.btc_address;
+        ProfileActions.updateProfile(Profile.profile.id, {payment_method, mobile_money_cc, mobile_money_number, btc_address});
         return;
     }
 
     render() {
         const { Profile, Auth } = this.props;
+        const { profile } = Profile;
+
+        var country_codes = [
+            {id: null, name: '- Country Code -'},
+            {id: 234, name: 'Nigeria (+234)'},
+            {id: 255, name: 'Tanzania (+255)'},
+            {id: 256, name: 'Uganda (+256)'}
+        ];
 
         return (
             <div>
@@ -98,9 +116,25 @@ export default class PaymentMethod extends React.Component {
                         <div>
                             {(Profile.error.profile && Profile.error.profile.mobile_money_number)?
                                 (<FieldError message={Profile.error.profile.mobile_money_number}/>):null}
+                            {(Profile.error.profile && Profile.error.profile.mobile_money_cc)?
+                                (<FieldError message={Profile.error.profile.mobile_money_cc}/>):null}
                             <div className="form-group">
                                 <label className="control-label">Mobile Money Number</label>
-                                <div><input type="text" className="form-control" ref="mobile_money_number" placeholder="Enter a phone number registered for mobile money" defaultValue={Profile.profile.mobile_money_number}/></div>
+                                <div className="row">
+                                    <div className="col-md-4">
+                                        <DropdownList
+                                            valueField='id' textField='name'
+                                            data={country_codes}
+                                            defaultValue={profile.mobile_money_cc}
+                                            onChange={this.onCountryCodeChange.bind(this)}/>
+                                    </div>
+                                    <div className="col-md-8">
+                                        <input type="text" className="form-control"
+                                               ref="mobile_money_number"
+                                               placeholder="Enter phone number"
+                                               defaultValue={profile.mobile_money_number}/>
+                                    </div>
+                                </div>
                                 <div>This number <strong>MUST BE REGISTERED</strong> for Mobile Money</div>
                             </div>
                         </div>
@@ -112,7 +146,11 @@ export default class PaymentMethod extends React.Component {
                                 (<FieldError message={Profile.error.profile.btc_address}/>):null}
                             <div className="form-group">
                                 <label className="control-label">Bitcoin Address</label>
-                                <div><input type="text" className="form-control" ref="btc_address" placeholder="Enter a bitcoin address you own" defaultValue={Profile.profile.btc_address}/></div>
+                                <div>
+                                    <input type="text" className="form-control"
+                                            ref="btc_address" placeholder="Enter a bitcoin address you own"
+                                           defaultValue={profile.btc_address}/>
+                                </div>
                             </div>
                         </div>
                     ):null}

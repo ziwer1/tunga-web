@@ -35,6 +35,9 @@ export const SHARE_CHANNEL_UPLOAD_SUCCESS = 'SHARE_CHANNEL_UPLOAD_SUCCESS';
 export const UPDATE_CHANNEL_READ_START = 'UPDATE_CHANNEL_READ_START';
 export const UPDATE_CHANNEL_READ_SUCCESS = 'UPDATE_CHANNEL_READ_SUCCESS';
 export const UPDATE_CHANNEL_READ_FAILED = 'UPDATE_CHANNEL_READ_FAILED';
+export const CREATE_SUPPORT_CHANNEL_START = 'CREATE_SUPPORT_CHANNEL_START';
+export const CREATE_SUPPORT_CHANNEL_SUCCESS = 'CREATE_SUPPORT_CHANNEL_SUCCESS';
+export const CREATE_SUPPORT_CHANNEL_FAILED = 'CREATE_SUPPORT_CHANNEL_FAILED';
 
 export function createChannel(channel) {
     return dispatch => {
@@ -277,6 +280,38 @@ export function deleteChannelFailed(error) {
     }
 }
 
+export function createSupportChannel(data) {
+    return dispatch => {
+        dispatch(createSupportChannelStart());
+        axios.post(ENDPOINT_CHANNEL + 'support/', data)
+            .then(function(response) {
+                dispatch(createSupportChannelSuccess(response.data));
+            }).catch(function(response) {
+                dispatch(createSupportChannelFailed(response.data));
+            });
+    }
+}
+
+export function createSupportChannelStart() {
+    return {
+        type: CREATE_SUPPORT_CHANNEL_START
+    }
+}
+
+export function createSupportChannelSuccess(channel) {
+    return {
+        type: CREATE_SUPPORT_CHANNEL_SUCCESS,
+        channel
+    }
+}
+
+export function createSupportChannelFailed(error) {
+    return {
+        type: CREATE_SUPPORT_CHANNEL_FAILED,
+        error
+    }
+}
+
 export function updateChannelRead(id, data) {
     return dispatch => {
         dispatch(updateChannelReadStart(id));
@@ -284,8 +319,8 @@ export function updateChannelRead(id, data) {
             .then(function(response) {
                 dispatch(updateChannelReadSuccess(response.data));
             }).catch(function(response) {
-                dispatch(updateChannelReadFailed(response.data));
-            });
+            dispatch(updateChannelReadFailed(response.data));
+        });
     }
 }
 

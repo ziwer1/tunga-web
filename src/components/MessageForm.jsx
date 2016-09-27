@@ -70,7 +70,8 @@ export default class MessageForm extends React.Component {
                                    onBodyChange={this.onBodyChange.bind(this)}
                                    onAddAttachment={this.onAddAttachment.bind(this)}
                                    isSending={this.props.isSending}
-                                   placeholder={this.props.placeholder}/>
+                                   placeholder={this.props.placeholder}
+                                   canUpload={this.props.canUpload}/>
                 </form>
             </div>
         );
@@ -84,5 +85,11 @@ MessageForm.propTypes = {
     uploadSaved: React.PropTypes.bool,
     isSending: React.PropTypes.bool,
     error: React.PropTypes.object,
-    placeholder: React.PropTypes.string
+    placeholder: React.PropTypes.string,
+    canUpload: React.PropTypes.bool
+};
+
+MessageWidget.defaultProps = {
+    placeholder: "Write your message here",
+    canUpload: true
 };

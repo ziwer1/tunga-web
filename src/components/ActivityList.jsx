@@ -40,16 +40,16 @@ export default class ActivityList extends React.Component {
         switch (item.action) {
             case 'send':
                 if(activity_type == 'message') {
-                    creator = object.user;
+                    creator = object.user || object.sender;
                     created_at = object.created_at;
-                    body = (<div dangerouslySetInnerHTML={{__html: object.body}}/>);
+                    body = (<div dangerouslySetInnerHTML={{__html: object.html_body}}/>);
                     uploads = object.attachments;
                 }
                 break;
             case 'comment':
                 creator = object.user;
                 created_at = object.created_at;
-                body = (<div dangerouslySetInnerHTML={{__html: object.body}}/>);
+                body = (<div dangerouslySetInnerHTML={{__html: object.html_body}}/>);
                 uploads = object.uploads;
                 break;
             case 'upload':
@@ -155,7 +155,7 @@ export default class ActivityList extends React.Component {
         var last_sent_day = '';
         let today = moment.utc().local().format(day_format);
 
-        let is_current_user = (activity.user.id == Auth.user.id);
+        let is_current_user = (activity.user.id == Auth.user.id) || (!Auth.isAuthenticated && activity.user.inquirer);
         let display_name = is_current_user?'Me':activity.user.display_name;
 
         let avatar_div = (

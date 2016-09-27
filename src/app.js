@@ -52,6 +52,7 @@ import User from 'components/User';
 import MessagePage from 'containers/MessagePage';
 import Channel from 'components/Channel';
 import ChannelForm from 'components/ChannelForm';
+import SupportChannelForm from 'components/SupportChannelForm';
 import ChatBox from 'components/ChatBox';
 import MessageList from 'components/MessageList';
 import ProfilePage from 'containers/ProfilePage';
@@ -173,6 +174,22 @@ ReactDOM.render(
                     <Route path="tasks" component={TaskList} />
                     <Route path="messages" component={MessageList} />
                     <Route path="support" component={SupportPageList} />
+                </Route>
+                <Route path="help" component={MessagePage}>
+                    <IndexRedirect to="start"/>
+                    <Route path="start" component={SupportChannelForm}/>
+                    <Route path=":channelId" component={Channel}>
+                        <IndexRoute component={ChatBox} />
+                    </Route>
+                </Route>
+                <Route path="customer" component={LandingPage}>
+                    <Route path="help" component={MessagePage}>
+                        <IndexRedirect to="start"/>
+                        <Route path="start" component={SupportChannelForm}/>
+                        <Route path=":channelId" component={Channel}>
+                            <IndexRoute component={ChatBox} />
+                        </Route>
+                    </Route>
                 </Route>
                 <Redirect path="*" to="home" />
             </Route>

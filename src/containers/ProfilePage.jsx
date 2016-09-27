@@ -33,8 +33,8 @@ class ProfilePage extends React.Component {
                         ):(
                             <li role="presentation"><Link to="/profile/company" activeClassName="active">Company Profile</Link></li>
                         )}
-                        {/*<li role="presentation"><Link to="/profile/account" activeClassName="active">Account</Link></li>*/}
-						<li role="presentation"><Link to="/profile/photo" activeClassName="active">Photo</Link></li>
+                        <li role="presentation"><Link to="/profile/photo" activeClassName="active">Photo</Link></li>
+                        <li role="presentation"><Link to="/profile/account" activeClassName="active">Account</Link></li>
 						<li role="presentation"><Link to="/profile/security" activeClassName="active">Security</Link></li>
 					</ul>
 				</div>

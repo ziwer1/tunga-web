@@ -74,6 +74,10 @@ input, select, textarea, .form-control, .rw-input {
     border-width: 0;
 }
 
+.rw-input{
+    background-color: @inactive-grey !important;
+}
+
 label {
     font-weight: 400;
 }
@@ -208,6 +212,7 @@ form .alert {
         min-width: 200px;
     }
 }
+
 @media (min-width: @screen-xs-max) {
     .navbar {
 
@@ -1870,7 +1875,12 @@ activity-list {
 
             form {
                 margin: 0 auto;
+                width: 100%;
                 max-width: 500px;
+
+                h3 {
+                    text-align: center;
+                }
             }
         }
     }
@@ -2285,6 +2295,51 @@ activity-list {
         font-size: 10px;
         font-weight: 100;
     }
+
+    #chat-window {
+        position: fixed;
+        top: 50px;
+        bottom: 0;
+        right: 0;
+        z-index: 1000;
+        padding: 0;
+        margin: 0;
+        background-color: @active-white;
+        width: 100%;
+        max-width: 350px;
+        height: 100%;
+        box-shadow: -3px 0 5px #777;
+        /*overflow-x: hidden;
+        overflow-y: auto;*/ /* Scrollable contents if viewport is shorter than content. */
+
+        .chat-close {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            z-index: 1000;
+        }
+
+        .overview {
+            .mainbox {
+                width: 100%;
+            }
+        }
+    }
+
+    #chat-btn {
+        position: fixed;
+        bottom: 0;
+        right: 50px;
+        background-color: @active-white;
+        padding: 5px 15px;
+        min-width: 100p;
+        border-radius: 5px 5px 0 0;
+        border: 1px @primary solid;
+        border-bottom-color: @active-white;
+        box-shadow: 0 0 10px #777;
+    }
+
+
     /*XTRA SMALL*/
     @media (min-width: @screen-xs-min) and (max-width: @screen-xs-max) {
         #main-header {

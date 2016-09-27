@@ -38,12 +38,22 @@ function createSocialLoginUrl(provider) {
     return SOCIAL_LOGIN_PREFIX + provider + '/';
 }
 
+export const SOCIAL_PROVIDERS = {
+    facebook: 'facebook',
+    google: 'google',
+    linkedin: 'linkedin',
+    github: 'github',
+    coinbase: 'coinbase',
+    slack: 'slack'
+};
+
 export const SOCIAL_LOGIN_URLS = {
     facebook: createSocialLoginUrl('facebook'),
     google: createSocialLoginUrl('google'),
     linkedin: createSocialLoginUrl('linkedin_oauth2'),
     github: createSocialLoginUrl('github'),
-    coinbase: createSocialLoginUrl('coinbase')
+    coinbase: createSocialLoginUrl('coinbase'),
+    slack: createSocialLoginUrl('slack')
 };
 
 function getEndpointUrl(path) {
@@ -65,7 +75,7 @@ export const ENDPOINT_ACCOUNT_SETTINGS = getEndpointUrl('me/settings/');
 export const ENDPOINT_USER_INFO = getEndpointUrl('me/user/');
 export const ENDPOINT_USER_EDUCATION = getEndpointUrl('me/education/');
 export const ENDPOINT_USER_WORK = getEndpointUrl('me/work/');
-export const ENDPOINT_MY_CODE = getEndpointUrl('me/code/');
+export const ENDPOINT_MY_APPS = getEndpointUrl('me/app/');
 export const ENDPOINT_PROJECT = getEndpointUrl('project/');
 export const ENDPOINT_TASK = getEndpointUrl('task/');
 export const ENDPOINT_USER = getEndpointUrl('user/');
@@ -99,7 +109,7 @@ export const PAYMENT_METHOD_MOBILE_MONEY = 'mobile_money';
 
 export const PAYMENT_METHOD_CHOICES = [
     {id: PAYMENT_METHOD_BTC_WALLET, name: 'Bitcoin Wallet'},
-    //{id: PAYMENT_METHOD_MOBILE_MONEY, name: 'Mobile Money'},
+    {id: PAYMENT_METHOD_MOBILE_MONEY, name: 'Mobile Money'},
     {id: PAYMENT_METHOD_BTC_ADDRESS, name: 'Bitcoin Address'},
 ];
 
@@ -182,7 +192,12 @@ export const INTEGRATION_EVENT_ISSUE_COMMENT = 'issue_comment';
 export const INTEGRATION_EVENT_WIKI = 'wiki';
 export const INTEGRATION_EVENT_RELEASE = 'release';
 
-export const INTEGRATION_EVENT_CHOICES = [
+export const INTEGRATION_EVENT_COMMENT = 'comment';
+export const INTEGRATION_EVENT_UPLOAD = 'upload';
+export const INTEGRATION_EVENT_PROGRESS_REPORT = 'progress_report';
+export const INTEGRATION_EVENT_TASK_APPLY_OR_ACCEPT = 'task_apply_or_accept'
+
+export const GIT_INTEGRATION_EVENT_CHOICES = [
     {'id': INTEGRATION_EVENT_PUSH, 'name': 'Push events'},
     {'id': INTEGRATION_EVENT_BRANCH, 'name': 'Branch creation and deletion'},
     {'id': INTEGRATION_EVENT_TAG, 'name': 'Tag creation and deletion'},
@@ -191,7 +206,14 @@ export const INTEGRATION_EVENT_CHOICES = [
     {'id': INTEGRATION_EVENT_PULL_REQUEST_COMMENT, 'name': 'Pull request comments'},
     {'id': INTEGRATION_EVENT_ISSUE, 'name': 'Issue creation and modification'},
     {'id': INTEGRATION_EVENT_ISSUE_COMMENT, 'name': 'Issue comments'},
-    {'id': INTEGRATION_EVENT_WIKI, 'name': 'Wiki updates'},
+    {'id': INTEGRATION_EVENT_WIKI, 'name': 'Wiki updates'}
+];
+
+export const CHAT_INTEGRATION_EVENT_CHOICES = [
+    {'id': INTEGRATION_EVENT_COMMENT, 'name': 'Comments'},
+    {'id': INTEGRATION_EVENT_UPLOAD, 'name': 'Uploads'},
+    {'id': INTEGRATION_EVENT_PROGRESS_REPORT, 'name': 'Progress reports'},
+    {'id': INTEGRATION_EVENT_TASK_APPLY_OR_ACCEPT, 'name': 'Developer applies or accepts task'}
 ];
 
 export const TASK_PAYMENT_METHOD_BITONIC = 'bitonic';
@@ -218,3 +240,10 @@ export const TASK_PAYMENT_METHOD_CHOICES = [
         icon_class: 'fa fa-bank',
         details: "Click on continue to be able to download the invoice. Please make the payment within a week. To be able to perform a bank transfer you need to fill in VAT number on your profile."}
 ];
+
+
+export const CHANNEL_TYPES = {
+    direct: 1,
+    topic: 2,
+    support: 3
+}

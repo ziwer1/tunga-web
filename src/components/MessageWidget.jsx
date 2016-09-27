@@ -27,15 +27,17 @@ export default class MessageWidget extends React.Component {
     render() {
         return (
             <div className="input-group message-widget">
-                <span className="input-group-btn">
-                    <button type="button" className="btn btn-borderless" onClick={this.onAddAttachment.bind(this)}>
-                        <i className="fa fa-image fa-lg"/>
-                    </button>
-                    <button type="button" className="btn btn-borderless" onClick={this.onAddAttachment.bind(this)}>
-                        <i className="fa fa-paperclip fa-lg"/>
-                    </button>
-                </span>
-                <textarea type="text" className="form-control" placeholder={this.props.placeholder || "Write your message here"} rows="3"
+                {this.props.canUpload?(
+                    <span className="input-group-btn">
+                        <button type="button" className="btn btn-borderless" onClick={this.onAddAttachment.bind(this)}>
+                            <i className="fa fa-image fa-lg"/>
+                        </button>
+                        <button type="button" className="btn btn-borderless" onClick={this.onAddAttachment.bind(this)}>
+                            <i className="fa fa-paperclip fa-lg"/>
+                        </button>
+                    </span>
+                ):null}
+                <textarea type="text" className="form-control" placeholder={this.props.placeholder} rows="3"
                           onKeyUp={this.onBodyChange.bind(this)}/>
                 <span className="input-group-btn">
                     <button type="button" className="btn" disabled={this.props.isSending}
@@ -53,5 +55,11 @@ MessageWidget.propTypes = {
     onBodyChange: React.PropTypes.func,
     onAddAttachment: React.PropTypes.func,
     isSending: React.PropTypes.bool,
-    placeholder: React.PropTypes.string
+    placeholder: React.PropTypes.string,
+    canUpload: React.PropTypes.bool
+};
+
+MessageWidget.defaultProps = {
+    placeholder: "Write your message here",
+    canUpload: true
 };

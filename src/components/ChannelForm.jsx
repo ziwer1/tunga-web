@@ -87,7 +87,7 @@ export default class ChannelForm extends React.Component {
                 <form onSubmit={this.handleSubmit.bind(this)} name="channel" role="form" ref="channel_form">
                     <FormStatus loading={Channel.detail.isSaving}
                                 success={Channel.detail.isSaved}
-                                message={'Channel Sent'}
+                                message={'Channel created'}
                                 error={Channel.detail.error.create}/>
 
                     {channel.id?null:(

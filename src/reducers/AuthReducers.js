@@ -248,13 +248,47 @@ function isFetchingIssues(state = false, action) {
     }
 }
 
-function isConnected(state = false, action) {
+function isGitHubConnected(state = false, action) {
     switch (action.type) {
         case AuthActions.LIST_REPOS_SUCCESS:
         case AuthActions.LIST_ISSUES_SUCCESS:
             return true;
         case AuthActions.LIST_REPOS_FAILED:
         case AuthActions.LIST_ISSUES_FAILED:
+            return false;
+        default:
+            return state;
+    }
+}
+
+function slackInfo(state = null, action) {
+    switch (action.type) {
+        case AuthActions.GET_SLACK_APP_SUCCESS:
+            return action.details;
+        case AuthActions.GET_SLACK_APP_FAILED:
+            return null;
+        default:
+            return state;
+    }
+}
+
+function isRetrievingSlackInfo(state = false, action) {
+    switch (action.type) {
+        case AuthActions.GET_SLACK_APP_START:
+            return true;
+        case AuthActions.GET_SLACK_APP_SUCCESS:
+        case AuthActions.GET_SLACK_APP_FAILED:
+            return false;
+        default:
+            return state;
+    }
+}
+
+function isSlackConnected(state = false, action) {
+    switch (action.type) {
+        case AuthActions.GET_SLACK_APP_SUCCESS:
+            return action.details != null;
+        case AuthActions.GET_SLACK_APP_FAILED:
             return false;
         default:
             return state;
@@ -325,10 +359,21 @@ const issues = combineReducers({
     isFetching: isFetchingIssues
 });
 
-const code = combineReducers({
+const github = combineReducers({
     repos,
     issues,
-    isConnected
+    isConnected: isGitHubConnected
+});
+
+const slack = combineReducers({
+    details: slackInfo,
+    isRetrieving: isRetrievingSlackInfo,
+    isConnected: isSlackConnected
+});
+
+const connections = combineReducers({
+    github,
+    slack
 });
 
 const Auth = combineReducers({
@@ -347,7 +392,7 @@ const Auth = combineReducers({
     error,
     next,
     running,
-    code
+    connections
 });
 
 export default Auth;

@@ -4,6 +4,8 @@ import Progress from './status/Progress';
 import Avatar from './Avatar';
 import SearchBox from './SearchBox';
 
+import { CHANNEL_TYPES } from '../constants/Api';
+
 
 export default class ChatBox extends React.Component {
 
@@ -101,7 +103,7 @@ export default class ChatBox extends React.Component {
     }
 
     render() {
-        const { Channel } = this.props;
+        const { Auth, Channel } = this.props;
         const { channel } = Channel.detail;
 
         return (Channel.detail.isRetrieving?
@@ -110,58 +112,64 @@ export default class ChatBox extends React.Component {
                 channel.id && channel.id == this.props.params.channelId?(
                     <div className="chatbox">
                         <div className="chatbox-top clearfix">
-                            <div className="chat-actions pull-right">
-                                <div className="btn-group btn-choices select pull-right" role="group">
-                                    <Link to={`/conversation/${channel.id}/messages`}
-                                          className="btn btn-borderless"
-                                          activeClassName="active">
-                                        <i className="fa fa-comments"/>
-                                    </Link>
-                                    <Link to={`/conversation/${channel.id}/files`}
-                                          className="btn btn-borderless"
-                                          activeClassName="active">
-                                        <i className="fa fa-paperclip"/>
-                                    </Link>
-                                    <div className="dropdown" style={{display: 'inline-block'}}>
-                                        <button className="btn btn-borderless dropdown-toggle" type="button" id="chat-overflow" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                            <i className="fa fa-ellipsis-v"/>
-                                        </button>
-                                        <ul className="dropdown-menu dropdown-menu-right" aria-labelledby="chat-overflow">
-                                            <li>
-                                                <Link id="edit-channel" to={`/conversation/${channel.id}/edit`}>
-                                                    <i className="fa fa-pencil-square-o"/> Edit
-                                                </Link>
-                                            </li>
-                                            <li>
-                                                <Link id="channel-people" to={`/conversation/${channel.id}/people`}>
-                                                    <i className="glyphicon glyphicon-user"/> People
-                                                </Link>
-                                            </li>
-                                        </ul>
+                            <div className={`chat-actions ${Auth.isAuthenticated?"pull-right":""}`}>
+                                {channel.type == CHANNEL_TYPES.support?null:(
+                                    <div className="btn-group btn-choices select pull-right" role="group">
+                                        <Link to={`/conversation/${channel.id}/messages`}
+                                              className="btn btn-borderless"
+                                              activeClassName="active">
+                                            <i className="fa fa-comments"/>
+                                        </Link>
+                                        <Link to={`/conversation/${channel.id}/files`}
+                                              className="btn btn-borderless"
+                                              activeClassName="active">
+                                            <i className="fa fa-paperclip"/>
+                                        </Link>
+                                        <div className="dropdown" style={{display: 'inline-block'}}>
+                                            <button className="btn btn-borderless dropdown-toggle" type="button" id="chat-overflow" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                <i className="fa fa-ellipsis-v"/>
+                                            </button>
+                                            <ul className="dropdown-menu dropdown-menu-right" aria-labelledby="chat-overflow">
+                                                <li>
+                                                    <Link id="edit-channel" to={`/conversation/${channel.id}/edit`}>
+                                                        <i className="fa fa-pencil-square-o"/> Edit
+                                                    </Link>
+                                                </li>
+                                                <li>
+                                                    <Link id="channel-people" to={`/conversation/${channel.id}/people`}>
+                                                        <i className="glyphicon glyphicon-user"/> People
+                                                    </Link>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
-                                </div>
-                                {this.getView() == 'messages'?(
+                                )}
+                                {['messages', null].indexOf(this.getView() > -1)?(
                                     <SearchBox placeholder="Search messages"
                                                onSearch={this.onSearch.bind(this)}
                                                count={Channel.detail.activity.count}/>
                                 ):null}
                             </div>
-                            <div className="media">
-                                <div className="media-left">
-                                    {channel.user?(
-                                        <Avatar src={channel.user.avatar_url} />
-                                    ):null}
+                            {Auth.isAuthenticated?(
+                                <div className="media">
+                                    <div className="media-left">
+                                        {channel.user?(
+                                            <Avatar src={channel.user.avatar_url} />
+                                        ):null}
+                                    </div>
+                                    <div className="media-body">
+                                        {channel.user?(
+                                            [<h4>{channel.user.display_name}</h4>,
+                                                <div>{channel.subject || channel.alt_subject} </div>]
+                                        ):(
+                                            <h4>{channel.subject || channel.alt_subject} </h4>
+                                        )}
+                                        {channel.type == CHANNEL_TYPES.support?null:(
+                                            <div><Link to={`/conversation/${channel.id}/people/`}>{channel.user?null:`${channel.participants.length} people`}</Link></div>
+                                        )}
+                                    </div>
                                 </div>
-                                <div className="media-body">
-                                    {channel.user?(
-                                        [<h4>{channel.user.display_name}</h4>,
-                                            <div>{channel.subject} </div>]
-                                    ):(
-                                        <h4>{channel.subject} </h4>
-                                    )}
-                                    <div><Link to={`/conversation/${channel.id}/people/`}>{channel.user?null:`${channel.participants.length} people`}</Link></div>
-                                </div>
-                            </div>
+                            ):null}
                             <div className="clearfix"></div>
                         </div>
                         {channel.id?this.renderChildren():null}

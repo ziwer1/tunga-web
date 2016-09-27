@@ -43,6 +43,7 @@ export default class NavBar extends React.Component {
                         {Auth.isAuthenticated?(
                             <ul className="nav navbar-nav navbar-right">
                                 <li><SearchBox placeholder="Search" hide_results={true}/></li>
+                                <li><Link to="/help"><i className="fa fa-question-circle fa-lg"/> Help</Link></li>
                                 <li className="dropdown">
                                     <a href="#" className="dropdown-toggle account-actions-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                         {Auth.user.display_name} <span className="caret" style={{marginLeft: 5+'px'}}></span> <Avatar src={Auth.user.avatar_url}/>

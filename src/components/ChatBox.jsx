@@ -91,7 +91,8 @@ export default class ChatBox extends React.Component {
                             messageSaved={Message.detail.isSaved}
                             uploadCallback={this.onUpload.bind(this)}
                             uploadSaved={Channel.detail.isSaved}
-                            isSending={Message.detail.isSaving || Channel.detail.isSaving}/>
+                            isSending={Message.detail.isSaving || Channel.detail.isSaving}
+                            canUpload={Auth.isAuthenticated} />
                     ]
                 ):null}
             </div>

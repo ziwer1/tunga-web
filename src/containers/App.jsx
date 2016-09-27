@@ -81,7 +81,7 @@ class App extends React.Component {
                     </div>
                 )
                 :
-                this.props.location.pathname=='/'?children:(
+                (
                     <div className="app-wrapper" onClick={this.handleAppClick.bind(this)}>
                         <Helmet
                             title="Tunga"

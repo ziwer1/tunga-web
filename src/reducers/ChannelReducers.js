@@ -11,6 +11,7 @@ function channel(state = {}, action) {
         case ChannelActions.RETRIEVE_CHANNEL_SUCCESS:
         case ChannelActions.UPDATE_CHANNEL_SUCCESS:
         case ChannelActions.RETRIEVE_DIRECT_CHANNEL_SUCCESS:
+        case ChannelActions.CREATE_SUPPORT_CHANNEL_SUCCESS:
         case ChannelActions.UPDATE_CHANNEL_READ_SUCCESS:
             return action.channel;
         case ChannelActions.DELETE_CHANNEL_SUCCESS:
@@ -18,6 +19,8 @@ function channel(state = {}, action) {
         case ChannelActions.CREATE_CHANNEL_FAILED:
         case ChannelActions.RETRIEVE_CHANNEL_START:
         case ChannelActions.RETRIEVE_CHANNEL_FAILED:
+        case ChannelActions.CREATE_SUPPORT_CHANNEL_START:
+        case ChannelActions.CREATE_SUPPORT_CHANNEL_FAILED:
             return {};
         case MessageActions.LIST_MESSAGES_SUCCESS:
             if(action.filter && action.filter.channel == state.id) {
@@ -35,6 +38,7 @@ function attachments(state = [], action) {
         case ChannelActions.RETRIEVE_CHANNEL_SUCCESS:
         case ChannelActions.UPDATE_CHANNEL_SUCCESS:
         case ChannelActions.RETRIEVE_DIRECT_CHANNEL_SUCCESS:
+        case ChannelActions.CREATE_SUPPORT_CHANNEL_SUCCESS:
             return action.channel.attachments;
         case MessageActions.CREATE_MESSAGE_SUCCESS:
             return [...action.message.attachments, ...state];
@@ -49,6 +53,8 @@ function attachments(state = [], action) {
         case ChannelActions.CREATE_CHANNEL_FAILED:
         case ChannelActions.RETRIEVE_CHANNEL_START:
         case ChannelActions.RETRIEVE_CHANNEL_FAILED:
+        case ChannelActions.CREATE_SUPPORT_CHANNEL_START:
+        case ChannelActions.CREATE_SUPPORT_CHANNEL_FAILED:
             return [];
         default:
             return state;
@@ -61,6 +67,7 @@ function last_read(state = 0, action) {
         case ChannelActions.RETRIEVE_CHANNEL_SUCCESS:
         case ChannelActions.UPDATE_CHANNEL_SUCCESS:
         case ChannelActions.RETRIEVE_DIRECT_CHANNEL_SUCCESS:
+        case ChannelActions.CREATE_SUPPORT_CHANNEL_SUCCESS:
             return action.channel.last_read;
         case ChannelActions.DELETE_CHANNEL_SUCCESS:
             return 0;
@@ -83,6 +90,7 @@ function channels(state = {}, action) {
             return {};
         case ChannelActions.CREATE_CHANNEL_SUCCESS:
         case ChannelActions.UPDATE_CHANNEL_READ_SUCCESS:
+        case ChannelActions.CREATE_SUPPORT_CHANNEL_SUCCESS:
             var new_channel = {};
             new_channel[action.channel.id] = action.channel;
             return {...state, ...new_channel};
@@ -106,6 +114,7 @@ function ids(state = [], action) {
         case ChannelActions.LIST_CHANNELS_FAILED:
             return [];
         case ChannelActions.CREATE_CHANNEL_SUCCESS:
+        case ChannelActions.CREATE_SUPPORT_CHANNEL_SUCCESS:
             if(state.indexOf(action.channel.id) == -1) {
                 return [action.channel.id, ...state]
             }
@@ -151,11 +160,14 @@ function isSaving(state = false, action) {
     switch (action.type) {
         case ChannelActions.CREATE_CHANNEL_START:
         case ChannelActions.UPDATE_CHANNEL_START:
+        case ChannelActions.CREATE_SUPPORT_CHANNEL_START:
             return true;
         case ChannelActions.CREATE_CHANNEL_SUCCESS:
         case ChannelActions.CREATE_CHANNEL_FAILED:
         case ChannelActions.UPDATE_CHANNEL_SUCCESS:
         case ChannelActions.UPDATE_CHANNEL_FAILED:
+        case ChannelActions.CREATE_SUPPORT_CHANNEL_SUCCESS:
+        case ChannelActions.CREATE_SUPPORT_CHANNEL_FAILED:
             return false;
         default:
             return state;
@@ -166,11 +178,14 @@ function isSaved(state = false, action) {
     switch (action.type) {
         case ChannelActions.CREATE_CHANNEL_SUCCESS:
         case ChannelActions.UPDATE_CHANNEL_SUCCESS:
+        case ChannelActions.CREATE_SUPPORT_CHANNEL_SUCCESS:
             return true;
         case ChannelActions.CREATE_CHANNEL_START:
         case ChannelActions.CREATE_CHANNEL_FAILED:
         case ChannelActions.UPDATE_CHANNEL_START:
         case ChannelActions.UPDATE_CHANNEL_FAILED:
+        case ChannelActions.CREATE_SUPPORT_CHANNEL_START:
+        case ChannelActions.CREATE_SUPPORT_CHANNEL_FAILED:
         case PATH_CHANGE:
             return false;
         default:
@@ -233,9 +248,12 @@ function isDeleting(state = false, action) {
 function error(state = {}, action) {
     switch (action.type) {
         case ChannelActions.CREATE_CHANNEL_FAILED:
+        case ChannelActions.CREATE_SUPPORT_CHANNEL_FAILED:
             return {...state, create: action.error};
         case ChannelActions.CREATE_CHANNEL_START:
         case ChannelActions.CREATE_CHANNEL_SUCCESS:
+        case ChannelActions.CREATE_SUPPORT_CHANNEL_START:
+        case ChannelActions.CREATE_SUPPORT_CHANNEL_SUCCESS:
             return {...state, create: null};
         default:
             return state;
