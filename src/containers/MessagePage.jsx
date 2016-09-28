@@ -79,10 +79,18 @@ class MessagePage extends React.Component {
                         <h2>{channel_type_filter == CHANNEL_TYPES.support?'Help':'Messages'}</h2>
                     </div>
                 ):(
-                    <Link to="/" className="btn btn-borderless chat-close fa-lg"
-                          activeClassName="active" title="Close">
-                        <i className="fa fa-close"/>
-                    </Link>
+                    [
+                        <Link to="/" className="btn btn-borderless chat-close fa-lg"
+                              activeClassName="active" title="Close">
+                            <i className="fa fa-close"/>
+                        </Link>,
+                        (this.props.params.channelId?(
+                            <div className="alert alert-info alert-dismissible" style={{margin: '5px', position: 'absolute', top: 0, zIndex: 1001}}>
+                                <button type="button" className="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                Bookmark this page to come back to this conversation later
+                            </div>
+                        ):null)
+                    ]
                 )}
 
                 <div className="chat-overview overview">
