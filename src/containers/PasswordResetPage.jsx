@@ -2,6 +2,8 @@ import React from 'react';
 import Progress from '../components/status/Progress';
 import Error from '../components/status/Error';
 import Success from '../components/status/Success';
+import ShowcaseContainer from './ShowcaseContainer';
+
 import connect from '../utils/connectors/AuthConnector';
 
 class PasswordReset extends React.Component {
@@ -27,48 +29,34 @@ class PasswordReset extends React.Component {
         return;
     }
 
-    render() {
+    renderHeaderContent() {
         const { Auth } = this.props;
 
         return (
-          <section className="signup-lp">
-            <div className="container">
-              <div className="row">
-                <div className="col-md-12 col-sm-12 col-xs-12">
-                  <div className="login-form-container">
+            <form onSubmit={this.handleSubmit} name="reset-form" role="form" ref="reset_form">
+                <h2>Reset Password</h2>
 
-                    <div className="form-elements-container">
-                      <form onSubmit={this.handleSubmit} name="reset-form" role="form" ref="reset_form">
+                {Auth.isResetting? (<Progress/>) :null}
 
-                        <p className="account-reset-txt">Reset Password</p>
+                {Auth.isReset?
+                    (<Success message="Instructions for resetting your password have been sent to your email."/>) :null}
 
-                        {Auth.isResetting? (<Progress/>) :null}
+                {Auth.error.reset?
+                    (<Error message={Auth.error.reset.non_field_errors || "Sorry, we couldn't reset your password. Please try again."}/>) :null}
 
-                        {Auth.isReset?
-                            (<Success message="Instructions for resetting your password have been sent to your email."/>) :null}
-
-                        {Auth.error.reset?
-                            (<Error message={Auth.error.reset.non_field_errors || "Sorry, we couldn't reset your password. Please try again."}/>) :null}
-
-                        <div className="form-group">
-                          <label htmlFor="email">Email:</label>
-                          <input type="email" className="form-control" ref="email" required placeholder="Email" />
-                        </div>
-
-                        <div className="row">
-                          <div className="col-md-6 col-sm-6 col-xs-6 pull-right">
-                            <button type="submit" className="btn pull-right" disabled={Auth.isResetting}>Reset Password</button>
-                          </div>
-                        </div>
-
-                      </form>
-                    </div>
-
-                  </div>
+                <div className="form-group">
+                    <label className="control-label" htmlFor="email">Email:</label>
+                    <input type="email" className="form-control" ref="email" required placeholder="Email" />
                 </div>
-              </div>
-            </div>
-          </section>
+
+                <button type="submit" className="btn pull-right" disabled={Auth.isResetting}>Reset Password</button>
+            </form>
+        );
+    }
+
+    render() {
+        return (
+            <ShowcaseContainer className="auth-page" headerContent={this.renderHeaderContent()}/>
         );
     }
 }

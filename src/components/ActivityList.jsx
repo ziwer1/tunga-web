@@ -40,7 +40,7 @@ export default class ActivityList extends React.Component {
         switch (item.action) {
             case 'send':
                 if(activity_type == 'message') {
-                    creator = object.user || object.sender;
+                    creator = object.sender || object.user;
                     created_at = object.created_at;
                     body = (<div dangerouslySetInnerHTML={{__html: object.html_body}}/>);
                     uploads = object.attachments;
@@ -75,9 +75,9 @@ export default class ActivityList extends React.Component {
                 if(activity_type == 'progress_event') {
                     creator = object.created_by || {
                             id: 'tunga',
-                            username: 'tunga',
+                            username: null,
                             display_name: 'Tunga Bot',
-                            avatar_url: 'https://tunga.io/static/tunga/img/email/tunga_round.png'
+                            avatar_url: 'https://tunga.io/icons/Tunga_squarex150.png'
                         };
                     created_at = object.created_at;
                     body = (
@@ -175,10 +175,10 @@ export default class ActivityList extends React.Component {
                 <div className="media-body">
                     <div className="body">
                         <p>
-                            {activity.user.id?(
+                            {activity.user.id && activity.user.username?(
                                 <Link to={`/people/${activity.user.username}/`}>{display_name}</Link>
                             ):(
-                                <span>{display_name}</span>
+                                <span className="username">{display_name}</span>
                             )}
                             {activity.summary?(<span> {activity.summary}</span>):null}
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router';
 
 import FormStatus from './status/FormStatus';
 import FieldError from './status/FieldError';
@@ -12,7 +11,9 @@ export default class ChannelForm extends React.Component {
             this.refs.channel_form.reset();
             this.setState({participants: []});
             const { router } = this.context;
-            router.replace((Auth.isAuthenticated?'':'/customer') +'/help/'+ Channel.detail.channel.id);
+            if(Auth.isAuthenticated) {
+                router.replace('/channel/' + Channel.detail.channel.id);
+            }
         }
     }
 
@@ -33,6 +34,9 @@ export default class ChannelForm extends React.Component {
 
     render() {
         const { Channel, Auth } = this.props;
+        if(Auth.user.is_staff) {
+            return  null;
+        }
         let channel = this.props.channel || {};
         return (
             <div className="new-channel">

@@ -9,11 +9,11 @@ import connect from '../utils/connectors/ChannelConnector';
 
 import { CHANNEL_TYPES } from '../constants/Api';
 
-export function resizeOverviewBox(excess=90) {
+export function resizeOverviewBox() {
     var w_h = $(window).height();
     var nav_h = $('nav.navbar').height();
     var wf_h = $('.chat-head').height();
-    var t_h = nav_h + wf_h + excess;
+    var t_h = nav_h + wf_h + 90;
 
     if(w_h > t_h) {
         $('.chat-overview').css('height', (w_h - t_h)+'px');
@@ -23,11 +23,8 @@ export function resizeOverviewBox(excess=90) {
 class MessagePage extends React.Component {
 
     componentDidMount() {
-        const { Auth } = this.props;
-        resizeOverviewBox(Auth.isAuthenticated?90:20);
-        $(window).resize(function () {
-            resizeOverviewBox(Auth.isAuthenticated?90:20);
-        });
+        resizeOverviewBox();
+        $(window).resize(resizeOverviewBox);
 
         this.getChannels();
     }
@@ -41,7 +38,7 @@ class MessagePage extends React.Component {
     getChannels() {
         const { Auth, ChannelActions } = this.props;
         if(Auth.isAuthenticated) {
-            ChannelActions.listChannels({user: Auth.user.id, type: this.getChannelTypeFilter()});
+            ChannelActions.listChannels({type: this.getChannelTypeFilter()});
         }
     }
 
@@ -78,28 +75,17 @@ class MessagePage extends React.Component {
                     <div className="chat-head">
                         <h2>{channel_type_filter == CHANNEL_TYPES.support?'Help':'Messages'}</h2>
                     </div>
-                ):(
-                    [
-                        <Link to="/" className="btn btn-borderless chat-close fa-lg"
-                              activeClassName="active" title="Close">
-                            <i className="fa fa-close"/>
-                        </Link>,
-                        (this.props.params.channelId?(
-                            <div className="alert alert-info alert-dismissible" style={{margin: '5px', position: 'absolute', top: 0, zIndex: 1001}}>
-                                <button type="button" className="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                Bookmark this page to come back to this conversation later
-                            </div>
-                        ):null)
-                    ]
-                )}
+                ):null}
 
                 <div className="chat-overview overview">
-                    {Auth.isAuthenticated?(
+                    {Auth.isAuthenticated && (Auth.user.is_staff || channel_type_filter != CHANNEL_TYPES.support)?(
                         <div className="sidebox channelbox">
                             <SearchBox placeholder="Search" onSearch={ChannelActions.listChannels} count={Channel.list.count}/>
-                            <div>
-                                <Link to={channel_type_filter == CHANNEL_TYPES.support?"/help/start/":"/conversation/start/"}><i className="fa fa-plus"/> {channel_type_filter == CHANNEL_TYPES.support?'Create a new inquiry':'Start a new conversation'}</Link>
-                            </div>
+                            {channel_type_filter == CHANNEL_TYPES.support?null:(
+                                <div>
+                                    <Link to="/conversation/start/"><i className="fa fa-plus"/> {channel_type_filter == CHANNEL_TYPES.support?'Create a new inquiry':'Start a new conversation'}</Link>
+                                </div>
+                            )}
                             {Channel.list.isFetching?(
                                 <Progress/>
                             ):(

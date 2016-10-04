@@ -42,24 +42,26 @@ export default class Settings extends React.Component {
         const { settings } = Settings;
 
         var user_switches = [
-            UserSettings.DAILY_UPDATE_EMAIL, UserSettings.DIRECT_MESSAGES_EMAIL, UserSettings.NEW_FRIEND_REQUEST_EMAIL
+            UserSettings.DAILY_UPDATE_EMAIL,
+            //UserSettings.DIRECT_MESSAGES_EMAIL,
+            UserSettings.NEW_FRIEND_REQUEST_EMAIL
         ];
 
         if(Auth.user.is_developer) {
             user_switches = user_switches.concat([
                 UserSettings.FRIEND_REQUEST_RESPONSE_EMAIL,
                 UserSettings.JOIN_TEAM_REQUEST_RESPONSE_EMAIL,
-                UserSettings.NEW_TEAM_INVITATION_EMAIL,
-                UserSettings.NEW_TASK_EMAIL,
-                UserSettings.NEW_TASK_INVITATION_EMAIL,
-                UserSettings.TASK_APPLICATION_RESPONSE_EMAIL,
-                UserSettings.TASK_PROGRESS_REPORT_REMINDER_EMAIL
+                UserSettings.NEW_TEAM_INVITATION_EMAIL
+                //UserSettings.NEW_TASK_EMAIL,
+                //UserSettings.NEW_TASK_INVITATION_EMAIL,
+                //UserSettings.TASK_APPLICATION_RESPONSE_EMAIL,
+                //UserSettings.TASK_PROGRESS_REPORT_REMINDER_EMAIL
             ]);
         } else {
             user_switches = user_switches.concat([
-                UserSettings.TEAM_INVITATION_RESPONSE_EMAIL,
-                UserSettings.NEW_TASK_APPLICATION_EMAIL,
-                UserSettings.TASK_INVITATION_RESPONSE_EMAIL
+                UserSettings.TEAM_INVITATION_RESPONSE_EMAIL
+                //UserSettings.NEW_TASK_APPLICATION_EMAIL,
+                //UserSettings.TASK_INVITATION_RESPONSE_EMAIL
             ]);
         }
 

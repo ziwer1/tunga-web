@@ -1,5 +1,4 @@
 import React from 'react';
-import LargeModal from './ModalLarge';
 
 export default class ComponentWithModal extends React.Component {
 

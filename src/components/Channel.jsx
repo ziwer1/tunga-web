@@ -7,7 +7,7 @@ import SearchBox from './SearchBox';
 import { CHANNEL_TYPES } from '../constants/Api';
 
 
-export default class ChatBox extends React.Component {
+export default class Channel extends React.Component {
 
     constructor(props) {
         super(props);
@@ -20,19 +20,19 @@ export default class ChatBox extends React.Component {
 
     componentDidMount() {
         const { ChannelActions } = this.props;
-        ChannelActions.retrieveChannel(this.props.params.channelId);
-        ChannelActions.listChannelActivity(this.props.params.channelId);
+        ChannelActions.retrieveChannel(this.props.channelId);
+        ChannelActions.listChannelActivity(this.props.channelId);
 
-        if(this.props.params.channelId) {
+        if(this.props.channelId) {
             this.setInterval(this.getNewMessages.bind(this), 10000);
         }
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if(this.props.params.channelId != prevProps.params.channelId) {
+        if(this.props.channelId != prevProps.channelId) {
             const { ChannelActions } = this.props;
-            ChannelActions.retrieveChannel(this.props.params.channelId);
-            ChannelActions.listChannelActivity(this.props.params.channelId);
+            ChannelActions.retrieveChannel(this.props.channelId);
+            ChannelActions.listChannelActivity(this.props.channelId);
         }
     }
 
@@ -45,15 +45,15 @@ export default class ChatBox extends React.Component {
     }
 
     getView() {
-        if(this.props.params && this.props.params.channelView) {
-            return this.props.params.channelView;
+        if(this.props.channelView) {
+            return this.props.channelView;
         }
         return null;
     }
 
     getNewMessages() {
         const { Channel, ChannelActions, search, filters } = this.props;
-        if(this.props.params.channelId && !Channel.detail.activity.isFetching && Channel.detail.activity.items.length) {
+        if(this.props.channelId && !Channel.detail.activity.isFetching && Channel.detail.activity.items.length) {
             var since = 0;
             if(Channel.detail.activity.items.length) {
                 since = Channel.detail.activity.items[Channel.detail.activity.items.length-1].id;
@@ -66,7 +66,7 @@ export default class ChatBox extends React.Component {
                     });
                 }
             }
-            ChannelActions.listChannelActivity(this.props.params.channelId, {since, ...filters, search, ...this.state.filters});
+            ChannelActions.listChannelActivity(this.props.channelId, {since, ...filters, search, ...this.state.filters});
         }
     }
 
@@ -109,7 +109,7 @@ export default class ChatBox extends React.Component {
         return (Channel.detail.isRetrieving?
                 (<Progress/>)
                 :(
-                channel.id && channel.id == this.props.params.channelId?(
+                channel.id && channel.id == this.props.channelId?(
                     <div className="chatbox">
                         <div className="chatbox-top clearfix">
                             <div className={`chat-actions ${Auth.isAuthenticated?"pull-right":""}`}>

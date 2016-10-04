@@ -21,6 +21,8 @@ history.listen(location => {
 
 import App from 'containers/App';
 import LandingPage from 'containers/LandingPage';
+import PricingPage from 'containers/PricingPage';
+import HowItWorksPage from 'containers/HowItWorksPage';
 import Home from 'containers/Home';
 import SignInPage from 'containers/SignInPage';
 import AccountType from 'containers/AccountType';
@@ -50,7 +52,7 @@ import UserPage from 'containers/UserPage';
 import UserList from 'components/UserList';
 import User from 'components/User';
 import MessagePage from 'containers/MessagePage';
-import Channel from 'components/Channel';
+import ChannelContainer from 'containers/ChannelContainer';
 import ChannelForm from 'components/ChannelForm';
 import SupportChannelForm from 'components/SupportChannelForm';
 import ChatBox from 'components/ChatBox';
@@ -77,6 +79,10 @@ ReactDOM.render(
         <Router history={history}>
             <Route path="/" component={App}>
                 <IndexRoute component={LandingPage}/>
+                <Route path="how-it-works" component={HowItWorksPage}/>
+                <Route path="pricing" component={PricingPage}/>
+                <Route path="press" component={LandingPage}/>
+                <Route path="FAQ" component={LandingPage}/>
                 <Route path="signin" component={SignInPage} />
                 <Route path="signup">
                     <IndexRoute component={AccountType} />
@@ -129,7 +135,7 @@ ReactDOM.render(
                             <Route path=":provider" crumb="Integrations"/>
                         </Route>
                         <Route path="pay" component={TaskPay} crumb="Pay"/>
-                        <Route path="participation" component={Participation} crumb="Edit Participation"/>
+                        <Route path="participation" component={Participation} crumb="Participation shares"/>
                         <Route path="rate" component={RateDevelopers} crumb="Rate Developers"/>
                         <Route path="event" component={MilestonePage}>
                             <Route path=":eventId" component={Milestone}/>
@@ -148,7 +154,7 @@ ReactDOM.render(
                     <Route path="start" component={ChannelForm}>
                         <Route path=":recipientId" />
                     </Route>
-                    <Route path=":channelId" component={Channel}>
+                    <Route path=":channelId" component={ChannelContainer}>
                         <IndexRedirect to="messages" />
                         <Route path="edit" component={ChannelForm} />
                         <Route path=":channelView" component={ChatBox} />
@@ -178,17 +184,8 @@ ReactDOM.render(
                 <Route path="help" component={MessagePage}>
                     <IndexRedirect to="start"/>
                     <Route path="start" component={SupportChannelForm}/>
-                    <Route path=":channelId" component={Channel}>
+                    <Route path=":channelId" component={ChannelContainer}>
                         <IndexRoute component={ChatBox} />
-                    </Route>
-                </Route>
-                <Route path="customer" component={LandingPage}>
-                    <Route path="help" component={MessagePage}>
-                        <IndexRedirect to="start"/>
-                        <Route path="start" component={SupportChannelForm}/>
-                        <Route path=":channelId" component={Channel}>
-                            <IndexRoute component={ChatBox} />
-                        </Route>
                     </Route>
                 </Route>
                 <Redirect path="*" to="home" />

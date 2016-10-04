@@ -24,7 +24,7 @@ export default class NavBar extends React.Component {
     render() {
         const { Auth } = this.props;
         return (
-            <div className="navbar-wrapper row">
+            <div className="navbar-wrapper">
                 <nav className="navbar navbar-fixed-top">
                     <div className="navbar-header">
                         {Auth.isAuthenticated?(
@@ -58,7 +58,12 @@ export default class NavBar extends React.Component {
                             </ul>
                         ):(
                             <ul className="nav navbar-nav navbar-right">
-                                <li><Link to="/signup">JOIN</Link></li>
+                                <li><Link to="/how-it-works">How it works</Link></li>
+                                <li><Link to="/pricing">Pricing</Link></li>
+                                <li><Link to="/press">Press</Link></li>
+                                <li><Link to="/FAQ">FAQ</Link></li>
+                                <li><a href="https://blog.tunga.io" target="_blank">Blog</a></li>
+                                <li style={{marginLeft: '50px'}}><Link to="/signup">JOIN</Link></li>
                                 <li><Link to="/signin">LOGIN</Link></li>
                             </ul>
                         )}

@@ -6,10 +6,10 @@ export const SEND_CONTACT_REQUEST_SUCCESS = 'SEND_CONTACT_REQUEST_SUCCESS';
 export const SEND_CONTACT_REQUEST_FAILED = 'SEND_CONTACT_REQUEST_FAILED';
 
 
-export function sendContactRequest(email) {
+export function sendContactRequest(data) {
     return dispatch => {
-        dispatch(sendContactRequestStart(email));
-        axios.post(ENDPOINT_CONTACT_REQUEST, email)
+        dispatch(sendContactRequestStart(data));
+        axios.post(ENDPOINT_CONTACT_REQUEST, data)
             .then(function(response) {
                 dispatch(sendContactRequestSuccess(response.data))
             }).catch(function(response) {

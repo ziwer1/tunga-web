@@ -12,7 +12,7 @@ import * as NavActions from '../actions/NavActions';
 import * as UserSelectionActions from '../actions/UserSelectionActions';
 import * as SkillSelectionActions from '../actions/SkillSelectionActions';
 
-import { UNAUTHED_ACCESS_PATH, PROFILE_COMPLETE_PATH } from '../constants/patterns';
+import { UNAUTHED_ACCESS_PATH, PROFILE_COMPLETE_PATH, LANDING_PAGE_PATH } from '../constants/patterns';
 
 import { initNavUIController } from '../utils/ui';
 
@@ -77,11 +77,14 @@ class App extends React.Component {
             Auth.isVerifying?
                 (
                     <div className="app-loading">
-                        <Progress message="Initializing Tunga ..."/>
+                        <div>
+                            <img src={require('../images/logo.png')}/>
+                        </div>
+                        <Progress message="Initializing ..."/>
                     </div>
                 )
                 :
-                (
+                Auth.isAuthenticated?(
                     <div className="app-wrapper" onClick={this.handleAppClick.bind(this)}>
                         <Helmet
                             title="Tunga"
@@ -106,7 +109,7 @@ class App extends React.Component {
                             </div>
                         </div>
                     </div>
-                )
+                ):children
         );
     }
 }

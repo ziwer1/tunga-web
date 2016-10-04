@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import * as UtilityActions from '../actions/UtilityActions';
+import { PATH_CHANGE } from '../actions/NavActions';
 
 
 function isSending(state = false, action) {
@@ -20,6 +21,7 @@ function isSent(state = false, action) {
             return true;
         case UtilityActions.SEND_CONTACT_REQUEST_START:
         case UtilityActions.SEND_CONTACT_REQUEST_FAILED:
+        case PATH_CHANGE:
             return false;
         default:
             return state;

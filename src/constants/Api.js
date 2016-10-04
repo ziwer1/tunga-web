@@ -244,4 +244,10 @@ export const CHANNEL_TYPES = {
     direct: 1,
     topic: 2,
     support: 3
-}
+};
+
+export const OFFER_REQUEST_ITEMS = {
+    onboarding: "onboarding",
+    onboarding_special: "onboarding_special",
+    project: "project"
+};

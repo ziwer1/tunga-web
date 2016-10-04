@@ -1,15 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
 import YouTube from 'react-youtube';
 import _ from 'underscore';
 
-import * as UtilityActions from '../actions/UtilityActions';
-import Success from '../components/status/Success';
-import Error from '../components/status/Error';
+import ShowcaseContainer from './ShowcaseContainer';
 
-class LandingPage extends React.Component {
+export default class LandingPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {player: null};
@@ -24,19 +20,7 @@ class LandingPage extends React.Component {
                 slidesToShow: 3,
                 slidesToScroll: 1
             });
-
-            $('#head-wrapper').css('height', $('#main-header').height()+'px');
         });
-
-        $(window).resize(function() {
-            $('#head-wrapper').css('height', $('#main-header').height()+'px');
-        });
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        if(this.props.Utility.contact.isSent && !prevProps.Utility.contact.isSent) {
-            this.refs.contact_form.reset();
-        }
     }
 
     onVideoReady(e) {
@@ -51,53 +35,26 @@ class LandingPage extends React.Component {
         }
     }
 
-    sendEmail(e) {
-        e.preventDefault();
-        const email = this.refs.email.value.trim();
-        const { UtilityActions } = this.props;
-        UtilityActions.sendContactRequest({email});
+    renderHeaderContent() {
+        return (
+            <div className="head-desc">
+                <h1>Unlocking Africa's Tech talent potential.</h1>
+                <p>
+                    Tunga is a market network that allows you to build a flexible team of skilled African software programmers,
+                    that you can mobilize on-demand
+                </p>
+                <Link className="btn btn-lg" to="/signup/project-owner" id="btn-publish">TRY NOW</Link>
+            </div>
+        );
     }
 
     render() {
-        const { Utility } = this.props;
-
         return (
-            <div id="landing-page">
-                <header id="main-header">
-                    <div id="head-wrapper">
-                        {/*<nav className="navbar">
-                            <div className="container">
-                                <div className="navbar-header">
-                                    <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#tunga-navbar" aria-expanded="false" aria-controls="navbar">
-                                        <span className="sr-only">Toggle navigation</span>
-                                        <i className="fa fa-ellipsis-v fa-lg"></i>
-                                    </button>
-                                    <a className="navbar-brand" href="#"><img src={require('../images/header-logo.png')} /></a>
-                                </div>
-
-                                <div className="collapse navbar-collapse" id="tunga-navbar">
-                                    <ul className="nav navbar-nav navbar-right nav-actions">
-                                        <li><Link to="/signup" className="join">JOIN</Link></li>
-                                        <li><Link to="/signin" className="login">LOGIN</Link></li>
-                                        <li><a href="https://blog.tunga.io" target="_blank" className="login">BLOG</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </nav>*/}
-                        <div className="container">
-                            <div className="col-md-8 col-md-offset-1 row" id="head-desc">
-                                <h1>Unlocking Africa's Tech talent potential.</h1>
-                                <p className="col-md-12 row"><span className="col-md-7 row">Tunga is a market network that allows you to build a flexible team of skilled African software programmers, that you can mobilize on-demand</span></p>
-                                <Link className="btn " to="/signup" id="btn-publish">TRY NOW</Link>
-                            </div>
-                        </div>
-                    </div>
-                </header>
-
+            <ShowcaseContainer className="landing-page" headerContent={this.renderHeaderContent()}>
                 <section id="how-it-works" className="row">
                     <div className="container">
                         <content className="col-md-5 row">
-                            <h2><span className="h2-bold">How</span> it works</h2>
+                            <h2><span className="bold">How</span> it works</h2>
                             <ol>
                                 <span id="invite-icon"></span>
                                 <li>
@@ -120,9 +77,9 @@ class LandingPage extends React.Component {
                         </div>
                     </div>
                 </section>
-                <section id="clients-testmonial" className="row">
+                <section id="clients-testmonial">
                     <div className="container">
-                        <h2><span className="h2-bold">Clients</span> testimonials</h2>
+                        <h2><span className="bold">Clients</span> testimonials</h2>
                         <div className="testimonials-slider text-center">
                             {_.range(1,6).map(x => {
                                 return (
@@ -136,7 +93,7 @@ class LandingPage extends React.Component {
                         </div>
                     </div>
                 </section>
-                <section id="watch-our-video" className="row">
+                <section id="watch-our-video">
                     <a id="play-btn" href="#"  onClick={this.playIntroVideo.bind(this)}>
                         <span>WATCH OUR VIDEO</span>
                     </a>
@@ -146,9 +103,9 @@ class LandingPage extends React.Component {
                         onReady={this.onVideoReady.bind(this)}
                     />
                 </section>
-                <section id="what-we-can-do" className="row">
+                <section id="what-we-can-do">
                     <div className="container">
-                        <h2><span className="h2-bold">What</span> we can do</h2>
+                        <h2><span className="bold">What</span> we can do</h2>
                         <div className="row">
                             <div className="col-sm-4" id="building-websites">
                                 <span></span>
@@ -181,7 +138,7 @@ class LandingPage extends React.Component {
                 </section>
                 <section id="meet-our-developers" className="row">
                     <div className="container">
-                        <h2><span className="h2-bold">Meet</span> our developers</h2>
+                        <h2><span className="bold">Meet</span> our developers</h2>
                         <p>Tunga works with a vetted community of coders with proven and tested skills. To control costs, you pay per result and not per hour. Tunga also works with private repositories and our developers can sign an NDA if required. Meet some of them here:</p>
                         <div className="row" id="our-devs">
                             <div className="col-xs-6 col-sm-4 col-md-3"><Link to="/signup"><img src={require("../images/devs/Emunot.jpg")} className="img-responsive"/></Link></div>
@@ -196,87 +153,14 @@ class LandingPage extends React.Component {
                         <div className="row text-center"><Link to="/signup" className="btn " id="join-btn">JOIN OUR TEAM</Link></div>
                     </div>
                 </section>
-                <section id="contact-us" className="row">
+                <section id="contact-us">
                     <div className="container text-center">
-                        <p className="text-center">Want to find out more?<br/>Create an account and check out our platform.</p>
+                        <p>Want to find out more?<br/>Create an account and check out our platform.</p>
                         <h3>It's free!</h3>
-                        <a href="mailto:bart@tunga.io" className="btn ">CONTACT US</a>
+                        <a href="mailto:bart@tunga.io" className="btn">CONTACT US</a>
                     </div>
                 </section>
-                <footer className="row" id="main-footer">
-                    <div className="container">
-                        <div className="col-sm-3" id="social">
-                            <div id="tunga-logo-btm"><img src={require("../images/logo.png")}/></div>
-                            <div id="social-networks">
-                                <a target="_blank" href="https://www.facebook.com/tunga.io" id="fb" title="Facebook"><i className="fa fa-facebook"></i></a>
-                                <a target="_blank" href="https://twitter.com/tunga_io" id="twitter" title="Twitter"><i className="fa fa-twitter"></i></a>
-                                <a target="_blank" href="https://blog.tunga.io" id="medium" title="Medium"><i className="fa fa-medium"></i></a>
-                                {/*<a target="_blank" href="#" id="g-plus"><i className="fa fa-google-plus"></i></a>
-                                <a target="_blank" href="#" id="instagram"><i className="fa fa-instagram"></i></a>*/}
-                            </div>
-                        </div>
-                        <div className="col-sm-4" id="contact-info">
-                            <h4>CONTACT INFORMATION</h4>
-                            <p><i className="fa fa-map-marker"></i> Ms van Riemsdijkweg 57, 1033RC Amsterdam, The Netherlands</p>
-                            <p><i className="fa fa-phone"></i> 0615955193 <i className="fa fa-envelope"></i> bart@tunga.io</p>
-                            <form id="contact-form" role="form" name="contact-form" ref="contact_form">
-                                {Utility.contact.isSent?(
-                                <Success message="Contact request sent"/>
-                                    ):null}
-                                {Utility.error && Utility.error.contact?(
-                                <Error message={Utility.error.contact.email || "Your request couldn't be processed. Please try again later."}/>
-                                    ):null}
-                                <div className="input-group input-group-lg">
-                                    <input className="form-control" ref="email" name="email" type="email" placeholder="Drop your email here and we will contact you" required/>
-                                    <span className="input-group-btn">
-                                        <button className="btn " type="submit" disabled={Utility.contact.isSending}>
-                                            <i className="fa fa-envelope" onClick={this.sendEmail.bind(this)}></i>
-                                        </button>
-                                    </span>
-                                </div>
-                            </form>
-                        </div>
-                        <div className="col-sm-3" id="latest-from-blog">
-                            <h4>LATEST FROM OUR BLOG</h4>
-                            <ul className="list-unstyled">
-                                <li><a target="_blank" href="https://blog.tunga.io/why-its-a-good-idea-to-mobilize-remote-workers-in-africa-f9c707cdced7?source=latest---"><i className="fa fa-angle-right"></i> Why it’s a Good Idea to Mobilize Remote Workers in Africa.</a></li>
-                                <li><a target="_blank" href="https://blog.tunga.io/how-using-bitcoin-to-pay-gig-workers-in-africa-is-a-no-brainer-621087d03852?source=latest---"><i className="fa fa-angle-right"></i> How using Bitcoin to pay gig-workers in Africa is a no-brainer</a></li>
-                                <li><a target="_blank" href="https://blog.tunga.io/why-i-think-africa-is-a-hotbed-of-innovation-that-everybody-should-know-about-96bd1c649527?source=latest---"><i className="fa fa-angle-right"></i> Why I Think Africa is a Hotbed of Innovation That Everybody Should Know About.</a></li>
-                                <li><a target="_blank" href="https://blog.tunga.io/how-to-use-digital-storytelling-for-social-enterprises-a2e92bb40558?source=latest---"><i className="fa fa-angle-right"></i> How to Use Digital Storytelling for Social Enterprises</a></li>
-                                <li><a target="_blank" href="https://blog.tunga.io/african-coders-are-more-suited-for-the-gig-economy-than-their-western-counterparts-99a32366fcd3#.5a5ppu93f"><i className="fa fa-angle-right"></i> African coders are more suited for the ‘gig economy’ than their western counterparts</a></li>
-                            </ul>
-                        </div>
-                        <div className="col-sm-2" id="quick-links">
-                            <h4>QUICK LINKS</h4>
-                            <ul className="list-unstyled">
-                                <li><Link to="/signin">Login</Link></li>
-                                <li><Link to="/signup">Sign Up</Link></li>
-                                {/*<li><a href="#">About Us</a></li>
-                                <li><a href="#">Team</a></li>
-                                <li><a href="#">Contact Us</a></li>*/}
-                            </ul>
-                        </div>
-                    </div>
-                    <div className="row text-center">
-                        <p><a href="#">Privacy Policy</a> &nbsp; | &nbsp; <a href="#">Terms and Conditions</a></p>
-                        <small>&copy; 2016 Tunga.io &mdash; All rights reserved.</small>
-                    </div>
-                </footer>
-                <div>{this.props.children?this.props.children:(
-                    <Link to="/customer/help/" id="chat-btn" className=""> <i className="fa fa-question-circle fa-lg"/> Need Help? Chat with us.</Link>
-                )}</div>
-            </div>
+            </ShowcaseContainer>
         );
     }
 }
-
-function mapStateToProps(state) {
-    return {Utility: state.Utility};
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        UtilityActions: bindActionCreators(UtilityActions, dispatch)
-    }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(LandingPage);

@@ -8,8 +8,8 @@ import ActivityList from './ActivityList';
 export default class ChatBox extends React.Component {
 
     getView() {
-        if(this.props.params && this.props.params.channelView) {
-            return this.props.params.channelView;
+        if(this.props.channelView) {
+            return this.props.channelView;
         }
         return null;
     }
