@@ -81,16 +81,22 @@ function tasks(state = {}, action) {
             return {};
         case ApplicationActions.CREATE_APPLICATION_SUCCESS:
             var task = state[action.application.task];
-            task.can_apply = false;
-            var new_ref = {};
-            new_ref[task.id] = task;
-            return {...state, ...new_ref};
+            if(task) {
+                task.can_apply = false;
+                var new_ref = {};
+                new_ref[task.id] = task;
+                return {...state, ...new_ref};
+            }
+            return state;
         case SavedTaskActions.CREATE_SAVED_TASK_SUCCESS:
             task = state[action.saved_task.task];
-            task.can_save = false;
-            new_ref = {};
-            new_ref[task.id] = task;
-            return {...state, ...new_ref};
+            if(task) {
+                task.can_save = false;
+                new_ref = {};
+                new_ref[task.id] = task;
+                return {...state, ...new_ref};
+            }
+            return state;
         default:
             return state;
     }

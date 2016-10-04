@@ -33,7 +33,15 @@ export default class TaskDetail extends React.Component {
                 <div className="task-page">
                     {task.can_apply?(
                         <Link to={`/task/${task.id}/apply`} className="btn pull-right">Apply for this task</Link>
-                    ):null}
+                    ):(Auth.user.can_contribute?null:(
+                            <div style={{marginBottom: '20px'}}>
+                                <div className="alert alert-info">You need to complete your profile before you can apply for tasks</div>
+                                <div>
+                                    <Link to="/profile"><i className="fa fa-arrow-right"/> Continue to your profile</Link>
+                                </div>
+                            </div>
+                        )
+                    )}
 
                     <h3 className="title pull-left"><Link to={`/task/${task.id}/`}>{task.title}</Link></h3>
                     <div className="time pull-left">

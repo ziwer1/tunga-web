@@ -52,7 +52,7 @@ export default class ApplicationList extends ComponentWithModal {
         this.setState({close_applications});
         const application = this.state.application;
         TaskActions.updateApplication(application.id, {accepted: true, responded: true});
-        TaskActions.updateTask(application.task, {apply: !close_applications, participation: [{user: application.user, assignee, accepted: true, responded: true}]});
+        TaskActions.updateTask(application.task, {apply: !close_applications, participation: [{user: application.user.id, assignee, accepted: true, responded: true}]});
     }
 
     handleRejectApplication(application) {
