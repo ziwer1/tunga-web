@@ -250,7 +250,7 @@ export default class TaskWorflow extends ComponentWithModal {
                                 ]
                             ):null}
                             {is_confirmed_assignee && task.details && task.details.participation_shares.length > 1?(
-                                <Link to={`/task/${task.id}/participation/`} activeClassName="active">Participation</Link>
+                                <Link to={`/task/${task.id}/participation/`} activeClassName="active">Edit participation shares</Link>
                             ):null}
                         </div>
                     ):null}

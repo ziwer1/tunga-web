@@ -1,5 +1,5 @@
 import React from 'react';
-import {} from 'react';
+import { Link } from 'react-router';
 import Progress from './status/Progress';
 import FormStatus from './status/FormStatus';
 import Error from './status/Error';
@@ -68,7 +68,7 @@ export default class TaskPay extends React.Component {
                     (<Progress/>)
                     :
                     (<div style={{marginTop: '20px'}}>
-                        <h4 className="title">Participation Shares</h4>
+                        {/*<h4 className="title">Participation shares</h4>*/}
 
                         <form onSubmit={this.handleSubmit.bind(this)} name="participation" role="form" ref="participation_form">
 
@@ -86,7 +86,7 @@ export default class TaskPay extends React.Component {
                                         return (
                                             <div key={item.participant.id} className="row form-group">
                                                 <div className="col-md-6">
-                                                    <label className="control-label">{item.participant.user.display_name}</label>
+                                                    <label className="control-label"><Link to={`/people/${item.participant.user.username}`}>{item.participant.user.display_name}</Link></label>
                                                 </div>
                                                 <div className="col-md-6">
                                                     <input type="text" className="form-control" required placeholder="Share"
