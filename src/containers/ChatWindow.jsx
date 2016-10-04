@@ -23,7 +23,11 @@ export default class ChatWindow extends React.Component {
         super(props);
         var lastChannel = null;
         if (typeof(Storage) !== "undefined") {
-            lastChannel = JSON.parse(window.localStorage.channel);
+            try {
+                lastChannel = JSON.parse(window.localStorage.channel);
+            } catch (e) {
+                lastChannel = null;
+            }
         }
         this.state = {channel: null, lastChannel: lastChannel};
     }
@@ -55,7 +59,11 @@ export default class ChatWindow extends React.Component {
 
     saveChannel(channel) {
         if (typeof(Storage) !== "undefined") {
-            window.localStorage.channel = JSON.stringify(channel);
+            try {
+                window.localStorage.channel = JSON.stringify(channel);
+            } catch (e) {
+                // Failed to save
+            }
         }
     }
 
