@@ -44,7 +44,7 @@ export default class ShowcaseContainer extends React.Component {
 
                 <ShowCaseFooter/>
 
-                <ChatWindow />
+                <ChatWindow channelId={this.props.chatId || null} />
             </div>
         );
     }

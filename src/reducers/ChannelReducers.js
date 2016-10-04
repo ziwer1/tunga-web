@@ -260,6 +260,18 @@ function error(state = {}, action) {
     }
 }
 
+function support(state = {new: 0}, action) {
+    switch (action.type) {
+        case ChannelActions.LIST_NEW_CHANNEL_ACTIVITY_SUCCESS:
+            if(action.update_new) {
+                return {...state, new: action.count};
+            }
+            return state;
+        default:
+            return state;
+    }
+}
+
 const detail = combineReducers({
     channel,
     attachments,
@@ -269,7 +281,8 @@ const detail = combineReducers({
     isSaved,
     isDeleting,
     activity: Activity,
-    error
+    error,
+    support
 });
 
 const list = combineReducers({

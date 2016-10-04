@@ -29,19 +29,38 @@ export default class ChatWindow extends React.Component {
                 lastChannel = null;
             }
         }
-        this.state = {channel: null, lastChannel: lastChannel};
+        this.state = {channel: null, lastChannel: lastChannel, new: 0};
+    }
+
+    componentWillMount() {
+        this.intervals = [];
     }
 
     componentDidMount() {
         resizeOverviewBox();
         $(window).resize(resizeOverviewBox);
+
+        this.setInterval(this.getNewMessages.bind(this), 10000);
+
+        if(this.props.channelId) {
+            this.openChannel({id: this.props.channelId});
+        }
     }
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.Channel.detail.isSaved != this.props.Channel.detail.isSaved && nextProps.Channel.detail.channel.id) {
+        if(nextProps.Channel.detail.channel.id) {
+            var currentChannel = this.getCurrentChannel();
             const { channel } = nextProps.Channel.detail;
-            this.setState({channel});
-            this.saveChannel(channel);
+
+            if(nextProps.Channel.detail.isSaved != this.props.Channel.detail.isSaved ||
+                (currentChannel && nextProps.Channel.detail.channel.id == currentChannel.id)) {
+                this.setState({channel});
+                this.saveChannel(channel);
+            }
+        }
+
+        if(nextProps.Channel.detail.support.new != this.state.new) {
+            this.setState({new: nextProps.Channel.detail.support.new});
         }
     }
 
@@ -51,6 +70,11 @@ export default class ChatWindow extends React.Component {
 
     componentWillUnmount() {
         this.saveChannel(this.getCurrentChannel() || this.state.lastChannel);
+        this.intervals.map(clearInterval);
+    }
+
+    setInterval() {
+        this.intervals.push(setInterval.apply(null, arguments));
     }
 
     getCurrentChannel() {
@@ -77,6 +101,15 @@ export default class ChatWindow extends React.Component {
 
     closeWindow() {
         this.setState({channel: null, lastChannel: this.getCurrentChannel() || this.state.lastChannel});
+    }
+
+    getNewMessages() {
+        const { ChannelActions } = this.props;
+        const lastChannel = this.state.lastChannel;
+        if(!this.state.channel && lastChannel && lastChannel.id) {
+            var since = lastChannel.last_read || 0;
+            ChannelActions.listChannelActivity(lastChannel.id, {since}, false);
+        }
     }
 
     render() {
@@ -118,9 +151,17 @@ export default class ChatWindow extends React.Component {
                     </div>
                 ):(
                     <div>
-                        <button className="btn chat-btn" onClick={this.startChannel.bind(this)}> <i className="fa fa-question-circle fa-lg"/> Need Help? Chat with us.</button>
+                        <button className="btn chat-btn" onClick={this.startChannel.bind(this)}>
+                            <i className="fa fa-question-circle fa-lg"/> Need Help? Chat with us.
+                        </button>
                         {this.state.lastChannel && (typeof(this.state.lastChannel) === "object")?(
-                            <button className="btn chat-btn" onClick={this.openChannel.bind(this, this.state.lastChannel)}> <i className="fa fa-comments fa-lg"/> {this.state.lastChannel.subject || this.state.lastChannel.alt_subject}</button>
+                            <button
+                                className="btn chat-btn"
+                                onClick={this.openChannel.bind(this, this.state.lastChannel)}>
+                                <i className="fa fa-comments fa-lg"/>
+                                <span> {this.state.lastChannel.subject || this.state.lastChannel.alt_subject} </span>
+                                {this.state.new?(<span className="badge">{this.state.new}</span>):null}
+                            </button>
                         ):null}
                     </div>
                 )}

@@ -50,7 +50,7 @@ export default class LandingPage extends React.Component {
 
     render() {
         return (
-            <ShowcaseContainer className="landing-page" headerContent={this.renderHeaderContent()}>
+            <ShowcaseContainer className="landing-page" headerContent={this.renderHeaderContent()} chatId={this.props.params?this.props.params.channelId:null}>
                 <section id="how-it-works" className="row">
                     <div className="container">
                         <content className="col-md-5 row">

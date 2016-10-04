@@ -188,6 +188,7 @@ ReactDOM.render(
                         <IndexRoute component={ChatBox} />
                     </Route>
                 </Route>
+                <Route path="customer/help/:channelId" component={LandingPage}/>
                 <Redirect path="*" to="home" />
             </Route>
         </Router>

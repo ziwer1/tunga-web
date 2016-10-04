@@ -381,16 +381,16 @@ export function listMoreChannelsFailed(error) {
     }
 }
 
-export function listChannelActivity(id, filter) {
+export function listChannelActivity(id, filter, update_read=true) {
     return dispatch => {
         let get_new = filter && filter.since > -1;
         dispatch(listChannelActivityStart(id, filter, get_new));
         axios.get(ENDPOINT_CHANNEL + id + '/activity/', {params: filter})
             .then(function(response) {
-                if(response.data.results && response.data.results.length) {
+                if(update_read && response.data.results && response.data.results.length) {
                     dispatch(updateChannelRead(id, {last_read: response.data.results[0].id}));
                 }
-                dispatch(listChannelActivitySuccess(response.data, id, filter, get_new));
+                dispatch(listChannelActivitySuccess(response.data, id, filter, get_new, !update_read));
             }).catch(function(response) {
             dispatch(listChannelActivityFailed(response.data, id, get_new))
         });
@@ -405,7 +405,7 @@ export function listChannelActivityStart(id, filter, new_only=false) {
     }
 }
 
-export function listChannelActivitySuccess(response, id, filter, new_only=false) {
+export function listChannelActivitySuccess(response, id, filter, new_only=false, update_new=false) {
     return {
         type: new_only?LIST_NEW_CHANNEL_ACTIVITY_SUCCESS:LIST_CHANNEL_ACTIVITY_SUCCESS,
         items: response.results,
@@ -413,7 +413,8 @@ export function listChannelActivitySuccess(response, id, filter, new_only=false)
         next: response.next,
         count: response.count,
         id,
-        filter
+        filter,
+        update_new: new_only && update_new
     }
 }
 
