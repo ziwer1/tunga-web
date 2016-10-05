@@ -35,8 +35,10 @@ export default class ShowcaseContainer extends React.Component {
                             </div>
                         </div>
                     </nav>
-                    <div className="container">
-                        {this.props.headerContent}
+                    <div className="content">
+                        <div className="container">
+                            {this.props.headerContent}
+                        </div>
                     </div>
                 </header>
 
