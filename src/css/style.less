@@ -1914,11 +1914,6 @@ activity-list {
         background-position: center;
         background-size: cover;
 
-        .container {
-            padding-top: 50px;
-            padding-left: 25px;
-        }
-
         h1 {
             font-size: 48px;
             line-height: 52px;
@@ -1943,12 +1938,6 @@ activity-list {
         }
     }
 
-    .content {
-        .container {
-            max-width: 1000px;
-        }
-    }
-
     .navbar {
         padding: 50px 0 20px 0;
         background-color: transparent;
@@ -1956,7 +1945,6 @@ activity-list {
 
         .navbar-brand {
             padding: 0;
-            /*margin-right: 50px;*/
         }
 
         .navbar-nav {
@@ -1972,7 +1960,11 @@ activity-list {
                     border-bottom: 1px solid transparent;
                 }
 
-                > a:hover {
+                > a:hover,
+                > a.active,
+                > a:hover.active,
+                > a:focus.active,
+                > a:visited.active {
                     color: @active-white;
                     border-bottom-color: @primary;
                 }
@@ -1981,6 +1973,7 @@ activity-list {
 
         .nav-actions {
             margin-right: 20px;
+
             li {
                 padding: 7px 0 0 ;
 
@@ -2137,7 +2130,7 @@ activity-list {
 
     #chat-window {
         position: fixed;
-        top: 100px;
+        top: 0;
         bottom: 0;
         right: 50px;
         z-index: 1000;
@@ -2154,6 +2147,10 @@ activity-list {
             top: 5px;
             right: 5px;
             z-index: 1000;
+
+            .btn {
+                padding: 3px 4px;
+            }
         }
 
         .overview {
@@ -2167,7 +2164,7 @@ activity-list {
         color: @primary;
         background-color: @active-white;
         padding: 5px 15px;
-        min-width: 100p;
+        min-width: 100px;
         border-radius: 5px 5px 0 0;
         border: 1px @primary solid;
         border-bottom-color: @active-white;
@@ -2178,10 +2175,21 @@ activity-list {
             background-color: @primary;
         }
     }
+
+    .previous-chat.chat-btn {
+        display: inline-block;
+        height: auto !important;
+        padding: 0;
+
+        .btn-close {
+            margin-left: -5px;
+        }
+    }
 }
 
 .showcase.landing-page {
     header {
+        background-color: #777;
         background-image: url('../images/header-bg.jpg');
         min-height: 100%;
 
@@ -2568,32 +2576,9 @@ activity-list {
     }
 }
 
-/*MEDIUM SCREENS*/
-@media (max-width: @screen-md-max) {
-    .showcase.landing-page {
-        header {
-            background-image: url('../images/header-bgx@{screen-lg-bp}.jpg');
-        }
-        #meet-our-developers #our-devs img {
-            width: auto;
-            height: 220px;
-        }
-        #watch-our-video {
-            background-image: url("../images/videox@{screen-lg-bp}.jpg");
-        }
-        #contact-us {
-            background-image: url("../images/footerx@{screen-lg-bp}.jpg");
-        }
-    }
-}
-
-/*SMALL SCREENS*/
-@media (max-width: @screen-sm-max) {
+/*XTRA-XTRA SMALL*/
+@media (max-width: @screen-xxs-max) {
     .showcase {
-        #chat-window {
-            top: 0;
-        }
-
         section {
             .media {
                 .media-body,
@@ -2611,26 +2596,19 @@ activity-list {
     }
     .showcase.landing-page {
         header {
-            background-image: url('../images/header-bgx@{screen-md-bp}.jpg');
-        }
-        #how-it-works {
-            height: auto;
-        }
-        #meet-our-developers #our-devs img {
-            width: auto;
-            height: 170px;
+            background-image: url('../images/header-bgx@{screen-xs-bp}.jpg');
         }
         #watch-our-video {
-            background-image: url("../images/videox@{screen-md-bp}.jpg");
+            background-image: url("../images/videox@{screen-xs-bp}.jpg");
         }
         #contact-us {
-            background-image: url("../images/footerx@{screen-md-bp}.jpg");
+            background-image: url("../images/footerx@{screen-xs-bp}.jpg");
         }
     }
 }
 
 /*XTRA SMALL*/
-@media (max-width: @screen-xs-max) {
+@media (min-width: @screen-xs-min) {
     .showcase.landing-page {
         header {
             background-image: url('../images/header-bgx@{screen-sm-bp}.jpg');
@@ -2659,20 +2637,114 @@ activity-list {
     }
 }
 
+/*SMALL SCREENS*/
+@media (min-width: @screen-sm-min) {
+    .showcase {
+        #chat-window {
+            top: 100px;
+        }
 
-/*XTRA-XTRA SMALL*/
-@media (max-width: @screen-xxs-max) {
-    .showcase.landing-page {
         header {
-            background-image: url('../images/header-bgx@{screen-xs-bp}.jpg');
-        }
-        #watch-our-video {
-            background-image: url("../images/videox@{screen-xs-bp}.jpg");
-        }
-        #contact-us {
-            background-image: url("../images/footerx@{screen-xs-bp}.jpg");
+            .container {
+                max-width: 450px;
+            }
+
+            .navbar {
+                .navbar-header {
+                    position: absolute;
+                    left: 0;
+                }
+            }
+
+            .nav-actions {
+                position: absolute;
+                right: 0;
+            }
+
+            .content {
+                .container {
+                    padding-top: 30px;
+                    padding-left: 45px;
+                }
+            }
+
         }
     }
-
+    .showcase.landing-page {
+        header {
+            background-image: url('../images/header-bgx@{screen-md-bp}.jpg');
+        }
+        #how-it-works {
+            height: auto;
+        }
+        #meet-our-developers #our-devs img {
+            width: auto;
+            height: 170px;
+        }
+        #watch-our-video {
+            background-image: url("../images/videox@{screen-md-bp}.jpg");
+        }
+        #contact-us {
+            background-image: url("../images/footerx@{screen-md-bp}.jpg");
+        }
+    }
 }
+
+/*MEDIUM SCREENS*/
+@media (min-width: @screen-md-min) {
+    .showcase {
+
+        header {
+            .container {
+                max-width: 670px;
+            }
+
+            #navbar,
+            .navbar {
+                padding-left: 0;
+
+                ul {
+                    > li:first-child {
+                        padding-left: 0;
+                    }
+                }
+            }
+        }
+
+        .content {
+            .container {
+                max-width: 1000px;
+            }
+        }
+    }
+    .showcase.landing-page {
+        header {
+            background-image: url('../images/header-bgx@{screen-lg-bp}.jpg');
+        }
+        #meet-our-developers #our-devs img {
+            width: auto;
+            height: 220px;
+        }
+        #watch-our-video {
+            background-image: url("../images/videox@{screen-lg-bp}.jpg");
+        }
+        #contact-us {
+            background-image: url("../images/footerx@{screen-lg-bp}.jpg");
+        }
+    }
+}
+
+/*LARGE SCREENS*/
+@media (min-width: @screen-lg-min) {
+    .showcase {
+
+        header {
+            .container {
+                max-width: 870px;
+            }
+        }
+    }
+}
+
+
 

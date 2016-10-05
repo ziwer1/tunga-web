@@ -86,7 +86,7 @@ export default class ChatWindow extends React.Component {
             try {
                 window.localStorage.channel = JSON.stringify(channel);
             } catch (e) {
-                // Failed to save
+                window.localStorage.channel = null;
             }
         }
     }
@@ -99,8 +99,13 @@ export default class ChatWindow extends React.Component {
         this.setState({channel, lastChannel: this.getCurrentChannel() || this.state.lastChannel});
     }
 
-    closeWindow() {
+    minimizeWindow() {
         this.setState({channel: null, lastChannel: this.getCurrentChannel() || this.state.lastChannel});
+    }
+
+    closeWindow() {
+        this.setState({channel: null, lastChannel: null});
+        this.saveChannel(null);
     }
 
     getNewMessages() {
@@ -120,11 +125,18 @@ export default class ChatWindow extends React.Component {
             <div id="chat-widget">
                 {channel?(
                     <div id="chat-window">
-                        <button className="btn btn-borderless chat-close fa-lg"
-                              activeClassName="active" title="Close"
-                                onClick={this.closeWindow.bind(this)}>
-                            <i className="fa fa-minus"/>
-                        </button>
+                        <div className="chat-close">
+                            <button className="btn btn-borderless"
+                                    activeClassName="active" title="Minimize"
+                                    onClick={this.minimizeWindow.bind(this)}>
+                                <i className="fa fa-minus fa-lg"/>
+                            </button>
+                            <button className="btn btn-borderless"
+                                    activeClassName="active" title="Close"
+                                    onClick={this.closeWindow.bind(this)}>
+                                <i className="fa fa-times fa-lg"/>
+                            </button>
+                        </div>
                         <div className="chat-overview overview">
                             <div className="mainbox">
                                 {channel == 'new' && !channel.id?(
@@ -155,13 +167,20 @@ export default class ChatWindow extends React.Component {
                             <i className="fa fa-question-circle fa-lg"/> Need Help? Chat with us.
                         </button>
                         {this.state.lastChannel && (typeof(this.state.lastChannel) === "object")?(
-                            <button
-                                className="btn chat-btn"
-                                onClick={this.openChannel.bind(this, this.state.lastChannel)}>
-                                <i className="fa fa-comments fa-lg"/>
-                                <span> {this.state.lastChannel.subject || this.state.lastChannel.alt_subject} </span>
-                                {this.state.new?(<span className="badge">{this.state.new}</span>):null}
-                            </button>
+                            <div className="previous-chat chat-btn">
+                                <button
+                                    className="btn btn-borderless"
+                                    onClick={this.openChannel.bind(this, this.state.lastChannel)}>
+                                    <i className="fa fa-comments fa-lg"/>
+                                    <span> {this.state.lastChannel.subject || this.state.lastChannel.alt_subject} </span>
+                                    {this.state.new?(<span className="badge">{this.state.new}</span>):null}
+                                </button>
+                                <button className="btn btn-borderless btn-close"
+                                        activeClassName="active" title="Close"
+                                        onClick={this.closeWindow.bind(this)}>
+                                    <i className="fa fa-times fa-lg"/>
+                                </button>
+                            </div>
                         ):null}
                     </div>
                 )}

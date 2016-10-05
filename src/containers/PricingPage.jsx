@@ -81,7 +81,7 @@ class PricingPage extends ComponentWithModal {
                 <section className="pricing-cards">
                     <div className="container">
                         <div className="row flex-row">
-                            <div className="col-md-3">
+                            <div className="col-md-3 com-sm-6 col-xs-12">
                                 <div className="card">
                                     <h3>Tunga tasks</h3>
                                     <div>
@@ -98,7 +98,7 @@ class PricingPage extends ComponentWithModal {
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-md-3">
+                            <div className="col-md-3 com-sm-6 col-xs-12">
                                 <div className="card">
                                     <h3>Tunga onboarding</h3>
                                     <div>
@@ -115,7 +115,7 @@ class PricingPage extends ComponentWithModal {
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-md-3">
+                            <div className="col-md-3 com-sm-6 col-xs-12">
                                 <div className="card callout">
                                     <h3>Onboarding special offer</h3>
                                     <div>
@@ -132,7 +132,7 @@ class PricingPage extends ComponentWithModal {
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-md-3">
+                            <div className="col-md-3 com-sm-6 col-xs-12">
                                 <div className="card">
                                     <h3>Tunga project</h3>
                                     <div>
@@ -145,7 +145,7 @@ class PricingPage extends ComponentWithModal {
                                         <p>Dedicated monitor & troubleshooter</p>
                                     </div>
                                     <div className="bottom">
-                                        <button className="btn btn-alt" onClick={this.onRequestOffer.bind(this, OFFER_REQUEST_ITEMS.project)}>REQUEST OFFER</button>
+                                        <button className="btn btn-alt" onClick={this.onRequestOffer.bind(this, OFFER_REQUEST_ITEMS.project)}>TRY FOR 30 DAYS</button>
                                     </div>
                                 </div>
                             </div>

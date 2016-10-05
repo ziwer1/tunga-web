@@ -5,7 +5,7 @@ export default class HowItWorksPage extends React.Component {
 
     render() {
         return (
-            <ShowcaseContainer className="how-it-works-page" headerContent={<h1>Why make things hard?</h1>}>
+            <ShowcaseContainer className="how-it-works-page" headerContent={<h1>Problems we solve?</h1>}>
                 <div className="content">
                     <section>
                         <div className="media">

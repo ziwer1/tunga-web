@@ -77,7 +77,7 @@ export default class LandingPage extends React.Component {
                         </div>
                     </div>
                 </section>
-                <section id="clients-testmonial">
+                {/*<section id="clients-testmonial">
                     <div className="container">
                         <h2><span className="bold">Clients</span> testimonials</h2>
                         <div className="testimonials-slider text-center">
@@ -92,7 +92,7 @@ export default class LandingPage extends React.Component {
                             })}
                         </div>
                     </div>
-                </section>
+                </section>*/}
                 <section id="watch-our-video">
                     <a id="play-btn" href="#"  onClick={this.playIntroVideo.bind(this)}>
                         <span>WATCH OUR VIDEO</span>
