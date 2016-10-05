@@ -131,11 +131,13 @@ export default class ChatWindow extends React.Component {
                                     onClick={this.minimizeWindow.bind(this)}>
                                 <i className="fa fa-minus fa-lg"/>
                             </button>
-                            <button className="btn btn-borderless"
-                                    activeClassName="active" title="Close"
-                                    onClick={this.closeWindow.bind(this)}>
-                                <i className="fa fa-times fa-lg"/>
-                            </button>
+                            {this.state.channel && (typeof(this.state.channel) === "object")?(
+                                <button className="btn btn-borderless"
+                                        activeClassName="active" title="Close"
+                                        onClick={this.closeWindow.bind(this)}>
+                                    <i className="fa fa-times fa-lg"/>
+                                </button>
+                            ):null}
                         </div>
                         <div className="chat-overview overview">
                             <div className="mainbox">
