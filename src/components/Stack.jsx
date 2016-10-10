@@ -128,7 +128,7 @@ export default class Stack extends React.Component {
                                             <div><strong>Position: {item.position}</strong></div>
                                             <div><strong>Company: {item.company}</strong></div>
                                             <div>
-                                                Period: {item.start_month_display}/{item.start_year} - {item.end_year?`${item.start_month_display}/${item.start_year}`:'Present'}
+                                                Period: {item.start_month_display}/{item.start_year} - {item.end_year?`${item.end_month_display}/${item.end_year}`:'Present'}
                                             </div>
                                             <div className="short-description" dangerouslySetInnerHTML={{__html: item.details}}/>
                                             <button type="button" className="btn" onClick={this.handleAddWork.bind(this, item)}><i className="fa fa-pencil"/> Edit</button>
@@ -152,7 +152,7 @@ export default class Stack extends React.Component {
                                         <div><strong>Institution: {item.institution}</strong></div>
                                         <div><strong>Award: {item.award}</strong></div>
                                         <div>
-                                            Period: {item.start_month_display}/{item.start_year} - {item.end_year?`${item.start_month_display}/${item.start_year}`:'Present'}
+                                            Period: {item.start_month_display}/{item.start_year} - {item.end_year?`${item.end_month_display}/${item.end_year}`:'Present'}
                                         </div>
                                         <div className="short-description" dangerouslySetInnerHTML={{__html: item.details}}/>
                                         <button type="button" className="btn" onClick={this.handleAddEducation.bind(this, item)}><i className="fa fa-pencil"/> Edit</button>

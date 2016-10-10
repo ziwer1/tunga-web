@@ -183,7 +183,7 @@ export default class User extends React.Component {
                                             <div>{item.position}</div>
                                             <div>{item.company}</div>
                                             <div>
-                                                {item.start_month_display}/{item.start_year} - {item.end_year?`${item.start_month_display}/${item.start_year}`:'Present'}
+                                                {item.start_month_display}/{item.start_year} - {item.end_year?`${item.end_month_display}/${item.end_year}`:'Present'}
                                             </div>
                                             <div dangerouslySetInnerHTML={{__html: item.details}} style={{margin: '5px 0'}}/>
                                         </div>
@@ -202,7 +202,7 @@ export default class User extends React.Component {
                                             <div>{item.institution}</div>
                                             <div>{item.award}</div>
                                             <div>
-                                                {item.start_month_display}/{item.start_year} - {item.end_year?`${item.start_month_display}/${item.start_year}`:'Present'}
+                                                {item.start_month_display}/{item.start_year} - {item.end_year?`${item.end_month_display}/${item.end_year}`:'Present'}
                                             </div>
                                             <div dangerouslySetInnerHTML={{__html: item.details}} style={{margin: '5px 0'}}/>
                                         </div>

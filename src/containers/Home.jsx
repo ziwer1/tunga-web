@@ -54,7 +54,7 @@ class Home extends React.Component {
                 <div className="notification-list">
                     {Notification.notifications ? (
                         <ul>
-                            {Notification.notifications.profile || !Auth.user.can_contribute ? (
+                            {(Notification.notifications.profile && Notification.notifications.profile.missing.length) || !Auth.user.can_contribute ? (
                                 <li>
                                     <Link to="/profile">Update profile</Link>
                                     <div>Please update <strong>your profile</strong></div>
