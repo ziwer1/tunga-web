@@ -37,7 +37,7 @@ export default class MessageForm extends React.Component {
         const attachments = this.state.attachments;
         if(body) {
             if(this.props.messageCallback) {
-                this.props.messageCallback(body);
+                this.props.messageCallback(body, attachments);
             }
         } else if(attachments && attachments.length && this.props.uploadCallback) {
             this.props.uploadCallback(attachments);

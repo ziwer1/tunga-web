@@ -96,6 +96,7 @@ export default class Channel extends React.Component {
                 Channel: this.props.Channel,
                 Message: this.props.Message,
                 channel: this.props.Channel.detail.channel,
+                channelView: this.props.channelView,
                 ChannelActions: this.props.ChannelActions,
                 MessageActions: this.props.MessageActions
             });
