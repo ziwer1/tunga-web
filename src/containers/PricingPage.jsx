@@ -48,27 +48,25 @@ class PricingPage extends ComponentWithModal {
         const { Utility } = this.props;
 
         return (
-            <div>
-                <LargeModal title="Request offer" modalSize="medium"
-                            show={this.state.showModal} onHide={this.close.bind(this)}>
-                    <form id="request-form" role="form" name="request-form" ref="request_form" onSubmit={this.sendEmail.bind(this)}>
-                        {Utility.contact.isSent?(
-                            <Success message="Contact request sent"/>
-                        ):null}
-                        {Utility.error && Utility.error.contact?(
-                            <Error message={Utility.error.contact.email || "Your request couldn't be processed. Please try again later."}/>
-                        ):null}
-                        <div className="input-group">
-                            <input className="form-control" ref="request_email" name="email" type="email" placeholder="Drop your email here and we will contact you" required/>
+            <LargeModal title="Request offer" modalSize="medium"
+                        show={this.state.showModal} onHide={this.close.bind(this)}>
+                <form id="request-form" role="form" name="request-form" ref="request_form" onSubmit={this.sendEmail.bind(this)}>
+                    {Utility.contact.isSent?(
+                        <Success message="Contact request sent"/>
+                    ):null}
+                    {Utility.error && Utility.error.contact?(
+                        <Error message={Utility.error.contact.email || "Your request couldn't be processed. Please try again later."}/>
+                    ):null}
+                    <div className="input-group">
+                        <input className="form-control" ref="request_email" name="email" type="email" placeholder="Drop your email here and we will contact you" required/>
                                 <span className="input-group-btn">
                                     <button className="btn " type="submit" disabled={Utility.contact.isSending}>
                                         <i className="fa fa-paper-plane"/> Send
                                     </button>
                                 </span>
-                        </div>
-                    </form>
-                </LargeModal>
-            </div>
+                    </div>
+                </form>
+            </LargeModal>
         );
     }
 
