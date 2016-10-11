@@ -1,4 +1,5 @@
 import React from 'react';
+import Helmet from 'react-helmet';
 
 import connect from '../utils/connectors/AuthConnector';
 
@@ -65,6 +66,7 @@ class SignUp extends React.Component {
 
         return (
             <div>
+                <Helmet title="Tunga | Sign Up" />
                 <h2 className="crt-acc-heading">Create your Tunga account as a {is_developer?'developer':'project owner'}</h2>
 
                 {is_developer?null:(

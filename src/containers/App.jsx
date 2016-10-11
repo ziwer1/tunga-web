@@ -89,7 +89,11 @@ class App extends React.Component {
                         <Helmet
                             title="Tunga"
                             meta={[
-                                {"name": "description", "content": "Unlocking Africa's Tech talent potential."}
+                                {
+                                "name": "description",
+                                "content": "Tunga is a market network that allows you to build a flexible team " +
+                                 "of skilled African software programmers, that you can mobilize on-demand."
+                                 }
                               ]}
                         />
                         <NavBar Auth={Auth} AuthActions={AuthActions} location={location}/>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import Helmet from 'react-helmet';
 
 import Progress from '../components/status/Progress';
 import Error from '../components/status/Error';
@@ -50,7 +51,7 @@ class DeveloperApplication extends React.Component {
 
         return (
             <div>
-
+                <Helmet title="Tunga | Developer Application" />
                 <h2 className="crt-acc-heading">Apply to become a Tunga developer</h2>
 
                 <div className="form-elements-container">

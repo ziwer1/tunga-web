@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import Helmet from 'react-helmet';
 
 import * as UtilityActions from '../actions/UtilityActions';
 import Success from '../components/status/Success';
@@ -73,9 +74,8 @@ class PricingPage extends ComponentWithModal {
     render() {
         return (
             <ShowcaseContainer className="pricing-page" headerContent={<h1>Affordable access to coding talent.</h1>}>
-
+                <Helmet title="Tunga | Pricing" />
                 {this.renderModalContent()}
-
                 <section className="pricing-cards">
                     <div className="container">
                         <div className="row flex-row">

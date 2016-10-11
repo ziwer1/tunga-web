@@ -1,5 +1,5 @@
 import React from 'react';
-import Helmet from "react-helmet"
+import Helmet from 'react-helmet';
 import TaskCrumb from '../containers/TaskCrumb';
 import TaskDetail from './TaskDetail';
 import Progress from './status/Progress';
@@ -55,7 +55,7 @@ export default class Task extends React.Component {
             :task.id && task.id == this.props.params.taskId?(
             <div>
                 <Helmet
-                    title={task.summary}
+                    title={'Tunga | ' + task.summary}
                     meta={[
                             {"name": "description", "content": task.description || task.summary}
                         ]}

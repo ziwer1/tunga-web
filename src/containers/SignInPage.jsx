@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
+import Helmet from 'react-helmet';
+
 import Progress from '../components/status/Progress';
 import Error from '../components/status/Error';
 import SocialSignIn from '../components/SocialSignIn';
@@ -32,6 +34,7 @@ class SignIn extends React.Component {
 
         return (
             <div>
+                <Helmet title="Tunga | Sign In" />
                 <form onSubmit={this.handleSubmit} name="signin" role="signin">
                     <p className="text-center">Sign in with</p>
 

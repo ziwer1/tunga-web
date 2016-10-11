@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import YouTube from 'react-youtube';
-import _ from 'underscore';
+import Helmet from 'react-helmet';
 
 import ShowcaseContainer from './ShowcaseContainer';
 
@@ -41,7 +41,7 @@ export default class LandingPage extends React.Component {
                 <h1>Unlocking Africa's Tech talent potential.</h1>
                 <p>
                     Tunga is a market network that allows you to build a flexible team of skilled African software programmers,
-                    that you can mobilize on-demand
+                    that you can mobilize on-demand.
                 </p>
                 <Link className="btn btn-lg" to="/signup/project-owner" id="btn-publish">TRY NOW</Link>
             </div>
@@ -51,6 +51,7 @@ export default class LandingPage extends React.Component {
     render() {
         return (
             <ShowcaseContainer className="landing-page" headerContent={this.renderHeaderContent()} chatId={this.props.params?this.props.params.channelId:null}>
+                <Helmet title="Tunga | Unlocking Africa's Tech talent potential." />
                 <section id="how-it-works" className="row">
                     <div className="container">
                         <content className="col-md-5 row">

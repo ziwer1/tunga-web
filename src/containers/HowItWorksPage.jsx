@@ -1,4 +1,5 @@
 import React from 'react';
+import Helmet from 'react-helmet';
 import ShowcaseContainer from './ShowcaseContainer';
 
 export default class HowItWorksPage extends React.Component {
@@ -6,6 +7,7 @@ export default class HowItWorksPage extends React.Component {
     render() {
         return (
             <ShowcaseContainer className="how-it-works-page" headerContent={<h1>How Tunga works</h1>}>
+                <Helmet title="Tunga | How Tunga works" />
                 <div className="content">
                     <section>
                         <div className="media">
