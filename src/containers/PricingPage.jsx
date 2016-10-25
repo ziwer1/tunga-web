@@ -205,8 +205,8 @@ class PricingPage extends ComponentWithModal {
                                     <div>
                                         We can now temporarily offer the Tunga Onboarding program at even more favorable conditions:
                                         Under this special offer the fixed rate is only €12,50/hour and the minimum amount of hours is 800.
-                                        All the other parameters stay the same. This offer is available from September 21st 2016 up to
-                                        October 15 2016 and has limited availability (first come, first served). Interested to participate?
+                                        All the other parameters stay the same. This offer is available from September 21<sup>st</sup> 2016 up to
+                                        November 15<sup>th</sup> 2016 and has limited availability (first come, first served). Interested to participate?
                                         Then please apply and we'll get back to you shortly.
                                     </div>
                                     <button className="btn btn-alt" onClick={this.onRequestOffer.bind(this, OFFER_REQUEST_ITEMS.onboarding_special)}>Request offer now</button>
