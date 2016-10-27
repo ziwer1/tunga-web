@@ -514,7 +514,7 @@ export default class TaskForm extends ComponentWithModal {
                             <button type="submit" onClick={this.showAll.bind(this)} className="btn" disabled={Task.detail.isSaving}>{task.id?'Update task':'Publish task'}</button>
                         </div>
                     </div>
-                    <div className="nav pull-right">
+                    <div className="nav text-center">
                         {this.state.step > 1?(
                         <button type="button" className="btn" onClick={this.changeStep.bind(this, false)}>
                             <i className="tunga-icon-previous"/>

@@ -43,7 +43,7 @@ export default class LandingPage extends React.Component {
                     Tunga is a market network that allows you to build a flexible team of skilled African software programmers,
                     that you can mobilize on-demand.
                 </p>
-                <Link className="btn btn-lg" to="/signup/project-owner" id="btn-publish">TRY NOW</Link>
+                <Link className="btn" to="/signup/project-owner" id="btn-publish">TRY NOW</Link>
             </div>
         );
     }
@@ -59,17 +59,17 @@ export default class LandingPage extends React.Component {
                             <ol>
                                 <span id="invite-icon"></span>
                                 <li>
-                                    <h5>INVITE TEAM MEMBERS</h5>
+                                    <h5>Invite team members</h5>
                                     <p>Select and invite coder to join your team on Tunga. This team can be mobilized flexibly to your workflow when you are in need of coding expertise.</p>
                                 </li>
                                 <span id="publish-icon"></span>
                                 <li>
-                                    <h5>PUBLISH TASKS</h5>
+                                    <h5>Publish tasks</h5>
                                     <p>Relevant developers will apply to your task. You can select which developer(s) you want for the task. Collaborations with multiple developers are possible!</p>
                                 </li>
                                 <span id="work-icon"></span>
                                 <li>
-                                    <h5>WORK AS USUAL</h5>
+                                    <h5>Work as usual</h5>
                                     <p>The developers will be hooked to your usual workflow. We can work with multiple git workflow tools.</p>
                                 </li>
                             </ol>
@@ -151,14 +151,16 @@ export default class LandingPage extends React.Component {
                             <div className="col-xs-6 col-sm-4 col-md-3"><Link to="/signup"><img src={require("../images/devs/Roy.jpg")} className="img-responsive"/></Link></div>
                             <div className="col-xs-6 col-sm-4 col-md-3"><Link to="/signup"><img src={require("../images/devs/David.jpg")} className="img-responsive"/></Link></div>
                         </div>
-                        <div className="row text-center"><Link to="/signup" className="btn " id="join-btn">JOIN OUR TEAM</Link></div>
+                        <div className="row text-center">
+                            <Link className="btn" to="/signup/developer/" id="join-btn">JOIN OUR TEAM</Link>
+                        </div>
                     </div>
                 </section>
                 <section id="contact-us">
                     <div className="container text-center">
                         <p>Want to find out more?<br/>Create an account and check out our platform.</p>
                         <h3>It's free!</h3>
-                        <a href="mailto:bart@tunga.io" className="btn">CONTACT US</a>
+                        <Link className="btn" to="/signup/project-owner">CREATE A FREE ACCOUNT</Link>
                     </div>
                 </section>
             </ShowcaseContainer>

@@ -37,7 +37,7 @@ export default class SwitchSetting extends React.Component {
     render() {
         const buttons = this.props.buttons || {on: 'on', off: 'off'};
         return (
-            <div className="btn-group btn-choices" role="group" aria-label="status">
+            <div className="btn-group btn-choices btn-switch" role="group" aria-label="status">
                 <button type="button"
                         className={"btn " + (this.state.status?' active':'')}
                         onClick={this.onChange.bind(this, true)}>{buttons.on || 'on'}
