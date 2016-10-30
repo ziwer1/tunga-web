@@ -333,7 +333,7 @@ form.steps-all {
     }
 }
 
-.form-control, .input-group-addon, .btn, select {
+.form-control, .input-group-addon, .btn, select, textarea {
     border-radius: 5px;
 }
 
@@ -370,6 +370,7 @@ form.steps-all {
     textarea {
         border-width: 0;
         background-color: @inactive-grey;
+        border-radius: 5px !important;
     }
 
     .btn {
@@ -1266,6 +1267,7 @@ activity-list {
 
     .media-body {
         background-color: @inactive-grey;
+        border-radius: 5px;
     }
 
     .username {
@@ -1685,6 +1687,7 @@ activity-list {
         .overview-details {
             height: 65%;
             overflow-y: auto;
+            border-radius: 8px;
         }
 
         .overview-files {
@@ -1694,6 +1697,7 @@ activity-list {
             .wrapper {
                 margin-top: 10px;
                 min-height: 100%;
+                border-radius: 8px;
             }
         }
 
@@ -1721,6 +1725,7 @@ activity-list {
         flex-direction: column;
         background-color: @inactive-grey;
         padding: 15px 10px;
+        border-radius: 10px;
 
         .search-box {
             margin-bottom: 15px;
@@ -1943,7 +1948,7 @@ activity-list {
         }
 
         p {
-            .font-size(1.4);
+            .font-size(1.5);
             font-weight: 300;
             line-height: 22px;
         }
@@ -2025,12 +2030,6 @@ activity-list {
         }
     }
 
-    .btn-lg {
-        font-size: 1.2em;
-        font-weight: 300;
-        padding: 10px 26px;
-    }
-
     .learn-more {
         text-align: center;
         margin: 10px auto;
@@ -2049,11 +2048,13 @@ activity-list {
         color: @active-white;
         background: transparent url("../images/footer.jpg") no-repeat;
         background-size: 100%;
-        padding: 40px 0;
         min-height: 50%;
         display: flex;
         align-items: center;
 
+        .container {
+            padding: 40px 0;
+        }
         p {
             font-size: 24px;
             font-weight: 100;
@@ -2082,6 +2083,7 @@ activity-list {
         min-height: 50%;
         display: flex;
         align-items: center;
+        flex-direction: column;
 
         h4 {
             font-size: 18px;
@@ -2215,6 +2217,13 @@ activity-list {
             margin-left: -5px;
         }
     }
+
+    .btn-callout {
+        .font-size(1.4);
+        font-weight: 300;
+        padding: 8px 15px;
+        margin-top: 20px;
+    }
 }
 
 .showcase.landing-page {
@@ -2246,14 +2255,45 @@ activity-list {
         max-width: 1000px;
     }
 
-    section h2 {
-        font-weight: 300;
-        margin-top: 0;
-        margin-bottom: 28px;
+    section {
+        padding: 0;
+
+        .container {
+            padding: 50px 0;
+        }
+
+        h2 {
+            font-weight: 300;
+            margin-top: 0;
+            margin-bottom: 28px;
+        }
+    }
+
+    #press {
+        display: flex;
+        align-items: center;
+        min-height: 25%;
+        background-color: @inactive-grey;
+
+        a {
+            width: 100%;
+            display: inline-block;
+            text-align: center;
+
+            img {
+                max-width: 100%;
+                max-height: 50px;
+            }
+        }
+
+        a:hover {
+            img {
+                transform: scale(1.2);
+            }
+        }
     }
 
     #how-it-works {
-        padding-top: 60px;
         min-height: 100%;
         display: flex;
         align-items: center;
@@ -2264,7 +2304,6 @@ activity-list {
 
         p {
             margin-bottom: 12px;
-            /*font-size: 12px;*/
         }
 
         ol {
@@ -2366,8 +2405,6 @@ activity-list {
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-        /*display: flex;
-        align-items: center;*/
 
         img {
             width: 100%;
@@ -2389,7 +2426,7 @@ activity-list {
                 color: #fff;
                 font-size: 10px;
                 position: relative;
-                top: 80%;
+                top: 85%;
             }
         }
 
@@ -2409,12 +2446,6 @@ activity-list {
         img, #play-btn {
             display: none;
         }
-
-        /*span {
-            display: block;
-            height: 100%;
-            width: 100%;
-        }*/
 
         iframe, iframe#learn-video {
             display: block;
@@ -2464,14 +2495,15 @@ activity-list {
     #meet-our-developers {
         display: flex;
         align-items: center;
+        min-height: 100%;
 
         #our-devs {
-            margin-top: 38px;
 
             img {
                 width: 242px;
                 height: 242px;
                 margin: 0 auto 38px;
+                border-radius: 50%;
             }
         }
 
@@ -2688,9 +2720,6 @@ activity-list {
                 }
             }
         }
-        #how-it-works {
-            padding-top: 2em;
-        }
         #watch-our-video {
             background-image: url("../images/videox@{screen-sm-bp}.jpg");
             min-height: 450px;
@@ -2739,12 +2768,13 @@ activity-list {
         header {
             background-image: url('../images/header-bgx@{screen-md-bp}.jpg');
         }
-        #how-it-works {
-            height: auto;
-        }
-        #meet-our-developers #our-devs img {
-            width: auto;
-            height: 170px;
+        #meet-our-developers {
+            #our-devs {
+                img {
+                    width: auto;
+                    height: 170px;
+                }
+            }
         }
         #watch-our-video {
             background-image: url("../images/videox@{screen-md-bp}.jpg");
@@ -2807,6 +2837,23 @@ activity-list {
 
 /*LARGE SCREENS*/
 @media (min-width: @screen-lg-min) {
+    .showcase {
+
+        header {
+            .navbar {
+                .container {
+                    max-width: 870px;
+                }
+            }
+
+            .container {
+                max-width: 870px;
+            }
+        }
+    }
+}
+
+@media (min-width: 1360px) {
     .showcase {
 
         header {

@@ -52,29 +52,89 @@ export default class LandingPage extends React.Component {
         return (
             <ShowcaseContainer className="landing-page" headerContent={this.renderHeaderContent()} chatId={this.props.params?this.props.params.channelId:null}>
                 <Helmet title="Tunga | Unlocking Africa's Tech talent potential." />
+                <section id="press">
+                    <div className="container">
+                        <h2 className="text-center"><span className="bold">Featured</span> press</h2>
+                        <div className="row">
+                            <div className="col-xs-2">
+                                <a href="https://www.youtube.com/watch?v=v9uRtYpZDQs" target="_blank">
+                                    <img src={require("../images/press/campus-party.png")}/>
+                                </a>
+                            </div>
+                            <div className="col-xs-2">
+                                <a href="https://www.oneworld.nl/startup-tunga-lanceert-pilot-programma-voor-nieuw-soort-freelance-platform"
+                                   target="_blank">
+                                    <img src={require("../images/press/OWlogo.png")}/>
+                                </a>
+                            </div>
+                            <div className="col-xs-2">
+                                <a href="http://trendwatching.com/blog/featured-innovator-tunga/" target="_blank">
+                                    <img src={require("../images/press/trend-watching.png")}/>
+                                </a>
+                            </div>
+                            <div className="col-xs-2">
+                                <a href="https://soundcloud.com/african-tech-round-up/a-chat-with-ernesto-spruyt-of-tungaio?in=african-tech-round-up/sets/quick-chats"
+                                   target="_blank">
+                                    <img src={require("../images/press/African-Tech-Round-Up.png")}/>
+                                </a>
+                            </div>
+                            <div className="col-xs-2">
+                                <a href="http://spendmatters.com/2016/04/01/tunga-wip-of-the-week/" target="_blank">
+                                    <img src={require("../images/press/Spend-Matters.png")}/>
+                                </a>
+                            </div>
+                            <div className="col-xs-2">
+                                <a href="https://www.nabc.nl/africa-business-news/5/technology/377/tunga-founder-ernesto-spruyt-we-create-21st-century-jobs-in-africa" target="_blank">
+                                    <img src={require("../images/press/netherlands-african-business-council.png")}/>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
                 <section id="how-it-works" className="row">
                     <div className="container">
-                        <content className="col-md-5 row">
-                            <h2><span className="bold">How</span> it works</h2>
-                            <ol>
-                                <span id="invite-icon"></span>
-                                <li>
-                                    <h5>Invite team members</h5>
-                                    <p>Select and invite coder to join your team on Tunga. This team can be mobilized flexibly to your workflow when you are in need of coding expertise.</p>
-                                </li>
-                                <span id="publish-icon"></span>
-                                <li>
-                                    <h5>Publish tasks</h5>
-                                    <p>Relevant developers will apply to your task. You can select which developer(s) you want for the task. Collaborations with multiple developers are possible!</p>
-                                </li>
-                                <span id="work-icon"></span>
-                                <li>
-                                    <h5>Work as usual</h5>
-                                    <p>The developers will be hooked to your usual workflow. We can work with multiple git workflow tools.</p>
-                                </li>
-                            </ol>
-                        </content>
-                        <div id="demo-mbp" className="col-md-7">
+                        <div className="row">
+                            <div className="col-md-5">
+                                <h2><span className="bold">How</span> it works</h2>
+                                <ol>
+                                    <span id="invite-icon"/>
+                                    <li>
+                                        <h5>Create your following of software coders</h5>
+                                        <p>
+                                            Select and invite coders to join your team on Tunga.
+                                            This team can be mobilized flexibly to your workflow when you are in need of coding expertise.
+                                        </p>
+                                    </li>
+                                    <span id="publish-icon"/>
+                                    <li>
+                                        <h5>Post work</h5>
+                                        <p>
+                                            Do it yourself:<br/>
+                                            You can select or invite coders to work on your tasks.
+                                            You select which developer fits best with your software needs.
+                                            Collaborations with multiple developers are possible!
+                                        </p>
+                                        <p>
+                                            Onboarding:<br/>
+                                            For big projects, we provide guidance and on boarding.
+                                            We can also build remote teams for your software workflow.
+                                        </p>
+                                    </li>
+                                    <span id="work-icon"/>
+                                    <li>
+                                        <h5>Work as usual</h5>
+                                        <p>
+                                            The developers will be hooked to your usual workflow.
+                                            We can work with multiple git workflow tools.
+                                            Tunga also provides integrations with communication tools like Slack.
+                                        </p>
+                                    </li>
+                                </ol>
+                            </div>
+                            <div id="demo-mbp" className="col-md-7"></div>
+                        </div>
+                        <div className="text-center">
+                            <Link className="btn btn-callout" to="/how-it-works/">FIND OUT MORE</Link>
                         </div>
                     </div>
                 </section>
@@ -110,29 +170,25 @@ export default class LandingPage extends React.Component {
                         <div className="row">
                             <div className="col-sm-4" id="building-websites">
                                 <span></span>
-                                <p>Building & Improving Websites</p>
+                                <p>Full stack capacity for web development available</p>
                             </div>
                             <div className="col-sm-4" id="solving-issues">
                                 <span></span>
-                                <p>Solving Issues (e.g Bug Fixes) in Github/Gitlab/Bitbucket</p>
+                                <p>Building custom service integrations and solving issues in your Github/Gitlab/Bitbucket workflow</p>
                             </div>
                             <div className="col-sm-4" id="full-stack">
                                 <span></span>
-                                <p>Full Stack Capacity Available</p>
+                                <p>Scheduled progress reports from our developers for maximum overview</p>
                             </div>
                         </div>
                         <div className="row">
-                            <div className="col-sm-4" id="mobile-app">
+                            <div className="col-sm-offset-1 col-sm-5" id="mobile-app">
                                 <span></span>
-                                <p>Contributing to (Mobile) Application Development & Maintenance</p>
+                                <p>Mobile application developments & maintenance</p>
                             </div>
-                            <div className="col-sm-4" id="html-slicing">
+                            <div className="col-sm-5" id="html-slicing">
                                 <span></span>
                                 <p>HTML Slicing (PSD to HTML)</p>
-                            </div>
-                            <div className="col-sm-4" id="php">
-                                <span></span>
-                                <p>PHP, Python, Ruby, C, Django, JavaScript, Java</p>
                             </div>
                         </div>
                     </div>
@@ -152,7 +208,7 @@ export default class LandingPage extends React.Component {
                             <div className="col-xs-6 col-sm-4 col-md-3"><Link to="/signup"><img src={require("../images/devs/David.jpg")} className="img-responsive"/></Link></div>
                         </div>
                         <div className="row text-center">
-                            <Link className="btn" to="/signup/developer/" id="join-btn">JOIN OUR TEAM</Link>
+                            <Link className="btn btn-callout" to="/signup/developer/">JOIN OUR TEAM</Link>
                         </div>
                     </div>
                 </section>

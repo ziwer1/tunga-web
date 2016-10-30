@@ -120,6 +120,7 @@ export default class PaymentMethod extends React.Component {
                                 (<FieldError message={Profile.error.profile.mobile_money_cc}/>):null}
                             <div className="form-group">
                                 <label className="control-label">Mobile Money Number</label>
+                                <div className="alert alert-info">This number <strong>MUST BE REGISTERED</strong> for Mobile Money</div>
                                 <div className="row">
                                     <div className="col-md-4">
                                         <DropdownList
@@ -135,7 +136,6 @@ export default class PaymentMethod extends React.Component {
                                                defaultValue={profile.mobile_money_number}/>
                                     </div>
                                 </div>
-                                <div>This number <strong>MUST BE REGISTERED</strong> for Mobile Money</div>
                             </div>
                         </div>
                     ):null}

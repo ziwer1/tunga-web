@@ -106,7 +106,7 @@ export default class TaskDetail extends React.Component {
                         </div>
                     ):null}
 
-                    {task.remarks?(
+                    {task.url?(
                         <div>
                             <h5>Code location</h5>
                             <div className="card">

@@ -138,8 +138,8 @@ class PricingPage extends ComponentWithModal {
                                     </div>
                                     <div className="description">
                                         <h5>Ideal for heavy users</h5>
-                                        <p>> € 50,000 fees per year</p>
-                                        <p>We deduct 11% from the total fee</p>
+                                        <p>> €50,000 fees per year</p>
+                                        <p>We deduct 12% from the total fee</p>
                                         <p>Dedicated monitor & troubleshooter</p>
                                     </div>
                                     <div className="bottom">

@@ -207,10 +207,13 @@ export default class TaskWorflow extends ComponentWithModal {
                 {this.renderModalContent()}
                 <div className="workflow-head clearfix">
                     <div className="title pull-left"><Link to={`/task/${task.id}/`}>{task.title}</Link></div>
-                    <div className="quick-actions pull-left">
-                        <Link to={`/task/${task.id}/edit`} className="btn btn-borderless">Edit</Link>
-                        <button type="button" className="btn btn-borderless" onClick={this.handleDeleteTask.bind(this)}>Delete</button>
-                    </div>
+
+                    {is_admin_or_owner?(
+                        <div className="quick-actions pull-left">
+                            <Link to={`/task/${task.id}/edit`} className="btn btn-borderless">Edit</Link>
+                            <button type="button" className="btn btn-borderless" onClick={this.handleDeleteTask.bind(this)}>Delete</button>
+                        </div>
+                    ):null}
                     <div className="clearfix"></div>
 
                     {(is_admin_or_owner || task.is_participant)?(
