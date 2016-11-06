@@ -4,6 +4,7 @@ import SupportChannelForm from '../components/SupportChannelForm';
 import ChatBox from '../components/ChatBox';
 
 import connect from '../utils/connectors/ChannelConnector';
+import { CHANNEL_TYPES } from '../constants/Api';
 
 export function resizeOverviewBox() {
     var w_h = $(window).height();
@@ -21,19 +22,26 @@ export default class ChatWindow extends React.Component {
 
     constructor(props) {
         super(props);
-        var lastChannel = null;
-        if (typeof(Storage) !== "undefined") {
-            try {
-                lastChannel = JSON.parse(window.localStorage.channel);
-            } catch (e) {
-                lastChannel = null;
-            }
-        }
-        this.state = {channel: null, lastChannel: lastChannel, new: 0};
+        this.state = {channel: null, new: 0, open: false};
     }
 
     componentWillMount() {
         this.intervals = [];
+
+        const { Auth } = this.props;
+        var channel = null;
+        var open = false;
+        if(this.props.channelId) {
+            channel = {id: this.props.channelId};
+            open = true;
+        } else if (!Auth.isAuthenticated && typeof(Storage) !== "undefined") {
+            try {
+                channel = JSON.parse(window.localStorage.channel);
+            } catch (e) {
+                channel = null;
+            }
+        }
+        this.setState({channel, open});
     }
 
     componentDidMount() {
@@ -42,8 +50,10 @@ export default class ChatWindow extends React.Component {
 
         this.setInterval(this.getNewMessages.bind(this), 10000);
 
-        if(this.props.channelId) {
-            this.openChannel({id: this.props.channelId});
+        const { Auth, ChannelActions } = this.props;
+
+        if(Auth.isAuthenticated) {
+            ChannelActions.createSupportChannel();
         }
     }
 
@@ -52,8 +62,11 @@ export default class ChatWindow extends React.Component {
             var currentChannel = this.getCurrentChannel();
             const { channel } = nextProps.Channel.detail;
 
-            if(nextProps.Channel.detail.isSaved != this.props.Channel.detail.isSaved ||
-                (currentChannel && nextProps.Channel.detail.channel.id == currentChannel.id)) {
+            if(
+                nextProps.Channel.detail.channel.type == CHANNEL_TYPES.support &&
+                ((nextProps.Channel.detail.isSaved != this.props.Channel.detail.isSaved) ||
+                (currentChannel && nextProps.Channel.detail.channel.id == currentChannel.id))
+            ) {
                 this.setState({channel});
                 this.saveChannel(channel);
             }
@@ -69,7 +82,7 @@ export default class ChatWindow extends React.Component {
     }
 
     componentWillUnmount() {
-        this.saveChannel(this.getCurrentChannel() || this.state.lastChannel);
+        this.saveChannel(this.getCurrentChannel());
         this.intervals.map(clearInterval);
     }
 
@@ -82,7 +95,8 @@ export default class ChatWindow extends React.Component {
     }
 
     saveChannel(channel) {
-        if (typeof(Storage) !== "undefined") {
+        const { Auth } = this.props;
+        if (!Auth.isAuthenticated && typeof(Storage) !== "undefined") {
             try {
                 window.localStorage.channel = JSON.stringify(channel);
             } catch (e) {
@@ -92,28 +106,28 @@ export default class ChatWindow extends React.Component {
     }
 
     startChannel() {
-        this.setState({channel: 'new', lastChannel: this.getCurrentChannel() || this.state.lastChannel});
-    }
-
-    openChannel(channel) {
-        this.setState({channel, lastChannel: this.getCurrentChannel() || this.state.lastChannel});
+        const { Auth, ChannelActions } = this.props;
+        if(Auth.isAuthenticated && !this.state.channel) {
+            ChannelActions.createSupportChannel();
+        }
+        this.setState({open: true});
     }
 
     minimizeWindow() {
-        this.setState({channel: null, lastChannel: this.getCurrentChannel() || this.state.lastChannel});
+        this.setState({open: false});
     }
 
     closeWindow() {
-        this.setState({channel: null, lastChannel: null});
+        this.setState({channel: null, open: false});
         this.saveChannel(null);
     }
 
     getNewMessages() {
         const { ChannelActions } = this.props;
-        const lastChannel = this.state.lastChannel;
-        if(!this.state.channel && lastChannel && lastChannel.id) {
-            var since = lastChannel.last_read || 0;
-            ChannelActions.listChannelActivity(lastChannel.id, {since}, false);
+        const channel = this.state.channel;
+        if(!this.state.open && channel) {
+            var since = channel.last_read || 0;
+            ChannelActions.listChannelActivity(channel.id, {since}, false);
         }
     }
 
@@ -123,7 +137,7 @@ export default class ChatWindow extends React.Component {
 
         return (
             <div id="chat-widget">
-                {channel?(
+                {this.state.open?(
                     <div id="chat-window">
                         <div className="chat-close">
                             <button className="btn btn-borderless"
@@ -131,7 +145,7 @@ export default class ChatWindow extends React.Component {
                                     onClick={this.minimizeWindow.bind(this)}>
                                 <i className="fa fa-minus fa-lg"/>
                             </button>
-                            {this.state.channel && (typeof(this.state.channel) === "object")?(
+                            {!Auth.isAuthenticated && this.state.channel && (typeof(this.state.channel) === "object")?(
                                 <button className="btn btn-borderless"
                                         activeClassName="active" title="Close"
                                         onClick={this.closeWindow.bind(this)}>
@@ -141,14 +155,7 @@ export default class ChatWindow extends React.Component {
                         </div>
                         <div className="chat-overview overview">
                             <div className="mainbox">
-                                {channel == 'new' && !channel.id?(
-                                    <SupportChannelForm
-                                        Auth={Auth}
-                                        Channel={Channel}
-                                        Message={Message}
-                                        ChannelActions={ChannelActions}
-                                        MessageActions={MessageActions}/>
-                                ):(
+                                {channel && channel.id?(
                                     <ChannelView
                                         channelId={channel.id}
                                         channelView="messages"
@@ -159,31 +166,23 @@ export default class ChatWindow extends React.Component {
                                         MessageActions={MessageActions}>
                                         <ChatBox />
                                     </ChannelView>
-                                )}
+                                ):(Auth.isAuthenticated?null:(
+                                    <SupportChannelForm
+                                        Auth={Auth}
+                                        Channel={Channel}
+                                        Message={Message}
+                                        ChannelActions={ChannelActions}
+                                        MessageActions={MessageActions}/>
+                                ))}
                             </div>
                         </div>
                     </div>
                 ):(
                     <div>
                         <button className="btn chat-btn" onClick={this.startChannel.bind(this)}>
-                            <i className="fa fa-question-circle fa-lg"/> Need Help? Chat with us.
+                            <i className={`${Auth.isAuthenticated?'tunga-icon-support':'fa fa-comments fa-lg'}`}/>
+                            {this.state.new?(<span className="badge">{this.state.new}</span>):null}
                         </button>
-                        {this.state.lastChannel && (typeof(this.state.lastChannel) === "object")?(
-                            <div className="previous-chat chat-btn">
-                                <button
-                                    className="btn btn-borderless"
-                                    onClick={this.openChannel.bind(this, this.state.lastChannel)}>
-                                    <i className="fa fa-comments fa-lg"/>
-                                    <span> {this.state.lastChannel.subject || this.state.lastChannel.alt_subject} </span>
-                                    {this.state.new?(<span className="badge">{this.state.new}</span>):null}
-                                </button>
-                                <button className="btn btn-borderless btn-close"
-                                        activeClassName="active" title="Close"
-                                        onClick={this.closeWindow.bind(this)}>
-                                    <i className="fa fa-times fa-lg"/>
-                                </button>
-                            </div>
-                        ):null}
                     </div>
                 )}
 

@@ -54,7 +54,7 @@ export default class Project extends React.Component {
 
                 <ProjectCrumb section={this.getCrumb()}/>
 
-                {project.user == Auth.user.id || Auth.user.is_staff?(
+                {project.user.id == Auth.user.id || Auth.user.is_staff?(
                 <div>
                     {this.renderChildren()}
                 </div>

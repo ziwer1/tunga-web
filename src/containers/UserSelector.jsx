@@ -2,7 +2,10 @@ import React from 'react';
 import _ from 'underscore';
 import randomstring from 'randomstring';
 import connect from '../utils/connectors/UserSelectionConnector';
-import Avatar from '../components/Avatar'
+import Avatar from '../components/Avatar';
+
+const KEY_DOWN = 38;
+const KEY_UP = 40;
 
 
 class UserSelector extends React.Component {
@@ -10,7 +13,6 @@ class UserSelector extends React.Component {
     constructor(props) {
         super(props);
         this.state = {user_name: '', selection_key: randomstring.generate()};
-        this.onQueryChange = this.onQueryChange.bind(this);
         this.handleGetSuggestions = _.debounce(this.handleGetSuggestions, 250);
     }
 
@@ -94,6 +96,16 @@ class UserSelector extends React.Component {
         e.stopPropagation();
     }
 
+    onInputKeyUp(event) {
+        // Implement keyboard navigation
+        switch(event.which) {
+            case KEY_UP:
+                break;
+            case KEY_DOWN:
+                break;
+        }
+    }
+
     render() {
         const { UserSelection, max, canRemove, unremovable } = this.props;
         const selections = UserSelection.selected.ids[this.state.selection_key] || [];
@@ -101,7 +113,7 @@ class UserSelector extends React.Component {
         const suggestions = UserSelection.suggestions[this.state.selection_key] || [];
 
         return (
-            <div className="user-selector tag-selector" onClick={this.handleComponentClick.bind(this)}>
+            <div className="user-selector tag-selector">
                 <div className="selections">
                     {selections.map((id) => {
                         var user = selection_users[id];
@@ -119,11 +131,11 @@ class UserSelector extends React.Component {
                 </div>
 
                 {max && selections.length >= max?null:(
-                <div className="input-group">
+                <div className="input-group" onClick={this.handleComponentClick.bind(this)}>
                     <span className="input-group-addon"><span className="glyphicon glyphicon-user"/></span>
                     <input type="text" className="form-control" ref="user_name" value={this.state.user_name}
                            placeholder="Type a name or username to get suggestions"
-                           onChange={this.onQueryChange}/>
+                           onChange={this.onQueryChange.bind(this)} onKeyUp={this.onInputKeyUp.bind(this)}/>
                 </div>
                     )}
 

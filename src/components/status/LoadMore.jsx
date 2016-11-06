@@ -12,7 +12,6 @@ export default class LoadMore extends React.Component {
     handleLoadMore() {
         if(!this.props.loading && this.props.callback) {
             this.props.callback(this.props.url);
-            console.log('Loaded more: '+this.props.url);
         }
     }
 

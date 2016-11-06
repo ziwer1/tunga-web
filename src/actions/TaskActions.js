@@ -71,7 +71,7 @@ export function createTask(task, attachments) {
             }).then(function (data) {
                 dispatch(createTaskSuccess(data))
             }, function (data) {
-                dispatch(createTaskFailed(data));
+                dispatch(createTaskFailed(data.responseJSON));
             });
         } else {
             axios.post(ENDPOINT_TASK, task)
@@ -362,38 +362,44 @@ export function listTaskActivityFailed(error, id, new_only=false) {
 }
 
 export function listMoreTaskActivity(url) {
+    var matches = url.match(/.*\/(\d+)\/activity/);
+    var id = matches[1];
+
     return dispatch => {
-        dispatch(listMoreTaskActivityStart(url));
+        dispatch(listMoreTaskActivityStart(url, id));
         axios.get(url)
             .then(function(response) {
-                dispatch(listMoreTaskActivitySuccess(response.data))
+                dispatch(listMoreTaskActivitySuccess(response.data, id));
             }).catch(function(response) {
-            dispatch(listMoreTaskActivityFailed(response.data))
+            dispatch(listMoreTaskActivityFailed(response.data, id));
         });
     }
 }
 
-export function listMoreTaskActivityStart(url) {
+export function listMoreTaskActivityStart(url, id) {
     return {
         type: LIST_MORE_TASK_ACTIVITY_START,
-        url
+        url,
+        id
     }
 }
 
-export function listMoreTaskActivitySuccess(response) {
+export function listMoreTaskActivitySuccess(response, id) {
     return {
         type: LIST_MORE_TASK_ACTIVITY_SUCCESS,
         items: response.results,
         previous: response.previous,
         next: response.next,
-        count: response.count
+        count: response.count,
+        id
     }
 }
 
-export function listMoreTaskActivityFailed(error) {
+export function listMoreTaskActivityFailed(error, id) {
     return {
         type: LIST_MORE_TASK_ACTIVITY_FAILED,
-        error
+        error,
+        id
     }
 }
 

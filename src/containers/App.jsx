@@ -6,6 +6,7 @@ import Helmet from "react-helmet"
 import Progress from '../components/status/Progress';
 import NavBar from '../components/NavBar';
 import SideBar from './SideBar';
+import ChatWindow from '../containers/ChatWindow';
 
 import * as AuthActions from '../actions/AuthActions';
 import * as NavActions from '../actions/NavActions';
@@ -112,6 +113,7 @@ class App extends React.Component {
                                 )}
                             </div>
                         </div>
+                        <ChatWindow />
                     </div>
                 ):children
         );

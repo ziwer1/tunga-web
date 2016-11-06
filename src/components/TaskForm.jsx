@@ -329,7 +329,9 @@ export default class TaskForm extends ComponentWithModal {
                             (<FieldError message={Task.detail.error.update.skills}/>):null}
                         <div className="form-group">
                             <label className="control-label">Skills required for this task *</label>
-                            <SkillSelector filter={{filter: null}} onChange={this.onSkillChange.bind(this)} skills={task.details?task.details.skills:[]}/>
+                            <SkillSelector filter={{filter: null}}
+                                           onChange={this.onSkillChange.bind(this)}
+                                           skills={task.details?task.details.skills:[]}/>
                         </div>
 
                         {(Task.detail.error.create && Task.detail.error.create.project)?

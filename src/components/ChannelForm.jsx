@@ -2,12 +2,13 @@ import React from 'react';
 import FormStatus from './status/FormStatus';
 import FieldError from './status/FieldError';
 import UserSelector from '../containers/UserSelector';
+import { CHANNEL_TYPES } from '../constants/Api';
 
 export default class ChannelForm extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {participants: []};
+        this.state = {participants: [], type: null};
     }
 
     componentWillMount() {
@@ -58,13 +59,19 @@ export default class ChannelForm extends React.Component {
         return participants;
     }
 
-    saveChannel(participants=[], subject=null) {
+    onTypeChange(type = null) {
+        this.setState({type});
+    }
+
+    saveChannel(participants=[], subject=null, message=null) {
         const { ChannelActions } = this.props;
 
         let channel = this.props.channel || {};
-        let channel_info = {subject, participants};
+        let channel_info = (this.state.type == CHANNEL_TYPES.developer)?{subject, message}:{subject, participants};
         if(channel.id) {
             ChannelActions.updateChannel(channel.id, channel_info);
+        } else if(this.state.type == CHANNEL_TYPES.developer) {
+            ChannelActions.createDeveloperChannel(channel_info);
         } else {
             ChannelActions.createChannel(channel_info);
         }
@@ -72,10 +79,11 @@ export default class ChannelForm extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        var subject = this.refs.subject.value.trim();
+        var subject = this.refs.subject?this.refs.subject.value.trim():null;
         const participants = this.state.participants;
+        var message = this.refs.message?this.refs.message.value.trim():null;
 
-        this.saveChannel(participants, subject);
+        this.saveChannel(participants, subject, message);
         return;
     }
 
@@ -94,30 +102,66 @@ export default class ChannelForm extends React.Component {
                         <h3>You are about to start a new conversation</h3>
                     )}
 
+                    {Auth.user.is_staff?(
+                        <div className="form-group">
+                            <label className="control-label">Audience *</label>
+                            <br/>
+                            <div className="btn-group btn-choices btn-switch" role="group" aria-label="visibility">
+                                <button type="button"
+                                        className={"btn " + (this.state.type != CHANNEL_TYPES.developer?' active':'')}
+                                        onClick={this.onTypeChange.bind(this, null)}>Selected users
+                                </button>
+                                <button type="button"
+                                        className={"btn " + (this.state.type == CHANNEL_TYPES.developer?' active':'')}
+                                        onClick={this.onTypeChange.bind(this, CHANNEL_TYPES.developer)}>All Developers
+                                </button>
+                            </div>
+                        </div>
+                    ):null}
+
                     {(Channel.detail.error.create && Channel.detail.error.create.participants)?
                         (<FieldError message={Channel.detail.error.create.participants}/>):null}
                     {(Channel.detail.error.update && Channel.detail.error.update.participants)?
                         (<FieldError message={Channel.detail.error.update.participants}/>):null}
-                    <div className="form-group">
-                        <label className="control-label">Select users</label>
-                        <div>
-                            <UserSelector filter={{filter: null}}
-                                          onChange={this.onParticipantChange.bind(this)}
-                                          selected={this.getOtherParticipants()}
-                                          unremovable={this.getOtherParticipants().map(user => {return user.id})}/>
+
+                    {this.state.type != CHANNEL_TYPES.developer?(
+                        <div className="form-group">
+                            <label className="control-label">Select users</label>
+                            <div>
+                                <UserSelector filter={{filter: null}}
+                                              onChange={this.onParticipantChange.bind(this)}
+                                              selected={this.getOtherParticipants()}
+                                              unremovable={this.getOtherParticipants().map(user => {return user.id})}/>
+                            </div>
                         </div>
-                    </div>
+                    ):null}
 
                     {(Channel.detail.error.create && Channel.detail.error.create.subject)?
                         (<FieldError message={Channel.detail.error.create.subject}/>):null}
                     {(Channel.detail.error.update && Channel.detail.error.update.subject)?
                         (<FieldError message={Channel.detail.error.update.subject}/>):null}
-                    <div className="form-group" style={{display: (this.state.participants.length>1 || channel.subject?'block':'none')}} >
+                    <div className="form-group" style={{display: (this.state.participants.length>1 || channel.subject || this.state.type == CHANNEL_TYPES.developer?'block':'none')}} >
                         <label className="control-label">Subject</label>
                         <div>
                             <input type="text" className="form-control" ref="subject" placeholder="Subject" defaultValue={channel.subject || ''}/>
                         </div>
                     </div>
+
+                    {(Channel.detail.error.create && Channel.detail.error.create.message)?
+                        (<FieldError message={Channel.detail.error.create.message}/>):null}
+                    {(Channel.detail.error.update && Channel.detail.error.update.message)?
+                        (<FieldError message={Channel.detail.error.update.message}/>):null}
+                    {this.state.type == CHANNEL_TYPES.developer?(
+                        <div className="form-group">
+                            <label className="control-label">Message</label>
+                            <div>
+                                <textarea type="text" className="form-control" ref="message" placeholder="Type your message here" rows="3"/>
+                            </div>
+                            <div className="alert alert-info" style={{marginTop: '20px'}}>
+                                This message will be sent to all developers via email
+                            </div>
+                        </div>
+                    ):null}
 
                     <div className="text-center">
                         <button type="submit" className="btn " disabled={Channel.detail.isSaving}>

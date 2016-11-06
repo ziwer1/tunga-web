@@ -6,8 +6,7 @@ import btoa from 'btoa';
 export default class PaymentCard extends React.Component {
     render() {
         const { Auth, task } = this.props;
-        const task_url = `${window.location.protocol}//${window.location.host}/task/${task.id}/`
-        console.log(task_url);
+        const task_url = `${window.location.protocol}//${window.location.host}/task/${task.id}/`;
 
         return (
             <div className="card">

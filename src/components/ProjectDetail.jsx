@@ -35,7 +35,7 @@ export default class ProjectDetail extends ComponentWithModal {
             (<Progress/>)
             :project.id?(
             <div>
-                {project.user == Auth.user.id || Auth.user.is_staff?(
+                {project.user.id == Auth.user.id || Auth.user.is_staff?(
                 <div>
                     <h2 className="pull-left">{project.title}</h2>
                     <div className="quick-actions">

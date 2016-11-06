@@ -3,3 +3,11 @@ export function getIds(items) {
         return item.id;
     });
 }
+
+export function getTaskKey(id) {
+    return 'task' + id;
+}
+
+export function getChannelKey(id) {
+    return 'channel' + id;
+}

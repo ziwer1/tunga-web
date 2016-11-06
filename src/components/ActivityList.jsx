@@ -7,23 +7,29 @@ import Progress from './status/Progress';
 import LoadMore from './status/LoadMore';
 import Avatar from './Avatar';
 import Attachments from './Attachments';
+import randomstring from 'randomstring';
 
 import { PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT } from '../constants/Api';
 
-export function scrollList () {
-    var a_list = $('.activity-list');
-    a_list.scrollTop(a_list.height()+20);
+export function scrollList (listId) {
+    var activity_list = $(`#list${listId}.activity-list`);
+    activity_list.scrollTop(activity_list.find('.item-wrapper').height());
 }
 
 export default class ActivityList extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {listId: randomstring.generate()};
+    }
+
     componentDidMount() {
-        scrollList();
+        scrollList(this.state.listId);
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if(this.props.activities && this.props.activities.length != prevProps.activities.length) {
-            scrollList();
+        if(this.props.activities && (!prevProps.activities || this.props.activities.length != prevProps.activities.length)) {
+            scrollList(this.state.listId);
         }
     }
 
@@ -235,31 +241,33 @@ export default class ActivityList extends React.Component {
             isLoading?
                 (<Progress/>)
                 :
-                (<div className="activity-list">
-                    {<LoadMore url={loadMoreUrl} callback={loadMoreCallback}
-                              loading={isLoadingMore} direction="up" text={loadMoreText || "Show older activity"}/>}
+                (<div id={`list${this.state.listId}`} className="activity-list">
+                    <div className="item-wrapper">
+                        {<LoadMore url={loadMoreUrl} callback={loadMoreCallback}
+                                   loading={isLoadingMore} direction="up" text={loadMoreText || "Show older activity"}/>}
 
-                    {activities.map((item, idx, all_msgs) => {
-                        var activity = this.cleanActivity(item);
-                        var msgs = [];
-                        if(activity) {
-                            if(activity.user.id != null && activity.user.id == last_sender) {
-                                thread.others = [...thread.others, activity];
-                            } else {
-                                msgs = [...msgs, this.renderThread(thread)];
-                                thread.first = activity;
-                                thread.others = [];
+                        {activities && activities.map((item, idx, all_msgs) => {
+                            var activity = this.cleanActivity(item);
+                            var msgs = [];
+                            if(activity) {
+                                if(activity.user.id != null && activity.user.id == last_sender) {
+                                    thread.others = [...thread.others, activity];
+                                } else {
+                                    msgs = [...msgs, this.renderThread(thread)];
+                                    thread.first = activity;
+                                    thread.others = [];
+                                }
+
+                                last_sender = activity.user.id;
                             }
 
-                            last_sender = activity.user.id;
-                        }
+                            if(idx+1 == all_msgs.length) {
+                                msgs = [...msgs, this.renderThread(thread)];
+                            }
 
-                        if(idx+1 == all_msgs.length) {
-                            msgs = [...msgs, this.renderThread(thread)];
-                        }
-
-                        return msgs;
+                            return msgs;
                         })}
+                    </div>
                 </div>)
 
         );

@@ -44,7 +44,7 @@ export function createProgressReport(progress_report, attachments) {
             }).then(function (data) {
                 dispatch(createProgressReportSuccess(data))
             }, function (data) {
-                dispatch(createProgressReportFailed(data));
+                dispatch(createProgressReportFailed(data.responseJSON));
             });
         } else {
             axios.post(ENDPOINT_PROGRESS_REPORT, progress_report)

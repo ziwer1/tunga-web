@@ -5,9 +5,12 @@ import SearchBox from '../components/SearchBox';
 import Progress from '../components/status/Progress';
 import LoadMore from '../components/status/LoadMore';
 import Avatar from '../components/Avatar';
+import ChannelInfo from '../components/ChannelInfo';
+
 import connect from '../utils/connectors/ChannelConnector';
 
 import { CHANNEL_TYPES } from '../constants/Api';
+
 
 export function resizeOverviewBox() {
     var w_h = $(window).height();
@@ -101,20 +104,14 @@ class MessagePage extends React.Component {
                                                                 badge={channel.new || null}/>
                                                     </div>
                                                     <div className="media-body channel-details">
-                                                        {channel.user?(
-                                                            <div>{channel.user.display_name}</div>
-                                                        ):null}
-                                                        <div>{channel.subject || channel.alt_subject}</div>
-                                                        {channel.type == CHANNEL_TYPES.support?null:(
-                                                            <div style={{fontSize: '90%'}}>{channel.user?null:`${channel.participants.length} people`}</div>
-                                                        )}
+                                                        <ChannelInfo channel={channel}/>
                                                     </div>
                                                 </Link>
                                             );
                                         })}
                                     </div>
                                     <LoadMore url={Channel.list.next} callback={ChannelActions.listMoreChannels}
-                                              loading={Channel.list.isFetchingMore} text="Show more"/>
+                                              loading={Channel.list.isFetchingMore} text="more"/>
                                 </div>)}
                         </div>
                     ):null}

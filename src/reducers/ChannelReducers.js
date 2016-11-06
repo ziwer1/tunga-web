@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import * as ChannelActions from '../actions/ChannelActions';
 import * as MessageActions from '../actions/MessageActions';
 import { PATH_CHANGE } from '../actions/NavActions';
+import { GET_NOTIFICATIONS_SUCCESS } from '../actions/NotificationActions';
 
 import Activity from './ActivityReducers';
 
@@ -12,6 +13,7 @@ function channel(state = {}, action) {
         case ChannelActions.UPDATE_CHANNEL_SUCCESS:
         case ChannelActions.RETRIEVE_DIRECT_CHANNEL_SUCCESS:
         case ChannelActions.CREATE_SUPPORT_CHANNEL_SUCCESS:
+        case ChannelActions.CREATE_DEVELOPER_CHANNEL_SUCCESS:
         case ChannelActions.UPDATE_CHANNEL_READ_SUCCESS:
             return action.channel;
         case ChannelActions.DELETE_CHANNEL_SUCCESS:
@@ -21,56 +23,14 @@ function channel(state = {}, action) {
         case ChannelActions.RETRIEVE_CHANNEL_FAILED:
         case ChannelActions.CREATE_SUPPORT_CHANNEL_START:
         case ChannelActions.CREATE_SUPPORT_CHANNEL_FAILED:
+        case ChannelActions.CREATE_DEVELOPER_CHANNEL_START:
+        case ChannelActions.CREATE_DEVELOPER_CHANNEL_FAILED:
             return {};
         case MessageActions.LIST_MESSAGES_SUCCESS:
             if(action.filter && action.filter.channel == state.id) {
                 return {...state, new: 0};
             }
             return state;
-        default:
-            return state;
-    }
-}
-
-function attachments(state = [], action) {
-    switch (action.type) {
-        case ChannelActions.CREATE_CHANNEL_SUCCESS:
-        case ChannelActions.RETRIEVE_CHANNEL_SUCCESS:
-        case ChannelActions.UPDATE_CHANNEL_SUCCESS:
-        case ChannelActions.RETRIEVE_DIRECT_CHANNEL_SUCCESS:
-        case ChannelActions.CREATE_SUPPORT_CHANNEL_SUCCESS:
-            return action.channel.attachments;
-        case MessageActions.CREATE_MESSAGE_SUCCESS:
-            return [...action.message.attachments, ...state];
-        case MessageActions.LIST_NEW_MESSAGES_SUCCESS:
-            var new_attachments = [];
-            action.items.forEach((message) => {
-                new_attachments = [...new_attachments, ...message.attachments];
-            });
-            return [...new_attachments, ...state];
-        case ChannelActions.DELETE_CHANNEL_SUCCESS:
-        case ChannelActions.CREATE_CHANNEL_START:
-        case ChannelActions.CREATE_CHANNEL_FAILED:
-        case ChannelActions.RETRIEVE_CHANNEL_START:
-        case ChannelActions.RETRIEVE_CHANNEL_FAILED:
-        case ChannelActions.CREATE_SUPPORT_CHANNEL_START:
-        case ChannelActions.CREATE_SUPPORT_CHANNEL_FAILED:
-            return [];
-        default:
-            return state;
-    }
-}
-
-function last_read(state = 0, action) {
-    switch (action.type) {
-        case ChannelActions.CREATE_CHANNEL_SUCCESS:
-        case ChannelActions.RETRIEVE_CHANNEL_SUCCESS:
-        case ChannelActions.UPDATE_CHANNEL_SUCCESS:
-        case ChannelActions.RETRIEVE_DIRECT_CHANNEL_SUCCESS:
-        case ChannelActions.CREATE_SUPPORT_CHANNEL_SUCCESS:
-            return action.channel.last_read;
-        case ChannelActions.DELETE_CHANNEL_SUCCESS:
-            return 0;
         default:
             return state;
     }
@@ -89,11 +49,46 @@ function channels(state = {}, action) {
         case ChannelActions.LIST_CHANNELS_FAILED:
             return {};
         case ChannelActions.CREATE_CHANNEL_SUCCESS:
+        case ChannelActions.RETRIEVE_CHANNEL_SUCCESS:
         case ChannelActions.UPDATE_CHANNEL_READ_SUCCESS:
+        case ChannelActions.RETRIEVE_DIRECT_CHANNEL_SUCCESS:
         case ChannelActions.CREATE_SUPPORT_CHANNEL_SUCCESS:
+        case ChannelActions.CREATE_DEVELOPER_CHANNEL_SUCCESS:
             var new_channel = {};
-            new_channel[action.channel.id] = action.channel;
+            var channel_id = action.channel.id;
+            new_channel[action.channel.id] = {
+                ...action.channel,
+                previous_last_read: (action.type == ChannelActions.UPDATE_CHANNEL_READ_SUCCESS)?state[channel_id].last_read:action.channel.last_read
+            };
             return {...state, ...new_channel};
+        case ChannelActions.DELETE_CHANNEL_SUCCESS:
+            var new_state = {...state};
+            delete new_state[action.id];
+            return new_state;
+        case MessageActions.CREATE_MESSAGE_SUCCESS:
+            new_state = {...state};
+            channel_id = action.message.channel;
+            if(state[channel_id]) {
+                new_state[channel_id] = {
+                    ...new_state[channel_id],
+                    attachments: [
+                        ...action.message.attachments, ...state[channel_id].attachments
+                    ],
+                    previous_last_read: state[channel_id].last_read
+                };
+                new_state = {...state};
+                return new_state;
+            }
+            return state;
+        case GET_NOTIFICATIONS_SUCCESS:
+            if(action.notifications && action.notifications.channels) {
+                all_channels = {};
+                action.notifications.channels.forEach((channel) => {
+                    all_channels[channel.id] = {...state[channel.id], new: channel.new};
+                });
+                return {...state, ...all_channels};
+            }
+            return state;
         default:
             return state;
     }
@@ -115,6 +110,7 @@ function ids(state = [], action) {
             return [];
         case ChannelActions.CREATE_CHANNEL_SUCCESS:
         case ChannelActions.CREATE_SUPPORT_CHANNEL_SUCCESS:
+        case ChannelActions.CREATE_DEVELOPER_CHANNEL_SUCCESS:
             if(state.indexOf(action.channel.id) == -1) {
                 return [action.channel.id, ...state]
             }
@@ -161,6 +157,7 @@ function isSaving(state = false, action) {
         case ChannelActions.CREATE_CHANNEL_START:
         case ChannelActions.UPDATE_CHANNEL_START:
         case ChannelActions.CREATE_SUPPORT_CHANNEL_START:
+        case ChannelActions.CREATE_DEVELOPER_CHANNEL_START:
             return true;
         case ChannelActions.CREATE_CHANNEL_SUCCESS:
         case ChannelActions.CREATE_CHANNEL_FAILED:
@@ -168,6 +165,8 @@ function isSaving(state = false, action) {
         case ChannelActions.UPDATE_CHANNEL_FAILED:
         case ChannelActions.CREATE_SUPPORT_CHANNEL_SUCCESS:
         case ChannelActions.CREATE_SUPPORT_CHANNEL_FAILED:
+        case ChannelActions.CREATE_DEVELOPER_CHANNEL_SUCCESS:
+        case ChannelActions.CREATE_DEVELOPER_CHANNEL_FAILED:
             return false;
         default:
             return state;
@@ -179,6 +178,7 @@ function isSaved(state = false, action) {
         case ChannelActions.CREATE_CHANNEL_SUCCESS:
         case ChannelActions.UPDATE_CHANNEL_SUCCESS:
         case ChannelActions.CREATE_SUPPORT_CHANNEL_SUCCESS:
+        case ChannelActions.CREATE_DEVELOPER_CHANNEL_SUCCESS:
             return true;
         case ChannelActions.CREATE_CHANNEL_START:
         case ChannelActions.CREATE_CHANNEL_FAILED:
@@ -186,6 +186,8 @@ function isSaved(state = false, action) {
         case ChannelActions.UPDATE_CHANNEL_FAILED:
         case ChannelActions.CREATE_SUPPORT_CHANNEL_START:
         case ChannelActions.CREATE_SUPPORT_CHANNEL_FAILED:
+        case ChannelActions.CREATE_DEVELOPER_CHANNEL_START:
+        case ChannelActions.CREATE_DEVELOPER_CHANNEL_FAILED:
         case PATH_CHANGE:
             return false;
         default:
@@ -249,11 +251,14 @@ function error(state = {}, action) {
     switch (action.type) {
         case ChannelActions.CREATE_CHANNEL_FAILED:
         case ChannelActions.CREATE_SUPPORT_CHANNEL_FAILED:
+        case ChannelActions.CREATE_DEVELOPER_CHANNEL_FAILED:
             return {...state, create: action.error};
         case ChannelActions.CREATE_CHANNEL_START:
         case ChannelActions.CREATE_CHANNEL_SUCCESS:
         case ChannelActions.CREATE_SUPPORT_CHANNEL_START:
         case ChannelActions.CREATE_SUPPORT_CHANNEL_SUCCESS:
+        case ChannelActions.CREATE_DEVELOPER_CHANNEL_START:
+        case ChannelActions.CREATE_DEVELOPER_CHANNEL_SUCCESS:
             return {...state, create: null};
         default:
             return state;
@@ -274,8 +279,6 @@ function support(state = {new: 0}, action) {
 
 const detail = combineReducers({
     channel,
-    attachments,
-    last_read,
     isRetrieving,
     isSaving,
     isSaved,

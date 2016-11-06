@@ -65,8 +65,12 @@ export default class TaskDetail extends React.Component {
                         <strong>Created</strong> <span>{moment.utc(task.created_at).local().format('Do, MMMM YYYY, h:mm a')}</span>
                     </div>
 
-                    <h5>Task description</h5>
-                    <div className="card" dangerouslySetInnerHTML={{__html: task.description}}/>
+                    {task.description?(
+                        <div>
+                            <h5>Task description</h5>
+                            <div className="card" dangerouslySetInnerHTML={{__html: task.description}}/>
+                        </div>
+                    ):null}
 
                     {task.update_schedule_display?(
                         <div>

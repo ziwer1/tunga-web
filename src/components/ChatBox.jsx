@@ -4,6 +4,8 @@ import Avatar from './Avatar';
 import MessageForm from './MessageForm';
 import ActivityList from './ActivityList';
 
+import { getChannelKey } from '../utils/reducers';
+
 
 export default class ChatBox extends React.Component {
 
@@ -15,20 +17,18 @@ export default class ChatBox extends React.Component {
     }
 
     onSendMessage(body, attachments) {
-        const { MessageActions, Channel } = this.props;
-        const { channel } = Channel.detail;
+        const { channel, MessageActions } = this.props;
         MessageActions.createMessage({channel: channel.id, body}, attachments);
     }
 
     onUpload(files) {
-        const { Channel, ChannelActions } = this.props;
-        const { channel } = Channel.detail;
+        const { channel, ChannelActions } = this.props;
         ChannelActions.updateChannel(channel.id, null, files);
     }
 
     render() {
-        const { Auth, Channel, ChannelActions, Message } = this.props;
-        const { channel, attachments } = Channel.detail;
+        const { channel, Auth, Channel, ChannelActions, Message } = this.props;
+        const { attachments } = channel;
         let view = this.getView();
 
         return (
@@ -79,13 +79,13 @@ export default class ChatBox extends React.Component {
                     [
                         <ActivityList
                             Auth={Auth}
-                            activities={Channel.detail.activity.items}
-                            isLoading={Channel.detail.activity.isFetching}
-                            isLoadingMore={Channel.detail.activity.isFetchingMore}
-                            loadMoreUrl={Channel.detail.activity.next}
+                            activities={Channel.detail.activity.items[getChannelKey(channel.id)] || []}
+                            isLoading={Channel.detail.activity.isFetching[getChannelKey(channel.id)] || false}
+                            isLoadingMore={Channel.detail.activity.isFetchingMore[getChannelKey(channel.id)] || false}
+                            loadMoreUrl={Channel.detail.activity.next[getChannelKey(channel.id)] || null}
                             loadMoreCallback={ChannelActions.listMoreChannelActivity}
                             loadMoreText="Show older messages"
-                            last_read={Channel.detail.last_read} />,
+                            last_read={channel.previous_last_read || channel.last_read} />,
                         <MessageForm
                             messageCallback={this.onSendMessage.bind(this)}
                             messageSaved={Message.detail.isSaved}

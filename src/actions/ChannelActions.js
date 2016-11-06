@@ -38,6 +38,9 @@ export const UPDATE_CHANNEL_READ_FAILED = 'UPDATE_CHANNEL_READ_FAILED';
 export const CREATE_SUPPORT_CHANNEL_START = 'CREATE_SUPPORT_CHANNEL_START';
 export const CREATE_SUPPORT_CHANNEL_SUCCESS = 'CREATE_SUPPORT_CHANNEL_SUCCESS';
 export const CREATE_SUPPORT_CHANNEL_FAILED = 'CREATE_SUPPORT_CHANNEL_FAILED';
+export const CREATE_DEVELOPER_CHANNEL_START = 'CREATE_DEVELOPER_CHANNEL_START';
+export const CREATE_DEVELOPER_CHANNEL_SUCCESS = 'CREATE_DEVELOPER_CHANNEL_SUCCESS';
+export const CREATE_DEVELOPER_CHANNEL_FAILED = 'CREATE_DEVELOPER_CHANNEL_FAILED';
 
 export function createChannel(channel) {
     return dispatch => {
@@ -312,6 +315,38 @@ export function createSupportChannelFailed(error) {
     }
 }
 
+export function createDeveloperChannel(data) {
+    return dispatch => {
+        dispatch(createDeveloperChannelStart());
+        axios.post(ENDPOINT_CHANNEL + 'developer/', data)
+            .then(function(response) {
+                dispatch(createDeveloperChannelSuccess(response.data));
+            }).catch(function(response) {
+            dispatch(createDeveloperChannelFailed(response.data));
+        });
+    }
+}
+
+export function createDeveloperChannelStart() {
+    return {
+        type: CREATE_DEVELOPER_CHANNEL_START
+    }
+}
+
+export function createDeveloperChannelSuccess(channel) {
+    return {
+        type: CREATE_DEVELOPER_CHANNEL_SUCCESS,
+        channel
+    }
+}
+
+export function createDeveloperChannelFailed(error) {
+    return {
+        type: CREATE_DEVELOPER_CHANNEL_FAILED,
+        error
+    }
+}
+
 export function updateChannelRead(id, data) {
     return dispatch => {
         dispatch(updateChannelReadStart(id));
@@ -427,37 +462,43 @@ export function listChannelActivityFailed(error, id, new_only=false) {
 }
 
 export function listMoreChannelActivity(url) {
+    var matches = url.match(/.*\/(\d+)\/activity/);
+    var id = matches[1];
+
     return dispatch => {
-        dispatch(listMoreChannelActivityStart(url));
+        dispatch(listMoreChannelActivityStart(url, id));
         axios.get(url)
             .then(function(response) {
-                dispatch(listMoreChannelActivitySuccess(response.data))
+                 dispatch(listMoreChannelActivitySuccess(response.data, id));
             }).catch(function(response) {
-            dispatch(listMoreChannelActivityFailed(response.data))
+            dispatch(listMoreChannelActivityFailed(response.data, id));
         });
     }
 }
 
-export function listMoreChannelActivityStart(url) {
+export function listMoreChannelActivityStart(url, id) {
     return {
         type: LIST_MORE_CHANNEL_ACTIVITY_START,
-        url
+        url,
+        id
     }
 }
 
-export function listMoreChannelActivitySuccess(response) {
+export function listMoreChannelActivitySuccess(response, id) {
     return {
         type: LIST_MORE_CHANNEL_ACTIVITY_SUCCESS,
         items: response.results,
         previous: response.previous,
         next: response.next,
-        count: response.count
+        count: response.count,
+        id
     }
 }
 
-export function listMoreChannelActivityFailed(error) {
+export function listMoreChannelActivityFailed(error, id) {
     return {
         type: LIST_MORE_CHANNEL_ACTIVITY_FAILED,
-        error
+        error,
+        id
     }
 }

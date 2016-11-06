@@ -44,7 +44,7 @@ export function createMilestone(milestone, attachments) {
             }).then(function (data) {
                 dispatch(createMilestoneSuccess(data))
             }, function (data) {
-                dispatch(createMilestoneFailed(data));
+                dispatch(createMilestoneFailed(data.responseJSON));
             });
         } else {
             axios.post(ENDPOINT_MILESTONE, milestone)

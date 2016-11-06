@@ -24,7 +24,9 @@ export default class MessageForm extends React.Component {
 
     onDrop(attachments) {
         var current = this.state.attachments;
-        this.setState({attachments: current.concat(attachments)});
+        if(this.props.uploadCallback) {
+            this.props.uploadCallback(attachments);
+        }
     }
 
     onAddAttachment() {
@@ -56,8 +58,8 @@ export default class MessageForm extends React.Component {
                     <Dropzone ref="dropzone" onDrop={this.onDrop.bind(this)} style={{display: 'none'}}>
                         <div>Try dropping some files here, or click to select files to upload.</div>
                     </Dropzone>
-                    {this.state.attachments?(
-                    <div>
+                    {this.state.attachments && this.state.attachments.length?(
+                    <div className="file-queue">
                         {this.state.attachments.map((file) => {
                             return (<div><i className="fa fa-file-text-o"/> {file.name}</div>)
                             })}

@@ -49,7 +49,7 @@ export function createProject(project, attachments) {
             }).then(function (data) {
                 dispatch(createProjectSuccess(data))
             }, function (data) {
-                dispatch(createProjectFailed(data));
+                dispatch(createProjectFailed(data.responseJSON));
             });
         } else {
             axios.post(ENDPOINT_PROJECT, project)

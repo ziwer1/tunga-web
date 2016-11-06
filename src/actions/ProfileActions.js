@@ -50,7 +50,7 @@ export function updateAuthUser(user) {
             }).then(function (data) {
                 dispatch(updateAuthUserSuccess(data))
             }, function (data) {
-                dispatch(updateAuthUserFailed(data));
+                dispatch(updateAuthUserFailed(data.responseJSON));
             });
         } else {
             axios.patch(ENDPOINT_USER_INFO, user)

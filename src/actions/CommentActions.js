@@ -45,7 +45,7 @@ export function createComment(comment, attachments) {
             }).then(function (data) {
                 dispatch(createCommentSuccess(data))
             }, function (data) {
-                dispatch(createCommentFailed(data));
+                dispatch(createCommentFailed(data.responseJSON));
             });
         } else {
             axios.post(ENDPOINT_COMMENT, comment)

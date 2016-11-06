@@ -10,7 +10,7 @@ export default class Attachments extends React.Component {
             <div className="attachments">
                 {attachments.map((attachment) => {
                     return (
-                        <div key={attachment.id} className="file"><a href={attachment.url}><i className="fa fa-download"/> {attachment.name} <strong>[{attachment.display_size}]</strong></a></div>
+                        <div key={attachment.id} className="file"><a href={attachment.url} target="_blank"><i className="fa fa-download"/> {attachment.name} <strong>[{attachment.display_size}]</strong></a></div>
                         )
                     })}
             </div>

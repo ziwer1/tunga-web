@@ -182,13 +182,11 @@ ReactDOM.render(
                     <Route path="support" component={SupportPageList} />
                 </Route>
                 <Route path="help" component={MessagePage}>
-                    <IndexRedirect to="start"/>
-                    <Route path="start" component={SupportChannelForm}/>
                     <Route path=":channelId" component={ChannelContainer}>
                         <IndexRoute component={ChatBox} />
                     </Route>
                 </Route>
-                <Route path="customer/help/:channelId" component={LandingPage}/>
+                <Route path="customer/help/:chatId" component={LandingPage}/>
                 <Redirect path="*" to="home" />
             </Route>
         </Router>

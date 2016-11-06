@@ -3,9 +3,9 @@ import * as UserSelectionActions from '../actions/UserSelectionActions';
 import { CREATE_MESSAGE_SUCCESS } from '../actions/MessageActions';
 
 function users(state = {default: {}}, action) {
+    var selection_key = action.selection || 'default';
     switch (action.type) {
         case UserSelectionActions.ADD_USER_SELECTION:
-            var selection_key = action.selection || 'default';
             var user_id = action.user.id;
             var new_user = {};
             new_user[user_id] = action.user;
@@ -15,7 +15,6 @@ function users(state = {default: {}}, action) {
             new_state[selection_key] = new_selection;
             return new_state;
         case UserSelectionActions.CLEAR_USER_SELECTIONS:
-            selection_key = action.selection || 'default';
             new_state = {...state};
             new_state[selection_key] = {};
             return new_state;
@@ -25,9 +24,9 @@ function users(state = {default: {}}, action) {
 }
 
 function ids(state = {}, action) {
+    var selection_key = action.selection || 'default';
     switch (action.type) {
         case UserSelectionActions.ADD_USER_SELECTION:
-            var selection_key = action.selection || 'default';
             var current_selection = state[selection_key] || [];
             if(current_selection.indexOf(action.user.id) == -1) {
                 var new_selection = [...current_selection, action.user.id];
@@ -37,7 +36,6 @@ function ids(state = {}, action) {
             }
             return state;
         case UserSelectionActions.REMOVE_USER_SELECTION:
-            selection_key = action.selection || 'default';
             current_selection = state[selection_key] || [];
             var idx = current_selection.indexOf(action.id);
             if(idx > -1) {
@@ -48,7 +46,6 @@ function ids(state = {}, action) {
             }
             return state;
         case UserSelectionActions.CLEAR_USER_SELECTIONS:
-            selection_key = action.selection || 'default';
             new_state = {...state};
             new_state[selection_key] = [];
             return new_state;
@@ -60,14 +57,13 @@ function ids(state = {}, action) {
 }
 
 function suggestions(state = {default: []}, action) {
+    var selection_key = action.selection || 'default';
     switch (action.type) {
         case UserSelectionActions.GET_USER_SUGGESTIONS_SUCCESS:
-            var selection_key = action.selection || 'default';
             var new_state = {...state};
             new_state[selection_key] = action.items;
             return new_state;
         case UserSelectionActions.INVALIDATE_USER_SUGGESTIONS:
-            selection_key = action.selection || 'default';
             new_state = {...state};
             new_state[selection_key] = [];
             return new_state;

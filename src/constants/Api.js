@@ -246,7 +246,8 @@ export const TASK_PAYMENT_METHOD_CHOICES = [
 export const CHANNEL_TYPES = {
     direct: 1,
     topic: 2,
-    support: 3
+    support: 3,
+    developer: 4
 };
 
 export const OFFER_REQUEST_ITEMS = {

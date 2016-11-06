@@ -12,6 +12,7 @@ import MilestonePage from '../containers/MilestonePage';
 import Milestone from './Milestone';
 
 import { parse_task_status } from '../utils/tasks';
+import { getTaskKey } from '../utils/reducers';
 
 export function resizeOverviewBox() {
     var w_h = $(window).height();
@@ -93,12 +94,16 @@ export default class TaskWorflow extends ComponentWithModal {
 
     getNewActivity() {
         const { Task, TaskActions, search, filters } = this.props;
-        if(this.props.params.taskId && !Task.detail.activity.isFetching && Task.detail.activity.items.length) {
+        let taskId = this.props.params.taskId;
+        let task_key = getTaskKey(taskId);
+
+        if(taskId && !Task.detail.activity.isFetching[task_key]) {
             var since = 0;
-            if(Task.detail.activity.items.length) {
-                since = Task.detail.activity.items[Task.detail.activity.items.length-1].id;
+            const task_activity_items = Task.detail.activity.items[task_key];
+            if(task_activity_items.length) {
+                since = task_activity_items[task_activity_items.length-1].id;
                 if(since === undefined || since === null) {
-                    [...Task.detail.activity.items].reverse().some(item => {
+                    [...task_activity_items].reverse().some(item => {
                         if(item.id) {
                             since = item.id;
                         }
@@ -106,7 +111,7 @@ export default class TaskWorflow extends ComponentWithModal {
                     });
                 }
             }
-            TaskActions.listTaskActivity(this.props.params.taskId, {since, ...filters, search});
+            TaskActions.listTaskActivity(taskId, {since, ...filters, search});
         }
     }
 
@@ -273,10 +278,10 @@ export default class TaskWorflow extends ComponentWithModal {
                             <div className="list-box">
                                 <ActivityList
                                     Auth={Auth}
-                                    activities={Task.detail.activity.items}
-                                    isLoading={Task.detail.activity.isFetching}
-                                    isLoadingMore={Task.detail.activity.isFetchingMore}
-                                    loadMoreUrl={Task.detail.activity.next}
+                                    activities={Task.detail.activity.items[getTaskKey(task.id)] || []}
+                                    isLoading={Task.detail.activity.isFetching[getTaskKey(task.id)] || false}
+                                    isLoadingMore={Task.detail.activity.isFetchingMore[getTaskKey(task.id)] || false}
+                                    loadMoreUrl={Task.detail.activity.next[getTaskKey(task.id)] || null}
                                     loadMoreCallback={TaskActions.listMoreTaskActivity}
                                     loadMoreText="Show older activity"
                                 />
