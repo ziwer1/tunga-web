@@ -37,6 +37,7 @@ strong {
 a:link,
 a:visited {
     color: @primary;
+    cursor: pointer;
 }
 
 input, select, textarea, .form-control, .rw-input {
@@ -504,6 +505,10 @@ form[name='compose'] {
     color: @github !important;
 }
 
+.slack-button, .slack-button:hover {
+    color: @slack !important;
+}
+
 .social-login-widget {
     margin: 10px auto;
 }
@@ -573,6 +578,87 @@ form[name='compose'] {
     color: #fff;
     background-color: @primary;
     border-color: @primary;
+}
+
+.workflow-steps {
+    list-style: none;
+    overflow: hidden;
+    padding: 0;
+
+    li {
+        float: left;
+
+        a {
+            color: @primary-text;
+            text-decoration: none;
+            padding: 5px 5px 5px 25px;
+            background: @steps-grey;
+            position: relative;
+            display: block;
+            float: left;
+        }
+
+        a:after, a:before {
+            content: " ";
+            display: block;
+            width: 0;
+            height: 0;
+            border-top: 25px solid transparent;
+            border-bottom: 25px solid transparent;
+            position: absolute;
+            top: 50%;
+            margin-top: -26px;
+            left: 100%;
+        }
+
+        a:after {
+            border-left: 15px solid @steps-grey;
+            z-index: 2;
+        }
+
+        a:before {
+            border-left: 15px solid @active-white;
+            margin-left: 1px;
+            z-index: 1;
+        }
+
+        a:hover, a:focus {
+            color: @active-white;
+            background-color: @primary;
+        }
+
+        a:hover:after, a:focus:after {
+            border-left-color: @primary;
+        }
+
+        a.active {
+            color: @active-white;
+            background: @primary;
+        }
+
+        a.active:after {
+            border-left-color: @primary;
+        }
+
+        a.disabled {
+            color: @primary-text !important;
+            background-color: @steps-grey !important;
+            cursor: default;
+        }
+
+        a.disabled:after {
+            border-left-color: @steps-grey !important;
+        }
+
+    }
+
+    li:first-child a {
+        padding-left: 10px;
+    }
+
+    li:last-child a {
+        margin-right: 25px;
+    }
 }
 
 .nav-pills > li > a  {
@@ -1491,6 +1577,38 @@ activity-list {
     }
 }
 
+.integration-options {
+    display: block;
+    list-style: none;
+    padding: 0;
+
+    li {
+        float: left;
+        margin: 2px;
+
+        a {
+            display: block;
+            color: @primary-text;
+            background-color: @inactive-grey;
+            border: 1px solid @inactive-grey;
+            padding: 8px 12px;
+            text-decoration: none;
+            border-radius: 5px;
+
+            .fa {
+                .font-size(2.8);
+            }
+        }
+
+        a:hover, a:focus, a.active {
+            color: @primary !important;
+            border-color: @primary;
+            background-color: @active-white;
+        }
+    }
+
+}
+
 .workflow-head {
 
     .title {
@@ -1610,6 +1728,29 @@ activity-list {
 
 .popover.right > .arrow {
     border-right-color: @primary;
+}
+
+
+.task-actions {
+
+    .dropdown {
+        .dropdown-menu {
+
+            >li>a,
+            >li>.btn {
+                color: @primary;
+                background: @active-white none;
+                width: 100%;
+                margin: 2px;
+            }
+            >li>a:hover,
+            >li>a:active,
+            >li>.btn:hover {
+                color: @active-white;
+                background-color: @primary;
+            }
+        }
+    }
 }
 
 .overview {

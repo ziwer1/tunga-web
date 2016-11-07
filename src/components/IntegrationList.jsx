@@ -164,10 +164,26 @@ export default class IntegrationList extends ComponentWithModal {
 
         return (
             <div>
-                <ul className="nav nav-pills nav-top-filter">
-                    <li role="presentation"><Link to={`/task/${task.id}/integrations/${SOCIAL_PROVIDERS.github}`} activeClassName="active">GitHub</Link></li>
-                    <li role="presentation"><Link to={`/task/${task.id}/integrations/${SOCIAL_PROVIDERS.slack}`} activeClassName="active">Slack</Link></li>
-                </ul>
+                <div className="clearfix">
+                    <ul className="integration-options">
+                        <li>
+                            <Link to={`/task/${task.id}/integrations/${SOCIAL_PROVIDERS.github}`}
+                                  activeClassName="active"
+                                  className="github-button"
+                                  title="GitHub">
+                                <i className="fa fa-github"/>
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to={`/task/${task.id}/integrations/${SOCIAL_PROVIDERS.slack}`}
+                                  activeClassName="active"
+                                  className="slack-button"
+                                  title="Slack">
+                                <i className="fa fa-slack"/>
+                            </Link>
+                        </li>
+                    </ul>
+                </div>
                 {Task.detail.isRetrieving || Task.detail.integrations.isRetrieving ||
                 github.repos.isFetching || github.issues.isFetching || slack.isRetrieving?
                     (<Progress/>)

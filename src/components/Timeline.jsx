@@ -124,11 +124,11 @@ export default class Timeline extends React.Component {
                         {this.props.children}
                     </div>
 
-                    {this.state.all_events.map((event) => {
+                    {/*this.state.all_events.map((event) => {
                         return this.renderEvent(event);
-                    })}
+                    })*/}
 
-                    {this.renderEvent({title: 'Reminder', due_at: moment.utc().format(), is_now: true})}
+                    {/*this.renderEvent({title: 'Reminder', due_at: moment.utc().format(), is_now: true})*/}
                 </div>
             </div>
         );
