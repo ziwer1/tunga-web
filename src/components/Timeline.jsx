@@ -12,7 +12,7 @@ export default class Timeline extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {min: null, max: null, duration: 0, all_events: [], next_event: null};
+        this.state = {min: null, max: null, duration: 0, all_events: [], next_event: null, now: moment.utc().unix()};
     }
 
     componentDidMount() {
@@ -38,7 +38,7 @@ export default class Timeline extends React.Component {
         }
         all_events = [...all_events, ...events];
         var next_event = null;
-        const now = moment.utc().unix();
+        const now = this.state.now;
         var timestamps = all_events.map((event) => {
             let this_tm = moment.utc(event.due_at).unix();
             if((this_tm > now) && (!next_event || next_event && this_tm < moment.utc(next_event.due_at).unix())) {
@@ -63,6 +63,30 @@ export default class Timeline extends React.Component {
         }
     }
 
+    polarToCartesian(centerX, centerY, radius, angleInDegrees) {
+        var angleInRadians = (angleInDegrees-90) * Math.PI / 180.0;
+
+        return {
+            x: centerX + (radius * Math.cos(angleInRadians)),
+            y: centerY + (radius * Math.sin(angleInRadians))
+        };
+    }
+
+    describeArc(x, y, radius, startAngle, endAngle){
+
+        var start = this.polarToCartesian(x, y, radius, endAngle);
+        var end = this.polarToCartesian(x, y, radius, startAngle);
+
+        var largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
+
+        var d = [
+            "M", start.x, start.y,
+            "A", radius, radius, 0, largeArcFlag, 0, end.x, end.y
+        ].join(" ");
+
+        return d;
+    }
+
     renderEvent(event) {
         if(!this.state.duration || (event.is_now && !this.state.next_event)) {
             return null;
@@ -70,7 +94,7 @@ export default class Timeline extends React.Component {
         const timestamp = moment.utc(event.due_at).unix();
         const length = timestamp - this.state.min;
         const pos = (length/this.state.duration)*100;
-        const ts_now = moment.utc().unix();
+        const ts_now = this.state.now;
         let is_missed = ((timestamp + 24*60*60) < ts_now && event.type); // Developers have 24 hrs before a task update is missed
         var angle = ((length/this.state.duration)*360+270) % 360;
 
@@ -108,7 +132,7 @@ export default class Timeline extends React.Component {
                 <OverlayTrigger key={event.due_at} placement="top" overlay={popover}>
                     <div key={event.id}
                          className={"event" + (moment.utc(event.due_at) < moment.utc() && !event.is_now?' past':'')}
-                         style={{transform: `rotate(${angle}deg) translate(98px)`}}>
+                         style={{transform: `rotate(${angle}deg) translate(110px)`}}>
                         <span>{event.is_now?<i className="fa fa-square"/>:<i className="fa fa-circle"/>}</span>
                     </div>
                 </OverlayTrigger>
@@ -117,18 +141,29 @@ export default class Timeline extends React.Component {
     }
 
     render() {
+
+        const length = this.state.now - this.state.min;
+        var angle = (length/this.state.duration)*360;
+        if(angle > 360) {
+            angle = 360;
+        }
         return (
             <div className="timeline">
-                <div className="line duration-line">
+                <div className={`line ${angle >= 360?'closed':''}`}>
+                    <div className="inner-line"></div>
                     <div className="content">
                         {this.props.children}
                     </div>
-
+                </div>
+                <div className="duration">
+                    {<svg>
+                        <path fill="none" d={this.describeArc(130, 110, 100, 0, angle)}/>
+                    </svg>}
                     {/*this.state.all_events.map((event) => {
                         return this.renderEvent(event);
                     })*/}
 
-                    {/*this.renderEvent({title: 'Reminder', due_at: moment.utc().format(), is_now: true})*/}
+                    {/*this.renderEvent({title: 'Reminder', due_at: this.state.now, is_now: true})*/}
                 </div>
             </div>
         );

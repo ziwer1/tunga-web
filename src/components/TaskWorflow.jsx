@@ -232,7 +232,12 @@ export default class TaskWorflow extends ComponentWithModal {
             <div>
                 {this.renderModalContent()}
                 <div className="workflow-head clearfix">
-                    <div className="title pull-left"><Link to={`/task/${task.id}/`}>{task.title}</Link></div>
+                    <div className="pull-left" style={{marginBottom: '10px'}}>
+                        <div className="title">
+                            <Link to={`/task/${task.id}/`}>{task.title}</Link>
+                        </div>
+                        <div className="task-status"><i className={"fa fa-circle " + task_status.css}/> {task_status.message}</div>
+                    </div>
 
                     {is_admin_or_owner || task.is_participant ? (
                         <div className="task-actions pull-right">
@@ -269,6 +274,13 @@ export default class TaskWorflow extends ComponentWithModal {
                                                             onClick={this.handleCloseTask.bind(this)}>
                                                         Close task
                                                     </button>
+                                                )}
+                                            </li>
+                                            <li>
+                                                {task.apply?(
+                                                    <button type="button" className="btn " onClick={this.handleCloseApplications.bind(this)}>Close applications</button>
+                                                ):(
+                                                    <button type="button" className="btn " onClick={this.handleOpenApplications.bind(this)}>Open applications</button>
                                                 )}
                                             </li>
                                             {task.closed && !task.paid && Auth.user.is_staff ? (

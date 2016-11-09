@@ -113,7 +113,9 @@ class App extends React.Component {
                                 )}
                             </div>
                         </div>
-                        <ChatWindow />
+                        {!Auth.user.is_staff?(
+                            <ChatWindow />
+                        ):null}
                     </div>
                 ):children
         );
