@@ -3,8 +3,10 @@ import { Link } from 'react-router';
 import Avatar from './Avatar';
 import MessageForm from './MessageForm';
 import ActivityList from './ActivityList';
+import moment from 'moment';
 
 import { getChannelKey } from '../utils/reducers';
+import { CHANNEL_TYPES } from '../constants/Api';
 
 
 export default class ChatBox extends React.Component {
@@ -30,6 +32,26 @@ export default class ChatBox extends React.Component {
         const { channel, Auth, Channel, ChannelActions, Message } = this.props;
         const { attachments } = channel;
         let view = this.getView();
+        var activities = Channel.detail.activity.items[getChannelKey(channel.id)] || [];
+
+        /*if(!activities.length && channel.type == CHANNEL_TYPES.support) {
+            // Add a welcome message for support channels
+            activities.push({
+                action: 'send',
+                activity_type: 'message',
+                activity: {
+                    // id: "welcome",
+                    sender: {
+                        id: 'tunga',
+                        username: null,
+                        display_name: 'Tunga Support',
+                        avatar_url: 'https://tunga.io/icons/Tunga_squarex150.png'
+                    },
+                    html_body: "<div>Hello David,<br/>How can we help you?.</div>",
+                    created_at: moment().format()
+                }
+            });
+        }*/
 
         return (
             <div className="list-box">
@@ -79,7 +101,7 @@ export default class ChatBox extends React.Component {
                     [
                         <ActivityList
                             Auth={Auth}
-                            activities={Channel.detail.activity.items[getChannelKey(channel.id)] || []}
+                            activities={activities}
                             isLoading={Channel.detail.activity.isFetching[getChannelKey(channel.id)] || false}
                             isLoadingMore={Channel.detail.activity.isFetchingMore[getChannelKey(channel.id)] || false}
                             loadMoreUrl={Channel.detail.activity.next[getChannelKey(channel.id)] || null}

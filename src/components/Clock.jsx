@@ -55,10 +55,10 @@ export default class Clock extends React.Component {
     render() {
         return (
             <div className='clock'>
-                <div className="day">{this.state.day}</div>
                 <div className="time">
                     {this.state.hours}:{this.state.minutes}
                 </div>
+                <div className="day">{this.state.day}</div>
             </div>
         );
     }

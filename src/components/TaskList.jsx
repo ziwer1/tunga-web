@@ -40,12 +40,25 @@ export default class TaskList extends React.Component {
             <div>
                 {hide_header?null:(
                 <div>
-                    <h2>{filter == 'my-tasks' && !Auth.user.is_developer?'My ':''}Tasks</h2>
+                    <div className="clearfix">
+                        <h2 className="pull-left">{filter == 'my-tasks' && !Auth.user.is_developer?'My ':''}Tasks</h2>
+                        <div className="pull-right">
+                            <SearchBox placeholder="Search for tasks"
+                                       filter={{filter, skill, ...this.props.filters}}
+                                       onSearch={TaskActions.listTasks}
+                                       count={Task.list.count}/>
+                        </div>
+                    </div>
                     {filter == 'my-tasks' && !Auth.user.is_developer?null:(
                     <ul className="nav nav-pills nav-top-filter">
                         <li role="presentation"><IndexLink to="/task" activeClassName="active">All Tasks</IndexLink></li>
-                        <li role="presentation"><Link to="/task/filter/skills" activeClassName="active">My Skills</Link></li>
-                        <li role="presentation"><Link to="/task/filter/project-owners" activeClassName="active">My Clients</Link></li>
+                        <li role="presentation"><Link to="/task/filter/running" activeClassName="active"><i className="tunga-icon-running-tasks"/> Running Tasks</Link></li>
+                        {Auth.user.is_developer || Auth.user.is_staff?(
+                            [
+                                <li role="presentation"><Link to="/task/filter/skills" activeClassName="active">My Skills</Link></li>,
+                                <li role="presentation"><Link to="/task/filter/project-owners" activeClassName="active">My Clients</Link></li>
+                            ]
+                        ):null}
                         {skill?(
                             <li role="presentation" style={{marginLeft: '20px'}}>
                                 <Link to={`/task/skill/${skill}`} activeClassName="active"><i className="tunga-icon-tag"/> {skill}</Link>
@@ -53,10 +66,6 @@ export default class TaskList extends React.Component {
                         ):null}
                     </ul>
                         )}
-                    <SearchBox placeholder="Search for tasks"
-                               filter={{filter, skill, ...this.props.filters}}
-                               onSearch={TaskActions.listTasks}
-                               count={Task.list.count}/>
                 </div>
                     )}
                 {Task.list.isFetching?

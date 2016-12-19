@@ -1,23 +1,24 @@
 import React from 'react';
+import { Link } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import Helmet from "react-helmet"
 
 import Progress from '../components/status/Progress';
-import NavBar from '../components/NavBar';
-import SideBar from './SideBar';
-import ChatWindow from '../containers/ChatWindow';
 
 import * as AuthActions from '../actions/AuthActions';
 import * as NavActions from '../actions/NavActions';
 import * as UserSelectionActions from '../actions/UserSelectionActions';
 import * as SkillSelectionActions from '../actions/SkillSelectionActions';
 
-import { UNAUTHED_ACCESS_PATH, PROFILE_COMPLETE_PATH, LANDING_PAGE_PATH } from '../constants/patterns';
+import { PROFILE_COMPLETE_PATH } from '../constants/patterns';
 
 import { initNavUIController } from '../utils/ui';
+import { requiresAuth, requiresNoAuth, requiresAuthOrEmail } from '../utils/router';
 
-class App extends React.Component {
+import ComponentWithModal from '../components/ComponentWithModal';
+import LargeModal from '../components/ModalLarge';
+
+class App extends ComponentWithModal {
 
     getChildContext() {
         const { router, location } = this.context;
@@ -34,9 +35,13 @@ class App extends React.Component {
 
     componentDidUpdate(prevProps, prevState) {
         const { router } = this.context;
-        const { Auth, location, NavActions, AuthActions } = this.props;
-        if((prevProps.location.pathname != location.pathname) || (prevProps.Auth.isAuthenticated != Auth.isAuthenticated) || (prevProps.Auth.isVerifying != Auth.isVerifying && !Auth.isVerifying)) {
-            if(UNAUTHED_ACCESS_PATH.test(location.pathname) && Auth.isAuthenticated) {
+        const { Auth, location, NavActions, AuthActions, routes } = this.props;
+        if(
+            (prevProps.location.pathname != location.pathname) ||
+            (prevProps.Auth.isAuthenticated != Auth.isAuthenticated) ||
+            (prevProps.Auth.isVerifying != Auth.isVerifying && !Auth.isVerifying)
+        ) {
+            if(requiresNoAuth(routes) && Auth.isAuthenticated) {
                 var next = Auth.next;
                 if(!next) {
                     next = location.query.next || '/home';
@@ -49,9 +54,19 @@ class App extends React.Component {
                 return;
             }
 
-            if(!UNAUTHED_ACCESS_PATH.test(location.pathname) && !Auth.isAuthenticated) {
+            if(requiresAuthOrEmail(routes) && !Auth.isAuthenticated && !Auth.isEmailVisitor) {
                 AuthActions.authRedirect(location.pathname);
                 router.replace('/signin');
+                return;
+            }
+
+            if(requiresAuth(routes) && !Auth.isAuthenticated) {
+                if(Auth.isEmailVisitor) {
+                    this.open();
+                } else {
+                    AuthActions.authRedirect(location.pathname);
+                    router.replace('/signin');
+                }
                 return;
             }
         }
@@ -61,19 +76,64 @@ class App extends React.Component {
             return;
         }
 
+        if((
+            //(prevProps.Auth.isEmailVisitor != Auth.isEmailVisitor) ||
+            //(prevProps.Auth.isVerifying != Auth.isVerifying && !Auth.isVerifying) ||
+            (prevProps.Auth.isAuthenticating != Auth.isAuthenticating && !Auth.isAuthenticating)
+            ) && Auth.isEmailVisitor) {
+            router.replace('/people/');
+        }
+
         if(prevProps.location.pathname != location.pathname) {
             NavActions.reportPathChange(prevProps.location.pathname, location.pathname);
         }
     }
 
-    handleAppClick(e) {
+    handleAppClick() {
         const { UserSelectionActions, SkillSelectionActions } = this.props;
         UserSelectionActions.invalidateUserSuggestions();
         SkillSelectionActions.invalidateSkillSuggestions();
     }
 
+    onClosePopup() {
+        const {Auth, routes} = this.props;
+        const { router } = this.context;
+
+        this.close();
+        if(requiresAuth(routes) && !Auth.isAuthenticated) {
+            AuthActions.authRedirect(location.pathname);
+            router.replace('/signin');
+        }
+    }
+
+    renderModalContent() {
+        return (
+            <LargeModal title="Login or Join" modalSize="medium"
+                        show={this.state.showModal} onHide={this.onClosePopup.bind(this)}>
+                <div className="alert alert-info">You need to Login or Sign Up to access this page</div>
+                <div className="clearfix">
+                    <div className="pull-right">
+                        <Link to="/signup" className="btn" onClick={this.close.bind(this)}>Sign Up</Link>
+                        <Link to="/signin" className="btn btn-alt" onClick={this.close.bind(this)}>Login</Link>
+                    </div>
+                </div>
+            </LargeModal>
+        );
+    }
+
+    renderChildren() {
+        return React.Children.map(this.props.children, function (child) {
+            return React.cloneElement(child, {
+                Auth: this.props.Auth,
+                AuthActions: this.props.AuthActions,
+                location: this.props.location,
+                onAppClick: this.handleAppClick.bind(this)
+            });
+        }.bind(this));
+    }
+
     render() {
-        const {Auth, AuthActions, children, location} = this.props;
+        const {Auth} = this.props;
         return (
             Auth.isVerifying?
                 (
@@ -83,41 +143,12 @@ class App extends React.Component {
                         </div>
                         <Progress message="Initializing ..."/>
                     </div>
-                )
-                :
-                Auth.isAuthenticated?(
-                    <div className="app-wrapper" onClick={this.handleAppClick.bind(this)}>
-                        <Helmet
-                            title="Tunga"
-                            meta={[
-                                {
-                                "name": "description",
-                                "content": "Tunga is a market network that allows you to build a flexible team " +
-                                 "of skilled African software programmers, that you can mobilize on-demand."
-                                 }
-                              ]}
-                        />
-                        <NavBar Auth={Auth} AuthActions={AuthActions} location={location}/>
-
-                        <div className="container-fluid">
-                            <div className="row">
-                                {Auth.isAuthenticated && !PROFILE_COMPLETE_PATH.test(this.props.location.pathname)?(
-                                    [
-                                        <SideBar Auth={Auth} location={location}/>,
-                                        <div className="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
-                                            <div className="main">{children}</div>
-                                        </div>
-                                    ]
-                                ):(
-                                    <div>{children}</div>
-                                )}
-                            </div>
-                        </div>
-                        {!Auth.user.is_staff?(
-                            <ChatWindow />
-                        ):null}
-                    </div>
-                ):children
+                ):(
+                <div style={{height: '100%'}}>
+                    {this.renderModalContent()}
+                    {this.renderChildren()}
+                </div>
+            )
         );
     }
 }

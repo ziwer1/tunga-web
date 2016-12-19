@@ -18,7 +18,7 @@ class ProfilePage extends React.Component {
     render() {
         const { Auth } = this.props;
         return (
-            <div>
+            <div  className="form-wrapper">
                 {PROFILE_COMPLETE_PATH.test(this.props.location.pathname)?null:(
 				<div>
 					<h2 className="title">Profile</h2>

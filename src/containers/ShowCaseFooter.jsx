@@ -35,11 +35,9 @@ class ShowCaseFooter extends React.Component {
                             <a target="_blank" href="https://www.facebook.com/tunga.io" id="fb" title="Facebook"><i className="fa fa-facebook"></i></a>
                             <a target="_blank" href="https://twitter.com/tunga_io" id="twitter" title="Twitter"><i className="fa fa-twitter"></i></a>
                             <a target="_blank" href="https://blog.tunga.io" id="medium" title="Medium"><i className="fa fa-medium"></i></a>
-                            {/*<a target="_blank" href="#" id="g-plus"><i className="fa fa-google-plus"></i></a>
-                             <a target="_blank" href="#" id="instagram"><i className="fa fa-instagram"></i></a>*/}
                         </div>
                     </div>
-                    <div className="col-sm-4" id="contact-info">
+                    <div className="col-sm-6" id="contact-info">
                         <h4>CONTACT INFORMATION</h4>
                         <p><i className="fa fa-map-marker"/> Ms van Riemsdijkweg 57, 1033RC Amsterdam, The Netherlands</p>
                         <p><i className="fa fa-phone"/> +31(0)615955194 <i className="fa fa-envelope"/> bart@tunga.io</p>
@@ -68,16 +66,6 @@ class ShowCaseFooter extends React.Component {
                             <li><a target="_blank" href="https://blog.tunga.io/why-i-think-africa-is-a-hotbed-of-innovation-that-everybody-should-know-about-96bd1c649527?source=latest---"><i className="fa fa-angle-right"></i> Why I Think Africa is a Hotbed of Innovation That Everybody Should Know About.</a></li>
                             <li><a target="_blank" href="https://blog.tunga.io/how-to-use-digital-storytelling-for-social-enterprises-a2e92bb40558?source=latest---"><i className="fa fa-angle-right"></i> How to Use Digital Storytelling for Social Enterprises</a></li>
                             <li><a target="_blank" href="https://blog.tunga.io/african-coders-are-more-suited-for-the-gig-economy-than-their-western-counterparts-99a32366fcd3#.5a5ppu93f"><i className="fa fa-angle-right"></i> African coders are more suited for the ‘gig economy’ than their western counterparts</a></li>
-                        </ul>
-                    </div>
-                    <div className="col-sm-2" id="quick-links">
-                        <h4>QUICK LINKS</h4>
-                        <ul className="list-unstyled">
-                            <li><Link to="/signin">Login</Link></li>
-                            <li><Link to="/signup">Sign Up</Link></li>
-                            {/*<li><a href="#">About Us</a></li>
-                             <li><a href="#">Team</a></li>
-                             <li><a href="#">Contact Us</a></li>*/}
                         </ul>
                     </div>
                 </div>

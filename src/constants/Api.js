@@ -64,6 +64,7 @@ export const ENDPOINT_LOGIN = getEndpointUrl('auth/login/');
 export const ENDPOINT_LOGOUT = getEndpointUrl('auth/logout/');
 export const ENDPOINT_VERIFY = getEndpointUrl('auth/verify/');
 export const ENDPOINT_REGISTER = getEndpointUrl('auth/register/');
+export const ENDPOINT_EMAIL_VISITOR = getEndpointUrl('auth/visitor/');
 export const ENDPOINT_APPLY = getEndpointUrl('apply/');
 export const ENDPOINT_CHANGE_PASSWORD = getEndpointUrl('auth/password/change/');
 export const ENDPOINT_RESET_PASSWORD = getEndpointUrl('auth/password/reset/');
@@ -251,6 +252,7 @@ export const CHANNEL_TYPES = {
 };
 
 export const OFFER_REQUEST_ITEMS = {
+    self_guided: "self_guided",
     onboarding: "onboarding",
     onboarding_special: "onboarding_special",
     project: "project"

@@ -40,13 +40,7 @@ class SignIn extends React.Component {
 
                     <SocialSignIn />
 
-                    <div className="row">
-                        <div className="col-xs-5"><hr/></div>
-
-                        <div className="col-xs-2"><p>or</p></div>
-
-                        <div className="col-xs-5"><hr /></div>
-                    </div>
+                    <p className="text-center">or</p>
 
                     {Auth.isAuthenticating? (<Progress/>) :''}
                     {Auth.error.auth?

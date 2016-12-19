@@ -53,6 +53,10 @@ export default class ProfilePicture extends React.Component {
                                 message={'Profile picture saved'}
                                 error={Profile.error.user}/>
 
+                    {Profile.error.user?(
+                        <FieldError message="Uploaded file should be an image (png, jpg, jpeg or gif) and must be less than 2MB"/>
+                    ):null}
+
                     <Dropzone ref="dropzone" className="dropzone" multiple={false} accept={'image/*'}
                               onDrop={this.onDrop.bind(this)}>
                         <div className="msg">

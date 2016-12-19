@@ -42,44 +42,67 @@ class Home extends React.Component {
         return (
             <div className="home-page">
                 <div className="bg-wrapper">
-                    <div className="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
-                        <img src={require("../images/home-bg.jpg")}/>
-                    </div>
+                    <img src={require("../images/home/image-5.jpg")}/>
                 </div>
 
-                <Clock/>
+                <div className="content">
+                    <div className="card">
+                        <p className="title">
+                            Hello {Auth.user.first_name || Auth.user.display_name}!
+                        </p>
+                        <Clock/>
+                    </div>
 
-                <h1 className="title">
-                    Good {this.getGreetingTime()} {Auth.user.first_name || Auth.user.display_name}!</h1>
-                <div className="notification-list">
-                    {Notification.notifications ? (
+                    <div className="notification-list">
                         <ul>
-                            {(Notification.notifications.profile && Notification.notifications.profile.missing.length) || !Auth.user.can_contribute ? (
-                                <li>
-                                    <Link to="/profile">Update profile</Link>
-                                    <div>Please update <strong>your profile</strong></div>
-                                </li>
-                            ) : null}
-                            {Notification.notifications.messages ? (
-                                <li>
-                                    <Link to="/conversation">View messages</Link>
-                                    <div>Please read <strong>your messages</strong></div>
-                                </li>
-                            ) : null}
-                            {Notification.notifications.tasks ? (
-                                <li>
-                                    <Link to="/task">View tasks</Link>
-                                    <div>Please check on <strong>your running tasks</strong></div>
-                                </li>
-                            ) : null}
-                            {Notification.notifications.requests ? (
-                                <li>
-                                    <Link to="/people/filter/requests">View requests {Auth.user.is_project_owner ? 'from developers' : ''}</Link>
-                                    <div>Please respond to <strong>your requests</strong></div>
-                                </li>
-                            ) : null}
+                            <li>
+                                <Link to="/profile">
+                                <span className="icon">
+                                    <i className="tunga-icon-profile"/>
+                                    {Notification.notifications.profile &&
+                                    Notification.notifications.profile.missing &&
+                                    Notification.notifications.profile.missing.length?(
+                                        <span className="badge">{Notification.notifications.profile.missing.length}</span>
+                                    ):null}
+                                </span><br/>
+                                    My Profile
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/people/filter/requests">
+                                <span className="icon">
+                                    <i className="tunga-icon-tribe"/>
+                                    {Notification.notifications.requests?(
+                                        <span className="badge">{Notification.notifications.requests}</span>
+                                    ):null}
+                                </span><br/>
+                                    Tribe
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/conversation">
+                                <span className="icon">
+                                    <i className="tunga-icon-message"/>
+                                    {Notification.notifications.messages?(
+                                        <span className="badge">{Notification.notifications.messages}</span>
+                                    ):null}
+                                </span><br/>
+                                    Messages
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/task/filter/running">
+                                <span className="icon">
+                                    <i className="tunga-icon-running-tasks"/>
+                                    {Notification.notifications.tasks?(
+                                        <span className="badge">{Notification.notifications.tasks}</span>
+                                    ):null}
+                                </span><br/>
+                                    Running tasks
+                                </Link>
+                            </li>
                         </ul>
-                    ) : (<div className="alert">You have no new notifications</div>)}
+                    </div>
                 </div>
             </div>
 

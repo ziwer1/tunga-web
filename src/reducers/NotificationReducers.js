@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
 import * as NotificationActions from '../actions/NotificationActions';
 
-function notifications(state = null, action) {
+function notifications(state = {}, action) {
     switch (action.type) {
         case NotificationActions.GET_NOTIFICATIONS_SUCCESS:
             return action.notifications;
         case NotificationActions.GET_NOTIFICATIONS_FAILED:
-            return null;
+            return {};
         default:
             return state;
     }

@@ -52,7 +52,7 @@ export default class RateDevelopers extends React.Component {
         const {task} = Task.detail;
 
         return (
-            <div>
+            <div className="form-wrapper">
                 <form onSubmit={this.handleSubmit.bind(this)} name="rate" role="form" ref="rate_form">
                     <h4 className="title">Rate
                         Developer{task.details && task.details.participation && task.details.participation.length == 1 ? '' : 's'}</h4>

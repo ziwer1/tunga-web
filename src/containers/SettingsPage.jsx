@@ -74,7 +74,7 @@ export default class Settings extends React.Component {
         }
 
         return (
-            <div>
+            <div className="form-wrapper settings">
                 <h2>Settings</h2>
                 {Settings.isRetrieving?(
                 <Progress/>

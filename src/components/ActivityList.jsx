@@ -48,7 +48,7 @@ export default class ActivityList extends React.Component {
                 if(activity_type == 'message') {
                     creator = object.sender || object.user;
                     created_at = object.created_at;
-                    body = (<div dangerouslySetInnerHTML={{__html: object.html_body}}/>);
+                    body = (<div dangerouslySetInnerHTML={{__html: object.html_body || object.body}}/>);
                     uploads = object.attachments;
                 }
                 break;
@@ -144,6 +144,7 @@ export default class ActivityList extends React.Component {
             default:
                 break;
         }
+        console.log(item);
         if(creator) {
             return {id: item.id, type: activity_type, user: creator, created_at, body, summary, uploads, more};
         }

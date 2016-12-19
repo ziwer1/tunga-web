@@ -10,7 +10,7 @@ export function resizeOverviewBox() {
     var w_h = $(window).height();
     var nav_h = $('nav.navbar').height();
     var wf_h = $('.chat-head').height();
-    var t_h = nav_h + wf_h + 60;
+    var t_h = nav_h + wf_h + 120;
 
     if(w_h > t_h) {
         $('.chat-overview').css('height', (w_h - t_h)+'px');
@@ -118,8 +118,7 @@ export default class ChatWindow extends React.Component {
     }
 
     closeWindow() {
-        this.setState({channel: null, open: false});
-        this.saveChannel(null);
+        this.setState({open: false});
     }
 
     getNewMessages() {
@@ -139,20 +138,6 @@ export default class ChatWindow extends React.Component {
             <div id="chat-widget">
                 {this.state.open?(
                     <div id="chat-window">
-                        <div className="chat-close">
-                            <button className="btn btn-borderless"
-                                    activeClassName="active" title="Minimize"
-                                    onClick={this.minimizeWindow.bind(this)}>
-                                <i className="fa fa-minus fa-lg"/>
-                            </button>
-                            {!Auth.isAuthenticated && this.state.channel && (typeof(this.state.channel) === "object")?(
-                                <button className="btn btn-borderless"
-                                        activeClassName="active" title="Close"
-                                        onClick={this.closeWindow.bind(this)}>
-                                    <i className="fa fa-times fa-lg"/>
-                                </button>
-                            ):null}
-                        </div>
                         <div className="chat-overview overview">
                             <div className="mainbox">
                                 {channel && channel.id?(
@@ -177,15 +162,20 @@ export default class ChatWindow extends React.Component {
                             </div>
                         </div>
                     </div>
-                ):(
-                    <div>
+                ):null}
+
+                <div>
+                    {this.state.open?(
+                        <button className="btn chat-btn" onClick={this.closeWindow.bind(this)}>
+                            <i className="fa fa-times fa-lg"/>
+                        </button>
+                    ):(
                         <button className="btn chat-btn" onClick={this.startChannel.bind(this)}>
                             <i className={`${Auth.isAuthenticated?'tunga-icon-support':'fa fa-comments fa-lg'}`}/>
                             {this.state.new?(<span className="badge">{this.state.new}</span>):null}
                         </button>
-                    </div>
-                )}
-
+                    )}
+                </div>
             </div>
         );
     }

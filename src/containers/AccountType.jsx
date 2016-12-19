@@ -8,10 +8,10 @@ class AccountType extends React.Component {
     renderHeaderContent() {
         return (
             <div className="account-choices">
-                <h2 className="crt-acc-heading">Create your Tunga account</h2>
+                <h2 className="crt-acc-heading">How do you want to use Tunga?</h2>
                 <Link to="/signup/project-owner" className="btn">I am looking for developers</Link>
                 <br/>
-                <Link to="/signup/developer" className="btn">Apply as a developer</Link>
+                <Link to="/signup/developer" className="btn">I'm an African developer looking for work</Link>
             </div>
         );
     }

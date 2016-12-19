@@ -75,7 +75,7 @@ class SignUp extends React.Component {
 
                         <SocialSignIn user_type={USER_TYPE_PROJECT_OWNER} action="register"/>
 
-                        <p className="acct-type-or-txt">or</p>
+                        <p className="text-center">or</p>
                     </div>
                 )}
 

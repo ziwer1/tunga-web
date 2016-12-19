@@ -6,6 +6,6 @@ export const TINY_MCE_CONFIG = {
     toolbar: TINY_MCE_TOOLBAR,
     default_link_target: "_blank",
     target_list: false,
-    content_css: 'https://tunga.io/tinymce.css',
-    content_style: "body {background-color: #f6f6f6;}"
+    //content_css: 'https://tunga.io/tinymce.css',
+    content_style: "body {background-color: #fff;}"
 };

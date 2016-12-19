@@ -289,7 +289,7 @@ export default class TaskForm extends ComponentWithModal {
         const has_error = Task.detail.error.create || Task.detail.error.update;
 
         return (
-            <div>
+            <div className="form-wrapper">
                 {this.renderModalContent()}
                 {task.id?null:(
                 <h2 className="title">Post a task</h2>

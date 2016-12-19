@@ -12,8 +12,8 @@ class TaskCrumb extends React.Component {
         return (
             section?(
                 <Breadcrumb>
-                    <Breadcrumb.Item><Link to={`/task/${task.id}`} query={{nr: 'true'}}>{task.title}</Link></Breadcrumb.Item>
-                    <Breadcrumb.Item active>{this.props.section}</Breadcrumb.Item>
+                    <li><Link to={`/task/${task.id}`} query={{nr: 'true'}}>{task.title}</Link></li>
+                    <li className="active">{this.props.section}</li>
                 </Breadcrumb>
             ):null
         );

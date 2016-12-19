@@ -25,15 +25,30 @@ function user(state = {}, action) {
     }
 }
 
+function visitor(state = {}, action) {
+    switch (action.type) {
+        case AuthActions.EMAIL_VISITOR_AUTH_SUCCESS:
+        case AuthActions.EMAIL_VISITOR_VERIFY_SUCCESS:
+            return action.visitor;
+        case AuthActions.LOGOUT_SUCCESS:
+            return {};
+        default:
+            return state;
+    }
+}
+
 function isAuthenticating(state = false, action) {
     switch (action.type) {
         case AuthActions.LOGIN_START:
         case AuthActions.LOGOUT_START:
+        case AuthActions.EMAIL_VISITOR_AUTH_START:
             return true;
         case AuthActions.LOGIN_SUCCESS:
         case AuthActions.LOGOUT_SUCCESS:
+        case AuthActions.EMAIL_VISITOR_AUTH_SUCCESS:
         case AuthActions.LOGIN_FAILED:
         case AuthActions.LOGOUT_FAILED:
+        case AuthActions.EMAIL_VISITOR_AUTH_FAILED:
             return false;
         default:
             return state;
@@ -43,9 +58,12 @@ function isAuthenticating(state = false, action) {
 function isVerifying(state = false, action) {
     switch (action.type) {
         case AuthActions.VERIFY_START:
+        case AuthActions.EMAIL_VISITOR_VERIFY_START:
             return true;
         case AuthActions.VERIFY_SUCCESS:
+        case AuthActions.EMAIL_VISITOR_VERIFY_SUCCESS:
         case AuthActions.VERIFY_FAILED:
+        case AuthActions.EMAIL_VISITOR_VERIFY_FAILED:
             return false;
         default:
             return state;
@@ -56,6 +74,18 @@ function isAuthenticated(state = false, action) {
     switch (action.type) {
         case AuthActions.LOGIN_SUCCESS:
         case AuthActions.VERIFY_SUCCESS:
+            return true;
+        case AuthActions.LOGOUT_SUCCESS:
+            return false;
+        default:
+            return state;
+    }
+}
+
+function isEmailVisitor(state = false, action) {
+    switch (action.type) {
+        case AuthActions.EMAIL_VISITOR_AUTH_SUCCESS:
+        case AuthActions.EMAIL_VISITOR_VERIFY_SUCCESS:
             return true;
         case AuthActions.LOGOUT_SUCCESS:
             return false;
@@ -378,10 +408,12 @@ const connections = combineReducers({
 
 const Auth = combineReducers({
     user,
+    visitor,
     application,
     isAuthenticating,
     isVerifying,
     isAuthenticated,
+    isEmailVisitor,
     isRegistering,
     isRegistered,
     isApplying,

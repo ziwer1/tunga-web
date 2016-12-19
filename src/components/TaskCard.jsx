@@ -51,8 +51,10 @@ export default class TaskCard extends ComponentWithModal {
                     Posted <TimeAgo date={moment.utc(task.created_at).local().format()}/>
                 </div>
                 <div className="top">
-                    <h3 className="title"><Link to={`/task/${task.id}/`}>{task.title}</Link></h3>
-                    <div className="task-status"><i className={"fa fa-circle " + task_status.css}/> {task_status.message}</div>
+                    <div className="clearfix">
+                        <div className="task-status pull-right" title={task_status.message}><i className={"fa fa-circle " + task_status.css}/></div>
+                        <h3 className="title pull-left"><Link to={`/task/${task.id}/`}>{task.title}</Link></h3>
+                    </div>
                     <div className="pledge text-center">
                         {task.amount?task.amount.currency:'&euro;'}{split_fee.whole}
                         <span className="decimal" style={{fontSize: '50%'}}>{split_fee.decimal}</span>

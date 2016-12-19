@@ -86,7 +86,7 @@ export default class TaskPay extends React.Component {
         }
 
         return (
-            <div>
+            <div className="form-wrapper">
                 {Task.detail.isRetrieving || Task.detail.Invoice.isRetrieving?
                     (<Progress/>)
                     :

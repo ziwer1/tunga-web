@@ -1,5 +1,9 @@
 import axios from 'axios';
-import { ENDPOINT_LOGIN, ENDPOINT_LOGOUT, ENDPOINT_VERIFY, ENDPOINT_REGISTER, ENDPOINT_APPLY, ENDPOINT_RESET_PASSWORD, ENDPOINT_RESET_PASSWORD_CONFIRM, ENDPOINT_MY_APPS, ENDPOINT_TASK, SOCIAL_PROVIDERS } from '../constants/Api';
+import {
+    ENDPOINT_LOGIN, ENDPOINT_LOGOUT, ENDPOINT_VERIFY, ENDPOINT_REGISTER,
+    ENDPOINT_APPLY, ENDPOINT_RESET_PASSWORD, ENDPOINT_RESET_PASSWORD_CONFIRM,
+    ENDPOINT_MY_APPS, ENDPOINT_TASK, ENDPOINT_EMAIL_VISITOR, SOCIAL_PROVIDERS
+} from '../constants/Api';
 import { listRunningProjects } from './ProjectActions';
 import { sendGAEvent, sendTwitterSignUpEvent, GA_EVENT_CATEGORIES, AUTH_METHODS, getUserTypeString } from '../utils/tracking';
 
@@ -40,6 +44,12 @@ export const LIST_ISSUES_FAILED = 'LIST_ISSUES_FAILED';
 export const GET_SLACK_APP_START = 'GET_SLACK_APP_START';
 export const GET_SLACK_APP_SUCCESS = 'GET_SLACK_APP_SUCCESS';
 export const GET_SLACK_APP_FAILED = 'GET_SLACK_APP_FAILED';
+export const EMAIL_VISITOR_AUTH_START = 'EMAIL_VISITOR_AUTH_START';
+export const EMAIL_VISITOR_AUTH_SUCCESS = 'EMAIL_VISITOR_AUTH_SUCCESS';
+export const EMAIL_VISITOR_AUTH_FAILED = 'EMAIL_VISITOR_AUTH_FAILED';
+export const EMAIL_VISITOR_VERIFY_START = 'EMAIL_VISITOR_VERIFY_START';
+export const EMAIL_VISITOR_VERIFY_SUCCESS = 'EMAIL_VISITOR_VERIFY_SUCCESS';
+export const EMAIL_VISITOR_VERIFY_FAILED = 'EMAIL_VISITOR_VERIFY_FAILED';
 
 export function authenticate(credentials) {
     return dispatch => {
@@ -76,6 +86,39 @@ export function authFailed(error) {
     }
 }
 
+export function authenticateEmailVisitor(credentials) {
+    return dispatch => {
+        dispatch(authEmailVisitorStart(credentials));
+        axios.post(ENDPOINT_EMAIL_VISITOR, credentials)
+            .then(function(response) {
+                dispatch(authEmailVisitorSuccess(response.data));
+            }).catch(function(response) {
+            dispatch(authEmailVisitorFailed(response.data));
+        });
+    }
+}
+
+export function authEmailVisitorStart(credentials) {
+    return {
+        type: EMAIL_VISITOR_AUTH_START,
+        credentials
+    }
+}
+
+export function authEmailVisitorSuccess(visitor) {
+    return {
+        type: EMAIL_VISITOR_AUTH_SUCCESS,
+        visitor
+    }
+}
+
+export function authEmailVisitorFailed(error) {
+    return {
+        type: EMAIL_VISITOR_AUTH_FAILED,
+        error
+    }
+}
+
 export function verify() {
     return dispatch => {
         dispatch(verifyStart());
@@ -85,7 +128,8 @@ export function verify() {
                 dispatch(listRunningTasks());
                 dispatch(listRunningProjects());
             }).catch(function(response) {
-                dispatch(verifyFailed(response.data))
+                //dispatch(verifyFailed(response.data));
+                dispatch(verifyEmailVisitor());
             });
     }
 }
@@ -106,6 +150,38 @@ export function verifySuccess(user) {
 export function verifyFailed(error) {
     return {
         type: VERIFY_FAILED,
+        error
+    }
+}
+
+export function verifyEmailVisitor() {
+    return dispatch => {
+        dispatch(verifyEmailVisitorStart());
+        axios.get(ENDPOINT_EMAIL_VISITOR)
+            .then(function(response) {
+                dispatch(verifyEmailVisitorSuccess(response.data));
+            }).catch(function(response) {
+                dispatch(verifyEmailVisitorFailed(response.data));
+        });
+    }
+}
+
+export function verifyEmailVisitorStart() {
+    return {
+        type: EMAIL_VISITOR_VERIFY_START
+    }
+}
+
+export function verifyEmailVisitorSuccess(visitor) {
+    return {
+        type: EMAIL_VISITOR_VERIFY_SUCCESS,
+        visitor
+    }
+}
+
+export function verifyEmailVisitorFailed(error) {
+    return {
+        type: EMAIL_VISITOR_VERIFY_FAILED,
         error
     }
 }
