@@ -205,7 +205,6 @@ export default class LandingPage extends React.Component {
                     <div className="container text-center">
                         <p>Have a project or task and want to find out more?</p>
                         <button className="btn" onClick={this.onScheduleCall.bind(this)}>Schedule a call</button>
-                        <h3>It's free!</h3>
                     </div>
                 </section>
                 <section id="video-overlay" className={this.state.play?"on":""}>
