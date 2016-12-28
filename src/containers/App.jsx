@@ -56,7 +56,7 @@ class App extends ComponentWithModal {
 
             if(requiresAuthOrEmail(routes) && !Auth.isAuthenticated && !Auth.isEmailVisitor) {
                 AuthActions.authRedirect(location.pathname);
-                router.replace('/signin');
+                router.replace('/signin?next='+location.pathname);
                 return;
             }
 
@@ -65,7 +65,7 @@ class App extends ComponentWithModal {
                     this.open();
                 } else {
                     AuthActions.authRedirect(location.pathname);
-                    router.replace('/signin');
+                    router.replace('/signin?next='+location.pathname);
                 }
                 return;
             }
@@ -96,13 +96,13 @@ class App extends ComponentWithModal {
     }
 
     onClosePopup() {
-        const {Auth, routes} = this.props;
+        const {Auth, routes, location} = this.props;
         const { router } = this.context;
 
         this.close();
         if(requiresAuth(routes) && !Auth.isAuthenticated) {
             AuthActions.authRedirect(location.pathname);
-            router.replace('/signin');
+            router.replace('/signin?next='+location.pathname);
         }
     }
 
