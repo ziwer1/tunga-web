@@ -12,27 +12,29 @@ import ComponentWithModal from '../components/ComponentWithModal';
 import LargeModal from '../components/ModalLarge';
 import EmailVisitorWidget from '../components/EmailVisitorWidget';
 
+import { OFFER_REQUEST_ITEMS } from '../constants/Api'
+
 const OFFER_DETAILS = [
     {
         title: 'Do-it-yourself',
         sub: 'Agree on fee with freelancer per task',
         description: 'Build your own flexible team with Tunga tasks. We deduct 13% from the total fee.',
         icon: 'tunga-icon-do-it-yourself',
-        key: 'onboarding'
+        key: OFFER_REQUEST_ITEMS.self_guided
     },
     {
         title: 'Intensive Guidance & Support',
         sub: 'Let us onboard your flexible remote team for you',
         description: 'Minimum 1000 hours worth of tasks.Guaranteed fixed fee of €20/hour.',
         icon: 'tunga-icon-intensive-guildance',
-        key: 'onboarding'
+        key: OFFER_REQUEST_ITEMS.onboarding
     },
     {
         title: 'Dedicated Monitor & Troubleshooter',
         sub: 'Discount and premium support for heavy users',
         description: '> €50,000 per year. We deduct 12% from the total fee.',
         icon: 'tunga-icon-dedicated-monitor',
-        key: 'project'
+        key: OFFER_REQUEST_ITEMS.project
     }
 ];
 
@@ -99,6 +101,20 @@ class PricingPage extends ComponentWithModal {
                                 {Utility.error && Utility.error.contact?(
                                     <Error message={Utility.error.contact.email || "Your request couldn't be processed. Please try again later."}/>
                                 ):null}
+
+                                <div className="pricing-options">
+                                    <div className="card active">
+                                        <h4 dangerouslySetInnerHTML={{__html: OFFER_DETAILS[this.state.step].title}}/>
+                                        <div className="icon">
+                                            <i className={OFFER_DETAILS[this.state.step].icon}/>
+                                        </div>
+                                        <div className="description">
+                                            <div className="subtitle bold" dangerouslySetInnerHTML={{__html: OFFER_DETAILS[this.state.step].sub}}/>
+                                            <div dangerouslySetInnerHTML={{__html: OFFER_DETAILS[this.state.step].description}}/>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div className="input-group">
                                     <input className="form-control" ref="request_email" name="email" type="email" placeholder="Drop your email here and we will contact you" required/>
                                 <span className="input-group-btn">
@@ -189,7 +205,13 @@ class PricingPage extends ComponentWithModal {
                             </ul>
                             <div className="description">
                                 <div className="subtitle bold" dangerouslySetInnerHTML={{__html: OFFER_DETAILS[this.state.step].sub}}/>
-                                <div dangerouslySetInnerHTML={{__html: OFFER_DETAILS[this.state.step].description}}/>
+                                <p dangerouslySetInnerHTML={{__html: OFFER_DETAILS[this.state.step].description}}/>
+                                {OFFER_DETAILS[this.state.step].key != OFFER_REQUEST_ITEMS.self_guided?(
+                                    <button className="btn"
+                                            onClick={this.addEmailToRequest.bind(this, OFFER_DETAILS[this.state.step].key)}>
+                                        Request this offer
+                                    </button>
+                                ):null}
                             </div>
                         </div>
                     </div>
