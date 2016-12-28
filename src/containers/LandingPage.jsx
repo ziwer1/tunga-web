@@ -203,7 +203,7 @@ export default class LandingPage extends React.Component {
                 </section>
                 <section id="contact-us">
                     <div className="container text-center">
-                        <p>Have a project or task and want to find out more?</p>
+                        <p>Do you have a project or task and want to find out more?</p>
                         <button className="btn" onClick={this.onScheduleCall.bind(this)}>Schedule a call</button>
                     </div>
                 </section>
