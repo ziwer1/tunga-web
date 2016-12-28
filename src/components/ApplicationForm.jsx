@@ -107,8 +107,8 @@ export default class ApplicationForm extends React.Component {
                     {(Task.detail.error.update && Task.detail.error.update.hours_needed)?
                         (<FieldError message={Task.detail.error.update.hours_needed}/>):null}
                     <div className="form-group">
-                        <label className="control-label">Hours needed to complete task *</label>
-                        <div><input type="text" className="form-control" ref="hours_needed" placeholder="Hours needed to complete task"/></div>
+                        <label className="control-label">Development hours needed to complete task *</label>
+                        <div><input type="text" className="form-control" ref="hours_needed" placeholder="Development hours needed to complete task"/></div>
                     </div>
 
                     {(Task.detail.error.create && Task.detail.error.create.hours_available)?
