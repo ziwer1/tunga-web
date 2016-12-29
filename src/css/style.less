@@ -87,11 +87,23 @@ th {
     }
 }
 
+.v-spacer {
+    margin: 10px auto;
+}
+
+.h-spacer {
+    margin: auto 10px;
+}
+
+.spacer {
+    margin: 10px;
+}
+
 .alert {
     display: block;
     padding-top: 5px;
     padding-bottom: 5px;
-    margin: 0 auto;
+    margin: 10px auto;
     border-radius:5px;
 }
 
@@ -529,6 +541,38 @@ form[name='compose'] {
 
 .slack-button, .slack-button:hover {
     color: @slack !important;
+}
+
+.harvest-button, .harvest-button:hover {
+    color: @harvest !important;
+}
+
+.coinbase-button, .coinbase-button:hover {
+    color: @coinbase !important;
+}
+
+.github-connect-button {
+    color: @github !important;
+    background-color: @active-white !important;
+    border-color: @github !important;
+}
+
+.slack-connect-button {
+    color: @slack !important;
+    background-color: @active-white !important;
+    border-color: @slack !important;
+}
+
+.harvest-connect-button {
+    color: @harvest !important;
+    background-color: @active-white !important;
+    border-color: @harvest !important;
+}
+
+.coinbase-connect-button {
+    color: @coinbase !important;
+    background-color: @active-white !important;
+    border-color: @coinbase !important;
 }
 
 .twitter {
@@ -1672,10 +1716,7 @@ activity-list {
             padding: 8px 12px;
             text-decoration: none;
             border-radius: 5px;
-
-            .fa {
-                .font-size(2.8);
-            }
+            .font-size(2.8);
         }
 
         a:hover, a:focus, a.active {

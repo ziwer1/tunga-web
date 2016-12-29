@@ -95,17 +95,20 @@ export default class PaymentMethod extends React.Component {
                     {this.state.payment_method == PAYMENT_METHOD_BTC_WALLET?(
                         <div>
                             {Profile.profile.payment_method == PAYMENT_METHOD_BTC_WALLET && Profile.profile.btc_wallet && Profile.profile.btc_wallet.provider == 'coinbase'?(
-                                <div style={{color: '#0168bb'}}>
-                                    <i className="fa fa-check-square-o"/>
-                                    <div className="btn "
-                                         style={{color: '#0168bb', background: '#fff none', borderColor: '#0168bb', marginLeft: '5px'}}>
-                                        <i className="tunga-icon-coinbase fa-lg"/> Connected to Coinbase
+                                <div>
+                                    <div className="alert alert-success"><i className="fa fa-check-square-o"/> Connected to Coinbase</div>
+
+                                    <div className="v-spacer">
+                                        Having any issue?
+                                        <div className="btn coinbase-connect-button"
+                                             style={{marginLeft: '5px'}}>
+                                            <i className="tunga-icon-coinbase fa-lg"/> Re-connect to Coinbase
+                                        </div>
                                     </div>
                                 </div>
                             ):(
                                 <a href={SOCIAL_LOGIN_URLS.coinbase + `?action=connect&next=/profile/payment/coinbase/`}
-                                   className="btn " title="Connect with Coinbase"
-                                   style={{color: '#0168bb', background: '#fff none', borderColor: '#0168bb'}}>
+                                   className="btn coinbase-connect-button" title="Connect with Coinbase">
                                     <i className="tunga-icon-coinbase fa-lg"/> Connect with Coinbase
                                 </a>
                             )}

@@ -369,7 +369,6 @@ export default class TaskWorflow extends ComponentWithModal {
                             <li>
                                 <Link to={`/task/${task.id}/integrations/${SOCIAL_PROVIDERS.github}`}
                                       activeClassName="active"
-                                      className="github-button"
                                       title="GitHub">
                                     <i className="fa fa-github"/>
                                 </Link>
@@ -377,24 +376,12 @@ export default class TaskWorflow extends ComponentWithModal {
                             <li>
                                 <Link to={`/task/${task.id}/integrations/${SOCIAL_PROVIDERS.slack}`}
                                       activeClassName="active"
-                                      className="slack-button"
                                       title="Slack">
                                     <i className="fa fa-slack"/>
                                 </Link>
                             </li>
                         </ul>
                     ) : null}
-                    {/* Disabled task status indidcator
-                     <div>
-                     <div className="dropdown" style={{display: 'inline-block', marginBottom: '15px'}}>
-                     <button id="task-actions-toggle" type="button" className="btn dropdown-toggle"
-                     data-toggle="dropdown">
-                     <span className="task-status"><i
-                     className={"fa fa-circle " + task_status.css}/></span> {task_status.message} <span className="caret"/>
-                     </button>
-                     </div>
-                     </div>
-                     */}
                 </div>
 
                 <div className="workflow-overview overview">

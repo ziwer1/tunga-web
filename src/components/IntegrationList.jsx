@@ -45,6 +45,8 @@ export default class IntegrationList extends ComponentWithModal {
         const { TaskActions, Task, Auth } = this.props;
         const { task } =  Task.detail;
 
+        TaskActions.retrieveTaskIntegration(task.id, provider);
+
         switch (provider) {
             case SOCIAL_PROVIDERS.github:
                 if(!Auth.connections.github.repos.ids.length) {
@@ -63,8 +65,6 @@ export default class IntegrationList extends ComponentWithModal {
             default:
                 break;
         }
-
-        TaskActions.retrieveTaskIntegration(task.id, provider);
     }
 
     updateIntegrationInfo(props) {
@@ -163,7 +163,7 @@ export default class IntegrationList extends ComponentWithModal {
         }
 
         return (
-            <div>
+            <div className="form-wrapper">
                 <div className="clearfix">
                     <ul className="integration-options">
                         <li>
@@ -191,7 +191,7 @@ export default class IntegrationList extends ComponentWithModal {
                     (<div>
                         {provider == SOCIAL_PROVIDERS.slack?(
                             <div>
-                                <div className="card" style={{maxWidth: '500px'}}>
+                                <div className="card">
                                     {slack.isConnected?(
                                         <div>
                                             <p>Select events to share to your Slack channel.</p>
@@ -202,8 +202,7 @@ export default class IntegrationList extends ComponentWithModal {
                                 </div>
                                 {!slack.isConnected?(
                                     <a href={SOCIAL_LOGIN_URLS.slack + `?action=connect&task=${task.id}&next=/task/${task.id}/integrations/slack`}
-                                       className="btn " title="Connect with Slack"
-                                       style={{color: '#333', background: '#fff none', borderColor: "#333"}}>
+                                       className="btn slack-connect-button" title="Connect with Slack">
                                         <i className="fa fa-slack fa-lg"/> Connect with Slack
                                     </a>
                                 ):null}
@@ -212,13 +211,12 @@ export default class IntegrationList extends ComponentWithModal {
 
                         {provider == SOCIAL_PROVIDERS.github?(
                             <div>
-                                <div className="card" style={{maxWidth: '500px'}}>
+                                <div className="card">
                                     Connect your task to a GitHub repository or issue to show GitHub activity (e.g comments, pull requests, push events) in your task activity stream.
                                 </div>
                                 {!github.isConnected?(
-                                    <a href={SOCIAL_LOGIN_URLS.github + `?action=connect&next=/task/${task.id}/integrations/${SOCIAL_PROVIDERS.github}`}
-                                       className="btn " title="Connect with GitHub"
-                                       style={{color: '#333', background: '#fff none', borderColor: "#333"}}>
+                                    <a href={SOCIAL_LOGIN_URLS.github + `?action=connect&task=${task.id}&next=/task/${task.id}/integrations/${SOCIAL_PROVIDERS.github}`}
+                                       className="btn github-connect-button" title="Connect with GitHub">
                                         <i className="fa fa-github-square fa-lg"/> Connect with GitHub
                                     </a>
                                 ):null}
