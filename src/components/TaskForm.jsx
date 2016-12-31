@@ -62,7 +62,7 @@ export default class TaskForm extends ComponentWithModal {
             }
             this.setState({
                 visibility: task.visibility, assignee, participants, description, remarks,
-                schedule: this.getScheduleId(), milestones: task.milestones, selected_project
+                schedule: this.getScheduleId(), milestones: task.milestones, selected_project, deadline: task.deadline
             });
         } else if(selected_project) {
             this.setState({selected_project});
@@ -238,7 +238,14 @@ export default class TaskForm extends ComponentWithModal {
         const skills = selected_skills.join(',');
         const attachments = this.state.attachments;
 
-        const task_info = {project, title, description, remarks, skills, url, fee, deadline, visibility, ...update_schedule, assignee, participants, milestones};
+        const task_info = {
+            project, title, description, remarks, skills, url, fee, visibility,
+            assignee, participants, milestones, ...update_schedule
+        };
+        if(deadline) {
+            task_info['deadline'] = deadline;
+        }
+
         if(task.id) {
             TaskActions.updateTask(task.id, task_info, attachments);
         } else {
