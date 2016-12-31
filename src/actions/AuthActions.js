@@ -2,7 +2,7 @@ import axios from 'axios';
 import {
     ENDPOINT_LOGIN, ENDPOINT_LOGOUT, ENDPOINT_VERIFY, ENDPOINT_REGISTER,
     ENDPOINT_APPLY, ENDPOINT_RESET_PASSWORD, ENDPOINT_RESET_PASSWORD_CONFIRM,
-    ENDPOINT_MY_APPS, ENDPOINT_TASK, ENDPOINT_EMAIL_VISITOR, SOCIAL_PROVIDERS
+    ENDPOINT_MY_APPS, ENDPOINT_TASK, ENDPOINT_EMAIL_VISITOR, ENDPOINT_INVITE, SOCIAL_PROVIDERS
 } from '../constants/Api';
 import { listRunningProjects } from './ProjectActions';
 import { sendGAEvent, sendTwitterSignUpEvent, GA_EVENT_CATEGORIES, AUTH_METHODS, getUserTypeString } from '../utils/tracking';
@@ -50,6 +50,12 @@ export const EMAIL_VISITOR_AUTH_FAILED = 'EMAIL_VISITOR_AUTH_FAILED';
 export const EMAIL_VISITOR_VERIFY_START = 'EMAIL_VISITOR_VERIFY_START';
 export const EMAIL_VISITOR_VERIFY_SUCCESS = 'EMAIL_VISITOR_VERIFY_SUCCESS';
 export const EMAIL_VISITOR_VERIFY_FAILED = 'EMAIL_VISITOR_VERIFY_FAILED';
+export const INVITE_START = 'INVITE_START';
+export const INVITE_SUCCESS = 'INVITE_SUCCESS';
+export const INVITE_FAILED = 'INVITE_FAILED';
+export const RETRIEVE_INVITE_START = 'RETRIEVE_INVITE_START';
+export const RETRIEVE_INVITE_SUCCESS = 'RETRIEVE_INVITE_SUCCESS';
+export const RETRIEVE_INVITE_FAILED = 'RETRIEVE_INVITE_FAILED';
 
 export function authenticate(credentials) {
     return dispatch => {
@@ -535,6 +541,72 @@ export function getSlackAppSuccess(details) {
 export function getSlackAppFailed(error) {
     return {
         type: GET_SLACK_APP_FAILED,
+        error
+    }
+}
+
+export function invite(details) {
+    return dispatch => {
+        dispatch(inviteStart(details));
+        axios.post(ENDPOINT_INVITE, details)
+            .then(function(response) {
+                dispatch(inviteSuccess(response.data))
+            }).catch(function(response) {
+            dispatch(inviteFailed(response.data))
+        });
+    }
+}
+
+export function inviteStart(details) {
+    return {
+        type: INVITE_START,
+        details
+    }
+}
+
+export function inviteSuccess(invite) {
+    return {
+        type: INVITE_SUCCESS,
+        invite
+    }
+}
+
+export function inviteFailed(error) {
+    return {
+        type: INVITE_FAILED,
+        error
+    }
+}
+
+export function retrieveInvite(key) {
+    return dispatch => {
+        dispatch(retrieveInviteStart(key));
+        axios.get(ENDPOINT_INVITE + 'key/' + key + '/')
+            .then(function(response) {
+                dispatch(retrieveInviteSuccess(response.data))
+            }).catch(function(response) {
+            dispatch(retrieveInviteFailed(response.data))
+        });
+    }
+}
+
+export function retrieveInviteStart(key) {
+    return {
+        type: RETRIEVE_INVITE_START,
+        key
+    }
+}
+
+export function retrieveInviteSuccess(invite) {
+    return {
+        type: RETRIEVE_INVITE_SUCCESS,
+        invite
+    }
+}
+
+export function retrieveInviteFailed(error) {
+    return {
+        type: RETRIEVE_INVITE_FAILED,
         error
     }
 }

@@ -30,12 +30,12 @@ export default class NavBar extends React.Component {
                         {Auth.isAuthenticated?(
                             <button type="button" className="sidebar-toggle navbar-toggle collapsed" data-toggle="sidebar-collapse" data-target="#sidebar" aria-expanded="false" aria-controls="sidebar">
                                 <span className="sr-only">Toggle side bar</span>
-                                <i className="fa fa-navicon fa-lg"></i>
+                                <i className="fa fa-navicon fa-lg" />
                             </button>
                         ):null}
                         <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                             <span className="sr-only">Toggle navigation</span>
-                            <i className="fa fa-ellipsis-v fa-lg"></i>
+                            <i className="fa fa-ellipsis-v fa-lg" />
                         </button>
                         <Link to="/" className="navbar-brand"><img src={require('../images/header-logo.png')} /></Link>
                     </div>
@@ -43,10 +43,19 @@ export default class NavBar extends React.Component {
                         {Auth.isAuthenticated?(
                             <ul className="nav navbar-nav navbar-right">
                                 <li><SearchBox placeholder="Search" hide_results={true}/></li>
-                                {Auth.isAuthenticated && Auth.user.is_staff?(<li><Link to="/help"><i className="fa fa-question-circle fa-lg"/> Help</Link></li>):null}
+                                {Auth.isAuthenticated && Auth.user.is_staff?(
+                                    <li className="dropdown">
+                                        <a href="#" className="dropdown-toggle account-actions-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                            <i className="nav-icon fa fa-cogs"/> Manage  <span className="caret" style={{marginLeft: 5+'px'}} />
+                                        </a>
+                                        <ul className="dropdown-menu">
+                                            <li><Link to="/help"><i className="nav-icon fa fa-question-circle fa-lg"/> Help</Link></li>
+                                            <li><Link to="/people/invite"><i className="nav-icon fa fa-user-plus"/> Invite Developers</Link></li>
+                                        </ul>
+                                    </li>):null}
                                 <li className="dropdown">
                                     <a href="#" className="dropdown-toggle account-actions-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                        {Auth.user.display_name} <span className="caret" style={{marginLeft: 5+'px'}}></span> <Avatar src={Auth.user.avatar_url}/>
+                                        {Auth.user.display_name} <span className="caret" style={{marginLeft: 5+'px'}} /> <Avatar src={Auth.user.avatar_url}/>
                                     </a>
                                     <ul className="dropdown-menu">
                                         <li><Link to="/profile"><i className="nav-icon tunga-icon-profile"/> My Profile</Link></li>

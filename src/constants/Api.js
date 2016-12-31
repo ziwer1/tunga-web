@@ -66,6 +66,7 @@ export const ENDPOINT_VERIFY = getEndpointUrl('auth/verify/');
 export const ENDPOINT_REGISTER = getEndpointUrl('auth/register/');
 export const ENDPOINT_EMAIL_VISITOR = getEndpointUrl('auth/visitor/');
 export const ENDPOINT_APPLY = getEndpointUrl('apply/');
+export const ENDPOINT_INVITE = getEndpointUrl('invite/');
 export const ENDPOINT_CHANGE_PASSWORD = getEndpointUrl('auth/password/change/');
 export const ENDPOINT_RESET_PASSWORD = getEndpointUrl('auth/password/reset/');
 export const ENDPOINT_RESET_PASSWORD_CONFIRM = getEndpointUrl('auth/password/reset/confirm/');

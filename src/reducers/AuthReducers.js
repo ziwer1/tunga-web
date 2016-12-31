@@ -167,6 +167,55 @@ function isRetrievingApplication(state = false, action) {
     }
 }
 
+function invitation(state = {}, action) {
+    switch (action.type) {
+        case AuthActions.RETRIEVE_INVITE_SUCCESS:
+            return action.invite;
+        case AuthActions.RETRIEVE_INVITE_START:
+        case AuthActions.RETRIEVE_INVITE_FAILED:
+        case PATH_CHANGE:
+            return {};
+        default:
+            return state;
+    }
+}
+
+function isInviting(state = false, action) {
+    switch (action.type) {
+        case AuthActions.INVITE_START:
+            return true;
+        case AuthActions.INVITE_SUCCESS:
+        case AuthActions.INVITE_FAILED:
+            return false;
+        default:
+            return state;
+    }
+}
+
+function hasInvited(state = false, action) {
+    switch (action.type) {
+        case AuthActions.INVITE_SUCCESS:
+            return true;
+        case AuthActions.INVITE_START:
+        case AuthActions.INVITE_FAILED:
+            return false;
+        default:
+            return state;
+    }
+}
+
+function isRetrievingInvitation(state = false, action) {
+    switch (action.type) {
+        case AuthActions.INVITE_START:
+            return true;
+        case AuthActions.INVITE_SUCCESS:
+        case AuthActions.INVITE_FAILED:
+            return false;
+        default:
+            return state;
+    }
+}
+
 function isResetting(state = false, action) {
     switch (action.type) {
         case AuthActions.RESET_PASSWORD_START:
@@ -356,6 +405,11 @@ function error(state = {}, action) {
         case AuthActions.RESET_PASSWORD_CONFIRM_START:
         case AuthActions.RESET_PASSWORD_CONFIRM_SUCCESS:
             return {...state, reset_confirm: null};
+        case AuthActions.INVITE_FAILED:
+            return {...state, invite: action.error};
+        case AuthActions.INVITE_START:
+        case AuthActions.INVITE_SUCCESS:
+            return {...state, invite: null};
         default:
             return state;
     }
@@ -406,10 +460,12 @@ const connections = combineReducers({
     slack
 });
 
+
 const Auth = combineReducers({
     user,
     visitor,
     application,
+    invitation,
     isAuthenticating,
     isVerifying,
     isAuthenticated,
@@ -419,6 +475,9 @@ const Auth = combineReducers({
     isApplying,
     hasApplied,
     isRetrievingApplication,
+    isInviting,
+    hasInvited,
+    isRetrievingInvitation,
     isResetting,
     isReset,
     error,

@@ -52,6 +52,7 @@ import RateDevelopers from 'components/RateDevelopers';
 import UserPage from 'containers/UserPage';
 import UserList from 'components/UserList';
 import User from 'components/User';
+import InviteDeveloper from 'containers/InviteDeveloper';
 import MessagePage from 'containers/MessagePage';
 import ChannelContainer from 'containers/ChannelContainer';
 import ChannelForm from 'components/ChannelForm';
@@ -92,6 +93,7 @@ ReactDOM.render(
                         <Route path="developer">
                             <IndexRoute component={DeveloperApplication}/>
                             <Route path=":confirmationKey" component={SignUpPage} />
+                            <Route path="invite/:invitationKey" component={SignUpPage} />
                         </Route>
                     </Route>
                     <Route path="reset-password" component={PasswordResetPage} />
@@ -180,6 +182,7 @@ ReactDOM.render(
                         <IndexRedirect to="filter/developers" />
                         <Route path="filter/:filter" component={UserList} />
                         <Route path="skill/:skill(/:filter)" component={UserList} />
+                        <Route path="invite" component={InviteDeveloper} />
                         <Route path=":userId" component={User} />
                     </Route>
                     <Redirect path="member*" to="people*"/>
