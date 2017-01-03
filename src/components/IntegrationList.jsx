@@ -10,7 +10,7 @@ export default class IntegrationList extends ComponentWithModal {
 
     constructor(props) {
         super(props);
-        this.state = {integration_type: null, events: [], repo: null, issue: null};
+        this.state = {integration_type: null, events: [], repo: null, issue: null, channel: null, team: null};
     }
 
     componentDidMount() {
@@ -60,6 +60,9 @@ export default class IntegrationList extends ComponentWithModal {
             case SOCIAL_PROVIDERS.slack:
                 if(!Auth.connections.slack.details) {
                     TaskActions.getSlackApp();
+                }
+                if(!Auth.connections.slack.channels.ids.length) {
+                    TaskActions.listSlackChannels();
                 }
                 break;
             default:
@@ -120,12 +123,25 @@ export default class IntegrationList extends ComponentWithModal {
         this.setState({events: new_events});
     }
 
+    onChannelChange(e) {
+        let id = e.target.value;
+        const { slack } = this.props.Auth.connections;
+
+        var channel = null;
+        if(id) {
+            channel = slack.channels.items[id];
+        }
+        this.setState({channel, team: slack.details.team});
+    }
+
     handleSubmit(e) {
         e.preventDefault();
         var type = this.state.integration_type;
         var events = this.state.events;
         var repo = this.state.repo;
         var issue = this.state.issue;
+        var channel = this.state.channel;
+        var team = this.state.team;
         const { Task, TaskActions } = this.props;
         const { task } =  Task.detail;
         const provider = this.getProvider();
@@ -136,7 +152,7 @@ export default class IntegrationList extends ComponentWithModal {
                 details = {type, events, repo, issue};
                 break;
             case SOCIAL_PROVIDERS.slack:
-                details = {events};
+                details = {team, channel, events};
                 break;
             default:
                 break;
@@ -195,8 +211,8 @@ export default class IntegrationList extends ComponentWithModal {
                                     {slack.isConnected?(
                                         <div>
                                             <p>Select events to share to your Slack channel.</p>
-                                            Team: <strong>{slack.details.team.name}</strong><br/>
-                                            Channel: <strong>{slack.details.incoming_webhook.channel}</strong>
+                                            Team: <strong>{integration.team_name}</strong><br/>
+                                            Channel: <strong>{integration.channel_name}</strong>
                                         </div>
                                     ):'Connect your task to your Slack team to send task activity to Slack.'}
                                 </div>
@@ -286,6 +302,23 @@ export default class IntegrationList extends ComponentWithModal {
                                     </div>
                                 ):null}
 
+                                {provider == SOCIAL_PROVIDERS.slack?(
+                                    <div className="form-group">
+                                        <label className="control-label">Channel *</label>
+                                        <div>
+                                            <select type="text" className="form-control" ref="slack_channel"
+                                                    onChange={this.onChannelChange.bind(this)}
+                                                    defaultValue={integration.channel_id}>
+                                                <option value=''>-- channel  --</option>
+                                                {slack.channels.ids.map((id) => {
+                                                    let channel = slack.channels.items[id];
+                                                    return (<option key={channel.id} value={channel.id}>{channel.name}</option>);
+                                                })}
+                                            </select>
+                                        </div>
+                                    </div>
+                                ):null}
+
                                 <div className="form-group">
                                     <label className="control-label">Events *</label>
                                     {event_choices.map(event => {
@@ -295,13 +328,14 @@ export default class IntegrationList extends ComponentWithModal {
                                         return (
                                             <div key={event.id} className="checkbox">
                                                 <label className="control-label">
-                                                    <input type="checkbox" value={event.id} onChange={this.onEventChange.bind(this)} checked={this.state.events.indexOf(event.id) > -1}/>
+                                                    <input type="checkbox" value={event.id} onChange={this.onEventChange.bind(this)} checked={this.state.events.indexOf(event.id) > -1 || !integration.id}/>
                                                     {event.name}
                                                 </label>
                                             </div>
                                         );
                                     })}
                                 </div>
+
                                 <div className="text-center">
                                     <button type="submit" className="btn" disabled={Task.detail.integrations.isSaving}>Save Integration</button>
                                 </div>

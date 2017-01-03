@@ -59,7 +59,7 @@ export default class Milestone extends React.Component {
             <div>
                 <TaskCrumb section={milestone.title || 'Scheduled Update'}/>
 
-                <div className="milestone-page">
+                <div className="milestone-page form-wrapper">
                     <div style={{marginBottom: '20px'}}>
                         {milestone.due_at?(
                             <div><strong>Due Date:</strong> {moment.utc(milestone.due_at).local().format('Do, MMMM YYYY, h:mm a')}</div>
@@ -77,6 +77,14 @@ export default class Milestone extends React.Component {
                     {report && (!this.state.editReport || !Auth.user.is_developer)?(
                         <div>
                             <h4><i className="fa fa-newspaper-o"/> Progress Report</h4>
+                            {report.user?(
+                                <div>
+                                    <strong>Posted by</strong>
+                                    <div>
+                                        <Avatar src={report.user.avatar_url}/> <Link to={`/people/${report.user.username}/`}>{report.user.display_name}</Link>
+                                    </div>
+                                </div>
+                            ):null}
                             <p>
                                 <strong>Status: </strong><span>{report.status_display}</span>
                             </p>
@@ -109,18 +117,16 @@ export default class Milestone extends React.Component {
                                     <div dangerouslySetInnerHTML={{__html: report.next_steps}}/>
                                 </div>
                             ):null}
+                            {report.obstacles?(
+                                <div>
+                                    <strong>Obstacles</strong>
+                                    <div dangerouslySetInnerHTML={{__html: report.obstacles}}/>
+                                </div>
+                            ):null}
                             {report.remarks?(
                                 <div>
                                     <strong>Remarks</strong>
                                     <div dangerouslySetInnerHTML={{__html: report.remarks}}/>
-                                </div>
-                            ):null}
-                            {report.user?(
-                                <div>
-                                    <strong>Posted by</strong>
-                                    <div>
-                                        <Avatar src={report.user.avatar_url}/> <Link to={`/people/${report.user.username}/`}>{report.user.display_name}</Link>
-                                    </div>
                                 </div>
                             ):null}
                             {Auth.user.is_developer && !is_missed?(

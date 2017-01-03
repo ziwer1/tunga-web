@@ -14,7 +14,7 @@ export default class ProgressReportForm extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {status: null, accomplished: '', next_steps: '', remarks: '', attachments: []};
+        this.state = {status: null, accomplished: '', next_steps: '', obstacles: '', remarks: '', attachments: []};
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -24,8 +24,9 @@ export default class ProgressReportForm extends React.Component {
             const status = progress_report.status || null;
             const accomplished = progress_report.accomplished || '';
             const next_steps = progress_report.next_steps || '';
+            const obstacles = progress_report.obstacles || '';
             const remarks = progress_report.remarks || '';
-            this.setState({status, accomplished, next_steps, remarks});
+            this.setState({status, accomplished, next_steps, obstacles, remarks});
         }
     }
 
@@ -33,7 +34,7 @@ export default class ProgressReportForm extends React.Component {
         if(this.props.ProgressReport.detail.isSaved && !prevProps.ProgressReport.detail.isSaved) {
             if(!this.props.progress_report) {
                 this.refs.progress_report_form.reset();
-                this.setState({status: null, accomplished: '', next_steps: '', remarks: '', attachments: []});
+                this.setState({status: null, accomplished: '', next_steps: '', obstacles: '', remarks: '', attachments: []});
             }
         }
     }
@@ -48,6 +49,10 @@ export default class ProgressReportForm extends React.Component {
 
     onNextStepsChange(e) {
         this.setState({next_steps: e.target.getContent()});
+    }
+
+    onObstaclesChange(e) {
+        this.setState({obstacles: e.target.getContent()});
     }
 
     onRemarksChange(e) {
@@ -69,6 +74,7 @@ export default class ProgressReportForm extends React.Component {
         var percentage = this.refs.percentage.value.trim();
         var accomplished = this.state.accomplished;
         var next_steps = this.state.next_steps;
+        var obstacles = this.state.obstacles;
         var remarks = this.state.remarks;
         const attachments = this.state.attachments;
 
@@ -76,7 +82,7 @@ export default class ProgressReportForm extends React.Component {
         const progress_report = this.props.progress_report || {};
         const milestone = this.props.milestone || {};
 
-        const progress_report_info = {event: milestone.id, status, percentage, accomplished, next_steps, remarks};
+        const progress_report_info = {event: milestone.id, status, percentage, accomplished, next_steps, obstacles, remarks};
         if(progress_report.id) {
             ProgressReportActions.updateProgressReport(progress_report.id, progress_report_info);
         } else {
@@ -90,6 +96,7 @@ export default class ProgressReportForm extends React.Component {
         const progress_report = this.props.progress_report || {};
         const accomplished = this.props.progress_report?progress_report.accomplished:'';
         const next_steps = this.props.progress_report?progress_report.next_steps:'';
+        const obstacles = this.props.progress_report?progress_report.obstacles:'';
         const remarks = this.props.progress_report?progress_report.remarks:'';
 
         return (
@@ -137,7 +144,7 @@ export default class ProgressReportForm extends React.Component {
                     {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.accomplished)?
                         (<FieldError message={ProgressReport.detail.error.update.accomplished}/>):null}
                     <div className="form-group">
-                        <label className="control-label">What have you accomplished? *</label>
+                        <label className="control-label">What have you accomplished since the last update? *</label>
                         <TinyMCE
                             content={accomplished}
                             config={TINY_MCE_CONFIG}
@@ -151,12 +158,12 @@ export default class ProgressReportForm extends React.Component {
                                 <div>Try dropping some files here, or click to select files to upload.</div>
                             </Dropzone>
                             {this.state.attachments?(
-                            <div>
-                                {this.state.attachments.map((file) => {
-                                    return (<div><i className="fa fa-file-text-o"/> {file.name}</div>)
+                                <div>
+                                    {this.state.attachments.map((file) => {
+                                        return (<div><i className="fa fa-file-text-o"/> {file.name}</div>)
                                     })}
-                            </div>
-                                ):null}
+                                </div>
+                            ):null}
                             <button type="button" className="btn " style={{marginRight: '5px'}}
                                     onClick={this.onAddAttachment.bind(this)}>
                                 <i className="fa fa-upload"/> Upload files
@@ -169,11 +176,23 @@ export default class ProgressReportForm extends React.Component {
                     {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.next_steps)?
                         (<FieldError message={ProgressReport.detail.error.update.next_steps}/>):null}
                     <div className="form-group">
-                        <label className="control-label">What are the next steps?</label>
+                        <label className="control-label">What are the next steps? *</label>
                         <TinyMCE
                             content={next_steps}
                             config={TINY_MCE_CONFIG}
                             onChange={this.onNextStepsChange.bind(this)}/>
+                    </div>
+
+                    {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.obstacles)?
+                        (<FieldError message={ProgressReport.detail.error.create.obstacles}/>):null}
+                    {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.obstacles)?
+                        (<FieldError message={ProgressReport.detail.error.update.obstacles}/>):null}
+                    <div className="form-group">
+                        <label className="control-label">What obstacles are impeding your progress?</label>
+                        <TinyMCE
+                            content={obstacles}
+                            config={TINY_MCE_CONFIG}
+                            onChange={this.onObstaclesChange.bind(this)}/>
                     </div>
 
                     {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.remarks)?
@@ -181,7 +200,7 @@ export default class ProgressReportForm extends React.Component {
                     {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.remarks)?
                         (<FieldError message={ProgressReport.detail.error.update.remarks}/>):null}
                     <div className="form-group">
-                        <label className="control-label">Any other remarks</label>
+                        <label className="control-label">Any other remarks or questions</label>
                         <TinyMCE
                             content={remarks}
                             config={TINY_MCE_CONFIG}

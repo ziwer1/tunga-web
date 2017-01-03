@@ -363,11 +363,57 @@ function isRetrievingSlackInfo(state = false, action) {
     }
 }
 
+function slackChannelItems(state = {}, action) {
+    switch (action.type) {
+        case AuthActions.LIST_SLACK_CHANNELS_SUCCESS:
+            var all_channels = {};
+            action.channels.forEach((slackChannel) => {
+                all_channels[slackChannel.id] = slackChannel;
+            });
+            return all_channels;
+        case AuthActions.LIST_SLACK_CHANNELS_START:
+        case AuthActions.LIST_SLACK_CHANNELS_FAILED:
+            return {};
+        default:
+            return state;
+    }
+}
+
+function slackChannelIds(state = [], action) {
+    switch (action.type) {
+        case AuthActions.LIST_SLACK_CHANNELS_SUCCESS:
+            return action.channels.map((channel) => {
+                return channel.id;
+            });
+        case AuthActions.LIST_SLACK_CHANNELS_START:
+        case AuthActions.LIST_SLACK_CHANNELS_FAILED:
+            return [];
+        default:
+            return state;
+    }
+}
+
+function isFetchingSlackChannels(state = false, action) {
+    switch (action.type) {
+        case AuthActions.LIST_SLACK_CHANNELS_START:
+            return true;
+        case AuthActions.LIST_SLACK_CHANNELS_SUCCESS:
+        case AuthActions.LIST_SLACK_CHANNELS_FAILED:
+            return false;
+        default:
+            return state;
+    }
+}
+
 function isSlackConnected(state = false, action) {
     switch (action.type) {
         case AuthActions.GET_SLACK_APP_SUCCESS:
             return action.details != null;
         case AuthActions.GET_SLACK_APP_FAILED:
+            return false;
+        case AuthActions.LIST_SLACK_CHANNELS_SUCCESS:
+            return true;
+        case AuthActions.LIST_SLACK_CHANNELS_FAILED:
             return false;
         default:
             return state;
@@ -449,8 +495,15 @@ const github = combineReducers({
     isConnected: isGitHubConnected
 });
 
+const slack_channels = combineReducers({
+    ids: slackChannelIds,
+    items: slackChannelItems,
+    isFetching: isFetchingSlackChannels
+});
+
 const slack = combineReducers({
     details: slackInfo,
+    channels: slack_channels,
     isRetrieving: isRetrievingSlackInfo,
     isConnected: isSlackConnected
 });

@@ -44,6 +44,9 @@ export const LIST_ISSUES_FAILED = 'LIST_ISSUES_FAILED';
 export const GET_SLACK_APP_START = 'GET_SLACK_APP_START';
 export const GET_SLACK_APP_SUCCESS = 'GET_SLACK_APP_SUCCESS';
 export const GET_SLACK_APP_FAILED = 'GET_SLACK_APP_FAILED';
+export const LIST_SLACK_CHANNELS_START = 'LIST_SLACK_CHANNELS_START';
+export const LIST_SLACK_CHANNELS_SUCCESS = 'LIST_SLACK_CHANNELS_SUCCESS';
+export const LIST_SLACK_CHANNELS_FAILED = 'LIST_SLACK_CHANNELS_FAILED';
 export const EMAIL_VISITOR_AUTH_START = 'EMAIL_VISITOR_AUTH_START';
 export const EMAIL_VISITOR_AUTH_SUCCESS = 'EMAIL_VISITOR_AUTH_SUCCESS';
 export const EMAIL_VISITOR_AUTH_FAILED = 'EMAIL_VISITOR_AUTH_FAILED';
@@ -542,6 +545,39 @@ export function getSlackAppFailed(error) {
     return {
         type: GET_SLACK_APP_FAILED,
         error
+    }
+}
+
+export function listSlackChannels() {
+    return dispatch => {
+        dispatch(listSlackChannelsStart());
+        axios.get(ENDPOINT_MY_APPS + `${SOCIAL_PROVIDERS.slack}` + '/channels/')
+            .then(function(response) {
+                dispatch(listSlackChannelsSuccess(response.data))
+            }).catch(function(response) {
+            dispatch(listSlackChannelsFailed(response.data, response.status))
+        });
+    }
+}
+
+export function listSlackChannelsStart() {
+    return {
+        type: LIST_SLACK_CHANNELS_START
+    }
+}
+
+export function listSlackChannelsSuccess(channels) {
+    return {
+        type: LIST_SLACK_CHANNELS_SUCCESS,
+        channels
+    }
+}
+
+export function listSlackChannelsFailed(error, status_code) {
+    return {
+        type: LIST_SLACK_CHANNELS_FAILED,
+        error,
+        status_code
     }
 }
 

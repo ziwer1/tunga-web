@@ -18,7 +18,8 @@ function mapDispatchToProps(dispatch) {
                 listRunningTasks: AuthActions.listRunningTasks,
                 listRepos: AuthActions.listRepos,
                 listIssues: AuthActions.listIssues,
-                getSlackApp: AuthActions.getSlackApp
+                getSlackApp: AuthActions.getSlackApp,
+                listSlackChannels: AuthActions.listSlackChannels
             }, dispatch),
             ...bindActionCreators(TaskActions, dispatch),
             ...bindActionCreators(ApplicationActions, dispatch),
