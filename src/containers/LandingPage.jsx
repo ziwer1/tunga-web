@@ -85,41 +85,47 @@ export default class LandingPage extends React.Component {
                 <section id="press">
                     <div className="container">
                         <h2 className="text-center">Featured press</h2>
-                        <div className="row">
-                            <div className="col-xs-2">
+                        <ul className="press-links">
+                            <li>
+                                <a href="http://www.bbc.co.uk/news/world-africa-38294998"
+                                   target="_blank">
+                                    <img src={require("../images/press/bbc.png")}/>
+                                </a>
+                            </li>
+                            <li>
                                 <a href="https://www.youtube.com/watch?v=v9uRtYpZDQs" target="_blank">
                                     <img src={require("../images/press/campus-party.png")}/>
                                 </a>
-                            </div>
-                            <div className="col-xs-2">
+                            </li>
+                            <li>
                                 <a href="https://www.oneworld.nl/startup-tunga-lanceert-pilot-programma-voor-nieuw-soort-freelance-platform"
                                    target="_blank">
                                     <img src={require("../images/press/OWlogo.png")}/>
                                 </a>
-                            </div>
-                            <div className="col-xs-2">
+                            </li>
+                            <li>
                                 <a href="http://trendwatching.com/blog/featured-innovator-tunga/" target="_blank">
                                     <img src={require("../images/press/trend-watching.png")}/>
                                 </a>
-                            </div>
-                            <div className="col-xs-2">
+                            </li>
+                            <li>
                                 <a href="https://soundcloud.com/african-tech-round-up/a-chat-with-ernesto-spruyt-of-tungaio?in=african-tech-round-up/sets/quick-chats"
                                    target="_blank">
                                     <img src={require("../images/press/African-Tech-Round-Up.png")}/>
                                 </a>
-                            </div>
-                            <div className="col-xs-2">
+                            </li>
+                            <li>
                                 <a href="http://spendmatters.com/2016/04/01/tunga-wip-of-the-week/" target="_blank">
                                     <img src={require("../images/press/Spend-Matters.png")}/>
                                 </a>
-                            </div>
-                            <div className="col-xs-2">
+                            </li>
+                            <li>
                                 <a href="https://www.nabc.nl/africa-business-news/5/technology/377/tunga-founder-ernesto-spruyt-we-create-21st-century-jobs-in-africa"
                                    target="_blank">
                                     <img src={require("../images/press/netherlands-african-business-council.png")}/>
                                 </a>
-                            </div>
-                        </div>
+                            </li>
+                        </ul>
                     </div>
                 </section>
                 <section id="how-it-works">

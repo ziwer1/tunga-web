@@ -2721,20 +2721,31 @@ activity-list {
         min-height: 25%;
         background-color: @inactive-grey;
 
-        a {
-            width: 100%;
-            display: inline-block;
+        .press-links {
+            list-style-type: none;
+            padding-left: 0;
             text-align: center;
 
-            img {
-                max-width: 100%;
-                max-height: 50px;
-            }
-        }
+            li {
+                display: inline-block;
+                width: 14%;
 
-        a:hover {
-            img {
-                transform: scale(1.2);
+                a {
+                    width: 100%;
+                    display: inline-block;
+                    text-align: center;
+
+                    img {
+                        max-width: 100%;
+                        max-height: 50px;
+                    }
+                }
+
+                a:hover {
+                    img {
+                        transform: scale(1.2);
+                    }
+                }
             }
         }
     }
