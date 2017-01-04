@@ -18,7 +18,7 @@ export function resizeOverviewBox() {
 }
 
 
-export default class ChatWindow extends React.Component {
+class ChatWindow extends React.Component {
 
     constructor(props) {
         super(props);

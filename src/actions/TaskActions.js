@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { ENDPOINT_TASK } from '../constants/Api';
+import { sendGAEvent, GA_EVENT_CATEGORIES, GA_EVENT_ACTIONS, GA_EVENT_LABELS } from '../utils/tracking';
 
 export const CREATE_TASK_START = 'CREATE_TASK_START';
 export const CREATE_TASK_SUCCESS = 'CREATE_TASK_SUCCESS';
@@ -92,6 +93,8 @@ export function createTaskStart(task) {
 }
 
 export function createTaskSuccess(task) {
+    sendGAEvent(GA_EVENT_CATEGORIES.TASK, GA_EVENT_ACTIONS.CREATE);
+
     return {
         type: CREATE_TASK_SUCCESS,
         task

@@ -7,7 +7,7 @@ import connect from '../utils/connectors/SettingsConnector';
 
 import * as UserSettings from '../utils/UserSettings';
 
-export default class Settings extends React.Component {
+class Settings extends React.Component {
     constructor(props) {
         super(props);
         this.state = {switches: null, visibility: null};

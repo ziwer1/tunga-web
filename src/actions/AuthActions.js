@@ -5,7 +5,7 @@ import {
     ENDPOINT_MY_APPS, ENDPOINT_TASK, ENDPOINT_EMAIL_VISITOR, ENDPOINT_INVITE, SOCIAL_PROVIDERS
 } from '../constants/Api';
 import { listRunningProjects } from './ProjectActions';
-import { sendGAEvent, sendTwitterSignUpEvent, GA_EVENT_CATEGORIES, AUTH_METHODS, getUserTypeString } from '../utils/tracking';
+import { sendGAEvent, sendTwitterSignUpEvent, GA_EVENT_CATEGORIES, GA_EVENT_ACTIONS, GA_EVENT_LABELS, AUTH_METHODS, getUserType, getUserTypeTwitter } from '../utils/tracking';
 
 export const LOGIN_START = 'LOGIN_START';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
@@ -82,9 +82,11 @@ export function authStart(credentials) {
 }
 
 export function authSuccess(data) {
+    let user = data.user;
+    sendGAEvent(GA_EVENT_CATEGORIES.AUTH, GA_EVENT_ACTIONS.SIGN_IN, getUserType(user.type, user));
     return {
         type: LOGIN_SUCCESS,
-        user: data.user
+        user
     }
 }
 
@@ -115,6 +117,7 @@ export function authEmailVisitorStart(credentials) {
 }
 
 export function authEmailVisitorSuccess(visitor) {
+    sendGAEvent(GA_EVENT_CATEGORIES.AUTH, GA_EVENT_ACTIONS.BROWSE_DEVS);
     return {
         type: EMAIL_VISITOR_AUTH_SUCCESS,
         visitor
@@ -214,6 +217,7 @@ export function logoutStart() {
 }
 
 export function logoutSuccess() {
+    sendGAEvent(GA_EVENT_CATEGORIES.AUTH, GA_EVENT_ACTIONS.LOG_OUT);
     return {
         type: LOGOUT_SUCCESS
     }
@@ -233,10 +237,8 @@ export function register(details) {
             .then(function(response) {
                 dispatch(registerSuccess(response.data));
 
-                var user_type = getUserTypeString(details.type);
+                var user_type = getUserTypeTwitter(details.type);
                 var method = AUTH_METHODS.EMAIL;
-
-                sendGAEvent(GA_EVENT_CATEGORIES.SIGN_UP, user_type, method);
                 sendTwitterSignUpEvent({user_type, method});
 
             }).catch(function(response) {
@@ -253,9 +255,12 @@ export function registerStart(details) {
 }
 
 export function registerSuccess(data) {
+    let user = data.user;
+    sendGAEvent(GA_EVENT_CATEGORIES.REGISTRATION, GA_EVENT_ACTIONS.SIGN_UP, getUserType(user.type, user));
+
     return {
         type: REGISTER_SUCCESS,
-        user: data.user
+        user
     }
 }
 
@@ -286,6 +291,7 @@ export function applyStart(details) {
 }
 
 export function applySuccess(application) {
+    sendGAEvent(GA_EVENT_CATEGORIES.AUTH, GA_EVENT_ACTIONS.DEV_APPLY, GA_EVENT_LABELS.DEVELOPER);
     return {
         type: APPLY_SUCCESS,
         application
@@ -352,6 +358,7 @@ export function resetPasswordStart(email) {
 }
 
 export function resetPasswordSuccess(response) {
+    sendGAEvent(GA_EVENT_CATEGORIES.AUTH, GA_EVENT_ACTIONS.RECOVER_PASSWORD);
     return {
         type: RESET_PASSWORD_SUCCESS,
         response
@@ -601,6 +608,7 @@ export function inviteStart(details) {
 }
 
 export function inviteSuccess(invite) {
+    sendGAEvent(GA_EVENT_CATEGORIES.AUTH, GA_EVENT_ACTIONS.DEV_INVITE, GA_EVENT_LABELS.DEVELOPER);
     return {
         type: INVITE_SUCCESS,
         invite

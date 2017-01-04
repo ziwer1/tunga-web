@@ -9,6 +9,8 @@ import ShowcaseContainer from './ShowcaseContainer';
 import ShowCaseFooter from './ShowCaseFooter';
 import EmailLoginWidget from '../components/EmailLoginWidget';
 
+import { sendGAEvent, GA_EVENT_CATEGORIES, GA_EVENT_ACTIONS, GA_EVENT_LABELS } from '../utils/tracking';
+
 export default class LandingPage extends React.Component {
     constructor(props) {
         super(props);
@@ -16,7 +18,6 @@ export default class LandingPage extends React.Component {
     }
 
     onScheduleCall() {
-        console.log('Calendly', Calendly);
         Calendly.showPopupWidget('https://calendly.com/tunga/30min/');
     }
 
@@ -28,6 +29,7 @@ export default class LandingPage extends React.Component {
         this.setState({play: true});
         if (this.state.player) {
             this.state.player.playVideo();
+            sendGAEvent(GA_EVENT_CATEGORIES.VIDEO, GA_EVENT_ACTIONS.PLAY, GA_EVENT_LABELS.INTRO_VIDEO);
         }
     }
 

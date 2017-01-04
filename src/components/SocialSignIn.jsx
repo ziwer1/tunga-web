@@ -9,7 +9,8 @@ import {
     GA_EVENT_CATEGORIES,
     AUTH_METHODS,
     USER_TYPES,
-    getUserTypeString
+    getUserTypeTwitter,
+    getUserType
 } from '../utils/tracking';
 
 export default class SocialSignIn extends React.Component {
@@ -23,11 +24,8 @@ export default class SocialSignIn extends React.Component {
     }
 
     trackSignUp(method, e) {
-        var user_type = getUserTypeString(this.props.user_type);
-        var category = (this.props.action == "register") ? GA_EVENT_CATEGORIES.SIGN_UP : GA_EVENT_CATEGORIES.SIGN_IN;
-
-        sendGAEvent(category, user_type, method);
-        sendTwitterSignUpEvent({user_type, method});
+        // TODO: Track Social Sign In/ Sign Up with GA
+        sendTwitterSignUpEvent({user_type: getUserTypeTwitter(this.props.user_type), method});
     }
 
     render() {
