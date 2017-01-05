@@ -5,7 +5,12 @@ import {
     ENDPOINT_MY_APPS, ENDPOINT_TASK, ENDPOINT_EMAIL_VISITOR, ENDPOINT_INVITE, SOCIAL_PROVIDERS
 } from '../constants/Api';
 import { listRunningProjects } from './ProjectActions';
-import { sendGAEvent, sendTwitterSignUpEvent, GA_EVENT_CATEGORIES, GA_EVENT_ACTIONS, GA_EVENT_LABELS, AUTH_METHODS, getUserType, getUserTypeTwitter } from '../utils/tracking';
+import {
+    sendGAEvent, sendTwitterSignUpEvent,
+    GA_EVENT_CATEGORIES, GA_EVENT_ACTIONS, GA_EVENT_LABELS, AUTH_METHODS,
+    getGAUserType, getUserTypeTwitter
+} from '../utils/tracking';
+import {getUser} from 'utils/auth';
 
 export const LOGIN_START = 'LOGIN_START';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
@@ -83,7 +88,7 @@ export function authStart(credentials) {
 
 export function authSuccess(data) {
     let user = data.user;
-    sendGAEvent(GA_EVENT_CATEGORIES.AUTH, GA_EVENT_ACTIONS.SIGN_IN, getUserType(user.type, user));
+    sendGAEvent(GA_EVENT_CATEGORIES.AUTH, GA_EVENT_ACTIONS.SIGN_IN, getGAUserType(user));
     return {
         type: LOGIN_SUCCESS,
         user
@@ -256,7 +261,7 @@ export function registerStart(details) {
 
 export function registerSuccess(data) {
     let user = data.user;
-    sendGAEvent(GA_EVENT_CATEGORIES.REGISTRATION, GA_EVENT_ACTIONS.SIGN_UP, getUserType(user.type, user));
+    sendGAEvent(GA_EVENT_CATEGORIES.REGISTRATION, GA_EVENT_ACTIONS.SIGN_UP, getGAUserType(user));
 
     return {
         type: REGISTER_SUCCESS,
@@ -608,7 +613,7 @@ export function inviteStart(details) {
 }
 
 export function inviteSuccess(invite) {
-    sendGAEvent(GA_EVENT_CATEGORIES.AUTH, GA_EVENT_ACTIONS.DEV_INVITE, GA_EVENT_LABELS.DEVELOPER);
+    sendGAEvent(GA_EVENT_CATEGORIES.AUTH, GA_EVENT_ACTIONS.DEV_INVITE, getGAUserType(getUser()));
     return {
         type: INVITE_SUCCESS,
         invite

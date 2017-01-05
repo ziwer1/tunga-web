@@ -66,7 +66,7 @@ export default class PaymentList extends React.Component {
                                             created_at: task.invoice_date
                                         };
                                     return(
-                                        <tr>
+                                        <tr key={task.id}>
                                             <td><Link to={`/task/${task.id}/`}>{task.title}</Link></td>
                                             <td>{moment.utc(invoice.created_at || task.closed_at).local().format('D/MMM/YYYY')}</td>
                                             {Auth.user.is_developer?(

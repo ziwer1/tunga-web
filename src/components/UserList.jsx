@@ -64,20 +64,20 @@ export default class UserList extends React.Component {
                             {Auth.isAuthenticated ? (
                                 [
                                     Auth.user.is_staff ? (
-                                        <Link to="/people/filter/clients"
+                                        <Link to="/people/filter/clients" key="clients"
                                               activeClassName="active">Clients</Link>) : null,
-                                    <Link to="/people/filter/team" activeClassName="active">
+                                    <Link to="/people/filter/team" activeClassName="active" key="team">
                                         {Auth.user.is_developer ? 'My friends' : 'My team'}
                                     </Link>,
                                     Auth.user.is_developer ? (
-                                        <Link to="/people/filter/my-clients" activeClassName="active">My Clients</Link>
+                                        <Link to="/people/filter/my-clients" key="my-clients" activeClassName="active">My Clients</Link>
                                     ) : null,
-                                    <Link to="/people/filter/requests" activeClassName="active"
+                                    <Link to="/people/filter/requests" activeClassName="active"  key="requests"
                                           style={{marginLeft: '20px'}}>
                                         Requests {requests ? <span className="badge">{requests}</span> : null}
                                     </Link>,
                                     Auth.user.is_project_owner || Auth.user.is_staff ? (
-                                        <Link to="/people/filter/relevant" activeClassName="active">Relevant to
+                                        <Link to="/people/filter/relevant" key="relevant" activeClassName="active">Relevant to
                                             me</Link>
                                     ) : null
                                 ]

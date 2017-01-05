@@ -1,9 +1,12 @@
 import React from 'react';
 import Helmet from 'react-helmet';
-import TaskCrumb from '../containers/TaskCrumb';
+
+import BreadCrumb from '../containers/BreadCrumb';
 import TaskDetail from './TaskDetail';
 import Progress from './status/Progress';
 import Success from './status/Success';
+
+import { getRouteCrumb } from '../utils/router';
 
 export default class Task extends React.Component {
 
@@ -25,27 +28,20 @@ export default class Task extends React.Component {
         return null;
     }
 
-    getCrumb() {
-        let lastRoute = this.getLastRoute();
-        if(lastRoute) {
-            return lastRoute.crumb;
-        }
-        return null;
-    }
-
     renderChildren() {
         return React.Children.map(this.props.children, function (child) {
             return React.cloneElement(child, {
                 Auth: this.props.Auth,
                 Task: this.props.Task,
                 task: this.props.Task.detail.task,
-                TaskActions: this.props.TaskActions
+                TaskActions: this.props.TaskActions,
+                location: this.props.location
             });
         }.bind(this));
     }
 
     render() {
-        const { Auth, Task, TaskActions, params } = this.props;
+        const { Auth, Task, TaskActions, params, routes } = this.props;
         const { task } = Task.detail;
         let lastRoute = this.getLastRoute();
 
@@ -61,13 +57,15 @@ export default class Task extends React.Component {
                         ]}
                 />
 
-                {Task.detail.applications.isSaved?(
+                {Auth.user.is_developer && Task.detail.applications.isSaved?(
                     <Success message="Application sent successfully"/>
                 ):null}
 
                 {task.user.id == Auth.user.id || task.is_participant || Auth.user.is_staff || (lastRoute && lastRoute.path == 'apply' && task.can_apply)?(
                 <div>
-                    <TaskCrumb section={this.getCrumb()}/>
+                    <BreadCrumb
+                        section={getRouteCrumb(routes)}
+                        parents={task?[{name: task.title, link: `/task/${task.id}?nr=true`}]:[]} />
 
                     {this.renderChildren()}
                 </div>

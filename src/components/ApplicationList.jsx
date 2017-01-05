@@ -57,7 +57,9 @@ export default class ApplicationList extends ComponentWithModal {
 
     handleRejectApplication(application) {
         const { TaskActions } = this.props;
-        TaskActions.updateApplication(application.id, {accepted: false, responded: true});
+        if(confirm(`Decline ${application.user.display_name}'s application`)) {
+            TaskActions.updateApplication(application.id, {accepted: false, responded: true});
+        }
     }
 
     renderModalContent() {
@@ -65,8 +67,8 @@ export default class ApplicationList extends ComponentWithModal {
         const { task } = Task.detail;
         return (
             <div>
-                <LargeModal title="Developer Section" modalSize="medium"
-                            show={this.state.showModal} onHide={this.close.bind(this)}>
+                <LargeModal title="Developer Section" bsStyle="md"
+                            show={this.state.showModal} onHide={this.close.bind(this)} bsStyle="modal-md">
                     {this.state.application?(
                     <div>
                         {this.state.modalStep == 'select'?(

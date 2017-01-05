@@ -97,7 +97,7 @@ class MessagePage extends React.Component {
                                         {Channel.list.ids.map((id) => {
                                             let channel = Channel.list.channels[id];
                                             return(
-                                                <Link to={`${channel_type_filter == CHANNEL_TYPES.support?"/help":"/conversation"}/${channel.id}/`} className="media" activeClassName="active">
+                                                <Link key={id} to={`${channel_type_filter == CHANNEL_TYPES.support?"/help":"/conversation"}/${channel.id}/`} className="media" activeClassName="active">
                                                     <div className="media-left">
                                                         <Avatar src={channel.user?channel.user.avatar_url:null}
                                                                 icon={channel.user?null:"glypichon-comment"}

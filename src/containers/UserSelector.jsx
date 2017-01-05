@@ -1,5 +1,5 @@
 import React from 'react';
-import _ from 'underscore';
+import _ from 'lodash';
 import randomstring from 'randomstring';
 import connect from '../utils/connectors/UserSelectionConnector';
 import Avatar from '../components/Avatar';
@@ -164,7 +164,7 @@ class UserSelector extends React.Component {
 }
 
 UserSelector.propTypes = {
-    onChange: React.PropTypes.func.required,
+    onChange: React.PropTypes.func.isRequired,
     max: React.PropTypes.number,
     selected: React.PropTypes.array,
     canRemove: React.PropTypes.bool,

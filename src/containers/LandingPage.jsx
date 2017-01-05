@@ -2,8 +2,6 @@ import React from 'react';
 import {Link} from 'react-router';
 import YouTube from 'react-youtube';
 import Helmet from 'react-helmet';
-import Slider from 'react-slick';
-import _ from 'underscore';
 
 import ShowcaseContainer from './ShowcaseContainer';
 import ShowCaseFooter from './ShowCaseFooter';
@@ -19,6 +17,7 @@ export default class LandingPage extends React.Component {
 
     onScheduleCall() {
         Calendly.showPopupWidget('https://calendly.com/tunga/30min/');
+        sendGAEvent(GA_EVENT_CATEGORIES.CONTACT, GA_EVENT_ACTIONS.SCHEDULE_CALL);
     }
 
     onVideoReady(e) {
@@ -219,7 +218,7 @@ export default class LandingPage extends React.Component {
                     <div className={`modal-backdrop fade in`}></div>
                     <div className="video-close">
                         <button className="btn btn-borderless"
-                                activeClassName="active" title="Close"
+                                title="Close"
                                 onClick={this.onCloseVideo.bind(this)}>
                             <i className="fa fa-times fa-lg"/>
                         </button>

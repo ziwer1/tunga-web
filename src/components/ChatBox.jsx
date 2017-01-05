@@ -3,10 +3,8 @@ import { Link } from 'react-router';
 import Avatar from './Avatar';
 import MessageForm from './MessageForm';
 import ActivityList from './ActivityList';
-import moment from 'moment';
 
 import { getChannelKey } from '../utils/reducers';
-import { CHANNEL_TYPES } from '../constants/Api';
 
 
 export default class ChatBox extends React.Component {
@@ -33,25 +31,6 @@ export default class ChatBox extends React.Component {
         const { attachments } = channel;
         let view = this.getView();
         var activities = Channel.detail.activity.items[getChannelKey(channel.id)] || [];
-
-        /*if(!activities.length && channel.type == CHANNEL_TYPES.support) {
-            // Add a welcome message for support channels
-            activities.push({
-                action: 'send',
-                activity_type: 'message',
-                activity: {
-                    // id: "welcome",
-                    sender: {
-                        id: 'tunga',
-                        username: null,
-                        display_name: 'Tunga Support',
-                        avatar_url: 'https://tunga.io/icons/Tunga_squarex150.png'
-                    },
-                    html_body: "<div>Hello David,<br/>How can we help you?.</div>",
-                    created_at: moment().format()
-                }
-            });
-        }*/
 
         return (
             <div className="list-box">
@@ -99,7 +78,7 @@ export default class ChatBox extends React.Component {
 
                 {['files', 'people'].indexOf(view) == -1?(
                     [
-                        <ActivityList
+                        <ActivityList key="list"
                             Auth={Auth}
                             activities={activities}
                             isLoading={Channel.detail.activity.isFetching[getChannelKey(channel.id)] || false}
@@ -108,7 +87,7 @@ export default class ChatBox extends React.Component {
                             loadMoreCallback={ChannelActions.listMoreChannelActivity}
                             loadMoreText="Show older messages"
                             last_read={channel.previous_last_read || channel.last_read} />,
-                        <MessageForm
+                        <MessageForm key="msg_form"
                             messageCallback={this.onSendMessage.bind(this)}
                             messageSaved={Message.detail.isSaved}
                             uploadCallback={this.onUpload.bind(this)}

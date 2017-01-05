@@ -1,5 +1,7 @@
 import axios from 'axios';
-import { ENDPOINT_CONTACT_REQUEST } from '../constants/Api';
+import { ENDPOINT_CONTACT_REQUEST, OFFER_ITEM_NAMES } from '../constants/Api';
+
+import { sendGAEvent, GA_EVENT_CATEGORIES, GA_EVENT_ACTIONS, GA_EVENT_LABELS } from '../utils/tracking';
 
 export const SEND_CONTACT_REQUEST_START = 'SEND_CONTACT_REQUEST_START';
 export const SEND_CONTACT_REQUEST_SUCCESS = 'SEND_CONTACT_REQUEST_SUCCESS';
@@ -11,24 +13,29 @@ export function sendContactRequest(data) {
         dispatch(sendContactRequestStart(data));
         axios.post(ENDPOINT_CONTACT_REQUEST, data)
             .then(function(response) {
-                dispatch(sendContactRequestSuccess(response.data))
+                dispatch(sendContactRequestSuccess(response.data));
+
             }).catch(function(response) {
-                dispatch(sendContactRequestFailed(response.data))
+                dispatch(sendContactRequestFailed(response.data));
             });
     }
 }
 
-export function sendContactRequestStart(email) {
+export function sendContactRequestStart(data) {
     return {
         type: SEND_CONTACT_REQUEST_START,
-        email
+        data
     }
 }
 
-export function sendContactRequestSuccess(email) {
+export function sendContactRequestSuccess(data) {
+    if(data.item) {
+        sendGAEvent(GA_EVENT_CATEGORIES.CONTACT, GA_EVENT_ACTIONS.REQUEST_OFFER, OFFER_ITEM_NAMES[data.item]);
+    }
+
     return {
         type: SEND_CONTACT_REQUEST_SUCCESS,
-        email
+        data
     }
 }
 

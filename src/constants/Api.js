@@ -20,14 +20,9 @@ $.ajaxSetup({
     }
 });
 
-var BACKEND_PATH = '/';
+var BACKEND_PATH = __BACKEND_ROOT_URL__ || (__PRODUCTION___?'/':'http://test.tunga.io/');
 var API_PATH = 'api/';
 var SOCIAL_LOGIN_PATH = 'accounts/social/';
-if(__DEV__) {
-    BACKEND_PATH = 'http://localhost:8000/';
-} else if(__PRERELEASE__) {
-    BACKEND_PATH = 'http://test.tunga.io/';
-}
 
 const API_ROOT = BACKEND_PATH + API_PATH;
 export default API_ROOT;
@@ -257,4 +252,11 @@ export const OFFER_REQUEST_ITEMS = {
     onboarding: "onboarding",
     onboarding_special: "onboarding_special",
     project: "project"
+};
+
+export const OFFER_ITEM_NAMES = {
+    self_guided: "Do-it-yourself",
+    onboarding: "Intensive Guidance & Support",
+    onboarding_special: "Onboarding Special Offer",
+    project: "Dedicated Monitor & Troubleshooter"
 };

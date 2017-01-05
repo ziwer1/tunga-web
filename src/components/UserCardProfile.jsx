@@ -51,7 +51,7 @@ export default class UserCardProfile extends React.Component {
 }
 
 UserCardProfile.propTypes = {
-    user: React.PropTypes.object.required,
+    user: React.PropTypes.object.isRequired,
     avatarSize: React.PropTypes.string,
     profileLink: React.PropTypes.bool
 };

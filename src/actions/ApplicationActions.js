@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { ENDPOINT_APPLICATION } from '../constants/Api';
 
-import { sendGAEvent, GA_EVENT_CATEGORIES, GA_EVENT_ACTIONS, GA_EVENT_LABELS } from '../utils/tracking';
+import { sendGAEvent, GA_EVENT_CATEGORIES, GA_EVENT_ACTIONS, getGAUserType } from '../utils/tracking';
+import {getUser} from 'utils/auth';
 
 export const CREATE_APPLICATION_START = 'CREATE_APPLICATION_START';
 export const CREATE_APPLICATION_SUCCESS = 'CREATE_APPLICATION_SUCCESS';
@@ -42,7 +43,7 @@ export function createApplicationStart(application) {
 }
 
 export function createApplicationSuccess(application) {
-    sendGAEvent(GA_EVENT_CATEGORIES.TASK, GA_EVENT_ACTIONS.APPLY);
+    sendGAEvent(GA_EVENT_CATEGORIES.TASK, GA_EVENT_ACTIONS.APPLY, getGAUserType(getUser()));
     return {
         type: CREATE_APPLICATION_SUCCESS,
         application

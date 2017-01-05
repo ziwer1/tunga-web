@@ -5,7 +5,7 @@ import moment from 'moment';
 import Avatar from './Avatar';
 import Progress from './status/Progress';
 import ProgressReportForm from './ProgressReportForm';
-import TaskCrumb from '../containers/TaskCrumb';
+import BreadCrumb from '../containers/BreadCrumb';
 
 import { PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT } from '../constants/Api';
 
@@ -44,7 +44,7 @@ export default class Milestone extends React.Component {
     }
 
     render() {
-        const { Auth, Milestone, MilestoneActions, ProgressReport, ProgressReportActions } = this.props;
+        const { Auth, Milestone, Task, MilestoneActions, ProgressReport, ProgressReportActions } = this.props;
         const { milestone } = Milestone.detail;
         const { report } = milestone;
 
@@ -58,6 +58,9 @@ export default class Milestone extends React.Component {
             :milestone.id?(
             <div>
                 <TaskCrumb section={milestone.title || 'Scheduled Update'}/>
+                <BreadCrumb
+                    section={milestone.title || 'Scheduled Update'}
+                    parents={milestone.task?[{name: milestone.details?milestone.details.task.title:'Task', link: `/task/${milestone.task}`}]:[]} />
 
                 <div className="milestone-page form-wrapper">
                     <div style={{marginBottom: '20px'}}>

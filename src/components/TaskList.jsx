@@ -55,8 +55,8 @@ export default class TaskList extends React.Component {
                         <li role="presentation"><Link to="/task/filter/running" activeClassName="active"><i className="tunga-icon-running-tasks"/> Running Tasks</Link></li>
                         {Auth.user.is_developer || Auth.user.is_staff?(
                             [
-                                <li role="presentation"><Link to="/task/filter/skills" activeClassName="active">My Skills</Link></li>,
-                                <li role="presentation"><Link to="/task/filter/project-owners" activeClassName="active">My Clients</Link></li>
+                                <li role="presentation" key="skills"><Link to="/task/filter/skills" activeClassName="active">My Skills</Link></li>,
+                                <li role="presentation" key="clients"><Link to="/task/filter/project-owners" activeClassName="active">My Clients</Link></li>
                             ]
                         ):null}
                         {skill?(

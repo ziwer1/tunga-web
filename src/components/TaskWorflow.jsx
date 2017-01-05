@@ -79,7 +79,7 @@ export default class TaskWorflow extends ComponentWithModal {
         const {Auth, Task} = props;
         const {task} = Task.detail;
 
-        if (Auth.user.id == task.user.id && task.closed && (!this.context.location.query || !this.context.location.query.nr) && (!props.params || !props.params.eventId)) {
+        if (Auth.user.id == task.user.id && task.closed && (!this.props.location.query || !this.props.location.query.nr) && (!props.params || !props.params.eventId)) {
             const {router} = this.context;
             var next = null;
             if (task.paid) {
@@ -322,13 +322,13 @@ export default class TaskWorflow extends ComponentWithModal {
                                 </li>
                                 {is_admin_or_owner ? (
                                     [
-                                        <li>
+                                        <li key="applications">
                                             <Link to={`/task/${task.id}/applications/`}
                                                   activeClassName="active">
                                                 Go to applications
                                             </Link>
                                         </li>,
-                                        <li>
+                                        <li key="payment">
                                             <Link to={can_pay?`/task/${task.id}/pay/`:workflow_link}
                                                   activeClassName="active"
                                                   className={can_pay?'':'disabled'}>
@@ -339,7 +339,7 @@ export default class TaskWorflow extends ComponentWithModal {
                                                 )}
                                             </Link>
                                         </li>,
-                                        <li>
+                                        <li key="rate">
                                             <Link to={can_rate?`/task/${task.id}/rate/`:workflow_link}
                                                   activeClassName="active"
                                                   className={can_rate?'':'disabled'}>
@@ -529,6 +529,5 @@ export default class TaskWorflow extends ComponentWithModal {
 }
 
 TaskWorflow.contextTypes = {
-    router: React.PropTypes.object.isRequired,
-    location: React.PropTypes.object.isRequired
+    router: React.PropTypes.object.isRequired
 };

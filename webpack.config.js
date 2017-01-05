@@ -29,6 +29,7 @@ module.exports = {
             { test: /\.(png|jpg|gif)$/, loader: 'url-loader?limit=8192&name=images/[hash].[ext]?v='+ common_config.hash}, // inline base64 URLs for <=8k images, direct URLs for the rest
             { test: /\.woff(2)?(\?v=[0-9].[0-9].[0-9])?$/, loader: "url-loader?mimetype=application/font-woff&name=fonts/[hash].[ext]" },
             { test: /\.(ttf|eot|svg)(\?v=[0-9].[0-9].[0-9])?$/, loader: "file-loader?name=fonts/[hash].[ext]" },
+            { test: /\.ejs$/, loader: 'ejs-compiled?htmlmin' }
         ]
     },
     resolve: {
@@ -40,11 +41,10 @@ module.exports = {
         common_config.plugins.chunkVendorPlugin,
         common_config.plugins.HTMLInjectPlugin,
         common_config.plugins.noErrorsPlugin,
-        new OpenBrowserPlugin({ url: 'http://localhost:8080' }),
+        new OpenBrowserPlugin({}),
         common_config.plugins.magicGlobalsPlugin,
         new webpack.HotModuleReplacementPlugin()
     ],
-
     debug: true,
     devtool: 'source-map',
     devServer: {

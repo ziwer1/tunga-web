@@ -144,7 +144,6 @@ export default class ActivityList extends React.Component {
             default:
                 break;
         }
-        console.log(item);
         if(creator) {
             return {id: item.id, type: activity_type, user: creator, created_at, body, summary, uploads, more};
         }
@@ -206,7 +205,8 @@ export default class ActivityList extends React.Component {
                         thread.others.map(other_msg => {
                             let sent_day = moment.utc(other_msg.created_at).local().format(day_format);
                             let msg = (
-                                <div className={['message', 'comment', 'upload'].indexOf(other_msg.type) > -1?"sub-message":"sub-thread"} id={"activity" + other_msg.id}>
+                                <div id={"activity" + other_msg.id} key={"activity" + other_msg.id}
+                                     className={['message', 'comment', 'upload'].indexOf(other_msg.type) > -1?"sub-message":"sub-thread"} >
                                     {sent_day == last_sent_day || sent_day != today || activity.summary?null:(
                                         <p>
                                             {activity.summary?(<span> {activity.summary}</span>):null}

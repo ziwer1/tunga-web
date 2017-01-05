@@ -2,15 +2,10 @@ import React from 'react';
 import {SOCIAL_LOGIN_URLS} from '../constants/Api';
 import {objectToQueryString} from '../utils/html';
 
-import {USER_TYPE_PROJECT_OWNER} from '../constants/Api';
 import {
-    sendGAEvent,
     sendTwitterSignUpEvent,
-    GA_EVENT_CATEGORIES,
     AUTH_METHODS,
-    USER_TYPES,
-    getUserTypeTwitter,
-    getUserType
+    getUserTypeTwitter
 } from '../utils/tracking';
 
 export default class SocialSignIn extends React.Component {

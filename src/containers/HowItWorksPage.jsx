@@ -68,7 +68,7 @@ export default class HowItWorksPage extends React.Component {
                                 <ul>
                                     {STEP_DETAILS.map((step, idx) => {
                                         return (
-                                            <li>
+                                            <li key={idx}>
                                                 <a href="#"
                                                    onClick={this.onChangeSliderStep.bind(this, idx)}
                                                    onMouseOver={this.onChangeSliderStep.bind(this, idx)}

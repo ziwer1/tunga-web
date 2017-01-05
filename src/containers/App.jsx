@@ -21,8 +21,8 @@ import LargeModal from '../components/ModalLarge';
 class App extends ComponentWithModal {
 
     getChildContext() {
-        const { router, location } = this.context;
-        return {router: router, location: location};
+        const { router } = this.context;
+        return {router};
     }
 
     componentDidMount() {
@@ -108,7 +108,7 @@ class App extends ComponentWithModal {
 
     renderModalContent() {
         return (
-            <LargeModal title="Login or Join" modalSize="medium"
+            <LargeModal title="Login or Join" bsStyle="md"
                         show={this.state.showModal} onHide={this.onClosePopup.bind(this)}>
                 <div className="alert alert-info">You need to Login or Sign Up to access this page</div>
                 <div className="clearfix">
@@ -168,13 +168,11 @@ function mapDispatchToProps(dispatch) {
 }
 
 App.contextTypes = {
-    router: React.PropTypes.object.isRequired,
-    location: React.PropTypes.object.isRequired
+    router: React.PropTypes.object.isRequired
 };
 
 App.childContextTypes = {
-    router: React.PropTypes.object,
-    location: React.PropTypes.object
+    router: React.PropTypes.object
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

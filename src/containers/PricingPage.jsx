@@ -46,7 +46,7 @@ class PricingPage extends ComponentWithModal {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if(this.props.Utility.contact.isSent && !prevProps.Utility.contact.isSent) {
+        if(this.props.Utility.contact.isSent && !prevProps.Utility.contact.isSent && this.refs.request_form) {
             this.refs.request_form.reset();
         }
     }
@@ -90,7 +90,7 @@ class PricingPage extends ComponentWithModal {
         const { Utility } = this.props;
 
         return (
-            <LargeModal title="Request offer" modalSize="medium"
+            <LargeModal title="Request offer" bsStyle="md"
                         show={this.state.showModal} onHide={this.close.bind(this)}>
                 {Utility.contact.isSent?(
                     <Success message="Request sent successfully"/>
@@ -133,7 +133,7 @@ class PricingPage extends ComponentWithModal {
                                 ):null}
                                 {OFFER_DETAILS.slice(1).map((offer, idx) => {
                                     return (
-                                        <a href="#"
+                                        <a href="#" key={offer.key}
                                            onClick={this.onSelectOffer.bind(this, offer.key)}
                                            className={`card ${this.state.offer == offer.key?"active":""}`}>
                                             <h4 dangerouslySetInnerHTML={{__html: offer.title}}/>
@@ -189,7 +189,7 @@ class PricingPage extends ComponentWithModal {
                             <ul>
                                 {OFFER_DETAILS.map((offer, idx) => {
                                     return (
-                                        <li>
+                                        <li key={offer.key}>
                                             <a href="#"
                                                onClick={this.onChangeSliderStep.bind(this, idx)}
                                                onMouseOver={this.onChangeSliderStep.bind(this, idx)}

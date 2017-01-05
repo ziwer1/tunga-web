@@ -1,7 +1,10 @@
 import React from 'react';
 import Helmet from "react-helmet"
-import ProjectCrumb from '../containers/ProjectCrumb';
+
+import BreadCrumb from '../containers/BreadCrumb';
 import Progress from './status/Progress';
+
+import { getRouteCrumb } from '../utils/router';
 
 export default class Project extends React.Component {
 
@@ -13,14 +16,6 @@ export default class Project extends React.Component {
         if(this.props.params.projectId != prevProps.params.projectId) {
             this.props.ProjectActions.retrieveProject(this.props.params.projectId);
         }
-    }
-
-    getCrumb() {
-        const { routes } = this.props;
-        if(routes && routes.length) {
-            return routes[routes.length-1].crumb;
-        }
-        return null;
     }
 
     renderChildren() {
@@ -37,7 +32,7 @@ export default class Project extends React.Component {
     }
 
     render() {
-        const { Auth, Project } = this.props;
+        const { Auth, Project, routes } = this.props;
         const { project } = Project.detail;
 
         return (
@@ -52,7 +47,9 @@ export default class Project extends React.Component {
                         ]}
                 />
 
-                <ProjectCrumb section={this.getCrumb()}/>
+                <BreadCrumb
+                    section={getRouteCrumb(routes)}
+                    parents={project?[{name: project.title, link: `/project/${project.id}`}]:[]} />
 
                 {project.user.id == Auth.user.id || Auth.user.is_staff?(
                 <div>

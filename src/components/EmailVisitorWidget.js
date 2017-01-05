@@ -39,9 +39,9 @@ export default class EmailVisitorWidget extends React.Component {
 }
 
 EmailVisitorWidget.propTypes = {
-    btnText: React.PropTypes.string.required,
+    btnText: React.PropTypes.string.isRequired,
     placeholder: React.PropTypes.string,
-    onSubmit: React.PropTypes.func.required,
+    onSubmit: React.PropTypes.func.isRequired,
     success: React.PropTypes.string,
     error: React.PropTypes.string,
     disabled: React.PropTypes.bool,

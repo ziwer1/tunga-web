@@ -23,7 +23,11 @@ export default class TagList extends React.Component {
 }
 
 TagList.propTypes = {
-    tags: React.PropTypes.array.required,
+    tags: React.PropTypes.array.isRequired,
     linkPrefix: React.PropTypes.string,
     moreLink: React.PropTypes.string
+};
+
+TagList.defaultProps = {
+    tags: []
 };

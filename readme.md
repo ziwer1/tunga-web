@@ -17,7 +17,7 @@ npm install
 * index.html is a template, refrain from editing (except when adding global libraries served via a CDN)
 * Leverage [ES6/ES2015](https://babeljs.io/docs/learn-es2015/) features in your code
 * Use [axios](https://github.com/mzabriskie/axios) for networking
-* Use __DEV__ and __PRERELEASE__ predefined globals to filter code the should only be added in development and testing
+* Use \_\_DEV\_\_ , \_\_PRERELEASE\_\_ and \_\_PRODUCTION\_\__ predefined globals to filter code the should only be added in development and testing
 
 #### Importing modules
 Use either ES6 imports
@@ -54,7 +54,7 @@ npm run watch
 
 To connect to a local version of the API running on your machine at http://localhost:8000/
 ```
-npm run watch:dev
+npm run watch:local
 ```
 
 2. A new browser tab with automatically open at http://127.0.0.1:8080/

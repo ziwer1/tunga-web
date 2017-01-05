@@ -51,7 +51,7 @@ export default class MessageWidget extends React.Component {
 }
 
 MessageWidget.propTypes = {
-    onSend: React.PropTypes.func.required,
+    onSend: React.PropTypes.func.isRequired,
     onBodyChange: React.PropTypes.func,
     onAddAttachment: React.PropTypes.func,
     isSending: React.PropTypes.bool,

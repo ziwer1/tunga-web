@@ -1,6 +1,6 @@
 import { USER_TYPE_PROJECT_OWNER, USER_TYPE_DEVELOPER } from '../constants/Api';
 
-export const TWITTER_SIGNUP_EVENT_CODE = 'nve6f';
+export const TWITTER_SIGNUP_EVENT_CODE = __PRODUCTION___?'nve6f':null;
 
 export const AUTH_METHODS = {
     EMAIL: "Email",
@@ -41,7 +41,9 @@ export const GA_EVENT_ACTIONS = {
     DEV_INVITE: 'Invite Developer',
     PLAY: 'Play',
     CREATE: 'Create',
-    APPLY: 'Apply'
+    APPLY: 'Apply',
+    SCHEDULE_CALL: 'Schedule Call',
+    REQUEST_OFFER: 'Request Offer'
 };
 
 export const GA_EVENT_LABELS = {
@@ -63,28 +65,32 @@ export function getUserTypeTwitter(type) {
     }
 }
 
-export function getUserType(type, user) {
-    if (user && (user.is_staff || user.is_superuser)) {
-        return "Admin";
-    }
-    switch (type) {
-        case USER_TYPE_PROJECT_OWNER:
-            return "Client";
-        case USER_TYPE_DEVELOPER:
-            return "Developer";
-        default:
-            return "Anonymous";
+export function getGAUserType(user) {
+    if (user) {
+        if(user.is_staff || user.is_superuser) {
+            return "Admin";
+        }
+        switch (user.type) {
+            case USER_TYPE_PROJECT_OWNER:
+                return "Client";
+            case USER_TYPE_DEVELOPER:
+                return "Developer";
+            default:
+                return "Unknown";
+        }
+    } else {
+        return "Anonymous";
     }
 }
 
 export function sendGAEvent(category, action, label) {
-    if(!__DEV__ && !__PRERELEASE__) {
-        window.ga(GA_COMMANDS.SEND, GA_HIT.EVENT, category, action, label);
+    if(__PRODUCTION___) {
+        window.ga(GA_COMMANDS.SEND, GA_HIT.EVENT, category || null, action || null, label || null);
     }
 }
 
 export function sendTwitterSignUpEvent(data) {
-    if(!__DEV__ && !__PRERELEASE__) {
+    if(__PRODUCTION___) {
         window.twttr.conversion.trackPid(TWITTER_SIGNUP_EVENT_CODE, data);
     }
 }

@@ -14,10 +14,13 @@ import { Router, Route, IndexRoute, IndexRedirect, Redirect } from 'react-router
 import store from './store';
 import history from './history';
 
-history.listen(location => {
-    window.ga('send', 'pageview');
-    window.twq('track','PageView');
-});
+
+if(__PRODUCTION___) {
+    history.listen(location => {
+        window.ga('send', 'pageview');
+        window.twq('track', 'PageView');
+    });
+}
 
 import App from 'containers/App';
 import AppWrapper from 'containers/AppWrapper';
@@ -195,7 +198,8 @@ ReactDOM.render(
                         </Route>
                     </Route>
                     <Route path="search" component={SearchPage}>
-                        <IndexRedirect to="developers"/>
+                        <IndexRedirect to="people"/>
+                        <Route path="people" component={UserList} />
                         <Route path="developers" component={UserList} />
                         <Route path="tasks" component={TaskList} authedOnly={true}/>
                         <Route path="messages" component={MessageList} authedOnly={true}/>

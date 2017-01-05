@@ -51,9 +51,9 @@ class ModalLarge extends React.Component {
     }
 
     render() {
-        const { modalSize } = this.props;
+        const { modalSize, bsStyle } = this.props;
         return (
-            <Modal show={this.state.showModal} onHide={this.close.bind(this)} bsSize={modalSize}>
+            <Modal show={this.state.showModal} onHide={this.close.bind(this)} bsSize={modalSize} bsStyle={bsStyle}>
                 <Modal.Header closeButton>
                     {this.state.title?(
                     <Modal.Title>{this.state.title}</Modal.Title>

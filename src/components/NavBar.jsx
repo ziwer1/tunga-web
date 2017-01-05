@@ -1,11 +1,17 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
 import Avatar from './Avatar';
 import SearchBox from './SearchBox';
 
+import * as SearchActions from '../actions/SearchActions';
+
+import { SEARCH_PATH } from '../constants/patterns';
 import { initSideBarToggle } from '../utils/ui';
 
-export default class NavBar extends React.Component {
+class NavBar extends React.Component {
 
     constructor(props) {
         super(props);
@@ -19,6 +25,14 @@ export default class NavBar extends React.Component {
     handleLogout(e) {
         e.preventDefault();
         this.props.AuthActions.logout();
+    }
+
+    onSearch(query) {
+        this.props.SearchActions.searchStart(query.search);
+        if(!SEARCH_PATH.test(this.props.location.pathname)) {
+            const { router } = this.context;
+            router.replace('/search');
+        }
     }
 
     render() {
@@ -42,7 +56,7 @@ export default class NavBar extends React.Component {
                     <div id="navbar" className="navbar-collapse collapse">
                         {Auth.isAuthenticated?(
                             <ul className="nav navbar-nav navbar-right">
-                                <li><SearchBox placeholder="Search" hide_results={true}/></li>
+                                <li><SearchBox placeholder="Search" query={this.props.location.query.q} hide_results={true} onSearch={this.onSearch.bind(this)}/></li>
                                 {Auth.isAuthenticated && Auth.user.is_staff?(
                                     <li className="dropdown">
                                         <a href="#" className="dropdown-toggle account-actions-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -88,3 +102,19 @@ NavBar.propTypes = {
         user: PropTypes.object
     }).isRequired
 };
+
+NavBar.contextTypes = {
+    router: React.PropTypes.object.isRequired
+};
+
+function mapStateToProps(state) {
+    return {Auth: state.Auth, Search: state.Search};
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        SearchActions: bindActionCreators(SearchActions, dispatch),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
