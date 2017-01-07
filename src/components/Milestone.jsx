@@ -57,7 +57,6 @@ export default class Milestone extends React.Component {
             (<Progress/>)
             :milestone.id?(
             <div>
-                <TaskCrumb section={milestone.title || 'Scheduled Update'}/>
                 <BreadCrumb
                     section={milestone.title || 'Scheduled Update'}
                     parents={milestone.task?[{name: milestone.details?milestone.details.task.title:'Task', link: `/task/${milestone.task}`}]:[]} />
