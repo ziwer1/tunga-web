@@ -1,6 +1,14 @@
 import axios from 'axios';
 import { ENDPOINT_ACCOUNT_INFO, ENDPOINT_USER_INFO, ENDPOINT_PROFILE, ENDPOINT_CHANGE_PASSWORD, ENDPOINT_USER_EDUCATION, ENDPOINT_USER_WORK, ENDPOINT_NOTIFICATION, ENDPOINT_COUNTRIES } from '../constants/Api';
 
+import {
+    sendGAEvent, sendTwitterSignUpEvent,
+    GA_EVENT_CATEGORIES, GA_EVENT_ACTIONS, GA_EVENT_LABELS, AUTH_METHODS,
+    getGAUserType, getUserTypeTwitter
+} from '../utils/tracking';
+import {getUser} from 'utils/auth';
+
+
 export const UPDATE_AUTH_USER_START = 'UPDATE_AUTH_USER_START';
 export const UPDATE_AUTH_USER_SUCCESS = 'UPDATE_AUTH_USER_SUCCESS';
 export const UPDATE_AUTH_USER_FAILED = 'UPDATE_AUTH_USER_FAILED';
@@ -70,6 +78,12 @@ export function updateAuthUserStart() {
 }
 
 export function updateAuthUserSuccess(user) {
+    var current_user = getUser();
+    console.log('current_user', current_user);
+    if(current_user && !current_user.type) {
+        // If current user doesn't have a type, this can be treated as Sign Up
+        sendGAEvent(GA_EVENT_CATEGORIES.REGISTRATION, GA_EVENT_ACTIONS.SIGN_UP, getGAUserType(user));
+    }
     return {
         type: UPDATE_AUTH_USER_SUCCESS,
         user

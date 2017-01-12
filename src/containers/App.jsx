@@ -72,7 +72,12 @@ class App extends ComponentWithModal {
         }
 
         if(Auth.isAuthenticated && !Auth.user.type && !PROFILE_COMPLETE_PATH.test(location.pathname)) {
-            router.replace('/profile/complete');
+            router.replace('/profile/complete?next='+location.pathname);
+            return;
+        }
+
+        if(Auth.isAuthenticated && Auth.user.type && PROFILE_COMPLETE_PATH.test(location.pathname)) {
+            router.replace('/home?next='+location.pathname);
             return;
         }
 

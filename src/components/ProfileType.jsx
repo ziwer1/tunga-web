@@ -1,8 +1,6 @@
 import React from 'react';
-import Progress from './status/Progress';
 import FormStatus from './status/FormStatus';
 import FieldError from './status/FieldError';
-import SkillSelector from '../containers/SkillSelector';
 import { USER_TYPE_CHOICES } from '../constants/Api';
 
 export default class Profile extends React.Component {
@@ -13,12 +11,6 @@ export default class Profile extends React.Component {
 
     componentDidMount() {
         this.props.ProfileActions.retrieveProfile();
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        if(this.props.Profile.isSaved.user && !prevProps.Profile.isSaved.user) {
-            this.props.history.replaceState(null, '/home/');
-        }
     }
 
     handleSubmit(e) {

@@ -222,7 +222,7 @@ export function logoutStart() {
 }
 
 export function logoutSuccess() {
-    sendGAEvent(GA_EVENT_CATEGORIES.AUTH, GA_EVENT_ACTIONS.LOG_OUT);
+    sendGAEvent(GA_EVENT_CATEGORIES.AUTH, GA_EVENT_ACTIONS.LOG_OUT, getGAUserType(getUser()));
     return {
         type: LOGOUT_SUCCESS
     }
