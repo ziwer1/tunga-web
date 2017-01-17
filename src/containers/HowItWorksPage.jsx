@@ -58,9 +58,18 @@ export default class HowItWorksPage extends React.Component {
     }
 
     render() {
+        let meta_title = "Tunga | How Tunga works";
+
         return (
             <ShowcaseContainer className="how-it-works-page" headerContent={this.renderHeaderContent()}>
-                <Helmet title="Tunga | How Tunga works" />
+                <Helmet
+                    title={meta_title}
+                    meta={[
+                        {name: "twitter:title", content: meta_title},
+                        {property: "og:title", content: meta_title}
+                    ]}
+                />
+
                 <div className="content">
                     <section>
                         <div className="container">

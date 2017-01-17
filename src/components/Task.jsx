@@ -7,6 +7,7 @@ import Progress from './status/Progress';
 import Success from './status/Success';
 
 import { getRouteCrumb } from '../utils/router';
+import { render_excerpt } from '../utils/html';
 
 export default class Task extends React.Component {
 
@@ -44,6 +45,8 @@ export default class Task extends React.Component {
         const { Auth, Task, TaskActions, params, routes } = this.props;
         const { task } = Task.detail;
         let lastRoute = this.getLastRoute();
+        let meta_title = 'Tunga | ' + task.summary;
+        let meta_description = render_excerpt(task.description) || task.summary;
 
         return (
             Task.detail.isRetrieving?
@@ -51,9 +54,13 @@ export default class Task extends React.Component {
             :task.id && task.id == this.props.params.taskId?(
             <div>
                 <Helmet
-                    title={'Tunga | ' + task.summary}
+                    title={meta_title}
                     meta={[
-                            {"name": "description", "content": task.description || task.summary}
+                            {name: "twitter:title", content: meta_title},
+                            {property: "og:title", content: meta_title},
+                            {name: "description", content: meta_description},
+                            {name: "twitter:description", content: meta_description},
+                            {property: "og:description", content: meta_description}
                         ]}
                 />
 

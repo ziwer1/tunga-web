@@ -13,7 +13,18 @@ module.exports = {
             template: 'src/index.ejs',
             env: process.env.NODE_ENV || 'development',
             hash: true,
-            timestamp: unixTimestamp
+            timestamp: unixTimestamp,
+            site: {
+                title: 'Tunga',
+                description: "Tunga is a market network that allows you to build a flexible team of skilled African software programmers, that you can mobilize on-demand.",
+                images: {
+                    hero: 'https://tunga.io/icons/tunga_hero.png'
+                },
+                colors: {
+                    primary: '#f41152'
+                },
+                fb_app_id: '518348818336672'
+            }
         }),
         noErrorsPlugin: new webpack.NoErrorsPlugin(),
         magicGlobalsPlugin: new webpack.DefinePlugin({

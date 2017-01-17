@@ -178,9 +178,15 @@ class PricingPage extends ComponentWithModal {
     }
 
     render() {
+        let meta_title = "Tunga | Pricing";
         return (
             <ShowcaseContainer className="pricing-page" headerContent={this.renderHeaderContent()}>
-                <Helmet title="Tunga | Pricing" />
+                <Helmet
+                    title={meta_title}
+                    meta={[
+                        {name: "twitter:title", content: meta_title},
+                        {property: "og:title", content: meta_title}
+                    ]}/>
                 {this.renderModalContent()}
 
                 <section className="pricing-options">

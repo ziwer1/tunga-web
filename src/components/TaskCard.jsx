@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
 import TimeAgo from 'react-timeago';
-import Progress from './status/Progress';
 import TagList from './TagList';
 import Avatar from './Avatar';
 import LargeModal from './ModalLarge';
