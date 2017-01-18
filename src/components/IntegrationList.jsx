@@ -49,21 +49,21 @@ export default class IntegrationList extends ComponentWithModal {
 
         switch (provider) {
             case SOCIAL_PROVIDERS.github:
-                if(!Auth.connections.github.repos.ids.length) {
-                    TaskActions.listRepos(SOCIAL_PROVIDERS.github);
-                }
+                //if(!Auth.connections.github.repos.ids.length) {
+                    TaskActions.listRepos(SOCIAL_PROVIDERS.github, task.id);
+                //}
 
-                if(!Auth.connections.github.issues.ids.length) {
-                    TaskActions.listIssues(SOCIAL_PROVIDERS.github);
-                }
+                //if(!Auth.connections.github.issues.ids.length) {
+                    TaskActions.listIssues(SOCIAL_PROVIDERS.github, task.id);
+                //}
                 break;
             case SOCIAL_PROVIDERS.slack:
-                if(!Auth.connections.slack.details) {
-                    TaskActions.getSlackApp();
-                }
-                if(!Auth.connections.slack.channels.ids.length) {
-                    TaskActions.listSlackChannels();
-                }
+                //if(!Auth.connections.slack.details) {
+                    TaskActions.getSlackApp(task.id);
+                //}
+                //if(!Auth.connections.slack.channels.ids.length) {
+                    TaskActions.listSlackChannels(task.id);
+                //}
                 break;
             default:
                 break;
@@ -217,7 +217,7 @@ export default class IntegrationList extends ComponentWithModal {
                                     ):'Connect your task to your Slack team to send task activity to Slack.'}
                                 </div>
                                 {!slack.isConnected?(
-                                    <a href={SOCIAL_LOGIN_URLS.slack + `?action=connect&task=${task.id}&next=/task/${task.id}/integrations/slack`}
+                                    <a href={SOCIAL_LOGIN_URLS.slack + `?action=connect&task=${task.id}&next=${window.location.protocol}//${window.location.host}/task/${task.id}/integrations/slack`}
                                        className="btn slack-connect-button" title="Connect with Slack">
                                         <i className="fa fa-slack fa-lg"/> Connect with Slack
                                     </a>
@@ -231,7 +231,7 @@ export default class IntegrationList extends ComponentWithModal {
                                     Connect your task to a GitHub repository or issue to show GitHub activity (e.g comments, pull requests, push events) in your task activity stream.
                                 </div>
                                 {!github.isConnected?(
-                                    <a href={SOCIAL_LOGIN_URLS.github + `?action=connect&task=${task.id}&next=/task/${task.id}/integrations/${SOCIAL_PROVIDERS.github}`}
+                                    <a href={SOCIAL_LOGIN_URLS.github + `?action=connect&task=${task.id}&next=${window.location.protocol}//${window.location.host}/task/${task.id}/integrations/${SOCIAL_PROVIDERS.github}`}
                                        className="btn github-connect-button" title="Connect with GitHub">
                                         <i className="fa fa-github-square fa-lg"/> Connect with GitHub
                                     </a>

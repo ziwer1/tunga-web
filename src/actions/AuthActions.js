@@ -455,10 +455,10 @@ export function listRunningTasksFailed(error) {
     }
 }
 
-export function listRepos(provider) {
+export function listRepos(provider, task=null) {
     return dispatch => {
         dispatch(listReposStart(provider));
-        axios.get(ENDPOINT_MY_APPS + provider + '/repos/')
+        axios.get(ENDPOINT_MY_APPS + provider + '/repos/', {params:  {task}})
             .then(function(response) {
                 dispatch(listReposSuccess(response.data, provider))
             }).catch(function(response) {
@@ -492,10 +492,10 @@ export function listReposFailed(error, status_code, provider) {
 }
 
 
-export function listIssues(provider) {
+export function listIssues(provider, task=null) {
     return dispatch => {
         dispatch(listIssuesStart(provider));
-        axios.get(ENDPOINT_MY_APPS + provider + '/issues/')
+        axios.get(ENDPOINT_MY_APPS + provider + '/issues/', {params:  {task}})
             .then(function(response) {
                 dispatch(listIssuesSuccess(response.data, provider))
             }).catch(function(response) {
@@ -528,10 +528,10 @@ export function listIssuesFailed(error, status_code, provider) {
     }
 }
 
-export function getSlackApp() {
+export function getSlackApp(task=null) {
     return dispatch => {
         dispatch(getSlackAppStart());
-        axios.get(ENDPOINT_MY_APPS  + `${SOCIAL_PROVIDERS.slack}/`)
+        axios.get(ENDPOINT_MY_APPS  + `${SOCIAL_PROVIDERS.slack}/`, {params:  {task}})
             .then(function(response) {
                 dispatch(getSlackAppSuccess(response.data))
             }).catch(function(response) {
@@ -560,10 +560,10 @@ export function getSlackAppFailed(error) {
     }
 }
 
-export function listSlackChannels() {
+export function listSlackChannels(task=null) {
     return dispatch => {
         dispatch(listSlackChannelsStart());
-        axios.get(ENDPOINT_MY_APPS + `${SOCIAL_PROVIDERS.slack}` + '/channels/')
+        axios.get(ENDPOINT_MY_APPS + `${SOCIAL_PROVIDERS.slack}` + '/channels/', {params:  {task}})
             .then(function(response) {
                 dispatch(listSlackChannelsSuccess(response.data))
             }).catch(function(response) {
