@@ -71,10 +71,8 @@ export function authenticate(credentials) {
         axios.post(ENDPOINT_LOGIN, credentials)
             .then(function(response) {
                 dispatch(authSuccess(response.data));
-                //dispatch(listRunningTasks());
-                //dispatch(listRunningProjects());
-            }).catch(function(response) {
-                dispatch(authFailed(response.data));
+            }).catch(function(error) {
+                dispatch(authFailed(error.response?error.response.data:null));
             });
     }
 }
@@ -108,8 +106,8 @@ export function authenticateEmailVisitor(credentials) {
         axios.post(ENDPOINT_EMAIL_VISITOR, credentials)
             .then(function(response) {
                 dispatch(authEmailVisitorSuccess(response.data));
-            }).catch(function(response) {
-            dispatch(authEmailVisitorFailed(response.data));
+            }).catch(function(error) {
+            dispatch(authEmailVisitorFailed(error.response?error.response.data:null));
         });
     }
 }
@@ -142,10 +140,8 @@ export function verify() {
         axios.get(ENDPOINT_VERIFY)
             .then(function(response) {
                 dispatch(verifySuccess(response.data));
-                //dispatch(listRunningTasks());
-                //dispatch(listRunningProjects());
-            }).catch(function(response) {
-                //dispatch(verifyFailed(response.data));
+            }).catch(function(error) {
+                //dispatch(verifyFailed(error.response?error.response.data:null));
                 dispatch(verifyEmailVisitor());
             });
     }
@@ -177,8 +173,8 @@ export function verifyEmailVisitor() {
         axios.get(ENDPOINT_EMAIL_VISITOR)
             .then(function(response) {
                 dispatch(verifyEmailVisitorSuccess(response.data));
-            }).catch(function(response) {
-                dispatch(verifyEmailVisitorFailed(response.data));
+            }).catch(function(error) {
+                dispatch(verifyEmailVisitorFailed(error.response?error.response.data:null));
         });
     }
 }
@@ -209,8 +205,8 @@ export function logout() {
         axios.post(ENDPOINT_LOGOUT, {})
             .then(function() {
                 dispatch(logoutSuccess())
-            }).catch(function(response) {
-                dispatch(logoutFailed(response.data))
+            }).catch(function(error) {
+                dispatch(logoutFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -246,8 +242,8 @@ export function register(details) {
                 var method = AUTH_METHODS.EMAIL;
                 sendTwitterSignUpEvent({user_type, method});
 
-            }).catch(function(response) {
-                dispatch(registerFailed(response.data));
+            }).catch(function(error) {
+                dispatch(registerFailed(error.response?error.response.data:null));
             });
     }
 }
@@ -282,8 +278,8 @@ export function apply(details) {
         axios.post(ENDPOINT_APPLY, details)
             .then(function(response) {
                 dispatch(applySuccess(response.data))
-            }).catch(function(response) {
-                dispatch(applyFailed(response.data))
+            }).catch(function(error) {
+                dispatch(applyFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -316,8 +312,8 @@ export function retrieveApplication(key) {
         axios.get(ENDPOINT_APPLY + 'key/' + key + '/')
             .then(function(response) {
                 dispatch(retrieveApplicationSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(retrieveApplicationFailed(response.data))
+            }).catch(function(error) {
+                dispatch(retrieveApplicationFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -349,8 +345,8 @@ export function resetPassword(email) {
         axios.post(ENDPOINT_RESET_PASSWORD, email)
             .then(function(response) {
                 dispatch(resetPasswordSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(resetPasswordFailed(response.data))
+            }).catch(function(error) {
+                dispatch(resetPasswordFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -384,8 +380,8 @@ export function resetPasswordConfirm(credentials) {
         axios.post(ENDPOINT_RESET_PASSWORD_CONFIRM, credentials)
             .then(function(response) {
                 dispatch(resetPasswordConfirmSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(resetPasswordConfirmFailed(response.data))
+            }).catch(function(error) {
+                dispatch(resetPasswordConfirmFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -425,8 +421,8 @@ export function listRunningTasks() {
         axios.get(ENDPOINT_TASK, {params: filter})
             .then(function(response) {
                 dispatch(listRunningTasksSuccess(response.data))
-            }).catch(function(response) {
-            dispatch(listRunningTasksFailed(response.data))
+            }).catch(function(error) {
+            dispatch(listRunningTasksFailed(error.response?error.response.data:null))
         });
     }
 }
@@ -461,8 +457,8 @@ export function listRepos(provider, task=null) {
         axios.get(ENDPOINT_MY_APPS + provider + '/repos/', {params:  {task}})
             .then(function(response) {
                 dispatch(listReposSuccess(response.data, provider))
-            }).catch(function(response) {
-            dispatch(listReposFailed(response.data, response.status, provider))
+            }).catch(function(error) {
+            dispatch(listReposFailed(error.response?error.response.data:null, error.response?error.response.status:null, provider))
         });
     }
 }
@@ -498,8 +494,8 @@ export function listIssues(provider, task=null) {
         axios.get(ENDPOINT_MY_APPS + provider + '/issues/', {params:  {task}})
             .then(function(response) {
                 dispatch(listIssuesSuccess(response.data, provider))
-            }).catch(function(response) {
-            dispatch(listIssuesFailed(response.data, response.status, provider))
+            }).catch(function(error) {
+            dispatch(listIssuesFailed(error.response?error.response.data:null, error.response?error.response.status:null, provider))
         });
     }
 }
@@ -534,8 +530,8 @@ export function getSlackApp(task=null) {
         axios.get(ENDPOINT_MY_APPS  + `${SOCIAL_PROVIDERS.slack}/`, {params:  {task}})
             .then(function(response) {
                 dispatch(getSlackAppSuccess(response.data))
-            }).catch(function(response) {
-            dispatch(getSlackAppFailed(response.data))
+            }).catch(function(error) {
+            dispatch(getSlackAppFailed(error.response?error.response.data:null))
         });
     }
 }
@@ -566,8 +562,8 @@ export function listSlackChannels(task=null) {
         axios.get(ENDPOINT_MY_APPS + `${SOCIAL_PROVIDERS.slack}` + '/channels/', {params:  {task}})
             .then(function(response) {
                 dispatch(listSlackChannelsSuccess(response.data))
-            }).catch(function(response) {
-            dispatch(listSlackChannelsFailed(response.data, response.status))
+            }).catch(function(error) {
+            dispatch(listSlackChannelsFailed(error.response?error.response.data:null, error.response?error.response.status:null))
         });
     }
 }
@@ -599,8 +595,8 @@ export function invite(details) {
         axios.post(ENDPOINT_INVITE, details)
             .then(function(response) {
                 dispatch(inviteSuccess(response.data))
-            }).catch(function(response) {
-            dispatch(inviteFailed(response.data))
+            }).catch(function(error) {
+            dispatch(inviteFailed(error.response?error.response.data:null))
         });
     }
 }
@@ -633,8 +629,8 @@ export function retrieveInvite(key) {
         axios.get(ENDPOINT_INVITE + 'key/' + key + '/')
             .then(function(response) {
                 dispatch(retrieveInviteSuccess(response.data))
-            }).catch(function(response) {
-            dispatch(retrieveInviteFailed(response.data))
+            }).catch(function(error) {
+            dispatch(retrieveInviteFailed(error.response?error.response.data:null))
         });
     }
 }
