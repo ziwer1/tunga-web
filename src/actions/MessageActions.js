@@ -57,8 +57,8 @@ export function createMessage(message, attachments) {
             axios.post(ENDPOINT_MESSAGE, message)
                 .then(function(response) {
                     dispatch(createMessageSuccess(response.data));
-                }).catch(function(response) {
-                    dispatch(createMessageFailed(response.data));
+                }).catch(function(error) {
+                    dispatch(createMessageFailed(error.response?error.response.data:null));
                 });
         }
     }
@@ -95,8 +95,8 @@ export function listMessages(filter) {
                     dispatch(updateChannelRead(filter.channel, {last_read: response.data.results[0].id}));
                 }
                 dispatch(listMessagesSuccess(response.data, filter, get_new));
-            }).catch(function(response) {
-                dispatch(listMessagesFailed(response.data, filter, get_new));
+            }).catch(function(error) {
+                dispatch(listMessagesFailed(error.response?error.response.data:null, filter, get_new));
             });
     }
 }
@@ -133,8 +133,8 @@ export function retrieveMessage(id) {
         axios.get(ENDPOINT_MESSAGE + id + '/')
             .then(function(response) {
                 dispatch(retrieveMessageSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(retrieveMessageFailed(response.data))
+            }).catch(function(error) {
+                dispatch(retrieveMessageFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -166,8 +166,8 @@ export function updateMessage(id, data) {
         axios.patch(ENDPOINT_MESSAGE + id + '/', data)
             .then(function(response) {
                 dispatch(updateMessageSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(updateMessageFailed(response.data))
+            }).catch(function(error) {
+                dispatch(updateMessageFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -200,8 +200,8 @@ export function deleteMessage(id) {
         axios.delete(ENDPOINT_MESSAGE + id + '/')
             .then(function() {
                 dispatch(deleteMessageSuccess(id))
-            }).catch(function(response) {
-                dispatch(deleteMessageFailed(response.data))
+            }).catch(function(error) {
+                dispatch(deleteMessageFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -233,8 +233,8 @@ export function updateMessageRead(id) {
         axios.post(ENDPOINT_MESSAGE + id + '/read/')
             .then(function(response) {
                 dispatch(updateMessageReadSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(updateMessageReadFailed(response.data))
+            }).catch(function(error) {
+                dispatch(updateMessageReadFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -266,8 +266,8 @@ export function listMoreMessages(url) {
         axios.get(url)
             .then(function(response) {
                 dispatch(listMoreMessagesSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(listMoreMessagesFailed(response.data))
+            }).catch(function(error) {
+                dispatch(listMoreMessagesFailed(error.response?error.response.data:null))
             });
     }
 }

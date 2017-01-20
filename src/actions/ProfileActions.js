@@ -64,8 +64,8 @@ export function updateAuthUser(user) {
             axios.patch(ENDPOINT_USER_INFO, user)
                 .then(function(response) {
                     dispatch(updateAuthUserSuccess(response.data))
-                }).catch(function(response) {
-                    dispatch(updateAuthUserFailed(response.data))
+                }).catch(function(error) {
+                    dispatch(updateAuthUserFailed(error.response?error.response.data:null))
                 });
         }
     }
@@ -103,8 +103,8 @@ export function updateAccountInfo(user) {
         axios.patch(ENDPOINT_ACCOUNT_INFO, user)
             .then(function(response) {
                 dispatch(updateAccountInfoSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(updateAccountInfoFailed(response.data))
+            }).catch(function(error) {
+                dispatch(updateAccountInfoFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -135,8 +135,8 @@ export function retrieveProfile() {
         axios.get(ENDPOINT_USER_INFO)
             .then(function(response) {
                 dispatch(retrieveProfileSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(retrieveProfileFailed(response.data))
+            }).catch(function(error) {
+                dispatch(retrieveProfileFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -189,8 +189,8 @@ export function updateProfile(id, profile) {
             axios.request({url: ENDPOINT_PROFILE, method: request_method, data: profile})
                 .then(function(response) {
                     dispatch(updateProfileSuccess(response.data))
-                }).catch(function(response) {
-                dispatch(updateProfileFailed(response.data))
+                }).catch(function(error) {
+                dispatch(updateProfileFailed(error.response?error.response.data:null))
             });
         }
     }
@@ -223,8 +223,8 @@ export function updatePassword(credentials) {
         axios.post(ENDPOINT_CHANGE_PASSWORD, credentials)
             .then(function(response) {
                 dispatch(updatePasswordSuccess())
-            }).catch(function(response) {
-                dispatch(updatePasswordFailed(response.data))
+            }).catch(function(error) {
+                dispatch(updatePasswordFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -254,8 +254,8 @@ export function createWork(work) {
         axios.post(ENDPOINT_USER_WORK, work)
             .then(function(response) {
                 dispatch(createWorkSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(createWorkFailed(response.data))
+            }).catch(function(error) {
+                dispatch(createWorkFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -287,8 +287,8 @@ export function updateWork(id, data) {
         axios.patch(ENDPOINT_USER_WORK + id + '/', data)
             .then(function(response) {
                 dispatch(updateWorkSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(updateWorkFailed(response.data))
+            }).catch(function(error) {
+                dispatch(updateWorkFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -320,8 +320,8 @@ export function createEducation(education) {
         axios.post(ENDPOINT_USER_EDUCATION, education)
             .then(function(response) {
                 dispatch(createEducationSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(createEducationFailed(response.data))
+            }).catch(function(error) {
+                dispatch(createEducationFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -353,8 +353,8 @@ export function updateEducation(id, data) {
         axios.patch(ENDPOINT_USER_EDUCATION + id + '/', data)
             .then(function(response) {
                 dispatch(updateEducationSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(updateEducationFailed(response.data))
+            }).catch(function(error) {
+                dispatch(updateEducationFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -386,8 +386,8 @@ export function getCountries() {
         axios.get(ENDPOINT_COUNTRIES)
             .then(function(response) {
                 dispatch(getCountriesSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(getCountriesFailed(response.data))
+            }).catch(function(error) {
+                dispatch(getCountriesFailed(error.response?error.response.data:null))
             });
     }
 }
