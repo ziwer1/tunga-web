@@ -79,8 +79,8 @@ export function createTask(task, attachments) {
             axios.post(ENDPOINT_TASK, task)
                 .then(function(response) {
                     dispatch(createTaskSuccess(response.data))
-                }).catch(function(response) {
-                dispatch(createTaskFailed(response.data))
+                }).catch(function(error) {
+                dispatch(createTaskFailed(error.response?error.response.data:null))
             });
         }
     }
@@ -115,8 +115,8 @@ export function listTasks(filter) {
         axios.get(ENDPOINT_TASK, {params: filter})
             .then(function(response) {
                 dispatch(listTasksSuccess(response.data, filter))
-            }).catch(function(response) {
-                dispatch(listTasksFailed(response.data))
+            }).catch(function(error) {
+                dispatch(listTasksFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -152,8 +152,8 @@ export function listMoreTasks(url) {
         axios.get(url)
             .then(function(response) {
                 dispatch(listMoreTasksSuccess(response.data))
-            }).catch(function(response) {
-            dispatch(listMoreTasksFailed(response.data))
+            }).catch(function(error) {
+            dispatch(listMoreTasksFailed(error.response?error.response.data:null))
         });
     }
 }
@@ -188,8 +188,8 @@ export function retrieveTask(id) {
         axios.get(ENDPOINT_TASK + id + '/')
             .then(function(response) {
                 dispatch(retrieveTaskSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(retrieveTaskFailed(response.data))
+            }).catch(function(error) {
+                dispatch(retrieveTaskFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -251,8 +251,8 @@ export function updateTask(id, data, uploads) {
             axios.patch(ENDPOINT_TASK + id + '/', data)
                 .then(function(response) {
                     dispatch(updateTaskSuccess(response.data))
-                }).catch(function(response) {
-                dispatch(updateTaskFailed(response.data))
+                }).catch(function(error) {
+                dispatch(updateTaskFailed(error.response?error.response.data:null));
             });
         }
     }
@@ -294,8 +294,8 @@ export function deleteTask(id) {
         axios.delete(ENDPOINT_TASK + id + '/')
             .then(function() {
                 dispatch(deleteTaskSuccess(id));
-            }).catch(function(response) {
-                dispatch(deleteTaskFailed(response.data));
+            }).catch(function(error) {
+                dispatch(deleteTaskFailed(error.response?error.response.data:null));
             });
     }
 }
@@ -331,8 +331,8 @@ export function listTaskActivity(id, filter) {
                     dispatch(updateTaskRead(id, {last_read: response.data.results[0].id}));
                 }
                 dispatch(listTaskActivitySuccess(response.data, id, filter, get_new))
-            }).catch(function(response) {
-            dispatch(listTaskActivityFailed(response.data, id, get_new))
+            }).catch(function(error) {
+            dispatch(listTaskActivityFailed(error.response?error.response.data:null, id, get_new))
         });
     }
 }
@@ -374,8 +374,8 @@ export function listMoreTaskActivity(url) {
         axios.get(url)
             .then(function(response) {
                 dispatch(listMoreTaskActivitySuccess(response.data, id));
-            }).catch(function(response) {
-            dispatch(listMoreTaskActivityFailed(response.data, id));
+            }).catch(function(error) {
+            dispatch(listMoreTaskActivityFailed(error.response?error.response.data:null, id));
         });
     }
 }
@@ -413,8 +413,8 @@ export function createTaskIntegration(id, provider, data) {
         axios.post(ENDPOINT_TASK + id + '/integration/' + provider + '/', data)
             .then(function(response) {
                 dispatch(createTaskIntegrationSuccess(response.data, provider))
-            }).catch(function(response) {
-            dispatch(createTaskIntegrationFailed(response.data, provider))
+            }).catch(function(error) {
+            dispatch(createTaskIntegrationFailed(error.response?error.response.data:null, provider))
         });
     }
 }
@@ -425,8 +425,8 @@ export function updateTaskRead(id, data) {
         axios.post(ENDPOINT_TASK + id + '/read/', data)
             .then(function(response) {
                 dispatch(updateTaskReadSuccess(response.data));
-            }).catch(function(response) {
-            dispatch(updateTaskReadFailed(response.data));
+            }).catch(function(error) {
+            dispatch(updateTaskReadFailed(error.response?error.response.data:null));
         });
     }
 }
@@ -483,8 +483,8 @@ export function retrieveTaskIntegration(id, provider) {
         axios.get(ENDPOINT_TASK + id + '/integration/' + provider + '/')
             .then(function(response) {
                 dispatch(retrieveTaskIntegrationSuccess(response.data, provider))
-            }).catch(function(response) {
-            dispatch(retrieveTaskIntegrationFailed(response.data, provider))
+            }).catch(function(error) {
+            dispatch(retrieveTaskIntegrationFailed(error.response?error.response.data:null, provider))
         });
     }
 }
@@ -521,8 +521,8 @@ export function createTaskInvoice(id, data) {
         axios.post(ENDPOINT_TASK + id + '/invoice/', data)
             .then(function(response) {
                 dispatch(createTaskInvoiceSuccess(response.data))
-            }).catch(function(response) {
-            dispatch(createTaskInvoiceFailed(response.data))
+            }).catch(function(error) {
+            dispatch(createTaskInvoiceFailed(error.response?error.response.data:null))
         });
     }
 }
@@ -554,8 +554,8 @@ export function retrieveTaskInvoice(id) {
         axios.get(ENDPOINT_TASK + id + '/invoice/')
             .then(function(response) {
                 dispatch(retrieveTaskInvoiceSuccess(response.data))
-            }).catch(function(response) {
-            dispatch(retrieveTaskInvoiceFailed(response.data))
+            }).catch(function(error) {
+            dispatch(retrieveTaskInvoiceFailed(error.response?error.response.data:null))
         });
     }
 }
