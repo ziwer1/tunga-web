@@ -71,8 +71,8 @@ export function authenticate(credentials) {
         axios.post(ENDPOINT_LOGIN, credentials)
             .then(function(response) {
                 dispatch(authSuccess(response.data));
-                dispatch(listRunningTasks());
-                dispatch(listRunningProjects());
+                //dispatch(listRunningTasks());
+                //dispatch(listRunningProjects());
             }).catch(function(response) {
                 dispatch(authFailed(response.data));
             });
@@ -142,8 +142,8 @@ export function verify() {
         axios.get(ENDPOINT_VERIFY)
             .then(function(response) {
                 dispatch(verifySuccess(response.data));
-                dispatch(listRunningTasks());
-                dispatch(listRunningProjects());
+                //dispatch(listRunningTasks());
+                //dispatch(listRunningProjects());
             }).catch(function(response) {
                 //dispatch(verifyFailed(response.data));
                 dispatch(verifyEmailVisitor());

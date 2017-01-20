@@ -7,7 +7,6 @@ import momentLocalizer from 'react-widgets/lib/localizers/moment';
 import DateTimePicker from 'react-widgets/lib/DateTimePicker';
 import TinyMCE  from 'react-tinymce';
 import Dropzone from 'react-dropzone';
-import Progress from './status/Progress';
 import FormStatus from './status/FormStatus';
 import FieldError from './status/FieldError';
 import UserSelector from '../containers/UserSelector';
@@ -32,7 +31,7 @@ export default class TaskForm extends ComponentWithModal {
         UPDATE_SCHEDULE_CHOICES.forEach((schedule) => {
             schedule_options.push({id: `${schedule.number}_${schedule.unit}`, name: schedule.name});
             schedule_map[`${schedule.number}_${schedule.unit}`] = {update_interval: schedule.number, update_interval_units: schedule.unit};
-        })
+        });
         this.state = {
             deadline: null, skills: [], description: '', remarks: '', visibility: VISIBILITY_DEVELOPERS,
             assignee: null, participants: [], schedule_options, schedule_map,
@@ -231,19 +230,23 @@ export default class TaskForm extends ComponentWithModal {
         }
         var milestones = this.state.milestones;
 
-        const { TaskActions } = this.props;
-        var project = this.refs.project.value.trim();
+        const { TaskActions, project } = this.props;
+        //var project = this.refs.project.value.trim();
         const task = this.props.task || {};
         const selected_skills = this.state.skills;
         const skills = selected_skills.join(',');
         const attachments = this.state.attachments;
 
         const task_info = {
-            project, title, description, remarks, skills, url, fee, visibility,
+            title, description, remarks, skills, url, fee, visibility,
             assignee, participants, milestones, ...update_schedule
         };
         if(deadline) {
-            task_info['deadline'] = deadline;
+            task_info.deadline = deadline;
+        }
+
+        if(project && project.id) {
+            task_info.parent = project.id;
         }
 
         if(task.id) {
@@ -275,8 +278,9 @@ export default class TaskForm extends ComponentWithModal {
     }
 
     render() {
-        const { Auth, Task } = this.props;
+        const { Auth, Task, project } = this.props;
         const task = this.props.task || {};
+        let is_milestone_task = project && project.id;
 
         if(!Auth.user.can_contribute) {
             return (
@@ -298,7 +302,7 @@ export default class TaskForm extends ComponentWithModal {
         return (
             <div className="form-wrapper">
                 {this.renderModalContent()}
-                {task.id?null:(
+                {task.id || is_milestone_task?null:(
                 <h2 className="title">Post a task</h2>
                     )}
 
@@ -341,6 +345,7 @@ export default class TaskForm extends ComponentWithModal {
                                            skills={task.details?task.details.skills:[]}/>
                         </div>
 
+                        {/*
                         {(Task.detail.error.create && Task.detail.error.create.project)?
                             (<FieldError message={Task.detail.error.create.project}/>):null}
                         {(Task.detail.error.update && Task.detail.error.update.project)?
@@ -360,8 +365,9 @@ export default class TaskForm extends ComponentWithModal {
                                 </div>
                             </div>
                         </div>
+                         */}
                     </div>
-
+                    
                     <div className={this.state.step == 2 || has_error || this.state.showAll?'step':'sr-only'}>
                         {(Task.detail.error.create && Task.detail.error.create.fee)?
                             (<FieldError message={Task.detail.error.create.fee}/>):null}
@@ -494,24 +500,24 @@ export default class TaskForm extends ComponentWithModal {
                                     {this.state.milestones.map((milestone, idx) => {
                                         const tooltip = (<Tooltip id="tooltip"><strong>{milestone.title}</strong><br/>{milestone.due_at?moment.utc(milestone.due_at).local().format('Do, MMMM YYYY, h:mm a'):null}</Tooltip>);
                                         return (
-                                        <OverlayTrigger key={milestone.due_at} placement="top"
-                                                        overlay={tooltip}>
-                                            <Button bsStyle="default"
-                                                    onClick={this.onComposeMilestone.bind(this, {...milestone, idx})}>
-                                                {_.truncate(milestone.title, {length: 25})}
-                                            </Button>
-                                        </OverlayTrigger>
-                                            )
-                                        })}
+                                            <OverlayTrigger key={milestone.due_at} placement="top"
+                                                            overlay={tooltip}>
+                                                <Button bsStyle="default"
+                                                        onClick={this.onComposeMilestone.bind(this, {...milestone, idx})}>
+                                                    {_.truncate(milestone.title, {length: 25})}
+                                                </Button>
+                                            </OverlayTrigger>
+                                        )
+                                    })}
                                     {this.state.deadline?(
-                                    <OverlayTrigger placement="top"
-                                                    overlay={<Tooltip id="tooltip">
+                                        <OverlayTrigger placement="top"
+                                                        overlay={<Tooltip id="tooltip">
                                                     <strong>Hand over final draft</strong><br/>
                                                     {moment.utc(this.state.deadline).subtract(1, 'days').local().format('Do, MMMM YYYY, h:mm a')}
                                                     </Tooltip>}>
-                                        <Button bsStyle="default">{_.truncate('Hand over final draft', {length: 25})}</Button>
-                                    </OverlayTrigger>
-                                        ):null}
+                                            <Button bsStyle="default">{_.truncate('Hand over final draft', {length: 25})}</Button>
+                                        </OverlayTrigger>
+                                    ):null}
                                 </ButtonGroup>
                             </div>
                             <div>
@@ -520,7 +526,12 @@ export default class TaskForm extends ComponentWithModal {
                         </div>
 
                         <div className="text-center">
-                            <button type="submit" onClick={this.showAll.bind(this)} className="btn" disabled={Task.detail.isSaving}>{task.id?'Update task':'Publish task'}</button>
+                            <button type="submit"
+                                    onClick={this.showAll.bind(this)}
+                                    className="btn"
+                                    disabled={Task.detail.isSaving}>
+                                {task.id?'Update':'Publish'} {task.is_project?'project':'task'}
+                            </button>
                         </div>
                     </div>
                     <div className="nav text-center">

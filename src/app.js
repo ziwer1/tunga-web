@@ -39,6 +39,8 @@ import ProjectPage from 'containers/ProjectPage';
 import ProjectForm from 'components/ProjectForm';
 import Project from 'components/Project';
 import ProjectDetail from 'components/ProjectDetail';
+import ProjectBoard from 'components/ProjectBoard';
+import ProjectTaskForm from 'components/ProjectTaskForm';
 import TaskPage from 'containers/TaskPage';
 import TaskList from 'components/TaskList';
 import TaskForm from 'components/TaskForm';
@@ -144,6 +146,8 @@ ReactDOM.render(
                                 <Route path="edit" component={TaskForm} crumb="Edit"/>
                                 <Route path="apply" component={ApplicationForm} crumb="Apply"/>
                                 <Route path="applications" component={ApplicationList} crumb="Applications"/>
+                                <Route path="board" component={ProjectBoard} crumb="Project Board"/>
+                                <Route path="task/new" component={ProjectTaskForm} crumb="Add task"/>
                                 <Route path="integrations" component={IntegrationList} crumb="Integrations">
                                     <IndexRedirect to="github" />
                                     <Route path=":provider" crumb="Integrations"/>

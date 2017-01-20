@@ -19,6 +19,11 @@ export default class Task extends React.Component {
         if(this.props.params.taskId != prevProps.params.taskId) {
             this.props.TaskActions.retrieveTask(this.props.params.taskId);
         }
+
+        if(this.props.Task.detail.isSaved && !prevProps.Task.detail.isSaved && this.props.Task.detail.id != this.props.params.taskId) {
+            const { router } = this.context;
+            router.replace(`/task/${this.props.Task.detail.task.id}`);
+        }
     }
 
     getLastRoute() {
@@ -48,6 +53,15 @@ export default class Task extends React.Component {
         let meta_title = 'Tunga | ' + task.summary;
         let meta_description = render_excerpt(task.description) || task.summary;
 
+        var crumb_parents = [];
+
+        if(task) {
+            if(task.parent) {
+                crumb_parents.push({name: task.details.parent.title, link: `/task/${task.parent}?nr=true`});
+            }
+            crumb_parents.push({name: task.title, link: `/task/${task.id}?nr=true`});
+        }
+
         return (
             Task.detail.isRetrieving?
             (<Progress/>)
@@ -72,7 +86,7 @@ export default class Task extends React.Component {
                 <div>
                     <BreadCrumb
                         section={getRouteCrumb(routes)}
-                        parents={task?[{name: task.title, link: `/task/${task.id}?nr=true`}]:[]} />
+                        parents={crumb_parents} />
 
                     {this.renderChildren()}
                 </div>
@@ -86,3 +100,7 @@ export default class Task extends React.Component {
         );
     }
 }
+
+Task.contextTypes = {
+    router: React.PropTypes.object.isRequired
+};

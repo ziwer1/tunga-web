@@ -1735,6 +1735,17 @@ activity-list {
         margin-bottom: 10px;
     }
 
+    .title>span+span:before {
+        padding: 0 5px;
+        color: #ccc;
+        font-size: 80%;
+        content: "/\00a0";
+    }
+
+    .title .small {
+        font-size: 80%;
+    }
+
     .dropdown {
         .dropdown-toggle {
             background: #fff none;
@@ -1794,12 +1805,15 @@ activity-list {
     .duration {
         position: absolute;
         top: 0;
-        left: 11px;
+        left: 0;
+        width: 100%;
 
         svg {
             stroke-width: 20px;
             stroke: @primary;
             min-height: 220px;
+            display: block;
+            margin: 0 auto;
         }
     }
 

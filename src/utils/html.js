@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import striptags from 'striptags'
 
 export function nl_to_br(str) {
     if(str) {
@@ -18,3 +19,6 @@ export function objectToQueryString (obj) {
     return qs;
 }
 
+export function render_summary(body, length=200) {
+    return _.truncate(striptags((body || "").trim().replace('&nbsp;', '')), {length: length, separator: ''});
+}

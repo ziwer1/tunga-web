@@ -14,6 +14,7 @@ import MilestonePage from '../containers/MilestonePage';
 import Milestone from './Milestone';
 
 import {parse_task_status} from '../utils/tasks';
+import {render_summary} from '../utils/html';
 import {getTaskKey} from '../utils/reducers';
 import { SOCIAL_PROVIDERS } from '../constants/Api';
 
@@ -234,7 +235,12 @@ export default class TaskWorflow extends ComponentWithModal {
                 <div className="workflow-head clearfix">
                     <div className="pull-left" style={{marginBottom: '10px'}}>
                         <div className="title">
-                            <Link to={`/task/${task.id}/`}>{task.title}</Link>
+                            {task.parent && task.details?(
+                                <span><Link to={`/task/${task.parent}/`} className="small">{render_summary(task.details.parent.title, 30)}</Link></span>
+                            ):null}
+                            <span>
+                                <Link to={`/task/${task.id}/`}>{task.title}</Link>
+                            </span>
                         </div>
                         <div className="task-status"><i className={"fa fa-circle " + task_status.css}/> {task_status.message}</div>
                     </div>
@@ -276,13 +282,15 @@ export default class TaskWorflow extends ComponentWithModal {
                                                     </button>
                                                 )}
                                             </li>
-                                            <li>
-                                                {task.apply?(
-                                                    <button type="button" className="btn " onClick={this.handleCloseApplications.bind(this)}>Close applications</button>
-                                                ):(
-                                                    <button type="button" className="btn " onClick={this.handleOpenApplications.bind(this)}>Open applications</button>
-                                                )}
-                                            </li>
+                                            {task.closed?null:(
+                                                <li>
+                                                    {task.apply?(
+                                                        <button type="button" className="btn " onClick={this.handleCloseApplications.bind(this)}>Close applications</button>
+                                                    ):(
+                                                        <button type="button" className="btn " onClick={this.handleOpenApplications.bind(this)}>Open applications</button>
+                                                    )}
+                                                </li>
+                                            )}
                                             {task.closed && !task.paid && Auth.user.is_staff ? (
                                                 <li>
                                                     <button type="button"
@@ -317,8 +325,10 @@ export default class TaskWorflow extends ComponentWithModal {
                     <div className="pull-left">
                         {(is_admin_or_owner || can_edit_shares) ? (
                             <ul className="workflow-steps">
-                                <li><IndexLink to={`/task/${task.id}/`} activeClassName="active">Task
-                                    workflow</IndexLink>
+                                <li>
+                                    <IndexLink to={`/task/${task.id}/`} activeClassName="active">
+                                        {task.is_project?"Project":"Task"} workflow
+                                    </IndexLink>
                                 </li>
                                 {is_admin_or_owner ? (
                                     [
@@ -328,6 +338,14 @@ export default class TaskWorflow extends ComponentWithModal {
                                                 Go to applications
                                             </Link>
                                         </li>,
+                                        task.is_project?(
+                                            <li key="board">
+                                                <Link to={`/task/${task.id}/board/`}
+                                                      activeClassName="active">
+                                                    Project Board
+                                                </Link>
+                                            </li>
+                                        ):null,
                                         <li key="payment">
                                             <Link to={can_pay?`/task/${task.id}/pay/`:workflow_link}
                                                   activeClassName="active"
@@ -364,7 +382,7 @@ export default class TaskWorflow extends ComponentWithModal {
                         ) : null}
                     </div>
 
-                    {is_admin_or_owner ? (
+                    {is_admin_or_owner && !task.parent ? (
                         <ul className="integration-options pull-right">
                             <li>
                                 <Link to={`/task/${task.id}/integrations/${SOCIAL_PROVIDERS.github}`}

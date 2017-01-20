@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router';
 import { Breadcrumb } from 'react-bootstrap';
 
+import {render_summary} from '../utils/html';
+
 export default class BreadCrumb extends React.Component {
 
     render() {
@@ -12,7 +14,7 @@ export default class BreadCrumb extends React.Component {
                 <Breadcrumb>
                     {parents.map((item) => {
                         return (
-                            <li key={item.toString()}><Link to={item.link}>{item.name}</Link></li>
+                            <li key={item.name}><Link to={item.link}>{render_summary(item.name, 30)}</Link></li>
                         );
                     })}
                     <Breadcrumb.Item active>{section}</Breadcrumb.Item>

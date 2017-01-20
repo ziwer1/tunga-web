@@ -32,7 +32,7 @@ export default class TaskList extends React.Component {
     }
 
     render() {
-        const { Auth, Task, TaskActions, hide_header } = this.props;
+        const { Auth, Task, TaskActions, hide_header, emptyListText } = this.props;
         let filter = this.getFilter();
         let skill = this.getSkill();
 
@@ -84,7 +84,7 @@ export default class TaskList extends React.Component {
                         </div>
                         <LoadMore url={Task.list.next} callback={TaskActions.listMoreTasks} loading={Task.list.isFetchingMore}/>
                         {Task.list.ids.length?'':(
-                        <div className="alert alert-info">No tasks match your query</div>
+                        <div className="alert alert-info">{emptyListText}</div>
                             )}
                     </div>)
                     }
@@ -92,3 +92,11 @@ export default class TaskList extends React.Component {
         );
     }
 }
+
+TaskList.propTypes = {
+    emptyListText: React.PropTypes.string
+};
+
+TaskList.defaultProps = {
+    emptyListText: 'No tasks match your query'
+};
