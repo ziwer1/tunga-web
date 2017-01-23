@@ -15,8 +15,8 @@ export function retrieveSettings() {
         axios.get(ENDPOINT_ACCOUNT_SETTINGS)
             .then(function(response) {
                 dispatch(retrieveSettingsSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(retrieveSettingsFailed(response.data))
+            }).catch(function(error) {
+                dispatch(retrieveSettingsFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -46,8 +46,8 @@ export function updateSettings(settings) {
         axios.put(ENDPOINT_ACCOUNT_SETTINGS, settings)
             .then(function(response) {
                 dispatch(updateSettingsSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(updateSettingsFailed(response.data))
+            }).catch(function(error) {
+                dispatch(updateSettingsFailed(error.response?error.response.data:null))
             });
     }
 }

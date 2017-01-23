@@ -15,8 +15,8 @@ export function getUserSuggestions(filter, selection) {
         axios.get(ENDPOINT_USER, {params: filter})
             .then(function(response) {
                 dispatch(getUserSuggestionsSuccess(response.data, selection))
-            }).catch(function(response) {
-                dispatch(getUserSuggestionsFailed(response.data, selection))
+            }).catch(function(error) {
+                dispatch(getUserSuggestionsFailed(error.response?error.response.data:null, selection))
             });
     }
 }

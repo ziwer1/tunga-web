@@ -11,8 +11,8 @@ export function getNotifications() {
         axios.get(ENDPOINT_NOTIFICATION)
             .then(function(response) {
                 dispatch(getNotificationsSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(getNotificationsFailed(response.data))
+            }).catch(function(error) {
+                dispatch(getNotificationsFailed(error.response?error.response.data:null))
             });
     }
 }

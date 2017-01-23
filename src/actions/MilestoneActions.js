@@ -50,8 +50,8 @@ export function createMilestone(milestone, attachments) {
             axios.post(ENDPOINT_MILESTONE, milestone)
                 .then(function(response) {
                     dispatch(createMilestoneSuccess(response.data));
-                }).catch(function(response) {
-                    dispatch(createMilestoneFailed(response.data));
+                }).catch(function(error) {
+                    dispatch(createMilestoneFailed(error.response?error.response.data:null));
                 });
         }
     }

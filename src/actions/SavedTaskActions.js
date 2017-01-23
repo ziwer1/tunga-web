@@ -23,8 +23,8 @@ export function createSavedTask(saved_task) {
         axios.post(ENDPOINT_SAVED_TASK, saved_task)
             .then(function(response) {
                 dispatch(createSavedTaskSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(createSavedTaskFailed(response.data))
+            }).catch(function(error) {
+                dispatch(createSavedTaskFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -56,8 +56,8 @@ export function listSavedTasks(filter) {
         axios.get(ENDPOINT_SAVED_TASK, {params: filter})
             .then(function(response) {
                 dispatch(listSavedTasksSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(listSavedTasksFailed(response.data))
+            }).catch(function(error) {
+                dispatch(listSavedTasksFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -92,8 +92,8 @@ export function retrieveSavedTask(id) {
         axios.get(ENDPOINT_SAVED_TASK + id + '/')
             .then(function(response) {
                 dispatch(retrieveSavedTaskSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(retrieveSavedTaskFailed(response.data))
+            }).catch(function(error) {
+                dispatch(retrieveSavedTaskFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -125,8 +125,8 @@ export function updateSavedTask(id, data) {
         axios.patch(ENDPOINT_SAVED_TASK + id + '/', data)
             .then(function(response) {
                 dispatch(updateSavedTaskSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(updateSavedTaskFailed(response.data))
+            }).catch(function(error) {
+                dispatch(updateSavedTaskFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -159,8 +159,8 @@ export function deleteSavedTask(id) {
         axios.delete(ENDPOINT_SAVED_TASK + id + '/', {})
             .then(function() {
                 dispatch(deleteSavedTaskSuccess(id))
-            }).catch(function(response) {
-                dispatch(deleteSavedTaskFailed(response.data))
+            }).catch(function(error) {
+                dispatch(deleteSavedTaskFailed(error.response?error.response.data:null))
             });
     }
 }

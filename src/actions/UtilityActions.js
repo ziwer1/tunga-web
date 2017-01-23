@@ -15,8 +15,8 @@ export function sendContactRequest(data) {
             .then(function(response) {
                 dispatch(sendContactRequestSuccess(response.data));
 
-            }).catch(function(response) {
-                dispatch(sendContactRequestFailed(response.data));
+            }).catch(function(error) {
+                dispatch(sendContactRequestFailed(error.response?error.response.data:null));
             });
     }
 }

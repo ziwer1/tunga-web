@@ -55,8 +55,8 @@ export function createProject(project, attachments) {
             axios.post(ENDPOINT_PROJECT, project)
                 .then(function(response) {
                     dispatch(createProjectSuccess(response.data))
-                }).catch(function(response) {
-                dispatch(createProjectFailed(response.data))
+                }).catch(function(error) {
+                dispatch(createProjectFailed(error.response?error.response.data:null))
             });
         }
     }
@@ -89,8 +89,8 @@ export function listProjects(filter) {
         axios.get(ENDPOINT_PROJECT, {params: filter})
             .then(function(response) {
                 dispatch(listProjectsSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(listProjectsFailed(response.data))
+            }).catch(function(error) {
+                dispatch(listProjectsFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -125,8 +125,8 @@ export function retrieveProject(id) {
         axios.get(ENDPOINT_PROJECT + id + '/')
             .then(function(response) {
                 dispatch(retrieveProjectSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(retrieveProjectFailed(response.data))
+            }).catch(function(error) {
+                dispatch(retrieveProjectFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -158,8 +158,8 @@ export function updateProject(id, data) {
         axios.patch(ENDPOINT_PROJECT + id + '/', data)
             .then(function(response) {
                 dispatch(updateProjectSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(updateProjectFailed(response.data))
+            }).catch(function(error) {
+                dispatch(updateProjectFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -191,8 +191,8 @@ export function deleteProject(id) {
         axios.delete(ENDPOINT_PROJECT + id + '/')
             .then(function() {
                 dispatch(deleteProjectSuccess(id));
-            }).catch(function(response) {
-                dispatch(deleteProjectFailed(response.data));
+            }).catch(function(error) {
+                dispatch(deleteProjectFailed(error.response?error.response.data:null));
             });
     }
 }
@@ -225,8 +225,8 @@ export function listRunningProjects() {
         axios.get(ENDPOINT_PROJECT, {params: filter})
             .then(function(response) {
                 dispatch(listRunningProjectsSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(listRunningProjectsFailed(response.data))
+            }).catch(function(error) {
+                dispatch(listRunningProjectsFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -261,8 +261,8 @@ export function listMoreProjects(url) {
         axios.get(url)
             .then(function(response) {
                 dispatch(listMoreProjectsSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(listMoreProjectsFailed(response.data))
+            }).catch(function(error) {
+                dispatch(listMoreProjectsFailed(error.response?error.response.data:null))
             });
     }
 }
