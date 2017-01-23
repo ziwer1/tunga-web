@@ -7,5 +7,5 @@ export const TINY_MCE_CONFIG = {
     default_link_target: "_blank",
     target_list: false,
     content_css: 'https://tunga.io/tinymce.css',
-    content_style: "body {background-color: #f6f6f6;}"
+    content_style: "body {font-family: 'Roboto', sans-serif !important; background-color: #f6f6f6 !important; }"
 };
