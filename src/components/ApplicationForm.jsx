@@ -102,19 +102,19 @@ export default class ApplicationForm extends React.Component {
                             onChange={this.onPitchChange.bind(this)}/>
                     </div>
 
-                    {(Task.detail.error.create && Task.detail.error.create.hours_needed)?
-                        (<FieldError message={Task.detail.error.create.hours_needed}/>):null}
-                    {(Task.detail.error.update && Task.detail.error.update.hours_needed)?
-                        (<FieldError message={Task.detail.error.update.hours_needed}/>):null}
+                    {(Task.detail.applications.error.create && Task.detail.applications.error.create.hours_needed)?
+                        (<FieldError message={Task.detail.applications.error.create.hours_needed}/>):null}
+                    {(Task.detail.applications.error.update && Task.detail.applications.error.update.hours_needed)?
+                        (<FieldError message={Task.detail.applications.error.update.hours_needed}/>):null}
                     <div className="form-group">
                         <label className="control-label">Development hours needed to complete task *</label>
                         <div><input type="text" className="form-control" ref="hours_needed" placeholder="Development hours needed to complete task"/></div>
                     </div>
 
-                    {(Task.detail.error.create && Task.detail.error.create.hours_available)?
-                        (<FieldError message={Task.detail.error.create.hours_available}/>):null}
-                    {(Task.detail.error.update && Task.detail.error.update.hours_available)?
-                        (<FieldError message={Task.detail.error.update.hours_available}/>):null}
+                    {(Task.detail.applications.error.create && Task.detail.applications.error.create.hours_available)?
+                        (<FieldError message={Task.detail.applications.error.create.hours_available}/>):null}
+                    {(Task.detail.applications.error.update && Task.detail.applications.error.update.hours_available)?
+                        (<FieldError message={Task.detail.applications.error.update.hours_available}/>):null}
                     <div className="form-group">
                         <label className="control-label">Hours available to work on task *</label>
                         <div><input type="text" className="form-control" ref="hours_available" placeholder="Hours available to work on task"/></div>
