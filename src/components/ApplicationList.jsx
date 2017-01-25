@@ -4,6 +4,7 @@ import Progress from './status/Progress';
 import UserCardProfile from './UserCardProfile';
 import ComponentWithModal from './ComponentWithModal';
 import LargeModal from './ModalLarge';
+import confirm from '../utils/confirm';
 
 export default class ApplicationList extends ComponentWithModal {
 
@@ -31,9 +32,11 @@ export default class ApplicationList extends ComponentWithModal {
 
     handleCloseApplications() {
         const { TaskActions, Task } = this.props;
-        if(confirm('Confirm close applications')) {
-            TaskActions.updateTask(Task.detail.task.id, {apply: false, apply_closed_at: moment.utc().format()});
-        }
+        confirm('Confirm close applications').then(
+            function () {
+                TaskActions.updateTask(Task.detail.task.id, {apply: false, apply_closed_at: moment.utc().format()});
+            }
+        );
     }
 
     handleOpenApplications() {
@@ -57,9 +60,11 @@ export default class ApplicationList extends ComponentWithModal {
 
     handleRejectApplication(application) {
         const { TaskActions } = this.props;
-        if(confirm(`Decline ${application.user.display_name}'s application`)) {
-            TaskActions.updateApplication(application.id, {accepted: false, responded: true});
-        }
+        confirm(`Decline ${application.user.display_name}'s application`).then(
+            function () {
+                TaskActions.updateApplication(application.id, {accepted: false, responded: true});
+            }
+        );
     }
 
     renderModalContent() {

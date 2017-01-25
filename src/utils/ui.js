@@ -50,4 +50,3 @@ export function resizeSideBar() {
         running.addClass('bottom');
     }
 }
-

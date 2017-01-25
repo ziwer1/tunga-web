@@ -305,6 +305,10 @@ form {
 
 .modal form {
     margin: 0 auto;
+
+    .modal-footer {
+        border-top: 0;
+    }
 }
 
 .btn, a.btn,
@@ -499,6 +503,13 @@ form[name='compose'] {
     li > a > .fa.fa-caret-down {
         display: inline;
     }
+
+    .badge {
+        position: absolute;
+        top: -5px;
+        left: 30px;
+        border: 1px @primary solid;
+    }
 }
 
 #running-tasks.bottom {
@@ -515,10 +526,9 @@ form[name='compose'] {
 .badge,
 .workflow-actions .btn .badge {
     color: @primary;
-    background-color: #fff;
+    background-color: @active-white;
 }
 
-.nav-sidebar .badge,
 .channel-list .badge {
     border: 1px @primary solid;
 }
@@ -600,54 +610,85 @@ form[name='compose'] {
     }
 }
 
-.nav-top-filter {
+.nav-top-filter,
+.nav-top-filter.nav-pills {
     margin-bottom: 10px;
-}
 
-.nav-top-filter a,
-.nav-top-filter .btn,
-.nav-top-filter.nav-pills > li > a {
-    display: inline-block;
-    color: @primary-text;
-    background-color: @inactive-grey;
-    border: 1px @inactive-grey solid;
-    margin: 5px 5px 5px 0;
-    padding: 3px 10px;
-    text-align: left;
-    min-width: 100px;
-    text-decoration: none;
-    border-radius: 5px;
-}
+    a, .btn,
+    > li > a {
+        position: relative;
+        display: inline-block;
+        color: @primary-text;
+        background-color: @inactive-grey;
+        border: 1px @inactive-grey solid;
+        margin: 5px 5px 5px 0;
+        padding: 3px 10px;
+        text-align: left;
+        min-width: 100px;
+        text-decoration: none;
+        border-radius: 5px;
+    }
 
-.nav-top-filter li+li,
-.nav-top-filter.nav-pills > li+li {
-    margin: 0;
-}
+    li+li,
+    > li+li {
+        margin: 0;
+    }
 
-.nav-top-filter a:hover,
-.nav-top-filter .btn:hover,
-.nav-top-filter.nav-pills > li > a:hover,
-.nav-top-filter a:focus,
-.nav-top-filter .btn:focus,
-.nav-top-filter.nav-pills > li > a:focus {
-    color: @primary;
-    background-color: @active-white;
-    border-color: @primary;
-    text-decoration: none;
-}
+    a:hover,
+    .btn:hover,
+    > li > a:hover,
+    a:focus,
+    .btn:focus,
+    > li > a:focus {
+        color: @primary;
+        background-color: @active-white;
+        border-color: @primary;
+        text-decoration: none;
+        outline-width: 0;
+    }
 
-.nav-top-filter a.active,
-.nav-top-filter .btn.active,
-.nav-top-filter.nav-pills > li > a.active,
-.nav-top-filter a.active:hover,
-.nav-top-filter .btn.active:hover,
-.nav-top-filter.nav-pills > li > a.active:hover,
-.nav-top-filter a.active:focus,
-.nav-top-filter .btn.active:focus,
-.nav-top-filter.nav-pills > li > a.active:focus {
-    color: #fff;
-    background-color: @primary;
-    border-color: @primary;
+    a.active,
+    .btn.active,
+    > li > a.active,
+    a.active:hover,
+    .btn.active:hover,
+    > li > a.active:hover,
+    a.active:focus,
+    .btn.active:focus,
+    > li > a.active:focus {
+        color: #fff;
+        background-color: @primary;
+        border-color: @primary;
+        outline-width: 0;
+    }
+
+    .dropdown {
+        .dropdown-menu {
+            background-color: @inactive-grey;
+
+            >li>a,
+            >li>.btn {
+                color: @primary-text;
+                background: @active-white none;
+                width: 100%;
+                margin: 2px;
+            }
+            >li>a:hover,
+            >li>a:active,
+            >li>.btn:hover {
+                color: @primary;
+                background-color: @active-white;
+            }
+        }
+    }
+
+    .badge {
+        position: absolute;
+        z-index: 11;
+        top: -10px;
+        right: -7px;
+        border: 1px @primary solid;
+    }
 }
 
 .workflow-steps {
@@ -908,7 +949,7 @@ form[name='compose'] {
     vertical-align: middle;
 }
 
-description {
+.description {
     margin: 10px 0;
 }
 
@@ -1222,7 +1263,7 @@ description {
 }
 
 .message-list,
-activity-list {
+.activity-list {
     max-width: 800px;
     margin: 10px;
 }
@@ -1878,29 +1919,6 @@ activity-list {
     border-right-color: @primary;
 }
 
-
-.task-actions {
-
-    .dropdown {
-        .dropdown-menu {
-
-            >li>a,
-            >li>.btn {
-                color: @primary;
-                background: @active-white none;
-                width: 100%;
-                margin: 2px;
-            }
-            >li>a:hover,
-            >li>a:active,
-            >li>.btn:hover {
-                color: @active-white;
-                background-color: @primary;
-            }
-        }
-    }
-}
-
 .overview {
     display: flex;
 
@@ -2317,7 +2335,7 @@ activity-list {
     }
 }
 
-.showcase, .modal, chat-widget {
+.showcase, .modal, .chat-widget {
     input, select, textarea, .form-control, .rw-input {
         background-color: @inactive-grey;
     }

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router';
 import { Modal } from 'react-bootstrap';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';

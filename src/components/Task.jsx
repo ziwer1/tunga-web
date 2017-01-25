@@ -20,7 +20,7 @@ export default class Task extends React.Component {
             this.props.TaskActions.retrieveTask(this.props.params.taskId);
         }
 
-        if(this.props.Task.detail.isSaved && !prevProps.Task.detail.isSaved && this.props.Task.detail.id != this.props.params.taskId) {
+        if(this.props.Task.detail.isSaved && !prevProps.Task.detail.isSaved && this.props.Task.detail.task.id != this.props.params.taskId) {
             const { router } = this.context;
             router.replace(`/task/${this.props.Task.detail.task.id}`);
         }
