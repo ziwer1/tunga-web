@@ -36,21 +36,16 @@ export default class TaskForm extends ComponentWithModal {
             deadline: null, skills: [], description: '', remarks: '', visibility: VISIBILITY_DEVELOPERS,
             assignee: null, participants: [], schedule_options, schedule_map,
             step: 1, schedule: null, attachments: [], showAll: false, milestones: [],
-            modalMilestone: null, modalContent: null, modalTitle: '', selected_project: ''
+            modalMilestone: null, modalContent: null, modalTitle: ''
         };
     }
 
     componentWillMount() {
         const task = this.props.task || {};
-        var selected_project = '';
-        if(this.props.params && this.props.params.projectId) {
-            selected_project = this.props.params.projectId;
-        }
         if(task.id) {
             const assignee = task.assignee && task.assignee.user?task.assignee.user.id:null;
             const description = task.description || '';
             const remarks = task.remarks || '';
-            selected_project = task.project || '';
             var participants = [];
             if(task.details) {
                 task.details.participation.forEach((participant) => {
@@ -61,10 +56,8 @@ export default class TaskForm extends ComponentWithModal {
             }
             this.setState({
                 visibility: task.visibility, assignee, participants, description, remarks,
-                schedule: this.getScheduleId(), milestones: task.milestones, selected_project, deadline: task.deadline
+                schedule: this.getScheduleId(), milestones: task.milestones, deadline: task.deadline
             });
-        } else if(selected_project) {
-            this.setState({selected_project});
         }
     }
 
@@ -76,20 +69,11 @@ export default class TaskForm extends ComponentWithModal {
                 this.setState({
                     deadline: null, skills: [], description: '', remarks: '', visibility: VISIBILITY_DEVELOPERS,
                     assignee: null, participants: [], schedule: null, attachments: [], showAll: false,
-                    step: 1, milestones: [], modalMilestone: null, modalContent: null, modalTitle: '',
-                    selected_project: ''
+                    step: 1, milestones: [], modalMilestone: null, modalContent: null, modalTitle: ''
                 });
 
-                var selected_project = '';
-                if(this.props.params && this.props.params.projectId) {
-                    selected_project = this.props.params.projectId;
-                }
                 const { router } = this.context;
-                var next = `/task/${Task.detail.task.id}`;
-                if(selected_project) {
-                    next = `/project/${selected_project}`;
-                }
-                router.replace(next);
+                router.replace(`/task/${Task.detail.task.id}`);
             }
         }
     }
@@ -193,12 +177,6 @@ export default class TaskForm extends ComponentWithModal {
         this.setState({milestones: new_milestones});
     }
 
-    onAddProject(project) {
-        let selected_project = project.id || '';
-        this.setState({selected_project})
-        this.close();
-    }
-
     handleSubmit(e) {
         e.preventDefault();
         var title = this.refs.title.value.trim();
@@ -221,7 +199,6 @@ export default class TaskForm extends ComponentWithModal {
         var milestones = this.state.milestones;
 
         const { TaskActions, project } = this.props;
-        //var project = this.refs.project.value.trim();
         const task = this.props.task || {};
         const selected_skills = this.state.skills;
         const skills = selected_skills.join(',');
