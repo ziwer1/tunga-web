@@ -133,16 +133,6 @@ export default class TaskForm extends ComponentWithModal {
         this.setState({remarks: e.target.getContent()});
     }
 
-    onProjectChange(e) {
-        let selected_project = e.target.value.trim();
-        if(selected_project == 'new') {
-            this.setState({modalContent: 'project', modalTitle: 'Create project', selected_project: ''});
-            this.open();
-        } else {
-            this.setState({selected_project});
-        }
-    }
-
     onSkillChange(skills) {
         this.setState({skills: skills});
     }
@@ -280,7 +270,7 @@ export default class TaskForm extends ComponentWithModal {
     render() {
         const { Auth, Task, project } = this.props;
         const task = this.props.task || {};
-        let is_milestone_task = project && project.id;
+        let is_milestone_task = (project && project.id) || (task && task.parent);
 
         if(!Auth.user.can_contribute) {
             return (
@@ -344,38 +334,16 @@ export default class TaskForm extends ComponentWithModal {
                                            onChange={this.onSkillChange.bind(this)}
                                            skills={task.details?task.details.skills:[]}/>
                         </div>
-
-                        {/*
-                        {(Task.detail.error.create && Task.detail.error.create.project)?
-                            (<FieldError message={Task.detail.error.create.project}/>):null}
-                        {(Task.detail.error.update && Task.detail.error.update.project)?
-                            (<FieldError message={Task.detail.error.update.project}/>):null}
-                        <div className="form-group">
-                            <div>
-                                <label className="control-label">Is this task part of a project?</label>
-                                <div>
-                                    <select type="text" className="form-control" ref="project"
-                                            value={this.state.selected_project} onChange={this.onProjectChange.bind(this)}>
-                                        <option value=''>-- No  --</option>
-                                        {Auth.running.projects.map((project) => {
-                                            return (<option key={project.id} value={project.id}>{project.title}</option>);
-                                            })}
-                                        <option value='new'>Create a project</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                         */}
                     </div>
-                    
+
                     <div className={this.state.step == 2 || has_error || this.state.showAll?'step':'sr-only'}>
                         {(Task.detail.error.create && Task.detail.error.create.fee)?
                             (<FieldError message={Task.detail.error.create.fee}/>):null}
                         {(Task.detail.error.update && Task.detail.error.update.fee)?
                             (<FieldError message={Task.detail.error.update.fee}/>):null}
                         <div className="form-group">
-                            <label className="control-label">Pledge (in Euro) *</label>
-                            <div><input type="text" className="form-control" ref="fee" required placeholder="Pledge in €" defaultValue={task.fee?parseFloat(task.fee).toFixed(2):''}/></div>
+                            <label className="control-label">Pledge (in Euro) {is_milestone_task?' - optional':'*'}</label>
+                            <div><input type="text" className="form-control" ref="fee" required={!is_milestone_task} placeholder="Pledge in €" defaultValue={task.fee?parseFloat(task.fee).toFixed(2):''}/></div>
                             <div style={{marginTop: '10px'}}>13% of pledge goes to Tunga</div>
                         </div>
 
@@ -421,13 +389,15 @@ export default class TaskForm extends ComponentWithModal {
                             (<FieldError message={Task.detail.error.create.remarks}/>):null}
                         {(Task.detail.error.update && Task.detail.error.update.remarks)?
                             (<FieldError message={Task.detail.error.update.remarks}/>):null}
-                        <div className="form-group">
-                            <label className="control-label">Which files can you deliver in order to provide more details for this task?</label>
-                            <TinyMCE
-                                content={remarks}
-                                config={TINY_MCE_CONFIG}
-                                onChange={this.onRemarksChange.bind(this)}/>
-                        </div>
+                        {is_milestone_task?null:(
+                            <div className="form-group">
+                                <label className="control-label">Which files can you deliver in order to provide more details for this task?</label>
+                                <TinyMCE
+                                    content={remarks}
+                                    config={TINY_MCE_CONFIG}
+                                    onChange={this.onRemarksChange.bind(this)}/>
+                            </div>
+                        )}
                     </div>
 
                     <div className={this.state.step == 3 || has_error || this.state.showAll?'step':'sr-only'}>
@@ -435,25 +405,27 @@ export default class TaskForm extends ComponentWithModal {
                             (<FieldError message={Task.detail.error.create.update_schedule}/>):null}
                         {(Task.detail.error.update && Task.detail.error.update.update_schedule)?
                             (<FieldError message={Task.detail.error.update.update_schedule}/>):null}
-                        <div className="form-group">
-                            <label className="control-label">Update preferences *</label>
-                            <div>
-                                <div className="btn-group btn-choices" role="group" aria-label="update preference">
-                                    <button type="button"
-                                            className={"btn " + (!this.state.schedule?' active':'')}
-                                            onClick={this.onUpdateScheduleChange.bind(this, null)}>No updates
-                                    </button>
-                                    {this.state.schedule_options.map(schedule => {
-                                        return (
-                                            <button key={schedule.id} type="button"
-                                                    className={"btn " + (this.state.schedule == schedule.id?' active':'')}
-                                                    onClick={this.onUpdateScheduleChange.bind(this, schedule.id)}>{schedule.name}
-                                            </button>
-                                        )
-                                    })}
+                        {is_milestone_task?null:(
+                            <div className="form-group">
+                                <label className="control-label">Update preferences *</label>
+                                <div>
+                                    <div className="btn-group btn-choices" role="group" aria-label="update preference">
+                                        <button type="button"
+                                                className={"btn " + (!this.state.schedule?' active':'')}
+                                                onClick={this.onUpdateScheduleChange.bind(this, null)}>No updates
+                                        </button>
+                                        {this.state.schedule_options.map(schedule => {
+                                            return (
+                                                <button key={schedule.id} type="button"
+                                                        className={"btn " + (this.state.schedule == schedule.id?' active':'')}
+                                                        onClick={this.onUpdateScheduleChange.bind(this, schedule.id)}>{schedule.name}
+                                                </button>
+                                            )
+                                        })}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        )}
 
                         {(Task.detail.error.create && Task.detail.error.create.visibility)?
                             (<FieldError message={Task.detail.error.create.visibility}/>):null}
@@ -493,37 +465,39 @@ export default class TaskForm extends ComponentWithModal {
                                 ):null}
                         </div>
 
-                        <div className="form-group">
-                            <label className="control-label">Milestones</label>
-                            <div>
-                                <ButtonGroup className="btn-choices">
-                                    {this.state.milestones.map((milestone, idx) => {
-                                        const tooltip = (<Tooltip id="tooltip"><strong>{milestone.title}</strong><br/>{milestone.due_at?moment.utc(milestone.due_at).local().format('Do, MMMM YYYY, h:mm a'):null}</Tooltip>);
-                                        return (
-                                            <OverlayTrigger key={milestone.due_at} placement="top"
-                                                            overlay={tooltip}>
-                                                <Button bsStyle="default"
-                                                        onClick={this.onComposeMilestone.bind(this, {...milestone, idx})}>
-                                                    {_.truncate(milestone.title, {length: 25})}
-                                                </Button>
-                                            </OverlayTrigger>
-                                        )
-                                    })}
-                                    {this.state.deadline?(
-                                        <OverlayTrigger placement="top"
-                                                        overlay={<Tooltip id="tooltip">
+                        {is_milestone_task?null:(
+                            <div className="form-group">
+                                <label className="control-label">Milestones</label>
+                                <div>
+                                    <ButtonGroup className="btn-choices">
+                                        {this.state.milestones.map((milestone, idx) => {
+                                            const tooltip = (<Tooltip id="tooltip"><strong>{milestone.title}</strong><br/>{milestone.due_at?moment.utc(milestone.due_at).local().format('Do, MMMM YYYY, h:mm a'):null}</Tooltip>);
+                                            return (
+                                                <OverlayTrigger key={milestone.due_at} placement="top"
+                                                                overlay={tooltip}>
+                                                    <Button bsStyle="default"
+                                                            onClick={this.onComposeMilestone.bind(this, {...milestone, idx})}>
+                                                        {_.truncate(milestone.title, {length: 25})}
+                                                    </Button>
+                                                </OverlayTrigger>
+                                            )
+                                        })}
+                                        {this.state.deadline?(
+                                            <OverlayTrigger placement="top"
+                                                            overlay={<Tooltip id="tooltip">
                                                     <strong>Hand over final draft</strong><br/>
                                                     {moment.utc(this.state.deadline).subtract(1, 'days').local().format('Do, MMMM YYYY, h:mm a')}
                                                     </Tooltip>}>
-                                            <Button bsStyle="default">{_.truncate('Hand over final draft', {length: 25})}</Button>
-                                        </OverlayTrigger>
-                                    ):null}
-                                </ButtonGroup>
+                                                <Button bsStyle="default">{_.truncate('Hand over final draft', {length: 25})}</Button>
+                                            </OverlayTrigger>
+                                        ):null}
+                                    </ButtonGroup>
+                                </div>
+                                <div>
+                                    <Button onClick={this.onComposeMilestone.bind(this, null)}>Add milestone</Button>
+                                </div>
                             </div>
-                            <div>
-                                <Button onClick={this.onComposeMilestone.bind(this, null)}>Add milestone</Button>
-                            </div>
-                        </div>
+                        )}
 
                         <div className="text-center">
                             <button type="submit"
