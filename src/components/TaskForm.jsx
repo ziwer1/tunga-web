@@ -36,7 +36,7 @@ export default class TaskForm extends ComponentWithModal {
             deadline: null, skills: [], description: '', remarks: '', visibility: VISIBILITY_DEVELOPERS,
             assignee: null, participants: [], schedule_options, schedule_map,
             step: 1, schedule: null, attachments: [], showAll: false, milestones: [],
-            modalMilestone: null, modalContent: null, modalTitle: ''
+            modalMilestone: null, modalContent: null, modalTitle: '', coders: null
         };
     }
 
@@ -56,7 +56,8 @@ export default class TaskForm extends ComponentWithModal {
             }
             this.setState({
                 visibility: task.visibility, assignee, participants, description, remarks,
-                schedule: this.getScheduleId(), milestones: task.milestones, deadline: task.deadline
+                schedule: this.getScheduleId(), milestones: task.milestones, deadline: task.deadline,
+                coders: task.coders
             });
         }
     }
@@ -69,7 +70,7 @@ export default class TaskForm extends ComponentWithModal {
                 this.setState({
                     deadline: null, skills: [], description: '', remarks: '', visibility: VISIBILITY_DEVELOPERS,
                     assignee: null, participants: [], schedule: null, attachments: [], showAll: false,
-                    step: 1, milestones: [], modalMilestone: null, modalContent: null, modalTitle: ''
+                    step: 1, milestones: [], modalMilestone: null, modalContent: null, modalTitle: '', coders: null
                 });
 
                 const { router } = this.context;
@@ -177,6 +178,10 @@ export default class TaskForm extends ComponentWithModal {
         this.setState({milestones: new_milestones});
     }
 
+    onCoderNumberChange(number = 1) {
+        this.setState({coders: number});
+    }
+
     handleSubmit(e) {
         e.preventDefault();
         var title = this.refs.title.value.trim();
@@ -197,6 +202,7 @@ export default class TaskForm extends ComponentWithModal {
             participants.push(assignee);
         }
         var milestones = this.state.milestones;
+        var coders = this.state.coders;
 
         const { TaskActions, project } = this.props;
         const task = this.props.task || {};
@@ -266,6 +272,287 @@ export default class TaskForm extends ComponentWithModal {
         const remarks = this.props.task?task.remarks:'';
         const has_error = Task.detail.error.create || Task.detail.error.update;
 
+        let titleComp = (
+            <div>
+                {(Task.detail.error.create && Task.detail.error.create.title)?
+                    (<FieldError message={Task.detail.error.create.title}/>):null}
+                {(Task.detail.error.update && Task.detail.error.update.title)?
+                    (<FieldError message={Task.detail.error.update.title}/>):null}
+                <div className="form-group">
+                    <label className="control-label">Title for your task *</label>
+                    <div><input type="text" className="form-control" ref="title" required placeholder="Title" defaultValue={task.title}/></div>
+                </div>
+            </div>
+        );
+
+        let descComp = (
+            <div>
+                {(Task.detail.error.create && Task.detail.error.create.description)?
+                    (<FieldError message={Task.detail.error.create.description}/>):null}
+                {(Task.detail.error.update && Task.detail.error.update.description)?
+                    (<FieldError message={Task.detail.error.update.description}/>):null}
+                <div className="form-group">
+                    <label className="control-label">Requirements for this task</label>
+                    <TinyMCE
+                        content={description}
+                        config={TINY_MCE_CONFIG}
+                        onChange={this.onDescriptionChange.bind(this)}/>
+                </div>
+            </div>
+        );
+
+        let skillsComp = (
+            <div>
+                {(Task.detail.error.create && Task.detail.error.create.skills)?
+                    (<FieldError message={Task.detail.error.create.skills}/>):null}
+                {(Task.detail.error.update && Task.detail.error.update.skills)?
+                    (<FieldError message={Task.detail.error.update.skills}/>):null}
+                <div className="form-group">
+                    <label className="control-label">Skills required for this task *</label>
+                    <SkillSelector filter={{filter: null}}
+                                   onChange={this.onSkillChange.bind(this)}
+                                   skills={task.details?task.details.skills:[]}/>
+                </div>
+            </div>
+        );
+
+        let feeComp = (
+            <div>
+                {(Task.detail.error.create && Task.detail.error.create.fee)?
+                    (<FieldError message={Task.detail.error.create.fee}/>):null}
+                {(Task.detail.error.update && Task.detail.error.update.fee)?
+                    (<FieldError message={Task.detail.error.update.fee}/>):null}
+                <div className="form-group">
+                    <label className="control-label">Fixed fee for this task (in Euros) {is_milestone_task?' - optional':''}</label>
+                    <div><input type="text" className="form-control" ref="fee" required={!is_milestone_task} placeholder="Pledge in €" defaultValue={task.fee?parseFloat(task.fee).toFixed(2):''}/></div>
+                    <div style={{marginTop: '10px'}}>13% of pledge goes to Tunga</div>
+                </div>
+            </div>
+        );
+
+        let deadlineComp = (
+            <div>
+                {(Task.detail.error.create && Task.detail.error.create.deadline)?
+                    (<FieldError message={Task.detail.error.create.deadline}/>):null}
+                {(Task.detail.error.update && Task.detail.error.update.deadline)?
+                    (<FieldError message={Task.detail.error.update.deadline}/>):null}
+                <div className="form-group">
+                    <label className="control-label">When do you need the task done?</label>
+                    <DateTimePicker ref="deadline" onChange={this.onDeadlineChange.bind(this)} defaultValue={task.deadline?(new Date(moment.utc(task.deadline).format())):null}/>
+                </div>
+            </div>
+        );
+
+        let filesComp = (
+            <div className="form-group">
+                <label className="control-label">Files</label>
+                <div>
+                    <Dropzone ref="dropzone" onDrop={this.onDrop.bind(this)} style={{display: 'none'}}>
+                        <div>Try dropping some files here, or click to select files to upload.</div>
+                    </Dropzone>
+                    {this.state.attachments?(
+                        <div>
+                            {this.state.attachments.map((file) => {
+                                return (<div><i className="fa fa-file-text-o"/> {file.name}</div>)
+                            })}
+                        </div>
+                    ):null}
+                    <button type="button" className="btn" style={{marginRight: '5px'}}
+                            onClick={this.onAddAttachment.bind(this)}>
+                        <i className="fa fa-upload"/> Upload files
+                    </button>
+                </div>
+            </div>
+        );
+
+        let updatesComp = (
+            <div>
+                {(Task.detail.error.create && Task.detail.error.create.update_schedule)?
+                    (<FieldError message={Task.detail.error.create.update_schedule}/>):null}
+                {(Task.detail.error.update && Task.detail.error.update.update_schedule)?
+                    (<FieldError message={Task.detail.error.update.update_schedule}/>):null}
+                {is_milestone_task?null:(
+                    <div className="form-group">
+                        <div className="highlight">Our coders send you updates to keep you up to date on the progress of your task</div>
+                        <label className="control-label">How often would you like to receive an update?</label>
+                        <div className="secondary">* Tunga recommends daily updates</div>
+                        <div>
+                            <div className="btn-group btn-choices" role="group" aria-label="update preference">
+                                <button type="button"
+                                        className={"btn " + (!this.state.schedule?' active':'')}
+                                        onClick={this.onUpdateScheduleChange.bind(this, null)}>No updates
+                                </button>
+                                {this.state.schedule_options.map(schedule => {
+                                    return (
+                                        <button key={schedule.id} type="button"
+                                                className={"btn " + (this.state.schedule == schedule.id?' active':'')}
+                                                onClick={this.onUpdateScheduleChange.bind(this, schedule.id)}>{schedule.name}
+                                        </button>
+                                    )
+                                })}
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </div>
+        );
+
+        let milestoneComp = (
+            <div>
+                {is_milestone_task?null:(
+                    <div className="form-group">
+                        <label className="control-label">Would you like to add milestones to this task?</label>
+                        {this.state.milestones && this.state.milestones.length?(
+                            <div>
+                                <ButtonGroup className="btn-choices">
+                                    {this.state.milestones.map((milestone, idx) => {
+                                        const tooltip = (<Tooltip id="tooltip"><strong>{milestone.title}</strong><br/>{milestone.due_at?moment.utc(milestone.due_at).local().format('Do, MMMM YYYY, h:mm a'):null}</Tooltip>);
+                                        return (
+                                            <OverlayTrigger key={milestone.due_at} placement="top"
+                                                            overlay={tooltip}>
+                                                <Button bsStyle="default"
+                                                        onClick={this.onComposeMilestone.bind(this, {...milestone, idx})}>
+                                                    {_.truncate(milestone.title, {length: 25})}
+                                                </Button>
+                                            </OverlayTrigger>
+                                        )
+                                    })}
+                                    {this.state.deadline?(
+                                        <OverlayTrigger placement="top"
+                                                        overlay={<Tooltip id="tooltip">
+                                                    <strong>Hand over final draft</strong><br/>
+                                                    {moment.utc(this.state.deadline).subtract(1, 'days').local().format('Do, MMMM YYYY, h:mm a')}
+                                                    </Tooltip>}>
+                                            <Button bsStyle="default">{_.truncate('Hand over final draft', {length: 25})}</Button>
+                                        </OverlayTrigger>
+                                    ):null}
+                                </ButtonGroup>
+                            </div>
+                        ):null}
+                        <div>
+                            <Button onClick={this.onComposeMilestone.bind(this, null)}>Add milestone</Button>
+                        </div>
+                    </div>
+                )}
+            </div>
+        );
+
+        let visibilityComp = (
+            <div>
+                {(Task.detail.error.create && Task.detail.error.create.visibility)?
+                    (<FieldError message={Task.detail.error.create.visibility}/>):null}
+                {(Task.detail.error.update && Task.detail.error.update.visibility)?
+                    (<FieldError message={Task.detail.error.update.visibility}/>):null}
+                <div className="form-group">
+                    <label className="control-label">Who would you like to be able to see your task?</label>
+                    <br/>
+                    <div className="btn-group btn-choices" role="group" aria-label="visibility">
+                        {TASK_VISIBILITY_CHOICES.map(visibility => {
+                            return (
+                                <button key={visibility.id} type="button"
+                                        className={"btn " + (this.state.visibility == visibility.id?' active':'')}
+                                        onClick={this.onVisibilityChange.bind(this, visibility.id)}>{visibility.name}
+                                </button>
+                            )
+                        })}
+                    </div>
+                    {this.state.visibility == VISIBILITY_CUSTOM?(
+                        <div style={{marginTop: '10px'}}>
+                            <div className="form-group">
+                                <label className="control-label">Assignee *</label>
+                                <UserSelector filter={{type: USER_TYPE_DEVELOPER}}
+                                              onChange={this.onAssigneeChange.bind(this)}
+                                              selected={task.assignee && task.assignee.user?[task.assignee.user]:[]}
+                                              max={1}/>
+                            </div>
+                            <div className="form-group">
+                                <label className="control-label">Collaborators</label>
+                                <UserSelector filter={{type: USER_TYPE_DEVELOPER}}
+                                              onChange={this.onParticipantChange.bind(this)}
+                                              selected={this.getCollaborators()}
+                                              deselected={this.state.assignee?[this.state.assignee]:[]}
+                                              unremovable={this.getCollaborators().map((user) => {return user.id})}/>
+                            </div>
+                        </div>
+                    ):null}
+                </div>
+            </div>
+        );
+
+        let codeLocationComp = (
+            <div>
+                {(Task.detail.error.create && Task.detail.error.create.url)?
+                    (<FieldError message={Task.detail.error.create.url}/>):null}
+                {(Task.detail.error.update && Task.detail.error.update.url)?
+                    (<FieldError message={Task.detail.error.update.url}/>):null}
+                <div className="form-group">
+                    <label className="control-label">Code location</label>
+                    <div><input type="text" className="form-control" ref="url" placeholder="URL e.g GitHub, GitLab, BitBucket issue link" defaultValue={task.url}/></div>
+                </div>
+            </div>
+        );
+
+        let remarksComp = (
+            <div>
+                {(Task.detail.error.create && Task.detail.error.create.remarks)?
+                    (<FieldError message={Task.detail.error.create.remarks}/>):null}
+                {(Task.detail.error.update && Task.detail.error.update.remarks)?
+                    (<FieldError message={Task.detail.error.update.remarks}/>):null}
+                {is_milestone_task?null:(
+                    <div className="form-group">
+                        <label className="control-label">Which files can you deliver in order to provide more details for this task?</label>
+                        <TinyMCE
+                            content={remarks}
+                            config={TINY_MCE_CONFIG}
+                            onChange={this.onRemarksChange.bind(this)}/>
+                    </div>
+                )}
+            </div>
+        );
+
+        let codersComp = (
+            <div>
+                {(Task.detail.error.create && Task.detail.error.create.coders)?
+                    (<FieldError message={Task.detail.error.create.coders}/>):null}
+                {(Task.detail.error.update && Task.detail.error.update.coders)?
+                    (<FieldError message={Task.detail.error.update.coders}/>):null}
+                <div className="form-group">
+                    <label className="control-label">How many coders will you need for this task</label>
+                    <div>
+                        <div className="btn-group btn-choices" role="group" aria-label="payment method">
+                            {[{id:1, name: 'I need one coder for this task'}, {id: -1, name: 'I need more than one coder for this task'}].map(coder_number => {
+                                return (
+                                    <button key={coder_number.id} type="button"
+                                            className={"btn " + (this.state.coders && this.state.coders == task.coders?' active':'')}
+                                            onClick={this.onCoderNumberChange.bind(this, coder_number.id)}>{coder_number.name}
+                                    </button>
+                                )
+                            })}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+
+        var sections = [
+            {
+                title: '1/4 Basic details about your task',
+                items: [titleComp, skillsComp]
+            },
+            {
+                title: '2/4 Requirements',
+                items: [descComp, filesComp, codersComp]
+            },
+            {
+                title: '3/4 Agreements',
+                items: [deadlineComp, feeComp]
+            },
+            {
+                title: '4/4 Workflow updates',
+                items: [updatesComp, milestoneComp, visibilityComp]
+            }
+        ];
+
         return (
             <div className="form-wrapper">
                 {this.renderModalContent()}
@@ -279,219 +566,34 @@ export default class TaskForm extends ComponentWithModal {
                                 message={'Task saved successfully'}
                                 error={Task.detail.error.create || Task.detail.error.update}/>
 
-                    <div className={[2,3].indexOf(this.state.step) == -1 || has_error || this.state.showAll?'step':'sr-only'}>
-                        {(Task.detail.error.create && Task.detail.error.create.title)?
-                            (<FieldError message={Task.detail.error.create.title}/>):null}
-                        {(Task.detail.error.update && Task.detail.error.update.title)?
-                            (<FieldError message={Task.detail.error.update.title}/>):null}
-                        <div className="form-group">
-                            <label className="control-label">Task title *</label>
-                            <div><input type="text" className="form-control" ref="title" required placeholder="Title" defaultValue={task.title}/></div>
-                        </div>
-
-                        {(Task.detail.error.create && Task.detail.error.create.description)?
-                            (<FieldError message={Task.detail.error.create.description}/>):null}
-                        {(Task.detail.error.update && Task.detail.error.update.description)?
-                            (<FieldError message={Task.detail.error.update.description}/>):null}
-                        <div className="form-group">
-                            <label className="control-label">Task description</label>
-                            <TinyMCE
-                                content={description}
-                                config={TINY_MCE_CONFIG}
-                                onChange={this.onDescriptionChange.bind(this)}/>
-                        </div>
-
-                        {(Task.detail.error.create && Task.detail.error.create.skills)?
-                            (<FieldError message={Task.detail.error.create.skills}/>):null}
-                        {(Task.detail.error.update && Task.detail.error.update.skills)?
-                            (<FieldError message={Task.detail.error.update.skills}/>):null}
-                        <div className="form-group">
-                            <label className="control-label">Skills required for this task *</label>
-                            <SkillSelector filter={{filter: null}}
-                                           onChange={this.onSkillChange.bind(this)}
-                                           skills={task.details?task.details.skills:[]}/>
-                        </div>
-                    </div>
-
-                    <div className={this.state.step == 2 || has_error || this.state.showAll?'step':'sr-only'}>
-                        {(Task.detail.error.create && Task.detail.error.create.fee)?
-                            (<FieldError message={Task.detail.error.create.fee}/>):null}
-                        {(Task.detail.error.update && Task.detail.error.update.fee)?
-                            (<FieldError message={Task.detail.error.update.fee}/>):null}
-                        <div className="form-group">
-                            <label className="control-label">Pledge (in Euro) {is_milestone_task?' - optional':'*'}</label>
-                            <div><input type="text" className="form-control" ref="fee" required={!is_milestone_task} placeholder="Pledge in €" defaultValue={task.fee?parseFloat(task.fee).toFixed(2):''}/></div>
-                            <div style={{marginTop: '10px'}}>13% of pledge goes to Tunga</div>
-                        </div>
-
-                        {(Task.detail.error.create && Task.detail.error.create.deadline)?
-                            (<FieldError message={Task.detail.error.create.deadline}/>):null}
-                        {(Task.detail.error.update && Task.detail.error.update.deadline)?
-                            (<FieldError message={Task.detail.error.update.deadline}/>):null}
-                        <div className="form-group">
-                            <label className="control-label">Deadline</label>
-                            <DateTimePicker ref="deadline" onChange={this.onDeadlineChange.bind(this)} defaultValue={task.deadline?(new Date(moment.utc(task.deadline).format())):null}/>
-                        </div>
-
-                        {(Task.detail.error.create && Task.detail.error.create.url)?
-                            (<FieldError message={Task.detail.error.create.url}/>):null}
-                        {(Task.detail.error.update && Task.detail.error.update.url)?
-                            (<FieldError message={Task.detail.error.update.url}/>):null}
-                        <div className="form-group">
-                            <label className="control-label">Code location</label>
-                            <div><input type="text" className="form-control" ref="url" placeholder="URL e.g GitHub, GitLab, BitBucket issue link" defaultValue={task.url}/></div>
-                        </div>
-
-                        <div className="form-group">
-                            <label className="control-label">Files</label>
-                            <div>
-                                <Dropzone ref="dropzone" onDrop={this.onDrop.bind(this)} style={{display: 'none'}}>
-                                    <div>Try dropping some files here, or click to select files to upload.</div>
-                                </Dropzone>
-                                {this.state.attachments?(
-                                <div>
-                                    {this.state.attachments.map((file) => {
-                                        return (<div><i className="fa fa-file-text-o"/> {file.name}</div>)
-                                        })}
-                                </div>
-                                    ):null}
-                                <button type="button" className="btn" style={{marginRight: '5px'}}
-                                        onClick={this.onAddAttachment.bind(this)}>
-                                    <i className="fa fa-upload"/> Upload files
-                                </button>
-                            </div>
-                        </div>
-
-                        {(Task.detail.error.create && Task.detail.error.create.remarks)?
-                            (<FieldError message={Task.detail.error.create.remarks}/>):null}
-                        {(Task.detail.error.update && Task.detail.error.update.remarks)?
-                            (<FieldError message={Task.detail.error.update.remarks}/>):null}
-                        {is_milestone_task?null:(
-                            <div className="form-group">
-                                <label className="control-label">Which files can you deliver in order to provide more details for this task?</label>
-                                <TinyMCE
-                                    content={remarks}
-                                    config={TINY_MCE_CONFIG}
-                                    onChange={this.onRemarksChange.bind(this)}/>
-                            </div>
-                        )}
-                    </div>
-
-                    <div className={this.state.step == 3 || has_error || this.state.showAll?'step':'sr-only'}>
-                        {(Task.detail.error.create && Task.detail.error.create.update_schedule)?
-                            (<FieldError message={Task.detail.error.create.update_schedule}/>):null}
-                        {(Task.detail.error.update && Task.detail.error.update.update_schedule)?
-                            (<FieldError message={Task.detail.error.update.update_schedule}/>):null}
-                        {is_milestone_task?null:(
-                            <div className="form-group">
-                                <label className="control-label">Update preferences *</label>
-                                <div>
-                                    <div className="btn-group btn-choices" role="group" aria-label="update preference">
-                                        <button type="button"
-                                                className={"btn " + (!this.state.schedule?' active':'')}
-                                                onClick={this.onUpdateScheduleChange.bind(this, null)}>No updates
+                    {sections.map((section, idx) => {
+                        return (
+                            <div className={this.state.step == (idx+1) || has_error || this.state.showAll?'step':'sr-only'}>
+                                {section.title && !(has_error || this.state.showAll)?(<h5 style={{margin: '15px 0'}}>{section.title}</h5>):null}
+                                {section.items.map(item => {
+                                    return item;
+                                })}
+                                {idx+1 == sections.length?(
+                                    <div className="text-center">
+                                        <button type="submit"
+                                                onClick={this.showAll.bind(this)}
+                                                className="btn"
+                                                disabled={Task.detail.isSaving}>
+                                            {task.id?'Update':'Publish'} {task.is_project?'project':'task'}
                                         </button>
-                                        {this.state.schedule_options.map(schedule => {
-                                            return (
-                                                <button key={schedule.id} type="button"
-                                                        className={"btn " + (this.state.schedule == schedule.id?' active':'')}
-                                                        onClick={this.onUpdateScheduleChange.bind(this, schedule.id)}>{schedule.name}
-                                                </button>
-                                            )
-                                        })}
                                     </div>
-                                </div>
-                            </div>
-                        )}
-
-                        {(Task.detail.error.create && Task.detail.error.create.visibility)?
-                            (<FieldError message={Task.detail.error.create.visibility}/>):null}
-                        {(Task.detail.error.update && Task.detail.error.update.visibility)?
-                            (<FieldError message={Task.detail.error.update.visibility}/>):null}
-                        <div className="form-group">
-                            <label className="control-label">Visibility *</label>
-                            <br/>
-                            <div className="btn-group btn-choices" role="group" aria-label="visibility">
-                                {TASK_VISIBILITY_CHOICES.map(visibility => {
-                                    return (
-                                    <button key={visibility.id} type="button"
-                                            className={"btn " + (this.state.visibility == visibility.id?' active':'')}
-                                            onClick={this.onVisibilityChange.bind(this, visibility.id)}>{visibility.name}
-                                    </button>
-                                        )
-                                    })}
-                            </div>
-                            {this.state.visibility == VISIBILITY_CUSTOM?(
-                            <div style={{marginTop: '10px'}}>
-                                <div className="form-group">
-                                    <label className="control-label">Assignee *</label>
-                                    <UserSelector filter={{type: USER_TYPE_DEVELOPER}}
-                                                  onChange={this.onAssigneeChange.bind(this)}
-                                                  selected={task.assignee && task.assignee.user?[task.assignee.user]:[]}
-                                                  max={1}/>
-                                </div>
-                                <div className="form-group">
-                                    <label className="control-label">Collaborators</label>
-                                    <UserSelector filter={{type: USER_TYPE_DEVELOPER}}
-                                                  onChange={this.onParticipantChange.bind(this)}
-                                                  selected={this.getCollaborators()}
-                                                  deselected={this.state.assignee?[this.state.assignee]:[]}
-                                                  unremovable={this.getCollaborators().map((user) => {return user.id})}/>
-                                </div>
-                            </div>
                                 ):null}
-                        </div>
-
-                        {is_milestone_task?null:(
-                            <div className="form-group">
-                                <label className="control-label">Milestones</label>
-                                <div>
-                                    <ButtonGroup className="btn-choices">
-                                        {this.state.milestones.map((milestone, idx) => {
-                                            const tooltip = (<Tooltip id="tooltip"><strong>{milestone.title}</strong><br/>{milestone.due_at?moment.utc(milestone.due_at).local().format('Do, MMMM YYYY, h:mm a'):null}</Tooltip>);
-                                            return (
-                                                <OverlayTrigger key={milestone.due_at} placement="top"
-                                                                overlay={tooltip}>
-                                                    <Button bsStyle="default"
-                                                            onClick={this.onComposeMilestone.bind(this, {...milestone, idx})}>
-                                                        {_.truncate(milestone.title, {length: 25})}
-                                                    </Button>
-                                                </OverlayTrigger>
-                                            )
-                                        })}
-                                        {this.state.deadline?(
-                                            <OverlayTrigger placement="top"
-                                                            overlay={<Tooltip id="tooltip">
-                                                    <strong>Hand over final draft</strong><br/>
-                                                    {moment.utc(this.state.deadline).subtract(1, 'days').local().format('Do, MMMM YYYY, h:mm a')}
-                                                    </Tooltip>}>
-                                                <Button bsStyle="default">{_.truncate('Hand over final draft', {length: 25})}</Button>
-                                            </OverlayTrigger>
-                                        ):null}
-                                    </ButtonGroup>
-                                </div>
-                                <div>
-                                    <Button onClick={this.onComposeMilestone.bind(this, null)}>Add milestone</Button>
-                                </div>
                             </div>
-                        )}
+                        )
+                    })}
 
-                        <div className="text-center">
-                            <button type="submit"
-                                    onClick={this.showAll.bind(this)}
-                                    className="btn"
-                                    disabled={Task.detail.isSaving}>
-                                {task.id?'Update':'Publish'} {task.is_project?'project':'task'}
-                            </button>
-                        </div>
-                    </div>
                     <div className="nav text-center">
                         {this.state.step > 1?(
                         <button type="button" className="btn" onClick={this.changeStep.bind(this, false)}>
                             <i className="tunga-icon-previous"/>
                         </button>
                             ):null}
-                        {this.state.step < 3?(
+                        {this.state.step < sections.length?(
                         <button type="button" className="btn" onClick={this.changeStep.bind(this, true)}>
                             <i className="tunga-icon-next"/>
                         </button>
