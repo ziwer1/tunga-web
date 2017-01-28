@@ -184,12 +184,12 @@ export default class TaskForm extends ComponentWithModal {
 
     handleSubmit(e) {
         e.preventDefault();
-        var title = this.refs.title.value.trim();
+        var title = this.refs.title?this.refs.title.value.trim():null;
         var description = this.state.description;
         var remarks = this.state.remarks;
-        var fee = this.refs.fee.value.trim();
+        var fee = this.refs.fee?(this.refs.fee.value.trim() || null):null;
         var deadline = this.state.deadline;
-        var url = this.refs.url.value.trim();
+        var url = this.refs.url?this.refs.url.value.trim():null;
         var visibility = this.state.visibility;
         var schedule_id = this.state.schedule || null;
         var update_schedule = null;

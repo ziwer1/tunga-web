@@ -31,6 +31,9 @@ export default class TaskCard extends ComponentWithModal {
                 context_fee = task.amount.pledge;
             }
         }
+        if(!context_fee) {
+            return null;
+        }
         let float_fee = parseFloat(context_fee).toFixed(2);
         let whole_part = Math.floor(float_fee);
         return {whole: whole_part, decimal: float_fee.substring(whole_part.toString().length+1) || '00'}
@@ -55,8 +58,14 @@ export default class TaskCard extends ComponentWithModal {
                         <h3 className="title pull-left"><Link to={`/task/${task.id}/`}>{task.title}</Link></h3>
                     </div>
                     <div className="pledge text-center">
-                        {task.amount?task.amount.currency:'&euro;'}{split_fee.whole}
-                        <span className="decimal" style={{fontSize: '50%'}}>{split_fee.decimal}</span>
+                        {split_fee?(
+                            <div>
+                                {task.amount?task.amount.currency:'&euro;'}{split_fee.whole}
+                                <span className="decimal" style={{fontSize: '50%'}}>{split_fee.decimal}</span>
+                            </div>
+                        ):(
+                            <span>No pledge</span>
+                        )}
                     </div>
                     <div className="media">
                         <div className="media-left">

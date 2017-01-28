@@ -20,8 +20,8 @@ function task(state = {}, action) {
         case TaskActions.UPDATE_TASK_SUCCESS:
             return {...state, ...action.task};
         case TaskActions.DELETE_TASK_SUCCESS:
-        case TaskActions.CREATE_TASK_START:
-        case TaskActions.CREATE_TASK_FAILED:
+        //case TaskActions.CREATE_TASK_START:
+        //case TaskActions.CREATE_TASK_FAILED:
         case TaskActions.RETRIEVE_TASK_START:
         case TaskActions.RETRIEVE_TASK_FAILED:
             return {};
