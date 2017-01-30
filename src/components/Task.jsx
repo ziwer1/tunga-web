@@ -82,7 +82,7 @@ export default class Task extends React.Component {
                     <Success message="Application sent successfully"/>
                 ):null}
 
-                {task.user.id == Auth.user.id || task.is_participant || Auth.user.is_staff || (lastRoute && lastRoute.path == 'apply' && task.can_apply)?(
+                {task.user.id == Auth.user.id || task.is_admin || task.is_participant || Auth.user.is_staff || (lastRoute && lastRoute.path == 'apply' && task.can_apply)?(
                 <div>
                     <BreadCrumb
                         section={getRouteCrumb(routes)}

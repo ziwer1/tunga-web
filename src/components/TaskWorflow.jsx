@@ -260,7 +260,7 @@ export default class TaskWorflow extends ComponentWithModal {
                         <div className="task-status"><i className={"fa fa-circle " + task_status.css}/> {task_status.message}</div>
                     </div>
 
-                    {is_admin_or_owner || task.is_participant ? (
+                    {is_admin_or_owner || task.is_admin || task.is_participant ? (
                         <div className="nav-top-filter pull-left">
                             {is_admin_or_owner ? (
                                 <div>
