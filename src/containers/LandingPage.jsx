@@ -2,12 +2,40 @@ import React from 'react';
 import {Link} from 'react-router';
 import YouTube from 'react-youtube';
 import Helmet from 'react-helmet';
+import Slider from 'react-slick';
 
 import ShowcaseContainer from './ShowcaseContainer';
 import ShowCaseFooter from './ShowCaseFooter';
 import EmailLoginWidget from '../components/EmailLoginWidget';
 
 import { sendGAEvent, GA_EVENT_CATEGORIES, GA_EVENT_ACTIONS, GA_EVENT_LABELS } from '../utils/tracking';
+
+let TESTIMONIALS = [
+    {
+        name: 'Luuk',
+        company: 'Blog Society',
+        image: require("../images/testimonials/luuk.jpg"),
+        message: " Within a minimum amount of time, we arranged that our platform - customized to the company's needs - could be build within a month. Outsourcing development has never been this easy."
+    },
+    {
+        name: 'Angella',
+        company: 'Ugandan Developer',
+        image: require("../images/testimonials/angella.jpg"),
+        message: "As a developer, Tunga allows me to work on interesting projects from around the globe, and build great working relationships with clients using tools like Slack"
+    },
+    {
+        name: 'Karl',
+        company: 'Statehill',
+        image: require("../images/testimonials/karl.png"),
+        message: "We were pleasently surprised with how easy it was to get the right person onboard and the Ugandan developer we worked with professionally executed the project in a satisfactory manner."
+    },
+    /*{
+        name: 'Michiel',
+        company: 'Gaspedaal',
+        image: require("../images/testimonials/michiel.jpg"),
+        message: "The developers from Tunga do have knowledge, quickly anticipate on problems and are flexible in sharing responsibilities. Occasionally they send funny giphies through Slack, so they also have a sense of humor."
+    }*/
+];
 
 export default class LandingPage extends React.Component {
     constructor(props) {
@@ -176,6 +204,23 @@ export default class LandingPage extends React.Component {
                         <div className="text-center">
                             <Link className="btn btn-callout how-it-works-btn" to="/how-it-works/">Find out more</Link>
                         </div>
+                    </div>
+                </section>
+                <section id="clients-testmonial">
+                    <div className="container">
+                        <h2 className="text-center"><span className="bold">Testimonials</span> </h2>
+                        <Slider className="testimonials-slider text-center" {...slider_settings}>
+                            {TESTIMONIALS.map(testimonial => {
+                                return (
+                                    <div className="testimonial">
+                                        <p className="body" dangerouslySetInnerHTML={{__html: testimonial.message}}/>
+                                        <div className="image" style={{backgroundImage: `url(${testimonial.image})`}} />
+                                        <div className="author">{testimonial.name}</div>
+                                        <div className="company">{testimonial.company}</div>
+                                    </div>
+                                );
+                            })}
+                        </Slider>
                     </div>
                 </section>
                 <section id="what-we-can-do">

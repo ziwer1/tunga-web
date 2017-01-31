@@ -2832,37 +2832,48 @@ form[name='compose'] {
         color: @active-white;
 
         .testimonials-slider {
-            img {
-                width: 75px;
-                height: 75px;
-                margin: 20px auto auto;
-            }
+            .testimonial {
+                .body {
+                    position: relative;
+                    color: @primary-text;
+                    .font-size(1.4);
+                    font-weight: 300;
+                    padding: 20px 10px;
+                    height: 140px;
+                    background: @active-white;
+                    margin: 4px;
+                    border-radius: 5px;
+                }
 
-            p {
-                font-weight: 300;
-                font-size: 14px;
-                padding: 30px 10px;
-                background: @active-white;
-                margin: 4px;
-                border-radius: 5px;
-            }
+                .body::after {
+                    border: 20px solid transparent;
+                    border-top: 20px solid @active-white;
+                    content: '';
+                    position: absolute;
+                    bottom: -30px;
+                    left: 44%;
+                }
 
-            .testimonial-body {
-                position: relative;
-                color: @primary-text;
-            }
+                .image {
+                    position: relative;
+                    width: 100px;
+                    height: 100px;
+                    margin: 20px auto 10px;
+                    overflow: hidden;
+                    border-radius: 50%;
+                    background-size: cover;
+                    background-position: center;
+                }
 
-            .testimonial-body::after {
-                border: 20px solid transparent;
-                border-top: 20px solid @active-white;
-                content: '';
-                position: absolute;
-                bottom: -30px;
-                left: 44%;
-            }
+                .author {
+                    .font-size(1.4);
+                    font-weight: 400;
+                }
 
-            .author {
-                .font-size(1.2);
+                .company {
+                    .font-size(1.2);
+                    font-weight: 100;
+                }
             }
 
             .slick-prev:before,
@@ -2936,7 +2947,7 @@ form[name='compose'] {
     }
 
     #what-we-can-do {
-        background-color: @inactive-grey;
+        background-color: @active-white;
         min-height: 50%;
         display: flex;
         align-items: center;
