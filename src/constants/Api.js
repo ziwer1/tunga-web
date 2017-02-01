@@ -154,7 +154,7 @@ export const VISIBILITY_CUSTOM = 3;
 export const VISIBILITY_ONLY_ME = 4;
 
 export const TASK_VISIBILITY_CHOICES = [
-    {id: VISIBILITY_DEVELOPERS, name: 'All developers'},
+    {id: VISIBILITY_DEVELOPERS, name: 'All Tunga developers'},
     {id: VISIBILITY_MY_TEAM, name: 'Only my team'},
     {id: VISIBILITY_CUSTOM, name: 'Select developer(s)'}
 ];

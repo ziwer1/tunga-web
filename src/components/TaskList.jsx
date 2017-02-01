@@ -82,8 +82,9 @@ export default class TaskList extends React.Component {
                                     );
                                 })}
                         </div>
-                        <LoadMore url={Task.list.next} callback={TaskActions.listMoreTasks} loading={Task.list.isFetchingMore}/>
-                        {Task.list.ids.length?'':(
+                        {Task.list.ids.length?(
+                            <LoadMore url={Task.list.next} callback={TaskActions.listMoreTasks} loading={Task.list.isFetchingMore}/>
+                        ):(
                         <div className="alert alert-info">{emptyListText}</div>
                             )}
                     </div>)

@@ -50,6 +50,7 @@ import TaskWorflow from 'components/TaskWorflow';
 import ApplicationList from 'components/ApplicationList';
 import MilestonePage from 'containers/MilestonePage';
 import Milestone from 'components/Milestone';
+import MilestoneList from 'components/MilestoneList';
 import IntegrationList from 'components/IntegrationList';
 import TaskPay from 'components/TaskPay';
 import Participation from 'components/Participation';
@@ -180,6 +181,12 @@ ReactDOM.render(
                         <Route path="help" component={MessagePage}>
                             <Route path=":channelId" component={ChannelContainer}>
                                 <IndexRoute component={ChatBox} />
+                            </Route>
+                        </Route>
+                        <Route path="dashboard">
+                            <Route path="updates" component={MilestonePage}>
+                                <IndexRoute component={MilestoneList}/>
+                                <Route path="filter/:filter" component={MilestoneList} />
                             </Route>
                         </Route>
                         {/* End Auth Only Pages */}

@@ -19,7 +19,7 @@ import ProjectForm from './ProjectForm';
 
 import {
     USER_TYPE_DEVELOPER, TASK_TYPE_CHOICES, TASK_SCOPE_CHOICES, TASK_SCOPE_ONE_TIME, TASK_SCOPE_ONGOING,
-    TASK_BILLING_METHOD_CHOICES, TASK_BILLING_METHOD_FIXED, TASK_CODERS_NEEDED_CHOICES,
+    TASK_BILLING_METHOD_CHOICES, TASK_BILLING_METHOD_FIXED, TASK_BILLING_METHOD_HOURLY, TASK_CODERS_NEEDED_CHOICES,
     TASK_VISIBILITY_CHOICES, VISIBILITY_DEVELOPERS, VISIBILITY_CUSTOM, UPDATE_SCHEDULE_CHOICES
 } from '../constants/Api';
 import {TINY_MCE_CONFIG } from '../constants/settings';
@@ -480,8 +480,8 @@ export default class TaskForm extends ComponentWithModal {
                     <div>
                         <div className="btn-choices" role="group">
                             {[
-                                {id: false, name: 'Yes, I want a project manager'},
-                                {id: true, name: 'No, I will manage all processes for this project myself'}
+                                {id: true, name: 'Yes, I want a project manager'},
+                                {id: false, name: 'No, I will manage all processes for this project myself'}
                             ].map(pm_options => {
                                 return (
                                     <button key={pm_options.id} type="button"
@@ -491,6 +491,14 @@ export default class TaskForm extends ComponentWithModal {
                                     </button>
                                 )
                             })}
+                        </div>
+                        <div className="card">
+                            Responsibities that a project manager on Tunga takes on:<br/>
+                            - Assembling the team of developers<br/>
+                            - Making the plan for the project<br/>
+                            - Reporting progress of the project<br/>
+                            - Troubleshooting<br/>
+                            - Organizing (daily) standups<br/>
                         </div>
                     </div>
                 </div>
@@ -831,13 +839,41 @@ export default class TaskForm extends ComponentWithModal {
                                     </button>
                                 )
                             })}
-                            {!this.state.is_project?(
+                            {this.state.is_project?(
                                 <button type="button"
                                         className={"btn " + (this.state.billing_method === undefined?' active':'')}
                                         onClick={this.onStateValueChange.bind(this, 'billing_method', undefined)}>I'm not sure
                                 </button>
                             ):null}
                         </div>
+                        {!this.state.is_project && this.state.billing_method == TASK_BILLING_METHOD_HOURLY?(
+                            <div className="card">
+                                Tunga offers fixed fees ranging from &euro; 19 - &euro; 25 per hour.<br/>
+                                The fee per developers will be presented when they apply for the task.
+                            </div>
+                        ):null}
+
+                        {this.state.is_project && this.state.has_requirements?(
+                            <div>
+                                {this.state.billing_method == TASK_BILLING_METHOD_HOURLY?(
+                                    <div className="card">
+                                        Developers will make an estimate of the hours needed, but you will pay for the actual hours logged<br/>
+                                        We probably need to add a limit for how far a dev can go over the estimated hours.
+
+                                    </div>
+                                ):null}
+                                {this.state.billing_method == TASK_BILLING_METHOD_FIXED?(
+                                    <div className="card">
+                                        Tunga will make a proposal if you choose this option.
+                                    </div>
+                                ):null}
+                                {this.state.billing_method === undefined?(
+                                    <div className="card">
+                                        Choose this option to postpone your decision.
+                                    </div>
+                                ):null}
+                            </div>
+                        ):null}
                     </div>
                 </div>
                 {!this.state.is_project && this.state.billing_method == TASK_BILLING_METHOD_FIXED?(feeComp):null}
