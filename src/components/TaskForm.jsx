@@ -901,7 +901,7 @@ export default class TaskForm extends ComponentWithModal {
                         <div>
                             <button type="button"
                                     className={"btn btn-grey " + (this.state.skype_id === undefined?' active':'')}
-                                    onClick={this.onStateValueChange.bind(this, 'skype_id', undefined)}>I don't have a Skype, Contact me via email
+                                    onClick={this.onStateValueChange.bind(this, 'skype_id', undefined)}>I don't have Skype, Contact me via email
                             </button>
                         </div>
                     </div>
