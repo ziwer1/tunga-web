@@ -65,6 +65,7 @@ class NavBar extends React.Component {
                                         <ul className="dropdown-menu">
                                             <li><Link to="/help"><i className="nav-icon fa fa-question-circle fa-lg"/> Help</Link></li>
                                             <li><Link to="/people/invite"><i className="nav-icon fa fa-user-plus"/> Invite Developers</Link></li>
+                                            <li><Link to="/dashboard/updates"><i className="nav-icon fa fa-bell"/> Updates dashboard</Link></li>
                                         </ul>
                                     </li>):null}
                                 <li className="dropdown">

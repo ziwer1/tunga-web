@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux';
 import * as MilestoneActions from '../actions/MilestoneActions';
 import * as ProgressReportActions from '../actions/ProgressReportActions';
-import { LOGOUT_SUCCESS } from '../actions/AuthActions';
 import { PATH_CHANGE } from '../actions/NavActions';
 
 function milestone(state = {}, action) {
@@ -48,6 +47,9 @@ function milestones(state = {}, action) {
 function ids(state = [], action) {
     switch (action.type) {
         case MilestoneActions.LIST_MILESTONES_SUCCESS:
+            return action.items.map((milestone) => {
+                return milestone.id;
+            });
         case MilestoneActions.LIST_MORE_MILESTONES_SUCCESS:
             var new_milestones = action.items.map((milestone) => {
                 return milestone.id;

@@ -94,10 +94,12 @@ export const ENDPOINT_SUPPORT_PAGE = getEndpointUrl('support/page/');
 
 export const USER_TYPE_DEVELOPER = 1;
 export const USER_TYPE_PROJECT_OWNER = 2;
+export const USER_TYPE_PROJECT_MANAGER = 3;
 
 export const USER_TYPE_CHOICES = [
     {id: USER_TYPE_DEVELOPER, name: 'Developer'},
     {id: USER_TYPE_PROJECT_OWNER, name: 'Project Owner'}
+    //{id: USER_TYPE_PROJECT_MANAGER, name: 'Project Manager'}
 ];
 
 export const PAYMENT_METHOD_BTC_WALLET = 'btc_wallet';
@@ -112,6 +114,39 @@ export const PAYMENT_METHOD_CHOICES = [
 
 export const BTC_WALLET_PROVIDER_COINBASE = 'coinbase';
 
+export const TASK_TYPE_WEB = 1;
+export const TASK_TYPE_MOBILE = 2;
+export const TASK_TYPE_OTHER = 3;
+
+export const TASK_TYPE_CHOICES = [
+    {id: TASK_TYPE_WEB, name: 'Web', icon: 'fa-globe'},
+    {id: TASK_TYPE_MOBILE, name: 'Mobile', icon: 'fa-mobile'},
+    {id: TASK_TYPE_OTHER, name: 'Other', icon: 'fa-question-circle'}
+];
+
+export const TASK_SCOPE_ONE_TIME = 1;
+export const TASK_SCOPE_ONGOING = 2;
+
+export const TASK_SCOPE_CHOICES = [
+    {id: TASK_SCOPE_ONE_TIME, name: 'I have a one time project'},
+    {id: TASK_SCOPE_ONGOING, name: 'I have an ongoing project'}
+];
+
+export const TASK_BILLING_METHOD_FIXED = 1;
+export const TASK_BILLING_METHOD_HOURLY = 2;
+
+export const TASK_BILLING_METHOD_CHOICES = [
+    {id: TASK_BILLING_METHOD_FIXED, name: 'I want to pay a fixed fee'},
+    {id: TASK_BILLING_METHOD_HOURLY, name: 'I want to pay per actual hour'}
+];
+
+export const TASK_CODERS_NEEDED_ONE = 1;
+export const TASK_CODERS_NEEDED_MULTIPLE = -1;
+
+export const TASK_CODERS_NEEDED_CHOICES = [
+    {id: TASK_CODERS_NEEDED_ONE, name: 'I need one coder for this task'},
+    {id: TASK_CODERS_NEEDED_MULTIPLE, name: 'I need more than one coder for this task'}
+];
 
 export const VISIBILITY_DEVELOPERS = 1;
 export const VISIBILITY_MY_TEAM = 2;
@@ -119,7 +154,7 @@ export const VISIBILITY_CUSTOM = 3;
 export const VISIBILITY_ONLY_ME = 4;
 
 export const TASK_VISIBILITY_CHOICES = [
-    {id: VISIBILITY_DEVELOPERS, name: 'All developers'},
+    {id: VISIBILITY_DEVELOPERS, name: 'All Tunga developers'},
     {id: VISIBILITY_MY_TEAM, name: 'Only my team'},
     {id: VISIBILITY_CUSTOM, name: 'Select developer(s)'}
 ];
@@ -130,12 +165,12 @@ export const SETTINGS_VISIBILITY_CHOICES = [
     {id: VISIBILITY_ONLY_ME, name: 'Only me'}
 ];
 
-export const UPDATE_INTERVAL_UNIT_HOURLY = 1
-export const UPDATE_INTERVAL_UNIT_DAILY = 2
-export const UPDATE_INTERVAL_UNIT_WEEKLY = 3
-export const UPDATE_INTERVAL_UNIT_MONTHLY = 4
-export const UPDATE_INTERVAL_UNIT_QUATERLY = 5
-export const UPDATE_INTERVAL_UNIT_ANNUALLY = 6
+export const UPDATE_INTERVAL_UNIT_HOURLY = 1;
+export const UPDATE_INTERVAL_UNIT_DAILY = 2;
+export const UPDATE_INTERVAL_UNIT_WEEKLY = 3;
+export const UPDATE_INTERVAL_UNIT_MONTHLY = 4;
+export const UPDATE_INTERVAL_UNIT_QUATERLY = 5;
+export const UPDATE_INTERVAL_UNIT_ANNUALLY = 6;
 
 export const UPDATE_SCHEDULE_CHOICES = [
     {number: 1, unit: UPDATE_INTERVAL_UNIT_DAILY, name: 'Daily'},
@@ -175,7 +210,7 @@ export const INTEGRATION_TYPE_ISSUE = 2;
 
 export const INTEGRATION_TYPE_CHOICES = [
     {id: INTEGRATION_TYPE_REPO, name: 'Repository'},
-    {id: INTEGRATION_TYPE_ISSUE, name: 'Issue'},
+    {id: INTEGRATION_TYPE_ISSUE, name: 'Issue'}
 ];
 
 export const INTEGRATION_EVENT_PUSH = 'push';

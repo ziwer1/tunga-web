@@ -227,7 +227,7 @@ export default class TaskWorflow extends ComponentWithModal {
         let is_confirmed_assignee = task.assignee && task.assignee.accepted && task.assignee.user.id == Auth.user.id;
 
         let workflow_link = `/task/${task.id}/?nr=true`;
-        let can_pay = is_admin_or_owner && task.closed && !task.paid;
+        let can_pay = task.is_payable && is_admin_or_owner && task.closed && !task.paid;
         let can_rate = is_admin_or_owner && task.closed && task.paid;
         let can_edit_shares = Auth.user.is_staff || is_confirmed_assignee && task.details && task.details.participation_shares.length > 1;
         let work_type = task.is_project?'project':'task';
@@ -278,8 +278,8 @@ export default class TaskWorflow extends ComponentWithModal {
                                             Project Board
                                         </Link>
                                     ):null}
-                                    {is_admin_or_owner?(
-                                        <Link to={can_pay?`/task/${task.id}/pay/`:workflow_link}
+                                    {can_pay?(
+                                        <Link to={`/task/${task.id}/pay/`}
                                               className="btn">
                                             {can_pay ? 'Make payment' : (
                                                 <OverlayTrigger placement="top" overlay={pay_popover}>
@@ -288,7 +288,7 @@ export default class TaskWorflow extends ComponentWithModal {
                                             )}
                                         </Link>
                                     ):null}
-                                    {is_admin_or_owner && can_rate?(
+                                    {can_rate?(
                                         <Link to={can_rate?`/task/${task.id}/rate/`:workflow_link}
                                               className="btn">
                                             {can_rate ? 'Rate Developers' : (
@@ -298,10 +298,10 @@ export default class TaskWorflow extends ComponentWithModal {
                                             )}
                                         </Link>
                                     ):null}
-                                    {can_edit_shares?(
+                                    {can_edit_shares && task.details && task.details.participation && task.details.participation.length?(
                                         <Link to={`/task/${task.id}/participation/`}
                                               className="btn">
-                                            Edit participation shares
+                                            Participation shares
                                         </Link>
                                     ):null}
                                     <div className="dropdown" style={{display: 'inline-block'}}>
