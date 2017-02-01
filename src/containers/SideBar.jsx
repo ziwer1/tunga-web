@@ -59,7 +59,7 @@ class SideBar extends React.Component {
                         {Auth.user.is_project_owner || Auth.user.is_staff?(
                             <li>
                                 <Link to="/task/new" activeClassName="active">
-                                    <i className="menu-icon tunga-icon-task"/> <span>Post a task</span>
+                                    <i className="menu-icon tunga-icon-task"/> <span>Post work</span>
                                 </Link>
                             </li>):null}
                         <li>

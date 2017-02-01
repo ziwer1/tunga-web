@@ -277,15 +277,26 @@ form .alert {
 
 form {
     max-width: 600px;
+    position: relative;
 
     .nav {
         .btn {
+            position: absolute;
+            top: 25%;
             color: @primary-text;
             font-size: 2.5em;
             background: transparent none !important;
             border-width: 0;
             outline-width: 0;
             padding: 0;
+        }
+
+        .btn.prev-btn {
+            left: -40px;
+        }
+
+        .btn.next-btn {
+            right: -40px;
         }
     }
 }
@@ -344,6 +355,28 @@ form {
     background: @active-white none;
 }
 
+.btn.btn-grey {
+    color: @primary-text;
+    background: @inactive-grey none;
+    border-color: @inactive-grey;
+}
+
+.btn.btn-grey:hover,
+.btn.btn-grey:focus,
+.btn.btn-grey:active {
+    color: @primary;
+    background: @active-white none;
+    border-color: @primary;
+}
+
+.btn.btn-grey.active,
+.btn.btn-grey:hover.active,
+.btn.btn-grey:focus.active {
+    color: @active-white;
+    background: @primary none;
+    border-color: @primary;
+}
+
 form[name="comment"], form[name="reply"] {
     max-width: none;
 }
@@ -358,7 +391,7 @@ form[name="invoice"] {
 
 form {
     .step {
-        min-height: 490px;
+        min-height: 470px;
     }
 }
 
@@ -1430,14 +1463,15 @@ form[name='compose'] {
 
 .rw-datetimepicker {
     > .rw-select {
-        border-radius: 0 0 5px 5px;
+        border-radius: 0 5px 5px 0;
     }
 }
 
-.btn-group.btn-choices {
+.btn-group.btn-choices,
+.btn-choices {
     .btn {
         margin-right: 5px;
-        text-align: left;
+        text-align: center;
         padding: 3px 10px;
         color: @primary-text;
         background: @inactive-grey none;
@@ -1459,7 +1493,8 @@ form[name='compose'] {
     }
 }
 
-.btn-group.btn-choices.select {
+.btn-group.btn-choices.select,
+.btn-choices.select {
     .btn {
         margin: 0;
     }
@@ -1472,9 +1507,25 @@ form[name='compose'] {
     }
 }
 
-.btn-group.btn-choices.btn-switch {
+.btn-group.btn-choices.btn-switch,
+.btn-choices.btn-switch {
     .btn {
         margin-right: 0;
+    }
+}
+
+.btn-choices.choice-fork {
+    .btn {
+        width: 48%;
+        padding: 40px 0;
+        margin: 0 1%;
+        white-space: normal;
+    }
+}
+
+.task-type-choices {
+    .btn {
+        padding: 10px 20px;
     }
 }
 

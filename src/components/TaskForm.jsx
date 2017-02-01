@@ -17,7 +17,11 @@ import MilestoneForm from './MilestoneForm';
 import ProjectPage from '../containers/ProjectPage';
 import ProjectForm from './ProjectForm';
 
-import { USER_TYPE_DEVELOPER, TASK_VISIBILITY_CHOICES, VISIBILITY_DEVELOPERS, VISIBILITY_CUSTOM, UPDATE_SCHEDULE_CHOICES } from '../constants/Api';
+import {
+    USER_TYPE_DEVELOPER, TASK_TYPE_CHOICES, TASK_SCOPE_CHOICES, TASK_SCOPE_ONE_TIME, TASK_SCOPE_ONGOING,
+    TASK_BILLING_METHOD_CHOICES, TASK_BILLING_METHOD_FIXED, TASK_CODERS_NEEDED_CHOICES,
+    TASK_VISIBILITY_CHOICES, VISIBILITY_DEVELOPERS, VISIBILITY_CUSTOM, UPDATE_SCHEDULE_CHOICES
+} from '../constants/Api';
 import {TINY_MCE_CONFIG } from '../constants/settings';
 
 momentLocalizer(moment);
@@ -33,10 +37,13 @@ export default class TaskForm extends ComponentWithModal {
             schedule_map[`${schedule.number}_${schedule.unit}`] = {update_interval: schedule.number, update_interval_units: schedule.unit};
         });
         this.state = {
-            deadline: null, skills: [], description: '', remarks: '', visibility: VISIBILITY_DEVELOPERS,
+            is_project: null, deadline: null, skills: [], scope: null,
+            description: '', remarks: '', visibility: VISIBILITY_DEVELOPERS,
             assignee: null, participants: [], schedule_options, schedule_map,
             step: 1, schedule: null, attachments: [], showAll: false, milestones: [],
-            modalMilestone: null, modalContent: null, modalTitle: '', coders: null
+            modalMilestone: null, modalContent: null, modalTitle: '', coders_needed: null, task_type: null,
+            has_requirements: null, pm_required: null, billing_method: null, stack_description: '', deliverables: '',
+            skype_id: ''
         };
     }
 
@@ -55,9 +62,11 @@ export default class TaskForm extends ComponentWithModal {
                 });
             }
             this.setState({
-                visibility: task.visibility, assignee, participants, description, remarks,
+                is_project: task.is_project, scope: task.scope, visibility: task.visibility, assignee, participants, description, remarks,
                 schedule: this.getScheduleId(), milestones: task.milestones, deadline: task.deadline,
-                coders: task.coders
+                coders_needed: task.coders_needed, task_type: task.type, has_requirements: task.has_requirements,
+                pm_required: task.pm_required, billing_method: task.billing_method,
+                stack_description: task.stack_description, deliverables: task.deliverables, skype_id: task.skype_id
             });
         }
     }
@@ -68,9 +77,12 @@ export default class TaskForm extends ComponentWithModal {
             if(!this.props.task) {
                 this.refs.task_form.reset();
                 this.setState({
-                    deadline: null, skills: [], description: '', remarks: '', visibility: VISIBILITY_DEVELOPERS,
+                    is_project: null, deadline: null, skills: [], scope: null,
+                    description: '', remarks: '', visibility: VISIBILITY_DEVELOPERS,
                     assignee: null, participants: [], schedule: null, attachments: [], showAll: false,
-                    step: 1, milestones: [], modalMilestone: null, modalContent: null, modalTitle: '', coders: null
+                    step: 1, milestones: [], modalMilestone: null, modalContent: null, modalTitle: '', coders_needed: null,
+                    task_type: null, has_requirements: null, pm_required: null,
+                    billing_method: null, stack_description: '', deliverables: '', skype_id: ''
                 });
 
                 const { router } = this.context;
@@ -81,7 +93,7 @@ export default class TaskForm extends ComponentWithModal {
 
     changeStep(direction=true) {
         var next_step = this.state.step + (direction?1:-1);
-        this.setState({step: next_step})
+        this.setState({step: next_step});
     }
 
     getScheduleId() {
@@ -106,12 +118,38 @@ export default class TaskForm extends ComponentWithModal {
         return collaborators;
     }
 
+    onTaskTypeChange(type) {
+        this.setState({task_type: type});
+        this.changeStep();
+    }
+
+    onWorkScopeChange(scope) {
+        this.setState({scope});
+        this.changeStep();
+    }
+
+    onIsProjectChange(is_project) {
+        this.setState({is_project});
+        this.changeStep();
+    }
+
+    onHasRequirementsChange(has_requirements) {
+        this.setState({has_requirements});
+        this.changeStep();
+    }
+
+    onPMRequiredChange(pm_required) {
+        this.setState({pm_required});
+    }
+
     onDeadlineChange(date) {
         this.setState({deadline: moment(date).utc().format()});
     }
 
-    onDescriptionChange(e) {
-        this.setState({description: e.target.getContent()});
+    onDescriptionChange(key, e) {
+        var new_state = {};
+        new_state[key] = e.target.getContent();
+        this.setState(new_state);
     }
 
     onRemarksChange(e) {
@@ -178,48 +216,97 @@ export default class TaskForm extends ComponentWithModal {
         this.setState({milestones: new_milestones});
     }
 
-    onCoderNumberChange(number = 1) {
-        this.setState({coders: number});
+    onStateValueChange(key, value) {
+        var new_state = {};
+        new_state[key] = value;
+        this.setState(new_state);
     }
 
     handleSubmit(e) {
         e.preventDefault();
         var title = this.refs.title?this.refs.title.value.trim():null;
         var description = this.state.description;
-        var remarks = this.state.remarks;
+        var stack_description = this.state.stack_description;
+        var deliverables = this.state.deliverables;
+
+        var task_type = this.state.task_type;
+        var scope = this.state.scope;
+        var is_project = this.state.is_project;
+        var has_requirements = this.state.has_requirements;
+        var pm_required = this.state.pm_required;
+
+        var coders_needed = this.state.coders_needed;
+        var billing_method = this.state.billing_method;
         var fee = this.refs.fee?(this.refs.fee.value.trim() || null):null;
         var deadline = this.state.deadline;
+
         var url = this.refs.url?this.refs.url.value.trim():null;
+        var remarks = this.state.remarks;
+
+        var skype_id = this.state.skype_id;
+
         var visibility = this.state.visibility;
         var schedule_id = this.state.schedule || null;
         var update_schedule = null;
         if(schedule_id) {
             update_schedule = this.state.schedule_map[schedule_id];
         }
+
         var assignee = this.state.assignee;
         var participants = this.state.participants;
         if(assignee) {
             participants.push(assignee);
         }
         var milestones = this.state.milestones;
-        var coders = this.state.coders;
 
-        const { TaskActions, project } = this.props;
-        const task = this.props.task || {};
         const selected_skills = this.state.skills;
         const skills = selected_skills.join(',');
         const attachments = this.state.attachments;
+
+        const { TaskActions, project } = this.props;
+        const task = this.props.task || {};
 
         const task_info = {
             title, description, remarks, skills, url, fee, visibility,
             assignee, participants, milestones, ...update_schedule
         };
-        if(deadline) {
-            task_info.deadline = deadline;
-        }
 
         if(project && project.id) {
             task_info.parent = project.id;
+        }
+        if(task_type) {
+            task_info.type = task_type;
+        }
+        if(scope) {
+            task_info.scope = scope;
+        }
+        if(typeof is_project == 'boolean') {
+            console.log(typeof is_project);
+            task_info.is_project = is_project;
+        }
+        if(typeof has_requirements == 'boolean') {
+            task_info.has_requirements = has_requirements;
+        }
+        if(typeof pm_required == 'boolean') {
+            task_info.pm_required = pm_required;
+        }
+        if(stack_description) {
+            task_info.scope = stack_description;
+        }
+        if(deliverables) {
+            task_info.deliverables = deliverables;
+        }
+        if(billing_method) {
+            task_info.billing_method = billing_method;
+        }
+        if(coders_needed) {
+            task_info.coders_needed = coders_needed;
+        }
+        if(deadline) {
+            task_info.deadline = deadline;
+        }
+        if(skype_id) {
+            task_info.skype_id = skype_id;
         }
 
         if(task.id) {
@@ -253,7 +340,8 @@ export default class TaskForm extends ComponentWithModal {
     render() {
         const { Auth, Task, project } = this.props;
         const task = this.props.task || {};
-        let is_milestone_task = (project && project.id) || (task && task.parent);
+        let is_project_task = (project && project.id) || (task && task.parent);
+        let work_type = this.state.is_project?'project':'task';
 
         if(!Auth.user.can_contribute) {
             return (
@@ -269,8 +357,145 @@ export default class TaskForm extends ComponentWithModal {
             );
         }
         const description = this.props.task?task.description:'';
+        const stack_description = this.props.task?task.stack_description:'';
+        const deliverables = this.props.task?task.deliverables:'';
         const remarks = this.props.task?task.remarks:'';
         const has_error = Task.detail.error.create || Task.detail.error.update;
+
+        let taskTypeComp = (
+            <div>
+                {(Task.detail.error.create && Task.detail.error.create.type)?
+                    (<FieldError message={Task.detail.error.create.type}/>):null}
+                {(Task.detail.error.update && Task.detail.error.update.type)?
+                    (<FieldError message={Task.detail.error.update.type}/>):null}
+                <div className="form-group">
+                    <label className="control-label">What kind of work do you have?</label>
+                    <div>
+                        <div className="btn-choices task-type-choices" role="group">
+                            {TASK_TYPE_CHOICES.map(task_type => {
+                                return (
+                                    <button key={task_type.id} type="button"
+                                            className={"btn " + (this.state.task_type == task_type.id?' active':'')}
+                                            onClick={this.onTaskTypeChange.bind(this, task_type.id)}>
+                                        <i className={`fa ${task_type.icon} fa-3x`}/>
+                                        <div>{task_type.name}</div>
+                                    </button>
+                                )
+                            })}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+
+        let taskScopeComp = (
+            <div>
+                {(Task.detail.error.create && Task.detail.error.create.scope)?
+                    (<FieldError message={Task.detail.error.create.scope}/>):null}
+                {(Task.detail.error.update && Task.detail.error.update.scope)?
+                    (<FieldError message={Task.detail.error.update.scope}/>):null}
+                <div className="form-group">
+                    <label className="control-label">What is the nature of the project?</label>
+                    <div>
+                        <div className="btn-choices choice-fork" role="group">
+                            {TASK_SCOPE_CHOICES.map(scope_type => {
+                                return (
+                                    <button key={scope_type.id} type="button"
+                                            className={"btn" + (this.state.scope == scope_type.id?' active':'')}
+                                            onClick={this.onWorkScopeChange.bind(this, scope_type.id)}>
+                                        <div>{scope_type.name}</div>
+                                    </button>
+                                )
+                            })}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+
+        let isProjectComp = (
+            <div>
+                {(Task.detail.error.create && Task.detail.error.create.is_project)?
+                    (<FieldError message={Task.detail.error.create.is_project}/>):null}
+                {(Task.detail.error.update && Task.detail.error.update.is_project)?
+                    (<FieldError message={Task.detail.error.update.is_project}/>):null}
+                <div className="form-group">
+                    <label className="control-label">What is the scope of the work?</label>
+                    <div>
+                        <div className="btn-choices choice-fork" role="group">
+                            {[
+                                {id: false, name: 'I have a task<br/>&lt; 50 hours'},
+                                {id: true, name: 'I have a project<br/>&gt; than 50 hours'}
+                            ].map(work_type => {
+                                return (
+                                    <button key={work_type.id} type="button"
+                                            className={"btn" + (this.state.is_project == work_type.id?' active':'')}
+                                            onClick={this.onIsProjectChange.bind(this, work_type.id)}>
+                                        <div dangerouslySetInnerHTML={{__html: work_type.name}} />
+                                    </button>
+                                )
+                            })}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+
+        let hasRequirementsComp = (
+            <div>
+                {(Task.detail.error.create && Task.detail.error.create.has_requirements)?
+                    (<FieldError message={Task.detail.error.create.has_requirements}/>):null}
+                {(Task.detail.error.update && Task.detail.error.update.has_requirements)?
+                    (<FieldError message={Task.detail.error.update.has_requirements}/>):null}
+                <div className="form-group">
+                    <label className="control-label">Do you have clear requirements for this project?</label>
+                    <div>
+                        <div className="btn-choices choice-fork" role="group">
+                            {[
+                                {id: true, name: 'Yes, and I would like to submit my project on Tunga now'},
+                                {id: false, name: 'No, I would like to talk to someone on Tunga about my project'}
+                            ].map(has_requirements => {
+                                return (
+                                    <button key={has_requirements.id} type="button"
+                                            className={"btn" + (this.state.has_requirements == has_requirements.id?' active':'')}
+                                            onClick={this.onHasRequirementsChange.bind(this, has_requirements.id)}>
+                                        <div dangerouslySetInnerHTML={{__html: has_requirements.name}} />
+                                    </button>
+                                )
+                            })}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+
+        let requiresPMComp = (
+            <div>
+                {(Task.detail.error.create && Task.detail.error.create.pm_required)?
+                    (<FieldError message={Task.detail.error.create.pm_required}/>):null}
+                {(Task.detail.error.update && Task.detail.error.update.pm_required)?
+                    (<FieldError message={Task.detail.error.update.pm_required}/>):null}
+                <div className="form-group">
+                    <label className="control-label">Do you want a project manager for this project?</label>
+                    <div>
+                        <div className="btn-choices" role="group">
+                            {[
+                                {id: false, name: 'Yes, I want a project manager'},
+                                {id: true, name: 'No, I will manage all processes for this project myself'}
+                            ].map(pm_options => {
+                                return (
+                                    <button key={pm_options.id} type="button"
+                                            className={"btn" + (this.state.pm_required == pm_options.id?' active':'')}
+                                            onClick={this.onPMRequiredChange.bind(this, pm_options.id)}>
+                                        <div dangerouslySetInnerHTML={{__html: pm_options.name}} />
+                                    </button>
+                                )
+                            })}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
 
         let titleComp = (
             <div>
@@ -279,7 +504,7 @@ export default class TaskForm extends ComponentWithModal {
                 {(Task.detail.error.update && Task.detail.error.update.title)?
                     (<FieldError message={Task.detail.error.update.title}/>):null}
                 <div className="form-group">
-                    <label className="control-label">Title for your task *</label>
+                    <label className="control-label">Title for your {work_type} *</label>
                     <div><input type="text" className="form-control" ref="title" required placeholder="Title" defaultValue={task.title}/></div>
                 </div>
             </div>
@@ -292,11 +517,49 @@ export default class TaskForm extends ComponentWithModal {
                 {(Task.detail.error.update && Task.detail.error.update.description)?
                     (<FieldError message={Task.detail.error.update.description}/>):null}
                 <div className="form-group">
-                    <label className="control-label">Requirements for this task</label>
+                    <label className="control-label">{
+                        this.state.scope == TASK_SCOPE_ONGOING?'What kind of work do you have for developers':(
+                            this.state.is_project?(
+                                this.state.has_requirements?'Goals of the project':'Describe the idea you have for the project'
+                            ):'Requirements for this task'
+                        )
+                    }</label>
                     <TinyMCE
                         content={description}
                         config={TINY_MCE_CONFIG}
-                        onChange={this.onDescriptionChange.bind(this)}/>
+                        onChange={this.onDescriptionChange.bind(this, 'description')}/>
+                </div>
+            </div>
+        );
+
+        let stackDescComp = (
+            <div>
+                {(Task.detail.error.create && Task.detail.error.create.stack_description)?
+                    (<FieldError message={Task.detail.error.create.stack_description}/>):null}
+                {(Task.detail.error.update && Task.detail.error.update.stack_description)?
+                    (<FieldError message={Task.detail.error.update.stack_description}/>):null}
+                <div className="form-group">
+                    <label className="control-label">Description of the stack/technology you want to use</label>
+                    <TinyMCE
+                        content={stack_description}
+                        config={TINY_MCE_CONFIG}
+                        onChange={this.onDescriptionChange.bind(this, 'stack_description')}/>
+                </div>
+            </div>
+        );
+
+        let deliverablesComp = (
+            <div>
+                {(Task.detail.error.create && Task.detail.error.create.deliverables)?
+                    (<FieldError message={Task.detail.error.create.deliverables}/>):null}
+                {(Task.detail.error.update && Task.detail.error.update.deliverables)?
+                    (<FieldError message={Task.detail.error.update.deliverables}/>):null}
+                <div className="form-group">
+                    <label className="control-label">What are the deliverables</label>
+                    <TinyMCE
+                        content={deliverables}
+                        config={TINY_MCE_CONFIG}
+                        onChange={this.onDescriptionChange.bind(this, 'deliverables')}/>
                 </div>
             </div>
         );
@@ -308,7 +571,7 @@ export default class TaskForm extends ComponentWithModal {
                 {(Task.detail.error.update && Task.detail.error.update.skills)?
                     (<FieldError message={Task.detail.error.update.skills}/>):null}
                 <div className="form-group">
-                    <label className="control-label">Skills required for this task *</label>
+                    <label className="control-label">Skills required for this {work_type} *</label>
                     <SkillSelector filter={{filter: null}}
                                    onChange={this.onSkillChange.bind(this)}
                                    skills={task.details?task.details.skills:[]}/>
@@ -323,9 +586,15 @@ export default class TaskForm extends ComponentWithModal {
                 {(Task.detail.error.update && Task.detail.error.update.fee)?
                     (<FieldError message={Task.detail.error.update.fee}/>):null}
                 <div className="form-group">
-                    <label className="control-label">Fixed fee for this task (in Euros) {is_milestone_task?' - optional':''}</label>
-                    <div><input type="text" className="form-control" ref="fee" required={!is_milestone_task} placeholder="Pledge in €" defaultValue={task.fee?parseFloat(task.fee).toFixed(2):''}/></div>
-                    <div style={{marginTop: '10px'}}>13% of pledge goes to Tunga</div>
+                    <label className="control-label">{
+                        this.state.is_project && !this.state.has_requirements?
+                            'What is roughly the budget of this project?':
+                            `Fixed fee for this task (in Euros) ${is_project_task?' - optional':''}`
+                    }</label>
+                    <div><input type="text" className="form-control" ref="fee" required={!is_project_task} placeholder="Amount in Euros" defaultValue={task.fee?parseFloat(task.fee).toFixed(2):''}/></div>
+                    {!this.state.is_project || this.state.has_requirements?(
+                        <div style={{marginTop: '10px'}}>13% of pledge goes to Tunga</div>
+                    ):null}
                 </div>
             </div>
         );
@@ -337,15 +606,25 @@ export default class TaskForm extends ComponentWithModal {
                 {(Task.detail.error.update && Task.detail.error.update.deadline)?
                     (<FieldError message={Task.detail.error.update.deadline}/>):null}
                 <div className="form-group">
-                    <label className="control-label">When do you need the task done?</label>
-                    <DateTimePicker ref="deadline" onChange={this.onDeadlineChange.bind(this)} defaultValue={task.deadline?(new Date(moment.utc(task.deadline).format())):null}/>
+                    <label className="control-label">When do you need the {work_type} done?</label>
+                    <div className="row">
+                        <div className="col-md-6">
+                            <DateTimePicker ref="deadline" onChange={this.onDeadlineChange.bind(this)} defaultValue={task.deadline?(new Date(moment.utc(task.deadline).format())):null}/>
+                        </div>
+                        <div>
+                            <button type="button"
+                                    className={"btn btn-grey " + (this.state.deadline === undefined?' active':'')}
+                                    onClick={this.onStateValueChange.bind(this, 'deadline', undefined)}>I don't have a deadline for this task
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         );
 
         let filesComp = (
             <div className="form-group">
-                <label className="control-label">Files</label>
+                <label className="control-label">{this.state.is_project?`Please upload relevant files for the ${work_type} (e.g functional requirements and/or wireframes)`:'Files'}</label>
                 <div>
                     <Dropzone ref="dropzone" onDrop={this.onDrop.bind(this)} style={{display: 'none'}}>
                         <div>Try dropping some files here, or click to select files to upload.</div>
@@ -371,13 +650,13 @@ export default class TaskForm extends ComponentWithModal {
                     (<FieldError message={Task.detail.error.create.update_schedule}/>):null}
                 {(Task.detail.error.update && Task.detail.error.update.update_schedule)?
                     (<FieldError message={Task.detail.error.update.update_schedule}/>):null}
-                {is_milestone_task?null:(
+                {is_project_task?null:(
                     <div className="form-group">
-                        <div className="highlight">Our coders send you updates to keep you up to date on the progress of your task</div>
+                        <div className="highlight">Our coders send you updates to keep you up to date on the progress of your {work_type}</div>
                         <label className="control-label">How often would you like to receive an update?</label>
                         <div className="secondary">* Tunga recommends daily updates</div>
                         <div>
-                            <div className="btn-group btn-choices" role="group" aria-label="update preference">
+                            <div className="btn-choices" role="group" aria-label="update preference">
                                 <button type="button"
                                         className={"btn " + (!this.state.schedule?' active':'')}
                                         onClick={this.onUpdateScheduleChange.bind(this, null)}>No updates
@@ -399,12 +678,12 @@ export default class TaskForm extends ComponentWithModal {
 
         let milestoneComp = (
             <div>
-                {is_milestone_task?null:(
+                {is_project_task?null:(
                     <div className="form-group">
-                        <label className="control-label">Would you like to add milestones to this task?</label>
+                        <label className="control-label">Would you like to add milestones to this {work_type}?</label>
                         {this.state.milestones && this.state.milestones.length?(
                             <div>
-                                <ButtonGroup className="btn-choices">
+                                <div className="btn-choices">
                                     {this.state.milestones.map((milestone, idx) => {
                                         const tooltip = (<Tooltip id="tooltip"><strong>{milestone.title}</strong><br/>{milestone.due_at?moment.utc(milestone.due_at).local().format('Do, MMMM YYYY, h:mm a'):null}</Tooltip>);
                                         return (
@@ -426,7 +705,7 @@ export default class TaskForm extends ComponentWithModal {
                                             <Button bsStyle="default">{_.truncate('Hand over final draft', {length: 25})}</Button>
                                         </OverlayTrigger>
                                     ):null}
-                                </ButtonGroup>
+                                </div>
                             </div>
                         ):null}
                         <div>
@@ -444,9 +723,9 @@ export default class TaskForm extends ComponentWithModal {
                 {(Task.detail.error.update && Task.detail.error.update.visibility)?
                     (<FieldError message={Task.detail.error.update.visibility}/>):null}
                 <div className="form-group">
-                    <label className="control-label">Who would you like to be able to see your task?</label>
+                    <label className="control-label">Who would you like to be able to see your {work_type}?</label>
                     <br/>
-                    <div className="btn-group btn-choices" role="group" aria-label="visibility">
+                    <div className="btn-choices" role="group" aria-label="visibility">
                         {TASK_VISIBILITY_CHOICES.map(visibility => {
                             return (
                                 <button key={visibility.id} type="button"
@@ -498,9 +777,9 @@ export default class TaskForm extends ComponentWithModal {
                     (<FieldError message={Task.detail.error.create.remarks}/>):null}
                 {(Task.detail.error.update && Task.detail.error.update.remarks)?
                     (<FieldError message={Task.detail.error.update.remarks}/>):null}
-                {is_milestone_task?null:(
+                {is_project_task?null:(
                     <div className="form-group">
-                        <label className="control-label">Which files can you deliver in order to provide more details for this task?</label>
+                        <label className="control-label">Which files can you deliver in order to provide more details for this {work_type}?</label>
                         <TinyMCE
                             content={remarks}
                             config={TINY_MCE_CONFIG}
@@ -512,19 +791,19 @@ export default class TaskForm extends ComponentWithModal {
 
         let codersComp = (
             <div>
-                {(Task.detail.error.create && Task.detail.error.create.coders)?
-                    (<FieldError message={Task.detail.error.create.coders}/>):null}
-                {(Task.detail.error.update && Task.detail.error.update.coders)?
-                    (<FieldError message={Task.detail.error.update.coders}/>):null}
+                {(Task.detail.error.create && Task.detail.error.create.coders_needed)?
+                    (<FieldError message={Task.detail.error.create.coders_needed}/>):null}
+                {(Task.detail.error.update && Task.detail.error.update.coders_needed)?
+                    (<FieldError message={Task.detail.error.update.coders_needed}/>):null}
                 <div className="form-group">
-                    <label className="control-label">How many coders will you need for this task</label>
+                    <label className="control-label">How many coders will you need for this {work_type}</label>
                     <div>
-                        <div className="btn-group btn-choices" role="group" aria-label="payment method">
-                            {[{id:1, name: 'I need one coder for this task'}, {id: -1, name: 'I need more than one coder for this task'}].map(coder_number => {
+                        <div className="btn-choices" role="group" aria-label="coders">
+                            {TASK_CODERS_NEEDED_CHOICES.map(coder_number => {
                                 return (
                                     <button key={coder_number.id} type="button"
-                                            className={"btn " + (this.state.coders && this.state.coders == task.coders?' active':'')}
-                                            onClick={this.onCoderNumberChange.bind(this, coder_number.id)}>{coder_number.name}
+                                            className={"btn " + (this.state.coders_needed && this.state.coders_needed == coder_number.id?' active':'')}
+                                            onClick={this.onStateValueChange.bind(this, 'coders_needed', coder_number.id)}>{coder_number.name}
                                     </button>
                                 )
                             })}
@@ -534,30 +813,177 @@ export default class TaskForm extends ComponentWithModal {
             </div>
         );
 
-        var sections = [
-            {
-                title: '1/4 Basic details about your task',
-                items: [titleComp, skillsComp]
-            },
-            {
-                title: '2/4 Requirements',
-                items: [descComp, filesComp, codersComp]
-            },
-            {
-                title: '3/4 Agreements',
-                items: [deadlineComp, feeComp]
-            },
-            {
-                title: '4/4 Workflow updates',
-                items: [updatesComp, milestoneComp, visibilityComp]
+        let billingComp = (
+            <div>
+                {(Task.detail.error.create && Task.detail.error.create.billing_method)?
+                    (<FieldError message={Task.detail.error.create.billing_method}/>):null}
+                {(Task.detail.error.update && Task.detail.error.update.billing_method)?
+                    (<FieldError message={Task.detail.error.update.billing_method}/>):null}
+                <div className="form-group">
+                    <label className="control-label">How would you like to pay?</label>
+                    <div>
+                        <div className="btn-choices" role="group" aria-label="coders">
+                            {TASK_BILLING_METHOD_CHOICES.map(billing_method => {
+                                return (
+                                    <button key={billing_method.id} type="button"
+                                            className={"btn " + (this.state.billing_method && this.state.billing_method == billing_method.id?' active':'')}
+                                            onClick={this.onStateValueChange.bind(this, 'billing_method', billing_method.id)}>{billing_method.name}
+                                    </button>
+                                )
+                            })}
+                            {!this.state.is_project?(
+                                <button type="button"
+                                        className={"btn " + (this.state.billing_method === undefined?' active':'')}
+                                        onClick={this.onStateValueChange.bind(this, 'billing_method', undefined)}>I'm not sure
+                                </button>
+                            ):null}
+                        </div>
+                    </div>
+                </div>
+                {!this.state.is_project && this.state.billing_method == TASK_BILLING_METHOD_FIXED?(feeComp):null}
+            </div>
+        );
+
+        let contactComp = (
+            <div>
+                {(Task.detail.error.create && Task.detail.error.create.skype_id)?
+                    (<FieldError message={Task.detail.error.create.skype_id}/>):null}
+                {(Task.detail.error.update && Task.detail.error.update.skype_id)?
+                    (<FieldError message={Task.detail.error.update.skype_id}/>):null}
+                <div className="form-group">
+                    <p className="highlight">We'll reach out to you to plan a call to find the perfect match</p>
+                    <label className="control-label">Please fill in your skype id</label>
+                    <div className="row">
+                        <div className="col-md-6">
+                            <div><input type="text"
+                                        className="form-control"
+                                        ref="skype_id" placeholder="Your Skype ID"
+                                        defaultValue={task.skype_id}
+                                        onClick={this.onStateValueChange.bind(this, 'skype_id', this.refs.skype_id?this.refs.skype_id.value.trim():'')}
+                            /></div>
+                        </div>
+                        <div>
+                            <button type="button"
+                                    className={"btn btn-grey " + (this.state.skype_id === undefined?' active':'')}
+                                    onClick={this.onStateValueChange.bind(this, 'skype_id', undefined)}>I don't have a Skype, Contact me via email
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+
+        var sections = [];
+        if(is_project_task) {
+            sections = [
+                {
+                    items: [titleComp, descComp, skillsComp, feeComp, filesComp, deadlineComp, visibilityComp]
+                }
+            ];
+        } else if(this.state.scope == TASK_SCOPE_ONGOING) {
+            sections = [
+                {
+                    title: '1/2 Basic details about the task',
+                    items: [descComp, codersComp, skillsComp]
+                },
+                {
+                    title: '1/2 The next step',
+                    items: [contactComp]
+                }
+            ]
+        } else if(this.state.is_project && !this.state.has_requirements) {
+            sections = [
+                {
+                    title: '1/2 Project description',
+                    items: [descComp, deliverablesComp, stackDescComp, filesComp]
+                },
+                {
+                    title: '1/2 Agreements',
+                    items: [deadlineComp, feeComp]
+                }
+            ]
+        } else {
+            sections = [
+                {
+                    title: `1/${this.state.is_project?'3':'4'} Basic details about your ${work_type}`,
+                    items: [titleComp, skillsComp, this.state.is_project?requiresPMComp:null]
+                }
+            ];
+
+            if(this.state.is_project) {
+                sections = [
+                    ...sections,
+                    {
+                        title: '2/3 Project description',
+                        items: [descComp, this.state.pm_required?(<div style={{margin: '20px 0'}}>Add developer profiles here?</div>):stackDescComp, deliverablesComp, filesComp]
+                    },
+                    {
+                        title: '3/3 Agreements',
+                        items: [updatesComp, deadlineComp, billingComp]
+                    }
+                ];
+            } else {
+                sections = [
+                    ...sections,
+                    {
+                        title: '2/4 Requirements',
+                        items: [descComp, filesComp, codersComp]
+                    },
+                    {
+                        title: '3/4 Agreements',
+                        items: [deadlineComp, billingComp]
+                    },
+                    {
+                        title: '4/4 Workflow updates',
+                        items: [updatesComp, milestoneComp, visibilityComp]
+                    }
+                ]
             }
-        ];
+        }
+
+        if(!task.id && !is_project_task) {
+            if(this.state.is_project) {
+                sections = [
+                    {
+                        title: '',
+                        items: [hasRequirementsComp],
+                        required: true
+                    },
+                    ...sections
+                ]
+            }
+
+            if(this.state.scope != TASK_SCOPE_ONGOING) {
+                sections = [
+                    {
+                        title: '',
+                        items: [isProjectComp],
+                        required: true
+                    },
+                    ... sections
+                ];
+            }
+
+            sections = [
+                {
+                    title: '',
+                    items: [taskTypeComp],
+                    required: true
+                },
+                {
+                    title: '',
+                    items: [taskScopeComp],
+                    required: true
+                },
+                ... sections
+            ];
+        }
 
         return (
             <div className="form-wrapper">
                 {this.renderModalContent()}
-                {task.id || is_milestone_task?null:(
-                <h2 className="title">Post a task</h2>
+                {task.id || is_project_task?null:(
+                <h2 className="title">Post work</h2>
                     )}
 
                 <form onSubmit={this.handleSubmit.bind(this)} name="task" role="form" ref="task_form" className={has_error || this.state.showAll?'steps-all':null}>
@@ -579,7 +1005,9 @@ export default class TaskForm extends ComponentWithModal {
                                                 onClick={this.showAll.bind(this)}
                                                 className="btn"
                                                 disabled={Task.detail.isSaving}>
-                                            {task.id?'Update':'Publish'} {task.is_project?'project':'task'}
+                                            {this.state.scope == TASK_SCOPE_ONGOING?'Find me awesome developers':(
+                                                `${task.id?'Update':'Publish'} ${this.state.is_project?'project':'task'}`
+                                            )}
                                         </button>
                                     </div>
                                 ):null}
@@ -589,12 +1017,12 @@ export default class TaskForm extends ComponentWithModal {
 
                     <div className="nav text-center">
                         {this.state.step > 1?(
-                        <button type="button" className="btn" onClick={this.changeStep.bind(this, false)}>
+                        <button type="button" className="btn prev-btn" onClick={this.changeStep.bind(this, false)}>
                             <i className="tunga-icon-previous"/>
                         </button>
                             ):null}
-                        {this.state.step < sections.length?(
-                        <button type="button" className="btn" onClick={this.changeStep.bind(this, true)}>
+                        {this.state.step < sections.length && sections[this.state.step-1] && !sections[this.state.step-1].required?(
+                        <button type="button" className="btn next-btn" onClick={this.changeStep.bind(this, true)}>
                             <i className="tunga-icon-next"/>
                         </button>
                             ):null}
