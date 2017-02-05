@@ -252,10 +252,17 @@ export default class TaskForm extends ComponentWithModal {
             update_schedule = this.state.schedule_map[schedule_id];
         }
 
+        var participation = [];
+
         var assignee = this.state.assignee;
         var participants = this.state.participants;
+        if (participants) {
+            participation = participants.map(function (id) {
+                return {user: id, assignee: false};
+            });
+        }
         if(assignee) {
-            participants.push(assignee);
+            participation.push({user: assignee, assignee: true});
         }
         var milestones = this.state.milestones;
 
@@ -268,7 +275,7 @@ export default class TaskForm extends ComponentWithModal {
 
         const task_info = {
             title, description, remarks, skills, url, fee, visibility,
-            assignee, participants, milestones, ...update_schedule
+            participation, milestones, ...update_schedule
         };
 
         if(project && project.id) {
