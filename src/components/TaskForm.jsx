@@ -295,7 +295,7 @@ export default class TaskForm extends ComponentWithModal {
         let is_project_task = (project && project.id) || (task && task.parent);
         let work_type = this.state.is_project?'project':'task';
 
-        if(!Auth.user.can_contribute) {
+        if(Auth.isAuthenticated && !Auth.user.can_contribute) {
             return (
                 <div>
                     {task.id?null:(
@@ -1058,7 +1058,7 @@ export default class TaskForm extends ComponentWithModal {
             <div className="form-wrapper">
                 {this.renderModalContent()}
                 {task.id || is_project_task?null:(
-                <h2 className="title">Post work</h2>
+                <h2 className="title">{Auth.isAuthenticated?'Post work':'Hire awesome developers!'}</h2>
                     )}
 
                 <form onSubmit={this.handleSubmit.bind(this)} name="task" role="form" ref="task_form" className={has_error || this.state.showAll?'steps-all':null}>

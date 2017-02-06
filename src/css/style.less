@@ -2755,18 +2755,19 @@ form[name='compose'] {
         }
 
         .head-desc {
-            max-width: 800px;
+            text-align: center;
 
             .details {
-                max-width: 400px;
-                margin: 30px 0 40px 0;
-                font-weight: 400;
-                .font-size(1.5);
-            }
+                font-weight: 100;
+                .font-size(1.4);
+                color: @inactive-grey;
 
-            ul {
-                list-style: none;
-                padding: 0;
+                .fa {
+                    color: @primary;
+                    .font-size(1.0);
+                    display: inline-block;
+                    margin: 0 5px;
+                }
             }
         }
 

@@ -6,7 +6,11 @@ import Slider from 'react-slick';
 
 import ShowcaseContainer from './ShowcaseContainer';
 import ShowCaseFooter from './ShowCaseFooter';
-import EmailLoginWidget from '../components/EmailLoginWidget';
+import ComponentWithModal from '../components/ComponentWithModal';
+import LargeModal from '../components/ModalLarge';
+
+import TaskPage from 'containers/TaskPage';
+import TaskForm from 'components/TaskForm';
 
 import { sendGAEvent, GA_EVENT_CATEGORIES, GA_EVENT_ACTIONS, GA_EVENT_LABELS } from '../utils/tracking';
 
@@ -37,7 +41,7 @@ let TESTIMONIALS = [
     }*/
 ];
 
-export default class LandingPage extends React.Component {
+export default class LandingPage extends ComponentWithModal {
     constructor(props) {
         super(props);
         this.state = {player: null, play: false};
@@ -74,6 +78,22 @@ export default class LandingPage extends React.Component {
         }
     }
 
+    createTask() {
+        this.open();
+    }
+
+    renderModalContent() {
+        return (
+            <LargeModal title="" bsStyle="lg"
+                        show={this.state.showModal}
+                        onHide={this.close.bind(this)}>
+                <TaskPage>
+                    <TaskForm/>
+                </TaskPage>
+            </LargeModal>
+        );
+    }
+
     renderHeaderContent() {
         return (
             <div>
@@ -82,22 +102,19 @@ export default class LandingPage extends React.Component {
                         Instant access to skilled <br/>
                         African software developers.
                     </h1>
-                    <div className="details">
-                        <ul>
-                            <li>Easy <span className="light">set up</span></li>
-                            <li>Free <span className="light">to connect with freelancers</span></li>
-                            <li>No cure <span className="light"> no pay for tasks</span></li>
-                        </ul>
-                    </div>
-                </div>
-                <div>
-                    <div className="pull-left">
-                        <button className="btn btn-watch" onClick={this.onPlayVideo.bind(this)}><i
-                            className="fa fa-play"/> Watch the video
+                    <p className="details">
+                        <span>Easy set up</span>
+                        <span className="fa fa-circle"/>
+                        <span>Free to connect with freelancers</span>
+                        <span className="fa fa-circle"/>
+                        <span>No cure no pay for tasks</span>
+                    </p>
+                    <div>
+                        <button to="/task/new/"
+                                className="btn btn-callout"
+                                onClick={this.createTask.bind(this)}>
+                            Hire awesome developers
                         </button>
-                    </div>
-                    <div className="pull-right">
-                        <EmailLoginWidget />
                     </div>
                 </div>
             </div>
@@ -118,6 +135,7 @@ export default class LandingPage extends React.Component {
             <ShowcaseContainer className="landing-page" headerContent={this.renderHeaderContent()}
                                chatId={this.props.params?this.props.params.chatId:null}>
                 <Helmet title="Tunga | Unlocking Africa's Tech talent potential."/>
+                {this.renderModalContent()}
                 <section id="press">
                     <div className="container">
                         <h2 className="text-center">Featured press</h2>
