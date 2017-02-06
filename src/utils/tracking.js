@@ -26,9 +26,11 @@ export const GA_HIT = {
 export const GA_EVENT_CATEGORIES = {
     AUTH: 'Authentication',
     REGISTRATION: 'Registration',
+    PROFILE: 'Profile',
     TASK: 'Task',
     CONTACT: 'Contact',
-    VIDEO:'Video'
+    VIDEO:'Video',
+    MESSAGE: 'Message'
 };
 
 export const GA_EVENT_ACTIONS = {
@@ -36,14 +38,22 @@ export const GA_EVENT_ACTIONS = {
     SIGN_UP: 'Sign Up',
     BROWSE_DEVS: 'Browse Developers',
     LOG_OUT: 'Log Out',
+    CHANGE_PASSWORD: 'Change Password',
     RECOVER_PASSWORD: 'Recover Password',
+    RECOVER_PASSWORD_CONFIRM: 'Recover Password Confirm',
     DEV_APPLY: 'Developer Apply',
     DEV_INVITE: 'Invite Developer',
     PLAY: 'Play',
+    PAUSE: 'Pause',
     CREATE: 'Create',
+    UPDATE: 'Update',
     APPLY: 'Apply',
+    INTEGRATE: 'Integrate',
+    INVOICE: 'Invoice',
+    RATE: 'Rate',
     SCHEDULE_CALL: 'Schedule Call',
-    REQUEST_OFFER: 'Request Offer'
+    REQUEST_OFFER: 'Request Offer',
+    SEND: 'Send'
 };
 
 export const GA_EVENT_LABELS = {

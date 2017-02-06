@@ -2,9 +2,8 @@ import axios from 'axios';
 import { ENDPOINT_ACCOUNT_INFO, ENDPOINT_USER_INFO, ENDPOINT_PROFILE, ENDPOINT_CHANGE_PASSWORD, ENDPOINT_USER_EDUCATION, ENDPOINT_USER_WORK, ENDPOINT_NOTIFICATION, ENDPOINT_COUNTRIES } from '../constants/Api';
 
 import {
-    sendGAEvent, sendTwitterSignUpEvent,
-    GA_EVENT_CATEGORIES, GA_EVENT_ACTIONS, GA_EVENT_LABELS, AUTH_METHODS,
-    getGAUserType, getUserTypeTwitter
+    sendGAEvent, getGAUserType,
+    GA_EVENT_CATEGORIES, GA_EVENT_ACTIONS,
 } from '../utils/tracking';
 import {getUser} from 'utils/auth';
 
@@ -79,7 +78,6 @@ export function updateAuthUserStart() {
 
 export function updateAuthUserSuccess(user) {
     var current_user = getUser();
-    console.log('current_user', current_user);
     if(current_user && !current_user.type) {
         // If current user doesn't have a type, this can be treated as Sign Up
         sendGAEvent(GA_EVENT_CATEGORIES.REGISTRATION, GA_EVENT_ACTIONS.SIGN_UP, getGAUserType(user));
@@ -116,6 +114,8 @@ export function updateAccountInfoStart() {
 }
 
 export function updateAccountInfoSuccess(user) {
+    sendGAEvent(GA_EVENT_CATEGORIES.PROFILE, GA_EVENT_ACTIONS.UPDATE, getGAUserType(getUser()));
+
     return {
         type: UPDATE_ACCOUNT_INFO_SUCCESS,
         user
@@ -204,6 +204,8 @@ export function updateProfileStart(id) {
 }
 
 export function updateProfileSuccess(profile) {
+    sendGAEvent(GA_EVENT_CATEGORIES.PROFILE, GA_EVENT_ACTIONS.UPDATE, getGAUserType(getUser()));
+
     return {
         type: UPDATE_PROFILE_SUCCESS,
         profile
@@ -236,6 +238,7 @@ export function updatePasswordStart() {
 }
 
 export function updatePasswordSuccess() {
+    sendGAEvent(GA_EVENT_CATEGORIES.AUTH, GA_EVENT_ACTIONS.CHANGE_PASSWORD, getGAUserType(getUser()));
     return {
         type: UPDATE_PASSWORD_SUCCESS
     }

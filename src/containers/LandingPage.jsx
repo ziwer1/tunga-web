@@ -49,7 +49,10 @@ export default class LandingPage extends React.Component {
     }
 
     onVideoReady(e) {
-        this.setState({player: e.target});
+        var player = e.target;
+        if(player) {
+            this.setState({player: e.target});
+        }
     }
 
     onPlayVideo() {
@@ -58,6 +61,10 @@ export default class LandingPage extends React.Component {
             this.state.player.playVideo();
             sendGAEvent(GA_EVENT_CATEGORIES.VIDEO, GA_EVENT_ACTIONS.PLAY, GA_EVENT_LABELS.INTRO_VIDEO);
         }
+    }
+
+    onPauseVideo() {
+        sendGAEvent(GA_EVENT_CATEGORIES.VIDEO, GA_EVENT_ACTIONS.PAUSE, GA_EVENT_LABELS.INTRO_VIDEO);
     }
 
     onCloseVideo() {
@@ -273,6 +280,7 @@ export default class LandingPage extends React.Component {
                             videoId="FQHxc5VNs7A"
                             opts={{height: '80%', width: '100%'}}
                             onReady={this.onVideoReady.bind(this)}
+                            onPause={this.onPauseVideo.bind(this)}
                         />
                     </div>
                 </section>

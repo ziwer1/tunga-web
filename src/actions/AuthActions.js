@@ -394,6 +394,8 @@ export function resetPasswordConfirmStart(credentials) {
 }
 
 export function resetPasswordConfirmSuccess(response) {
+    sendGAEvent(GA_EVENT_CATEGORIES.AUTH, GA_EVENT_ACTIONS.RECOVER_PASSWORD_CONFIRM);
+    
     return {
         type: RESET_PASSWORD_CONFIRM_SUCCESS,
         response

@@ -2,6 +2,9 @@ import axios from 'axios';
 import { ENDPOINT_MESSAGE } from '../constants/Api';
 import { updateChannelRead } from './ChannelActions';
 
+import { sendGAEvent, GA_EVENT_CATEGORIES, GA_EVENT_ACTIONS, getGAUserType } from '../utils/tracking';
+import {getUser} from 'utils/auth';
+
 export const CREATE_MESSAGE_START = 'CREATE_MESSAGE_START';
 export const CREATE_MESSAGE_SUCCESS = 'CREATE_MESSAGE_SUCCESS';
 export const CREATE_MESSAGE_FAILED = 'CREATE_MESSAGE_FAILED';
@@ -72,6 +75,8 @@ export function createMessageStart(message) {
 }
 
 export function createMessageSuccess(message) {
+    sendGAEvent(GA_EVENT_CATEGORIES.MESSAGE, GA_EVENT_ACTIONS.SEND, getGAUserType(getUser()));
+
     return {
         type: CREATE_MESSAGE_SUCCESS,
         message
