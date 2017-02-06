@@ -240,7 +240,7 @@ export function updateTask(id, data, uploads) {
                 processData: false,
                 contentType: false
             }).then(function (response) {
-                dispatch(updateTaskSuccess(response));
+                dispatch(updateTaskSuccess(response, data));
                 if(!data) {
                     dispatch(shareTaskUploadSuccess(response, uploads.length));
                 }
@@ -250,7 +250,7 @@ export function updateTask(id, data, uploads) {
         } else {
             axios.patch(ENDPOINT_TASK + id + '/', data)
                 .then(function(response) {
-                    dispatch(updateTaskSuccess(response.data))
+                    dispatch(updateTaskSuccess(response.data, data));
                 }).catch(function(error) {
                 dispatch(updateTaskFailed(error.response?error.response.data:null));
             });
@@ -265,7 +265,12 @@ export function updateTaskStart(id) {
     }
 }
 
-export function updateTaskSuccess(task) {
+export function updateTaskSuccess(task, data) {
+    sendGAEvent(GA_EVENT_CATEGORIES.TASK, GA_EVENT_ACTIONS.UPDATE, getGAUserType(getUser()));
+    if(data && data.ratings) {
+        sendGAEvent(GA_EVENT_CATEGORIES.TASK, GA_EVENT_ACTIONS.RATE, getGAUserType(getUser()));
+    }
+
     return {
         type: UPDATE_TASK_SUCCESS,
         task
@@ -461,6 +466,8 @@ export function createTaskIntegrationStart(id, provider) {
 }
 
 export function createTaskIntegrationSuccess(response, provider) {
+    sendGAEvent(GA_EVENT_CATEGORIES.TASK, GA_EVENT_ACTIONS.INTEGRATE, provider);
+
     return {
         type: CREATE_TASK_INTEGRATION_SUCCESS,
         task: response.task,
@@ -535,6 +542,8 @@ export function createTaskInvoiceStart(id) {
 }
 
 export function createTaskInvoiceSuccess(response) {
+    sendGAEvent(GA_EVENT_CATEGORIES.TASK, GA_EVENT_ACTIONS.INVOICE, getGAUserType(getUser()));
+
     return {
         type: CREATE_TASK_INVOICE_SUCCESS,
         invoice: response
