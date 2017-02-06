@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
 import _ from 'lodash';
-import {Button, OverlayTrigger, Tooltip, ButtonGroup} from 'react-bootstrap';
+import {Button, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import momentLocalizer from 'react-widgets/lib/localizers/moment';
 import DateTimePicker from 'react-widgets/lib/DateTimePicker';
 import TinyMCE  from 'react-tinymce';
@@ -14,11 +14,9 @@ import SkillSelector from '../containers/SkillSelector';
 import ComponentWithModal from './ComponentWithModal';
 import LargeModal from './ModalLarge';
 import MilestoneForm from './MilestoneForm';
-import ProjectPage from '../containers/ProjectPage';
-import ProjectForm from './ProjectForm';
 
 import {
-    USER_TYPE_DEVELOPER, TASK_TYPE_CHOICES, TASK_SCOPE_CHOICES, TASK_SCOPE_ONE_TIME, TASK_SCOPE_ONGOING,
+    USER_TYPE_DEVELOPER, TASK_TYPE_CHOICES, TASK_SCOPE_CHOICES, TASK_SCOPE_ONGOING,
     TASK_BILLING_METHOD_CHOICES, TASK_BILLING_METHOD_FIXED, TASK_BILLING_METHOD_HOURLY, TASK_CODERS_NEEDED_CHOICES,
     TASK_VISIBILITY_CHOICES, VISIBILITY_DEVELOPERS, VISIBILITY_CUSTOM, UPDATE_SCHEDULE_CHOICES
 } from '../constants/Api';
@@ -43,7 +41,7 @@ export default class TaskForm extends ComponentWithModal {
             step: 1, schedule: null, attachments: [], showAll: false, milestones: [],
             modalMilestone: null, modalContent: null, modalTitle: '', coders_needed: null, task_type: null,
             has_requirements: null, pm_required: null, billing_method: null, stack_description: '', deliverables: '',
-            skype_id: ''
+            skype_id: '', contact_required: null
         };
     }
 
@@ -66,7 +64,8 @@ export default class TaskForm extends ComponentWithModal {
                 schedule: this.getScheduleId(), milestones: task.milestones, deadline: task.deadline,
                 coders_needed: task.coders_needed, task_type: task.type, has_requirements: task.has_requirements,
                 pm_required: task.pm_required, billing_method: task.billing_method,
-                stack_description: task.stack_description, deliverables: task.deliverables, skype_id: task.skype_id
+                stack_description: task.stack_description, deliverables: task.deliverables, skype_id: task.skype_id,
+                contact_required: task.contact_required
             });
         }
     }
@@ -82,7 +81,7 @@ export default class TaskForm extends ComponentWithModal {
                     assignee: null, participants: [], schedule: null, attachments: [], showAll: false,
                     step: 1, milestones: [], modalMilestone: null, modalContent: null, modalTitle: '', coders_needed: null,
                     task_type: null, has_requirements: null, pm_required: null,
-                    billing_method: null, stack_description: '', deliverables: '', skype_id: ''
+                    billing_method: null, stack_description: '', deliverables: '', skype_id: '', contact_required: null
                 });
 
                 const { router } = this.context;
@@ -118,42 +117,14 @@ export default class TaskForm extends ComponentWithModal {
         return collaborators;
     }
 
-    onTaskTypeChange(type) {
-        this.setState({task_type: type});
-        this.changeStep();
-    }
-
-    onWorkScopeChange(scope) {
-        this.setState({scope});
-        this.changeStep();
-    }
-
-    onIsProjectChange(is_project) {
-        this.setState({is_project});
-        this.changeStep();
-    }
-
-    onHasRequirementsChange(has_requirements) {
-        this.setState({has_requirements});
-        this.changeStep();
-    }
-
-    onPMRequiredChange(pm_required) {
-        this.setState({pm_required});
-    }
-
     onDeadlineChange(date) {
         this.setState({deadline: moment(date).utc().format()});
     }
 
-    onDescriptionChange(key, e) {
+    onRichTextChange(key, e) {
         var new_state = {};
         new_state[key] = e.target.getContent();
         this.setState(new_state);
-    }
-
-    onRemarksChange(e) {
-        this.setState({remarks: e.target.getContent()});
     }
 
     onSkillChange(skills) {
@@ -220,40 +191,47 @@ export default class TaskForm extends ComponentWithModal {
         var new_state = {};
         new_state[key] = value;
         this.setState(new_state);
+        if(['task_type', 'scope', 'is_project', 'has_requirements', 'pm_required'].indexOf(key) > -1) {
+            this.changeStep();
+        }
     }
 
     handleSubmit(e) {
         e.preventDefault();
-        var title = this.refs.title?this.refs.title.value.trim():null;
-        var description = this.state.description;
-        var stack_description = this.state.stack_description;
-        var deliverables = this.state.deliverables;
+        var req_data = {};
+        req_data.title = this.refs.title?this.refs.title.value.trim():null;
+        req_data.description = this.state.description;
+        req_data.stack_description = this.state.stack_description;
+        req_data.deliverables = this.state.deliverables;
 
-        var task_type = this.state.task_type;
-        var scope = this.state.scope;
-        var is_project = this.state.is_project;
-        var has_requirements = this.state.has_requirements;
-        var pm_required = this.state.pm_required;
+        req_data.task_type = this.state.task_type;
+        req_data.scope = this.state.scope;
 
-        var coders_needed = this.state.coders_needed;
-        var billing_method = this.state.billing_method;
-        var fee = this.refs.fee?(this.refs.fee.value.trim() || null):null;
-        var deadline = this.state.deadline;
+        req_data.is_project = this.state.is_project;
+        req_data.has_requirements = this.state.has_requirements;
+        req_data.pm_required = this.state.pm_required;
+        req_data.contact_required = this.state.contact_required;
 
-        var url = this.refs.url?this.refs.url.value.trim():null;
-        var remarks = this.state.remarks;
+        req_data.coders_needed = this.state.coders_needed;
+        req_data.billing_method = this.state.billing_method;
+        req_data.fee = this.refs.fee?(this.refs.fee.value.trim() || null):null;
+        req_data.deadline = this.state.deadline;
 
-        var skype_id = this.state.skype_id;
+        req_data.url = this.refs.url?this.refs.url.value.trim():null;
+        req_data.remarks = this.state.remarks;
 
-        var visibility = this.state.visibility;
+        req_data.skype_id = this.state.skype_id;
+
+        req_data.visibility = this.state.visibility;
+
         var schedule_id = this.state.schedule || null;
         var update_schedule = null;
         if(schedule_id) {
             update_schedule = this.state.schedule_map[schedule_id];
         }
+        req_data.update_schedule = update_schedule;
 
         var participation = [];
-
         var assignee = this.state.assignee;
         var participants = this.state.participants;
         if (participants) {
@@ -264,57 +242,29 @@ export default class TaskForm extends ComponentWithModal {
         if(assignee) {
             participation.push({user: assignee, assignee: true});
         }
-        var milestones = this.state.milestones;
+        req_data.participation = participation;
+        req_data.milestones = this.state.milestones;
 
         const selected_skills = this.state.skills;
-        const skills = selected_skills.join(',');
+        req_data.skills = selected_skills.join(',');
         const attachments = this.state.attachments;
+
+        if(project && project.id) {
+            req_data.parent = project.id;
+        }
 
         const { TaskActions, project } = this.props;
         const task = this.props.task || {};
 
-        const task_info = {
-            title, description, remarks, skills, url, fee, visibility,
-            participation, milestones, ...update_schedule
-        };
 
-        if(project && project.id) {
-            task_info.parent = project.id;
-        }
-        if(task_type) {
-            task_info.type = task_type;
-        }
-        if(scope) {
-            task_info.scope = scope;
-        }
-        if(typeof is_project == 'boolean') {
-            console.log(typeof is_project);
-            task_info.is_project = is_project;
-        }
-        if(typeof has_requirements == 'boolean') {
-            task_info.has_requirements = has_requirements;
-        }
-        if(typeof pm_required == 'boolean') {
-            task_info.pm_required = pm_required;
-        }
-        if(stack_description) {
-            task_info.scope = stack_description;
-        }
-        if(deliverables) {
-            task_info.deliverables = deliverables;
-        }
-        if(billing_method) {
-            task_info.billing_method = billing_method;
-        }
-        if(coders_needed) {
-            task_info.coders_needed = coders_needed;
-        }
-        if(deadline) {
-            task_info.deadline = deadline;
-        }
-        if(skype_id) {
-            task_info.skype_id = skype_id;
-        }
+        var task_info = {};
+        Object.keys(req_data).forEach(function (key) {
+            const data_value = req_data[key];
+            console.log(key, typeof data_value);
+            if(data_value || typeof data_value == 'boolean') {
+                task_info[key] = data_value;
+            }
+        });
 
         if(task.id) {
             TaskActions.updateTask(task.id, task_info, attachments);
@@ -328,11 +278,6 @@ export default class TaskForm extends ComponentWithModal {
         return (
             <div>
                 <LargeModal title={this.state.modalTitle} show={this.state.showModal} onHide={this.close.bind(this)}>
-                    {this.state.modalContent == 'project'?(
-                    <ProjectPage>
-                        <ProjectForm hide_title={true} onSuccess={this.onAddProject.bind(this)}/>
-                    </ProjectPage>
-                        ):null}
                     {this.state.modalContent == 'milestone'?(
                     <MilestoneForm
                         milestone={this.state.modalMilestone}
@@ -345,7 +290,7 @@ export default class TaskForm extends ComponentWithModal {
     }
 
     render() {
-        const { Auth, Task, project } = this.props;
+        const { Auth, Task, project, enabledWidgets } = this.props;
         const task = this.props.task || {};
         let is_project_task = (project && project.id) || (task && task.parent);
         let work_type = this.state.is_project?'project':'task';
@@ -383,7 +328,7 @@ export default class TaskForm extends ComponentWithModal {
                                 return (
                                     <button key={task_type.id} type="button"
                                             className={"btn " + (this.state.task_type == task_type.id?' active':'')}
-                                            onClick={this.onTaskTypeChange.bind(this, task_type.id)}>
+                                            onClick={this.onStateValueChange.bind(this, 'task_type', task_type.id)}>
                                         <i className={`fa ${task_type.icon} fa-3x`}/>
                                         <div>{task_type.name}</div>
                                     </button>
@@ -409,7 +354,7 @@ export default class TaskForm extends ComponentWithModal {
                                 return (
                                     <button key={scope_type.id} type="button"
                                             className={"btn" + (this.state.scope == scope_type.id?' active':'')}
-                                            onClick={this.onWorkScopeChange.bind(this, scope_type.id)}>
+                                            onClick={this.onStateValueChange.bind(this, 'scope', scope_type.id)}>
                                         <div>{scope_type.name}</div>
                                     </button>
                                 )
@@ -437,7 +382,7 @@ export default class TaskForm extends ComponentWithModal {
                                 return (
                                     <button key={work_type.id} type="button"
                                             className={"btn" + (this.state.is_project == work_type.id?' active':'')}
-                                            onClick={this.onIsProjectChange.bind(this, work_type.id)}>
+                                            onClick={this.onStateValueChange.bind(this, 'is_project', work_type.id)}>
                                         <div dangerouslySetInnerHTML={{__html: work_type.name}} />
                                     </button>
                                 )
@@ -465,7 +410,7 @@ export default class TaskForm extends ComponentWithModal {
                                 return (
                                     <button key={has_requirements.id} type="button"
                                             className={"btn" + (this.state.has_requirements == has_requirements.id?' active':'')}
-                                            onClick={this.onHasRequirementsChange.bind(this, has_requirements.id)}>
+                                            onClick={this.onStateValueChange.bind(this, 'has_requirements', has_requirements.id)}>
                                         <div dangerouslySetInnerHTML={{__html: has_requirements.name}} />
                                     </button>
                                 )
@@ -493,19 +438,53 @@ export default class TaskForm extends ComponentWithModal {
                                 return (
                                     <button key={pm_options.id} type="button"
                                             className={"btn" + (this.state.pm_required == pm_options.id?' active':'')}
-                                            onClick={this.onPMRequiredChange.bind(this, pm_options.id)}>
+                                            onClick={this.onStateValueChange.bind(this, 'pm_required', pm_options.id)}>
                                         <div dangerouslySetInnerHTML={{__html: pm_options.name}} />
                                     </button>
                                 )
                             })}
                         </div>
                         <div className="card">
-                            Responsibities that a project manager on Tunga takes on:<br/>
-                            - Assembling the team of developers<br/>
-                            - Making the plan for the project<br/>
-                            - Reporting progress of the project<br/>
-                            - Troubleshooting<br/>
-                            - Organizing (daily) standups<br/>
+                            <p>
+                                Responsibities that a project manager on Tunga takes on:<br/>
+                                - Assembling the team of developers<br/>
+                                - Making the plan for the project<br/>
+                                - Reporting progress of the project<br/>
+                                - Troubleshooting<br/>
+                                - Organizing (daily) standups<br/>
+                            </p>
+                            <p>
+                                Project Management hours usually consist at least 15% of the work<br/>
+                                Project Management time is billed at &euro;40/hr.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+
+        let requiresContactComp = (
+            <div>
+                {(Task.detail.error.create && Task.detail.error.create.contact_required)?
+                    (<FieldError message={Task.detail.error.create.contact_required}/>):null}
+                {(Task.detail.error.update && Task.detail.error.update.contact_required)?
+                    (<FieldError message={Task.detail.error.update.contact_required}/>):null}
+                <div className="form-group">
+                    <label className="control-label">Do you want a project manager for this project?</label>
+                    <div>
+                        <div className="btn-choices" role="group">
+                            {[
+                                {id: true, name: 'Get me in touch with a project manager'},
+                                {id: false, name: 'Fill in more information and get an estimate'}
+                            ].map(contact_options => {
+                                return (
+                                    <button key={contact_options.id} type="button"
+                                            className={"btn" + (this.state.contact_required == contact_options.id?' active':'')}
+                                            onClick={this.onStateValueChange.bind(this, 'contact_required', contact_options.id)}>
+                                        <div dangerouslySetInnerHTML={{__html: contact_options.name}} />
+                                    </button>
+                                )
+                            })}
                         </div>
                     </div>
                 </div>
@@ -542,7 +521,7 @@ export default class TaskForm extends ComponentWithModal {
                     <TinyMCE
                         content={description}
                         config={TINY_MCE_CONFIG}
-                        onChange={this.onDescriptionChange.bind(this, 'description')}/>
+                        onChange={this.onRichTextChange.bind(this, 'description')}/>
                 </div>
             </div>
         );
@@ -558,7 +537,7 @@ export default class TaskForm extends ComponentWithModal {
                     <TinyMCE
                         content={stack_description}
                         config={TINY_MCE_CONFIG}
-                        onChange={this.onDescriptionChange.bind(this, 'stack_description')}/>
+                        onChange={this.onRichTextChange.bind(this, 'stack_description')}/>
                 </div>
             </div>
         );
@@ -574,7 +553,7 @@ export default class TaskForm extends ComponentWithModal {
                     <TinyMCE
                         content={deliverables}
                         config={TINY_MCE_CONFIG}
-                        onChange={this.onDescriptionChange.bind(this, 'deliverables')}/>
+                        onChange={this.onRichTextChange.bind(this, 'deliverables')}/>
                 </div>
             </div>
         );
@@ -731,6 +710,26 @@ export default class TaskForm extends ComponentWithModal {
             </div>
         );
 
+        let developersComp = (
+            <div>
+                <div className="form-group">
+                    <label className="control-label">Assignee *</label>
+                    <UserSelector filter={{type: USER_TYPE_DEVELOPER}}
+                                  onChange={this.onAssigneeChange.bind(this)}
+                                  selected={task.assignee && task.assignee.user?[task.assignee.user]:[]}
+                                  max={1}/>
+                </div>
+                <div className="form-group">
+                    <label className="control-label">Collaborators</label>
+                    <UserSelector filter={{type: USER_TYPE_DEVELOPER}}
+                                  onChange={this.onParticipantChange.bind(this)}
+                                  selected={this.getCollaborators()}
+                                  deselected={this.state.assignee?[this.state.assignee]:[]}
+                                  unremovable={this.getCollaborators().map((user) => {return user.id})}/>
+                </div>
+            </div>
+        );
+
         let visibilityComp = (
             <div>
                 {(Task.detail.error.create && Task.detail.error.create.visibility)?
@@ -752,21 +751,7 @@ export default class TaskForm extends ComponentWithModal {
                     </div>
                     {this.state.visibility == VISIBILITY_CUSTOM?(
                         <div style={{marginTop: '10px'}}>
-                            <div className="form-group">
-                                <label className="control-label">Assignee *</label>
-                                <UserSelector filter={{type: USER_TYPE_DEVELOPER}}
-                                              onChange={this.onAssigneeChange.bind(this)}
-                                              selected={task.assignee && task.assignee.user?[task.assignee.user]:[]}
-                                              max={1}/>
-                            </div>
-                            <div className="form-group">
-                                <label className="control-label">Collaborators</label>
-                                <UserSelector filter={{type: USER_TYPE_DEVELOPER}}
-                                              onChange={this.onParticipantChange.bind(this)}
-                                              selected={this.getCollaborators()}
-                                              deselected={this.state.assignee?[this.state.assignee]:[]}
-                                              unremovable={this.getCollaborators().map((user) => {return user.id})}/>
-                            </div>
+                            {developersComp}
                         </div>
                     ):null}
                 </div>
@@ -798,7 +783,7 @@ export default class TaskForm extends ComponentWithModal {
                         <TinyMCE
                             content={remarks}
                             config={TINY_MCE_CONFIG}
-                            onChange={this.onRemarksChange.bind(this)}/>
+                            onChange={this.onRichTextChange.bind(this, 'remarks')}/>
                     </div>
                 )}
             </div>
@@ -917,21 +902,47 @@ export default class TaskForm extends ComponentWithModal {
         );
 
         var sections = [];
-        if(is_project_task) {
+        if(enabledWidgets && enabledWidgets.length) {
+            let widgetMap = {
+                title: titleComp,
+                description: descComp,
+                skills: skillsComp,
+                fee: feeComp,
+                deadline: deadlineComp,
+                milestone: milestoneComp,
+                developers: developersComp
+            };
+
+            var all_comps = [];
+            enabledWidgets.forEach(function (widget) {
+                let comp = widgetMap[widget];
+                if(comp) {
+                    all_comps.push(comp);
+                }
+            });
+
+            if(all_comps.length) {
+                sections = [
+                    {
+                        items: all_comps
+                    }
+                ];
+            }
+        } else if(is_project_task) {
             sections = [
                 {
-                    items: [titleComp, descComp, skillsComp, feeComp, filesComp, deadlineComp, visibilityComp]
+                    items: [titleComp, descComp, skillsComp, feeComp, deadlineComp, visibilityComp]
                 }
             ];
         } else if(this.state.scope == TASK_SCOPE_ONGOING) {
             sections = [
                 {
                     title: '1/2 Basic details about the task',
-                    items: [descComp, codersComp, skillsComp]
+                    items: [codersComp, skillsComp]
                 },
                 {
-                    title: '1/2 The next step',
-                    items: [contactComp]
+                    title: '2/2 The next step',
+                    items: [contactComp, descComp]
                 }
             ]
         } else if(this.state.is_project && !this.state.has_requirements) {
@@ -948,43 +959,64 @@ export default class TaskForm extends ComponentWithModal {
         } else {
             sections = [
                 {
-                    title: `1/${this.state.is_project?'3':'4'} Basic details about your ${work_type}`,
+                    title: `1/${this.state.is_project?'3':'3'} Basic details about your ${work_type}`,
                     items: [titleComp, skillsComp, this.state.is_project?requiresPMComp:null]
                 }
             ];
 
             if(this.state.is_project) {
+                var stepComps = [];
+
+                if(this.state.pm_required) {
+                    stepComps = [
+                        requiresContactComp,
+                        this.state.contact_required === null?null:(
+                            this.state.contact_required?contactComp:(
+                                <div>
+                                    {descComp}
+                                    {deliverablesComp}
+                                    {filesComp}
+                                </div>
+                            )
+                        )
+                    ];
+                } else {
+                    stepComps = [descComp, stackDescComp, deliverablesComp, filesComp];
+                }
+
                 sections = [
                     ...sections,
                     {
                         title: '2/3 Project description',
-                        items: [descComp, this.state.pm_required?(<div style={{margin: '20px 0'}}>Add developer profiles here?</div>):stackDescComp, deliverablesComp, filesComp]
-                    },
-                    {
-                        title: '3/3 Agreements',
-                        items: [updatesComp, deadlineComp, billingComp]
+                        items: stepComps
                     }
                 ];
+
+                if(!this.state.pm_required || !this.state.contact_required) {
+                    sections = [
+                        ...sections,
+                        {
+                            title: '3/3 Agreements',
+                            items: [deadlineComp, billingComp]
+                        }
+                    ];
+                }
             } else {
                 sections = [
                     ...sections,
                     {
-                        title: '2/4 Requirements',
+                        title: '2/3 Requirements',
                         items: [descComp, filesComp, codersComp]
                     },
                     {
-                        title: '3/4 Agreements',
+                        title: '3/3 Agreements',
                         items: [deadlineComp, billingComp]
-                    },
-                    {
-                        title: '4/4 Workflow updates',
-                        items: [updatesComp, milestoneComp, visibilityComp]
                     }
                 ]
             }
         }
 
-        if(!task.id && !is_project_task) {
+        if(!task.id && !is_project_task && !(enabledWidgets && enabledWidgets.length)) {
             if(this.state.is_project) {
                 sections = [
                     {
@@ -1077,6 +1109,19 @@ export default class TaskForm extends ComponentWithModal {
         );
     }
 }
+
+
+TaskForm.propTypes = {
+    task: React.PropTypes.object,
+    project: React.PropTypes.object,
+    enabledWidgets: React.PropTypes.array
+};
+
+TaskForm.defaultProps = {
+    task: {},
+    project: null,
+    enabledWidgets: []
+};
 
 TaskForm.contextTypes = {
     router: React.PropTypes.object.isRequired

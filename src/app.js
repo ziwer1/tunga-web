@@ -44,6 +44,7 @@ import ProjectTaskForm from 'components/ProjectTaskForm';
 import TaskPage from 'containers/TaskPage';
 import TaskList from 'components/TaskList';
 import TaskForm from 'components/TaskForm';
+import EditTaskSectionForm from 'components/EditTaskSectionForm';
 import Task from 'components/Task';
 import ApplicationForm from 'components/ApplicationForm';
 import TaskWorflow from 'components/TaskWorflow';
@@ -144,7 +145,10 @@ ReactDOM.render(
                             <Route path="skill/:skill(/:filter)" component={TaskList} />
                             <Route path=":taskId" component={Task}>
                                 <IndexRoute component={TaskWorflow} />
-                                <Route path="edit" component={TaskForm} crumb="Edit"/>
+                                <Route path="edit" crumb="Edit">
+                                    <IndexRoute component={TaskForm} />
+                                    <Route path=":editSection" component={EditTaskSectionForm} />
+                                </Route>
                                 <Route path="apply" component={ApplicationForm} crumb="Apply"/>
                                 <Route path="applications" component={ApplicationList} crumb="Applications"/>
                                 <Route path="board" component={ProjectBoard} crumb="Project Board"/>

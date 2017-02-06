@@ -35,7 +35,13 @@ export function getRouteParamValues(keys, routes) {
 
 export function getRouteCrumb(routes) {
     if(Array.isArray(routes) && routes.length) {
-        return routes[routes.length-1].crumb;
+        var x;
+        for(x=routes.length-1; x >= 0; x--) {
+            let route = routes[x];
+            if(route.crumb) {
+                return route.crumb;
+            }
+        }
     }
     return null;
 }
