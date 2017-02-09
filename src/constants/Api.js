@@ -119,17 +119,19 @@ export const TASK_TYPE_MOBILE = 2;
 export const TASK_TYPE_OTHER = 3;
 
 export const TASK_TYPE_CHOICES = [
-    {id: TASK_TYPE_WEB, name: 'Web', icon: 'fa-globe'},
-    {id: TASK_TYPE_MOBILE, name: 'Mobile', icon: 'fa-mobile'},
-    {id: TASK_TYPE_OTHER, name: 'Other', icon: 'fa-question-circle'}
+    {id: TASK_TYPE_WEB, name: 'Web', icon: 'fa fa-globe'},
+    {id: TASK_TYPE_MOBILE, name: 'Mobile', icon: 'fa fa-mobile'},
+    {id: TASK_TYPE_OTHER, name: 'Other', icon: 'fa fa-question-circle'}
 ];
 
-export const TASK_SCOPE_ONE_TIME = 1;
+export const TASK_SCOPE_TASK = 1;
 export const TASK_SCOPE_ONGOING = 2;
+export const TASK_SCOPE_PROJECT = 3;
 
 export const TASK_SCOPE_CHOICES = [
-    {id: TASK_SCOPE_ONE_TIME, name: 'I have a one time project'},
-    {id: TASK_SCOPE_ONGOING, name: 'I have an ongoing project'}
+    {id: TASK_SCOPE_TASK, name: 'I have a task<br/>&lt; 50 hours', icon: 'tunga-icon-task'},
+    {id: TASK_SCOPE_PROJECT, name: 'I have a project<br/>&gt; than 50 hours', icon: 'tunga-icon-project'},
+    {id: TASK_SCOPE_ONGOING, name: 'I have an ongoing project', icon: 'tunga-icon-running-tasks'}
 ];
 
 export const TASK_BILLING_METHOD_FIXED = 1;

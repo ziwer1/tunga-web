@@ -47,6 +47,10 @@ export default class LandingPage extends ComponentWithModal {
         this.state = {player: null, play: false};
     }
 
+    componentDidMount() {
+        //this.open();
+    }
+
     onScheduleCall() {
         Calendly.showPopupWidget('https://calendly.com/tunga/30min/');
         sendGAEvent(GA_EVENT_CATEGORIES.CONTACT, GA_EVENT_ACTIONS.SCHEDULE_CALL);
@@ -86,7 +90,10 @@ export default class LandingPage extends ComponentWithModal {
         return (
             <LargeModal title="" bsStyle="lg"
                         show={this.state.showModal}
-                        onHide={this.close.bind(this)}>
+                        onHide={this.close.bind(this)} className="task-form-dialog">
+                <div className="title-bar">
+                    <h2 className="title text-center">Hire awesome developers!</h2>
+                </div>
                 <TaskPage>
                     <TaskForm/>
                 </TaskPage>

@@ -24,7 +24,7 @@ module.exports = {
                     primary: '#f41152'
                 },
                 fb_app_id: '518348818336672',
-                optimizely_id: process.env.NODE_ENV == 'production'?'8175822119':'8182460702'
+                optimizely_id: process.env.NODE_ENV == 'production' && process.env.AB_ENV != "development"?'8175822119':'8182460702'
             }
         }),
         noErrorsPlugin: new webpack.NoErrorsPlugin(),

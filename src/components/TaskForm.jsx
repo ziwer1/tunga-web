@@ -9,6 +9,8 @@ import TinyMCE  from 'react-tinymce';
 import Dropzone from 'react-dropzone';
 import FormStatus from './status/FormStatus';
 import FieldError from './status/FieldError';
+import Success from '../components/status/Success';
+
 import UserSelector from '../containers/UserSelector';
 import SkillSelector from '../containers/SkillSelector';
 import ComponentWithModal from './ComponentWithModal';
@@ -16,7 +18,7 @@ import LargeModal from './ModalLarge';
 import MilestoneForm from './MilestoneForm';
 
 import {
-    USER_TYPE_DEVELOPER, TASK_TYPE_CHOICES, TASK_SCOPE_CHOICES, TASK_SCOPE_ONGOING,
+    USER_TYPE_DEVELOPER, TASK_TYPE_CHOICES, TASK_SCOPE_CHOICES, TASK_SCOPE_ONGOING, TASK_SCOPE_TASK, TASK_SCOPE_PROJECT,
     TASK_BILLING_METHOD_CHOICES, TASK_BILLING_METHOD_FIXED, TASK_BILLING_METHOD_HOURLY, TASK_CODERS_NEEDED_CHOICES,
     TASK_VISIBILITY_CHOICES, VISIBILITY_DEVELOPERS, VISIBILITY_CUSTOM, UPDATE_SCHEDULE_CHOICES
 } from '../constants/Api';
@@ -190,6 +192,9 @@ export default class TaskForm extends ComponentWithModal {
     onStateValueChange(key, value) {
         var new_state = {};
         new_state[key] = value;
+        if(key == 'scope') {
+            new_state['is_project'] = (value == TASK_SCOPE_PROJECT);
+        }
         this.setState(new_state);
         if(['task_type', 'scope', 'is_project', 'has_requirements', 'pm_required'].indexOf(key) > -1) {
             this.changeStep();
@@ -204,7 +209,7 @@ export default class TaskForm extends ComponentWithModal {
         req_data.stack_description = this.state.stack_description;
         req_data.deliverables = this.state.deliverables;
 
-        req_data.task_type = this.state.task_type;
+        req_data.type = this.state.task_type;
         req_data.scope = this.state.scope;
 
         req_data.is_project = this.state.is_project;
@@ -221,6 +226,7 @@ export default class TaskForm extends ComponentWithModal {
         req_data.remarks = this.state.remarks;
 
         req_data.skype_id = this.state.skype_id;
+        req_data.email = this.refs.email?this.refs.email.value.trim():null;
 
         req_data.visibility = this.state.visibility;
 
@@ -292,6 +298,15 @@ export default class TaskForm extends ComponentWithModal {
     render() {
         const { Auth, Task, project, enabledWidgets } = this.props;
         const task = this.props.task || {};
+
+        if(!Auth.isAuthenticated && Task.detail.isSaved) {
+            return (
+                <div className="thank-you">
+                    <Success message="Thanks for posting your work on Tunga, we'll get back to you shortly."/>
+                </div>
+            );
+        }
+
         let is_project_task = (project && project.id) || (task && task.parent);
         let work_type = this.state.is_project?'project':'task';
 
@@ -308,6 +323,7 @@ export default class TaskForm extends ComponentWithModal {
                 </div>
             );
         }
+
         const description = this.props.task?task.description:'';
         const stack_description = this.props.task?task.stack_description:'';
         const deliverables = this.props.task?task.deliverables:'';
@@ -320,22 +336,19 @@ export default class TaskForm extends ComponentWithModal {
                     (<FieldError message={Task.detail.error.create.type}/>):null}
                 {(Task.detail.error.update && Task.detail.error.update.type)?
                     (<FieldError message={Task.detail.error.update.type}/>):null}
-                <div className="form-group">
-                    <label className="control-label">What kind of work do you have?</label>
-                    <div>
-                        <div className="btn-choices task-type-choices" role="group">
-                            {TASK_TYPE_CHOICES.map(task_type => {
-                                return (
-                                    <button key={task_type.id} type="button"
-                                            className={"btn " + (this.state.task_type == task_type.id?' active':'')}
-                                            onClick={this.onStateValueChange.bind(this, 'task_type', task_type.id)}>
-                                        <i className={`fa ${task_type.icon} fa-3x`}/>
-                                        <div>{task_type.name}</div>
-                                    </button>
-                                )
-                            })}
-                        </div>
-                    </div>
+                <div className="btn-choices choice-fork three" role="group">
+                    {TASK_TYPE_CHOICES.map(task_type => {
+                        return (
+                            <div className="choice">
+                                <button key={task_type.id} type="button"
+                                        className={"btn " + (this.state.task_type == task_type.id?' active':'')}
+                                        onClick={this.onStateValueChange.bind(this, 'task_type', task_type.id)}>
+                                    <i className={`icon ${task_type.icon}`}/>
+                                </button>
+                                <div>{task_type.name}</div>
+                            </div>
+                        )
+                    })}
                 </div>
             </div>
         );
@@ -346,117 +359,89 @@ export default class TaskForm extends ComponentWithModal {
                     (<FieldError message={Task.detail.error.create.scope}/>):null}
                 {(Task.detail.error.update && Task.detail.error.update.scope)?
                     (<FieldError message={Task.detail.error.update.scope}/>):null}
-                <div className="form-group">
-                    <label className="control-label">What is the nature of the project?</label>
-                    <div>
-                        <div className="btn-choices choice-fork" role="group">
-                            {TASK_SCOPE_CHOICES.map(scope_type => {
-                                return (
-                                    <button key={scope_type.id} type="button"
-                                            className={"btn" + (this.state.scope == scope_type.id?' active':'')}
-                                            onClick={this.onStateValueChange.bind(this, 'scope', scope_type.id)}>
-                                        <div>{scope_type.name}</div>
-                                    </button>
-                                )
-                            })}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
-
-        let isProjectComp = (
-            <div>
-                {(Task.detail.error.create && Task.detail.error.create.is_project)?
-                    (<FieldError message={Task.detail.error.create.is_project}/>):null}
-                {(Task.detail.error.update && Task.detail.error.update.is_project)?
-                    (<FieldError message={Task.detail.error.update.is_project}/>):null}
-                <div className="form-group">
-                    <label className="control-label">What is the scope of the work?</label>
-                    <div>
-                        <div className="btn-choices choice-fork" role="group">
-                            {[
-                                {id: false, name: 'I have a task<br/>&lt; 50 hours'},
-                                {id: true, name: 'I have a project<br/>&gt; than 50 hours'}
-                            ].map(work_type => {
-                                return (
-                                    <button key={work_type.id} type="button"
-                                            className={"btn" + (this.state.is_project == work_type.id?' active':'')}
-                                            onClick={this.onStateValueChange.bind(this, 'is_project', work_type.id)}>
-                                        <div dangerouslySetInnerHTML={{__html: work_type.name}} />
-                                    </button>
-                                )
-                            })}
-                        </div>
-                    </div>
+                <div className="btn-choices choice-fork three" role="group">
+                    {TASK_SCOPE_CHOICES.map(scope_type => {
+                        return (
+                            <div className="choice">
+                                <button key={scope_type.id} type="button"
+                                        className={"btn" + (this.state.scope == scope_type.id?' active':'')}
+                                        onClick={this.onStateValueChange.bind(this, 'scope', scope_type.id)}>
+                                    <i className={`icon ${scope_type.icon}`}/>
+                                </button>
+                                <div dangerouslySetInnerHTML={{__html: scope_type.name}} />
+                            </div>
+                        )
+                    })}
                 </div>
             </div>
         );
 
         let hasRequirementsComp = (
-            <div>
+            <div className="form-group">
                 {(Task.detail.error.create && Task.detail.error.create.has_requirements)?
                     (<FieldError message={Task.detail.error.create.has_requirements}/>):null}
                 {(Task.detail.error.update && Task.detail.error.update.has_requirements)?
                     (<FieldError message={Task.detail.error.update.has_requirements}/>):null}
-                <div className="form-group">
-                    <label className="control-label">Do you have clear requirements for this project?</label>
-                    <div>
-                        <div className="btn-choices choice-fork" role="group">
-                            {[
-                                {id: true, name: 'Yes, and I would like to submit my project on Tunga now'},
-                                {id: false, name: 'No, I would like to talk to someone on Tunga about my project'}
-                            ].map(has_requirements => {
-                                return (
-                                    <button key={has_requirements.id} type="button"
-                                            className={"btn" + (this.state.has_requirements == has_requirements.id?' active':'')}
-                                            onClick={this.onStateValueChange.bind(this, 'has_requirements', has_requirements.id)}>
-                                        <div dangerouslySetInnerHTML={{__html: has_requirements.name}} />
-                                    </button>
-                                )
-                            })}
-                        </div>
-                    </div>
+                <div className="btn-choices choice-fork" role="group">
+                    {[
+                        {id: true, name: 'Yes, and I would like to submit my project on Tunga now', icon: 'fa fa-check-circle'},
+                        {id: false, name: 'No, I would like to talk to someone on Tunga about my project', icon: 'fa fa-times-circle'}
+                    ].map(has_requirements => {
+                        return (
+                            <div className="choice">
+                                <button key={has_requirements.id} type="button"
+                                        className={"btn" + (this.state.has_requirements == has_requirements.id?' active':'')}
+                                        onClick={this.onStateValueChange.bind(this, 'has_requirements', has_requirements.id)}>
+                                    <i className={`icon ${has_requirements.icon}`}/>
+                                </button>
+                                <div dangerouslySetInnerHTML={{__html: has_requirements.name}} />
+                            </div>
+                        )
+                    })}
                 </div>
             </div>
         );
 
         let requiresPMComp = (
-            <div>
+            <div className="form-group">
                 {(Task.detail.error.create && Task.detail.error.create.pm_required)?
                     (<FieldError message={Task.detail.error.create.pm_required}/>):null}
                 {(Task.detail.error.update && Task.detail.error.update.pm_required)?
                     (<FieldError message={Task.detail.error.update.pm_required}/>):null}
-                <div className="form-group">
-                    <label className="control-label">Do you want a project manager for this project?</label>
+                <div>
                     <div>
-                        <div className="btn-choices" role="group">
+                        <div className="btn-choices choice-fork small" role="group">
                             {[
-                                {id: true, name: 'Yes, I want a project manager'},
-                                {id: false, name: 'No, I will manage all processes for this project myself'}
+                                {id: true, name: 'Yes, I want a project manager', icon: 'fa fa-check-circle'},
+                                {id: false, name: 'No, I will manage all processes for this project myself', icon: 'fa fa-times-circle'}
                             ].map(pm_options => {
                                 return (
-                                    <button key={pm_options.id} type="button"
-                                            className={"btn" + (this.state.pm_required == pm_options.id?' active':'')}
-                                            onClick={this.onStateValueChange.bind(this, 'pm_required', pm_options.id)}>
+                                    <div className="choice">
+                                        <button key={pm_options.id} type="button"
+                                                className={"btn" + (this.state.pm_required == pm_options.id?' active':'')}
+                                                onClick={this.onStateValueChange.bind(this, 'pm_required', pm_options.id)}>
+                                            <i className={`icon ${pm_options.icon}`}/>
+                                        </button>
                                         <div dangerouslySetInnerHTML={{__html: pm_options.name}} />
-                                    </button>
+                                    </div>
                                 )
                             })}
                         </div>
-                        <div className="card">
-                            <p>
-                                Responsibities that a project manager on Tunga takes on:<br/>
-                                - Assembling the team of developers<br/>
-                                - Making the plan for the project<br/>
-                                - Reporting progress of the project<br/>
-                                - Troubleshooting<br/>
-                                - Organizing (daily) standups<br/>
-                            </p>
-                            <p>
-                                Project Management hours usually consist at least 15% of the work<br/>
-                                Project Management time is billed at &euro;40/hr.
-                            </p>
+                        <div className="form-group">
+                            <div className="card">
+                                <p>
+                                    Responsibities that a project manager on Tunga takes on:<br/>
+                                    - Assembling the team of developers<br/>
+                                    - Making the plan for the project<br/>
+                                    - Reporting progress of the project<br/>
+                                    - Troubleshooting<br/>
+                                    - Organizing (daily) standups<br/>
+                                </p>
+                                <p>
+                                    Project Management hours usually consist at least 15% of the work<br/>
+                                    Project Management time is billed at &euro;40/hr.
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -559,12 +544,12 @@ export default class TaskForm extends ComponentWithModal {
         );
 
         let skillsComp = (
-            <div>
+            <div className="form-group">
                 {(Task.detail.error.create && Task.detail.error.create.skills)?
                     (<FieldError message={Task.detail.error.create.skills}/>):null}
                 {(Task.detail.error.update && Task.detail.error.update.skills)?
                     (<FieldError message={Task.detail.error.update.skills}/>):null}
-                <div className="form-group">
+                <div>
                     <label className="control-label">Skills required for this {work_type} *</label>
                     <SkillSelector filter={{filter: null}}
                                    onChange={this.onSkillChange.bind(this)}
@@ -901,6 +886,20 @@ export default class TaskForm extends ComponentWithModal {
             </div>
         );
 
+        let emailComp = (
+            <div>
+                {(Task.detail.error.create && Task.detail.error.create.email)?
+                    (<FieldError message={Task.detail.error.create.email}/>):null}
+                {(Task.detail.error.update && Task.detail.error.update.email)?
+                    (<FieldError message={Task.detail.error.update.email}/>):null}
+                <div className="form-group">
+                    <div className="highlight">We'll user your email to contact you with more details through a structured channel</div>
+                    <label className="control-label">E-mail address*</label>
+                    <div><input type="email" className="form-control" ref="email" required placeholder="Email" defaultValue={task.email}/></div>
+                </div>
+            </div>
+        );
+
         var sections = [];
         if(enabledWidgets && enabledWidgets.length) {
             let widgetMap = {
@@ -937,34 +936,47 @@ export default class TaskForm extends ComponentWithModal {
         } else if(this.state.scope == TASK_SCOPE_ONGOING) {
             sections = [
                 {
-                    title: '1/2 Basic details about the task',
+                    title: 'Basic details about the task',
                     items: [codersComp, skillsComp]
                 },
                 {
-                    title: '2/2 The next step',
+                    title: 'The next step',
                     items: [contactComp, descComp]
                 }
             ]
         } else if(this.state.is_project && !this.state.has_requirements) {
             sections = [
                 {
-                    title: '1/2 Project description',
-                    items: [descComp, deliverablesComp, stackDescComp, filesComp]
+                    title: 'Project description',
+                    items: [descComp, deliverablesComp]
                 },
                 {
-                    title: '1/2 Agreements',
+                    title: 'Project description',
+                    items: [stackDescComp, filesComp]
+                },
+                {
+                    title: 'Agreements',
                     items: [deadlineComp, feeComp]
                 }
             ]
         } else {
             sections = [
                 {
-                    title: `1/${this.state.is_project?'3':'3'} Basic details about your ${work_type}`,
-                    items: [titleComp, skillsComp, this.state.is_project?requiresPMComp:null]
+                    title: `Basic details about your ${work_type}`,
+                    items: [titleComp, skillsComp]
                 }
             ];
 
             if(this.state.is_project) {
+                sections = [
+                    ...sections,
+                    {
+                        title: 'Do you want a project manager for this project?',
+                        items: [requiresPMComp],
+                        required: true
+                    }
+                ];
+
                 var stepComps = [];
 
                 if(this.state.pm_required) {
@@ -987,7 +999,7 @@ export default class TaskForm extends ComponentWithModal {
                 sections = [
                     ...sections,
                     {
-                        title: '2/3 Project description',
+                        title: 'Project description',
                         items: stepComps
                     }
                 ];
@@ -996,7 +1008,7 @@ export default class TaskForm extends ComponentWithModal {
                     sections = [
                         ...sections,
                         {
-                            title: '3/3 Agreements',
+                            title: 'Agreements',
                             items: [deadlineComp, billingComp]
                         }
                     ];
@@ -1005,22 +1017,22 @@ export default class TaskForm extends ComponentWithModal {
                 sections = [
                     ...sections,
                     {
-                        title: '2/3 Requirements',
+                        title: 'Requirements',
                         items: [descComp, filesComp, codersComp]
                     },
                     {
-                        title: '3/3 Agreements',
+                        title: 'Agreements',
                         items: [deadlineComp, billingComp]
                     }
                 ]
             }
         }
 
-        if(!task.id && !is_project_task && !(enabledWidgets && enabledWidgets.length)) {
+        if(!task.id && !is_project_task && !(enabledWidgets && enabledWidgets.length) && !this.state.showAll && !has_error) {
             if(this.state.is_project) {
                 sections = [
                     {
-                        title: '',
+                        title: 'Do you have clear requirements for this project?',
                         items: [hasRequirementsComp],
                         required: true
                     },
@@ -1028,25 +1040,14 @@ export default class TaskForm extends ComponentWithModal {
                 ]
             }
 
-            if(this.state.scope != TASK_SCOPE_ONGOING) {
-                sections = [
-                    {
-                        title: '',
-                        items: [isProjectComp],
-                        required: true
-                    },
-                    ... sections
-                ];
-            }
-
             sections = [
                 {
-                    title: '',
+                    title: 'What kind of work do you have?',
                     items: [taskTypeComp],
                     required: true
                 },
                 {
-                    title: '',
+                    title: 'What is the scope of the work?',
                     items: [taskScopeComp],
                     required: true
                 },
@@ -1054,53 +1055,79 @@ export default class TaskForm extends ComponentWithModal {
             ];
         }
 
+        if(!Auth.isAuthenticated) {
+            sections = [
+                ... sections,
+                {
+                    title: "Your e-mail address",
+                    items: [emailComp]
+                }
+            ];
+        }
+
+        let current_section = sections[this.state.step -1];
+
         return (
-            <div className="form-wrapper">
+            <div className="form-wrapper task-form">
                 {this.renderModalContent()}
-                {task.id || is_project_task?null:(
-                <h2 className="title">{Auth.isAuthenticated?'Post work':'Hire awesome developers!'}</h2>
+                {!Auth.isAuthenticated || task.id || is_project_task?null:(
+                    <h2 className="title text-center">Post work</h2>
                     )}
 
+                {current_section && current_section.title && !(has_error || this.state.showAll)?(
+                    <div className="section-title clearfix">
+                        <h4 className="pull-left">{current_section.title}</h4>
+                        <div className="slider pull-right">
+                            {sections.map((section, idx) => {
+                                return (
+                                    <i className={`fa fa-circle${this.state.step == (idx+1)?'':'-o'}`}/>
+                                )
+                            })}
+                        </div>
+                    </div>
+                ):null}
+
                 <form onSubmit={this.handleSubmit.bind(this)} name="task" role="form" ref="task_form" className={has_error || this.state.showAll?'steps-all':null}>
-                    <FormStatus loading={Task.detail.isSaving}
-                                success={Task.detail.isSaved}
-                                message={'Task saved successfully'}
-                                error={Task.detail.error.create || Task.detail.error.update}/>
+                    <div className="form-group">
+                        <FormStatus loading={Task.detail.isSaving}
+                                    success={Task.detail.isSaved}
+                                    message={'Task saved successfully'}
+                                    error={Task.detail.error.create || Task.detail.error.update}/>
+                    </div>
 
                     {sections.map((section, idx) => {
                         return (
                             <div className={this.state.step == (idx+1) || has_error || this.state.showAll?'step':'sr-only'}>
-                                {section.title && !(has_error || this.state.showAll)?(<h5 style={{margin: '15px 0'}}>{section.title}</h5>):null}
                                 {section.items.map(item => {
                                     return item;
                                 })}
-                                {idx+1 == sections.length?(
-                                    <div className="text-center">
-                                        <button type="submit"
-                                                onClick={this.showAll.bind(this)}
-                                                className="btn"
-                                                disabled={Task.detail.isSaving}>
-                                            {this.state.scope == TASK_SCOPE_ONGOING?'Find me awesome developers':(
-                                                `${task.id?'Update':'Publish'} ${this.state.is_project?'project':'task'}`
-                                            )}
-                                        </button>
-                                    </div>
-                                ):null}
                             </div>
                         )
                     })}
 
                     <div className="nav text-center">
-                        {this.state.step > 1?(
-                        <button type="button" className="btn prev-btn" onClick={this.changeStep.bind(this, false)}>
-                            <i className="tunga-icon-previous"/>
-                        </button>
-                            ):null}
-                        {this.state.step < sections.length && sections[this.state.step-1] && !sections[this.state.step-1].required?(
-                        <button type="button" className="btn next-btn" onClick={this.changeStep.bind(this, true)}>
-                            <i className="tunga-icon-next"/>
-                        </button>
-                            ):null}
+                        {this.state.step > 1 && !has_error && !this.state.showAll?(
+                            <button type="button" className="btn nav-btn prev-btn pull-left" onClick={this.changeStep.bind(this, false)}>
+                                <i className="fa fa-chevron-left"/> Previous
+                            </button>
+                        ):null}
+                        {this.state.step < sections.length && current_section && !current_section.required && !has_error && !this.state.showAll?(
+                            <button type="button" className="btn nav-btn next-btn pull-right" onClick={this.changeStep.bind(this, true)}>
+                                Next <i className="fa fa-chevron-right"/>
+                            </button>
+                        ):null}
+                        {this.state.step == sections.length || this.state.showAll || has_error?(
+                            <div className="text-center">
+                                <button type="submit"
+                                        onClick={this.showAll.bind(this)}
+                                        className="btn"
+                                        disabled={Task.detail.isSaving}>
+                                    {this.state.scope == TASK_SCOPE_ONGOING || !Auth.isAuthenticated?'Find me awesome developers':(
+                                        `${task.id?'Update':'Publish'} ${this.state.is_project?'project':'task'}`
+                                    )}
+                                </button>
+                            </div>
+                        ):null}
                     </div>
                     <div className="clearfix"></div>
                 </form>
