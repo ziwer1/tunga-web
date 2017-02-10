@@ -893,7 +893,7 @@ export default class TaskForm extends ComponentWithModal {
                 {(Task.detail.error.update && Task.detail.error.update.email)?
                     (<FieldError message={Task.detail.error.update.email}/>):null}
                 <div className="form-group">
-                    <div className="highlight">We'll user your email to contact you with more details through a structured channel</div>
+                    <div className="highlight">We'll use your email to contact you with more details through a structured channel</div>
                     <label className="control-label">E-mail address*</label>
                     <div><input type="email" className="form-control" ref="email" required placeholder="Email" defaultValue={task.email}/></div>
                 </div>
