@@ -31,6 +31,8 @@ class App extends ComponentWithModal {
         }
 
         initNavUIController();
+
+        this.runOptimizely();
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -91,6 +93,26 @@ class App extends ComponentWithModal {
 
         if(prevProps.location.pathname != location.pathname) {
             NavActions.reportPathChange(prevProps.location.pathname, location.pathname);
+        }
+
+        this.runOptimizely();
+    }
+
+    runOptimizely() {
+        if(window.optimizely.activeExperiments) {
+            window.optimizely.activeExperiments.forEach(function (experimentID) {
+                var variationIndex = window.optimizely.variationMap[experimentID];
+                var variationName = window.optimizely.variationNamesMap[experimentID];
+                var variationID = window.optimizely.variationIdsMap[experimentID];
+                if(variationID && Array.isArray(variationID)) {
+                    variationID = variationID[0];
+                }
+
+                var variation = window.optimizely.allVariations[variationID];
+                if(variation) {
+                    eval(variation.code);
+                }
+            });
         }
     }
 
