@@ -6,6 +6,7 @@ import * as AuthActions from '../../actions/AuthActions';
 import * as ApplicationActions from '../../actions/ApplicationActions';
 import * as SavedTaskActions from '../../actions/SavedTaskActions';
 import * as CommentActions from '../../actions/CommentActions';
+import { clearValidations } from '../../actions/UtilityActions';
 
 function mapStateToProps(state) {
     return {Auth: state.Auth, Task: state.Task};
@@ -19,7 +20,8 @@ function mapDispatchToProps(dispatch) {
                 listRepos: AuthActions.listRepos,
                 listIssues: AuthActions.listIssues,
                 getSlackApp: AuthActions.getSlackApp,
-                listSlackChannels: AuthActions.listSlackChannels
+                listSlackChannels: AuthActions.listSlackChannels,
+                clearValidations: clearValidations
             }, dispatch),
             ...bindActionCreators(TaskActions, dispatch),
             ...bindActionCreators(ApplicationActions, dispatch),

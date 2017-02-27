@@ -5,6 +5,7 @@ import * as ApplicationActions from '../actions/ApplicationActions';
 import * as SavedTaskActions from '../actions/SavedTaskActions';
 import { PATH_CHANGE } from '../actions/NavActions';
 import { LOGOUT_SUCCESS, LIST_RUNNING_TASKS_SUCCESS } from '../actions/AuthActions';
+import { CLEAR_VALIDATIONS } from '../actions/UtilityActions';
 import { getIds } from '../utils/reducers';
 
 import Application from './ApplicationReducers';
@@ -170,6 +171,7 @@ function isSaving(state = false, action) {
         case TaskActions.UPDATE_TASK_SUCCESS:
         case TaskActions.UPDATE_TASK_FAILED:
         case TaskActions.RETRIEVE_TASK_START:
+        case CLEAR_VALIDATIONS:
             return false;
         default:
             return state;
@@ -186,6 +188,7 @@ function isSaved(state = false, action) {
         case TaskActions.UPDATE_TASK_START:
         case TaskActions.UPDATE_TASK_FAILED:
         case PATH_CHANGE:
+        case CLEAR_VALIDATIONS:
             return false;
         default:
             return state;
@@ -222,6 +225,7 @@ function isRetrieving(state = false, action) {
             return true;
         case TaskActions.RETRIEVE_TASK_SUCCESS:
         case TaskActions.RETRIEVE_TASK_FAILED:
+        case CLEAR_VALIDATIONS:
             return false;
         default:
             return state;
@@ -234,6 +238,7 @@ function isDeleting(state = false, action) {
             return true;
         case TaskActions.DELETE_TASK_SUCCESS:
         case TaskActions.DELETE_TASK_FAILED:
+        case CLEAR_VALIDATIONS:
             return false;
         default:
             return false;
@@ -252,6 +257,8 @@ function error(state = {}, action) {
         case TaskActions.UPDATE_TASK_START:
         case TaskActions.UPDATE_TASK_SUCCESS:
             return {...state, update: null};
+        case CLEAR_VALIDATIONS:
+            return {};
         default:
             return state;
     }

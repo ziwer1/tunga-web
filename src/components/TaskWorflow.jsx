@@ -7,7 +7,7 @@ import CommentSection from '../containers/CommentSection';
 import Avatar from './Avatar';
 import CommentForm from './CommentForm';
 import ActivityList from './ActivityList';
-import LargeModal from './ModalLarge';
+import LargeModal from './LargeModal';
 import ComponentWithModal from './ComponentWithModal';
 import Timeline from './Timeline';
 import MilestonePage from '../containers/MilestonePage';
@@ -262,7 +262,7 @@ export default class TaskWorflow extends ComponentWithModal {
 
                     {is_admin_or_owner || task.is_admin || task.is_participant ? (
                         <div className="nav-top-filter">
-                            {is_admin_or_owner ? (
+                            {is_admin_or_owner || can_edit_shares ? (
                                 <div className="pull-left">
                                     {is_admin_or_owner?(
                                         <Link to={`/task/${task.id}/applications/`}
@@ -304,99 +304,102 @@ export default class TaskWorflow extends ComponentWithModal {
                                             Participation shares
                                         </Link>
                                     ):null}
-                                    <div className="dropdown" style={{display: 'inline-block'}}>
-                                        <button className="btn"
-                                                type="button"
-                                                id="chat-overflow"
-                                                data-toggle="dropdown"
-                                                aria-haspopup="true"
-                                                aria-expanded="true">
-                                            Task actions <i className="fa fa-ellipsis-v"/>
-                                        </button>
-                                        <ul className="dropdown-menu dropdown-menu-right" aria-labelledby="chat-overflow">
-                                            {is_admin_or_owner?(
-                                                [
-                                                    <li>
-                                                        <Link to={`/task/${task.id}/edit/title`} className="btn">
-                                                            Edit {work_type} title
-                                                        </Link>
-                                                    </li>,
-                                                    <li>
-                                                        <Link to={`/task/${task.id}/edit/description`} className="btn">
-                                                            Edit {work_type} description
-                                                        </Link>
-                                                    </li>,
-                                                    task.fee?(
+
+                                    {is_admin_or_owner?(
+                                        <div className="dropdown" style={{display: 'inline-block'}}>
+                                            <button className="btn"
+                                                    type="button"
+                                                    id="chat-overflow"
+                                                    data-toggle="dropdown"
+                                                    aria-haspopup="true"
+                                                    aria-expanded="true">
+                                                Task actions <i className="fa fa-ellipsis-v"/>
+                                            </button>
+                                            <ul className="dropdown-menu dropdown-menu-right" aria-labelledby="chat-overflow">
+                                                {is_admin_or_owner?(
+                                                    [
                                                         <li>
-                                                            <Link to={`/task/${task.id}/edit/fee`} className="btn">
-                                                                Edit the pledge for the {work_type}
+                                                            <Link to={`/task/${task.id}/edit/title`} className="btn">
+                                                                Edit {work_type} title
                                                             </Link>
-                                                        </li>
-                                                    ):null,
-                                                    <li>
-                                                        <Link to={`/task/${task.id}/edit/skills`} className="btn">
-                                                            Add skills
-                                                        </Link>
-                                                    </li>,
-                                                    <li>
-                                                        <Link to={`/task/${task.id}/edit/developers`} className="btn">
-                                                            Add another developer to this {work_type}
-                                                        </Link>
-                                                    </li>,
-                                                    task.parent?null:(
+                                                        </li>,
                                                         <li>
-                                                            <Link to={`/task/${task.id}/edit/milestone`} className="btn">
-                                                                Add a milestone
+                                                            <Link to={`/task/${task.id}/edit/description`} className="btn">
+                                                                Edit {work_type} description
                                                             </Link>
+                                                        </li>,
+                                                        task.fee?(
+                                                            <li>
+                                                                <Link to={`/task/${task.id}/edit/fee`} className="btn">
+                                                                    Edit the pledge for the {work_type}
+                                                                </Link>
+                                                            </li>
+                                                        ):null,
+                                                        <li>
+                                                            <Link to={`/task/${task.id}/edit/skills`} className="btn">
+                                                                Add skills
+                                                            </Link>
+                                                        </li>,
+                                                        <li>
+                                                            <Link to={`/task/${task.id}/edit/developers`} className="btn">
+                                                                Add another developer to this {work_type}
+                                                            </Link>
+                                                        </li>,
+                                                        task.parent?null:(
+                                                            <li>
+                                                                <Link to={`/task/${task.id}/edit/milestone`} className="btn">
+                                                                    Add a milestone
+                                                                </Link>
+                                                            </li>
+                                                        ),
+                                                        task.closed?null:(
+                                                            <li>
+                                                                {task.apply?(
+                                                                    <button type="button" className="btn " onClick={this.handleCloseApplications.bind(this)}>Close applications</button>
+                                                                ):(
+                                                                    <button type="button" className="btn " onClick={this.handleOpenApplications.bind(this)}>Open applications</button>
+                                                                )}
+                                                            </li>
+                                                        ),
+                                                        <li>
+                                                            {task.closed ? (
+                                                                task.paid ? (
+                                                                    null
+                                                                ) : (
+                                                                    <button type="button"
+                                                                            className="btn"
+                                                                            onClick={this.handleOpenTask.bind(this)}>
+                                                                        Open task
+                                                                    </button>
+                                                                )
+                                                            ) : (
+                                                                <button type="button"
+                                                                        className="btn"
+                                                                        onClick={this.handleCloseTask.bind(this)}>
+                                                                    Close task
+                                                                </button>
+                                                            )}
+                                                        </li>,
+                                                        task.closed && !task.paid && Auth.user.is_staff ? (
+                                                            <li>
+                                                                <button type="button"
+                                                                        className="btn"
+                                                                        onClick={this.handleMarkPaid.bind(this)}>
+                                                                    Mark as paid
+                                                                </button>
+                                                            </li>
+                                                        ) : null,
+                                                        <li>
+                                                            <button type="button" className="btn"
+                                                                    onClick={this.handleDeleteTask.bind(this)}>
+                                                                <i className="fa fa-trash-o"/> Delete {work_type}
+                                                            </button>
                                                         </li>
-                                                    )
-                                                ]
-                                            ):null}
-                                            {task.closed?null:(
-                                                <li>
-                                                    {task.apply?(
-                                                        <button type="button" className="btn " onClick={this.handleCloseApplications.bind(this)}>Close applications</button>
-                                                    ):(
-                                                        <button type="button" className="btn " onClick={this.handleOpenApplications.bind(this)}>Open applications</button>
-                                                    )}
-                                                </li>
-                                            )}
-                                            <li>
-                                                {task.closed ? (
-                                                    task.paid ? (
-                                                        null
-                                                    ) : (
-                                                        <button type="button"
-                                                                className="btn"
-                                                                onClick={this.handleOpenTask.bind(this)}>
-                                                            Open task
-                                                        </button>
-                                                    )
-                                                ) : (
-                                                    <button type="button"
-                                                            className="btn"
-                                                            onClick={this.handleCloseTask.bind(this)}>
-                                                        Close task
-                                                    </button>
-                                                )}
-                                            </li>
-                                            {task.closed && !task.paid && Auth.user.is_staff ? (
-                                                <li>
-                                                    <button type="button"
-                                                            className="btn"
-                                                            onClick={this.handleMarkPaid.bind(this)}>
-                                                        Mark as paid
-                                                    </button>
-                                                </li>
-                                            ) : null}
-                                            <li>
-                                                <button type="button" className="btn"
-                                                        onClick={this.handleDeleteTask.bind(this)}>
-                                                    <i className="fa fa-trash-o"/> Delete {work_type}
-                                                </button>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                                    ]
+                                                ):null}
+                                            </ul>
+                                        </div>
+                                    ):null}
                                 </div>
                             ) : null}
                             {!task.closed && task.is_participant && task.my_participation && !task.my_participation.responded ? (

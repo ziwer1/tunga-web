@@ -7,12 +7,11 @@ import Slider from 'react-slick';
 import ShowcaseContainer from './ShowcaseContainer';
 import ShowCaseFooter from './ShowCaseFooter';
 import ComponentWithModal from '../components/ComponentWithModal';
-import LargeModal from '../components/ModalLarge';
 
-import TaskPage from 'containers/TaskPage';
-import TaskForm from 'components/TaskForm';
+import { openTaskWizard } from '../utils/tasks';
 
 import { sendGAEvent, GA_EVENT_CATEGORIES, GA_EVENT_ACTIONS, GA_EVENT_LABELS } from '../utils/tracking';
+
 
 let TESTIMONIALS = [
     {
@@ -82,25 +81,6 @@ export default class LandingPage extends ComponentWithModal {
         }
     }
 
-    createTask() {
-        this.open();
-    }
-
-    renderModalContent() {
-        return (
-            <LargeModal title="" bsStyle="lg"
-                        show={this.state.showModal}
-                        onHide={this.close.bind(this)} className="task-form-dialog">
-                <div className="title-bar">
-                    <h2 className="title text-center">Hire awesome developers!</h2>
-                </div>
-                <TaskPage>
-                    <TaskForm/>
-                </TaskPage>
-            </LargeModal>
-        );
-    }
-
     renderHeaderContent() {
         return (
             <div>
@@ -119,8 +99,8 @@ export default class LandingPage extends ComponentWithModal {
                     <div>
                         <button to="/task/new/"
                                 className="btn btn-callout"
-                                onClick={this.createTask.bind(this)}>
-                            Hire awesome developers
+                                onClick={openTaskWizard}>
+                            Get Started
                         </button>
                     </div>
                 </div>
@@ -142,7 +122,6 @@ export default class LandingPage extends ComponentWithModal {
             <ShowcaseContainer className="landing-page" headerContent={this.renderHeaderContent()}
                                chatId={this.props.params?this.props.params.chatId:null}>
                 <Helmet title="Tunga | Unlocking Africa's Tech talent potential."/>
-                {this.renderModalContent()}
                 <section id="press">
                     <div className="container">
                         <h2 className="text-center">Featured press</h2>

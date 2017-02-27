@@ -30,9 +30,9 @@ export default class TaskPay extends React.Component {
     getTotalShares() {
         var total = 0;
         Object.keys(this.state.users).forEach(key => {
-            total += Math.round(parseFloat(this.state.users[key]) || 0, 2);
+            total += parseFloat(this.state.users[key]) || 0;
         });
-        return total;
+        return Math.round(total);
     }
 
     getParticipation() {
@@ -61,6 +61,7 @@ export default class TaskPay extends React.Component {
         const { Task, Auth } = this.props;
         const { task } =  Task.detail;
         let total_shares = this.getTotalShares();
+        console.log('total_shares', total_shares);
 
         return (
             <div>

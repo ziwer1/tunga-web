@@ -40,7 +40,7 @@ export default class UserList extends React.Component {
     }
 
     render() {
-        const {Auth, User, Notification, UserActions, params} = this.props;
+        const {Auth, User, Notification, UserActions, params, bsClass} = this.props;
         const requests = Notification && Notification.notifications ? Notification.notifications.requests : 0;
 
         let filter = this.getFilter();
@@ -98,7 +98,7 @@ export default class UserList extends React.Component {
                             {User.list.ids.map((id) => {
                                 const user = User.list.users[id];
                                 return (
-                                    <div className="col-sm-6 col-md-4" key={id}>
+                                    <div className={bsClass || "col-sm-6 col-md-4"} key={id}>
                                         <UserCard Auth={Auth} user={user} UserActions={UserActions}
                                                   hideOnDisconnect={filter == 'team'}/>
                                     </div>
@@ -116,3 +116,13 @@ export default class UserList extends React.Component {
         );
     }
 }
+
+UserList.propTypes = {
+    hide_header: React.PropTypes.bool,
+    bsClass: React.PropTypes.string,
+};
+
+UserList.defaultProps = {
+    hide_header: false,
+    bsClass: 'col-sm-6 col-md-4'
+};

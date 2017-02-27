@@ -5,7 +5,6 @@ import _ from 'lodash';
 import {Button, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import momentLocalizer from 'react-widgets/lib/localizers/moment';
 import DateTimePicker from 'react-widgets/lib/DateTimePicker';
-import TinyMCE  from 'react-tinymce';
 import Dropzone from 'react-dropzone';
 import FormStatus from './status/FormStatus';
 import FieldError from './status/FieldError';
@@ -14,15 +13,14 @@ import Success from '../components/status/Success';
 import UserSelector from '../containers/UserSelector';
 import SkillSelector from '../containers/SkillSelector';
 import ComponentWithModal from './ComponentWithModal';
-import LargeModal from './ModalLarge';
+import LargeModal from './LargeModal';
 import MilestoneForm from './MilestoneForm';
 
 import {
-    USER_TYPE_DEVELOPER, TASK_TYPE_CHOICES, TASK_SCOPE_CHOICES, TASK_SCOPE_ONGOING, TASK_SCOPE_TASK, TASK_SCOPE_PROJECT,
+    USER_TYPE_DEVELOPER, TASK_TYPE_CHOICES, TASK_SCOPE_CHOICES, TASK_SCOPE_CHOICES_NEW_USER, TASK_SCOPE_ONGOING, TASK_SCOPE_PROJECT,
     TASK_BILLING_METHOD_CHOICES, TASK_BILLING_METHOD_FIXED, TASK_BILLING_METHOD_HOURLY, TASK_CODERS_NEEDED_CHOICES,
-    TASK_VISIBILITY_CHOICES, VISIBILITY_DEVELOPERS, VISIBILITY_CUSTOM, UPDATE_SCHEDULE_CHOICES
+    TASK_VISIBILITY_CHOICES, VISIBILITY_DEVELOPERS, VISIBILITY_CUSTOM, UPDATE_SCHEDULE_CHOICES, suggestTaskTypeSkills
 } from '../constants/Api';
-import {TINY_MCE_CONFIG } from '../constants/settings';
 
 momentLocalizer(moment);
 
@@ -43,7 +41,7 @@ export default class TaskForm extends ComponentWithModal {
             step: 1, schedule: null, attachments: [], showAll: false, milestones: [],
             modalMilestone: null, modalContent: null, modalTitle: '', coders_needed: null, task_type: null,
             has_requirements: null, pm_required: null, billing_method: null, stack_description: '', deliverables: '',
-            skype_id: '', contact_required: null
+            skype_id: '', contact_required: null, has_more_info: false, overrideErrors: false
         };
     }
 
@@ -62,12 +60,12 @@ export default class TaskForm extends ComponentWithModal {
                 });
             }
             this.setState({
-                is_project: task.is_project, scope: task.scope, visibility: task.visibility, assignee, participants, description, remarks,
-                schedule: this.getScheduleId(), milestones: task.milestones, deadline: task.deadline,
-                coders_needed: task.coders_needed, task_type: task.type, has_requirements: task.has_requirements,
-                pm_required: task.pm_required, billing_method: task.billing_method,
-                stack_description: task.stack_description, deliverables: task.deliverables, skype_id: task.skype_id,
-                contact_required: task.contact_required
+                ...task,
+                assignee, participants, description, remarks,
+                schedule: this.getScheduleId(), task_type: task.type,
+                skills: task.details && task.details.skills?task.details.skills.map((skill) => {
+                    return skill.name;
+                }):[]
             });
         }
     }
@@ -83,7 +81,8 @@ export default class TaskForm extends ComponentWithModal {
                     assignee: null, participants: [], schedule: null, attachments: [], showAll: false,
                     step: 1, milestones: [], modalMilestone: null, modalContent: null, modalTitle: '', coders_needed: null,
                     task_type: null, has_requirements: null, pm_required: null,
-                    billing_method: null, stack_description: '', deliverables: '', skype_id: '', contact_required: null
+                    billing_method: null, stack_description: '', deliverables: '', skype_id: '', contact_required: null,
+                    has_more_info: false
                 });
 
                 const { router } = this.context;
@@ -92,9 +91,36 @@ export default class TaskForm extends ComponentWithModal {
         }
     }
 
-    changeStep(direction=true) {
+    componentWillUnmount() {
+        this.props.TaskActions.clearValidations();
+    }
+
+    changeStep(direction=true, overrideErrors) {
         var next_step = this.state.step + (direction?1:-1);
-        this.setState({step: next_step});
+        var new_state = {step: next_step};
+        if(typeof overrideErrors == 'boolean') {
+            new_state.overrideErrors = overrideErrors;
+        }
+        this.setState(new_state);
+    }
+
+    canSkip(required, requires) {
+        if(required) {
+            return false;
+        }
+        if(requires) {
+            var i = 0;
+            do {
+                var key = requires[i];
+                var val = this.state[key];
+                if(!val || (Array.isArray(val) && !val.length)) {
+                    return false;
+                }
+                i++;
+            }
+            while (i < requires.length);
+        }
+        return true;
     }
 
     getScheduleId() {
@@ -126,6 +152,12 @@ export default class TaskForm extends ComponentWithModal {
     onRichTextChange(key, e) {
         var new_state = {};
         new_state[key] = e.target.getContent();
+        this.setState(new_state);
+    }
+
+    onInputChange(key, e) {
+        var new_state = {};
+        new_state[key] = e.target.value;
         this.setState(new_state);
     }
 
@@ -169,9 +201,7 @@ export default class TaskForm extends ComponentWithModal {
     }
 
     showAll(e) {
-        if(!this.refs.task_form.checkValidity()) {
-            this.setState({showAll: true});
-        }
+        this.setState({showAll: !this.refs.task_form.checkValidity(), overrideErrors: false});
     }
 
     onComposeMilestone(milestone) {
@@ -199,15 +229,19 @@ export default class TaskForm extends ComponentWithModal {
         if(['task_type', 'scope', 'is_project', 'has_requirements', 'pm_required'].indexOf(key) > -1) {
             this.changeStep();
         }
+
+        if(key == 'has_more_info' && value) {
+            this.changeStep();
+        }
     }
 
     handleSubmit(e) {
         e.preventDefault();
         var req_data = {};
         req_data.title = this.refs.title?this.refs.title.value.trim():null;
-        req_data.description = this.state.description;
-        req_data.stack_description = this.state.stack_description;
-        req_data.deliverables = this.state.deliverables;
+        req_data.description = this.refs.description?this.refs.description.value.trim():null;
+        req_data.stack_description = this.refs.stack_description?this.refs.stack_description.value.trim():null;
+        req_data.deliverables = this.refs.deliverables?this.refs.deliverables.value.trim():null;
 
         req_data.type = this.state.task_type;
         req_data.scope = this.state.scope;
@@ -223,10 +257,12 @@ export default class TaskForm extends ComponentWithModal {
         req_data.deadline = this.state.deadline;
 
         req_data.url = this.refs.url?this.refs.url.value.trim():null;
-        req_data.remarks = this.state.remarks;
+        req_data.remarks = this.refs.remarks?this.refs.remarks.value.trim():null;
 
         req_data.skype_id = this.state.skype_id;
         req_data.email = this.refs.email?this.refs.email.value.trim():null;
+        req_data.first_name = this.refs.first_name?this.refs.first_name.value.trim():null;
+        req_data.last_name = this.refs.last_name?this.refs.last_name.value.trim():null;
 
         req_data.visibility = this.state.visibility;
 
@@ -252,7 +288,9 @@ export default class TaskForm extends ComponentWithModal {
         req_data.milestones = this.state.milestones;
 
         const selected_skills = this.state.skills;
-        req_data.skills = selected_skills.join(',');
+        if(selected_skills) {
+            req_data.skills = selected_skills.join(',');
+        }
         const attachments = this.state.attachments;
 
         if(project && project.id) {
@@ -266,7 +304,6 @@ export default class TaskForm extends ComponentWithModal {
         var task_info = {};
         Object.keys(req_data).forEach(function (key) {
             const data_value = req_data[key];
-            console.log(key, typeof data_value);
             if(data_value || typeof data_value == 'boolean') {
                 task_info[key] = data_value;
             }
@@ -308,7 +345,7 @@ export default class TaskForm extends ComponentWithModal {
         }
 
         let is_project_task = (project && project.id) || (task && task.parent);
-        let work_type = this.state.is_project?'project':'task';
+        let work_type = (this.state.is_project || !Auth.isAuthenticated)?'project':'task';
 
         if(Auth.isAuthenticated && !Auth.user.can_contribute) {
             return (
@@ -329,6 +366,7 @@ export default class TaskForm extends ComponentWithModal {
         const deliverables = this.props.task?task.deliverables:'';
         const remarks = this.props.task?task.remarks:'';
         const has_error = Task.detail.error.create || Task.detail.error.update;
+        let canShowAll = (this.state.showAll || has_error) && !this.state.overrideErrors;
 
         let taskTypeComp = (
             <div>
@@ -360,7 +398,7 @@ export default class TaskForm extends ComponentWithModal {
                 {(Task.detail.error.update && Task.detail.error.update.scope)?
                     (<FieldError message={Task.detail.error.update.scope}/>):null}
                 <div className="btn-choices choice-fork three" role="group">
-                    {TASK_SCOPE_CHOICES.map(scope_type => {
+                    {(Auth.isAuthenticated?TASK_SCOPE_CHOICES:TASK_SCOPE_CHOICES_NEW_USER).map(scope_type => {
                         return (
                             <div className="choice">
                                 <button key={scope_type.id} type="button"
@@ -410,20 +448,17 @@ export default class TaskForm extends ComponentWithModal {
                     (<FieldError message={Task.detail.error.update.pm_required}/>):null}
                 <div>
                     <div>
-                        <div className="btn-choices choice-fork small" role="group">
+                        <div className="btn-choices" role="group">
                             {[
                                 {id: true, name: 'Yes, I want a project manager', icon: 'fa fa-check-circle'},
                                 {id: false, name: 'No, I will manage all processes for this project myself', icon: 'fa fa-times-circle'}
                             ].map(pm_options => {
                                 return (
-                                    <div className="choice">
-                                        <button key={pm_options.id} type="button"
-                                                className={"btn" + (this.state.pm_required == pm_options.id?' active':'')}
-                                                onClick={this.onStateValueChange.bind(this, 'pm_required', pm_options.id)}>
-                                            <i className={`icon ${pm_options.icon}`}/>
-                                        </button>
+                                    <button key={pm_options.id} type="button"
+                                            className={"btn" + (this.state.pm_required == pm_options.id?' active':'')}
+                                            onClick={this.onStateValueChange.bind(this, 'pm_required', pm_options.id)}>
                                         <div dangerouslySetInnerHTML={{__html: pm_options.name}} />
-                                    </div>
+                                    </button>
                                 )
                             })}
                         </div>
@@ -436,10 +471,6 @@ export default class TaskForm extends ComponentWithModal {
                                     - Reporting progress of the project<br/>
                                     - Troubleshooting<br/>
                                     - Organizing (daily) standups<br/>
-                                </p>
-                                <p>
-                                    Project Management hours usually consist at least 15% of the work<br/>
-                                    Project Management time is billed at &euro;40/hr.
                                 </p>
                             </div>
                         </div>
@@ -455,7 +486,7 @@ export default class TaskForm extends ComponentWithModal {
                 {(Task.detail.error.update && Task.detail.error.update.contact_required)?
                     (<FieldError message={Task.detail.error.update.contact_required}/>):null}
                 <div className="form-group">
-                    <label className="control-label">Do you want a project manager for this project?</label>
+                    <label className="control-label">How would you like to proceed?</label>
                     <div>
                         <div className="btn-choices" role="group">
                             {[
@@ -484,7 +515,7 @@ export default class TaskForm extends ComponentWithModal {
                     (<FieldError message={Task.detail.error.update.title}/>):null}
                 <div className="form-group">
                     <label className="control-label">Title for your {work_type} *</label>
-                    <div><input type="text" className="form-control" ref="title" required placeholder="Title" defaultValue={task.title}/></div>
+                    <div><input type="text" className="form-control" ref="title" required placeholder="Title" onChange={this.onInputChange.bind(this, 'title')} value={this.state.title}/></div>
                 </div>
             </div>
         );
@@ -497,16 +528,15 @@ export default class TaskForm extends ComponentWithModal {
                     (<FieldError message={Task.detail.error.update.description}/>):null}
                 <div className="form-group">
                     <label className="control-label">{
-                        this.state.scope == TASK_SCOPE_ONGOING?'What kind of work do you have for developers':(
-                            this.state.is_project?(
-                                this.state.has_requirements?'Goals of the project':'Describe the idea you have for the project'
-                            ):'Requirements for this task'
-                        )
+                        Auth.isAuthenticated?(
+                            this.state.scope == TASK_SCOPE_ONGOING?'What kind of work do you have for developers':(
+                                this.state.is_project?(
+                                    this.state.has_requirements?'Goals of the project':'Describe the idea you have for the project'
+                                ):'Requirements for this task'
+                            )
+                        ):'Short description'
                     }</label>
-                    <TinyMCE
-                        content={description}
-                        config={TINY_MCE_CONFIG}
-                        onChange={this.onRichTextChange.bind(this, 'description')}/>
+                    <textarea placeholder="Short description of the task" className="form-control" ref="description" onChange={this.onInputChange.bind(this, 'description')} value={this.state.description}></textarea>
                 </div>
             </div>
         );
@@ -519,10 +549,7 @@ export default class TaskForm extends ComponentWithModal {
                     (<FieldError message={Task.detail.error.update.stack_description}/>):null}
                 <div className="form-group">
                     <label className="control-label">Description of the stack/technology you want to use</label>
-                    <TinyMCE
-                        content={stack_description}
-                        config={TINY_MCE_CONFIG}
-                        onChange={this.onRichTextChange.bind(this, 'stack_description')}/>
+                    <textarea placeholder="Description of the stack/technology you want to use" className="form-control" ref="stack_description" onChange={this.onInputChange.bind(this, 'stack_description')} value={this.state.stack_description}></textarea>
                 </div>
             </div>
         );
@@ -535,10 +562,7 @@ export default class TaskForm extends ComponentWithModal {
                     (<FieldError message={Task.detail.error.update.deliverables}/>):null}
                 <div className="form-group">
                     <label className="control-label">What are the deliverables</label>
-                    <TinyMCE
-                        content={deliverables}
-                        config={TINY_MCE_CONFIG}
-                        onChange={this.onRichTextChange.bind(this, 'deliverables')}/>
+                    <textarea placeholder="What are the deliverables" className="form-control" ref="deliverables" onChange={this.onInputChange.bind(this, 'deliverables')} value={this.state.deliverables}></textarea>
                 </div>
             </div>
         );
@@ -550,10 +574,11 @@ export default class TaskForm extends ComponentWithModal {
                 {(Task.detail.error.update && Task.detail.error.update.skills)?
                     (<FieldError message={Task.detail.error.update.skills}/>):null}
                 <div>
-                    <label className="control-label">Skills required for this {work_type} *</label>
+                    {Auth.isAuthenticated || canShowAll?(<label className="control-label">Tag skills or products that are relevant to this {work_type} {Auth.isAuthenticated?'*':''}</label>):null}
                     <SkillSelector filter={{filter: null}}
                                    onChange={this.onSkillChange.bind(this)}
-                                   skills={task.details?task.details.skills:[]}/>
+                                   skills={task.id || (this.state.skills && this.state.skills.length)?this.state.skills:suggestTaskTypeSkills(this.state.task_type)['selected']}
+                                   suggested={suggestTaskTypeSkills(this.state.task_type)['suggested']} />
                 </div>
             </div>
         );
@@ -566,11 +591,11 @@ export default class TaskForm extends ComponentWithModal {
                     (<FieldError message={Task.detail.error.update.fee}/>):null}
                 <div className="form-group">
                     <label className="control-label">{
-                        this.state.is_project && !this.state.has_requirements?
+                        (!Auth.isAuthenticated || (this.state.is_project && !this.state.has_requirements))?
                             'What is roughly the budget of this project?':
                             `Fixed fee for this task (in Euros) ${is_project_task?' - optional':''}`
                     }</label>
-                    <div><input type="text" className="form-control" ref="fee" required={!is_project_task} placeholder="Amount in Euros" defaultValue={task.fee?parseFloat(task.fee).toFixed(2):''}/></div>
+                    <div><input type="text" className="form-control" ref="fee" required={!is_project_task && Auth.isAuthenticated} placeholder="Amount in Euros"  onChange={this.onInputChange.bind(this, 'fee')} value={this.state.fee?this.state.fee:''}/></div>
                     {!this.state.is_project || this.state.has_requirements?(
                         <div style={{marginTop: '10px'}}>13% of pledge goes to Tunga</div>
                     ):null}
@@ -579,6 +604,8 @@ export default class TaskForm extends ComponentWithModal {
         );
 
         let deadlineComp = (
+
+
             <div>
                 {(Task.detail.error.create && Task.detail.error.create.deadline)?
                     (<FieldError message={Task.detail.error.create.deadline}/>):null}
@@ -593,7 +620,7 @@ export default class TaskForm extends ComponentWithModal {
                         <div>
                             <button type="button"
                                     className={"btn btn-grey " + (this.state.deadline === undefined?' active':'')}
-                                    onClick={this.onStateValueChange.bind(this, 'deadline', undefined)}>I don't have a deadline for this task
+                                    onClick={this.onStateValueChange.bind(this, 'deadline', undefined)}>I'm not sure
                             </button>
                         </div>
                     </div>
@@ -751,7 +778,7 @@ export default class TaskForm extends ComponentWithModal {
                     (<FieldError message={Task.detail.error.update.url}/>):null}
                 <div className="form-group">
                     <label className="control-label">Code location</label>
-                    <div><input type="text" className="form-control" ref="url" placeholder="URL e.g GitHub, GitLab, BitBucket issue link" defaultValue={task.url}/></div>
+                    <div><input type="text" className="form-control" ref="url" placeholder="URL e.g GitHub, GitLab, BitBucket issue link"  onChange={this.onInputChange.bind(this, 'url')} value={this.state.url}/></div>
                 </div>
             </div>
         );
@@ -765,10 +792,7 @@ export default class TaskForm extends ComponentWithModal {
                 {is_project_task?null:(
                     <div className="form-group">
                         <label className="control-label">Which files can you deliver in order to provide more details for this {work_type}?</label>
-                        <TinyMCE
-                            content={remarks}
-                            config={TINY_MCE_CONFIG}
-                            onChange={this.onRichTextChange.bind(this, 'remarks')}/>
+                        <textarea placeholder={`Which files can you deliver in order to provide more details for this ${work_type}`} className="form-control" ref="remarks" onChange={this.onInputChange.bind(this, 'remarks')} value={this.state.remarks}></textarea>
                     </div>
                 )}
             </div>
@@ -825,18 +849,17 @@ export default class TaskForm extends ComponentWithModal {
                         </div>
                         {!this.state.is_project && this.state.billing_method == TASK_BILLING_METHOD_HOURLY?(
                             <div className="card">
-                                Tunga offers fixed fees ranging from &euro; 19 - &euro; 25 per hour.<br/>
+                                Tunga offers fixed hourly fees ranging from &euro; 19 - &euro; 25 per hour.<br/>
                                 The fee per developers will be presented when they apply for the task.
                             </div>
                         ):null}
 
-                        {this.state.is_project && this.state.has_requirements?(
+                        {this.state.is_project?(
                             <div>
                                 {this.state.billing_method == TASK_BILLING_METHOD_HOURLY?(
                                     <div className="card">
-                                        Developers will make an estimate of the hours needed, but you will pay for the actual hours logged<br/>
-                                        We probably need to add a limit for how far a dev can go over the estimated hours.
-
+                                        Developers will make an estimate of the hours needed, but you will pay for the actual hours logged.<br/>
+                                        Tunga offers fixed hourly fees ranging from &euro; 19 - &euro; 25 per hour.
                                     </div>
                                 ):null}
                                 {this.state.billing_method == TASK_BILLING_METHOD_FIXED?(
@@ -888,181 +911,312 @@ export default class TaskForm extends ComponentWithModal {
 
         let emailComp = (
             <div>
+                {(Task.detail.error.create && Task.detail.error.create.first_name)?
+                    (<FieldError message={Task.detail.error.create.first_name}/>):null}
+                {(Task.detail.error.update && Task.detail.error.update.first_name)?
+                    (<FieldError message={Task.detail.error.update.first_name}/>):null}
+                <div className="form-group">
+                    <label className="control-label">Name *</label>
+                    <div className="row">
+                        <div className="col-md-6">
+                            <input type="text" name="first_name" className="form-control" ref="first_name" required placeholder="First Name"  onChange={this.onInputChange.bind(this, 'first_name')} value={this.state.first_name}/>
+                        </div>
+                        <div className="col-md-6">
+                            <input type="text" name="last_name" className="form-control" ref="last_name" required placeholder="Last Name"  onChange={this.onInputChange.bind(this, 'last_name')} value={this.state.last_name}/>
+                        </div>
+                    </div>
+                </div>
+
                 {(Task.detail.error.create && Task.detail.error.create.email)?
                     (<FieldError message={Task.detail.error.create.email}/>):null}
                 {(Task.detail.error.update && Task.detail.error.update.email)?
                     (<FieldError message={Task.detail.error.update.email}/>):null}
                 <div className="form-group">
                     <div className="highlight">We'll use your email to contact you with more details through a structured channel</div>
-                    <label className="control-label">E-mail address*</label>
-                    <div><input type="email" className="form-control" ref="email" required placeholder="Email" defaultValue={task.email}/></div>
+                    <label className="control-label">E-mail address *</label>
+                    <div><input type="email" name="email" className="form-control" ref="email" required placeholder="Email"  onChange={this.onInputChange.bind(this, 'email')} value={this.state.email}/></div>
+                </div>
+            </div>
+        );
+
+        let hasMoreInfoComp = (
+            <div className="form-group">
+                {(Task.detail.error.create && Task.detail.error.create.has_more_info)?
+                    (<FieldError message={Task.detail.error.create.has_more_info}/>):null}
+                {(Task.detail.error.update && Task.detail.error.update.has_more_info)?
+                    (<FieldError message={Task.detail.error.update.has_more_info}/>):null}
+                <label className="control-label">Would you like to provide more information about your {work_type}?</label>
+                <div className="btn-choices" role="group">
+                    {[
+                        {id: true, name: 'I have more information'}
+                    ].map(has_more_info => {
+                        return (
+                            <button key={has_more_info.id} type="button"
+                                    className={"btn" + (this.state.has_more_info == has_more_info.id?' active':'')}
+                                    onClick={this.onStateValueChange.bind(this, 'has_more_info', !this.state.has_more_info)}>
+                                {has_more_info.name}
+                            </button>
+                        )
+                    })}
                 </div>
             </div>
         );
 
         var sections = [];
-        if(enabledWidgets && enabledWidgets.length) {
-            let widgetMap = {
-                title: titleComp,
-                description: descComp,
-                skills: skillsComp,
-                fee: feeComp,
-                deadline: deadlineComp,
-                milestone: milestoneComp,
-                developers: developersComp
-            };
 
-            var all_comps = [];
-            enabledWidgets.forEach(function (widget) {
-                let comp = widgetMap[widget];
-                if(comp) {
-                    all_comps.push(comp);
-                }
-            });
+        if(Auth.isAuthenticated) {
+            if(enabledWidgets && enabledWidgets.length) {
+                let widgetMap = {
+                    title: titleComp,
+                    description: descComp,
+                    skills: skillsComp,
+                    fee: feeComp,
+                    deadline: deadlineComp,
+                    milestone: milestoneComp,
+                    developers: developersComp
+                };
 
-            if(all_comps.length) {
-                sections = [
-                    {
-                        items: all_comps
+                var all_comps = [];
+                enabledWidgets.forEach(function (widget) {
+                    let comp = widgetMap[widget];
+                    if(comp) {
+                        all_comps.push(comp);
                     }
-                ];
-            }
-        } else if(is_project_task) {
-            sections = [
-                {
-                    items: [titleComp, descComp, skillsComp, feeComp, deadlineComp, visibilityComp]
-                }
-            ];
-        } else if(this.state.scope == TASK_SCOPE_ONGOING) {
-            sections = [
-                {
-                    title: 'Basic details about the task',
-                    items: [codersComp, skillsComp]
-                },
-                {
-                    title: 'The next step',
-                    items: [contactComp, descComp]
-                }
-            ]
-        } else if(this.state.is_project && !this.state.has_requirements) {
-            sections = [
-                {
-                    title: 'Project description',
-                    items: [descComp, deliverablesComp]
-                },
-                {
-                    title: 'Project description',
-                    items: [stackDescComp, filesComp]
-                },
-                {
-                    title: 'Agreements',
-                    items: [deadlineComp, feeComp]
-                }
-            ]
-        } else {
-            sections = [
-                {
-                    title: `Basic details about your ${work_type}`,
-                    items: [titleComp, skillsComp]
-                }
-            ];
+                });
 
-            if(this.state.is_project) {
-                sections = [
-                    ...sections,
-                    {
-                        title: 'Do you want a project manager for this project?',
-                        items: [requiresPMComp],
-                        required: true
-                    }
-                ];
-
-                var stepComps = [];
-
-                if(this.state.pm_required) {
-                    stepComps = [
-                        requiresContactComp,
-                        this.state.contact_required === null?null:(
-                            this.state.contact_required?contactComp:(
-                                <div>
-                                    {descComp}
-                                    {deliverablesComp}
-                                    {filesComp}
-                                </div>
-                            )
-                        )
+                if(all_comps.length) {
+                    sections = [
+                        {
+                            items: all_comps
+                        }
                     ];
-                } else {
-                    stepComps = [descComp, stackDescComp, deliverablesComp, filesComp];
                 }
-
+            } else if(is_project_task) {
                 sections = [
-                    ...sections,
+                    {
+                        title: 'Basic details about the task',
+                        items: [titleComp, skillsComp],
+                        requires: ['title', 'skills']
+                    },
+                    {
+                        title: 'Task description',
+                        items: [descComp],
+                        requires: ['description']
+                    },
+                    {
+                        title: 'Agreements',
+                        items: [feeComp, deadlineComp],
+                        requires: ['fee']
+                    },
+                    {
+                        title: 'Who would you like to see your task?',
+                        items: [visibilityComp]
+                    }
+                ];
+            } else if(this.state.scope == TASK_SCOPE_ONGOING) {
+                sections = [
+                    {
+                        title: 'Basic details about the task',
+                        items: [codersComp, descComp],
+                        requires: ['coders_needed']
+                    },
+                    {
+                        title: 'The next step',
+                        items: [contactComp]
+                    }
+                ]
+            } /*else if(this.state.is_project && !this.state.has_requirements) {
+                sections = [
                     {
                         title: 'Project description',
-                        items: stepComps
+                        items: [descComp, deliverablesComp]
+                    },
+                    {
+                        title: 'Project description',
+                        items: [stackDescComp, filesComp]
+                    },
+                    {
+                        title: 'Agreements',
+                        items: [deadlineComp, feeComp]
+                    }
+                ]
+            }*/ else {
+                sections = [
+                    {
+                        title: `Basic details about your ${work_type}`,
+                        items: [titleComp],
+                        requires: ['title']
                     }
                 ];
 
-                if(!this.state.pm_required || !this.state.contact_required) {
+                if(this.state.is_project) {
                     sections = [
                         ...sections,
+                        {
+                            title: 'Do you want a project manager for this project?',
+                            items: [requiresPMComp],
+                            required: true
+                        }
+                    ];
+
+                    var stepComps = [];
+
+                    if(this.state.pm_required) {
+                        stepComps = [
+                            requiresContactComp,
+                            this.state.contact_required === null?null:(
+                                this.state.contact_required?contactComp:(
+                                    <div>
+                                        {descComp}
+                                        {deliverablesComp}
+                                        {filesComp}
+                                    </div>
+                                )
+                            )
+                        ];
+
+
+                    } else {
+                        stepComps = [descComp, stackDescComp, deliverablesComp, filesComp];
+                    }
+
+                    sections = [
+                        ...sections,
+                        {
+                            title: 'Project description',
+                            items: stepComps
+                        }
+                    ];
+
+                    if(!this.state.pm_required || !this.state.contact_required) {
+                        sections = [
+                            ...sections,
+                            {
+                                title: 'Agreements',
+                                items: [deadlineComp, billingComp]
+                            }
+                        ];
+                    }
+                } else {
+                    sections = [
+                        ...sections,
+                        {
+                            title: 'Requirements',
+                            items: [descComp, filesComp, codersComp]
+                        },
                         {
                             title: 'Agreements',
                             items: [deadlineComp, billingComp]
                         }
-                    ];
+                    ]
                 }
-            } else {
-                sections = [
-                    ...sections,
-                    {
-                        title: 'Requirements',
-                        items: [descComp, filesComp, codersComp]
-                    },
-                    {
-                        title: 'Agreements',
-                        items: [deadlineComp, billingComp]
-                    }
-                ]
             }
-        }
 
-        if(!task.id && !is_project_task && !(enabledWidgets && enabledWidgets.length) && !this.state.showAll && !has_error) {
-            if(this.state.is_project) {
+            if(!task.id && !is_project_task && !(enabledWidgets && enabledWidgets.length) && !canShowAll) {
+                /*if(this.state.is_project) {
+                    sections = [
+                        {
+                            title: 'Do you have clear requirements for this project?',
+                            items: [hasRequirementsComp],
+                            required: true
+                        },
+                        ...sections
+                    ]
+                }*/
+
                 sections = [
                     {
-                        title: 'Do you have clear requirements for this project?',
-                        items: [hasRequirementsComp],
+                        title: 'What is the scope of the work?',
+                        items: [taskScopeComp],
                         required: true
                     },
-                    ...sections
-                ]
+                    ... sections
+                ];
+
             }
 
             sections = [
                 {
-                    title: 'What kind of work do you have?',
-                    items: [taskTypeComp],
-                    required: true
-                },
-                {
-                    title: 'What is the scope of the work?',
-                    items: [taskScopeComp],
-                    required: true
+                    title: 'Tag skills or products that are relevant to this project',
+                    items: [skillsComp],
+                    requires: ['skills']
                 },
                 ... sections
             ];
-        }
 
-        if(!Auth.isAuthenticated) {
+            if(!task.id && !is_project_task && !(enabledWidgets && enabledWidgets.length) && !canShowAll) {
+
+                sections = [
+                    {
+                        title: 'What kind of work do you have?',
+                        items: [taskTypeComp],
+                        required: true
+                    },
+                    ... sections
+                ];
+            }
+        } else {
             sections = [
-                ... sections,
                 {
-                    title: "Your e-mail address",
-                    items: [emailComp]
+                    title: 'Tag skills or products that are relevant to this project',
+                    items: [skillsComp]
                 }
             ];
+
+            if(!canShowAll) {
+                sections = [
+                    ...sections,
+                    {
+                        title: 'Project scope',
+                        items: [taskScopeComp],
+                        required: true
+                    }
+                ];
+            }
+
+            sections = [
+                ...sections,
+                {
+                    title: 'Basic details about the task',
+                    items: [descComp, hasMoreInfoComp],
+                    requires: ['description']
+                }
+            ];
+
+            if(this.state.has_more_info) {
+                sections = [
+                    ...sections,
+                    {
+                        title: 'Additional information',
+                        items: [deliverablesComp, stackDescComp]
+                    },
+                    {
+                        title: 'Additional information',
+                        items:  [feeComp, deadlineComp],
+                        requires: ['fee']
+                    }
+                ];
+            }
+
+            sections = [
+                ...sections,
+                {
+                    title: "Contact details",
+                    items: [emailComp],
+                    requires: ['email', 'first_name', 'last_name']
+                }
+            ];
+
+            if(!canShowAll) {
+                sections = [
+                    {
+                        title: 'What kind of work do you have?',
+                        items: [taskTypeComp],
+                        required: true
+                    },
+                    ...sections
+                ];
+            }
         }
 
         let current_section = sections[this.state.step -1];
@@ -1074,7 +1228,7 @@ export default class TaskForm extends ComponentWithModal {
                     <h2 className="title text-center">Post work</h2>
                     )}
 
-                {current_section && current_section.title && !(has_error || this.state.showAll)?(
+                {current_section && current_section.title && !canShowAll?(
                     <div className="section-title clearfix">
                         <h4 className="pull-left">{current_section.title}</h4>
                         <div className="slider pull-right">
@@ -1087,17 +1241,18 @@ export default class TaskForm extends ComponentWithModal {
                     </div>
                 ):null}
 
-                <form onSubmit={this.handleSubmit.bind(this)} name="task" role="form" ref="task_form" className={has_error || this.state.showAll?'steps-all':null}>
+                <form onSubmit={this.handleSubmit.bind(this)} name="task" role="form" ref="task_form" className={canShowAll?'steps-all':null}>
                     <div className="form-group">
                         <FormStatus loading={Task.detail.isSaving}
                                     success={Task.detail.isSaved}
                                     message={'Task saved successfully'}
-                                    error={Task.detail.error.create || Task.detail.error.update}/>
+                                    error={Task.detail.error.create || Task.detail.error.update}
+                                    errorMessage={Task.detail.error.create && Task.detail.error.create.form || Task.detail.error.update && Task.detail.error.update.form}/>
                     </div>
 
                     {sections.map((section, idx) => {
                         return (
-                            <div className={this.state.step == (idx+1) || has_error || this.state.showAll?'step':'sr-only'}>
+                            <div className={this.state.step == (idx+1) || canShowAll?'step':'sr-only'}>
                                 {section.items.map(item => {
                                     return item;
                                 })}
@@ -1106,17 +1261,19 @@ export default class TaskForm extends ComponentWithModal {
                     })}
 
                     <div className="nav text-center">
-                        {this.state.step > 1 && !has_error && !this.state.showAll?(
-                            <button type="button" className="btn nav-btn prev-btn pull-left" onClick={this.changeStep.bind(this, false)}>
+                        {this.state.step > 1?(
+                            <button type="button" className="btn nav-btn prev-btn pull-left" onClick={this.changeStep.bind(this, false, true)}>
                                 <i className="fa fa-chevron-left"/> Previous
                             </button>
                         ):null}
-                        {this.state.step < sections.length && current_section && !current_section.required && !has_error && !this.state.showAll?(
-                            <button type="button" className="btn nav-btn next-btn pull-right" onClick={this.changeStep.bind(this, true)}>
-                                Next <i className="fa fa-chevron-right"/>
+                        {this.state.step < sections.length?(
+                            <button type="button"
+                                    className="btn nav-btn next-btn pull-right"
+                                    onClick={this.changeStep.bind(this, true)} disabled={!(current_section && !current_section.required && !canShowAll)}>
+                                {current_section && this.canSkip(current_section.required, current_section.requires)?'Skip':'Next'} <i className="fa fa-chevron-right"/>
                             </button>
                         ):null}
-                        {this.state.step == sections.length || this.state.showAll || has_error?(
+                        {this.state.step == sections.length || canShowAll?(
                             <div className="text-center">
                                 <button type="submit"
                                         onClick={this.showAll.bind(this)}

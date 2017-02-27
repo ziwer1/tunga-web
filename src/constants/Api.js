@@ -124,6 +124,34 @@ export const TASK_TYPE_CHOICES = [
     {id: TASK_TYPE_OTHER, name: 'Other', icon: 'fa fa-question-circle'}
 ];
 
+export function suggestTaskTypeSkills(type) {
+    switch (type) {
+        case TASK_TYPE_WEB:
+            return {
+                selected: ['HTML', 'CSS', 'JavaScript'],
+                suggested: [
+                    'PHP', 'WordPress', 'jQuery', 'Node.js', 'Bootstrap',
+                    'React.js', 'Angular.js', 'Rails', 'Django', 'express.js'
+                ]
+            };
+        case TASK_TYPE_MOBILE:
+            return {
+                selected: [],
+                suggested: [
+                    'Android', 'iOS', 'Java', 'Swift', 'React Native', 'Apache Cordova', 'Ionic'
+                ]
+            };
+        default:
+            return {
+                selected: [],
+                suggested: [
+                    'PHP', 'Python', 'Node.js', 'Java', 'Ruby', 'C#',
+                    'API', 'Docker',
+                    'Heroku', 'Amazon Web Services', 'Google App Engine', 'Microsoft Azure'
+                ]};
+    }
+}
+
 export const TASK_SCOPE_TASK = 1;
 export const TASK_SCOPE_ONGOING = 2;
 export const TASK_SCOPE_PROJECT = 3;
@@ -131,6 +159,12 @@ export const TASK_SCOPE_PROJECT = 3;
 export const TASK_SCOPE_CHOICES = [
     {id: TASK_SCOPE_TASK, name: 'I have a task<br/>&lt; 50 hours', icon: 'tunga-icon-task'},
     {id: TASK_SCOPE_PROJECT, name: 'I have a project<br/>&gt; than 50 hours', icon: 'tunga-icon-project'},
+    {id: TASK_SCOPE_ONGOING, name: 'I have an ongoing project', icon: 'tunga-icon-running-tasks'}
+];
+
+export const TASK_SCOPE_CHOICES_NEW_USER = [
+    {id: TASK_SCOPE_TASK, name: 'I have a task', icon: 'tunga-icon-task'},
+    {id: TASK_SCOPE_PROJECT, name: 'I have a project', icon: 'tunga-icon-project'},
     {id: TASK_SCOPE_ONGOING, name: 'I have an ongoing project', icon: 'tunga-icon-running-tasks'}
 ];
 

@@ -37,7 +37,7 @@ export default class UserCard extends React.Component {
         return (
             <div className="card user-card">
                 <UserCardProfile user={user}/>
-                <div style={{minHeight: user.is_developer?'20px':'40px'}}>
+                <div className={`skills ${user.is_developer?'':'skills-needed'}`}>
                     {user.profile?(
                         <div>
                             {!user.is_developer?(

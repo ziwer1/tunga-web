@@ -4,7 +4,7 @@ import Progress from './status/Progress';
 import FormStatus from './status/FormStatus';
 import FieldError from './status/FieldError';
 import SkillSelector from '../containers/SkillSelector';
-import LargeModal from './ModalLarge';
+import LargeModal from './LargeModal';
 import WorkForm from './WorkForm';
 import EducationForm from './EducationForm';
 import {TINY_MCE_CONFIG } from '../constants/settings';
@@ -16,8 +16,25 @@ export default class Stack extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    componentWillMount() {
+        this.addSkillsToState();
+    }
+
     componentDidMount() {
         this.props.ProfileActions.retrieveProfile();
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if(this.props.Profile.profile.skills != prevProps.Profile.profile.skills) {
+            this.addSkillsToState();
+        }
+    }
+
+    addSkillsToState() {
+        const { Profile } = this.props;
+        this.setState({skills: Profile.profile.skills?Profile.profile.skills.map((skill) => {
+            return skill.name;
+        }):[]});
     }
 
     onBioChange(e) {
@@ -109,7 +126,9 @@ export default class Stack extends React.Component {
                         (<FieldError message={Profile.error.profile.skills}/>):null}
                     <div className="form-group">
                         <label className="control-label">Skills</label>
-                        <SkillSelector filter={{filter: null}} onChange={this.onSkillChange.bind(this)} skills={Profile.profile.skills?Profile.profile.skills:[]}/>
+                        <SkillSelector filter={{filter: null}}
+                                       onChange={this.onSkillChange.bind(this)}
+                                       skills={this.state.skills?this.state.skills:[]}/>
                     </div>
 
                     {Auth.user.is_developer?(

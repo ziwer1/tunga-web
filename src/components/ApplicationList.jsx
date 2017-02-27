@@ -3,7 +3,7 @@ import moment from 'moment';
 import Progress from './status/Progress';
 import UserCardProfile from './UserCardProfile';
 import ComponentWithModal from './ComponentWithModal';
-import LargeModal from './ModalLarge';
+import LargeModal from './LargeModal';
 import confirm from '../utils/confirm';
 
 export default class ApplicationList extends ComponentWithModal {

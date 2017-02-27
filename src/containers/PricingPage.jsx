@@ -9,7 +9,7 @@ import Error from '../components/status/Error';
 import ShowcaseContainer from './ShowcaseContainer';
 
 import ComponentWithModal from '../components/ComponentWithModal';
-import LargeModal from '../components/ModalLarge';
+import LargeModal from '../components/LargeModal';
 import EmailVisitorWidget from '../components/EmailVisitorWidget';
 
 import { OFFER_REQUEST_ITEMS } from '../constants/Api'

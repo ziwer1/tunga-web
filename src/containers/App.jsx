@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
@@ -15,10 +14,7 @@ import { PROFILE_COMPLETE_PATH } from '../constants/patterns';
 import { initNavUIController } from '../utils/ui';
 import { requiresAuth, requiresNoAuth, requiresAuthOrEmail } from '../utils/router';
 
-import ComponentWithModal from '../components/ComponentWithModal';
-import LargeModal from '../components/ModalLarge';
-
-class App extends ComponentWithModal {
+class App extends React.Component {
 
     getChildContext() {
         const { router } = this.context;
@@ -58,17 +54,13 @@ class App extends ComponentWithModal {
 
             if(requiresAuthOrEmail(routes) && !Auth.isAuthenticated && !Auth.isEmailVisitor) {
                 AuthActions.authRedirect(location.pathname);
-                router.replace('/signin?next='+location.pathname);
+                router.replace('/?next='+location.pathname);
                 return;
             }
 
             if(requiresAuth(routes) && !Auth.isAuthenticated) {
-                if(Auth.isEmailVisitor) {
-                    this.open();
-                } else {
-                    AuthActions.authRedirect(location.pathname);
-                    router.replace('/signin?next='+location.pathname);
-                }
+                AuthActions.authRedirect(location.pathname);
+                router.replace('/?next='+location.pathname);
                 return;
             }
         }
@@ -99,10 +91,8 @@ class App extends ComponentWithModal {
     }
 
     runOptimizely() {
-        if(window.optimizely.activeExperiments) {
+        if(window.optimizely && window.optimizely.activeExperiments) {
             window.optimizely.activeExperiments.forEach(function (experimentID) {
-                var variationIndex = window.optimizely.variationMap[experimentID];
-                var variationName = window.optimizely.variationNamesMap[experimentID];
                 var variationID = window.optimizely.variationIdsMap[experimentID];
                 if(variationID && Array.isArray(variationID)) {
                     variationID = variationID[0];
@@ -129,23 +119,8 @@ class App extends ComponentWithModal {
         this.close();
         if(requiresAuth(routes) && !Auth.isAuthenticated) {
             AuthActions.authRedirect(location.pathname);
-            router.replace('/signin?next='+location.pathname);
+            router.replace('/?next='+location.pathname);
         }
-    }
-
-    renderModalContent() {
-        return (
-            <LargeModal title="Login or Join" bsStyle="md"
-                        show={this.state.showModal} onHide={this.onClosePopup.bind(this)}>
-                <div className="alert alert-info">You need to Login or Sign Up to access this page</div>
-                <div className="clearfix">
-                    <div className="pull-right">
-                        <Link to="/signup" className="btn" onClick={this.close.bind(this)}>Sign Up</Link>
-                        <Link to="/signin" className="btn btn-alt" onClick={this.close.bind(this)}>Login</Link>
-                    </div>
-                </div>
-            </LargeModal>
-        );
     }
 
     renderChildren() {
@@ -172,7 +147,6 @@ class App extends ComponentWithModal {
                     </div>
                 ):(
                 <div style={{height: '100%'}}>
-                    {this.renderModalContent()}
                     {this.renderChildren()}
                 </div>
             )

@@ -16,7 +16,7 @@ export default class FormStatus extends React.Component {
                     : ''
                 }
                 {this.props.error?
-                    (<DismissError message="Please correct errors below"/>)
+                    (<DismissError message={this.props.errorMessage || "Please correct errors below"}/>)
                     : ''
                 }
             </div>

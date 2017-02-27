@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import * as NavActions from '../actions/NavActions';
 
-class ModalLarge extends React.Component {
+class LargeModal extends React.Component {
 
     constructor(props) {
         super(props);
@@ -78,4 +78,4 @@ function mapDispatchToProps(dispatch) {
         NavActions: bindActionCreators(NavActions, dispatch),
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(ModalLarge);
+export default connect(mapStateToProps, mapDispatchToProps)(LargeModal);

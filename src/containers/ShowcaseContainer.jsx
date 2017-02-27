@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router';
 
+import { openTaskWizard } from '../utils/tasks';
+
 import ChatWindow from '../containers/ChatWindow';
 
 export default class ShowcaseContainer extends React.Component {
@@ -9,7 +11,7 @@ export default class ShowcaseContainer extends React.Component {
         return (
             <div className={"showcase "+this.props.className}>
                 <header>
-                    <nav className="navbar">
+                    <nav className="navbar" data-spy="affix" data-offset-top="50">
                         <div className="navbar-header">
                             <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                                 <span className="sr-only">Toggle navigation</span>
@@ -20,7 +22,7 @@ export default class ShowcaseContainer extends React.Component {
 
                         <div id="navbar" className="collapse navbar-collapse">
                             <ul className="nav navbar-nav navbar-right nav-actions">
-                                <li><Link to="/signup" className="join">Get started</Link></li>
+                                <li><a className="join" onClick={openTaskWizard}>Join</a></li>
                                 <li><Link to="/signin" className="login">Login</Link></li>
                             </ul>
                             <ul className="nav navbar-nav navbar-right">

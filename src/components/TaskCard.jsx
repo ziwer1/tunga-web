@@ -4,7 +4,7 @@ import moment from 'moment';
 import TimeAgo from 'react-timeago';
 import TagList from './TagList';
 import Avatar from './Avatar';
-import LargeModal from './ModalLarge';
+import LargeModal from './LargeModal';
 import ApplicationForm from './ApplicationForm';
 import ComponentWithModal from './ComponentWithModal';
 import { render_excerpt } from '../utils/html';
