@@ -1,7 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 import * as UtilityActions from '../actions/UtilityActions';
 import Success from '../components/status/Success';
@@ -32,9 +32,9 @@ class ShowCaseFooter extends React.Component {
                     <div className="col-sm-3" id="social">
                         <div id="tunga-logo-btm"><img src={require("../images/logo.png")}/></div>
                         <div id="social-networks">
-                            <a target="_blank" href="https://www.facebook.com/tunga.io" id="fb" title="Facebook"><i className="fa fa-facebook"></i></a>
-                            <a target="_blank" href="https://twitter.com/tunga_io" id="twitter" title="Twitter"><i className="fa fa-twitter"></i></a>
-                            <a target="_blank" href="https://blog.tunga.io" id="medium" title="Medium"><i className="fa fa-medium"></i></a>
+                            <a target="_blank" href="https://www.facebook.com/tunga.io" id="fb" title="Facebook"><i className="fa fa-facebook"/></a>
+                            <a target="_blank" href="https://twitter.com/tunga_io" id="twitter" title="Twitter"><i className="fa fa-twitter"/></a>
+                            <a target="_blank" href="https://blog.tunga.io" id="medium" title="Medium"><i className="fa fa-medium"/></a>
                         </div>
                     </div>
                     <div className="col-sm-6" id="contact-info">
@@ -71,7 +71,7 @@ class ShowCaseFooter extends React.Component {
                 </div>
                 <div className="row text-center">
                     <p><a href="#">Privacy Policy</a> &nbsp; | &nbsp; <a href="#">Terms and Conditions</a></p>
-                    <small>&copy; 2016 Tunga.io &mdash; All rights reserved.</small>
+                    <small>&copy; {moment().format('YYYY')} Tunga.io &mdash; All rights reserved.</small>
                 </div>
             </footer>
         );
