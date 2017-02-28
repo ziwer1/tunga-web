@@ -31,7 +31,7 @@ module.exports = {
         magicGlobalsPlugin: new webpack.DefinePlugin({
             __DEV__: JSON.stringify(JSON.parse(process.env.BUILD_DEV || 'true') && process.env.NODE_ENV != 'production'),
             __PRERELEASE__: JSON.stringify(JSON.parse(process.env.BUILD_PRERELEASE || 'false') && process.env.NODE_ENV != 'production'),
-            __PRODUCTION___: JSON.stringify(process.env.NODE_ENV == 'production'),
+            __PRODUCTION__: JSON.stringify(process.env.NODE_ENV == 'production'),
             __BACKEND_ROOT_URL__: JSON.stringify(process.env.BACKEND_ROOT)
         }),
         CleanWebpackPlugin: new CleanWebpackPlugin(['build'], {

@@ -4,11 +4,20 @@ import {Provider} from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
 
 import store from '../store';
+import { runOptimizely } from '../utils/html';
 
 class ModalWrapper extends React.Component {
     constructor(props) {
         super(props);
         this.state = {showModal: true};
+    }
+
+    componentDidMount() {
+        runOptimizely();
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        runOptimizely();
     }
 
     open() {
@@ -33,7 +42,7 @@ class ModalWrapper extends React.Component {
     }
 
     render() {
-        const { options, className } = this.props;
+        const { options } = this.props;
 
         return (
             <Modal show={this.state.showModal}

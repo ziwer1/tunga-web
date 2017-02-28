@@ -12,6 +12,7 @@ import * as SkillSelectionActions from '../actions/SkillSelectionActions';
 import { PROFILE_COMPLETE_PATH } from '../constants/patterns';
 
 import { initNavUIController } from '../utils/ui';
+import { runOptimizely } from '../utils/html';
 import { requiresAuth, requiresNoAuth, requiresAuthOrEmail } from '../utils/router';
 
 class App extends React.Component {
@@ -28,7 +29,7 @@ class App extends React.Component {
 
         initNavUIController();
 
-        this.runOptimizely();
+        runOptimizely();
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -76,8 +77,6 @@ class App extends React.Component {
         }
 
         if((
-            //(prevProps.Auth.isEmailVisitor != Auth.isEmailVisitor) ||
-            //(prevProps.Auth.isVerifying != Auth.isVerifying && !Auth.isVerifying) ||
             (prevProps.Auth.isAuthenticating != Auth.isAuthenticating && !Auth.isAuthenticating)
             ) && Auth.isEmailVisitor) {
             router.replace('/people/');
@@ -87,23 +86,7 @@ class App extends React.Component {
             NavActions.reportPathChange(prevProps.location.pathname, location.pathname);
         }
 
-        this.runOptimizely();
-    }
-
-    runOptimizely() {
-        if(window.optimizely && window.optimizely.activeExperiments) {
-            window.optimizely.activeExperiments.forEach(function (experimentID) {
-                var variationID = window.optimizely.variationIdsMap[experimentID];
-                if(variationID && Array.isArray(variationID)) {
-                    variationID = variationID[0];
-                }
-
-                var variation = window.optimizely.allVariations[variationID];
-                if(variation) {
-                    eval(variation.code);
-                }
-            });
-        }
+        runOptimizely();
     }
 
     handleAppClick() {

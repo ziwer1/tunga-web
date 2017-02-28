@@ -183,7 +183,7 @@ export default class IntegrationList extends ComponentWithModal {
                 <div className="clearfix">
                     <ul className="integration-options">
                         <li>
-                            <Link to={`/task/${task.id}/integrations/${SOCIAL_PROVIDERS.github}`}
+                            <Link to={`/work/${task.id}/integrations/${SOCIAL_PROVIDERS.github}`}
                                   activeClassName="active"
                                   className="github-button"
                                   title="GitHub">
@@ -191,7 +191,7 @@ export default class IntegrationList extends ComponentWithModal {
                             </Link>
                         </li>
                         <li>
-                            <Link to={`/task/${task.id}/integrations/${SOCIAL_PROVIDERS.slack}`}
+                            <Link to={`/work/${task.id}/integrations/${SOCIAL_PROVIDERS.slack}`}
                                   activeClassName="active"
                                   className="slack-button"
                                   title="Slack">
@@ -217,7 +217,7 @@ export default class IntegrationList extends ComponentWithModal {
                                     ):'Connect your task to your Slack team to send task activity to Slack.'}
                                 </div>
                                 {!slack.isConnected?(
-                                    <a href={SOCIAL_LOGIN_URLS.slack + `?action=connect&task=${task.id}&next=${window.location.protocol}//${window.location.host}/task/${task.id}/integrations/slack`}
+                                    <a href={SOCIAL_LOGIN_URLS.slack + `?action=connect&task=${task.id}&next=${window.location.protocol}//${window.location.host}/work/${task.id}/integrations/slack`}
                                        className="btn slack-connect-button" title="Connect with Slack">
                                         <i className="fa fa-slack fa-lg"/> Connect with Slack
                                     </a>
@@ -231,7 +231,7 @@ export default class IntegrationList extends ComponentWithModal {
                                     Connect your task to a GitHub repository or issue to show GitHub activity (e.g comments, pull requests, push events) in your task activity stream.
                                 </div>
                                 {!github.isConnected?(
-                                    <a href={SOCIAL_LOGIN_URLS.github + `?action=connect&task=${task.id}&next=${window.location.protocol}//${window.location.host}/task/${task.id}/integrations/${SOCIAL_PROVIDERS.github}`}
+                                    <a href={SOCIAL_LOGIN_URLS.github + `?action=connect&task=${task.id}&next=${window.location.protocol}//${window.location.host}/work/${task.id}/integrations/${SOCIAL_PROVIDERS.github}`}
                                        className="btn github-connect-button" title="Connect with GitHub">
                                         <i className="fa fa-github-square fa-lg"/> Connect with GitHub
                                     </a>

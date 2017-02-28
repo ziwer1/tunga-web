@@ -91,7 +91,7 @@ class Home extends React.Component {
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/task/filter/running">
+                                <Link to="/work/filter/running">
                                 <span className="icon">
                                     <i className="tunga-icon-running-tasks"/>
                                     {Notification.notifications.tasks?(

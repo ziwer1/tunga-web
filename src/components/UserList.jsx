@@ -40,11 +40,16 @@ export default class UserList extends React.Component {
     }
 
     render() {
-        const {Auth, User, Notification, UserActions, params, bsClass} = this.props;
+        const {Auth, User, Notification, UserActions, bsClass, max} = this.props;
         const requests = Notification && Notification.notifications ? Notification.notifications.requests : 0;
 
         let filter = this.getFilter();
         let skill = this.getSkill();
+
+        var all_users = User.list.ids;
+        if(max > 0) {
+            all_users = all_users.slice(0, max);
+        }
 
         return (
             <div>
@@ -95,7 +100,7 @@ export default class UserList extends React.Component {
                     :
                     (<div>
                         <div className="row flex-row">
-                            {User.list.ids.map((id) => {
+                            {all_users.map((id) => {
                                 const user = User.list.users[id];
                                 return (
                                     <div className={bsClass || "col-sm-6 col-md-4"} key={id}>
@@ -120,9 +125,11 @@ export default class UserList extends React.Component {
 UserList.propTypes = {
     hide_header: React.PropTypes.bool,
     bsClass: React.PropTypes.string,
+    max: React.PropTypes.number
 };
 
 UserList.defaultProps = {
     hide_header: false,
-    bsClass: 'col-sm-6 col-md-4'
+    bsClass: 'col-sm-6 col-md-4',
+    max: 0
 };

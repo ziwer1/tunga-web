@@ -22,7 +22,7 @@ export default class Task extends React.Component {
 
         if(this.props.Task.detail.isSaved && !prevProps.Task.detail.isSaved && this.props.Task.detail.task.id != this.props.params.taskId) {
             const { router } = this.context;
-            router.replace(`/task/${this.props.Task.detail.task.id}`);
+            router.replace(`/work/${this.props.Task.detail.task.id}`);
         }
     }
 
@@ -57,9 +57,9 @@ export default class Task extends React.Component {
 
         if(task) {
             if(task.parent) {
-                crumb_parents.push({name: task.details.parent.title, link: `/task/${task.parent}?nr=true`});
+                crumb_parents.push({name: task.details.parent.title, link: `/work/${task.parent}?nr=true`});
             }
-            crumb_parents.push({name: task.title, link: `/task/${task.id}?nr=true`});
+            crumb_parents.push({name: task.title, link: `/work/${task.id}?nr=true`});
         }
 
         return (

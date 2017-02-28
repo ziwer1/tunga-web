@@ -40,7 +40,7 @@ class ShowCaseFooter extends React.Component {
                     <div className="col-sm-6" id="contact-info">
                         <h4>CONTACT INFORMATION</h4>
                         <p><i className="fa fa-map-marker"/> Ms van Riemsdijkweg 57, 1033RC Amsterdam, The Netherlands</p>
-                        <p><i className="fa fa-phone"/> +31(0)615955194 <i className="fa fa-envelope"/> bart@tunga.io</p>
+                        <p><i className="fa fa-phone"/> +31(0)615955194 <i className="fa fa-envelope"/> hello@tunga.io</p>
                         <form id="contact-form" role="form" name="contact-form" ref="contact_form" onSubmit={this.sendEmail.bind(this)}>
                             {Utility.contact.isSent?(
                                 <Success message="Contact request sent"/>

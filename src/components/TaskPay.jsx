@@ -19,7 +19,7 @@ export default class TaskPay extends React.Component {
         if(task.id) {
             if(Auth.user.id == task.user.id && task.closed && task.paid) {
                 const { router } = this.context;
-                router.replace(`/task/${Task.detail.task.id}/rate`);
+                router.replace(`/work/${Task.detail.task.id}/rate`);
             }
 
             if(task.payment_method) {

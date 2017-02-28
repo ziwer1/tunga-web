@@ -20,7 +20,7 @@ export default class ProjectBoard extends ComponentWithModal {
             <div>
                 {is_admin_or_owner?(
                 <div>
-                    <Link to={`/task/${task.id}/task/new`} className="btn">Add task</Link>
+                    <Link to={`/work/${task.id}/work/new`} className="btn">Add task</Link>
 
                     <div style={{marginTop: '10px'}}>
                         <TaskPage>

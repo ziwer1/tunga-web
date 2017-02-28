@@ -12,7 +12,7 @@ export default class TagList extends React.Component {
         return (
             <div className="tag-list">
                 {tag_list.map((tag, idx) => {
-                    return (<Link key={tag.id} to={`${linkPrefix || '/task/skill/'}${tag.name}/`}>{tag.name}{idx < tag_list.length-1?',':''} </Link>)
+                    return (<Link key={tag.id} to={`${linkPrefix || '/work/skill/'}${tag.name}/`}>{tag.name}{idx < tag_list.length-1?',':''} </Link>)
                     })}
                 {excess > 0?(
                 <Link to={moreLink || '#'}> and {excess} more</Link>

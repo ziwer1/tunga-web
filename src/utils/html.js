@@ -22,3 +22,19 @@ export function objectToQueryString (obj) {
 export function render_summary(body, length=200) {
     return _.truncate(striptags((body || "").trim().replace('&nbsp;', '')), {length: length, separator: ''});
 }
+
+export function runOptimizely() {
+    if(window.optimizely && window.optimizely.activeExperiments) {
+        window.optimizely.activeExperiments.forEach(function (experimentID) {
+            var variationID = window.optimizely.variationIdsMap[experimentID];
+            if(variationID && Array.isArray(variationID)) {
+                variationID = variationID[0];
+            }
+
+            var variation = window.optimizely.allVariations[variationID];
+            if(variation) {
+                eval(variation.code);
+            }
+        });
+    }
+}

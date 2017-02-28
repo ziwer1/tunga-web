@@ -9,6 +9,7 @@ import ShowCaseFooter from './ShowCaseFooter';
 import ComponentWithModal from '../components/ComponentWithModal';
 
 import { openTaskWizard } from '../utils/tasks';
+import { showWizard } from '../utils/router';
 
 import { sendGAEvent, GA_EVENT_CATEGORIES, GA_EVENT_ACTIONS, GA_EVENT_LABELS } from '../utils/tracking';
 
@@ -40,6 +41,8 @@ let TESTIMONIALS = [
     }*/
 ];
 
+var canOpen = true;
+
 export default class LandingPage extends ComponentWithModal {
     constructor(props) {
         super(props);
@@ -47,7 +50,10 @@ export default class LandingPage extends ComponentWithModal {
     }
 
     componentDidMount() {
-        //this.open();
+        if(showWizard(this.props.routes) && canOpen) {
+            canOpen = false;
+            openTaskWizard();
+        }
     }
 
     onScheduleCall() {
@@ -97,7 +103,7 @@ export default class LandingPage extends ComponentWithModal {
                         <span>No cure no pay for tasks</span>
                     </p>
                     <div>
-                        <button to="/task/new/"
+                        <button to="/work/new/"
                                 className="btn btn-callout"
                                 onClick={openTaskWizard}>
                             Get Started

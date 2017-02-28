@@ -32,7 +32,7 @@ export default class TaskDetail extends React.Component {
                     :(
                 <div className="task-page">
                     {task.can_apply?(
-                        <Link to={`/task/${task.id}/apply`} className="btn pull-right">Apply for this task</Link>
+                        <Link to={`/work/${task.id}/apply`} className="btn pull-right">Apply for this task</Link>
                     ):(Auth.user.can_contribute?null:(
                             <div style={{marginBottom: '20px'}}>
                                 <div className="alert alert-info">You need to complete your profile before you can apply for tasks</div>
@@ -43,7 +43,7 @@ export default class TaskDetail extends React.Component {
                         )
                     )}
 
-                    <h3 className="title pull-left"><Link to={`/task/${task.id}/`}>{task.title}</Link></h3>
+                    <h3 className="title pull-left"><Link to={`/work/${task.id}/`}>{task.title}</Link></h3>
                     <div className="time pull-left">
                         Posted <TimeAgo date={moment.utc(task.created_at).local().format()}/>
                     </div>
@@ -59,7 +59,7 @@ export default class TaskDetail extends React.Component {
                         </div>
                     ):null}
                     {task.details?(
-                        <TagList tags={task.details.skills} linkPrefix="/task/skill/"/>
+                        <TagList tags={task.details.skills} linkPrefix="/work/skill/"/>
                     ):null}
                     <div>
                         <strong>Created</strong> <span>{moment.utc(task.created_at).local().format('Do, MMMM YYYY, h:mm a')}</span>

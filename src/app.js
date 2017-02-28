@@ -15,7 +15,7 @@ import store from './store';
 import history from './history';
 
 
-if(__PRODUCTION___) {
+if(__PRODUCTION__) {
     history.listen(location => {
         window.ga('send', 'pageview');
         window.twq('track', 'PageView');
@@ -89,6 +89,7 @@ ReactDOM.render(
                 <IndexRoute component={LandingPage} unauthedOnly={true}/>
                 <Route unauthedOnly={true}>
                     {/* No Auth Pages */}
+                    <Route path="start" component={LandingPage} showTaskWizard={true}/>
                     <Route path="how-it-works" component={HowItWorksPage}/>
                     <Route path="pricing" component={PricingPage}/>
                     <Route path="press" component={LandingPage}/>
@@ -138,7 +139,7 @@ ReactDOM.render(
                                 <Route path="task" component={TaskForm} crumb="Create Task"/>
                             </Route>
                         </Route>
-                        <Route path="task" component={TaskPage}>
+                        <Route path="work" component={TaskPage}>
                             <IndexRoute component={TaskList}/>
                             <Route path="new" component={TaskForm} />
                             <Route path="filter/:filter" component={TaskList} />
@@ -165,6 +166,7 @@ ReactDOM.render(
                                 </Route>
                             </Route>
                         </Route>
+                        <Redirect path="task*" to="work*"/>
                         <Route path="conversation" component={MessagePage}>
                             <IndexRedirect to="start"/>
                             <Route path="start" component={ChannelForm}>

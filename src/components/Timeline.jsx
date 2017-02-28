@@ -128,7 +128,7 @@ export default class Timeline extends React.Component {
                     )}
             </Popover>);
         return (
-            <Link to={`/task/${task.id}/event/${event.id}`}>
+            <Link to={`/work/${task.id}/event/${event.id}`}>
                 <OverlayTrigger key={event.due_at} placement="top" overlay={popover}>
                     <div key={event.id}
                          className={"event" + (moment.utc(event.due_at) < moment.utc() && !event.is_now?' past':'')}

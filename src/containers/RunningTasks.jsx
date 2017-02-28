@@ -28,14 +28,14 @@ class RunningTasks extends React.Component {
                                         <Link to={`/project/${project.id}/`} activeClassName="active" data-toggle="collapse" data-target={`#project-tasks-${project.id}`} className="collapsed"> {project.title}</Link>
                                         <ul id={`project-tasks-${project.id}`} className="nav collapse">
                                             {project.details.tasks.map((task) => {
-                                                return task.closed?null:(<li key={task.id}><Link to={`/task/${task.id}/`} activeClassName="active">{task.title}</Link></li>)
+                                                return task.closed?null:(<li key={task.id}><Link to={`/work/${task.id}/`} activeClassName="active">{task.title}</Link></li>)
                                             })}
                                         </ul>
                                     </li>
                                 )
                             })}
                             {Auth.running.tasks.map((task) => {
-                                return task.project && Auth.user.id == task.details.project.user.id?null:(<li key={task.id}><Link to={`/task/${task.id}/`} activeClassName="active">{task.title}</Link></li>)
+                                return task.project && Auth.user.id == task.details.project.user.id?null:(<li key={task.id}><Link to={`/work/${task.id}/`} activeClassName="active">{task.title}</Link></li>)
                             })}
                         </ul>
                     </li>

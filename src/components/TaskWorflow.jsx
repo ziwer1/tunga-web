@@ -86,9 +86,9 @@ export default class TaskWorflow extends ComponentWithModal {
             const {router} = this.context;
             var next = null;
             if (task.paid) {
-                next = `/task/${Task.detail.task.id}/rate`;
+                next = `/work/${Task.detail.task.id}/rate`;
             } else {
-                next = `/task/${Task.detail.task.id}/pay`;
+                next = `/work/${Task.detail.task.id}/pay`;
             }
 
             if (next) {
@@ -226,7 +226,7 @@ export default class TaskWorflow extends ComponentWithModal {
         let is_admin_or_owner = Auth.user.id == task.user.id || Auth.user.is_staff;
         let is_confirmed_assignee = task.assignee && task.assignee.accepted && task.assignee.user.id == Auth.user.id;
 
-        let workflow_link = `/task/${task.id}/?nr=true`;
+        let workflow_link = `/work/${task.id}/?nr=true`;
         let can_pay = task.is_payable && is_admin_or_owner && task.closed && !task.paid;
         let can_rate = is_admin_or_owner && task.closed && task.paid;
         let can_edit_shares = Auth.user.is_staff || is_confirmed_assignee && task.details && task.details.participation_shares.length > 1;
@@ -251,10 +251,10 @@ export default class TaskWorflow extends ComponentWithModal {
                     <div className="" style={{marginBottom: '10px'}}>
                         <div className="title">
                             {task.parent && task.details?(
-                                <span><Link to={`/task/${task.parent}/`} className="small">{render_summary(task.details.parent.title, 30)}</Link></span>
+                                <span><Link to={`/work/${task.parent}/`} className="small">{render_summary(task.details.parent.title, 30)}</Link></span>
                             ):null}
                             <span>
-                                <Link to={`/task/${task.id}/`}>{task.title}</Link>
+                                <Link to={`/work/${task.id}/`}>{task.title}</Link>
                             </span>
                         </div>
                         <div className="task-status"><i className={"fa fa-circle " + task_status.css}/> {task_status.message}</div>
@@ -265,7 +265,7 @@ export default class TaskWorflow extends ComponentWithModal {
                             {is_admin_or_owner || can_edit_shares ? (
                                 <div className="pull-left">
                                     {is_admin_or_owner?(
-                                        <Link to={`/task/${task.id}/applications/`}
+                                        <Link to={`/work/${task.id}/applications/`}
                                               className="btn">
                                             View applications {task.details && task.details.applications && task.details.applications.length?(
                                             <span className="badge">{task.details.applications.length}</span>
@@ -273,13 +273,13 @@ export default class TaskWorflow extends ComponentWithModal {
                                         </Link>
                                     ):null}
                                     {is_admin_or_owner && task.is_project?(
-                                        <Link to={`/task/${task.id}/board/`}
+                                        <Link to={`/work/${task.id}/board/`}
                                               className="btn">
                                             Project Board
                                         </Link>
                                     ):null}
                                     {can_pay?(
-                                        <Link to={`/task/${task.id}/pay/`}
+                                        <Link to={`/work/${task.id}/pay/`}
                                               className="btn">
                                             {can_pay ? 'Make payment' : (
                                                 <OverlayTrigger placement="top" overlay={pay_popover}>
@@ -289,7 +289,7 @@ export default class TaskWorflow extends ComponentWithModal {
                                         </Link>
                                     ):null}
                                     {can_rate?(
-                                        <Link to={can_rate?`/task/${task.id}/rate/`:workflow_link}
+                                        <Link to={can_rate?`/work/${task.id}/rate/`:workflow_link}
                                               className="btn">
                                             {can_rate ? 'Rate Developers' : (
                                                 <OverlayTrigger placement="top" overlay={rate_dev_popover}>
@@ -299,7 +299,7 @@ export default class TaskWorflow extends ComponentWithModal {
                                         </Link>
                                     ):null}
                                     {can_edit_shares && task.details && task.details.participation && task.details.participation.length?(
-                                        <Link to={`/task/${task.id}/participation/`}
+                                        <Link to={`/work/${task.id}/participation/`}
                                               className="btn">
                                             Participation shares
                                         </Link>
@@ -319,35 +319,35 @@ export default class TaskWorflow extends ComponentWithModal {
                                                 {is_admin_or_owner?(
                                                     [
                                                         <li>
-                                                            <Link to={`/task/${task.id}/edit/title`} className="btn">
+                                                            <Link to={`/work/${task.id}/edit/title`} className="btn">
                                                                 Edit {work_type} title
                                                             </Link>
                                                         </li>,
                                                         <li>
-                                                            <Link to={`/task/${task.id}/edit/description`} className="btn">
+                                                            <Link to={`/work/${task.id}/edit/description`} className="btn">
                                                                 Edit {work_type} description
                                                             </Link>
                                                         </li>,
                                                         task.fee?(
                                                             <li>
-                                                                <Link to={`/task/${task.id}/edit/fee`} className="btn">
+                                                                <Link to={`/work/${task.id}/edit/fee`} className="btn">
                                                                     Edit the pledge for the {work_type}
                                                                 </Link>
                                                             </li>
                                                         ):null,
                                                         <li>
-                                                            <Link to={`/task/${task.id}/edit/skills`} className="btn">
+                                                            <Link to={`/work/${task.id}/edit/skills`} className="btn">
                                                                 Add skills
                                                             </Link>
                                                         </li>,
                                                         <li>
-                                                            <Link to={`/task/${task.id}/edit/developers`} className="btn">
+                                                            <Link to={`/work/${task.id}/edit/developers`} className="btn">
                                                                 Add another developer to this {work_type}
                                                             </Link>
                                                         </li>,
                                                         task.parent?null:(
                                                             <li>
-                                                                <Link to={`/task/${task.id}/edit/milestone`} className="btn">
+                                                                <Link to={`/work/${task.id}/edit/milestone`} className="btn">
                                                                     Add a milestone
                                                                 </Link>
                                                             </li>
@@ -422,14 +422,14 @@ export default class TaskWorflow extends ComponentWithModal {
                     {is_admin_or_owner && !task.parent ? (
                         <ul className="integration-options pull-right">
                             <li>
-                                <Link to={`/task/${task.id}/integrations/${SOCIAL_PROVIDERS.github}`}
+                                <Link to={`/work/${task.id}/integrations/${SOCIAL_PROVIDERS.github}`}
                                       activeClassName="active"
                                       title="GitHub">
                                     <i className="fa fa-github"/>
                                 </Link>
                             </li>
                             <li>
-                                <Link to={`/task/${task.id}/integrations/${SOCIAL_PROVIDERS.slack}`}
+                                <Link to={`/work/${task.id}/integrations/${SOCIAL_PROVIDERS.slack}`}
                                       activeClassName="active"
                                       title="Slack">
                                     <i className="fa fa-slack"/>
@@ -549,7 +549,7 @@ export default class TaskWorflow extends ComponentWithModal {
                                         {task.milestones.map(milestone => {
                                             return (
                                                 <div key={milestone.id}>
-                                                    <Link to={`/task/${task.id}/event/${milestone.id}`}>
+                                                    <Link to={`/work/${task.id}/event/${milestone.id}`}>
                                                         <i className={"fa fa-flag"+((milestone.type==4)?'-checkered':'-o')}/> {milestone.title}
                                                         <span
                                                             style={{marginLeft: '5px'}}>{moment.utc(milestone.due_at).local().format('Do, MMMM YYYY, h:mm a')}</span>

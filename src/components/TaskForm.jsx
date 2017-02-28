@@ -19,10 +19,15 @@ import MilestoneForm from './MilestoneForm';
 import {
     USER_TYPE_DEVELOPER, TASK_TYPE_CHOICES, TASK_SCOPE_CHOICES, TASK_SCOPE_CHOICES_NEW_USER, TASK_SCOPE_ONGOING, TASK_SCOPE_PROJECT,
     TASK_BILLING_METHOD_CHOICES, TASK_BILLING_METHOD_FIXED, TASK_BILLING_METHOD_HOURLY, TASK_CODERS_NEEDED_CHOICES,
-    TASK_VISIBILITY_CHOICES, VISIBILITY_DEVELOPERS, VISIBILITY_CUSTOM, UPDATE_SCHEDULE_CHOICES, suggestTaskTypeSkills
+    TASK_VISIBILITY_CHOICES, VISIBILITY_DEVELOPERS, VISIBILITY_CUSTOM, UPDATE_SCHEDULE_CHOICES, suggestTaskTypeSkills,
 } from '../constants/Api';
 
+import { getTaskTypeUrl, getScopeUrl, sendGAPageView } from '../utils/tracking';
+
 momentLocalizer(moment);
+
+var sections = [];
+var fork_position = {};
 
 export default class TaskForm extends ComponentWithModal {
 
@@ -39,9 +44,9 @@ export default class TaskForm extends ComponentWithModal {
             description: '', remarks: '', visibility: VISIBILITY_DEVELOPERS,
             assignee: null, participants: [], schedule_options, schedule_map,
             step: 1, schedule: null, attachments: [], showAll: false, milestones: [],
-            modalMilestone: null, modalContent: null, modalTitle: '', coders_needed: null, task_type: null,
+            modalMilestone: null, modalContent: null, modalTitle: '', coders_needed: null, type: null,
             has_requirements: null, pm_required: null, billing_method: null, stack_description: '', deliverables: '',
-            skype_id: '', contact_required: null, has_more_info: false, overrideErrors: false
+            skype_id: '', contact_required: null, has_more_info: null, overrideErrors: false
         };
     }
 
@@ -62,7 +67,7 @@ export default class TaskForm extends ComponentWithModal {
             this.setState({
                 ...task,
                 assignee, participants, description, remarks,
-                schedule: this.getScheduleId(), task_type: task.type,
+                schedule: this.getScheduleId(), type: task.type,
                 skills: task.details && task.details.skills?task.details.skills.map((skill) => {
                     return skill.name;
                 }):[]
@@ -70,9 +75,17 @@ export default class TaskForm extends ComponentWithModal {
         }
     }
 
+    componentDidMount() {
+        if(this.state.step == 1) {
+            this.reportFunnelUrl(this.getStepUrl());
+        }
+    }
+
     componentDidUpdate(prevProps, prevState) {
         if(this.props.Task.detail.isSaved && !prevProps.Task.detail.isSaved) {
-            const { Task } = this.props;
+            this.reportFunnelUrl(this.getStepUrl(true));
+
+            const { Task, Auth } = this.props;
             if(!this.props.task) {
                 this.refs.task_form.reset();
                 this.setState({
@@ -80,14 +93,24 @@ export default class TaskForm extends ComponentWithModal {
                     description: '', remarks: '', visibility: VISIBILITY_DEVELOPERS,
                     assignee: null, participants: [], schedule: null, attachments: [], showAll: false,
                     step: 1, milestones: [], modalMilestone: null, modalContent: null, modalTitle: '', coders_needed: null,
-                    task_type: null, has_requirements: null, pm_required: null,
+                    type: null, has_requirements: null, pm_required: null,
                     billing_method: null, stack_description: '', deliverables: '', skype_id: '', contact_required: null,
                     has_more_info: false
                 });
 
-                const { router } = this.context;
-                router.replace(`/task/${Task.detail.task.id}`);
+                if(Auth.isAuthenticated) {
+                    const { router } = this.context;
+                    router.replace(`/work/${Task.detail.task.id}`);
+                }
             }
+        }
+
+        var path_change = ['step', 'type', 'scope', 'contact_required', 'pm_required', 'has_more_info'].map((key) => {
+            return this.state[key] != prevState[key];
+        });
+
+        if(path_change.indexOf(true) > -1) {
+            this.reportFunnelUrl(this.getStepUrl());
         }
     }
 
@@ -102,6 +125,53 @@ export default class TaskForm extends ComponentWithModal {
             new_state.overrideErrors = overrideErrors;
         }
         this.setState(new_state);
+    }
+
+    reportFunnelUrl(url) {
+        const { enabledWidgets } = this.props;
+        if(!(enabledWidgets && enabledWidgets.length)) {
+            sendGAPageView(url);
+        }
+    }
+
+    getStepUrl(complete=false) {
+        const { Auth } = this.props;
+        
+        var suffix = '';
+        if(complete) {
+            suffix = '/complete'
+        } else {
+            if(this.state.step > 1) {
+                suffix = '/step/' + this.state.step;
+            }
+
+            if(this.state.has_more_info && this.canShowFork('has_more_info')) {
+                suffix = '/more-info/' + (this.state.has_more_info?'yes':'no') + suffix;
+            }
+
+            if(typeof this.state.contact_required == 'boolean' && this.canShowFork('contact_required')) {
+                suffix = '/talk/' + (this.state.contact_required?'yes':'no') + suffix;
+            }
+
+            if(typeof this.state.pm_required == 'boolean' && this.canShowFork('pm_required')) {
+                suffix = '/pm/' + (this.state.pm_required?'yes':'no') + suffix;
+            }
+
+            const scope_url = getScopeUrl(this.state.scope);
+            if(scope_url && this.canShowFork('scope')) {
+                suffix = '/scope/' + scope_url + suffix;
+            }
+
+            const type_url = getTaskTypeUrl(this.state.type);
+            if(type_url && this.canShowFork('type')) {
+                suffix = '/type/' + type_url + suffix;
+            }
+        }
+        return window.location.protocol + (window.location.port?window.location.port:'') + '//' + window.location.hostname + (Auth.isAuthenticated?'/work/new':'/start') + suffix;
+    }
+
+    canShowFork(fork) {
+        return fork_position[fork] && this.state.step > fork_position[fork];
     }
 
     canSkip(required, requires) {
@@ -226,7 +296,7 @@ export default class TaskForm extends ComponentWithModal {
             new_state['is_project'] = (value == TASK_SCOPE_PROJECT);
         }
         this.setState(new_state);
-        if(['task_type', 'scope', 'is_project', 'has_requirements', 'pm_required'].indexOf(key) > -1) {
+        if(['type', 'scope', 'is_project', 'has_requirements', 'pm_required'].indexOf(key) > -1) {
             this.changeStep();
         }
 
@@ -243,7 +313,7 @@ export default class TaskForm extends ComponentWithModal {
         req_data.stack_description = this.refs.stack_description?this.refs.stack_description.value.trim():null;
         req_data.deliverables = this.refs.deliverables?this.refs.deliverables.value.trim():null;
 
-        req_data.type = this.state.task_type;
+        req_data.type = this.state.type;
         req_data.scope = this.state.scope;
 
         req_data.is_project = this.state.is_project;
@@ -375,15 +445,15 @@ export default class TaskForm extends ComponentWithModal {
                 {(Task.detail.error.update && Task.detail.error.update.type)?
                     (<FieldError message={Task.detail.error.update.type}/>):null}
                 <div className="btn-choices choice-fork three" role="group">
-                    {TASK_TYPE_CHOICES.map(task_type => {
+                    {TASK_TYPE_CHOICES.map(type => {
                         return (
                             <div className="choice">
-                                <button key={task_type.id} type="button"
-                                        className={"btn " + (this.state.task_type == task_type.id?' active':'')}
-                                        onClick={this.onStateValueChange.bind(this, 'task_type', task_type.id)}>
-                                    <i className={`icon ${task_type.icon}`}/>
+                                <button key={type.id} type="button"
+                                        className={"btn " + (this.state.type == type.id?' active':'')}
+                                        onClick={this.onStateValueChange.bind(this, 'type', type.id)}>
+                                    <i className={`icon ${type.icon}`}/>
                                 </button>
-                                <div>{task_type.name}</div>
+                                <div>{type.name}</div>
                             </div>
                         )
                     })}
@@ -577,8 +647,8 @@ export default class TaskForm extends ComponentWithModal {
                     {Auth.isAuthenticated || canShowAll?(<label className="control-label">Tag skills or products that are relevant to this {work_type} {Auth.isAuthenticated?'*':''}</label>):null}
                     <SkillSelector filter={{filter: null}}
                                    onChange={this.onSkillChange.bind(this)}
-                                   skills={task.id || (this.state.skills && this.state.skills.length)?this.state.skills:suggestTaskTypeSkills(this.state.task_type)['selected']}
-                                   suggested={suggestTaskTypeSkills(this.state.task_type)['suggested']} />
+                                   skills={task.id || (this.state.skills && this.state.skills.length)?this.state.skills:suggestTaskTypeSkills(this.state.type)['selected']}
+                                   suggested={suggestTaskTypeSkills(this.state.type)['suggested']} />
                 </div>
             </div>
         );
@@ -604,8 +674,6 @@ export default class TaskForm extends ComponentWithModal {
         );
 
         let deadlineComp = (
-
-
             <div>
                 {(Task.detail.error.create && Task.detail.error.create.deadline)?
                     (<FieldError message={Task.detail.error.create.deadline}/>):null}
@@ -962,8 +1030,6 @@ export default class TaskForm extends ComponentWithModal {
             </div>
         );
 
-        var sections = [];
-
         if(Auth.isAuthenticated) {
             if(enabledWidgets && enabledWidgets.length) {
                 let widgetMap = {
@@ -1055,7 +1121,8 @@ export default class TaskForm extends ComponentWithModal {
                         {
                             title: 'Do you want a project manager for this project?',
                             items: [requiresPMComp],
-                            required: true
+                            required: true,
+                            forks: ['pm_required']
                         }
                     ];
 
@@ -1075,18 +1142,25 @@ export default class TaskForm extends ComponentWithModal {
                             )
                         ];
 
+                        sections = [
+                            ...sections,
+                            {
+                                title: 'Project description',
+                                items: stepComps,
+                                forks: ['contact_required']
+                            }
+                        ];
+
 
                     } else {
-                        stepComps = [descComp, stackDescComp, deliverablesComp, filesComp];
+                        sections = [
+                            ...sections,
+                            {
+                                title: 'Project description',
+                                items: [descComp, stackDescComp, deliverablesComp, filesComp]
+                            }
+                        ];
                     }
-
-                    sections = [
-                        ...sections,
-                        {
-                            title: 'Project description',
-                            items: stepComps
-                        }
-                    ];
 
                     if(!this.state.pm_required || !this.state.contact_required) {
                         sections = [
@@ -1128,7 +1202,8 @@ export default class TaskForm extends ComponentWithModal {
                     {
                         title: 'What is the scope of the work?',
                         items: [taskScopeComp],
-                        required: true
+                        required: true,
+                        forks: ['scope']
                     },
                     ... sections
                 ];
@@ -1139,7 +1214,7 @@ export default class TaskForm extends ComponentWithModal {
                 {
                     title: 'Tag skills or products that are relevant to this project',
                     items: [skillsComp],
-                    requires: ['skills']
+                    requires: ['skills'],
                 },
                 ... sections
             ];
@@ -1150,7 +1225,8 @@ export default class TaskForm extends ComponentWithModal {
                     {
                         title: 'What kind of work do you have?',
                         items: [taskTypeComp],
-                        required: true
+                        required: true,
+                        forks: ['type']
                     },
                     ... sections
                 ];
@@ -1169,7 +1245,8 @@ export default class TaskForm extends ComponentWithModal {
                     {
                         title: 'Project scope',
                         items: [taskScopeComp],
-                        required: true
+                        required: true,
+                        forks: ['scope']
                     }
                 ];
             }
@@ -1179,7 +1256,7 @@ export default class TaskForm extends ComponentWithModal {
                 {
                     title: 'Basic details about the task',
                     items: [descComp, hasMoreInfoComp],
-                    requires: ['description']
+                    forks: ['has_more_info']
                 }
             ];
 
@@ -1212,14 +1289,15 @@ export default class TaskForm extends ComponentWithModal {
                     {
                         title: 'What kind of work do you have?',
                         items: [taskTypeComp],
-                        required: true
+                        required: true,
+                        forks: ['type']
                     },
                     ...sections
                 ];
             }
         }
 
-        let current_section = sections[this.state.step -1];
+        let current_section = sections[this.state.step-1];
 
         return (
             <div className="form-wrapper task-form">
@@ -1230,7 +1308,8 @@ export default class TaskForm extends ComponentWithModal {
 
                 {current_section && current_section.title && !canShowAll?(
                     <div className="section-title clearfix">
-                        <h4 className="pull-left">{current_section.title}</h4>
+                        <h4 className="pull-left"
+                            id={`task-wizard-title-step-${this.canShowFork('type')?getTaskTypeUrl(this.state.type):''}-${this.canShowFork('scope')?getScopeUrl(this.state.scope):''}-${typeof this.state.pm_required == 'boolean' && this.canShowFork('pm_required')?(this.state.pm_required?'pm':'nopm'):''}-${this.state.step}`}>{current_section.title}</h4>
                         <div className="slider pull-right">
                             {sections.map((section, idx) => {
                                 return (
@@ -1251,6 +1330,13 @@ export default class TaskForm extends ComponentWithModal {
                     </div>
 
                     {sections.map((section, idx) => {
+                        if(section.forks && this.state.step == idx+1) {
+                            section.forks.forEach(function (fork) {
+                                if(fork) {
+                                    fork_position[fork] = this.state.step;
+                                }
+                            }, this);
+                        }
                         return (
                             <div className={this.state.step == (idx+1) || canShowAll?'step':'sr-only'}>
                                 {section.items.map(item => {
@@ -1266,11 +1352,11 @@ export default class TaskForm extends ComponentWithModal {
                                 <i className="fa fa-chevron-left"/> Previous
                             </button>
                         ):null}
-                        {this.state.step < sections.length?(
+                        {this.state.step < sections.length && (current_section && !current_section.required && !canShowAll)?(
                             <button type="button"
                                     className="btn nav-btn next-btn pull-right"
-                                    onClick={this.changeStep.bind(this, true)} disabled={!(current_section && !current_section.required && !canShowAll)}>
-                                {current_section && this.canSkip(current_section.required, current_section.requires)?'Skip':'Next'} <i className="fa fa-chevron-right"/>
+                                    onClick={this.changeStep.bind(this, true)}>
+                                {current_section && this.canSkip(current_section.required, current_section.requires)?'Next':'Skip'} <i className="fa fa-chevron-right"/>
                             </button>
                         ):null}
                         {this.state.step == sections.length || canShowAll?(
@@ -1308,5 +1394,5 @@ TaskForm.defaultProps = {
 };
 
 TaskForm.contextTypes = {
-    router: React.PropTypes.object.isRequired
+    router: React.PropTypes.func.isRequired
 };

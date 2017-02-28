@@ -45,3 +45,16 @@ export function getRouteCrumb(routes) {
     }
     return null;
 }
+
+export function showWizard(routes) {
+    if(Array.isArray(routes) && routes.length) {
+        var x;
+        for(x=routes.length-1; x >= 0; x--) {
+            let route = routes[x];
+            if(route.showTaskWizard) {
+                return route.showTaskWizard;
+            }
+        }
+    }
+    return false;
+}

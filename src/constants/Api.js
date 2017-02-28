@@ -20,7 +20,7 @@ $.ajaxSetup({
     }
 });
 
-var BACKEND_PATH = __BACKEND_ROOT_URL__ || (__PRODUCTION___?'/':'http://test.tunga.io/');
+var BACKEND_PATH = __BACKEND_ROOT_URL__ || (__PRODUCTION__?'/':'http://test.tunga.io/');
 var API_PATH = 'api/';
 var SOCIAL_LOGIN_PATH = 'accounts/social/';
 

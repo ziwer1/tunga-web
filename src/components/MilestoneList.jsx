@@ -83,10 +83,10 @@ export default class MilestoneList extends React.Component {
                                 return(
                                     <div className="col-sm-6 col-md-4" key={'milestone'+milestone.id}>
                                         <div className="card milestone-card">
-                                            <Link to={`/task/${milestone.details.task.id}/event/${milestone.id}`}>
+                                            <Link to={`/work/${milestone.details.task.id}/event/${milestone.id}`}>
                                                 <h4>{milestone.details.task.title}</h4>
                                             </Link>
-                                            <Link to={`/task/${milestone.details.task.id}/event/${milestone.id}`}>
+                                            <Link to={`/work/${milestone.details.task.id}/event/${milestone.id}`}>
                                                 <h5>{milestone.title?milestone.title:'Scheduled update'}</h5>
                                             </Link>
                                             {milestone.due_at?(

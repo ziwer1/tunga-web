@@ -91,7 +91,7 @@ export default class ActivityList extends React.Component {
                             {[PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT].indexOf(object.type) > -1?(
                                 <div><i className={"fa fa-flag"+((object.type==4)?'-checkered':'-o')}/> Created a milestone:</div>
                             ):null}
-                            <Link to={`/task/${object.task}/event/${object.id}/`}>
+                            <Link to={`/work/${object.task}/event/${object.id}/`}>
                                 {object.title || (<span><i className="fa fa-flag-o"/> Scheduled an update</span>)}
                             </Link>
                             <div>Due: {moment.utc(object.due_at).local().format('Do, MMMM YYYY')}</div>
@@ -105,14 +105,14 @@ export default class ActivityList extends React.Component {
                     created_at = object.created_at;
                     uploads = object.uploads;
                     more = {
-                        link: `/task/${object.details.event.task}/event/${object.event}/`,
+                        link: `/work/${object.details.event.task}/event/${object.event}/`,
                         text: 'View full report'
                     };
                     let progress = object.percentage || 0;
                     body = (
                         <div>
                             <p><i className="fa fa-newspaper-o"/> Progress report: </p>
-                            <Link to={`/task/${object.details.event.task}/event/${object.event}/`}>
+                            <Link to={`/work/${object.details.event.task}/event/${object.event}/`}>
                                 {object.details.event.title || 'Scheduled Update'}
                             </Link>
                             <div>Status: {object.status_display}</div>

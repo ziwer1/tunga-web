@@ -46,7 +46,7 @@ export default class TaskCard extends ComponentWithModal {
 
         return (
             <div className="card task-card">
-                <LargeModal title={<div>Apply for Task: <Link to={`/task/${task.id}/`}>{task.title}</Link></div>} show={this.state.showModal} onHide={this.close.bind(this)}>
+                <LargeModal title={<div>Apply for Task: <Link to={`/work/${task.id}/`}>{task.title}</Link></div>} show={this.state.showModal} onHide={this.close.bind(this)}>
                     <ApplicationForm Auth={Auth} Task={Task} TaskActions={TaskActions} task={task}/>
                 </LargeModal>
                 <div className="time text-right">
@@ -55,7 +55,7 @@ export default class TaskCard extends ComponentWithModal {
                 <div className="top">
                     <div className="clearfix">
                         <div className="task-status pull-right" title={task_status.message}><i className={"fa fa-circle " + task_status.css}/></div>
-                        <h3 className="title pull-left"><Link to={`/task/${task.id}/`}>{task.title}</Link></h3>
+                        <h3 className="title pull-left"><Link to={`/work/${task.id}/`}>{task.title}</Link></h3>
                     </div>
                     <div className="pledge text-center">
                         {split_fee?(
@@ -82,7 +82,7 @@ export default class TaskCard extends ComponentWithModal {
                 </div>
                 <div className="middle">
                     {task.details.skills.length?(
-                    <TagList tags={task.details.skills} max={3} linkPrefix="/task/skill/" moreLink={`/task/${task.id}/`}/>
+                    <TagList tags={task.details.skills} max={3} linkPrefix="/work/skill/" moreLink={`/work/${task.id}/`}/>
                         ):(
                     <div style={{height: '20px'}}></div>
                         )}
@@ -94,7 +94,7 @@ export default class TaskCard extends ComponentWithModal {
                         <div className="row">
                             <div className="col-sm-12">
                                 {task.can_apply?(
-                                <Link to={`/task/${task.id}/apply`} className="btn btn-block">Apply for this task</Link>
+                                <Link to={`/work/${task.id}/apply`} className="btn btn-block">Apply for this task</Link>
                                     ):(task.closed || !task.apply?(
                                 <div className="btn btn-block">Applications are closed for this task</div>
                                     ):(
@@ -105,7 +105,7 @@ export default class TaskCard extends ComponentWithModal {
                             ):null}
                         <div className="row">
                             <div className="col-sm-12">
-                                <Link to={`/task/${task.id}/`} className="btn btn-block">View detailed page</Link>
+                                <Link to={`/work/${task.id}/`} className="btn btn-block">View detailed page</Link>
                             </div>
                         </div>
                     </div>

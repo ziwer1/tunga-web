@@ -34,8 +34,11 @@ strong {
     font-weight: 400;
 }
 
+a,
 a:link,
-a:visited {
+a:visited,
+a:hover,
+a:focus {
     color: @primary;
     cursor: pointer;
 }
@@ -2597,7 +2600,7 @@ form[name='compose'] {
         position: relative;
 
         h3 {
-            height: 30px;
+            height: 35px;
             text-align: center;
         }
 
@@ -2691,7 +2694,7 @@ form[name='compose'] {
         background-size: cover;
 
         h1 {
-            .font-size(4.2);
+            .font-size(6.2);
             line-height: 52px;
             font-weight: 600;
         }
@@ -3059,7 +3062,7 @@ form[name='compose'] {
 
             .details {
                 font-weight: 100;
-                .font-size(1.4);
+                .font-size(1.8);
                 color: @inactive-grey;
 
                 .fa {
@@ -3068,6 +3071,11 @@ form[name='compose'] {
                     display: inline-block;
                     margin: 0 5px;
                 }
+            }
+
+            .btn-callout {
+                .font-size(1.8);
+                padding: 8px 25px;
             }
         }
 
