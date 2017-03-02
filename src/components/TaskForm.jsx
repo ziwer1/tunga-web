@@ -1186,50 +1186,53 @@ export default class TaskForm extends ComponentWithModal {
                 }
             }
 
-            if(!task.id && !is_project_task && !(enabledWidgets && enabledWidgets.length) && !canShowAll) {
-                /*if(this.state.is_project) {
+            if(!(enabledWidgets && enabledWidgets.length)) {
+                if(!task.id && !is_project_task && !canShowAll) {
+                    /*if(this.state.is_project) {
+                     sections = [
+                     {
+                     title: 'Do you have clear requirements for this project?',
+                     items: [hasRequirementsComp],
+                     required: true
+                     },
+                     ...sections
+                     ]
+                     }*/
+
                     sections = [
                         {
-                            title: 'Do you have clear requirements for this project?',
-                            items: [hasRequirementsComp],
-                            required: true
+                            title: 'What is the scope of the work?',
+                            items: [taskScopeComp],
+                            required: true,
+                            forks: ['scope']
                         },
-                        ...sections
-                    ]
-                }*/
+                        ... sections
+                    ];
+
+                }
 
                 sections = [
                     {
-                        title: 'What is the scope of the work?',
-                        items: [taskScopeComp],
-                        required: true,
-                        forks: ['scope']
+                        title: 'Tag skills or products that are relevant to this project',
+                        items: [skillsComp],
+                        requires: ['skills']
                     },
                     ... sections
                 ];
 
-            }
+                if(!task.id && !is_project_task && !canShowAll) {
 
-            sections = [
-                {
-                    title: 'Tag skills or products that are relevant to this project',
-                    items: [skillsComp],
-                    requires: ['skills'],
-                },
-                ... sections
-            ];
+                    sections = [
+                        {
+                            title: 'What kind of work do you have?',
+                            items: [taskTypeComp],
+                            required: true,
+                            forks: ['type']
+                        },
+                        ... sections
+                    ];
+                }
 
-            if(!task.id && !is_project_task && !(enabledWidgets && enabledWidgets.length) && !canShowAll) {
-
-                sections = [
-                    {
-                        title: 'What kind of work do you have?',
-                        items: [taskTypeComp],
-                        required: true,
-                        forks: ['type']
-                    },
-                    ... sections
-                ];
             }
         } else {
             sections = [
