@@ -40,21 +40,21 @@ export default class Profile extends React.Component {
                                 error={Profile.error.user}/>
 
                     {(Profile.error.user && Profile.error.user.first_name)?
-                        (<FieldError message={Profile.error.user.first_name}/>):''}
+                        (<FieldError message={Profile.error.user.first_name}/>):null}
                     <div className="form-group">
                         <label className="control-label">First Name</label>
                         <div><input type="text" className="form-control" ref="first_name" placeholder="First Name" required defaultValue={Auth.user.first_name}/></div>
                     </div>
 
                     {(Profile.error.user && Profile.error.user.last_name)?
-                        (<FieldError message={Profile.error.user.last_name}/>):''}
+                        (<FieldError message={Profile.error.user.last_name}/>):null}
                     <div className="form-group">
                         <label className="control-label">Last Name</label>
                         <div><input type="text" className="form-control" ref="last_name" placeholder="Last Name" required defaultValue={Auth.user.last_name}/></div>
                     </div>
 
-                    {(Auth.error.user && Auth.error.user.user_type)?
-                        (<FieldError message={Auth.error.user.user_type}/>):''}
+                    {(Auth.error.user && Auth.error.user.type)?
+                        (<FieldError message={Auth.error.user.type}/>):null}
                     <div className="form-group">
                         <select className="form-control" ref="user_type" defaultValue={Auth.user.type} required>
                             <option value=""> I am a ... </option>

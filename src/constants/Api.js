@@ -98,8 +98,8 @@ export const USER_TYPE_PROJECT_MANAGER = 3;
 
 export const USER_TYPE_CHOICES = [
     {id: USER_TYPE_DEVELOPER, name: 'Developer'},
-    {id: USER_TYPE_PROJECT_OWNER, name: 'Project Owner'}
-    //{id: USER_TYPE_PROJECT_MANAGER, name: 'Project Manager'}
+    {id: USER_TYPE_PROJECT_OWNER, name: 'Project Owner'},
+    {id: USER_TYPE_PROJECT_MANAGER, name: 'Project Manager'}
 ];
 
 export const PAYMENT_METHOD_BTC_WALLET = 'btc_wallet';
