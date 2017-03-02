@@ -39,7 +39,7 @@ export default class ProfilePicture extends React.Component {
     }
 
     render() {
-        const { Auth, Profile } = this.props;
+        const { Profile } = this.props;
         let id_doc = this.state.photo?this.state.photo.preview:Profile.profile.id_document;
 
         return (

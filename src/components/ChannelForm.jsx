@@ -4,6 +4,8 @@ import FieldError from './status/FieldError';
 import UserSelector from '../containers/UserSelector';
 import { CHANNEL_TYPES } from '../constants/Api';
 
+import { isAdmin, getUser } from '../utils/auth';
+
 export default class ChannelForm extends React.Component {
 
     constructor(props) {
@@ -45,13 +47,13 @@ export default class ChannelForm extends React.Component {
     }
 
     getOtherParticipants() {
-        const { Channel, Auth } = this.props;
+        const { Channel } = this.props;
         let channel = this.props.channel || {};
 
         var participants = [];
         if(channel.id && channel.details) {
             channel.details.participants.forEach((user) => {
-                if(user.id != Auth.user.id) {
+                if(user.id != getUser().id) {
                     participants.push(user);
                 }
             });
@@ -88,7 +90,7 @@ export default class ChannelForm extends React.Component {
     }
 
     render() {
-        const { Channel, Auth } = this.props;
+        const { Channel } = this.props;
         let channel = this.props.channel || {};
         return (
             <div className="new-channel">
@@ -102,7 +104,7 @@ export default class ChannelForm extends React.Component {
                         <h3>You are about to start a new conversation</h3>
                     )}
 
-                    {Auth.user.is_staff?(
+                    {isAdmin()?(
                         <div className="form-group">
                             <label className="control-label">Audience *</label>
                             <br/>

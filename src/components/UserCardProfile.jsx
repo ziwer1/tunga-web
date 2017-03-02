@@ -3,6 +3,8 @@ import { Link } from 'react-router';
 import Rating from 'react-rating';
 import Avatar from './Avatar';
 
+import { isAdmin } from '../utils/auth';
+
 export default class UserCardProfile extends React.Component {
 
     render() {
@@ -20,6 +22,9 @@ export default class UserCardProfile extends React.Component {
                         <h4 className="title">{user.display_name}</h4>
                     )}
 
+                    {isAdmin()?(
+                        <p><a href={`mailto:${user.email}`}>{user.email}</a></p>
+                    ):null}
                     {user.is_project_owner?(
                     <p>{user.company}</p>
                         ):null}

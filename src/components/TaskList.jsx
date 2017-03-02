@@ -5,6 +5,8 @@ import LoadMore from './status/LoadMore';
 import TaskCard from './TaskCard';
 import SearchBox from './SearchBox';
 
+import { isAdmin, isDeveloper } from '../utils/auth';
+
 export default class TaskList extends React.Component {
 
     componentDidMount() {
@@ -32,7 +34,7 @@ export default class TaskList extends React.Component {
     }
 
     render() {
-        const { Auth, Task, TaskActions, hide_header, emptyListText } = this.props;
+        const { Task, TaskActions, hide_header, emptyListText } = this.props;
         let filter = this.getFilter();
         let skill = this.getSkill();
 
@@ -41,7 +43,7 @@ export default class TaskList extends React.Component {
                 {hide_header?null:(
                 <div>
                     <div className="clearfix">
-                        <h2 className="pull-left">{filter == 'my-tasks' && !Auth.user.is_developer?'My ':''}Tasks</h2>
+                        <h2 className="pull-left">{filter == 'my-tasks' && !isDeveloper()?'My ':''}Tasks</h2>
                         <div className="pull-right">
                             <SearchBox placeholder="Search for tasks"
                                        filter={{filter, skill, ...this.props.filters}}
@@ -49,11 +51,11 @@ export default class TaskList extends React.Component {
                                        count={Task.list.count}/>
                         </div>
                     </div>
-                    {filter == 'my-tasks' && !Auth.user.is_developer?null:(
+                    {filter == 'my-tasks' && !isDeveloper()?null:(
                     <ul className="nav nav-pills nav-top-filter">
                         <li role="presentation"><IndexLink to="/task" activeClassName="active">All Tasks</IndexLink></li>
                         <li role="presentation"><Link to="/work/filter/running" activeClassName="active"><i className="tunga-icon-running-tasks"/> Running Tasks</Link></li>
-                        {Auth.user.is_developer || Auth.user.is_staff?(
+                        {isDeveloper() || isAdmin()?(
                             [
                                 <li role="presentation" key="skills"><Link to="/work/filter/skills" activeClassName="active">My Skills</Link></li>,
                                 <li role="presentation" key="clients"><Link to="/work/filter/project-owners" activeClassName="active">My Clients</Link></li>

@@ -35,10 +35,6 @@ import DeveloperApplication from 'containers/DeveloperApplication';
 import PasswordResetPage from 'containers/PasswordResetPage';
 import PasswordResetConfirmPage from 'containers/PasswordResetConfirmPage';
 import SettingsPage from 'containers/SettingsPage';
-import ProjectPage from 'containers/ProjectPage';
-import ProjectForm from 'components/ProjectForm';
-import Project from 'components/Project';
-import ProjectDetail from 'components/ProjectDetail';
 import ProjectBoard from 'components/ProjectBoard';
 import ProjectTaskForm from 'components/ProjectTaskForm';
 import TaskPage from 'containers/TaskPage';
@@ -130,15 +126,6 @@ ReactDOM.render(
                             <Redirect path="*" to="personal" />
                         </Route>
                         <Route path="settings" component={SettingsPage} />
-                        <Route path="project" component={ProjectPage}>
-                            <IndexRedirect to="new"/>
-                            <Route path="new" component={ProjectForm} />
-                            <Route path=":projectId" component={Project}>
-                                <IndexRoute component={ProjectDetail}/>
-                                <Route path="edit" component={ProjectForm} crumb="Edit"/>
-                                <Route path="task" component={TaskForm} crumb="Create Task"/>
-                            </Route>
-                        </Route>
                         <Route path="work" component={TaskPage}>
                             <IndexRoute component={TaskList}/>
                             <Route path="new" component={TaskForm} />

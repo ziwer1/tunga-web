@@ -5,6 +5,8 @@ import NavBar from '../components/NavBar';
 import SideBar from './SideBar';
 import ChatWindow from '../containers/ChatWindow';
 
+import { isAdmin } from '../utils/auth';
+
 export default class AppWrapper extends React.Component {
 
     handleAppClick() {
@@ -15,7 +17,7 @@ export default class AppWrapper extends React.Component {
     }
 
     render() {
-        const {Auth, AuthActions, children, location} = this.props;
+        const {children, location} = this.props;
         return (
             <div className="app-wrapper" onClick={this.handleAppClick.bind(this)}>
                 <Helmet
@@ -28,9 +30,9 @@ export default class AppWrapper extends React.Component {
                                  }
                               ]}
                 />
-                <NavBar Auth={Auth} AuthActions={AuthActions} location={location}/>
+                <NavBar location={location}/>
 
-                <SideBar Auth={Auth} location={location}/>
+                <SideBar location={location}/>
 
                 <div className="main-content">
                     <div className="main">
@@ -38,7 +40,7 @@ export default class AppWrapper extends React.Component {
                     </div>
                 </div>
 
-                {!Auth.user.is_staff?(
+                {!isAdmin()?(
                     <ChatWindow />
                 ):null}
             </div>

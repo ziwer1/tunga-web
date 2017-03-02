@@ -5,13 +5,15 @@ import ComponentWithModal from './ComponentWithModal';
 import TaskPage from '../containers/TaskPage';
 import TaskList from './TaskList';
 
+import { isAdmin, getUser } from '../utils/auth';
+
 export default class ProjectBoard extends ComponentWithModal {
 
     render() {
 
-        const { Auth, Task, TaskActions } = this.props;
+        const { Task } = this.props;
         const { task } = Task.detail;
-        let is_admin_or_owner = Auth.user.id == task.user.id || Auth.user.is_staff;
+        let is_admin_or_owner = getUser().id == task.user.id || isAdmin();
 
         return (
             Task.detail.isRetrieving?

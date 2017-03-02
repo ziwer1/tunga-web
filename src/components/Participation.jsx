@@ -4,7 +4,7 @@ import Progress from './status/Progress';
 import FormStatus from './status/FormStatus';
 import Error from './status/Error';
 
-export default class TaskPay extends React.Component {
+export default class Participation extends React.Component {
 
     constructor(props) {
         super(props);
@@ -12,8 +12,7 @@ export default class TaskPay extends React.Component {
     }
 
     componentDidMount() {
-        const { Task, TaskActions } = this.props;
-        const { task } =  Task.detail;
+        const { task } = this.props;
         if(task.details && task.details.participation_shares.length) {
             this.parseUsers(task.details.participation_shares);
         }
@@ -52,14 +51,12 @@ export default class TaskPay extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
 
-        const { Task, TaskActions } = this.props;
-        const { task } =  Task.detail;
+        const { task, TaskActions } = this.props;
         TaskActions.updateTask(task.id, {participation: this.getParticipation()});
     }
 
     render() {
-        const { Task, Auth } = this.props;
-        const { task } =  Task.detail;
+        const { task, Task } = this.props;
         let total_shares = this.getTotalShares();
         console.log('total_shares', total_shares);
 
@@ -113,3 +110,11 @@ export default class TaskPay extends React.Component {
         );
     }
 }
+
+Participation.propTypes = {
+    task: React.PropTypes.object.isRequired
+};
+
+Participation.defaultProps = {
+    task: {}
+};

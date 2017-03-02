@@ -8,6 +8,7 @@ import ProgressReportForm from './ProgressReportForm';
 import BreadCrumb from '../containers/BreadCrumb';
 
 import { PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT } from '../constants/Api';
+import { isDeveloper } from '../utils/auth';
 
 export default class Milestone extends React.Component {
 
@@ -33,7 +34,6 @@ export default class Milestone extends React.Component {
     renderChildren() {
         return React.Children.map(this.props.children, function (child) {
             return React.cloneElement(child, {
-                Auth: this.props.Auth,
                 Milestone: this.props.Milestone,
                 milestone: this.props.Milestone.detail,
                 MilestoneActions: this.props.MilestoneActions,
@@ -44,7 +44,7 @@ export default class Milestone extends React.Component {
     }
 
     render() {
-        const { Auth, Milestone, Task, MilestoneActions, ProgressReport, ProgressReportActions } = this.props;
+        const { Milestone, ProgressReport, ProgressReportActions } = this.props;
         const { milestone } = Milestone.detail;
         const { report } = milestone;
 
@@ -76,7 +76,7 @@ export default class Milestone extends React.Component {
                     </div>
 
 
-                    {report && (!this.state.editReport || !Auth.user.is_developer)?(
+                    {report && (!this.state.editReport || !isDeveloper())?(
                         <div>
                             <h4><i className="fa fa-newspaper-o"/> Progress Report</h4>
                             {report.user?(
@@ -131,7 +131,7 @@ export default class Milestone extends React.Component {
                                     <div dangerouslySetInnerHTML={{__html: report.remarks}}/>
                                 </div>
                             ):null}
-                            {Auth.user.is_developer && !is_missed?(
+                            {isDeveloper() && !is_missed?(
                                 <button className="btn " onClick={this.onEditReport.bind(this)}><i className="fa fa-pencil"/> Edit Report</button>
                             ):null}
                         </div>
@@ -141,7 +141,7 @@ export default class Milestone extends React.Component {
                                 <strong>{[PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT].indexOf(milestone.type) > -1?'Milestone':'Update'} missed</strong>
                             </div>
                         ):(
-                            Auth.user.is_developer?(
+                            isDeveloper()?(
                                 <ProgressReportForm milestone={milestone}
                                                     progress_report={report}
                                                     ProgressReport={ProgressReport}

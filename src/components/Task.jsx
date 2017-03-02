@@ -8,6 +8,7 @@ import Success from './status/Success';
 
 import { getRouteCrumb } from '../utils/router';
 import { render_excerpt } from '../utils/html';
+import { isAdmin, isDeveloper, getUser } from '../utils/auth';
 
 export default class Task extends React.Component {
 
@@ -37,7 +38,6 @@ export default class Task extends React.Component {
     renderChildren() {
         return React.Children.map(this.props.children, function (child) {
             return React.cloneElement(child, {
-                Auth: this.props.Auth,
                 Task: this.props.Task,
                 task: this.props.Task.detail.task,
                 TaskActions: this.props.TaskActions,
@@ -47,7 +47,7 @@ export default class Task extends React.Component {
     }
 
     render() {
-        const { Auth, Task, TaskActions, params, routes } = this.props;
+        const { Task, TaskActions, params, routes } = this.props;
         const { task } = Task.detail;
         let lastRoute = this.getLastRoute();
         let meta_title = 'Tunga | ' + task.summary;
@@ -78,11 +78,11 @@ export default class Task extends React.Component {
                         ]}
                 />
 
-                {Auth.user.is_developer && Task.detail.applications.isSaved?(
+                {isDeveloper() && Task.detail.applications.isSaved?(
                     <Success message="Application sent successfully"/>
                 ):null}
 
-                {task.user.id == Auth.user.id || task.is_admin || task.is_participant || Auth.user.is_staff || (lastRoute && lastRoute.path == 'apply' && task.can_apply)?(
+                {task.user.id == getUser().id || task.is_admin || task.is_participant || isAdmin() || (lastRoute && lastRoute.path == 'apply' && task.can_apply)?(
                 <div>
                     <BreadCrumb
                         section={getRouteCrumb(routes)}
@@ -91,7 +91,7 @@ export default class Task extends React.Component {
                     {this.renderChildren()}
                 </div>
                     ):(
-                <TaskDetail Auth={Auth} Task={Task} TaskActions={TaskActions} params={params}/>
+                <TaskDetail Task={Task} TaskActions={TaskActions} params={params}/>
                     )}
             </div>
         ):(

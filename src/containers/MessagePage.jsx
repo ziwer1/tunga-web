@@ -10,6 +10,7 @@ import ChannelInfo from '../components/ChannelInfo';
 import connect from '../utils/connectors/ChannelConnector';
 
 import { CHANNEL_TYPES } from '../constants/Api';
+import { isAuthenticated, isAdmin } from '../utils/auth';
 
 
 export function resizeOverviewBox() {
@@ -39,8 +40,8 @@ class MessagePage extends React.Component {
     }
 
     getChannels() {
-        const { Auth, ChannelActions } = this.props;
-        if(Auth.isAuthenticated) {
+        const { ChannelActions } = this.props;
+        if(isAuthenticated()) {
             ChannelActions.listChannels({type: this.getChannelTypeFilter()});
         }
     }
@@ -57,7 +58,6 @@ class MessagePage extends React.Component {
     renderChildren() {
         return React.Children.map(this.props.children, function (child) {
             return React.cloneElement(child, {
-                Auth: this.props.Auth,
                 Channel: this.props.Channel,
                 Message: this.props.Message,
                 ChannelActions: this.props.ChannelActions,
@@ -69,19 +69,19 @@ class MessagePage extends React.Component {
 
 
     render() {
-        const { Auth, Channel, ChannelActions } = this.props;
+        const { Channel, ChannelActions } = this.props;
         const channel_type_filter = this.getChannelTypeFilter();
 
         return (
             <div id="chat-window">
-                {Auth.isAuthenticated?(
+                {isAuthenticated()?(
                     <div className="chat-head">
                         <h2>{channel_type_filter == CHANNEL_TYPES.support?'Help':'Messages'}</h2>
                     </div>
                 ):null}
 
                 <div className="chat-overview overview">
-                    {Auth.isAuthenticated && (Auth.user.is_staff || channel_type_filter != CHANNEL_TYPES.support)?(
+                    {isAuthenticated() && (isAdmin() || channel_type_filter != CHANNEL_TYPES.support)?(
                         <div className="sidebox channelbox">
                             <SearchBox placeholder="Search" onSearch={ChannelActions.listChannels} count={Channel.list.count}/>
                             {channel_type_filter == CHANNEL_TYPES.support?null:(

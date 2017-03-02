@@ -23,6 +23,7 @@ import {
 } from '../constants/Api';
 
 import { getTaskTypeUrl, getScopeUrl, sendGAPageView } from '../utils/tracking';
+import { isAuthenticated, getUser } from '../utils/auth';
 
 momentLocalizer(moment);
 
@@ -85,7 +86,7 @@ export default class TaskForm extends ComponentWithModal {
         if(this.props.Task.detail.isSaved && !prevProps.Task.detail.isSaved) {
             this.reportFunnelUrl(this.getStepUrl(true));
 
-            const { Task, Auth } = this.props;
+            const { Task } = this.props;
             if(!this.props.task) {
                 this.refs.task_form.reset();
                 this.setState({
@@ -98,7 +99,7 @@ export default class TaskForm extends ComponentWithModal {
                     has_more_info: false
                 });
 
-                if(Auth.isAuthenticated) {
+                if(isAuthenticated()) {
                     const { router } = this.context;
                     router.replace(`/work/${Task.detail.task.id}`);
                 }
@@ -135,8 +136,7 @@ export default class TaskForm extends ComponentWithModal {
     }
 
     getStepUrl(complete=false) {
-        const { Auth } = this.props;
-        
+
         var suffix = '';
         if(complete) {
             suffix = '/complete'
@@ -167,7 +167,7 @@ export default class TaskForm extends ComponentWithModal {
                 suffix = '/type/' + type_url + suffix;
             }
         }
-        return window.location.protocol + (window.location.port?window.location.port:'') + '//' + window.location.hostname + (Auth.isAuthenticated?'/work/new':'/start') + suffix;
+        return window.location.protocol + (window.location.port?window.location.port:'') + '//' + window.location.hostname + (isAuthenticated()?'/work/new':'/start') + suffix;
     }
 
     canShowFork(fork) {
@@ -403,10 +403,10 @@ export default class TaskForm extends ComponentWithModal {
     }
 
     render() {
-        const { Auth, Task, project, enabledWidgets } = this.props;
+        const { Task, project, enabledWidgets } = this.props;
         const task = this.props.task || {};
 
-        if(!Auth.isAuthenticated && Task.detail.isSaved) {
+        if(!isAuthenticated() && Task.detail.isSaved) {
             return (
                 <div className="thank-you">
                     <Success message="Thanks for posting your work on Tunga, we'll get back to you shortly."/>
@@ -415,9 +415,9 @@ export default class TaskForm extends ComponentWithModal {
         }
 
         let is_project_task = (project && project.id) || (task && task.parent);
-        let work_type = (this.state.is_project || !Auth.isAuthenticated)?'project':'task';
+        let work_type = (this.state.is_project || !isAuthenticated())?'project':'task';
 
-        if(Auth.isAuthenticated && !Auth.user.can_contribute) {
+        if(isAuthenticated() && !getUser().can_contribute) {
             return (
                 <div>
                     {task.id?null:(
@@ -468,7 +468,7 @@ export default class TaskForm extends ComponentWithModal {
                 {(Task.detail.error.update && Task.detail.error.update.scope)?
                     (<FieldError message={Task.detail.error.update.scope}/>):null}
                 <div className="btn-choices choice-fork three" role="group">
-                    {(Auth.isAuthenticated?TASK_SCOPE_CHOICES:TASK_SCOPE_CHOICES_NEW_USER).map(scope_type => {
+                    {(isAuthenticated()?TASK_SCOPE_CHOICES:TASK_SCOPE_CHOICES_NEW_USER).map(scope_type => {
                         return (
                             <div className="choice">
                                 <button key={scope_type.id} type="button"
@@ -598,7 +598,7 @@ export default class TaskForm extends ComponentWithModal {
                     (<FieldError message={Task.detail.error.update.description}/>):null}
                 <div className="form-group">
                     <label className="control-label">{
-                        Auth.isAuthenticated?(
+                        isAuthenticated()?(
                             this.state.scope == TASK_SCOPE_ONGOING?'What kind of work do you have for developers':(
                                 this.state.is_project?(
                                     this.state.has_requirements?'Goals of the project':'Describe the idea you have for the project'
@@ -644,7 +644,7 @@ export default class TaskForm extends ComponentWithModal {
                 {(Task.detail.error.update && Task.detail.error.update.skills)?
                     (<FieldError message={Task.detail.error.update.skills}/>):null}
                 <div>
-                    {Auth.isAuthenticated || canShowAll?(<label className="control-label">Tag skills or products that are relevant to this {work_type} {Auth.isAuthenticated?'*':''}</label>):null}
+                    {isAuthenticated() || canShowAll?(<label className="control-label">Tag skills or products that are relevant to this {work_type} {isAuthenticated()?'*':''}</label>):null}
                     <SkillSelector filter={{filter: null}}
                                    onChange={this.onSkillChange.bind(this)}
                                    skills={task.id || (this.state.skills && this.state.skills.length)?this.state.skills:suggestTaskTypeSkills(this.state.type)['selected']}
@@ -661,11 +661,11 @@ export default class TaskForm extends ComponentWithModal {
                     (<FieldError message={Task.detail.error.update.fee}/>):null}
                 <div className="form-group">
                     <label className="control-label">{
-                        (!Auth.isAuthenticated || (this.state.is_project && !this.state.has_requirements))?
+                        (!isAuthenticated() || (this.state.is_project && !this.state.has_requirements))?
                             'What is roughly the budget of this project?':
                             `Fixed fee for this task (in Euros) ${is_project_task?' - optional':''}`
                     }</label>
-                    <div><input type="text" className="form-control" ref="fee" required={!is_project_task && Auth.isAuthenticated} placeholder="Amount in Euros"  onChange={this.onInputChange.bind(this, 'fee')} value={this.state.fee?this.state.fee:''}/></div>
+                    <div><input type="text" className="form-control" ref="fee" required={!is_project_task && isAuthenticated()} placeholder="Amount in Euros"  onChange={this.onInputChange.bind(this, 'fee')} value={this.state.fee?this.state.fee:''}/></div>
                     {!this.state.is_project || this.state.has_requirements?(
                         <div style={{marginTop: '10px'}}>13% of pledge goes to Tunga</div>
                     ):null}
@@ -1030,7 +1030,7 @@ export default class TaskForm extends ComponentWithModal {
             </div>
         );
 
-        if(Auth.isAuthenticated) {
+        if(isAuthenticated()) {
             if(enabledWidgets && enabledWidgets.length) {
                 let widgetMap = {
                     title: titleComp,
@@ -1302,7 +1302,7 @@ export default class TaskForm extends ComponentWithModal {
         return (
             <div className="form-wrapper task-form">
                 {this.renderModalContent()}
-                {!Auth.isAuthenticated || task.id || is_project_task?null:(
+                {!isAuthenticated() || task.id || is_project_task?null:(
                     <h2 className="title text-center">Post work</h2>
                     )}
 
@@ -1365,7 +1365,7 @@ export default class TaskForm extends ComponentWithModal {
                                         onClick={this.showAll.bind(this)}
                                         className="btn"
                                         disabled={Task.detail.isSaving}>
-                                    {this.state.scope == TASK_SCOPE_ONGOING || !Auth.isAuthenticated?'Find me awesome developers':(
+                                    {this.state.scope == TASK_SCOPE_ONGOING || !isAuthenticated()?'Find me awesome developers':(
                                         `${task.id?'Update':'Publish'} ${this.state.is_project?'project':'task'}`
                                     )}
                                 </button>

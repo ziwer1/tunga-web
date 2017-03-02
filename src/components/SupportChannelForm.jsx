@@ -3,15 +3,17 @@ import React from 'react';
 import FormStatus from './status/FormStatus';
 import FieldError from './status/FieldError';
 
+import { isAuthenticated, isAdmin } from '../utils/auth';
+
 export default class ChannelForm extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if(nextProps.Channel.detail.isSaved && !this.props.Channel.detail.isSaved) {
-            const { Channel, Auth } = nextProps;
+            const { Channel } = nextProps;
             this.refs.channel_form.reset();
             this.setState({participants: []});
             const { router } = this.context;
-            if(Auth.isAuthenticated) {
+            if(isAuthenticated()) {
                 router.replace('/channel/' + Channel.detail.channel.id);
             }
         }
@@ -33,11 +35,11 @@ export default class ChannelForm extends React.Component {
     }
 
     render() {
-        const { Channel, Auth } = this.props;
-        if(Auth.user.is_staff) {
+        const { Channel } = this.props;
+        if(isAdmin()) {
             return  null;
         }
-        let channel = this.props.channel || {};
+
         return (
             <div className="new-channel">
                 <form onSubmit={this.handleSubmit.bind(this)} name="channel" role="form" ref="channel_form">
@@ -47,14 +49,14 @@ export default class ChannelForm extends React.Component {
                                 error={Channel.detail.error.create}/>
 
 
-                    {Auth.isAuthenticated?(
+                    {isAuthenticated()?(
                         <div>
                             <h3 className="title">Create a new inquiry</h3>
 
                             {(Channel.detail.error.create && Channel.detail.error.create.subject)?
                                 (<FieldError message={Channel.detail.error.create.subject}/>):null}
                             <div className="form-group">
-                                <label className="control-label">Subject {Auth.isAuthenticated?'*':null}</label>
+                                <label className="control-label">Subject {isAuthenticated()?'*':null}</label>
                                 <div>
                                     <input type="text" className="form-control" ref="subject" placeholder="Subject" required/>
                                 </div>

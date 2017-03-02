@@ -19,6 +19,7 @@ import {getTaskKey} from '../utils/reducers';
 import confirm from '../utils/confirm';
 
 import { SOCIAL_PROVIDERS } from '../constants/Api';
+import { isAdmin, getUser } from '../utils/auth';
 
 export function resizeOverviewBox() {
     var w_h = $(window).height();
@@ -47,7 +48,7 @@ export default class TaskWorflow extends ComponentWithModal {
     }
 
     componentDidMount() {
-        const {Auth, TaskActions, Task} = this.props;
+        const {TaskActions, Task} = this.props;
         const {task} = Task.detail;
 
         TaskActions.listTaskActivity(task.id);
@@ -79,16 +80,15 @@ export default class TaskWorflow extends ComponentWithModal {
     }
 
     redirectToNextStep(props) {
-        const {Auth, Task} = props;
-        const {task} = Task.detail;
+        const {task} = props;
 
-        if (Auth.user.id == task.user.id && task.closed && (!this.props.location.query || !this.props.location.query.nr) && (!props.params || !props.params.eventId)) {
+        if (getUser().id == task.user.id && task.closed && (!this.props.location.query || !this.props.location.query.nr) && (!props.params || !props.params.eventId)) {
             const {router} = this.context;
             var next = null;
             if (task.paid) {
-                next = `/work/${Task.detail.task.id}/rate`;
+                next = `/work/${task.id}/rate`;
             } else {
-                next = `/work/${Task.detail.task.id}/pay`;
+                next = `/work/${task.id}/pay`;
             }
 
             if (next) {
@@ -170,23 +170,23 @@ export default class TaskWorflow extends ComponentWithModal {
     }
 
     handleAcceptTask() {
-        const {TaskActions, Task, Auth} = this.props;
+        const {TaskActions, Task} = this.props;
         TaskActions.updateTask(
             Task.detail.task.id,
             {
-                participation: [{user: Auth.user.id, accepted: true, responded: true}]
+                participation: [{user: getUser().id, accepted: true, responded: true}]
             }
         );
     }
 
     handleRejectTask() {
-        const {TaskActions, Task, Auth} = this.props;
+        const {TaskActions, Task} = this.props;
         confirm('Confirm reject task').then(
             function () {
                 TaskActions.updateTask(
                     Task.detail.task.id,
                     {
-                        participation: [{user: Auth.user.id, accepted: false, responded: true}]
+                        participation: [{user: getUser().id, accepted: false, responded: true}]
                     }
                 );
             }
@@ -220,16 +220,16 @@ export default class TaskWorflow extends ComponentWithModal {
     }
 
     render() {
-        const {Auth, Task, TaskActions, params} = this.props;
-        const {task, uploads} = Task.detail;
+        const {task, Task, TaskActions} = this.props;
+        const {uploads} = Task.detail;
         var task_status = parse_task_status(task);
-        let is_admin_or_owner = Auth.user.id == task.user.id || Auth.user.is_staff;
-        let is_confirmed_assignee = task.assignee && task.assignee.accepted && task.assignee.user.id == Auth.user.id;
+        let is_admin_or_owner = getUser().id == task.user.id || isAdmin();
+        let is_confirmed_assignee = task.assignee && task.assignee.accepted && task.assignee.user.id == getUser().id;
 
         let workflow_link = `/work/${task.id}/?nr=true`;
         let can_pay = task.is_payable && is_admin_or_owner && task.closed && !task.paid;
         let can_rate = is_admin_or_owner && task.closed && task.paid;
-        let can_edit_shares = Auth.user.is_staff || is_confirmed_assignee && task.details && task.details.participation_shares.length > 1;
+        let can_edit_shares = isAdmin() || is_confirmed_assignee && task.details && task.details.participation_shares.length > 1;
         let work_type = task.is_project?'project':'task';
 
         const pay_popover = (
@@ -380,7 +380,7 @@ export default class TaskWorflow extends ComponentWithModal {
                                                                 </button>
                                                             )}
                                                         </li>,
-                                                        task.closed && !task.paid && Auth.user.is_staff ? (
+                                                        task.closed && !task.paid && isAdmin() ? (
                                                             <li>
                                                                 <button type="button"
                                                                         className="btn"
@@ -445,7 +445,6 @@ export default class TaskWorflow extends ComponentWithModal {
                         {task.details ? (
                             <div className="list-box">
                                 <ActivityList
-                                    Auth={Auth}
                                     activities={Task.detail.activity.items[getTaskKey(task.id)] || []}
                                     isLoading={Task.detail.activity.isFetching[getTaskKey(task.id)] || false}
                                     isLoadingMore={Task.detail.activity.isFetchingMore[getTaskKey(task.id)] || false}

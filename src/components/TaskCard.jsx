@@ -4,11 +4,11 @@ import moment from 'moment';
 import TimeAgo from 'react-timeago';
 import TagList from './TagList';
 import Avatar from './Avatar';
-import LargeModal from './LargeModal';
-import ApplicationForm from './ApplicationForm';
 import ComponentWithModal from './ComponentWithModal';
+
 import { render_excerpt } from '../utils/html';
 import { parse_task_status } from '../utils/tasks';
+import { isDeveloper } from '../utils/auth';
 
 export default class TaskCard extends ComponentWithModal {
 
@@ -16,16 +16,11 @@ export default class TaskCard extends ComponentWithModal {
         this.open();
     }
 
-    handleSaveTask() {
-        const { TaskActions, task } = this.props;
-        TaskActions.createSavedTask({task: task.id});
-    }
-
     getSplitFee() {
-        const { Auth, task } = this.props;
+        const { task } = this.props;
         var context_fee = 0;
         if(task && task.amount) {
-            if(Auth.user.is_developer) {
+            if(isDeveloper()) {
                 context_fee = task.amount.developer;
             } else {
                 context_fee = task.amount.pledge;
@@ -40,15 +35,12 @@ export default class TaskCard extends ComponentWithModal {
     }
 
     render() {
-        const { Auth, Task, TaskActions, task } = this.props;
+        const { task } = this.props;
         var task_status = parse_task_status(task);
         let split_fee = this.getSplitFee();
 
         return (
             <div className="card task-card">
-                <LargeModal title={<div>Apply for Task: <Link to={`/work/${task.id}/`}>{task.title}</Link></div>} show={this.state.showModal} onHide={this.close.bind(this)}>
-                    <ApplicationForm Auth={Auth} Task={Task} TaskActions={TaskActions} task={task}/>
-                </LargeModal>
                 <div className="time text-right">
                     Posted <TimeAgo date={moment.utc(task.created_at).local().format()}/>
                 </div>
@@ -90,7 +82,7 @@ export default class TaskCard extends ComponentWithModal {
                 <div className="bottom">
                     <div className="short-description" dangerouslySetInnerHTML={{__html: render_excerpt(task.excerpt)}}/>
                     <div className="actions">
-                        {Auth.user.is_developer?(
+                        {isDeveloper()?(
                         <div className="row">
                             <div className="col-sm-12">
                                 {task.can_apply?(
@@ -114,3 +106,11 @@ export default class TaskCard extends ComponentWithModal {
         );
     }
 }
+
+TaskCard.propTypes = {
+    task: React.PropTypes.object.isRequired
+};
+
+TaskCard.defaultProps = {
+    task: {}
+};

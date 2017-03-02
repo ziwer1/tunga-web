@@ -3,6 +3,8 @@ import { Link } from 'react-router';
 import UserCardProfile from './UserCardProfile';
 import TagList from './TagList';
 
+import { isProjectOwner } from '../utils/auth';
+
 export default class UserCard extends React.Component {
 
     handleConnectRequest() {
@@ -23,10 +25,10 @@ export default class UserCard extends React.Component {
     }
 
     render() {
-        const { Auth, user } = this.props;
+        const { user } = this.props;
         var connection_msg = 'Send friend request';
         var remove_msg = 'Remove friend';
-        if(Auth.user.is_project_owner) {
+        if(isProjectOwner()) {
             connection_msg = 'Add to my team';
             remove_msg = 'Remove from my team';
         } else if(user.is_project_owner) {
@@ -95,3 +97,12 @@ export default class UserCard extends React.Component {
         );
     }
 }
+
+
+UserCard.propTypes = {
+    user: React.PropTypes.object.isRequired
+};
+
+UserCard.defaultProps = {
+    user: {}
+};

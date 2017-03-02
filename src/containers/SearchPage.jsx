@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, IndexLink } from 'react-router';
+import { Link } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
@@ -9,12 +9,13 @@ import * as MessageActions from '../actions/MessageActions';
 import * as SupportSectionActions from '../actions/SupportSectionActions';
 import * as SupportPageActions from '../actions/SupportPageActions';
 
+import { isAdmin } from '../utils/auth';
+
 class SearchPage extends React.Component {
 
     renderChildren() {
         return React.Children.map(this.props.children, function (child) {
             return React.cloneElement(child, {
-                Auth: this.props.Auth,
                 User: this.props.User,
                 Task: this.props.Task,
                 Message: this.props.Message,
@@ -30,7 +31,7 @@ class SearchPage extends React.Component {
     }
 
     render() {
-        const { Auth, Search } = this.props;
+        const { Search } = this.props;
 
         return (
             <div>
@@ -38,7 +39,7 @@ class SearchPage extends React.Component {
                 <h3 className="results">{Search.count?Search.count:"Search"} results for "<strong>{Search.query}</strong>"</h3>
                     ):null}
                 <ul className="nav nav-pills nav-top-filter">
-                    <li role="presentation"><Link to="/search/people" activeClassName="active">{Auth.user.is_staff?'People':'Developers'}</Link></li>
+                    <li role="presentation"><Link to="/search/people" activeClassName="active">{isAdmin()?'People':'Developers'}</Link></li>
                     <li role="presentation"><Link to="/search/tasks" activeClassName="active">Tasks</Link></li>
                     <li role="presentation" style={{marginLeft: '10px'}}><Link to="/search/messages" activeClassName="active">Messages</Link></li>
                     <li role="presentation" style={{marginLeft: '10px'}}><Link to="/search/support" activeClassName="active">Support</Link></li>
@@ -55,7 +56,6 @@ class SearchPage extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        Auth: state.Auth,
         Search: state.Search,
         User: state.User,
         Task: state.Task,

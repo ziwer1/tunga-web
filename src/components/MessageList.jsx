@@ -7,6 +7,8 @@ import LoadMore from './status/LoadMore';
 import Avatar from './Avatar';
 import Attachments from './Attachments';
 
+import {getUser} from '../utils/auth';
+
 export default class MessageList extends React.Component {
 
     componentWillMount() {
@@ -49,7 +51,7 @@ export default class MessageList extends React.Component {
     }
 
     renderThread(thread) {
-        const { Auth, Message, channel } = this.props;
+        const { Message, channel } = this.props;
         if(thread.first) {
             let message = thread.first;
             let day_format = 'd/MM/YYYY';
@@ -58,7 +60,7 @@ export default class MessageList extends React.Component {
 
             return (
                 <div key={message.id} id={"message" + message.id}
-                     className={"message" + (channel && message.user.id != Auth.user.id && Message.list.last_read < message.id?' new':'')}>
+                     className={"message" + (channel && message.user.id != getUser().id && Message.list.last_read < message.id?' new':'')}>
                     <div className="media-left">
                         <Avatar src={message.user.avatar_url}/>
                     </div>
@@ -99,7 +101,7 @@ export default class MessageList extends React.Component {
     }
 
     render() {
-        const { Auth, Message, MessageActions, channel } = this.props;
+        const { Message, MessageActions, channel } = this.props;
         var last_sender = null;
         var last_channel = null;
         var thread = {};

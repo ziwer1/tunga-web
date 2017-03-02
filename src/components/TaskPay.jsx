@@ -5,6 +5,7 @@ import FieldError from './status/FieldError';
 
 import { TASK_PAYMENT_METHOD_CHOICES, TASK_PAYMENT_METHOD_BITONIC, TASK_PAYMENT_METHOD_BITCOIN, TASK_PAYMENT_METHOD_BANK, ENDPOINT_TASK } from '../constants/Api';
 import { objectToQueryString } from '../utils/html';
+import { getUser } from '../utils/auth';
 
 export default class TaskPay extends React.Component {
 
@@ -14,10 +15,9 @@ export default class TaskPay extends React.Component {
     }
 
     componentDidMount() {
-        const { Auth, Task, TaskActions } = this.props;
-        const { task, Invoice } =  Task.detail;
+        const { task, Task, TaskActions } = this.props;
         if(task.id) {
-            if(Auth.user.id == task.user.id && task.closed && task.paid) {
+            if(getUser().id == task.user.id && task.closed && task.paid) {
                 const { router } = this.context;
                 router.replace(`/work/${Task.detail.task.id}/rate`);
             }
@@ -74,9 +74,8 @@ export default class TaskPay extends React.Component {
 
 
     render() {
-        const { Task, Auth } = this.props;
-        const { task, Invoice } =  Task.detail;
-        const { invoice } =  Invoice;
+        const { task, Task } = this.props;
+        const { invoice } =  Task.detail.Invoice;
 
         var btc_amount = null;
         var btc_address = null;
@@ -185,6 +184,14 @@ export default class TaskPay extends React.Component {
         );
     }
 }
+
+TaskPay.propTypes = {
+    task: React.PropTypes.object.isRequired
+};
+
+TaskPay.defaultProps = {
+    task: {}
+};
 
 TaskPay.contextTypes = {
     router: React.PropTypes.object.isRequired
