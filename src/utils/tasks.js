@@ -28,7 +28,7 @@ export function openTaskWizard() {
         <div className="task-wizard">
             <div className="task-section">
                 <div className="title-bar">
-                    <h2 className="title text-center">Hire awesome developers!</h2>
+                    <h2 className="title text-center">Hire top African coders!</h2>
                 </div>
                 <TaskPage>
                     <TaskForm/>

@@ -53,7 +53,7 @@ class SideBar extends React.Component {
                             </Link>
                         </li>
                         <li>
-                            <Link to="/task" activeClassName={/task\/new\/?/.test(this.props.location.pathname)?"":"active"}>
+                            <Link to="/work" activeClassName={/\/work\/new\/?/.test(this.props.location.pathname)?"":"active"}>
                                 <i className="menu-icon tunga-icon-search"/> <span>Find a task</span>
                             </Link>
                         </li>

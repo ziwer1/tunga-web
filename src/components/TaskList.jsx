@@ -53,7 +53,7 @@ export default class TaskList extends React.Component {
                     </div>
                     {filter == 'my-tasks' && !isDeveloper()?null:(
                     <ul className="nav nav-pills nav-top-filter">
-                        <li role="presentation"><IndexLink to="/task" activeClassName="active">All Tasks</IndexLink></li>
+                        <li role="presentation"><IndexLink to="/work" activeClassName="active">All Tasks</IndexLink></li>
                         <li role="presentation"><Link to="/work/filter/running" activeClassName="active"><i className="tunga-icon-running-tasks"/> Running Tasks</Link></li>
                         {isDeveloper() || isAdmin()?(
                             [

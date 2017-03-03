@@ -57,7 +57,7 @@ label {
 }
 
 .control-label {
-    color: @secondary-text;
+    color: #777;
     display: block;
 }
 
@@ -374,6 +374,7 @@ form.steps-all {
 
 .form-control {
     height: 30px;
+    .font-size(1.1);
 }
 
 .input-group {
@@ -1503,6 +1504,8 @@ form[name='compose'] {
 }
 
 .btn-choices.choice-fork {
+    max-width: 600px;
+    margin: 0 auto;
     display: flex;
     flex-direction: row;
     align-items: baseline;
@@ -1574,7 +1577,7 @@ form[name='compose'] {
         width: 33%;
 
         .btn {
-            min-width: 70%;
+            min-width: 100%;
         }
     }
 }
@@ -2609,7 +2612,7 @@ form[name='compose'] {
             height: 522px;
         }
 
-        .card.user-card {
+        .card {
             padding: 0 10px;
             margin: 5px 0;
 
@@ -3574,8 +3577,12 @@ form[name='compose'] {
         }
 
         .email-widget {
-            margin: inherit auto;
+            margin: 0 auto;
         }
+    }
+
+    .control-label {
+        color: @secondary-text;
     }
 }
 

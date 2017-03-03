@@ -15,6 +15,7 @@ class PasswordResetConfirm extends React.Component {
     componentDidUpdate(prevProps, prevState) {
         if(this.props.Auth.isReset && !prevProps.Auth.isReset) {
             this.refs.reset_confirm_form.reset();
+            window.location.href = '/';
         }
     }
 
@@ -34,17 +35,18 @@ class PasswordResetConfirm extends React.Component {
 
     renderHeaderContent() {
         const { Auth } = this.props;
+        let is_new = this.props.location && this.props.location.query.new_user;
 
         return (
             <form onSubmit={this.handleSubmit} name="reset-confirm" role="form" ref="reset_confirm_form">
-                <h2>Reset Password</h2>
+                <h2>{is_new?'Create':'Reset'} Password</h2>
 
                 {(Auth.error.reset_confirm && Auth.error.reset_confirm.token)?(
                     <Error message="Invalid token"/>
                 ):(
                     <FormStatus loading={Auth.isResetting}
                                 success={Auth.isReset}
-                                message={'Password changed'}
+                                message={is_new?'Password changed':'Password set successfully'}
                                 error={Auth.error.reset_confirm}/>
                 )}
 
@@ -62,7 +64,7 @@ class PasswordResetConfirm extends React.Component {
                     <div><input type="password" className="form-control" ref="new_password2" required placeholder="Confirm New Password"/></div>
                 </div>
 
-                <button type="submit" className="btn pull-right" disabled={Auth.isResetting}>Change Password</button>
+                <button type="submit" className="btn pull-right" disabled={Auth.isResetting}>{is_new?'Set':'Change'} Password</button>
             </form>
         );
     }

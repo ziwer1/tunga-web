@@ -1177,6 +1177,10 @@ export default class TaskForm extends ComponentWithModal {
                         {
                             title: 'Agreements',
                             items: [deadlineComp, billingComp]
+                        },
+                        {
+                            title: 'Who would you like to see your task?',
+                            items: [visibilityComp]
                         }
                     ]
                 }
@@ -1191,7 +1195,7 @@ export default class TaskForm extends ComponentWithModal {
                         forks: ['type']
                     },
                     {
-                        title: 'What is the scope of the work?',
+                        title: 'Scope of your work',
                         items: [taskScopeComp],
                         required: true,
                         forks: ['scope']
@@ -1249,7 +1253,7 @@ export default class TaskForm extends ComponentWithModal {
                         forks: ['type']
                     },
                     {
-                        title: 'Project scope',
+                        title: 'Scope of your work',
                         items: [taskScopeComp],
                         required: true,
                         forks: ['scope']
