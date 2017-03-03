@@ -94,10 +94,11 @@ ReactDOM.render(
                     <Route path="signup">
                         <IndexRoute component={AccountType} />
                         <Route path="project-owner" component={SignUpPage} />
+                        <Route path="invite/:invitationKey" component={SignUpPage} />
                         <Route path="developer">
                             <IndexRoute component={DeveloperApplication}/>
-                            <Route path=":confirmationKey" component={SignUpPage} />
                             <Route path="invite/:invitationKey" component={SignUpPage} />
+                            <Route path=":confirmationKey" component={SignUpPage} />
                         </Route>
                     </Route>
                     <Route path="reset-password" component={PasswordResetPage} />

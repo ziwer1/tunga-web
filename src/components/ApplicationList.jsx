@@ -68,8 +68,7 @@ export default class ApplicationList extends ComponentWithModal {
     }
 
     renderModalContent() {
-        const { TaskActions, Task, Auth } = this.props;
-        const { task } = Task.detail;
+        
         return (
             <div>
                 <LargeModal title="Developer Section" bsStyle="md"

@@ -20,6 +20,7 @@ import {
     USER_TYPE_DEVELOPER, TASK_TYPE_CHOICES, TASK_SCOPE_CHOICES, TASK_SCOPE_CHOICES_NEW_USER, TASK_SCOPE_ONGOING, TASK_SCOPE_PROJECT,
     TASK_BILLING_METHOD_CHOICES, TASK_BILLING_METHOD_FIXED, TASK_BILLING_METHOD_HOURLY, TASK_CODERS_NEEDED_CHOICES,
     TASK_VISIBILITY_CHOICES, VISIBILITY_DEVELOPERS, VISIBILITY_CUSTOM, UPDATE_SCHEDULE_CHOICES, suggestTaskTypeSkills,
+    TASK_TYPE_OTHER, TASK_SCOPE_TASK
 } from '../constants/Api';
 
 import { getTaskTypeUrl, getScopeUrl, sendGAPageView } from '../utils/tracking';
@@ -73,6 +74,11 @@ export default class TaskForm extends ComponentWithModal {
                     return skill.name;
                 }):[]
             });
+        } else {
+            const { project } = this.props;
+            if(project && project.id) {
+                this.setState({type: project.type || TASK_TYPE_OTHER, scope: TASK_SCOPE_TASK});
+            }
         }
     }
 
@@ -1091,23 +1097,13 @@ export default class TaskForm extends ComponentWithModal {
                         items: [contactComp]
                     }
                 ]
-            } /*else if(this.state.is_project && !this.state.has_requirements) {
+            } else {
                 sections = [
                     {
-                        title: 'Project description',
-                        items: [descComp, deliverablesComp]
+                        title: `Tag skills or products that are relevant to this ${work_type}`,
+                        items: [skillsComp],
+                        requires: ['skills']
                     },
-                    {
-                        title: 'Project description',
-                        items: [stackDescComp, filesComp]
-                    },
-                    {
-                        title: 'Agreements',
-                        items: [deadlineComp, feeComp]
-                    }
-                ]
-            }*/ else {
-                sections = [
                     {
                         title: `Basic details about your ${work_type}`,
                         items: [titleComp],
@@ -1186,73 +1182,30 @@ export default class TaskForm extends ComponentWithModal {
                 }
             }
 
-            if(!(enabledWidgets && enabledWidgets.length)) {
-                if(!task.id && !is_project_task && !canShowAll) {
-                    /*if(this.state.is_project) {
-                     sections = [
-                     {
-                     title: 'Do you have clear requirements for this project?',
-                     items: [hasRequirementsComp],
-                     required: true
-                     },
-                     ...sections
-                     ]
-                     }*/
-
-                    sections = [
-                        {
-                            title: 'What is the scope of the work?',
-                            items: [taskScopeComp],
-                            required: true,
-                            forks: ['scope']
-                        },
-                        ... sections
-                    ];
-
-                }
-
+            if(!(enabledWidgets && enabledWidgets.length) && !task.id && !is_project_task && !canShowAll) {
                 sections = [
                     {
-                        title: 'Tag skills or products that are relevant to this project',
-                        items: [skillsComp],
-                        requires: ['skills']
+                        title: 'What kind of work do you have?',
+                        items: [taskTypeComp],
+                        required: true,
+                        forks: ['type']
+                    },
+                    {
+                        title: 'What is the scope of the work?',
+                        items: [taskScopeComp],
+                        required: true,
+                        forks: ['scope']
                     },
                     ... sections
                 ];
-
-                if(!task.id && !is_project_task && !canShowAll) {
-
-                    sections = [
-                        {
-                            title: 'What kind of work do you have?',
-                            items: [taskTypeComp],
-                            required: true,
-                            forks: ['type']
-                        },
-                        ... sections
-                    ];
-                }
-
             }
         } else {
             sections = [
                 {
-                    title: 'Tag skills or products that are relevant to this project',
+                    title: `Tag skills or products that are relevant to this ${work_type}`,
                     items: [skillsComp]
                 }
             ];
-
-            if(!canShowAll) {
-                sections = [
-                    ...sections,
-                    {
-                        title: 'Project scope',
-                        items: [taskScopeComp],
-                        required: true,
-                        forks: ['scope']
-                    }
-                ];
-            }
 
             sections = [
                 ...sections,
@@ -1294,6 +1247,12 @@ export default class TaskForm extends ComponentWithModal {
                         items: [taskTypeComp],
                         required: true,
                         forks: ['type']
+                    },
+                    {
+                        title: 'Project scope',
+                        items: [taskScopeComp],
+                        required: true,
+                        forks: ['scope']
                     },
                     ...sections
                 ];
@@ -1397,5 +1356,5 @@ TaskForm.defaultProps = {
 };
 
 TaskForm.contextTypes = {
-    router: React.PropTypes.func.isRequired
+    router: React.PropTypes.object.isRequired
 };

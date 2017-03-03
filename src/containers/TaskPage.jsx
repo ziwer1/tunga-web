@@ -6,7 +6,6 @@ class TaskPage extends React.Component {
     renderChildren() {
         return React.Children.map(this.props.children, function (child) {
             return React.cloneElement(child, {
-                Auth: this.props.Auth,
                 Task: this.props.Task,
                 TaskActions: this.props.TaskActions
             });

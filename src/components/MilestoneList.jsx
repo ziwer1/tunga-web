@@ -33,7 +33,7 @@ export default class MilestoneList extends React.Component {
     }
 
     render() {
-        const { Auth, Milestone, MilestoneActions, hide_header, emptyListText } = this.props;
+        const { Milestone, MilestoneActions, hide_header, emptyListText } = this.props;
         let filter = this.getFilter();
         let skill = this.getSkill();
 

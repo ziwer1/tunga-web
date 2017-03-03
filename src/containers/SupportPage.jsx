@@ -6,7 +6,6 @@ class SupportPage extends React.Component {
     renderChildren() {
         return React.Children.map(this.props.children, function (child) {
             return React.cloneElement(child, {
-                Auth: this.props.Auth,
                 Support: this.props.Support,
                 SupportActions: this.props.SupportActions
             });

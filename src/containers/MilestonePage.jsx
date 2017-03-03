@@ -6,7 +6,6 @@ class MilestonePage extends React.Component {
     renderChildren() {
         return React.Children.map(this.props.children, function (child) {
             return React.cloneElement(child, {
-                Auth: this.props.Auth,
                 Milestone: this.props.Milestone,
                 ProgressReport: this.props.ProgressReport,
                 MilestoneActions: this.props.MilestoneActions,

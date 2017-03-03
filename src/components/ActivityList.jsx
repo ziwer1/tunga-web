@@ -10,6 +10,7 @@ import Attachments from './Attachments';
 import randomstring from 'randomstring';
 
 import { PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT } from '../constants/Api';
+import { isAuthenticated, getUser } from '../utils/auth';
 
 export function scrollList (listId) {
     var activity_list = $(`#list${listId}.activity-list`);
@@ -155,13 +156,13 @@ export default class ActivityList extends React.Component {
             return null;
         }
 
-        const { Auth, last_read } = this.props;
+        const { last_read } = this.props;
         let activity = thread.first;
         let day_format = 'd/MM/YYYY';
         var last_sent_day = '';
         let today = moment.utc().local().format(day_format);
 
-        let is_current_user = (activity.user.id == Auth.user.id) || (!Auth.isAuthenticated && activity.user.inquirer);
+        let is_current_user = (activity.user.id == getUser().id) || (!isAuthenticated() && activity.user.inquirer);
         let display_name = is_current_user?'Me':activity.user.display_name;
 
         let avatar_div = (
@@ -174,7 +175,7 @@ export default class ActivityList extends React.Component {
             <div key={activity.id} id={"activity" + activity.id}
                  className={
                  "media message" +
-                 (last_read != null && activity.user.id != Auth.user.id && last_read < activity.id?' new':'') +
+                 (last_read != null && activity.user.id != getUser().id && last_read < activity.id?' new':'') +
                  (is_current_user?' pull-right clearfix':'')
                  }>
                 {is_current_user?null:avatar_div}

@@ -7,6 +7,7 @@ import TagList from './TagList';
 import Avatar from './Avatar';
 
 import { parse_task_status } from '../utils/tasks';
+import { getUser } from '../utils/auth';
 
 export default class TaskDetail extends React.Component {
 
@@ -21,7 +22,7 @@ export default class TaskDetail extends React.Component {
     }
 
     render() {
-        const { Auth, Task, TaskActions } = this.props;
+        const { Task, TaskActions } = this.props;
         const { task } = Task.detail;
         var task_status = parse_task_status(task);
 
@@ -33,7 +34,7 @@ export default class TaskDetail extends React.Component {
                 <div className="task-page">
                     {task.can_apply?(
                         <Link to={`/work/${task.id}/apply`} className="btn pull-right">Apply for this task</Link>
-                    ):(Auth.user.can_contribute?null:(
+                    ):(getUser().can_contribute?null:(
                             <div style={{marginBottom: '20px'}}>
                                 <div className="alert alert-info">You need to complete your profile before you can apply for tasks</div>
                                 <div>

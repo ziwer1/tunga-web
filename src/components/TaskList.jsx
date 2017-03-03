@@ -79,7 +79,7 @@ export default class TaskList extends React.Component {
                                 const task = Task.list.tasks[id];
                                 return(
                                 <div className="col-sm-6 col-md-4" key={id}>
-                                    <TaskCard Auth={Auth} Task={Task} task={task} TaskActions={TaskActions}/>
+                                    <TaskCard Task={Task} task={task} TaskActions={TaskActions}/>
                                 </div>
                                     );
                                 })}

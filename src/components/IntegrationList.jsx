@@ -4,7 +4,12 @@ import Progress from './status/Progress';
 import FormStatus from './status/FormStatus';
 import ComponentWithModal from './ComponentWithModal';
 
-import { SOCIAL_PROVIDERS, SOCIAL_LOGIN_URLS, INTEGRATION_TYPE_CHOICES, INTEGRATION_TYPE_REPO, INTEGRATION_TYPE_ISSUE, GIT_INTEGRATION_EVENT_CHOICES, CHAT_INTEGRATION_EVENT_CHOICES, INTEGRATION_EVENT_ISSUE_COMMENT } from '../constants/Api';
+import {
+    SOCIAL_PROVIDERS, SOCIAL_LOGIN_URLS, INTEGRATION_TYPE_CHOICES,
+    INTEGRATION_TYPE_REPO, INTEGRATION_TYPE_ISSUE, GIT_INTEGRATION_EVENT_CHOICES,
+    CHAT_INTEGRATION_EVENT_CHOICES, INTEGRATION_EVENT_ISSUE_COMMENT } from '../constants/Api';
+
+import { getAuth } from '../utils/auth';
 
 export default class IntegrationList extends ComponentWithModal {
 
@@ -42,28 +47,19 @@ export default class IntegrationList extends ComponentWithModal {
     }
 
     initializeIntegrationInfo(provider) {
-        const { TaskActions, Task, Auth } = this.props;
+        const { TaskActions, Task } = this.props;
         const { task } =  Task.detail;
 
         TaskActions.retrieveTaskIntegration(task.id, provider);
 
         switch (provider) {
             case SOCIAL_PROVIDERS.github:
-                //if(!Auth.connections.github.repos.ids.length) {
-                    TaskActions.listRepos(SOCIAL_PROVIDERS.github, task.id);
-                //}
-
-                //if(!Auth.connections.github.issues.ids.length) {
-                    TaskActions.listIssues(SOCIAL_PROVIDERS.github, task.id);
-                //}
+                TaskActions.listRepos(SOCIAL_PROVIDERS.github, task.id);
+                TaskActions.listIssues(SOCIAL_PROVIDERS.github, task.id);
                 break;
             case SOCIAL_PROVIDERS.slack:
-                //if(!Auth.connections.slack.details) {
-                    TaskActions.getSlackApp(task.id);
-                //}
-                //if(!Auth.connections.slack.channels.ids.length) {
-                    TaskActions.listSlackChannels(task.id);
-                //}
+                TaskActions.getSlackApp(task.id);
+                TaskActions.listSlackChannels(task.id);
                 break;
             default:
                 break;
@@ -93,7 +89,7 @@ export default class IntegrationList extends ComponentWithModal {
         let id = e.target.value;
         var repo = null;
         if(id) {
-            const { github } = this.props.Auth.connections;
+            const { github } = getAuth().connections;
             repo = github.repos.items[id];
         }
         this.setState({repo, issue: null});
@@ -104,7 +100,7 @@ export default class IntegrationList extends ComponentWithModal {
         var issue = null;
         var repo = null;
         if(id) {
-            const { github } = this.props.Auth.connections;
+            const { github } = getAuth().connections;
             issue = github.issues.items[id];
             repo = issue['repository'];
         }
@@ -125,7 +121,7 @@ export default class IntegrationList extends ComponentWithModal {
 
     onChannelChange(e) {
         let id = e.target.value;
-        const { slack } = this.props.Auth.connections;
+        const { slack } = getAuth().connections;
 
         var channel = null;
         if(id) {
@@ -162,10 +158,10 @@ export default class IntegrationList extends ComponentWithModal {
     }
 
     render() {
-        const { Task, Auth } = this.props;
+        const { Task } = this.props;
         const { task, integrations } =  Task.detail;
         const { integration } =  integrations;
-        const { github, slack } =  Auth.connections;
+        const { github, slack } =  getAuth().connections;
         const provider = this.getProvider();
 
         var event_choices = [];
