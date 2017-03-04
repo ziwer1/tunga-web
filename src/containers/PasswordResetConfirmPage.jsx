@@ -64,7 +64,13 @@ class PasswordResetConfirm extends React.Component {
                     <div><input type="password" className="form-control" ref="new_password2" required placeholder="Confirm New Password"/></div>
                 </div>
 
-                <button type="submit" className="btn pull-right" disabled={Auth.isResetting}>{is_new?'Set':'Change'} Password</button>
+                <div className="clearfix">
+                    <button type="submit"
+                            className="btn pull-right"
+                            disabled={Auth.isResetting}>
+                        {is_new?'Set':'Change'} Password
+                    </button>
+                </div>
             </form>
         );
     }

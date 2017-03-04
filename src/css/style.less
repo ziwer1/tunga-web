@@ -424,10 +424,6 @@ form.steps-all {
     padding: 30px;
 }
 
-form[name='signin'] a {
-    color: @secondary;
-}
-
 form[name='compose'] {
     max-width: 600px;
 }
@@ -2354,11 +2350,10 @@ form[name='compose'] {
         li {
             list-style: none;
             display: inline;
+            margin: 0 2px;
 
             i {
-                font-size: 3em;
-                color: white;
-                margin-right: 5px;
+                .font-size(4);
             }
         }
     }
@@ -2706,7 +2701,7 @@ form[name='compose'] {
             font-weight: 600;
         }
 
-        p {
+        > p {
             .font-size(1.8);
             font-weight: 300;
             line-height: 22px;
@@ -3560,7 +3555,8 @@ form[name='compose'] {
 
         h2 {
             font-weight: 400;
-            margin-bottom: 50px;
+            margin-top: 0;
+            margin-bottom: 20px;
         }
 
         .container {
@@ -3569,13 +3565,12 @@ form[name='compose'] {
 
         form {
             text-align: left;
-            max-width: 320px;
+            max-width: 400px;
             margin: 0 auto 30px;
-
-            a {
-                color: @active-white;
-                text-decoration: underline;
-            }
+            padding: 30px;
+            color: @primary-text;
+            background-color: @active-white;
+            border-radius: 8px;
         }
 
         form[name="signin"], form[name="reset-confirm"] {
@@ -3606,10 +3601,6 @@ form[name='compose'] {
         .email-widget {
             margin: 0 auto;
         }
-    }
-
-    .control-label {
-        color: @secondary-text;
     }
 }
 

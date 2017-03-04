@@ -49,7 +49,13 @@ class PasswordReset extends React.Component {
                     <input type="email" className="form-control" ref="email" required placeholder="Email" />
                 </div>
 
-                <button type="submit" className="btn pull-right" disabled={Auth.isResetting}>Reset Password</button>
+                <div className="clearfix">
+                    <button type="submit"
+                            className="btn pull-right"
+                            disabled={Auth.isResetting}>
+                        Reset Password
+                    </button>
+                </div>
             </form>
         );
     }

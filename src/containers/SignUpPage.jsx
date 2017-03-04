@@ -78,50 +78,51 @@ class SignUp extends React.Component {
         let confirmationKey = this.props.params.confirmationKey;
         var invitationKey = this.props.params.invitationKey;
         let is_applying_developer = confirmationKey?true:false;
-        let is_invited_developer = invitationKey?true:false;
-        let is_developer = is_applying_developer || is_invited_developer;
+        let is_invited_user = invitationKey?true:false;
+        let is_pre_approved = is_applying_developer || is_invited_user;
 
         return (
             <div>
                 <Helmet title="Tunga | Sign Up" />
-                <h2 className="crt-acc-heading">Create your Tunga account as a {is_developer?'developer':'project owner'}</h2>
 
-                {is_developer?null:(
-                    <div>
-                        <p className="crt-acc-signup-txt">Sign up with</p>
-
-                        <SocialSignIn user_type={USER_TYPE_PROJECT_OWNER} action="register"/>
-
-                        <p className="text-center">or</p>
-                    </div>
-                )}
+                <h2 className="crt-acc-heading">Create your Tunga account{is_applying_developer?' as a developer':''}</h2>
 
                 <div className="auth-form-wrapper">
                     {(Auth.isRetrievingApplication && is_applying_developer) ||
-                    (Auth.isRetrievingInvitation && is_invited_developer)?(
+                    (Auth.isRetrievingInvitation && is_invited_user)?(
                         <Progress/>
                     ):(
-                        is_developer && !application.id && !invitation.id?(
+                        is_pre_approved && !application.id && !invitation.id?(
                             <div className="alert alert-danger">Oops! We couldn't find your invite.</div>
                         ):(
                             <form onSubmit={this.handleSubmit.bind(this)} name="signup" role="form" ref="signup_form">
 
+                                {is_pre_approved?null:(
+                                    <div>
+                                        <p className="text-center">Sign up with</p>
+
+                                        <SocialSignIn user_type={USER_TYPE_PROJECT_OWNER} action="register"/>
+
+                                        <p className="text-center">or</p>
+                                    </div>
+                                )}
+
                                 {Auth.isRegistering?(<Progress/>):null}
 
                                 {Auth.isRegistered?
-                                    (<Success message={`Your account has been created successfully. ${is_developer?'':'Please check your e-mail for further instructions.'}`}/>):null}
+                                    (<Success message={`Your account has been created successfully. ${is_pre_approved?'':'Please check your e-mail for further instructions.'}`}/>):null}
 
                                 {Auth.error.register?
                                     (<Error
                                         message={Auth.error.register.non_field_errors || 'Please correct the errors below'}/>):null}
 
-                                {is_developer?(
-                                    <div style={{color: '#fff'}}>
+                                {is_pre_approved?(
+                                    <div>
                                         {is_applying_developer?(
-                                            <p>Name: {application.display_name}</p>
+                                            <p>Name: <strong>{application.display_name}</strong></p>
                                         ):null}
 
-                                        <p>Email: {application.email || invitation.email}</p>
+                                        <p>Email: <strong>{application.email || invitation.email}</strong></p>
                                     </div>
                                 ):null}
 
@@ -150,7 +151,7 @@ class SignUp extends React.Component {
 
                                         {(Auth.error.register && Auth.error.register.email) ?
                                             (<FieldError message={Auth.error.register.email}/>):null}
-                                        {is_invited_developer?null:(
+                                        {is_invited_user?null:(
                                             <div className="form-group">
                                                 <input type="email" className="form-control" id="email" ref="email"
                                                        required placeholder="Email"/>
@@ -174,12 +175,13 @@ class SignUp extends React.Component {
                                            ref="password2" required placeholder="Confirm Password"/>
                                 </div>
 
-                                <div className="form-group text-center">
-                                    <button type="submit" className="btn"
-                                            disabled={Auth.isRegistering}>Sign up
+                                <div className="text-center">
+                                    <button type="submit"
+                                            className="btn"
+                                            disabled={Auth.isRegistering}>
+                                        Sign up
                                     </button>
                                 </div>
-                                <div className="clearfix"></div>
                             </form>
                         )
                     )}

@@ -92,11 +92,12 @@ ReactDOM.render(
                     <Route path="FAQ" component={LandingPage}/>
                     <Route path="signin" component={SignInPage}/>
                     <Route path="signup">
-                        <IndexRoute component={AccountType} />
-                        <Route path="project-owner" component={SignUpPage} />
+                        <IndexRedirect to="/signin"/>
+                        {/*<IndexRoute component={AccountType} />
+                        <Route path="project-owner" component={SignUpPage} />*/}
                         <Route path="invite/:invitationKey" component={SignUpPage} />
                         <Route path="developer">
-                            <IndexRoute component={DeveloperApplication}/>
+                            {/*<IndexRoute component={DeveloperApplication}/>*/}
                             <Route path="invite/:invitationKey" component={SignUpPage} />
                             <Route path=":confirmationKey" component={SignUpPage} />
                         </Route>
