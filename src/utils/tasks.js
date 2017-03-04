@@ -17,7 +17,7 @@ export function parse_task_status(task) {
         task_status.message = `This ${work_type} is closed`;
         task_status.css = 'closed';
     } else if(!task.apply) {
-        task_status.message =  `This ${work_type} is in progress`;
+        task_status.message =  `Applications ${work_type} are closed for this task`;
         task_status.css = 'in-progress';
     }
     return task_status;

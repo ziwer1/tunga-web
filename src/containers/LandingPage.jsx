@@ -19,7 +19,7 @@ let TESTIMONIALS = [
         name: 'Luuk',
         company: 'Blog Society',
         image: require("../images/testimonials/luuk.jpg"),
-        message: " Within a minimum amount of time, we arranged that our platform - customized to the company's needs - could be build within a month. Outsourcing development has never been this easy."
+        message: "Within a minimum amount of time, we arranged that our platform - customized to the company's needs - could be build within a month. Outsourcing development has never been this easy."
     },
     {
         name: 'Angella',
@@ -230,7 +230,13 @@ export default class LandingPage extends ComponentWithModal {
                             {TESTIMONIALS.map(testimonial => {
                                 return (
                                     <div className="testimonial">
-                                        <p className="body" dangerouslySetInnerHTML={{__html: testimonial.message}}/>
+                                        <div className="body">
+                                            <div>
+                                                <i className="fa fa-quote-left pull-left"/>
+                                                <span dangerouslySetInnerHTML={{__html: testimonial.message}}/>
+                                                <i className="fa fa-quote-right pull-right"/>
+                                            </div>
+                                        </div>
                                         <div className="image" style={{backgroundImage: `url(${testimonial.image})`}} />
                                         <div className="author">{testimonial.name}</div>
                                         <div className="company">{testimonial.company}</div>

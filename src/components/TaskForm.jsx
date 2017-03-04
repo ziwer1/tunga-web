@@ -1314,13 +1314,13 @@ export default class TaskForm extends ComponentWithModal {
 
                     <div className="nav text-center">
                         {this.state.step > 1?(
-                            <button type="button" className="btn nav-btn prev-btn pull-left" onClick={this.changeStep.bind(this, false, true)}>
+                            <button type="button" className="btn btn-alt nav-btn prev-btn pull-left" onClick={this.changeStep.bind(this, false, true)}>
                                 <i className="fa fa-chevron-left"/> Previous
                             </button>
                         ):null}
                         {this.state.step < sections.length && (current_section && !current_section.required && !canShowAll)?(
                             <button type="button"
-                                    className="btn nav-btn next-btn pull-right"
+                                    className="btn btn-alt nav-btn next-btn pull-right"
                                     onClick={this.changeStep.bind(this, true)}>
                                 {current_section && this.canSkip(current_section.required, current_section.requires)?'Next':'Skip'} <i className="fa fa-chevron-right"/>
                             </button>

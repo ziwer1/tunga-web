@@ -312,12 +312,16 @@ form {
     box-shadow: none !important;
 }
 
-.btn.btn-alt,
+.btn.btn-alt {
+    color: @primary;
+    background: @active-white none;
+}
+
 .btn.btn-alt:hover,
 .btn.btn-alt:focus,
 .btn.btn-alt:active {
-    color: @primary;
-    background: @active-white none;
+    color: @active-white;
+    background: @primary none;
 }
 
 .btn.btn-grey {
@@ -2470,6 +2474,7 @@ form[name='compose'] {
     .section-title {
         padding: 15px 10px;
         border-bottom: 1px @inactive-grey solid;
+        box-shadow: 0 10px 10px -7px rgba(0, 0, 0, 0.2);
 
         h4 {
             margin: 0;
@@ -2519,6 +2524,7 @@ form[name='compose'] {
         border-top: 1px @inactive-grey solid;
         padding: 20px;
         min-height: 73px;
+        box-shadow: 0 -10px 10px -7px rgba(0, 0, 0, 0.2);;
     }
 }
 
@@ -2548,10 +2554,6 @@ form[name='compose'] {
         }
     }
 
-    .section-title {
-        box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2);
-    }
-
     .status-bar {
 
     }
@@ -2566,7 +2568,8 @@ form[name='compose'] {
     }
 
     .task-form, .task-form.form-wrapper {
-        max-width: 100%;
+        max-width: 750px;
+        margin: 0 auto;
 
         .form {
             max-width: 100%;
@@ -2581,10 +2584,6 @@ form[name='compose'] {
                 min-height: initial;
             }
         }
-    }
-
-    .nav {
-        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
     }
 
     .task-section {
@@ -2787,7 +2786,7 @@ form[name='compose'] {
         }
     }
 
-    .navbar.affix {
+    .navbar.navbar-fixed-top {
         min-height: 50px;
         padding: 0;
         border-width: 0;
@@ -2864,6 +2863,13 @@ form[name='compose'] {
             background: transparent none;
             color: @active-white;
             border: 1px solid @active-grey;
+        }
+
+        .btn:hover,
+        .btn:focus {
+            color: @active-white;
+            background-color: @primary;
+            border-color: @primary;
         }
     }
 
@@ -3043,6 +3049,13 @@ form[name='compose'] {
         padding: 20px;
         border-radius: 5px;
     }
+
+    #latest-from-blog {
+        li {
+            padding: 2px 0;
+        }
+    }
+
 }
 
 .showcase.landing-page {
@@ -3212,16 +3225,25 @@ form[name='compose'] {
                     color: @primary-text;
                     .font-size(1.4);
                     font-weight: 300;
-                    padding: 20px 10px;
+                    padding: 15px 15px;
                     height: 140px;
                     background: @active-white;
                     margin: 4px;
                     border-radius: 5px;
+
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+
+                    [class*='fa-quote'] {
+                        .font-size(1.8);
+                        color: @active-grey;
+                    }
                 }
 
                 .body::after {
                     border: 20px solid transparent;
-                    border-top: 20px solid @active-white;
+                    border-top-color: @active-white;
                     content: '';
                     position: absolute;
                     bottom: -30px;

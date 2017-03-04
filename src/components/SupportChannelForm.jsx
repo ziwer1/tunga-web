@@ -78,9 +78,9 @@ export default class ChannelForm extends React.Component {
                             {(Channel.detail.error.create && Channel.detail.error.create.email)?
                                 (<FieldError message={Channel.detail.error.create.email}/>):null}
                             <div className="form-group">
-                                <label className="control-label">E-mail (optional)</label>
+                                <label className="control-label">E-mail *</label>
                                 <div>
-                                    <input type="email" className="form-control" ref="email" placeholder="E-mail address (optional)"/>
+                                    <input type="email" className="form-control" ref="email" placeholder="E-mail address" required/>
                                 </div>
                             </div>
                         </div>

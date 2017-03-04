@@ -67,7 +67,7 @@ export default class UserList extends React.Component {
                             <h2 className="pull-left">People</h2>
                         </div>
                         <div className="nav-top-filter">
-                            <Link to="/people/filter/developers" activeClassName="active">Coders</Link>
+                            <Link to="/people/filter/developers" activeClassName="active">Developers</Link>
                             {isAuthenticated() ? (
                                 [
                                     isAdmin() ? (
@@ -112,8 +112,10 @@ export default class UserList extends React.Component {
                                 );
                             })}
                         </div>
-                        <LoadMore url={User.list.next} callback={UserActions.listMoreUsers}
-                                  loading={User.list.isFetchingMore}/>
+                        {all_users.length < max?(
+                            <LoadMore url={User.list.next} callback={UserActions.listMoreUsers}
+                                      loading={User.list.isFetchingMore}/>
+                        ):null}
                         {User.list.ids.length ? null : (
                             <div className="alert alert-info">No users match your query</div>
                         )}

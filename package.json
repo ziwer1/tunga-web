@@ -26,6 +26,7 @@
     "react-dom": "^15.1.0",
     "react-dropzone": "^3.5.0",
     "react-helmet": "^3.1.0",
+    "react-overlays": "^0.6.11",
     "react-rating": "^0.6.3",
     "react-redux": "^5.0.1",
     "react-router": "^3.0.0",
