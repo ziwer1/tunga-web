@@ -70,7 +70,7 @@ class ShowCaseFooter extends React.Component {
                     </div>
                 </div>
                 <div className="row text-center">
-                    <p><a href="#">Privacy Policy</a> &nbsp; | &nbsp; <a href="#">Terms and Conditions</a></p>
+                    <p><a href="/privacy" target="_blank">Privacy Policy</a> &nbsp; | &nbsp; <a href="/agreement" target="_blank">Terms and Conditions</a> &nbsp; | &nbsp; <a href="/code-of-conduct" target="_blank">Code of Conduct</a></p>
                     <small>&copy; {moment().format('YYYY')} Tunga.io &mdash; All rights reserved.</small>
                 </div>
             </footer>

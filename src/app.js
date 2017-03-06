@@ -77,6 +77,9 @@ import SupportSectionList from 'components/SupportSectionList';
 import SupportPageDetail from 'components/SupportPageDetail';
 import SearchPage from 'containers/SearchPage';
 import SupportPageList from 'components/SupportPageList';
+import Agreement from 'components/Agreement';
+import PrivacyPolicy from 'components/PrivacyPolicy';
+import CodeOfConduct from 'components/CodeOfConduct';
 
 ReactDOM.render(
     <Provider store={store}>
@@ -90,6 +93,10 @@ ReactDOM.render(
                     <Route path="pricing" component={PricingPage}/>
                     <Route path="press" component={LandingPage}/>
                     <Route path="FAQ" component={LandingPage}/>
+                    <Route path="press" component={LandingPage}/>
+                    <Route path="agreement" component={Agreement}/>
+                    <Route path="privacy" component={PrivacyPolicy}/>
+                    <Route path="code-of-conduct" component={CodeOfConduct}/>
                     <Route path="signin" component={SignInPage}/>
                     <Route path="signup">
                         <IndexRedirect to="/signin"/>
