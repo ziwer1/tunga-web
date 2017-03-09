@@ -34,18 +34,21 @@ import SignUpPage from 'containers/SignUpPage';
 import DeveloperApplication from 'containers/DeveloperApplication';
 import PasswordResetPage from 'containers/PasswordResetPage';
 import PasswordResetConfirmPage from 'containers/PasswordResetConfirmPage';
+import Agreement from 'components/Agreement';
+import PrivacyPolicy from 'components/PrivacyPolicy';
+import CodeOfConduct from 'components/CodeOfConduct';
 import SettingsPage from 'containers/SettingsPage';
 import ProjectBoard from 'components/ProjectBoard';
 import ProjectTaskForm from 'components/ProjectTaskForm';
-import TaskPage from 'containers/TaskPage';
+import TaskContainer from 'containers/TaskContainer';
 import TaskList from 'components/TaskList';
 import TaskForm from 'components/TaskForm';
 import EditTaskSectionForm from 'components/EditTaskSectionForm';
-import Task from 'components/Task';
+import TaskDetailContainer from 'containers/TaskDetailContainer';
 import ApplicationForm from 'components/ApplicationForm';
 import TaskWorflow from 'components/TaskWorflow';
 import ApplicationList from 'components/ApplicationList';
-import MilestonePage from 'containers/MilestonePage';
+import MilestoneContainer from 'containers/MilestoneContainer';
 import Milestone from 'components/Milestone';
 import MilestoneList from 'components/MilestoneList';
 import IntegrationList from 'components/IntegrationList';
@@ -77,9 +80,15 @@ import SupportSectionList from 'components/SupportSectionList';
 import SupportPageDetail from 'components/SupportPageDetail';
 import SearchPage from 'containers/SearchPage';
 import SupportPageList from 'components/SupportPageList';
-import Agreement from 'components/Agreement';
-import PrivacyPolicy from 'components/PrivacyPolicy';
-import CodeOfConduct from 'components/CodeOfConduct';
+import EstimateContainer from 'containers/EstimateContainer';
+import EstimateDetailContainer from 'containers/EstimateDetailContainer';
+import EstimateForm from 'components/EstimateForm';
+import EstimateDetail from 'components/EstimateDetail';
+import QuoteContainer from 'containers/QuoteContainer';
+import QuoteDetailContainer from 'containers/QuoteDetailContainer';
+import QuoteForm from 'components/QuoteForm';
+import QuoteDetail from 'components/QuoteDetail';
+
 
 ReactDOM.render(
     <Provider store={store}>
@@ -135,18 +144,35 @@ ReactDOM.render(
                             <Redirect path="*" to="personal" />
                         </Route>
                         <Route path="settings" component={SettingsPage} />
-                        <Route path="work" component={TaskPage}>
+                        <Route path="work" component={TaskContainer}>
                             <IndexRoute component={TaskList}/>
                             <Route path="new" component={TaskForm} />
                             <Route path="filter/:filter" component={TaskList} />
                             <Route path="skill/:skill(/:filter)" component={TaskList} />
-                            <Route path=":taskId" component={Task}>
+                            <Route path=":taskId" component={TaskDetailContainer}>
                                 <IndexRoute component={TaskWorflow} />
                                 <Route path="edit" crumb="Edit">
                                     <IndexRoute component={TaskForm} />
                                     <Route path=":editSection" component={EditTaskSectionForm} />
                                 </Route>
                                 <Route path="apply" component={ApplicationForm} crumb="Apply"/>
+                                <Route path="estimate" component={EstimateContainer} crumb="Estimate">
+                                    <IndexRedirect to="new"/>
+                                    <Route path="new" component={EstimateForm}/>
+                                    <Route path=":estimateId" component={EstimateDetailContainer}>
+                                        <IndexRoute component={EstimateDetail}/>
+                                        <Route path="edit" component={EstimateForm}/>
+                                    </Route>
+                                </Route>
+                                <Route path="quote" component={QuoteContainer} crumb="Quote">
+                                    <IndexRedirect to="new"/>
+                                    <Route path="new" component={QuoteForm}/>
+                                    <Route path=":quoteId" component={QuoteDetailContainer}>
+                                        <IndexRoute component={QuoteDetail}/>
+                                        <Route path="edit" component={QuoteForm}/>
+                                    </Route>
+                                </Route>
+                                <Route path="quote" component={EstimateForm} crumb="Quote"/>
                                 <Route path="applications" component={ApplicationList} crumb="Applications"/>
                                 <Route path="board" component={ProjectBoard} crumb="Project Board"/>
                                 <Route path="task/new" component={ProjectTaskForm} crumb="Add task"/>
@@ -157,7 +183,7 @@ ReactDOM.render(
                                 <Route path="pay" component={TaskPay} crumb="Pay"/>
                                 <Route path="participation" component={Participation} crumb="Participation shares"/>
                                 <Route path="rate" component={RateDevelopers} crumb="Rate Developers"/>
-                                <Route path="event" component={MilestonePage}>
+                                <Route path="event" component={MilestoneContainer}>
                                     <Route path=":eventId" component={Milestone}/>
                                 </Route>
                             </Route>
@@ -176,7 +202,7 @@ ReactDOM.render(
                         </Route>
                         <Redirect path="message*" to="channel"/>
                         <Redirect path="channel*" to="conversation*"/>
-                        <Route path="payments" component={TaskPage}>
+                        <Route path="payments" component={TaskContainer}>
                             <IndexRoute component={PaymentList}/>
                             <Route path=":filter" component={PaymentList}/>
                         </Route>
@@ -186,7 +212,7 @@ ReactDOM.render(
                             </Route>
                         </Route>
                         <Route path="dashboard">
-                            <Route path="updates" component={MilestonePage}>
+                            <Route path="updates" component={MilestoneContainer}>
                                 <IndexRoute component={MilestoneList}/>
                                 <Route path="filter/:filter" component={MilestoneList} />
                             </Route>

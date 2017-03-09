@@ -1,16 +1,16 @@
 import React from 'react';
 import Helmet from 'react-helmet';
 
-import BreadCrumb from '../containers/BreadCrumb';
-import TaskDetail from './TaskDetail';
-import Progress from './status/Progress';
-import Success from './status/Success';
+import BreadCrumb from './BreadCrumb';
+import TaskDetail from '../components/TaskDetail';
+import Progress from '../components/status/Progress';
+import Success from '../components/status/Success';
 
 import { getRouteCrumb } from '../utils/router';
 import { render_excerpt } from '../utils/html';
-import { isAdmin, isDeveloper, getUser } from '../utils/auth';
+import { isAdmin, isDeveloper, isProjectManager, getUser } from '../utils/auth';
 
-export default class Task extends React.Component {
+export default class TaskDetailContainer extends React.Component {
 
     componentDidMount() {
         this.props.TaskActions.retrieveTask(this.props.params.taskId);
@@ -57,9 +57,9 @@ export default class Task extends React.Component {
 
         if(task) {
             if(task.parent) {
-                crumb_parents.push({name: task.details.parent.title, link: `/work/${task.parent}?nr=true`});
+                crumb_parents.push({name: task.details.parent.summary, link: `/work/${task.parent}?nr=true`});
             }
-            crumb_parents.push({name: task.title, link: `/work/${task.id}?nr=true`});
+            crumb_parents.push({name: task.summary, link: `/work/${task.id}?nr=true`});
         }
 
         return (
@@ -82,7 +82,10 @@ export default class Task extends React.Component {
                     <Success message="Application sent successfully"/>
                 ):null}
 
-                {task.user.id == getUser().id || task.is_admin || task.is_participant || isAdmin() || (lastRoute && lastRoute.path == 'apply' && task.can_apply)?(
+                {task.user.id == getUser().id ||
+                task.is_admin || task.is_participant ||
+                (task.pm && task.pm.id == getUser().id) ||
+                isAdmin() || (lastRoute && lastRoute.path == 'apply' && task.can_apply)?(
                 <div>
                     <BreadCrumb
                         section={getRouteCrumb(routes)}
@@ -101,6 +104,6 @@ export default class Task extends React.Component {
     }
 }
 
-Task.contextTypes = {
+TaskDetail.contextTypes = {
     router: React.PropTypes.object.isRequired
 };

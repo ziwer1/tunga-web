@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import Progress from './status/Progress';
 import ComponentWithModal from './ComponentWithModal';
-import TaskPage from '../containers/TaskPage';
+import TaskContainer from '../containers/TaskContainer';
 import TaskList from './TaskList';
 
 import { isAdmin, getUser } from '../utils/auth';
@@ -25,9 +25,9 @@ export default class ProjectBoard extends ComponentWithModal {
                     <Link to={`/work/${task.id}/task/new`} className="btn">Add task</Link>
 
                     <div style={{marginTop: '10px'}}>
-                        <TaskPage>
+                        <TaskContainer>
                             <TaskList project={task} hide_header={true} filters={{parent: task.id}}></TaskList>
-                        </TaskPage>
+                        </TaskContainer>
                     </div>
                 </div>
                     ):null}

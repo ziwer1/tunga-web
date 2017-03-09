@@ -7,9 +7,11 @@ import * as ApplicationActions from '../../actions/ApplicationActions';
 import * as SavedTaskActions from '../../actions/SavedTaskActions';
 import * as CommentActions from '../../actions/CommentActions';
 import { clearValidations } from '../../actions/UtilityActions';
+import * as EstimateActions from '../../actions/EstimateActions';
+import * as QuoteActions from '../../actions/QuoteActions';
 
 function mapStateToProps(state) {
-    return {Auth: state.Auth, Task: state.Task};
+    return {Auth: state.Auth, Task: state.Task, Estimate: state.Estimate, Quote: state.Quote};
 }
 
 function mapDispatchToProps(dispatch) {
@@ -27,7 +29,9 @@ function mapDispatchToProps(dispatch) {
             ...bindActionCreators(ApplicationActions, dispatch),
             ...bindActionCreators(SavedTaskActions, dispatch),
             ...bindActionCreators(CommentActions, dispatch)
-        }
+        },
+        EstimateActions: bindActionCreators(EstimateActions, dispatch),
+        QuoteActions: bindActionCreators(QuoteActions, dispatch)
     }
 }
 

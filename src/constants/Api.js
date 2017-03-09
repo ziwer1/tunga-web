@@ -80,9 +80,10 @@ export const ENDPOINT_COMMENT = getEndpointUrl('comment/');
 export const ENDPOINT_CHANNEL = getEndpointUrl('channel/');
 export const ENDPOINT_DIRECT_CHANNEL = getEndpointUrl('channel/direct/');
 export const ENDPOINT_MESSAGE = getEndpointUrl('message/');
-export const ENDPOINT_REPLY = getEndpointUrl('reply/');
 export const ENDPOINT_CONNECTION = getEndpointUrl('connection/');
 export const ENDPOINT_APPLICATION = getEndpointUrl('application/');
+export const ENDPOINT_ESTIMATE = getEndpointUrl('estimate/');
+export const ENDPOINT_QUOTE = getEndpointUrl('quote/');
 export const ENDPOINT_SAVED_TASK = getEndpointUrl('saved-task/');
 export const ENDPOINT_MILESTONE = getEndpointUrl('progress-event/');
 export const ENDPOINT_PROGRESS_REPORT = getEndpointUrl('progress-report/');
@@ -102,6 +103,8 @@ export const USER_TYPE_CHOICES = [
     {id: USER_TYPE_PROJECT_MANAGER, name: 'Project Manager'}
 ];
 
+export const DEVELOPER_FEE = 19.5;
+
 export const PAYMENT_METHOD_BTC_WALLET = 'btc_wallet';
 export const PAYMENT_METHOD_BTC_ADDRESS = 'btc_address';
 export const PAYMENT_METHOD_MOBILE_MONEY = 'mobile_money';
@@ -111,6 +114,18 @@ export const PAYMENT_METHOD_CHOICES = [
     {id: PAYMENT_METHOD_MOBILE_MONEY, name: 'Mobile Money'},
     {id: PAYMENT_METHOD_BTC_ADDRESS, name: 'Bitcoin Address'},
 ];
+
+export const STATUS_INITIAL = 'initial';
+export const STATUS_PENDING = 'pending';
+export const STATUS_INITIATED = 'initiated';
+export const STATUS_SUBMITTED = 'submitted';
+export const STATUS_PROCESSING = 'processing';
+export const STATUS_COMPLETED = 'completed';
+export const STATUS_FAILED = 'failed';
+export const STATUS_ACCEPTED = 'accepted';
+export const STATUS_REJECTED = 'rejected';
+export const STATUS_APPROVED = 'approved';
+export const STATUS_DECLINED = 'declined';
 
 export const BTC_WALLET_PROVIDER_COINBASE = 'coinbase';
 
@@ -180,8 +195,8 @@ export const TASK_CODERS_NEEDED_ONE = 1;
 export const TASK_CODERS_NEEDED_MULTIPLE = -1;
 
 export const TASK_CODERS_NEEDED_CHOICES = [
-    {id: TASK_CODERS_NEEDED_ONE, name: 'I need one coder for this task'},
-    {id: TASK_CODERS_NEEDED_MULTIPLE, name: 'I need more than one coder for this task'}
+    {id: TASK_CODERS_NEEDED_ONE, name: `I need one coder`},
+    {id: TASK_CODERS_NEEDED_MULTIPLE, name: 'I need more than one coder'}
 ];
 
 export const VISIBILITY_DEVELOPERS = 1;

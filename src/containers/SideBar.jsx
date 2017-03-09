@@ -19,7 +19,7 @@ class SideBar extends React.Component {
         $(window).resize(resizeSideBar);
         if(isAuthenticated()) {
             this.props.NotificationActions.getNotifications();
-            setInterval(this.props.NotificationActions.getNotifications, 15000);
+            //setInterval(this.props.NotificationActions.getNotifications, 15000);
         }
 
         const { SupportActions } = this.props;
@@ -54,7 +54,7 @@ class SideBar extends React.Component {
                         </li>
                         <li>
                             <Link to="/work" activeClassName={/\/work\/new\/?/.test(this.props.location.pathname)?"":"active"}>
-                                <i className="menu-icon tunga-icon-search"/> <span>Find a task</span>
+                                <i className="menu-icon tunga-icon-search"/> <span>Find work</span>
                             </Link>
                         </li>
                         {isProjectOwner() || isAdmin()?(

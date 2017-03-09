@@ -1,7 +1,7 @@
 import React from 'react';
 import connect from '../utils/connectors/MilestoneConnector';
 
-class MilestonePage extends React.Component {
+class MilestoneContainer extends React.Component {
 
     renderChildren() {
         return React.Children.map(this.props.children, function (child) {
@@ -23,4 +23,4 @@ class MilestonePage extends React.Component {
     }
 }
 
-export default connect(MilestonePage);
+export default connect(MilestoneContainer);

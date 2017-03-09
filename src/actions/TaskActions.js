@@ -46,6 +46,12 @@ export const CREATE_TASK_INVOICE_FAILED = 'CREATE_TASK_INVOICE_FAILED';
 export const RETRIEVE_TASK_INVOICE_START = 'RETRIEVE_TASK_INVOICE_START';
 export const RETRIEVE_TASK_INVOICE_SUCCESS = 'RETRIEVE_TASK_INVOICE_SUCCESS';
 export const RETRIEVE_TASK_INVOICE_FAILED = 'RETRIEVE_TASK_INVOICE_FAILED';
+export const UPDATE_TASK_CLAIM_START = 'UPDATE_TASK_CLAIM_START';
+export const UPDATE_TASK_CLAIM_SUCCESS = 'UPDATE_TASK_CLAIM_SUCCESS';
+export const UPDATE_TASK_CLAIM_FAILED = 'UPDATE_TASK_CLAIM_FAILED';
+export const UPDATE_TASK_RETURN_START = 'UPDATE_TASK_RETURN_START';
+export const UPDATE_TASK_RETURN_SUCCESS = 'UPDATE_TASK_RETURN_SUCCESS';
+export const UPDATE_TASK_RETURN_FAILED = 'UPDATE_TASK_RETURN_FAILED';
 
 
 export function createTask(task, attachments) {
@@ -586,6 +592,72 @@ export function retrieveTaskInvoiceSuccess(response) {
 export function retrieveTaskInvoiceFailed(error) {
     return {
         type: RETRIEVE_TASK_INVOICE_FAILED,
+        error
+    }
+}
+
+export function claimTask(id, data) {
+    return dispatch => {
+        dispatch(claimTaskStart(id));
+        axios.post(ENDPOINT_TASK + id + '/claim/', data)
+            .then(function(response) {
+                dispatch(claimTaskSuccess(response.data));
+            }).catch(function(error) {
+            dispatch(claimTaskFailed(error.response?error.response.data:null));
+        });
+    }
+}
+
+export function claimTaskStart(id) {
+    return {
+        type: UPDATE_TASK_CLAIM_START,
+        id
+    }
+}
+
+export function claimTaskSuccess(response) {
+    return {
+        type: UPDATE_TASK_CLAIM_SUCCESS,
+        task: response
+    }
+}
+
+export function claimTaskFailed(error) {
+    return {
+        type: UPDATE_TASK_CLAIM_FAILED,
+        error
+    }
+}
+
+export function returnTask(id, data) {
+    return dispatch => {
+        dispatch(returnTaskStart(id));
+        axios.post(ENDPOINT_TASK + id + '/return/', data)
+            .then(function(response) {
+                dispatch(returnTaskSuccess(response.data));
+            }).catch(function(error) {
+            dispatch(returnTaskFailed(error.response?error.response.data:null));
+        });
+    }
+}
+
+export function returnTaskStart(id) {
+    return {
+        type: UPDATE_TASK_RETURN_START,
+        id
+    }
+}
+
+export function returnTaskSuccess(response) {
+    return {
+        type: UPDATE_TASK_RETURN_SUCCESS,
+        task: response
+    }
+}
+
+export function returnTaskFailed(error) {
+    return {
+        type: UPDATE_TASK_RETURN_FAILED,
         error
     }
 }

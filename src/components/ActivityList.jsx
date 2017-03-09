@@ -9,7 +9,7 @@ import Avatar from './Avatar';
 import Attachments from './Attachments';
 import randomstring from 'randomstring';
 
-import { PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT } from '../constants/Api';
+import { PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT, DEVELOPER_FEE } from '../constants/Api';
 import { isAuthenticated, getUser } from '../utils/auth';
 
 export function scrollList (listId) {
@@ -96,6 +96,66 @@ export default class ActivityList extends React.Component {
                                 {object.title || (<span><i className="fa fa-flag-o"/> Scheduled an update</span>)}
                             </Link>
                             <div>Due: {moment.utc(object.due_at).local().format('Do, MMMM YYYY')}</div>
+                        </div>
+                    );
+                } else if(activity_type == 'estimate') {
+                    creator = object.user;
+                    created_at = object.created_at;
+
+                    function getTotalHours() {
+                        if(!object.activities || !object.activities.length) {
+                            return 0;
+                        }
+                        return object.activities.map(function (activity) {
+                            return activity.hours;
+                        }).reduce((a,b) => {
+                            return parseInt(a)+parseInt(b);
+                        });
+                    }
+                    object.total_hours = getTotalHours();
+
+                    body = (
+                        <div>
+                            <Link to={`/work/${object.task}/estimate/${object.id}/`}>
+                                <i className="fa fa-file"/> Created an estimate
+                            </Link>
+                            <div>Development Hours: {object.total_hours} hours</div>
+                            <div>Estimated Cost: €{DEVELOPER_FEE*object.total_hours} hours</div>
+                            <div>
+                                <Link to={`/work/${object.task}/estimate/${object.id}/`}>
+                                    View details
+                                </Link>
+                            </div>
+                        </div>
+                    );
+                } else if(activity_type == 'quote') {
+                    creator = object.user;
+                    created_at = object.created_at;
+
+                    function getTotalHours() {
+                        if(!object.activities || !object.activities.length) {
+                            return 0;
+                        }
+                        return object.activities.map(function (activity) {
+                            return activity.hours;
+                        }).reduce((a,b) => {
+                            return parseInt(a)+parseInt(b);
+                        });
+                    }
+                    object.total_hours = getTotalHours();
+
+                    body = (
+                        <div>
+                            <Link to={`/work/${object.task}/quote/${object.id}/`}>
+                                <i className="fa fa-file"/> Created a qoute
+                            </Link>
+                            <div>Development Hours: {object.total_hours} hours</div>
+                            <div>Estimated Cost: €{DEVELOPER_FEE*object.total_hours} hours</div>
+                            <div>
+                                <Link to={`/work/${object.task}/quote/${object.id}/`}>
+                                    View details
+                                </Link>
+                            </div>
                         </div>
                     );
                 }

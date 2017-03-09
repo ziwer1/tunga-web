@@ -3,10 +3,8 @@ import React from 'react';
 import UserPage from '../containers/UserPage';
 import UserList from '../components/UserList';
 
-import TaskPage from '../containers/TaskPage';
+import TaskContainer from '../containers/TaskContainer';
 import TaskForm from '../components/TaskForm';
-
-import { USER_TYPE_DEVELOPER } from '../constants/Api';
 
 import createModal from '../components/Modal';
 
@@ -30,9 +28,9 @@ export function openTaskWizard() {
                 <div className="title-bar">
                     <h2 className="title text-center">Hire top African coders!</h2>
                 </div>
-                <TaskPage>
+                <TaskContainer>
                     <TaskForm/>
-                </TaskPage>
+                </TaskContainer>
             </div>
             <div className="dev-section">
                 <h3 className="text-center">Our developers</h3>

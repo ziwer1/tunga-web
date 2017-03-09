@@ -10,6 +10,8 @@ import User from './UserReducers';
 import Comment from './CommentReducers';
 import Channel from './ChannelReducers';
 import Message from './MessageReducers';
+import Estimate from './EstimateReducers';
+import Quote from './QuoteReducers';
 import Milestone from './MilestoneReducers';
 import ProgressReport from './ProgressReportReducers';
 import UserSelection from './UserSelectionReducers';
@@ -36,6 +38,8 @@ const TungaApp = combineReducers({
     Comment,
     Channel,
     Message,
+    Estimate,
+    Quote,
     Milestone,
     ProgressReport,
     UserSelection,

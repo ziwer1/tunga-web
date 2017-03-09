@@ -6,6 +6,8 @@ import * as SavedTaskActions from '../actions/SavedTaskActions';
 import { PATH_CHANGE } from '../actions/NavActions';
 import { LOGOUT_SUCCESS, LIST_RUNNING_TASKS_SUCCESS } from '../actions/AuthActions';
 import { CLEAR_VALIDATIONS } from '../actions/UtilityActions';
+import * as EstimateActions from '../actions/EstimateActions';
+import * as QuoteActions from '../actions/QuoteActions';
 import { getIds } from '../utils/reducers';
 
 import Application from './ApplicationReducers';
@@ -17,9 +19,17 @@ function task(state = {}, action) {
     switch (action.type) {
         case TaskActions.CREATE_TASK_SUCCESS:
         case TaskActions.RETRIEVE_TASK_SUCCESS:
+        case TaskActions.UPDATE_TASK_CLAIM_SUCCESS:
+        case TaskActions.UPDATE_TASK_RETURN_SUCCESS:
             return action.task;
         case TaskActions.UPDATE_TASK_SUCCESS:
             return {...state, ...action.task};
+        case EstimateActions.CREATE_ESTIMATE_SUCCESS:
+        case EstimateActions.UPDATE_ESTIMATE_SUCCESS:
+            return {...state, estimate: {...state.estimate, status: action.estimate.status}};
+        case QuoteActions.CREATE_QUOTE_SUCCESS:
+        case QuoteActions.UPDATE_QUOTE_SUCCESS:
+            return {...state, estimate: {...state.quote, status: action.quote.status}};
         case TaskActions.DELETE_TASK_SUCCESS:
         //case TaskActions.CREATE_TASK_START:
         //case TaskActions.CREATE_TASK_FAILED:
@@ -80,6 +90,12 @@ function tasks(state = {}, action) {
         case TaskActions.LIST_TASKS_START:
         case TaskActions.LIST_TASKS_FAILED:
             return {};
+        case TaskActions.UPDATE_TASK_SUCCESS:
+        case TaskActions.UPDATE_TASK_CLAIM_SUCCESS:
+        case TaskActions.UPDATE_TASK_RETURN_SUCCESS:
+            var new_task = {};
+            new_task[action.task.id] = action.task;
+            return {...state, ...new_task};
         case ApplicationActions.CREATE_APPLICATION_SUCCESS:
             var task = state[action.application.task];
             if(task) {

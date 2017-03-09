@@ -1,7 +1,7 @@
 import React from 'react';
 import connect from '../utils/connectors/TaskConnector';
 
-class TaskPage extends React.Component {
+class TaskContainer extends React.Component {
 
     renderChildren() {
         return React.Children.map(this.props.children, function (child) {
@@ -21,4 +21,4 @@ class TaskPage extends React.Component {
     }
 }
 
-export default connect(TaskPage);
+export default connect(TaskContainer);
