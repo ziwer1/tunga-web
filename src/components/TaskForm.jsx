@@ -299,8 +299,12 @@ export default class TaskForm extends ComponentWithModal {
         var new_state = {};
         new_state[key] = value;
         if(key == 'scope') {
-            new_state['is_project'] = (value == TASK_SCOPE_PROJECT);
+            new_state.is_project = (value == TASK_SCOPE_PROJECT);
         }
+        if(key == 'type') {
+            new_state.skills = Array.from(new Set([...this.state.skills, ...suggestTaskTypeSkills(value)['selected']]));
+        }
+
         this.setState(new_state);
         if(['type', 'scope', 'is_project', 'has_requirements', 'pm_required'].indexOf(key) > -1) {
             this.changeStep();
@@ -653,7 +657,7 @@ export default class TaskForm extends ComponentWithModal {
                     {isAuthenticated() || canShowAll?(<label className="control-label">Tag skills or products that are relevant to this {work_type} {isAuthenticated()?'*':''}</label>):null}
                     <SkillSelector filter={{filter: null}}
                                    onChange={this.onSkillChange.bind(this)}
-                                   skills={task.id || (this.state.skills && this.state.skills.length)?this.state.skills:suggestTaskTypeSkills(this.state.type)['selected']}
+                                   skills={task.id || (this.state.skills && this.state.skills.length)?this.state.skills:[]}
                                    suggested={suggestTaskTypeSkills(this.state.type)['suggested']} />
                 </div>
             </div>
