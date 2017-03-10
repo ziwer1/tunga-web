@@ -108,7 +108,7 @@ export default class TaskCard extends ComponentWithModal {
                         </div>
                             ):null}
 
-                        {isProjectManager() || isAdmin()?(
+                        {isProjectManager() || isAdmin() && !task.is_developer_ready?(
                             <div className="row">
                                 <div className="col-sm-12">
                                     {task.can_claim?(
