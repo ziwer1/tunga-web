@@ -147,32 +147,31 @@ export default class TaskForm extends ComponentWithModal {
         var suffix = '';
         if(complete) {
             suffix = '/complete'
-        } else {
-            if(this.state.step > 1) {
-                suffix = '/step/' + this.state.step;
-            }
+        }
+        if(this.state.step > 1) {
+            suffix = '/step/' + this.state.step + suffix;
+        }
 
-            if(this.state.has_more_info && this.canShowFork('has_more_info')) {
-                suffix = '/more-info/' + (this.state.has_more_info?'yes':'no') + suffix;
-            }
+        if(this.state.has_more_info && this.canShowFork('has_more_info')) {
+            suffix = '/more-info/' + (this.state.has_more_info?'yes':'no') + suffix;
+        }
 
-            if(typeof this.state.contact_required == 'boolean' && this.canShowFork('contact_required')) {
-                suffix = '/talk/' + (this.state.contact_required?'yes':'no') + suffix;
-            }
+        if(typeof this.state.contact_required == 'boolean' && this.canShowFork('contact_required')) {
+            suffix = '/talk/' + (this.state.contact_required?'yes':'no') + suffix;
+        }
 
-            if(typeof this.state.pm_required == 'boolean' && this.canShowFork('pm_required')) {
-                suffix = '/pm/' + (this.state.pm_required?'yes':'no') + suffix;
-            }
+        if(typeof this.state.pm_required == 'boolean' && this.canShowFork('pm_required')) {
+            suffix = '/pm/' + (this.state.pm_required?'yes':'no') + suffix;
+        }
 
-            const scope_url = getScopeUrl(this.state.scope);
-            if(scope_url && this.canShowFork('scope')) {
-                suffix = '/scope/' + scope_url + suffix;
-            }
+        const scope_url = getScopeUrl(this.state.scope);
+        if(scope_url && this.canShowFork('scope')) {
+            suffix = '/scope/' + scope_url + suffix;
+        }
 
-            const type_url = getTaskTypeUrl(this.state.type);
-            if(type_url && this.canShowFork('type')) {
-                suffix = '/type/' + type_url + suffix;
-            }
+        const type_url = getTaskTypeUrl(this.state.type);
+        if(type_url && this.canShowFork('type')) {
+            suffix = '/type/' + type_url + suffix;
         }
         return window.location.protocol + (window.location.port?window.location.port:'') + '//' + window.location.hostname + (isAuthenticated()?'/work/new':'/start') + suffix;
     }
@@ -1359,7 +1358,7 @@ TaskForm.propTypes = {
 };
 
 TaskForm.defaultProps = {
-    task: {},
+    task: null,
     project: null,
     enabledWidgets: []
 };
