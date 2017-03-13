@@ -179,7 +179,7 @@ export default class Agreement extends React.Component {
 
                 <p>5.11 All disputes arising from the use of the Tunga Account and the Services and/or from other agreements for the execution thereof, shall be judged by the competent authorised court having jurisdiction in the district or subdistrict where Tunga has its registered office, with the explicit exclusion of every other court.</p>
 
-                <p>5.12 All legal notices should be sent via e-mail to admin@tunga.io. Also, if you have any questions about this User Agreement or if you wish to report breaches of this User Agreement, please contact us by e-mail us to this e-mail address.</p>
+                <p>5.12 All legal notices should be sent via e-mail to <a href="mailto:admin@tunga.com">admin@tunga.com</a>. Also, if you have any questions about this User Agreement or if you wish to report breaches of this User Agreement, please contact us by e-mail us to this e-mail address.</p>
             </div>
         );
     }
