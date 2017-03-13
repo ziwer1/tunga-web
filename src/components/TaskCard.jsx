@@ -59,7 +59,7 @@ export default class TaskCard extends ComponentWithModal {
                 <div className="top">
                     <div className="clearfix">
                         <div className="task-status pull-right" title={task_status.message}><i className={"fa fa-circle " + task_status.css}/></div>
-                        <h3 className="title pull-left"><Link to={`/work/${task.id}/`}>{task.title}</Link></h3>
+                        <h3 className="title pull-left"><Link to={`/work/${task.id}/`}>{task.summary}</Link></h3>
                     </div>
                     <div className="pledge text-center">
                         {split_fee?(
@@ -68,7 +68,7 @@ export default class TaskCard extends ComponentWithModal {
                                 <span className="decimal" style={{fontSize: '50%'}}>{split_fee.decimal}</span>
                             </div>
                         ):(
-                            <span>No pledge</span>
+                            <span>&nbsp;</span>
                         )}
                     </div>
                     <div className="media">

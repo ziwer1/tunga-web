@@ -9,8 +9,9 @@ import Avatar from './Avatar';
 import Attachments from './Attachments';
 import randomstring from 'randomstring';
 
-import { PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT, DEVELOPER_FEE } from '../constants/Api';
+import { PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT } from '../constants/Api';
 import { isAuthenticated, getUser } from '../utils/auth';
+import {getPayDetails} from '../utils/tasks';
 
 export function scrollList (listId) {
     var activity_list = $(`#list${listId}.activity-list`);
@@ -44,9 +45,9 @@ export default class ActivityList extends React.Component {
         var uploads = null;
         var more = null;
 
-        switch (item.action) {
-            case 'send':
-                if(activity_type == 'message') {
+        switch (activity_type) {
+            case 'message':
+                if(item.action == 'send') {
                     creator = object.sender || object.user;
                     created_at = object.created_at;
                     body = (<div dangerouslySetInnerHTML={{__html: object.html_body || object.body}}/>);
@@ -64,8 +65,8 @@ export default class ActivityList extends React.Component {
                 created_at = object.created_at;
                 uploads = [object];
                 break;
-            case 'add':
-                if(activity_type == 'participation') {
+            case 'participation':
+                if(item.action == 'add') {
                     creator = object.created_by;
                     created_at = object.created_at;
                     let participant = object.details.user;
@@ -78,8 +79,73 @@ export default class ActivityList extends React.Component {
                     );
                 }
                 break;
-            case 'create':
-                if(activity_type == 'progress_event') {
+            case 'estimate':
+            case 'quote':
+                if(['create', 'submit', 'approve', 'decline', 'accept', 'reject'].indexOf(item.action) > -1) {
+                    creator = object.user;
+
+                    let verb_map = {
+                        create: 'Created',
+                        submit: 'Submitted',
+                        approve: 'Approved',
+                        decline: 'Declined',
+                        accept: 'Accepted',
+                        reject: 'Rejected'
+                    };
+
+                    object.icon = 'fa-file-text';
+
+                    if(['approve', 'decline'].indexOf(item.action) > -1) {
+                        creator = object.moderated_by;
+                        created_at = object.moderated_at;
+                    }
+
+                    if(['accept', 'reject'].indexOf(item.action) > -1) {
+                        creator = object.reviewed_by;
+                        created_at = object.reviewed_at;
+                    }
+
+                    if(item.action == 'submit') {
+                        object.icon = 'fa-send';
+                    } else if(['approve', 'accept'].indexOf(item.action) > -1) {
+                        object.icon = 'fa-check-square-o';
+                    } else if(['decline', 'reject'].indexOf(item.action) > -1) {
+                        object.icon = 'fa-times-circle';
+                    }
+
+                    var comment_txt = null;
+                    if(item.action == 'decline') {
+                        comment_txt = object.moderator_comment;
+                    } else if(item.action == 'reject') {
+                        comment_txt = object.reviewer_comment;
+                    }
+
+                    let payDetails = getPayDetails(object.activities);
+
+                    object.total_hours = payDetails.total.hours;
+                    object.total_pay = payDetails.total.fee;
+
+                    body = (
+                        <div>
+                            <Link to={`/work/${object.task}/${activity_type}/${object.id}/`}>
+                                <i className={`fa ${object.icon}`}/> {verb_map[item.action]} a{activity_type == 'estimate'?'n':''} {activity_type}
+                            </Link>
+                            {comment_txt?(
+                                <div style={{margin: '10px 0'}}>{comment_txt}</div>
+                            ):null}
+                            <div>Hours: {object.total_hours} hours</div>
+                            <div>Cost: €{object.total_pay}</div>
+                            <div>
+                                <Link to={`/work/${object.task}/${activity_type}/${object.id}/`}>
+                                    View details
+                                </Link>
+                            </div>
+                        </div>
+                    );
+                }
+                break;
+            case 'progress_event':
+                if(item.action == 'create') {
                     creator = object.created_by || {
                             id: 'tunga',
                             username: null,
@@ -98,70 +164,10 @@ export default class ActivityList extends React.Component {
                             <div>Due: {moment.utc(object.due_at).local().format('Do, MMMM YYYY')}</div>
                         </div>
                     );
-                } else if(activity_type == 'estimate') {
-                    creator = object.user;
-                    created_at = object.created_at;
-
-                    function getTotalHours() {
-                        if(!object.activities || !object.activities.length) {
-                            return 0;
-                        }
-                        return object.activities.map(function (activity) {
-                            return activity.hours;
-                        }).reduce((a,b) => {
-                            return parseInt(a)+parseInt(b);
-                        });
-                    }
-                    object.total_hours = getTotalHours();
-
-                    body = (
-                        <div>
-                            <Link to={`/work/${object.task}/estimate/${object.id}/`}>
-                                <i className="fa fa-file"/> Created an estimate
-                            </Link>
-                            <div>Development Hours: {object.total_hours} hours</div>
-                            <div>Estimated Cost: €{DEVELOPER_FEE*object.total_hours} hours</div>
-                            <div>
-                                <Link to={`/work/${object.task}/estimate/${object.id}/`}>
-                                    View details
-                                </Link>
-                            </div>
-                        </div>
-                    );
-                } else if(activity_type == 'quote') {
-                    creator = object.user;
-                    created_at = object.created_at;
-
-                    function getTotalHours() {
-                        if(!object.activities || !object.activities.length) {
-                            return 0;
-                        }
-                        return object.activities.map(function (activity) {
-                            return activity.hours;
-                        }).reduce((a,b) => {
-                            return parseInt(a)+parseInt(b);
-                        });
-                    }
-                    object.total_hours = getTotalHours();
-
-                    body = (
-                        <div>
-                            <Link to={`/work/${object.task}/quote/${object.id}/`}>
-                                <i className="fa fa-file"/> Created a qoute
-                            </Link>
-                            <div>Development Hours: {object.total_hours} hours</div>
-                            <div>Estimated Cost: €{DEVELOPER_FEE*object.total_hours} hours</div>
-                            <div>
-                                <Link to={`/work/${object.task}/quote/${object.id}/`}>
-                                    View details
-                                </Link>
-                            </div>
-                        </div>
-                    );
                 }
                 break;
-            case 'report':
-                if(activity_type == 'progress_report') {
+            case 'progress_report':
+                if(item.action == 'report') {
                     creator = object.user;
                     created_at = object.created_at;
                     uploads = object.uploads;
@@ -185,7 +191,10 @@ export default class ActivityList extends React.Component {
                             ):null}
                         </div>
                     );
-                } else if(activity_type == 'integration_activity') {
+                }
+                break;
+            case 'integration_activity':
+                if(item.action == 'report') {
                     creator = {
                         display_name: object.user_display_name,
                         avatar_url: object.avatar_url

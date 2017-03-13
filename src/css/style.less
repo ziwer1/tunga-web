@@ -301,6 +301,10 @@ form {
     text-shadow: none;
 }
 
+.btn:disabled {
+    border-color: @inactive-grey;
+}
+
 .btn.btn-borderless,
 .btn.btn-borderless:hover,
 .btn.btn-borderless:focus,
@@ -1275,6 +1279,10 @@ form[name='compose'] {
         .fa.fa-caret-right {
             margin-left: 5px;
         }
+    }
+
+    .notification-list {
+
     }
 }
 
@@ -3826,6 +3834,17 @@ form[name='compose'] {
             }
         }
     }
+
+    .notification-list.large {
+        max-width: 800px;
+
+        ul {
+
+            li {
+                margin: 5px 10px;
+            }
+        }
+    }
 }
 
 /*LARGE SCREENS*/
@@ -3870,6 +3889,16 @@ form[name="estimate-form"] {
         border-radius: 8px;
         padding: 20px;
     }
+}
+
+.estimate-presentation {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+
+.authed-modal .modal {
+    margin-left: 200px;
 }
 
 

@@ -7,7 +7,8 @@ import { Table } from 'react-bootstrap';
 import FormStatus from './status/FormStatus';
 
 import {DEVELOPER_FEE, STATUS_SUBMITTED, STATUS_APPROVED, STATUS_DECLINED, STATUS_ACCEPTED, STATUS_REJECTED} from '../constants/Api';
-import {isProjectManager, isAdmin, isProjectOwner} from '../utils/auth';
+import {getPayDetails, canEditQuote, canModerateQuote, canReviewQuote} from '../utils/tasks';
+import confirm from '../utils/confirm';
 
 momentLocalizer(moment);
 
@@ -31,6 +32,28 @@ export default class QuoteDetail extends React.Component {
         const task = this.props.task || {};
 
         QuoteActions.updateQuote(quote.id, {status});
+
+
+        if([STATUS_DECLINED, STATUS_REJECTED].indexOf(status) > -1) {
+            confirm('Are you sure?', true, {placeholder: 'Reason'}).then(
+                function (response) {
+                    var quote_info = {status};
+                    if(status == STATUS_DECLINED) {
+                        quote_info.moderator_comment = response;
+                    } else {
+                        quote_info.reviewer_comment = response;
+                    }
+                    QuoteActions.updateQuote(quote.id, {status, moderator_comment: response});
+                }
+            );
+        } else {
+            confirm('Are you sure?').then(
+                function () {
+                    QuoteActions.updateQuote(quote.id, {status});
+                }
+            );
+        }
+
         return;
     }
 
@@ -38,10 +61,11 @@ export default class QuoteDetail extends React.Component {
         const { Quote } = this.props;
         const task = this.props.task || {};
         const quote = this.props.quote || {};
-        console.log('quote', quote, isProjectManager(), [STATUS_SUBMITTED, STATUS_APPROVED, STATUS_ACCEPTED].indexOf(quote.status) == -1);
+
+        let payDetails = getPayDetails(quote.activities);
 
         return (
-            <div>
+            <div className="estimate-presentation">
                 <FormStatus loading={Quote.detail.isSaving}
                             success={Quote.detail.isSaved}
                             message={'Quote saved successfully'}
@@ -52,46 +76,46 @@ export default class QuoteDetail extends React.Component {
                     <div>{quote.introduction}</div>
                 </div>
 
-                <h3>Scope:</h3>
+                <h4>Scope:</h4>
                 <div className="form-group">
-                    <h4>In scope:</h4>
+                    <h5>In scope:</h5>
                     <div>{quote.in_scope}</div>
                 </div>
 
                 <div className="form-group">
-                    <h4>Out of scope:</h4>
+                    <h5>Out of scope:</h5>
                     <div>{quote.out_scope}</div>
                 </div>
 
                 <div className="form-group">
-                    <h4>Assumptions:</h4>
+                    <h5>Assumptions:</h5>
                     <div>{quote.assumptions}</div>
                 </div>
 
                 <div className="form-group">
-                    <h4>Delivearables:</h4>
+                    <h5>Deliverables:</h5>
                     <div>{quote.deliverables}</div>
                 </div>
 
-                <h3>Solution:</h3>
+                <h4>Solution:</h4>
                 <div className="form-group">
-                    <h4>Architecture:</h4>
+                    <h5>Architecture:</h5>
                     <div>{quote.architecture}</div>
                 </div>
 
                 <div className="form-group">
-                    <h4>Technology:</h4>
+                    <h5>Technology:</h5>
                     <div>{quote.technology}</div>
                 </div>
 
-                <h3>Methodology</h3>
+                <h4>Methodology</h4>
                 <div className="form-group">
-                    <h4>Process:</h4>
+                    <h5>Process:</h5>
                     <div>{quote.process}</div>
                 </div>
 
                 <div className="form-group">
-                    <h4>Reporting:</h4>
+                    <h5>Reporting:</h5>
                     <div>{quote.reporting}</div>
                 </div>
 
@@ -122,9 +146,24 @@ export default class QuoteDetail extends React.Component {
                             </tbody>
                             <tfoot>
                             <tr>
-                                <th>Totals</th>
-                                <th>{this.getTotalHours()} hrs</th>
-                                <th>€{DEVELOPER_FEE*this.getTotalHours()}</th>
+                                <th colSpan="4">Sub Totals</th>
+                            </tr>
+                            <tr>
+                                <th>Development</th>
+                                <th>{payDetails.dev.hours} hrs</th>
+                                <th>€{payDetails.dev.fee}</th>
+                                <th></th>
+                            </tr>
+                            <tr>
+                                <th>Project Management</th>
+                                <th>{payDetails.pm.hours} hrs</th>
+                                <th>€{payDetails.pm.fee}</th>
+                                <th></th>
+                            </tr>
+                            <tr>
+                                <th>Total</th>
+                                <th>{payDetails.total.hours} hrs</th>
+                                <th>€{payDetails.total.fee}</th>
                                 <th></th>
                             </tr>
                             </tfoot>
@@ -163,11 +202,11 @@ export default class QuoteDetail extends React.Component {
                 </div>
 
                 <div className="text-center clearfix">
-                    {isProjectManager() && [STATUS_SUBMITTED, STATUS_APPROVED, STATUS_ACCEPTED].indexOf(quote.status) == -1?(
+                    {canEditQuote(task)?(
                         <div>
                             <Link to={`/work/${quote.task}/quote/${quote.id}/edit`}
                                   className="btn">
-                                Edit Quote
+                                Edit Estimate
                             </Link>
                             <button type="submit"
                                     className="btn"
@@ -175,37 +214,37 @@ export default class QuoteDetail extends React.Component {
                                     onClick={this.onChangeStatus.bind(this, STATUS_SUBMITTED)}>
                                 Submit for Review</button>
                         </div>
-                    ):null}
-
-                    {isAdmin() && quote.status == STATUS_SUBMITTED?(
-                        <div>
-                            <button type="submit"
-                                    className="btn"
-                                    disabled={Quote.detail.isSaving}
-                                    onClick={this.onChangeStatus.bind(this, STATUS_APPROVED)}>
-                                Approve</button>
-                            <button type="submit"
-                                    className="btn"
-                                    disabled={Quote.detail.isSaving}
-                                    onClick={this.onChangeStatus.bind(this, STATUS_DECLINED)}>
-                                Decline</button>
-                        </div>
-                    ):null}
-
-                    {isProjectOwner() && quote.status == STATUS_APPROVED?(
-                        <div>
-                            <button type="submit"
-                                    className="btn"
-                                    isabled={Quote.detail.isSaving}
-                                    onClick={this.onChangeStatus.bind(this, STATUS_ACCEPTED)}>
-                                Accept</button>
-                            <button type="submit"
-                                    className="btn"
-                                    disabled={Quote.detail.isSaving}
-                                    onClick={this.onChangeStatus.bind(this, STATUS_REJECTED)}>
-                                Reject</button>
-                        </div>
-                    ):null}
+                    ):(
+                        canModerateQuote(task)?(
+                            <div>
+                                <button type="submit"
+                                        className="btn"
+                                        disabled={Quote.detail.isSaving}
+                                        onClick={this.onChangeStatus.bind(this, STATUS_APPROVED)}>
+                                    Approve</button>
+                                <button type="submit"
+                                        className="btn"
+                                        disabled={Quote.detail.isSaving}
+                                        onClick={this.onChangeStatus.bind(this, STATUS_DECLINED)}>
+                                    Decline</button>
+                            </div>
+                        ):(
+                            canReviewQuote(task)?(
+                                <div>
+                                    <button type="submit"
+                                            className="btn"
+                                            isabled={Quote.detail.isSaving}
+                                            onClick={this.onChangeStatus.bind(this, STATUS_ACCEPTED)}>
+                                        Accept</button>
+                                    <button type="submit"
+                                            className="btn"
+                                            disabled={Quote.detail.isSaving}
+                                            onClick={this.onChangeStatus.bind(this, STATUS_REJECTED)}>
+                                        Reject</button>
+                                </div>
+                            ):null
+                        )
+                    )}
                 </div>
             </div>
 

@@ -84,10 +84,10 @@ export default class MilestoneList extends React.Component {
                                     <div className="col-sm-6 col-md-4" key={'milestone'+milestone.id}>
                                         <div className="card milestone-card">
                                             <Link to={`/work/${milestone.details.task.id}/event/${milestone.id}`}>
-                                                <h4>{milestone.details.task.title}</h4>
+                                                <h4>{milestone.details.task.summary}</h4>
                                             </Link>
                                             <Link to={`/work/${milestone.details.task.id}/event/${milestone.id}`}>
-                                                <h5>{milestone.title?milestone.title:'Scheduled update'}</h5>
+                                                <h5>{milestone.title?milestone.summary:'Scheduled update'}</h5>
                                             </Link>
                                             {milestone.due_at?(
                                                 <div>Due Date: <strong>{moment.utc(milestone.due_at).local().format('Do, MMMM YYYY, h:mm a')}</strong></div>
@@ -99,6 +99,8 @@ export default class MilestoneList extends React.Component {
                                                     <div className="description" dangerouslySetInnerHTML={{__html: milestone.description}}/>
                                                 </div>
                                             ):null}
+
+                                            
                                         </div>
                                     </div>
                                 );

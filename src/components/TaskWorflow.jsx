@@ -13,13 +13,13 @@ import Timeline from './Timeline';
 import MilestoneContainer from '../containers/MilestoneContainer';
 import Milestone from './Milestone';
 
-import {parse_task_status} from '../utils/tasks';
+import {parse_task_status, canAddEstimate, canEditEstimate, canViewEstimate, canAddQuote, canEditQuote, canViewQuote} from '../utils/tasks';
 import {render_summary} from '../utils/html';
 import {getTaskKey} from '../utils/reducers';
 import confirm from '../utils/confirm';
 
-import { SOCIAL_PROVIDERS, STATUS_SUBMITTED, STATUS_APPROVED, STATUS_ACCEPTED } from '../constants/Api';
-import { isAdmin, getUser, isProjectManager, isProjectOwner } from '../utils/auth';
+import { SOCIAL_PROVIDERS } from '../constants/Api';
+import { isAdmin, getUser } from '../utils/auth';
 
 export function resizeOverviewBox() {
     var w_h = $(window).height();
@@ -256,8 +256,6 @@ export default class TaskWorflow extends ComponentWithModal {
             </Popover>
         );
 
-        console.log('test', task.estimate, task.estimate && task.estimate.status == STATUS_ACCEPTED);
-
         return (
             <div>
                 {this.renderModalContent()}
@@ -268,11 +266,56 @@ export default class TaskWorflow extends ComponentWithModal {
                                 <span><Link to={`/work/${task.parent}/`} className="small">{render_summary(task.details.parent.title || task.summary, 30)}</Link></span>
                             ):null}
                             <span>
-                                <Link to={`/work/${task.id}/`}>{task.title || task.summary}</Link>
+                                <Link to={`/work/${task.id}/`}>{task.summary}</Link>
                             </span>
                         </div>
                         {task.is_developer_ready?(
                             <div className="task-status"><i className={"fa fa-circle " + task_status.css}/> {task_status.message}</div>
+                        ):null}
+                    </div>
+
+                    <div className="nav-top-filter pull-left">
+                        {canAddEstimate(task)?(
+                            <Link to={`/work/${task.id}/estimate/new`} className="btn">Add Estimate</Link>
+                        ):(
+                            canEditEstimate(task)?(
+                                <Link to={`/work/${task.id}/estimate/${task.estimate.id}/edit`}
+                                      className="btn">
+                                    Edit Estimate
+                                </Link>
+                            ):(
+                                canViewEstimate(task)?(
+                                    <Link to={`/work/${task.id}/estimate/${task.estimate.id}`}
+                                          className="btn">
+                                        View Estimate
+                                    </Link>
+                                ):null
+                            )
+                        )}
+
+                        {canAddQuote(task)?(
+                            <Link to={`/work/${task.id}/quote/new`} className="btn">Add Quote</Link>
+                        ):(
+                            canEditQuote(task)?(
+                                <Link to={`/work/${task.id}/quote/${task.quote.id}/edit`}
+                                      className="btn">
+                                    Edit Quote
+                                </Link>
+                            ):(
+                                canViewQuote(task)?(
+                                    <Link to={`/work/${task.id}/quote/${task.quote.id}`}
+                                          className="btn">
+                                        View Quote
+                                    </Link>
+                                ):null
+                            )
+                        )}
+
+                        {task.can_return?(
+                            <button className="btn"
+                                    onClick={this.onReturnProject.bind(this)}>
+                                Return {work_type}
+                            </button>
                         ):null}
                     </div>
 
@@ -435,77 +478,9 @@ export default class TaskWorflow extends ComponentWithModal {
                         </div>
                     ) : null}
 
-                    {!task.is_developer_ready?(
-                        <div>
-                            {is_pm?(
-                                <div className="nav-top-filter pull-left">
-                                    {!task.estimate || [STATUS_SUBMITTED, STATUS_ACCEPTED, STATUS_APPROVED].indexOf(task.estimate.status) == -1?(
-                                        <Link to={`/work/${task.id}/estimate/${task.estimate?(task.estimate.id+'/edit'):''}`}
-                                              className="btn">
-                                            {task.estimate?'Edit':'Add'} Estimate
-                                        </Link>
-                                    ):null}
-                                    {task.estimate && [STATUS_SUBMITTED, STATUS_ACCEPTED, STATUS_APPROVED].indexOf(task.estimate.status) > -1?(
-                                        <Link to={`/work/${task.id}/estimate/${task.estimate.id}`}
-                                              className="btn">
-                                            View Estimate
-                                        </Link>
-                                    ):null}
-                                    {task.estimate && task.estimate.status == STATUS_ACCEPTED?(
-                                        !task.quote || [STATUS_SUBMITTED, STATUS_ACCEPTED, STATUS_APPROVED].indexOf(task.quote.status) == -1?(
-                                            <Link to={`/work/${task.id}/quote/${task.quote?(task.quote.id+'/edit'):''}`}
-                                                  className="btn">
-                                                {task.quote?'Edit':'Add'} Quote
-                                            </Link>
-                                        ):(
-                                            task.quote?(
-                                                <Link to={`/work/${task.id}/quote/${task.quote.id}`}
-                                                      className="btn">
-                                                    View Quote
-                                                </Link>
-                                            ):null
-                                        )
-                                    ):null}
-                                    {task.can_return?(
-                                        <button className="btn"
-                                                onClick={this.onReturnProject.bind(this)}>
-                                            Return {work_type}
-                                        </button>
-                                    ):null}
-                                </div>
-                            ):(
-                                isAdmin() && task.estimate && [STATUS_SUBMITTED, STATUS_ACCEPTED, STATUS_APPROVED].indexOf(task.estimate.status) > -1?(
-                                    <div className="nav-top-filter pull-left">
-                                        <Link to={`/work/${task.id}/estimate/${task.estimate.id}`}
-                                              className="btn">
-                                            View Estimate
-                                        </Link>
-                                        {task.quote && [STATUS_SUBMITTED, STATUS_ACCEPTED, STATUS_APPROVED].indexOf(task.quote.status) > -1?(
-                                            <Link to={`/work/${task.id}/quote/${task.quote.id}`}
-                                                  className="btn">
-                                                View Quote
-                                            </Link>
-                                        ):null}
-                                    </div>
-                                ):(
-                                    is_owner && task.estimate && [STATUS_ACCEPTED, STATUS_APPROVED].indexOf(task.estimate.status) > -1?(
-                                        <div className="nav-top-filter pull-left">
-                                            <Link to={`/work/${task.id}/estimate/${task.estimate.id}`}
-                                                  className="btn">
-                                                View Estimate
-                                            </Link>
-                                            {task.quote && [STATUS_ACCEPTED, STATUS_APPROVED].indexOf(task.quote.status) > -1?(
-                                                <Link to={`/work/${task.id}/quote/${task.quote.id}`}
-                                                      className="btn">
-                                                    View Quote
-                                                </Link>
-                                            ):null}
-                                        </div>
-                                    ):null
-                                )
-                            )}
-                        </div>
-                    ):null}
+                    <div className="nav-top-filter pull-left">
+
+                    </div>
 
                     {task.is_developer_ready && is_admin_or_owner && !task.parent ? (
                         <ul className="integration-options pull-right">

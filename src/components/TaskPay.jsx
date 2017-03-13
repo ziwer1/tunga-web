@@ -6,6 +6,7 @@ import FieldError from './status/FieldError';
 import { TASK_PAYMENT_METHOD_CHOICES, TASK_PAYMENT_METHOD_BITONIC, TASK_PAYMENT_METHOD_BITCOIN, TASK_PAYMENT_METHOD_BANK, ENDPOINT_TASK } from '../constants/Api';
 import { objectToQueryString } from '../utils/html';
 import { getUser } from '../utils/auth';
+import { parseNumber } from '../utils/helpers';
 
 export default class TaskPay extends React.Component {
 
@@ -104,7 +105,7 @@ export default class TaskPay extends React.Component {
                                     (<FieldError message={Task.detail.Invoice.error.create.fee}/>):null}
                                 <div className="form-group">
                                     <label className="control-label">Fee (in Euro) *</label>
-                                    <div><input type="text" className="form-control" ref="fee" required placeholder="Fee in €" defaultValue={parseFloat(task.fee).toFixed(2)}/></div>
+                                    <div><input type="text" className="form-control" ref="fee" required placeholder="Fee in €" defaultValue={parseNumber(task.fee)}/></div>
                                     <div style={{marginTop: '10px'}}>13% of fee goes to Tunga</div>
                                 </div>
 

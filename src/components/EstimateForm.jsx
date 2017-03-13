@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import _ from 'lodash';
 import momentLocalizer from 'react-widgets/lib/localizers/moment';
+import DateTimePicker from 'react-widgets/lib/DateTimePicker';
 import { Table } from 'react-bootstrap';
 
 import FormStatus from './status/FormStatus';
@@ -11,6 +12,7 @@ import LargeModal from './LargeModal';
 import ActivityForm from './ActivityForm';
 
 import {DEVELOPER_FEE, STATUS_SUBMITTED} from '../constants/Api';
+import {getPayDetails, canEditEstimate} from '../utils/tasks';
 
 momentLocalizer(moment);
 
@@ -19,7 +21,8 @@ export default class EstimateForm extends ComponentWithModal {
         super(props);
         this.state = {
             introduction: '', activities: [],
-            modalActivity: null, modalContent: null, modalTitle: '', submitted: false
+            modalActivity: null, modalContent: null, modalTitle: '', submitted: false,
+            start_date: null, end_date: null
         };
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -64,6 +67,14 @@ export default class EstimateForm extends ComponentWithModal {
         this.setState(new_state);
     }
 
+    onStartDateChange(date) {
+        this.setState({start_date: moment(date).utc().format()});
+    }
+
+    onEndDateChange(date) {
+        this.setState({end_date: moment(date).utc().format()});
+    }
+
     onComposeActivity(activity) {
         this.setState({modalActivity: activity, modalContent: 'activity', modalTitle: 'Add activity'});
         this.open();
@@ -79,17 +90,6 @@ export default class EstimateForm extends ComponentWithModal {
         this.setState({activities: new_activities});
     }
 
-    getTotalHours() {
-        if(!this.state.activities || !this.state.activities.length) {
-            return 0;
-        }
-        return this.state.activities.map(function (activity) {
-            return activity.hours;
-        }).reduce((a,b) => {
-            return parseInt(a)+parseInt(b);
-        });
-    }
-
     onDelete(idx) {
         if(idx > -1) {
             let activities = Array.from(new Set([...this.state.activities.slice(0, idx), ...this.state.activities.slice(idx+1)]));
@@ -101,6 +101,8 @@ export default class EstimateForm extends ComponentWithModal {
         e.preventDefault();
         var introduction = this.state.introduction;
         var activities = this.state.activities;
+        var start_date = this.state.start_date;
+        var end_date = this.state.end_date;
 
         const { EstimateActions } = this.props;
         const estimate = this.props.estimate || {};
@@ -114,6 +116,14 @@ export default class EstimateForm extends ComponentWithModal {
 
         if(this.state.submitted) {
             estimate_info.status = STATUS_SUBMITTED;
+        }
+
+        if(start_date) {
+            estimate_info.start_date = start_date;
+        }
+
+        if(end_date) {
+            estimate_info.end_date = end_date;
         }
 
         if(estimate.id) {
@@ -144,6 +154,8 @@ export default class EstimateForm extends ComponentWithModal {
         const task = this.props.task || {};
         const estimate = this.props.estimate || {};
 
+        let payDetails = getPayDetails(this.state.activities);
+
         return (
             <div className="form-wrapper">
                 {this.renderModalContent()}
@@ -158,12 +170,14 @@ export default class EstimateForm extends ComponentWithModal {
                     {(Estimate.detail.error.update && Estimate.detail.error.update.message)?
                         (<FieldError message={Estimate.detail.error.update.message}/>):null}
 
+
+                    <h4>Introduction:</h4>
                     {(Estimate.detail.error.create && Estimate.detail.error.create.introduction)?
                         (<FieldError message={Estimate.detail.error.create.introduction}/>):null}
                     {(Estimate.detail.error.update && Estimate.detail.error.update.introduction)?
                         (<FieldError message={Estimate.detail.error.update.introduction}/>):null}
                     <div className="form-group">
-                        <label className="control-label">Introduction *</label>
+                        {/*<label className="control-label">Introduction *</label>*/}
                         <textarea className="form-control"
                                   onChange={this.onInputChange.bind(this, 'introduction')}
                                   value={this.state.introduction}
@@ -171,12 +185,14 @@ export default class EstimateForm extends ComponentWithModal {
                                   placeholder="Introduction"/>
                     </div>
 
+
+                    <h4>Activities:</h4>
                     {(Estimate.detail.error.create && Estimate.detail.error.create.activities)?
                         (<FieldError message={Estimate.detail.error.create.activities}/>):null}
                     {(Estimate.detail.error.update && Estimate.detail.error.update.activities)?
                         (<FieldError message={Estimate.detail.error.update.activities}/>):null}
                     <div className="form-group">
-                        <label className="control-label">Activities *</label>
+                        {/*<label className="control-label">Activities *</label>*/}
 
                         <button type="button" className="btn" onClick={this.onComposeActivity.bind(this, null)}>Add</button>
 
@@ -202,16 +218,33 @@ export default class EstimateForm extends ComponentWithModal {
                                             <td>{activity.hours} hrs</td>
                                             <td>€{DEVELOPER_FEE*activity.hours}</td>
                                             <td>{activity.description}</td>
-                                            <td><button className="btn" onClick={this.onDelete.bind(this, idx)}>Delete</button></td>
+                                            <td><button className="btn" onClick={this.onDelete.bind(this, idx)}><i className="fa fa-trash-o"/></button></td>
                                         </tr>
                                     )
                                 })}
                                 </tbody>
                                 <tfoot>
                                 <tr>
-                                    <th>Totals</th>
-                                    <th>{this.getTotalHours()} hrs</th>
-                                    <th>€{19.5*this.getTotalHours()}</th>
+                                    <th colSpan="5">Sub Totals</th>
+                                </tr>
+                                <tr>
+                                    <th>Development</th>
+                                    <th>{payDetails.dev.hours} hrs</th>
+                                    <th>€{payDetails.dev.fee}</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                <tr>
+                                    <th>Project Management</th>
+                                    <th>{payDetails.pm.hours} hrs</th>
+                                    <th>€{payDetails.pm.fee}</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                <tr>
+                                    <th>Total</th>
+                                    <th>{payDetails.total.hours} hrs</th>
+                                    <th>€{payDetails.total.fee}</th>
                                     <th></th>
                                     <th></th>
                                 </tr>
@@ -221,13 +254,41 @@ export default class EstimateForm extends ComponentWithModal {
 
                     </div>
 
-                    <div className="text-center clearfix">
-                        <button type="submit"
-                                className="btn"
-                                disabled={Estimate.detail.isSaving}>
-                            Save</button>
-                        <button type="submit" value={STATUS_SUBMITTED} className="btn" onClick={(e) => {this.setState({submitted: true}); return true;}} disabled={Estimate.detail.isSaving}>Submit for Review</button>
+
+                    <h4>Planning:</h4>
+
+                    <div className="row">
+                        <div className="col-md-6">
+                            {(Estimate.detail.error.create && Estimate.detail.error.create.start_date)?
+                                (<FieldError message={Estimate.detail.error.create.start_date}/>):null}
+                            {(Estimate.detail.error.update && Estimate.detail.error.update.start_date)?
+                                (<FieldError message={Estimate.detail.error.update.start_date}/>):null}
+                            <div className="form-group">
+                                <label className="control-label">Start Date *</label>
+                                <DateTimePicker ref="due_at" onChange={this.onStartDateChange.bind(this)} defaultValue={this.state.start_date?(new Date(moment.utc(this.state.start_date).format())):null}/>
+                            </div>
+                        </div>
+                        <div className="col-md-6">
+                            {(Estimate.detail.error.create && Estimate.detail.error.create.end_date)?
+                                (<FieldError message={Estimate.detail.error.create.end_date}/>):null}
+                            {(Estimate.detail.error.update && Estimate.detail.error.update.end_date)?
+                                (<FieldError message={Estimate.detail.error.update.end_date}/>):null}
+                            <div className="form-group">
+                                <label className="control-label">End Date *</label>
+                                <DateTimePicker ref="due_at" onChange={this.onEndDateChange.bind(this)} defaultValue={this.state.start_date?(new Date(moment.utc(this.state.start_date).format())):null}/>
+                            </div>
+                        </div>
                     </div>
+
+                    {canEditEstimate(task)?(
+                        <div className="text-center clearfix">
+                            <button type="submit"
+                                    className="btn"
+                                    disabled={Estimate.detail.isSaving}>
+                                Save</button>
+                            <button type="submit" value={STATUS_SUBMITTED} className="btn" onClick={(e) => {this.setState({submitted: true}); return true;}} disabled={Estimate.detail.isSaving}>Submit for Review</button>
+                        </div>
+                    ):null}
                 </form>
             </div>
 

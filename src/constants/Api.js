@@ -104,6 +104,7 @@ export const USER_TYPE_CHOICES = [
 ];
 
 export const DEVELOPER_FEE = 19.5;
+export const PM_FEE = 19.5;
 
 export const PAYMENT_METHOD_BTC_WALLET = 'btc_wallet';
 export const PAYMENT_METHOD_BTC_ADDRESS = 'btc_address';

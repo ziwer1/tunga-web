@@ -25,6 +25,7 @@ import {
 
 import { getTaskTypeUrl, getScopeUrl, sendGAPageView } from '../utils/tracking';
 import { isAuthenticated, getUser } from '../utils/auth';
+import { parseNumber } from '../utils/helpers';
 
 momentLocalizer(moment);
 
@@ -675,7 +676,7 @@ export default class TaskForm extends ComponentWithModal {
                             'What is roughly the budget of this project?':
                             `Fixed fee for this task (in Euros) ${is_project_task?' - optional':''}`
                     }</label>
-                    <div><input type="text" className="form-control" ref="fee" required={!is_project_task && isAuthenticated()} placeholder="Amount in Euros"  onChange={this.onInputChange.bind(this, 'fee')} value={this.state.fee?this.state.fee:''}/></div>
+                    <div><input type="text" className="form-control" ref="fee" required={!is_project_task && isAuthenticated()} placeholder="Amount in Euros"  onChange={this.onInputChange.bind(this, 'fee')} value={this.state.fee?parseNumber(this.state.fee):''}/></div>
                     {!this.state.is_project || this.state.has_requirements?(
                         <div style={{marginTop: '10px'}}>13% of pledge goes to Tunga</div>
                     ):null}

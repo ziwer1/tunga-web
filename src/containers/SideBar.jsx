@@ -8,7 +8,7 @@ import * as NotificationActions from '../actions/NotificationActions' 
 import * as SupportSectionActions from '../actions/SupportSectionActions';
  import * as SupportPageActions from '../actions/SupportPageActions';
 
-import { isAuthenticated, isAdmin, isProjectOwner } from '../utils/auth';
+import { isAuthenticated, isAdmin, isProjectOwner, isProjectManager } from '../utils/auth';
 
 import { resizeSideBar } from '../utils/ui';
 
@@ -19,7 +19,7 @@ class SideBar extends React.Component {
         $(window).resize(resizeSideBar);
         if(isAuthenticated()) {
             this.props.NotificationActions.getNotifications();
-            //setInterval(this.props.NotificationActions.getNotifications, 15000);
+            setInterval(this.props.NotificationActions.getNotifications, 15000);
         }
 
         const { SupportActions } = this.props;
@@ -57,7 +57,7 @@ class SideBar extends React.Component {
                                 <i className="menu-icon tunga-icon-search"/> <span>Find work</span>
                             </Link>
                         </li>
-                        {isProjectOwner() || isAdmin()?(
+                        {isProjectOwner() || isProjectManager() || isAdmin()?(
                             <li>
                                 <Link to="/work/new" activeClassName="active">
                                     <i className="menu-icon tunga-icon-task"/> <span>Post work</span>

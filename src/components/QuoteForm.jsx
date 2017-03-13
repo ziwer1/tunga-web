@@ -12,6 +12,7 @@ import ActivityForm from './ActivityForm';
 import PlanForm from './PlanForm';
 
 import {DEVELOPER_FEE, STATUS_SUBMITTED} from '../constants/Api';
+import {getPayDetails, canEditQuote} from '../utils/tasks';
 
 momentLocalizer(moment);
 
@@ -27,7 +28,12 @@ export default class QuoteForm extends ComponentWithModal {
 
     componentDidMount() {
         const quote = this.props.quote || {};
-        this.setState({...quote});
+        var estimate = {};
+        if(!quote.id) {
+            const task = this.props.task || {};
+            estimate = task.estimate;
+        }
+        this.setState({...estimate, ...quote});
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -185,6 +191,8 @@ export default class QuoteForm extends ComponentWithModal {
         const { Quote } = this.props;
         const task = this.props.task || {};
         const quote = this.props.quote || {};
+
+        let payDetails = getPayDetails(this.state.activities);
 
         return (
             <div className="form-wrapper">
@@ -355,16 +363,33 @@ export default class QuoteForm extends ComponentWithModal {
                                             <td>{activity.hours} hrs</td>
                                             <td>€{DEVELOPER_FEE*activity.hours}</td>
                                             <td>{activity.description}</td>
-                                            <td><button className="btn" onClick={this.onDelete.bind(this, idx)}>Delete</button></td>
+                                            <td><button className="btn" onClick={this.onDelete.bind(this, idx)}><i className="fa fa-trash-o"/></button></td>
                                         </tr>
                                     )
                                 })}
                                 </tbody>
                                 <tfoot>
                                 <tr>
-                                    <th>Totals</th>
-                                    <th>{this.getTotalHours()} hrs</th>
-                                    <th>€{19.5*this.getTotalHours()}</th>
+                                    <th colSpan="5">Sub Totals</th>
+                                </tr>
+                                <tr>
+                                    <th>Development</th>
+                                    <th>{payDetails.dev.hours} hrs</th>
+                                    <th>€{payDetails.dev.fee}</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                <tr>
+                                    <th>Project Management</th>
+                                    <th>{payDetails.pm.hours} hrs</th>
+                                    <th>€{payDetails.pm.fee}</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                <tr>
+                                    <th>Total</th>
+                                    <th>{payDetails.total.hours} hrs</th>
+                                    <th>€{payDetails.total.fee}</th>
                                     <th></th>
                                     <th></th>
                                 </tr>
@@ -404,7 +429,7 @@ export default class QuoteForm extends ComponentWithModal {
                                             <td>{moment.utc(milestone.start_date).local().format('Do, MMMM YYYY, h:mm a')}</td>
                                             <td>{moment.utc(milestone.end_date).local().format('Do, MMMM YYYY, h:mm a')}</td>
                                             <td>{milestone.description}</td>
-                                            <td><button className="btn" onClick={this.onDeletePlan.bind(this, idx)}>Delete</button></td>
+                                            <td><button className="btn" onClick={this.onDeletePlan.bind(this, idx)}><i className="fa fa-trash-o"/></button></td>
                                         </tr>
                                     )
                                 })}
@@ -413,13 +438,15 @@ export default class QuoteForm extends ComponentWithModal {
                         ):null}
                     </div>
 
-                    <div className="text-center clearfix">
-                        <button type="submit"
-                                className="btn"
-                                disabled={Quote.detail.isSaving}>
-                            Save</button>
-                        <button type="submit" value={STATUS_SUBMITTED} className="btn" onClick={(e) => {this.setState({submitted: true}); return true;}} disabled={Quote.detail.isSaving}>Submit for Review</button>
-                    </div>
+                    {canEditQuote(task)?(
+                        <div className="text-center clearfix">
+                            <button type="submit"
+                                    className="btn"
+                                    disabled={Quote.detail.isSaving}>
+                                Save</button>
+                            <button type="submit" value={STATUS_SUBMITTED} className="btn" onClick={(e) => {this.setState({submitted: true}); return true;}} disabled={Quote.detail.isSaving}>Submit for Review</button>
+                        </div>
+                    ):null}
                 </form>
             </div>
 

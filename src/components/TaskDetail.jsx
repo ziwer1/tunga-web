@@ -25,6 +25,7 @@ export default class TaskDetail extends React.Component {
         const { Task } = this.props;
         const { task } = Task.detail;
         var task_status = parse_task_status(task);
+        var work_type = task.is_task?'task':'project';
 
         return (
             <div>
@@ -33,10 +34,10 @@ export default class TaskDetail extends React.Component {
                     :(
                 <div className="task-page">
                     {task.can_apply?(
-                        <Link to={`/work/${task.id}/apply`} className="btn pull-right">Apply for this task</Link>
+                        <Link to={`/work/${task.id}/apply`} className="btn pull-right">Apply for this {work_type}</Link>
                     ):(!isDeveloper() || getUser().can_contribute?null:(
                             <div style={{marginBottom: '20px'}}>
-                                <div className="alert alert-info">You need to complete your profile before you can apply for tasks</div>
+                                <div className="alert alert-info">You need to complete your profile before you can apply for {work_type}s</div>
                                 <div>
                                     <Link to="/profile"><i className="fa fa-arrow-right"/> Continue to your profile</Link>
                                 </div>
@@ -44,7 +45,7 @@ export default class TaskDetail extends React.Component {
                         )
                     )}
 
-                    <h3 className="title pull-left"><Link to={`/work/${task.id}/`}>{task.title}</Link></h3>
+                    <h3 className="title pull-left"><Link to={`/work/${task.id}/`}>{task.summary}</Link></h3>
                     <div className="time pull-left">
                         Posted <TimeAgo date={moment.utc(task.created_at).local().format()}/>
                     </div>
@@ -75,8 +76,8 @@ export default class TaskDetail extends React.Component {
 
                     {task.update_schedule_display?(
                         <div>
-                            <h5>Update schedule for this task</h5>
-                            <div className="card">As a developer for this task, you have to update the client {task.update_schedule_display.toLowerCase()}</div>
+                            <h5>Update schedule for this {work_type}</h5>
+                            <div className="card">As a developer for this {work_type}, you have to update the client {task.update_schedule_display.toLowerCase()}</div>
                         </div>
                     ):null}
 

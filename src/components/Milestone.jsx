@@ -59,7 +59,7 @@ export default class Milestone extends React.Component {
             <div>
                 <BreadCrumb
                     section={milestone.title || 'Scheduled Update'}
-                    parents={milestone.task?[{name: milestone.details?milestone.details.task.title:'Task', link: `/work/${milestone.task}`}]:[]} />
+                    parents={milestone.task?[{name: milestone.details?milestone.details.task.summary:'Task', link: `/work/${milestone.task}`}]:[]} />
 
                 <div className="milestone-page form-wrapper">
                     <div style={{marginBottom: '20px'}}>

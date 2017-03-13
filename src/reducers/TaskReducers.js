@@ -15,6 +15,8 @@ import Integration from './IntegrationReducers';
 import Activity from './ActivityReducers';
 import Invoice from './InvoiceReducers';
 
+import {STATUS_ACCEPTED} from '../constants/Api';
+
 function task(state = {}, action) {
     switch (action.type) {
         case TaskActions.CREATE_TASK_SUCCESS:
@@ -26,13 +28,19 @@ function task(state = {}, action) {
             return {...state, ...action.task};
         case EstimateActions.CREATE_ESTIMATE_SUCCESS:
         case EstimateActions.UPDATE_ESTIMATE_SUCCESS:
-            return {...state, estimate: {...state.estimate, status: action.estimate.status}};
+        case EstimateActions.RETRIEVE_ESTIMATE_SUCCESS:
+            if(action.estimate.task == state.id) {
+                return {...state, estimate: action.estimate};
+            }
+            return state;
         case QuoteActions.CREATE_QUOTE_SUCCESS:
         case QuoteActions.UPDATE_QUOTE_SUCCESS:
-            return {...state, estimate: {...state.quote, status: action.quote.status}};
+        case QuoteActions.RETRIEVE_QUOTE_SUCCESS:
+            if(action.quote.task == state.id) {
+                return {...state, quote: action.quote, is_developer_ready: action.quote.status == STATUS_ACCEPTED?true:state.is_developer_ready};
+            }
+            return state;
         case TaskActions.DELETE_TASK_SUCCESS:
-        //case TaskActions.CREATE_TASK_START:
-        //case TaskActions.CREATE_TASK_FAILED:
         case TaskActions.RETRIEVE_TASK_START:
         case TaskActions.RETRIEVE_TASK_FAILED:
             return {};

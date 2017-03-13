@@ -30,7 +30,7 @@ module.exports = {
         noErrorsPlugin: new webpack.NoErrorsPlugin(),
         magicGlobalsPlugin: new webpack.DefinePlugin({
             __DEV__: JSON.stringify(JSON.parse(process.env.BUILD_DEV || 'true') && process.env.NODE_ENV != 'production'),
-            __PRERELEASE__: JSON.stringify(JSON.parse(process.env.BUILD_PRERELEASE || 'false') && process.env.NODE_ENV != 'production'),
+            __PRERELEASE__: JSON.stringify(JSON.parse(process.env.BUILD_PRERELEASE || 'false')),
             __PRODUCTION__: JSON.stringify(process.env.NODE_ENV == 'production'),
             __BACKEND_ROOT_URL__: JSON.stringify(process.env.BACKEND_ROOT)
         }),
