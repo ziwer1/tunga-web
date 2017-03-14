@@ -1,34 +1,36 @@
 import React from 'react';
+import {Link} from 'react-router';
 import Helmet from 'react-helmet';
 
 import ShowcaseContainer from './ShowcaseContainer';
-import EmailLoginWidget from '../components/EmailLoginWidget';
+
+import { openTaskWizard } from '../utils/tasks';
 
 const STEP_DETAILS = [
     {
-        title: "<span class='bold'>1. Browse</span><br/>Developers",
-        description: "Browsing and connecting with developers and managing your network is always free!",
-        icon: 'tunga-icon-browse-developers'
-    },
-    {
-        title: "<span class='bold'>2. Build a</span><br/> Network",
-        description: "Make long-term connections with programmers have the skills you need",
-        icon: 'tunga-icon-build-network'
-    },
-    {
-        title: "<span class='bold'>3. Post a</span><br/>Task",
-        description: "Post a task to developers and receive responses",
+        title: "<span class='bold'>1. Post</span><br/>your work",
+        description: <div>Use our <Link to='/start' onClick={(e) => {e.preventDefault(); openTaskWizard()}}>wizard</Link> to submit you software need. Our developers and project managers will get back to you soon with a match with great developers.</div>,
         icon: 'tunga-icon-post-task'
     },
     {
-        title: "<span class='bold'>4. Manage</span><br/>Tasks",
-        description: "Work with your existing tools (e.g Slack, GitHub, JIRA). Get daily progress updates.",
+        title: "<span class='bold'>2. Select</span><br/> developers",
+        description: "Select a developer or a team of developers to work on your software project.",
+        icon: 'tunga-icon-browse-developers'
+    },
+    {
+        title: "<span class='bold'>3. Manage</span><br/>your work",
+        description: "Tunga offers a wide range of integrations (e.g Github, Slack, Trello) that allows you to easily set up a workflow or allow you to intregate your existing workflow.",
         icon: 'tunga-icon-manage-tasks'
     },
     {
-        title: "<span class='bold'>5. Finalize</span><br/>Transaction",
+        title: "<span class='bold'>4. Pay</span><br/>your developers",
         description: "Pay only for approved work done. Fast, cheap and easy. Get your invoices on the fly.",
         icon: 'tunga-icon-make-transaction'
+    },
+    {
+        title: "<span class='bold'>5. Increase</span><br/>your network",
+        description: "Increase you network of coders for all your future software needs.",
+        icon: 'tunga-icon-build-network'
     }
 ];
 
@@ -46,9 +48,6 @@ export default class HowItWorksPage extends React.Component {
                     Hire a software developer <br/>
                     in 5 easy steps.
                 </h1>
-                <div style={{margin: "60px 0 30px 0"}}>
-                    <EmailLoginWidget/>
-                </div>
             </div>
         );
     }
@@ -91,7 +90,9 @@ export default class HowItWorksPage extends React.Component {
                                         );
                                     })}
                                 </ul>
-                                <div className="description" dangerouslySetInnerHTML={{__html: STEP_DETAILS[this.state.step].description}}/>
+                                <div className="description">
+                                    {STEP_DETAILS[this.state.step].description}
+                                </div>
                             </div>
                         </div>
                     </section>

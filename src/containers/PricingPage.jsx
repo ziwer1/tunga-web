@@ -10,31 +10,51 @@ import ShowcaseContainer from './ShowcaseContainer';
 
 import ComponentWithModal from '../components/ComponentWithModal';
 import LargeModal from '../components/LargeModal';
-import EmailVisitorWidget from '../components/EmailVisitorWidget';
 
-import { OFFER_REQUEST_ITEMS } from '../constants/Api'
+import { OFFER_REQUEST_ITEMS, TASK_SCOPE_TASK, TASK_SCOPE_PROJECT } from '../constants/Api';
+import { openTaskWizard } from '../utils/tasks';
+import { sendGAEvent, GA_EVENT_CATEGORIES, GA_EVENT_ACTIONS } from '../utils/tracking';
 
 const OFFER_DETAILS = [
     {
-        title: 'Do-it-yourself',
-        sub: 'Agree on fee with freelancer per task',
-        description: 'Build your own flexible team with Tunga tasks. We deduct 13% from the total fee.',
+        title: 'Tasks',
+        sub: 'Post your task on Tunga',
+        description: 'Agree with a developer on the fee. We recommend calculating the fee with around 19 euro depending on the complexity of your task. ',
         icon: 'tunga-icon-do-it-yourself',
-        key: OFFER_REQUEST_ITEMS.self_guided
+        key: OFFER_REQUEST_ITEMS.self_guided,
+        cta: {
+            text: 'Start a task now',
+            action: function () {
+                openTaskWizard({scope: TASK_SCOPE_TASK});
+            }
+        }
     },
     {
-        title: 'Intensive Guidance & Support',
-        sub: 'Let us onboard your flexible remote team for you',
-        description: 'Minimum 1000 hours worth of tasks.Guaranteed fixed fee of €20/hour.',
+        title: 'Projects',
+        sub: 'Post your project on Tunga',
+        description: 'On projects Tunga developers cost €19 per hour. We also have very skilled project manager with international experience availible that can manage your project for you. For project managers Tunga are €39 per hour.',
         icon: 'tunga-icon-intensive-guildance',
-        key: OFFER_REQUEST_ITEMS.onboarding
+        key: OFFER_REQUEST_ITEMS.onboarding,
+        cta: {
+            text: 'Start a project now',
+            action: function () {
+                openTaskWizard({scope: TASK_SCOPE_PROJECT});
+            }
+        }
     },
     {
-        title: 'Dedicated Monitor & Troubleshooter',
-        sub: 'Discount and premium support for heavy users',
-        description: '> €50,000 per year. We deduct 12% from the total fee.',
+        title: 'Ongoing Project',
+        sub: 'Hire developers for your ongoing software need',
+        description: 'Contact us to find a great match with the developer you are looking for. We can onboard one or multiple developers to your team! Get an custom made offer from us.',
         icon: 'tunga-icon-dedicated-monitor',
-        key: OFFER_REQUEST_ITEMS.project
+        key: OFFER_REQUEST_ITEMS.project,
+        cta: {
+            text: 'Talk with us',
+            action: function () {
+                Calendly.showPopupWidget('https://calendly.com/tunga/30min/');
+                sendGAEvent(GA_EVENT_CATEGORIES.CONTACT, GA_EVENT_ACTIONS.SCHEDULE_CALL);
+            }
+        }
     }
 ];
 
@@ -170,9 +190,6 @@ class PricingPage extends ComponentWithModal {
                     Flexible and affordable.
                 </h1>
                 <h2>Choose from 3 different plans.</h2>
-                <div style={{margin: "60px 0 30px 0"}}>
-                    <EmailVisitorWidget btnText="Request Offer" onSubmit={this.addOfferToRequest.bind(this)} disabled={Utility.contact.isSending}/>
-                </div>
             </div>
         );
     }
@@ -212,10 +229,10 @@ class PricingPage extends ComponentWithModal {
                             <div className="description">
                                 <div className="subtitle bold" dangerouslySetInnerHTML={{__html: OFFER_DETAILS[this.state.step].sub}}/>
                                 <p dangerouslySetInnerHTML={{__html: OFFER_DETAILS[this.state.step].description}}/>
-                                {OFFER_DETAILS[this.state.step].key != OFFER_REQUEST_ITEMS.self_guided?(
+                                {OFFER_DETAILS[this.state.step].cta?(
                                     <button className="btn"
-                                            onClick={this.addEmailToRequest.bind(this, OFFER_DETAILS[this.state.step].key)}>
-                                        Request this offer
+                                            onClick={OFFER_DETAILS[this.state.step].cta.action.bind(this)}>
+                                        {OFFER_DETAILS[this.state.step].cta.text}
                                     </button>
                                 ):null}
                             </div>
