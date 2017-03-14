@@ -37,7 +37,8 @@ export default class QuoteForm extends ComponentWithModal {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const { Quote, task } = this.props;
+        const { Quote } = this.props;
+
         const quote = this.props.quote || {};
 
         if(this.props.Quote.detail.isSaved && !prevProps.Quote.detail.isSaved) {
@@ -460,7 +461,7 @@ QuoteForm.propTypes = {
 };
 
 QuoteForm.defaultProps = {
-    quote: {},
+    quote: null,
     task: null
 };
 

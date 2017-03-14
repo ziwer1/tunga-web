@@ -33,7 +33,7 @@ export default class EstimateForm extends ComponentWithModal {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const { Estimate, task } = this.props;
+        const { Estimate } = this.props;
         const estimate = this.props.estimate || {};
 
         if(this.props.Estimate.detail.isSaved && !prevProps.Estimate.detail.isSaved) {
@@ -302,7 +302,7 @@ EstimateForm.propTypes = {
 };
 
 EstimateForm.defaultProps = {
-    estimate: {},
+    estimate: null,
     task: null
 };
 
