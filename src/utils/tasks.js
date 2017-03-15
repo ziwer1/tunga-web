@@ -25,7 +25,7 @@ export function parse_task_status(task) {
     return task_status;
 }
 
-export function openTaskWizard() {
+export function openTaskWizard(options={}) {
     return createModal(
         <div className="task-wizard">
             <div className="task-section">
@@ -33,7 +33,7 @@ export function openTaskWizard() {
                     <h2 className="title text-center">Hire top African coders!</h2>
                 </div>
                 <TaskContainer>
-                    <TaskForm/>
+                    <TaskForm options={options}/>
                 </TaskContainer>
             </div>
             <div className="dev-section">

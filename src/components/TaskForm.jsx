@@ -81,6 +81,8 @@ export default class TaskForm extends ComponentWithModal {
                 this.setState({type: project.type || TASK_TYPE_OTHER, scope: TASK_SCOPE_TASK});
             }
         }
+
+        this.setState({...this.state,...this.props.options});
     }
 
     componentDidMount() {
@@ -298,9 +300,6 @@ export default class TaskForm extends ComponentWithModal {
     onStateValueChange(key, value) {
         var new_state = {};
         new_state[key] = value;
-        if(key == 'scope') {
-            new_state.is_project = (value == TASK_SCOPE_PROJECT);
-        }
         if(key == 'type') {
             new_state.skills = Array.from(new Set([...this.state.skills, ...suggestTaskTypeSkills(value)['selected']]));
         }
@@ -326,7 +325,6 @@ export default class TaskForm extends ComponentWithModal {
         req_data.type = this.state.type;
         req_data.scope = this.state.scope;
 
-        req_data.is_project = this.state.is_project;
         req_data.has_requirements = this.state.has_requirements;
         req_data.pm_required = this.state.pm_required;
         req_data.contact_required = this.state.contact_required;
@@ -413,7 +411,7 @@ export default class TaskForm extends ComponentWithModal {
     }
 
     render() {
-        const { Task, project, enabledWidgets } = this.props;
+        const { Task, project, enabledWidgets, options } = this.props;
         const task = this.props.task || {};
 
         if(!isAuthenticated() && Task.detail.isSaved) {
@@ -425,7 +423,8 @@ export default class TaskForm extends ComponentWithModal {
         }
 
         let is_project_task = (project && project.id) || (task && task.parent);
-        let work_type = (this.state.is_project || !isAuthenticated())?'project':'task';
+        let is_project = this.state.scope != TASK_SCOPE_TASK;
+        let work_type = (is_project)?'project':'task';
 
         if(isAuthenticated() && !getUser().can_contribute) {
             return (
@@ -610,7 +609,7 @@ export default class TaskForm extends ComponentWithModal {
                     <label className="control-label">{
                         isAuthenticated()?(
                             this.state.scope == TASK_SCOPE_ONGOING?'What kind of work do you have for developers':(
-                                this.state.is_project?(
+                                is_project?(
                                     this.state.has_requirements?'Goals of the project':'Describe the idea you have for the project'
                                 ):'Requirements for this task'
                             )
@@ -671,12 +670,12 @@ export default class TaskForm extends ComponentWithModal {
                     (<FieldError message={Task.detail.error.update.fee}/>):null}
                 <div className="form-group">
                     <label className="control-label">{
-                        (!isAuthenticated() || (this.state.is_project && !this.state.has_requirements))?
+                        (!isAuthenticated() || (is_project && !this.state.has_requirements))?
                             'What is roughly the budget of this project?':
                             `Fixed fee for this task (in Euros) ${is_project_task?' - optional':''}`
                     }</label>
                     <div><input type="text" className="form-control" ref="fee" required={!is_project_task && isAuthenticated()} placeholder="Amount in Euros"  onChange={this.onInputChange.bind(this, 'fee')} value={this.state.fee?parseNumber(this.state.fee):''}/></div>
-                    {!this.state.is_project || this.state.has_requirements?(
+                    {!is_project || this.state.has_requirements?(
                         <div style={{marginTop: '10px'}}>13% of pledge goes to Tunga</div>
                     ):null}
                 </div>
@@ -708,7 +707,7 @@ export default class TaskForm extends ComponentWithModal {
 
         let filesComp = (
             <div className="form-group">
-                <label className="control-label">{this.state.is_project?`Please upload relevant files for the ${work_type} (e.g functional requirements and/or wireframes)`:'Files'}</label>
+                <label className="control-label">{is_project?`Please upload relevant files for the ${work_type} (e.g functional requirements and/or wireframes)`:'Files'}</label>
                 <div>
                     <Dropzone ref="dropzone" onDrop={this.onDrop.bind(this)} style={{display: 'none'}}>
                         <div>Try dropping some files here, or click to select files to upload.</div>
@@ -918,21 +917,21 @@ export default class TaskForm extends ComponentWithModal {
                                     </button>
                                 )
                             })}
-                            {this.state.is_project?(
+                            {is_project?(
                                 <button type="button"
                                         className={"btn " + (this.state.billing_method === undefined?' active':'')}
                                         onClick={this.onStateValueChange.bind(this, 'billing_method', undefined)}>I'm not sure
                                 </button>
                             ):null}
                         </div>
-                        {!this.state.is_project && this.state.billing_method == TASK_BILLING_METHOD_HOURLY?(
+                        {!is_project && this.state.billing_method == TASK_BILLING_METHOD_HOURLY?(
                             <div className="card">
                                 Tunga offers fixed hourly fees ranging from &euro; 19 - &euro; 25 per hour.<br/>
                                 The fee per developers will be presented when they apply for the task.
                             </div>
                         ):null}
 
-                        {this.state.is_project?(
+                        {is_project?(
                             <div>
                                 {this.state.billing_method == TASK_BILLING_METHOD_HOURLY?(
                                     <div className="card">
@@ -954,7 +953,7 @@ export default class TaskForm extends ComponentWithModal {
                         ):null}
                     </div>
                 </div>
-                {!this.state.is_project && this.state.billing_method == TASK_BILLING_METHOD_FIXED?(feeComp):null}
+                {!is_project && this.state.billing_method == TASK_BILLING_METHOD_FIXED?(feeComp):null}
             </div>
         );
 
@@ -1115,7 +1114,7 @@ export default class TaskForm extends ComponentWithModal {
                     }
                 ];
 
-                if(this.state.is_project) {
+                if(is_project) {
                     sections = [
                         ...sections,
                         {
@@ -1249,18 +1248,25 @@ export default class TaskForm extends ComponentWithModal {
             ];
 
             if(!canShowAll) {
+
+                if(!options || !options.scope) {
+                    sections = [
+                        {
+                            title: 'Scope of your work',
+                            items: [taskScopeComp],
+                            required: true,
+                            forks: ['scope']
+                        },
+                        ...sections
+                    ];
+                }
+
                 sections = [
                     {
                         title: 'What kind of work do you have?',
                         items: [taskTypeComp],
                         required: true,
                         forks: ['type']
-                    },
-                    {
-                        title: 'Scope of your work',
-                        items: [taskScopeComp],
-                        required: true,
-                        forks: ['scope']
                     },
                     ...sections
                 ];
@@ -1336,7 +1342,7 @@ export default class TaskForm extends ComponentWithModal {
                                         className="btn"
                                         disabled={Task.detail.isSaving}>
                                     {this.state.scope == TASK_SCOPE_ONGOING || !isAuthenticated()?'Find me awesome developers':(
-                                        `${task.id?'Update':'Publish'} ${this.state.is_project?'project':'task'}`
+                                        `${task.id?'Update':'Publish'} ${is_project?'project':'task'}`
                                     )}
                                 </button>
                             </div>
@@ -1354,13 +1360,15 @@ export default class TaskForm extends ComponentWithModal {
 TaskForm.propTypes = {
     task: React.PropTypes.object,
     project: React.PropTypes.object,
-    enabledWidgets: React.PropTypes.array
+    enabledWidgets: React.PropTypes.array,
+    options: React.PropTypes.object
 };
 
 TaskForm.defaultProps = {
     task: null,
     project: null,
-    enabledWidgets: []
+    enabledWidgets: [],
+    options: null
 };
 
 TaskForm.contextTypes = {
