@@ -36,9 +36,15 @@ class ShowCaseFooter extends React.Component {
                         </div>
                     </div>
                     <div className="col-sm-6" id="contact-info">
-                        <h4>CONTACT INFORMATION</h4>
+                        <h4>CONTACT & LEGAL INFORMATION</h4>
                         <p><i className="fa fa-map-marker"/> Ms van Riemsdijkweg 57, 1033RC Amsterdam, The Netherlands</p>
-                        <p><i className="fa fa-phone"/> +31(0)615955194 <i className="fa fa-envelope"/> hello@tunga.io</p>
+                        <p><i className="fa fa-phone"/> +31(0)615955194 </p>
+                        <p><i className="fa fa-envelope"/> <a href="mailto:hello@tunga.io" target="_blank">hello@tunga.io</a></p>
+
+                        <div>
+                            <p><a href="/privacy" target="_blank">Privacy Policy</a> &nbsp; | &nbsp; <a href="/agreement" target="_blank">Terms and Conditions</a> &nbsp; | &nbsp; <a href="/code-of-conduct" target="_blank">Code of Conduct</a></p>
+                            <small>&copy; {moment().format('YYYY')} Tunga.io &mdash; All rights reserved.</small>
+                        </div>
                     </div>
                     <div className="col-sm-3" id="latest-from-blog">
                         <h4>LATEST FROM OUR BLOG</h4>
@@ -50,10 +56,6 @@ class ShowCaseFooter extends React.Component {
                             <li><a target="_blank" href="https://blog.tunga.io/african-coders-are-more-suited-for-the-gig-economy-than-their-western-counterparts-99a32366fcd3#.5a5ppu93f"><i className="fa fa-angle-right"></i> African coders are more suited for the ‘gig economy’ than their western counterparts</a></li>
                         </ul>
                     </div>
-                </div>
-                <div className="text-center">
-                    <p><a href="/privacy" target="_blank">Privacy Policy</a> &nbsp; | &nbsp; <a href="/agreement" target="_blank">Terms and Conditions</a> &nbsp; | &nbsp; <a href="/code-of-conduct" target="_blank">Code of Conduct</a></p>
-                    <small>&copy; {moment().format('YYYY')} Tunga.io &mdash; All rights reserved.</small>
                 </div>
             </footer>
         );
