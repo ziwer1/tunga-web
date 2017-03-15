@@ -103,8 +103,8 @@ export const USER_TYPE_CHOICES = [
     {id: USER_TYPE_PROJECT_MANAGER, name: 'Project Manager'}
 ];
 
-export const DEVELOPER_FEE = 19.5;
-export const PM_FEE = 19.5;
+export const DEVELOPER_FEE = 19;
+export const PM_FEE = 39;
 
 export const PAYMENT_METHOD_BTC_WALLET = 'btc_wallet';
 export const PAYMENT_METHOD_BTC_ADDRESS = 'btc_address';
