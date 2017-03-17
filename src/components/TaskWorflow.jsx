@@ -35,7 +35,7 @@ export default class TaskWorflow extends ComponentWithModal {
 
     constructor(props) {
         super(props);
-        this.state = {ratings_map: null, modalEvent: {}};
+        this.state = {ratings_map: null, modalEvent: {}, messages: true, notifications: true, files: true, showFilter: false};
     }
 
     componentWillMount() {
@@ -59,6 +59,10 @@ export default class TaskWorflow extends ComponentWithModal {
         if (this.props.params.taskId) {
             this.setInterval(this.getNewActivity.bind(this), 5000);
         }
+
+        $(window).click({ref: this}, function (e) {
+            //e.data.ref.setState({showFilter: false});
+        });
     }
 
     componentWillReceiveProps(nextProps) {
@@ -212,6 +216,15 @@ export default class TaskWorflow extends ComponentWithModal {
             this.setState({modalEvent: {id: event}});
             this.open();
         }
+    }
+
+    onToggleFilter(key, e) {
+        //e.preventDefault();
+        e.stopPropagation();
+        console.log(key, e);
+        var new_state = {};
+        new_state[key] = !this.state[key];
+        this.setState(new_state);
     }
 
     renderModalContent() {
@@ -478,28 +491,40 @@ export default class TaskWorflow extends ComponentWithModal {
                         </div>
                     ) : null}
 
-                    <div className="nav-top-filter pull-left">
 
+                    <div className="pull-right" style={{width: '30%'}}>
+                        {task.is_developer_ready && is_admin_or_owner && !task.parent ? (
+                            <ul className="integration-options pull-right">
+                                <li>
+                                    <Link to={`/work/${task.id}/integrations/${SOCIAL_PROVIDERS.github}`}
+                                          activeClassName="active"
+                                          title="GitHub">
+                                        <i className="fa fa-github"/>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to={`/work/${task.id}/integrations/${SOCIAL_PROVIDERS.slack}`}
+                                          activeClassName="active"
+                                          title="Slack">
+                                        <i className="fa fa-slack"/>
+                                    </Link>
+                                </li>
+                            </ul>
+                        ) : null}
                     </div>
 
-                    {task.is_developer_ready && is_admin_or_owner && !task.parent ? (
-                        <ul className="integration-options pull-right">
-                            <li>
-                                <Link to={`/work/${task.id}/integrations/${SOCIAL_PROVIDERS.github}`}
-                                      activeClassName="active"
-                                      title="GitHub">
-                                    <i className="fa fa-github"/>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link to={`/work/${task.id}/integrations/${SOCIAL_PROVIDERS.slack}`}
-                                      activeClassName="active"
-                                      title="Slack">
-                                    <i className="fa fa-slack"/>
-                                </Link>
-                            </li>
-                        </ul>
-                    ) : null}
+                    <div className="pull-right">
+                        <div className={`dropdown activity-filter ${this.state.showFilter?'open':''}`} onClick={() => {this.setState({showFilter: !this.state.showFilter})}}>
+                            <button className="btn filter-btn dropdown-toggle">
+                                <i className="tunga-icon-filter"/>
+                            </button>
+                            <div className="dropdown-menu">
+                                <div>Messages <i className={`switch fa fa-toggle-${this.state.messages?'on':'off'}`} onClick={this.onToggleFilter.bind(this, 'messages')}/></div>
+                                <div>Notifications <i className={`switch fa fa-toggle-${this.state.notifications?'on':'off'}`} onClick={this.onToggleFilter.bind(this, 'notifications')}/></div>
+                                <div>Files <i className={`switch fa fa-toggle-${this.state.files?'on':'off'}`} onClick={this.onToggleFilter.bind(this, 'files')}/></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div className="workflow-overview overview">
@@ -514,6 +539,9 @@ export default class TaskWorflow extends ComponentWithModal {
                                     loadMoreUrl={Task.detail.activity.next[getTaskKey(task.id)] || null}
                                     loadMoreCallback={TaskActions.listMoreTaskActivity}
                                     loadMoreText="Show older activity"
+                                    showMessages={this.state.messages}
+                                    showNotifications={this.state.notifications}
+                                    showFiles={this.state.files}
                                 />
                             </div>
                         ) : null}
@@ -544,9 +572,9 @@ export default class TaskWorflow extends ComponentWithModal {
                                                 <i className="fa fa-clock-o fa-2x"/>
                                             </div>
                                             <div>
-                                                <div
-                                                    className="bold">{moment.utc(task.deadline).local().format("Do MMM 'YY")}</div>
-                                                <div>{moment.utc(task.deadline).local().format('hh:mm A')}</div>
+                                                <div className="bold">
+                                                    {moment.utc(task.deadline).local().format("Do MMM 'YY")}
+                                                </div>
                                             </div>
                                         </div>
                                     ) : null}
@@ -623,7 +651,7 @@ export default class TaskWorflow extends ComponentWithModal {
                                 ) : null}
                             </div>
                         </div>
-                        <div className="overview-files">
+                        {/*<div className="overview-files">
                             {uploads ? (
                                 <div className="wrapper">
                                     <h4>Files</h4>
@@ -637,7 +665,7 @@ export default class TaskWorflow extends ComponentWithModal {
                                     })}
                                 </div>
                             ) : null}
-                        </div>
+                        </div>*/}
                     </div>
                 </div>
             </div>

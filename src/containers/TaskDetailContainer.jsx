@@ -35,6 +35,19 @@ export default class TaskDetailContainer extends React.Component {
         return null;
     }
 
+    getApplicationId() {
+        if(this.props.params) {
+            return this.props.params.applicationId;
+        }
+        return null;
+    }
+
+    getApplication() {
+        let id = this.getApplicationId();
+        const applications = this.props.Task.detail.applications.items;
+        return applications[id];
+    }
+
     renderChildren() {
         return React.Children.map(this.props.children, function (child) {
             return React.cloneElement(child, {
@@ -55,11 +68,18 @@ export default class TaskDetailContainer extends React.Component {
 
         var crumb_parents = [];
 
+        let application_id = this.getApplicationId();
+        let application = this.getApplication();
+        console.log('application', application);
+
         if(task) {
             if(task.parent) {
                 crumb_parents.push({name: task.details.parent.summary, link: `/work/${task.parent}?nr=true`});
             }
             crumb_parents.push({name: task.summary, link: `/work/${task.id}?nr=true`});
+            if(application_id) {
+                crumb_parents.push({name: 'Applications', link: `/work/${task.id}/applications/`});
+            }
         }
 
         return (
@@ -88,7 +108,7 @@ export default class TaskDetailContainer extends React.Component {
                 isAdmin() || (lastRoute && lastRoute.path == 'apply' && task.can_apply)?(
                 <div>
                     <BreadCrumb
-                        section={getRouteCrumb(routes)}
+                        section={application_id?(application?application.user.display_name:`Application #${application_id}`):getRouteCrumb(routes)}
                         parents={crumb_parents} />
 
                     {this.renderChildren()}

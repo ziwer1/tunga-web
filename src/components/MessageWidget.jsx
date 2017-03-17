@@ -30,10 +30,7 @@ export default class MessageWidget extends React.Component {
                 {this.props.canUpload?(
                     <span className="input-group-btn">
                         <button type="button" className="btn btn-borderless" onClick={this.onAddAttachment.bind(this)}>
-                            <i className="fa fa-image fa-lg"/>
-                        </button>
-                        <button type="button" className="btn btn-borderless" onClick={this.onAddAttachment.bind(this)}>
-                            <i className="fa fa-paperclip fa-lg"/>
+                            <i className="tunga-icon-create fa-3x"/>
                         </button>
                     </span>
                 ):null}

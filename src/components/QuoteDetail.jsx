@@ -190,8 +190,8 @@ export default class QuoteDetail extends React.Component {
                                 return (
                                     <tr>
                                         <td>{milestone.title}</td>
-                                        <td>{moment.utc(milestone.start_date).local().format('Do, MMMM YYYY, h:mm a')}</td>
-                                        <td>{moment.utc(milestone.end_date).local().format('Do, MMMM YYYY, h:mm a')}</td>
+                                        <td>{moment.utc(milestone.start_date).local().format('Do, MMMM YYYY')}</td>
+                                        <td>{moment.utc(milestone.end_date).local().format('Do, MMMM YYYY')}</td>
                                         <td>{milestone.description}</td>
                                     </tr>
                                 )

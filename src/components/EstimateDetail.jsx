@@ -117,11 +117,11 @@ export default class EstimateDetail extends React.Component {
                     <div className="row">
                         <div className="col-md-6">
                             <h5>Start Date</h5>
-                            {moment.utc(estimate.start_date).local().format('Do, MMMM YYYY, h:mm a')}
+                            {moment.utc(estimate.start_date).local().format('Do, MMMM YYYY')}
                         </div>
                         <div className="col-md-6">
                             <h5>End Date</h5>
-                            {moment.utc(estimate.end_date).local().format('Do, MMMM YYYY, h:mm a')}
+                            {moment.utc(estimate.end_date).local().format('Do, MMMM YYYY')}
                         </div>
                     </div>
                 </div>

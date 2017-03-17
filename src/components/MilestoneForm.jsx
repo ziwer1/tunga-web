@@ -63,7 +63,10 @@ export default class MilestoneForm extends React.Component {
                         (<FieldError message={this.state.error.due_at}/>):null}
                     <div className="form-group">
                         <label className="control-label">Due at *</label>
-                        <DateTimePicker ref="due_at" onChange={this.onDueAtChange.bind(this)} defaultValue={milestone.due_at?(new Date(moment.utc(milestone.due_at).format())):null}/>
+                        <DateTimePicker ref="due_at"
+                                        onChange={this.onDueAtChange.bind(this)}
+                                        defaultValue={milestone.due_at?(new Date(moment.utc(milestone.due_at).format())):null}
+                                        time={false}/>
                     </div>
 
                     <div className="form-group">

@@ -265,7 +265,10 @@ export default class EstimateForm extends ComponentWithModal {
                                 (<FieldError message={Estimate.detail.error.update.start_date}/>):null}
                             <div className="form-group">
                                 <label className="control-label">Start Date *</label>
-                                <DateTimePicker ref="due_at" onChange={this.onStartDateChange.bind(this)} defaultValue={this.state.start_date?(new Date(moment.utc(this.state.start_date).format())):null}/>
+                                <DateTimePicker ref="due_at"
+                                                onChange={this.onStartDateChange.bind(this)}
+                                                defaultValue={this.state.start_date?(new Date(moment.utc(this.state.start_date).format())):null}
+                                                time={false}/>
                             </div>
                         </div>
                         <div className="col-md-6">
@@ -275,7 +278,10 @@ export default class EstimateForm extends ComponentWithModal {
                                 (<FieldError message={Estimate.detail.error.update.end_date}/>):null}
                             <div className="form-group">
                                 <label className="control-label">End Date *</label>
-                                <DateTimePicker ref="due_at" onChange={this.onEndDateChange.bind(this)} defaultValue={this.state.start_date?(new Date(moment.utc(this.state.start_date).format())):null}/>
+                                <DateTimePicker ref="due_at"
+                                                onChange={this.onEndDateChange.bind(this)}
+                                                defaultValue={this.state.start_date?(new Date(moment.utc(this.state.start_date).format())):null}
+                                                time={false}/>
                             </div>
                         </div>
                     </div>

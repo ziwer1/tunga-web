@@ -102,17 +102,6 @@ export default class QuoteForm extends ComponentWithModal {
         this.setState({plan: new_plans});
     }
 
-    getTotalHours() {
-        if(!this.state.activities || !this.state.activities.length) {
-            return 0;
-        }
-        return this.state.activities.map(function (activity) {
-            return activity.hours;
-        }).reduce((a,b) => {
-            return parseInt(a)+parseInt(b);
-        });
-    }
-
     onDelete(idx) {
         if(idx > -1) {
             let activities = Array.from(new Set([...this.state.activities.slice(0, idx), ...this.state.activities.slice(idx+1)]));
@@ -427,8 +416,8 @@ export default class QuoteForm extends ComponentWithModal {
                                             <td>
                                                 <a href="#" onClick={this.onComposePlan.bind(this, {...milestone, idx})}>{_.truncate(milestone.title, {length: 25})}</a>
                                             </td>
-                                            <td>{moment.utc(milestone.start_date).local().format('Do, MMMM YYYY, h:mm a')}</td>
-                                            <td>{moment.utc(milestone.end_date).local().format('Do, MMMM YYYY, h:mm a')}</td>
+                                            <td>{moment.utc(milestone.start_date).local().format('Do, MMMM YYYY')}</td>
+                                            <td>{moment.utc(milestone.end_date).local().format('Do, MMMM YYYY')}</td>
                                             <td>{milestone.description}</td>
                                             <td><button className="btn" onClick={this.onDeletePlan.bind(this, idx)}><i className="fa fa-trash-o"/></button></td>
                                         </tr>

@@ -2,12 +2,14 @@ import React from 'react';
 import moment from 'moment';
 import momentLocalizer from 'react-widgets/lib/localizers/moment';
 import DateTimePicker from 'react-widgets/lib/DateTimePicker';
-import TinyMCE  from 'react-tinymce';
+
 import Progress from './status/Progress';
 import FormStatus from './status/FormStatus';
 import FieldError from './status/FieldError';
 import Success from './status/Success';
-import {TINY_MCE_CONFIG } from '../constants/settings';
+
+import { getDevFee } from '../utils/tasks';
+import { parseNumber } from '../utils/helpers';
 
 momentLocalizer(moment);
 
@@ -33,6 +35,18 @@ export default class ApplicationForm extends React.Component {
             var deliver_at = task.deadline?(new Date(moment.utc(task.deadline).format())):null;
             this.setState({deliver_at: deliver_at, pitch: '', remarks: ''});
         }
+    }
+
+    onInputChange(key, e) {
+        var new_state = {};
+        new_state[key] = e.target.value;
+        this.setState(new_state);
+    }
+
+    onStateValueChange(key, value) {
+        var new_state = {};
+        new_state[key] = value;
+        this.setState(new_state);
     }
 
     onDeliveryDateChange(date) {
@@ -97,9 +111,11 @@ export default class ApplicationForm extends React.Component {
                         (<FieldError message={Task.detail.applications.error.create.pitch}/>):null}
                     <div className="form-group">
                         <label className="control-label">What makes you qualified for this task *</label>
-                        <TinyMCE
-                            config={TINY_MCE_CONFIG}
-                            onChange={this.onPitchChange.bind(this)}/>
+                        <textarea placeholder="What makes you qualified for this task"
+                                  className="form-control"
+                                  ref="pitch"
+                                  onChange={this.onInputChange.bind(this, 'pitch')}
+                                  value={this.state.pitch}/>
                     </div>
 
                     {(Task.detail.applications.error.create && Task.detail.applications.error.create.hours_needed)?
@@ -108,8 +124,23 @@ export default class ApplicationForm extends React.Component {
                         (<FieldError message={Task.detail.applications.error.update.hours_needed}/>):null}
                     <div className="form-group">
                         <label className="control-label">Development hours needed to complete task *</label>
-                        <div><input type="text" className="form-control" ref="hours_needed" placeholder="Development hours needed to complete task"/></div>
+                        <div>
+                            <input type="text"
+                                    className="form-control"
+                                    ref="hours_needed"
+                                    placeholder="Development hours needed to complete task" onChange={this.onInputChange.bind(this, 'hours_needed')}/>
+                        </div>
+                        <div>
+                            <div className="alert alert-info">You will be paid €12.5/hour</div>
+                            {task.fee?(
+                                <div>Client's proposal: €{parseNumber(task.amount.developer)}</div>
+                            ):null}
+                            {this.state.hours_needed?(
+                                <div className="bold">Your Estimate: €{getDevFee(this.state.hours_needed)}</div>
+                            ):null}
+                        </div>
                     </div>
+
 
                     {(Task.detail.applications.error.create && Task.detail.applications.error.create.hours_available)?
                         (<FieldError message={Task.detail.applications.error.create.hours_available}/>):null}
@@ -124,7 +155,11 @@ export default class ApplicationForm extends React.Component {
                         (<FieldError message={Task.detail.applications.error.create.deliver_at}/>):null}
                     <div className="form-group">
                         <label className="control-label">Delivery Date *</label>
-                        <DateTimePicker ref="deliver_at" onChange={this.onDeliveryDateChange.bind(this)} defaultValue={task.deadline?(new Date(moment.utc(task.deadline).format())):null}/>
+                        <DateTimePicker
+                            ref="deliver_at"
+                            onChange={this.onDeliveryDateChange.bind(this)}
+                            defaultValue={task.deadline?(new Date(moment.utc(task.deadline).format())):null}
+                            time={false}/>
                     </div>
 
                     {(Task.detail.applications.error.create && Task.detail.applications.error.create.agree_schedule)?
@@ -163,9 +198,11 @@ export default class ApplicationForm extends React.Component {
                         (<FieldError message={Task.detail.applications.error.create.remarks}/>):null}
                     <div className="form-group">
                         <label className="control-label">Do you have a question or remark for the client?</label>
-                        <TinyMCE
-                            config={TINY_MCE_CONFIG}
-                            onChange={this.onRemarksChange.bind(this)}/>
+                        <textarea placeholder="Question or remark for the client"
+                                  className="form-control"
+                                  ref="remarks"
+                                  onChange={this.onInputChange.bind(this, 'remarks')}
+                                  value={this.state.remarks}/>
                         <div className="alert alert-info" style={{marginTop: '10px'}}>Any question or remark will be sent to the client as a direct message</div>
                     </div>
 

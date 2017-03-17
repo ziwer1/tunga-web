@@ -48,6 +48,7 @@ import TaskDetailContainer from 'containers/TaskDetailContainer';
 import ApplicationForm from 'components/ApplicationForm';
 import TaskWorflow from 'components/TaskWorflow';
 import ApplicationList from 'components/ApplicationList';
+import ApplicationDetail from 'components/ApplicationDetail';
 import MilestoneContainer from 'containers/MilestoneContainer';
 import Milestone from 'components/Milestone';
 import MilestoneList from 'components/MilestoneList';
@@ -173,7 +174,10 @@ ReactDOM.render(
                                     </Route>
                                 </Route>
                                 <Route path="quote" component={EstimateForm} crumb="Quote"/>
-                                <Route path="applications" component={ApplicationList} crumb="Applications"/>
+                                <Route path="applications">
+                                    <IndexRoute component={ApplicationList} crumb="Applications"/>
+                                    <Route path=":applicationId" component={ApplicationDetail}/>
+                                </Route>
                                 <Route path="board" component={ProjectBoard} crumb="Project Board"/>
                                 <Route path="task/new" component={ProjectTaskForm} crumb="Add task"/>
                                 <Route path="integrations" component={IntegrationList} crumb="Integrations">

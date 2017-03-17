@@ -9,7 +9,6 @@ import LargeModal from './LargeModal';
 
 import confirm from '../utils/confirm';
 import { getTotalFee } from '../utils/tasks';
-import { truncateWords } from '../utils/helpers';
 
 export default class ApplicationList extends ComponentWithModal {
 
@@ -70,6 +69,13 @@ export default class ApplicationList extends ComponentWithModal {
                 TaskActions.updateApplication(application.id, {accepted: false, responded: true});
             }
         );
+    }
+
+    getApplicationId() {
+        if(this.props.params) {
+            return this.props.params.applicationId;
+        }
+        return null;
     }
 
     renderModalContent() {
@@ -133,13 +139,30 @@ export default class ApplicationList extends ComponentWithModal {
                                 <button type="button" className="btn " onClick={this.handleOpenApplications.bind(this)}>Open applications</button>
                             )}
                         </div>
-                        <div className="row flex-row">
+                        <div className="row">
                             {applications.ids.map((id) => {
+                                if(id != this.getApplicationId()) {
+                                    return null;
+                                }
                                 const application = applications.items[id];
                                 const { user } =  application.details;
                                 return(
-                                <div className="col-sm-6 col-md-4" key={id}>
-                                    <div className={"card application-card" + ((application.responded && !application.accepted)?' rejected':'')}>
+                                <div className="col-xs-12" key={id}>
+                                    <div className={"card application-card detail-card" + ((application.responded && !application.accepted)?' rejected':'')}>
+                                        {task.closed || application.responded?null:(
+                                        <div className="actions pull-right">
+                                            <div>
+                                                <button type="button" className="btn btn-block "
+                                                        onClick={this.handleSelectDeveloper.bind(this, application, true)}>
+                                                    Select developer</button>
+                                            </div>
+                                            <div>
+                                                <button type="button" className="btn btn-block "
+                                                        onClick={this.handleRejectApplication.bind(this, application)}>
+                                                    Decline application</button>
+                                            </div>
+                                        </div>
+                                            )}
                                         <UserCardProfile user={user}/>
                                         {user.profile && user.profile.skills.length?(
                                         <div>
@@ -153,7 +176,7 @@ export default class ApplicationList extends ComponentWithModal {
                                             {application.pitch?(
                                             <div>
                                                 <p className="title">Motivation</p>
-                                                <div className="description" dangerouslySetInnerHTML={{__html: truncateWords(application.pitch, 12)}}/>
+                                                <div className="description" dangerouslySetInnerHTML={{__html: application.pitch}}/>
                                             </div>
                                                 ):null}
                                             {application.hours_needed?(
@@ -182,26 +205,6 @@ export default class ApplicationList extends ComponentWithModal {
                                                     ):null} you've set for this task</div>
                                             </div>
                                         </div>
-                                        {task.closed || application.responded?null:(
-                                            <div className="actions">
-                                                <div>
-                                                    <Link to={`/work/${application.task}/applications/${application.id}`}
-                                                          className="btn btn-block">View full Application</Link>
-                                                </div>
-                                                <div className="row">
-                                                    <div className="col-md-6">
-                                                        <button type="button" className="btn btn-block "
-                                                                onClick={this.handleSelectDeveloper.bind(this, application, true)}>
-                                                            Accept</button>
-                                                    </div>
-                                                    <div className="col-md-6">
-                                                        <button type="button" className="btn btn-block "
-                                                                onClick={this.handleRejectApplication.bind(this, application)}>
-                                                            Decline</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        )}
                                     </div>
                                 </div>
                                     )

@@ -226,7 +226,7 @@ export default class TaskForm extends ComponentWithModal {
     }
 
     onDeadlineChange(date) {
-        this.setState({deadline: moment(date).utc().format()});
+        this.setState({deadline: (date?moment(date).utc().format():undefined)});
     }
 
     onRichTextChange(key, e) {
@@ -615,9 +615,13 @@ export default class TaskForm extends ComponentWithModal {
                                     this.state.has_requirements?'Goals of the project':'Describe the idea you have for the project'
                                 ):'Requirements for this task'
                             )
-                        ):'Short description'
+                        ):'Description *'
                     }</label>
-                    <textarea placeholder="Short description of the task" className="form-control" ref="description" onChange={this.onInputChange.bind(this, 'description')} value={this.state.description}></textarea>
+                    <textarea placeholder={`Description of the ${work_type}`}
+                              className="form-control"
+                              ref="description"
+                              onChange={this.onInputChange.bind(this, 'description')}
+                              value={this.state.description} required={!isAuthenticated()}/>
                 </div>
             </div>
         );
@@ -694,12 +698,16 @@ export default class TaskForm extends ComponentWithModal {
                     <label className="control-label">When do you need the {work_type} done?</label>
                     <div className="row">
                         <div className="col-md-6">
-                            <DateTimePicker ref="deadline" onChange={this.onDeadlineChange.bind(this)} defaultValue={task.deadline?(new Date(moment.utc(task.deadline).format())):null}/>
+                            <DateTimePicker ref="deadline"
+                                            onChange={this.onDeadlineChange.bind(this)}
+                                            defaultValue={task.deadline?(new Date(moment.utc(task.deadline).format())):null}
+                                            value={this.state.deadline?new Date(moment.utc(this.state.deadline).format()):null}
+                                            time={false}/>
                         </div>
                         <div>
                             <button type="button"
                                     className={"btn btn-grey " + (this.state.deadline === undefined?' active':'')}
-                                    onClick={this.onStateValueChange.bind(this, 'deadline', undefined)}>I'm not sure
+                                    onClick={this.onStateValueChange.bind(this, 'deadline', this.state.deadline === undefined?null:undefined)}>I'm not sure
                             </button>
                         </div>
                     </div>
@@ -922,7 +930,7 @@ export default class TaskForm extends ComponentWithModal {
                             {is_project?(
                                 <button type="button"
                                         className={"btn " + (this.state.billing_method === undefined?' active':'')}
-                                        onClick={this.onStateValueChange.bind(this, 'billing_method', undefined)}>I'm not sure
+                                        onClick={this.onStateValueChange.bind(this, 'billing_method', this.state.deadline === undefined?null:undefined)}>I'm not sure
                                 </button>
                             ):null}
                         </div>
@@ -1011,7 +1019,7 @@ export default class TaskForm extends ComponentWithModal {
                 {(Task.detail.error.update && Task.detail.error.update.email)?
                     (<FieldError message={Task.detail.error.update.email}/>):null}
                 <div className="form-group">
-                    <div className="highlight">We'll use your email to contact you with more details through a structured channel</div>
+                    <div className="highlight">We'll use your email to contact you with more details</div>
                     <label className="control-label">E-mail address *</label>
                     <div><input type="email" name="email" className="form-control" ref="email" required placeholder="Email"  onChange={this.onInputChange.bind(this, 'email')} value={this.state.email}/></div>
                 </div>
@@ -1071,7 +1079,7 @@ export default class TaskForm extends ComponentWithModal {
             } else if(is_project_task) {
                 sections = [
                     {
-                        title: 'Basic details about the task',
+                        title: `Basic details about the ${work_type}`,
                         items: [titleComp, skillsComp],
                         requires: ['title', 'skills']
                     },
@@ -1086,14 +1094,14 @@ export default class TaskForm extends ComponentWithModal {
                         requires: ['fee']
                     },
                     {
-                        title: 'Who would you like to see your task?',
+                        title: `Who would you like to see your ${work_type}?`,
                         items: [visibilityComp]
                     }
                 ];
             } else if(this.state.scope == TASK_SCOPE_ONGOING) {
                 sections = [
                     {
-                        title: 'Basic details about the task',
+                        title: `Basic details about the ${work_type}`,
                         items: [codersComp, descComp],
                         requires: ['coders_needed']
                     },
@@ -1120,7 +1128,7 @@ export default class TaskForm extends ComponentWithModal {
                     sections = [
                         ...sections,
                         {
-                            title: 'Do you want a project manager for this project?',
+                            title: `Do you want a project manager for this ${work_type}?`,
                             items: [requiresPMComp],
                             required: true,
                             forks: ['pm_required']
@@ -1184,7 +1192,7 @@ export default class TaskForm extends ComponentWithModal {
                             items: [deadlineComp, billingComp]
                         },
                         {
-                            title: 'Who would you like to see your task?',
+                            title: `Who would you like to see your ${work_type}?`,
                             items: [visibilityComp]
                         }
                     ]
@@ -1219,7 +1227,7 @@ export default class TaskForm extends ComponentWithModal {
             sections = [
                 ...sections,
                 {
-                    title: 'Basic details about the task',
+                    title: `Basic details about the ${work_type}`,
                     items: [descComp, hasMoreInfoComp],
                     forks: ['has_more_info']
                 }
@@ -1230,7 +1238,7 @@ export default class TaskForm extends ComponentWithModal {
                     ...sections,
                     {
                         title: 'Additional information',
-                        items: [deliverablesComp, stackDescComp]
+                        items: [deliverablesComp, stackDescComp, filesComp]
                     },
                     {
                         title: 'Additional information',

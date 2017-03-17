@@ -45,9 +45,11 @@ export default class ActivityList extends React.Component {
         var uploads = null;
         var more = null;
 
+        const { showMessages, showNotifications, showFiles } = this.props;
+
         switch (activity_type) {
             case 'message':
-                if(item.action == 'send') {
+                if(item.action == 'send' && showMessages) {
                     creator = object.sender || object.user;
                     created_at = object.created_at;
                     body = (<div dangerouslySetInnerHTML={{__html: object.html_body || object.body}}/>);
@@ -55,18 +57,22 @@ export default class ActivityList extends React.Component {
                 }
                 break;
             case 'comment':
-                creator = object.user;
-                created_at = object.created_at;
-                body = (<div dangerouslySetInnerHTML={{__html: object.html_body}}/>);
-                uploads = object.uploads;
+                if(showMessages) {
+                    creator = object.user;
+                    created_at = object.created_at;
+                    body = (<div dangerouslySetInnerHTML={{__html: object.html_body}}/>);
+                    uploads = object.uploads;
+                }
                 break;
             case 'upload':
-                creator = object.user;
-                created_at = object.created_at;
-                uploads = [object];
+                if(showFiles) {
+                    creator = object.user;
+                    created_at = object.created_at;
+                    uploads = [object];
+                }
                 break;
             case 'participation':
-                if(item.action == 'add') {
+                if(item.action == 'add' && showNotifications) {
                     creator = object.created_by;
                     created_at = object.created_at;
                     let participant = object.details.user;
@@ -81,7 +87,7 @@ export default class ActivityList extends React.Component {
                 break;
             case 'estimate':
             case 'quote':
-                if(['create', 'submit', 'approve', 'decline', 'accept', 'reject'].indexOf(item.action) > -1) {
+                if(showNotifications && ['create', 'submit', 'approve', 'decline', 'accept', 'reject'].indexOf(item.action) > -1) {
                     creator = object.user;
 
                     let verb_map = {
@@ -145,7 +151,7 @@ export default class ActivityList extends React.Component {
                 }
                 break;
             case 'progress_event':
-                if(item.action == 'create') {
+                if(showNotifications && item.action == 'create') {
                     creator = object.created_by || {
                             id: 'tunga',
                             username: null,
@@ -167,7 +173,7 @@ export default class ActivityList extends React.Component {
                 }
                 break;
             case 'progress_report':
-                if(item.action == 'report') {
+                if(showNotifications && item.action == 'report') {
                     creator = object.user;
                     created_at = object.created_at;
                     uploads = object.uploads;
@@ -194,7 +200,7 @@ export default class ActivityList extends React.Component {
                 }
                 break;
             case 'integration_activity':
-                if(item.action == 'report') {
+                if(showNotifications && item.action == 'report') {
                     creator = {
                         display_name: object.user_display_name,
                         avatar_url: object.avatar_url
@@ -344,3 +350,24 @@ export default class ActivityList extends React.Component {
         );
     }
 }
+
+ActivityList.propTypes = {
+    activities: React.PropTypes.array.isRequired,
+    isLoading: React.PropTypes.bool,
+    isLoadingMore: React.PropTypes.bool,
+    loadMoreUrl: React.PropTypes.string,
+    loadMoreCallback: React.PropTypes.func,
+    loadMoreText: React.PropTypes.string,
+    showMessages: React.PropTypes.bool,
+    showNotifications: React.PropTypes.bool,
+    showFiles: React.PropTypes.bool
+};
+
+ActivityList.defaultProps = {
+    activities: [],
+    isLoading: false,
+    isLoadingMore: false,
+    showMessages: true,
+    showNotifications: true,
+    showFiles: true
+};

@@ -53,11 +53,12 @@ input, select, textarea, .form-control, .rw-input {
 }
 
 label {
-    font-weight: 400;
+    font-weight: 300;
+    color: @primary-text;
 }
 
 .control-label {
-    color: #777;
+    color: @primary-text;
     display: block;
 }
 
@@ -1098,12 +1099,20 @@ form[name='compose'] {
     }
 
     .actions {
-        position: absolute;
-        top: 0;
-        right: 2px;
-
         .btn {
             margin: 2px;
+        }
+    }
+
+    &.detail-card {
+        .actions {
+            position: absolute;
+            top: 0;
+            right: 2px;
+
+            .btn {
+                margin: 2px;
+            }
         }
     }
 }
@@ -1896,7 +1905,66 @@ form[name='compose'] {
 
 }
 
+.activity-filter {
+    display: inline-block;
+
+    .filter-btn {
+        display: block;
+        .font-size(3.6);
+        text-align: center;
+        line-height: 60px;
+        width: 60px;
+        height: 60px;
+        color: @primary-text;
+        background-color: @inactive-grey !important;
+        border: 1px solid @inactive-grey !important;
+        padding: 3px 0 0;
+        margin: 0;
+        text-decoration: none;
+        border-radius: 100%;
+
+        &:hover, &:focus, &.active {
+            background-color: @active-white !important;
+            color: @primary;
+            border-color: @primary !important;
+            outline-width: 0;
+        }
+    }
+
+    &.open {
+        .filter-btn{
+            background-color: @active-white !important;
+            color: @primary;
+            border-color: @primary !important;
+            outline-width: 0;
+        }
+    }
+
+    .dropdown-menu {
+        width: auto;
+        min-width: 160px !important;
+        left: auto;
+        right: 0;
+        line-height: 30px;
+        padding: 10px !important;
+
+        .switch {
+            float: right;
+            .font-size(2.4);
+
+            &.fa-toggle-on {
+                color: @primary;
+            }
+
+            &.fa-toggle-off {
+                color: @active-grey;
+            }
+        }
+    }
+}
+
 .workflow-head {
+    padding: 0 10px;
 
     .title {
         font-size: 24px;
@@ -2122,7 +2190,7 @@ form[name='compose'] {
         padding: 0 10px;
 
         .overview-details {
-            height: 65%;
+            min-height: 100%;
             overflow-y: auto;
             border-radius: 8px;
         }
@@ -2481,8 +2549,7 @@ form[name='compose'] {
 
     .section-title {
         padding: 15px 10px;
-        border-bottom: 1px @inactive-grey solid;
-        box-shadow: 0 10px 10px -7px rgba(0, 0, 0, 0.2);
+        border-bottom: 1px @border-grey solid;
 
         h4 {
             margin: 0;
@@ -2529,10 +2596,9 @@ form[name='compose'] {
     }
 
     .nav {
-        border-top: 1px @inactive-grey solid;
+        border-top: 1px @border-grey solid;
         padding: 20px;
         min-height: 73px;
-        box-shadow: 0 -10px 10px -7px rgba(0, 0, 0, 0.2);;
     }
 }
 
@@ -2554,7 +2620,7 @@ form[name='compose'] {
     .title-bar {
         text-align: center;
         color: @primary;
-        border-bottom: 1px @inactive-grey solid;
+        border-bottom: 1px @border-grey solid;
         padding: 20px 0;
 
         h2 {
@@ -2864,7 +2930,7 @@ form[name='compose'] {
     }
 
     footer {
-        padding: 20px 0;
+        padding: 45px 0;
         background-color: #202020;
         color: @active-white;
         display: flex;
@@ -3192,7 +3258,7 @@ form[name='compose'] {
             > img {
                 max-width: 80%;
                 display: block;
-                margin: -8px auto;
+                margin: 2px auto;
             }
         }
     }
@@ -3203,7 +3269,7 @@ form[name='compose'] {
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
-        min-height: 50%;
+        min-height: 65%;
         display: flex;
         align-items: center;
         color: @active-white;
@@ -3333,7 +3399,7 @@ form[name='compose'] {
     }
 
     #what-we-can-do {
-        background-color: @active-white;
+        background-color: @inactive-grey;
         min-height: 50%;
         display: flex;
         align-items: center;
@@ -3400,7 +3466,7 @@ form[name='compose'] {
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
-        min-height: 50%;
+        min-height: 60%;
         display: flex;
         align-items: center;
 

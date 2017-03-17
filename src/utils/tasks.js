@@ -7,7 +7,7 @@ import TaskContainer from '../containers/TaskContainer';
 import TaskForm from '../components/TaskForm';
 
 import createModal from '../components/Modal';
-import {DEVELOPER_FEE, PM_FEE, SOCIAL_PROVIDERS, STATUS_SUBMITTED, STATUS_APPROVED, STATUS_ACCEPTED} from '../constants/Api';
+import {DEVELOPER_FEE, PM_FEE, TUNGA_PERCENTAGE_DEVELOPER, SOCIAL_PROVIDERS, STATUS_SUBMITTED, STATUS_APPROVED, STATUS_ACCEPTED} from '../constants/Api';
 
 import {isAdmin, getUser} from '../utils/auth';
 import {parseNumber} from '../utils/helpers';
@@ -49,6 +49,20 @@ export function openTaskWizard(options={}) {
     );
 }
 
+export function getDevFee(hours) {
+    if(!hours) {
+        return 0;
+    }
+    return parseNumber(hours*DEVELOPER_FEE*(1-TUNGA_PERCENTAGE_DEVELOPER));
+}
+
+export function getTotalFee(hours) {
+    if(!hours) {
+        return 0;
+    }
+    return parseNumber(hours*DEVELOPER_FEE);
+}
+
 export function getDevHours(activities) {
     if(!activities || !activities.length) {
         return 0;
@@ -58,28 +72,6 @@ export function getDevHours(activities) {
     }).reduce((a,b) => {
         return parseInt(a)+parseInt(b);
     });
-}
-
-export function getPMHours(activities) {
-    return 0.15*getDevHours(activities);
-}
-
-export function getTotalHours(activities) {
-    let dev_hours = getDevHours(activities);
-    return dev_hours + (0.15*dev_hours);
-}
-
-export function getDevPay(activities) {
-    return DEVELOPER_FEE*getDevHours(activities);
-}
-
-export function getPMPay(activities) {
-    return DEVELOPER_FEE*0.15*getDevHours(activities);
-}
-
-export function getTotalPay(activities) {
-    let dev_hours = getDevHours(activities);
-    return (DEVELOPER_FEE*dev_hours) + (PM_FEE*0.15*dev_hours);
 }
 
 export function getPayDetails(activities) {

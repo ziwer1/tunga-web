@@ -7,6 +7,7 @@ class TaskContainer extends React.Component {
         return React.Children.map(this.props.children, function (child) {
             return React.cloneElement(child, {
                 Task: this.props.Task,
+                Application: this.props.Application,
                 TaskActions: this.props.TaskActions
             });
         }.bind(this));

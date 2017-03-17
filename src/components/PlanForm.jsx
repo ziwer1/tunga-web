@@ -76,14 +76,20 @@ export default class PlanForm extends React.Component {
                         (<FieldError message={this.state.error.start_date}/>):null}
                     <div className="form-group">
                         <label className="control-label">Start Date *</label>
-                        <DateTimePicker ref="due_at" onChange={this.onStartDateChange.bind(this)} defaultValue={activity.start_date?(new Date(moment.utc(activity.start_date).format())):null}/>
+                        <DateTimePicker ref="due_at"
+                                        onChange={this.onStartDateChange.bind(this)}
+                                        defaultValue={activity.start_date?(new Date(moment.utc(activity.start_date).format())):null}
+                                        time={false}/>
                     </div>
 
                     {(this.state.error && this.state.error.end_date)?
                         (<FieldError message={this.state.error.end_date}/>):null}
                     <div className="form-group">
                         <label className="control-label">End Date *</label>
-                        <DateTimePicker ref="due_at" onChange={this.onEndDateChange.bind(this)} defaultValue={activity.start_date?(new Date(moment.utc(activity.start_date).format())):null}/>
+                        <DateTimePicker ref="due_at"
+                                        onChange={this.onEndDateChange.bind(this)}
+                                        defaultValue={activity.start_date?(new Date(moment.utc(activity.start_date).format())):null}
+                                        time={false}/>
                     </div>
 
                     {(this.state.error && this.state.error.description)?

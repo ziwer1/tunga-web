@@ -90,7 +90,7 @@ class SkillSelector extends React.Component {
             <div className="skill-selector tag-selector" onClick={this.handleComponentClick.bind(this)}>
                 <div className="selections">
                     {this.state.suggested && this.state.suggested.length?(
-                        <p>Selected Tags</p>
+                        <p>Skills or products</p>
                     ):null}
                     {this.state.skills && this.state.skills.length?(
                         <div>
