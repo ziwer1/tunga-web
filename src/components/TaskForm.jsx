@@ -97,7 +97,9 @@ export default class TaskForm extends ComponentWithModal {
 
             const { Task } = this.props;
             if(!this.props.task) {
-                this.refs.task_form.reset();
+                if(this.refs.task_form) {
+                    this.refs.task_form.reset();
+                }
                 this.setState({
                     is_project: null, deadline: null, skills: [], scope: null,
                     description: '', remarks: '', visibility: VISIBILITY_DEVELOPERS,
