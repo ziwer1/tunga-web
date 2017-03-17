@@ -13,7 +13,7 @@ import LargeModal from '../components/LargeModal';
 
 import { OFFER_REQUEST_ITEMS, TASK_SCOPE_TASK, TASK_SCOPE_PROJECT } from '../constants/Api';
 import { openTaskWizard } from '../utils/tasks';
-import { sendGAEvent, GA_EVENT_CATEGORIES, GA_EVENT_ACTIONS } from '../utils/tracking';
+import { openCalendlyWidget } from '../utils/router';
 
 const OFFER_DETAILS = [
     {
@@ -51,8 +51,7 @@ const OFFER_DETAILS = [
         cta: {
             text: 'Talk with us',
             action: function () {
-                Calendly.showPopupWidget('https://calendly.com/tunga/30min/');
-                sendGAEvent(GA_EVENT_CATEGORIES.CONTACT, GA_EVENT_ACTIONS.SCHEDULE_CALL);
+                openCalendlyWidget();
             }
         }
     }

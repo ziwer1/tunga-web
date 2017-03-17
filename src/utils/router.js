@@ -3,6 +3,7 @@ export const UNAUTHED_ONLY = 'unauthedOnly';
 export const AUTHED_OR_EMAIL_ONLY = 'authedOrEmailOnly';
 
 export const CALENDLY_CALL_URL = 'https://calendly.com/tunga/hello/';
+import { sendGAEvent, GA_EVENT_CATEGORIES, GA_EVENT_ACTIONS } from '../utils/tracking';
 
 export function requiresAuth(routes) {
     return getRouteParamValues(AUTHED_ONLY, routes).indexOf(true) > -1;
@@ -59,4 +60,9 @@ export function showWizard(routes) {
         }
     }
     return false;
+}
+
+export function openCalendlyWidget(url=CALENDLY_CALL_URL) {
+    Calendly.showPopupWidget(url);
+    sendGAEvent(GA_EVENT_CATEGORIES.CONTACT, GA_EVENT_ACTIONS.SCHEDULE_CALL);
 }
