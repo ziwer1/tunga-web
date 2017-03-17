@@ -9,7 +9,7 @@ import ShowCaseFooter from './ShowCaseFooter';
 import ComponentWithModal from '../components/ComponentWithModal';
 
 import { openTaskWizard } from '../utils/tasks';
-import { showWizard } from '../utils/router';
+import { showWizard, CALENDLY_CALL_URL } from '../utils/router';
 
 import { sendGAEvent, GA_EVENT_CATEGORIES, GA_EVENT_ACTIONS, GA_EVENT_LABELS } from '../utils/tracking';
 
@@ -57,7 +57,7 @@ export default class LandingPage extends ComponentWithModal {
     }
 
     onScheduleCall() {
-        Calendly.showPopupWidget('https://calendly.com/tunga/30min/');
+        Calendly.showPopupWidget(CALENDLY_CALL_URL);
         sendGAEvent(GA_EVENT_CATEGORIES.CONTACT, GA_EVENT_ACTIONS.SCHEDULE_CALL);
     }
 

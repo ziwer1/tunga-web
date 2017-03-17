@@ -2,6 +2,8 @@ export const AUTHED_ONLY = 'authedOnly';
 export const UNAUTHED_ONLY = 'unauthedOnly';
 export const AUTHED_OR_EMAIL_ONLY = 'authedOrEmailOnly';
 
+export const CALENDLY_CALL_URL = 'https://calendly.com/tunga/hello/';
+
 export function requiresAuth(routes) {
     return getRouteParamValues(AUTHED_ONLY, routes).indexOf(true) > -1;
 }
