@@ -111,7 +111,7 @@ export default class Timeline extends React.Component {
                 </div>
                     ):(
                 <div>
-                    {event.due_at?moment.utc(event.due_at).local().format('ddd Do, MMMM YYYY, h:mm a'):null}
+                    {event.due_at?moment.utc(event.due_at).local().format('ddd Do, MMMM YYYY'):null}
                     {event.report?(
                     <div>
                         <strong>Status: </strong><span>{event.report.status_display}</span><br/>

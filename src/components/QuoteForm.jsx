@@ -12,7 +12,7 @@ import ActivityForm from './ActivityForm';
 import PlanForm from './PlanForm';
 
 import {DEVELOPER_FEE, STATUS_SUBMITTED} from '../constants/Api';
-import {getPayDetails, canEditQuote} from '../utils/tasks';
+import {getPayDetails, canAddQuote, canEditQuote} from '../utils/tasks';
 
 momentLocalizer(moment);
 
@@ -48,7 +48,7 @@ export default class QuoteForm extends ComponentWithModal {
                     this.refs.quote_form.reset();
                 }
                 const { router } = this.context;
-                router.replace(`/work/${quote.task}/quote/${Quote.detail.quote.id}`);
+                router.replace(`/work/${Quote.detail.quote}/quote/${Quote.detail.quote.id}`);
             }
 
             this.setState({...Quote.detail.quote, submitted: false});
@@ -428,7 +428,7 @@ export default class QuoteForm extends ComponentWithModal {
                         ):null}
                     </div>
 
-                    {canEditQuote(task)?(
+                    {(!quote.id && canAddQuote(task) || (quote.id && canEditQuote(task)))?(
                         <div className="text-center clearfix">
                             <button type="submit"
                                     className="btn"

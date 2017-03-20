@@ -99,6 +99,7 @@ ReactDOM.render(
                 <Route unauthedOnly={true}>
                     {/* No Auth Pages */}
                     <Route path="start" component={LandingPage} showTaskWizard={true}/>
+                    <Route path="call" component={LandingPage} showCallWidget={true}/>
                     <Route path="how-it-works" component={HowItWorksPage}/>
                     <Route path="pricing" component={PricingPage}/>
                     <Route path="press" component={LandingPage}/>
@@ -110,8 +111,8 @@ ReactDOM.render(
                     <Route path="signin" component={SignInPage}/>
                     <Route path="signup">
                         <IndexRedirect to="/signin"/>
-                        {/*<IndexRoute component={AccountType} />
-                        <Route path="project-owner" component={SignUpPage} />*/}
+                        {/*<IndexRoute component={AccountType} />*/}
+                        <Route path="project-owner" component={SignUpPage} />
                         <Route path="invite/:invitationKey" component={SignUpPage} />
                         <Route path="developer">
                             {/*<IndexRoute component={DeveloperApplication}/>*/}

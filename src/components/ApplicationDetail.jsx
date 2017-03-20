@@ -186,9 +186,9 @@ export default class ApplicationList extends ComponentWithModal {
                                             </div>
                                                 ):null}
                                             {application.hours_needed?(
-                                                <div className="bold">
+                                                <div>
                                                     <p className="title">Fee</p>
-                                                    <div>You will be charged €{getTotalFee(application.hours_needed)}</div>
+                                                    <div>You will be charged <span className="bold">€{getTotalFee(application.hours_needed)}</span></div>
                                                 </div>
                                             ):null}
                                             {application.deliver_at?(

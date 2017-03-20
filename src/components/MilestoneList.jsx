@@ -90,7 +90,7 @@ export default class MilestoneList extends React.Component {
                                                 <h5>{milestone.title?milestone.summary:'Scheduled update'}</h5>
                                             </Link>
                                             {milestone.due_at?(
-                                                <div>Due Date: <strong>{moment.utc(milestone.due_at).local().format('Do, MMMM YYYY, h:mm a')}</strong></div>
+                                                <div>Due Date: <strong>{moment.utc(milestone.due_at).local().format('Do, MMMM YYYY')}</strong></div>
                                             ):null}
                                             <div>Status: <strong>{milestone_status}</strong></div>
                                             {milestone.description?(
@@ -100,7 +100,7 @@ export default class MilestoneList extends React.Component {
                                                 </div>
                                             ):null}
 
-                                            
+
                                         </div>
                                     </div>
                                 );

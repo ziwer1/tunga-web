@@ -70,13 +70,13 @@ export default class TaskDetailContainer extends React.Component {
 
         let application_id = this.getApplicationId();
         let application = this.getApplication();
-        console.log('application', application);
 
         if(task) {
+            let can_prevent_redirect = !task.is_task || (task.approved && task.participation && task.participation.length);
             if(task.parent) {
-                crumb_parents.push({name: task.details.parent.summary, link: `/work/${task.parent}?nr=true`});
+                crumb_parents.push({name: task.details.parent.summary, link: `/work/${task.parent}${can_prevent_redirect?'?nr=true':''}`});
             }
-            crumb_parents.push({name: task.summary, link: `/work/${task.id}?nr=true`});
+            crumb_parents.push({name: task.summary, link: `/work/${task.id}${can_prevent_redirect?'?nr=true':''}`});
             if(application_id) {
                 crumb_parents.push({name: 'Applications', link: `/work/${task.id}/applications/`});
             }

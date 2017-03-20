@@ -62,6 +62,19 @@ export function showWizard(routes) {
     return false;
 }
 
+export function showCallWidget(routes) {
+    if(Array.isArray(routes) && routes.length) {
+        var x;
+        for(x=routes.length-1; x >= 0; x--) {
+            let route = routes[x];
+            if(route.showCallWidget) {
+                return route.showCallWidget;
+            }
+        }
+    }
+    return false;
+}
+
 export function openCalendlyWidget(url=CALENDLY_CALL_URL) {
     Calendly.showPopupWidget(url);
     sendGAEvent(GA_EVENT_CATEGORIES.CONTACT, GA_EVENT_ACTIONS.SCHEDULE_CALL);

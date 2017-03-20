@@ -70,7 +70,7 @@ export function getDevHours(activities) {
     return activities.map(function (activity) {
         return activity.hours;
     }).reduce((a,b) => {
-        return parseInt(a)+parseInt(b);
+        return parseFloat(a)+parseFloat(b);
     });
 }
 
@@ -140,7 +140,6 @@ export function canAddQuote(task) {
 }
 
 export function canEditQuote(task) {
-    console.log(task.quote);
     return (
         task.quote && (
             [STATUS_SUBMITTED, STATUS_ACCEPTED, STATUS_APPROVED].indexOf(task.quote.status) == -1 && (isAdmin() || isTaskPM(task))

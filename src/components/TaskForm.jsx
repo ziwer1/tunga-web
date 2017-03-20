@@ -25,7 +25,6 @@ import {
 
 import { getTaskTypeUrl, getScopeUrl, sendGAPageView } from '../utils/tracking';
 import { isAuthenticated, getUser } from '../utils/auth';
-import { parseNumber } from '../utils/helpers';
 
 momentLocalizer(moment);
 
@@ -73,7 +72,8 @@ export default class TaskForm extends ComponentWithModal {
                 schedule: this.getScheduleId(), type: task.type,
                 skills: task.details && task.details.skills?task.details.skills.map((skill) => {
                     return skill.name;
-                }):[]
+                }):[],
+                milestones: task.progress_events
             });
         } else {
             const { project } = this.props;
@@ -115,6 +115,30 @@ export default class TaskForm extends ComponentWithModal {
                     router.replace(`/work/${Task.detail.task.id}`);
                 }
             }
+        }
+
+        if(this.props.task && !prevProps.task) {
+            let task = this.props.task;
+            const assignee = task.assignee && task.assignee.user?task.assignee.user.id:null;
+            const description = task.description || '';
+            const remarks = task.remarks || '';
+            var participants = [];
+            if(task.details) {
+                task.details.participation.forEach((participant) => {
+                    if(participant.user.id != assignee) {
+                        participants.push(participant.user.id);
+                    }
+                });
+            }
+            this.setState({
+                ...task,
+                assignee, participants, description, remarks,
+                schedule: this.getScheduleId(), type: task.type,
+                skills: task.details && task.details.skills?task.details.skills.map((skill) => {
+                    return skill.name;
+                }):[],
+                milestones: task.progress_events
+            });
         }
 
         var path_change = ['step', 'type', 'scope', 'contact_required', 'pm_required', 'has_more_info'].map((key) => {
@@ -659,11 +683,12 @@ export default class TaskForm extends ComponentWithModal {
                 {(Task.detail.error.update && Task.detail.error.update.skills)?
                     (<FieldError message={Task.detail.error.update.skills}/>):null}
                 <div>
-                    {isAuthenticated() || canShowAll?(<label className="control-label">Tag skills or products that are relevant to this {work_type} {isAuthenticated()?'*':''}</label>):null}
+                    {(enabledWidgets && enabledWidgets.length) || canShowAll?(<label className="control-label">Tag skills or products that are relevant to this {work_type} {isAuthenticated()?'*':''}</label>):null}
                     <SkillSelector filter={{filter: null}}
                                    onChange={this.onSkillChange.bind(this)}
                                    skills={task.id || (this.state.skills && this.state.skills.length)?this.state.skills:[]}
-                                   suggested={suggestTaskTypeSkills(this.state.type)['suggested']} />
+                                   suggested={suggestTaskTypeSkills(this.state.type)['suggested']}
+                                   showTitle={!((enabledWidgets && enabledWidgets.length) || canShowAll)}/>
                 </div>
             </div>
         );
@@ -680,7 +705,7 @@ export default class TaskForm extends ComponentWithModal {
                             'What is roughly the budget of this project?':
                             `Fixed fee for this task (in Euros) ${is_project_task?' - optional':''}`
                     }</label>
-                    <div><input type="text" className="form-control" ref="fee" required={!is_project_task && isAuthenticated()} placeholder="Amount in Euros"  onChange={this.onInputChange.bind(this, 'fee')} value={this.state.fee?parseNumber(this.state.fee):''}/></div>
+                    <div><input type="text" className="form-control" ref="fee" required={!is_project_task && isAuthenticated()} placeholder="Amount in Euros"  onChange={this.onInputChange.bind(this, 'fee')} value={this.state.fee?(this.state.fee):''}/></div>
                     {!is_project || this.state.has_requirements?(
                         <div style={{marginTop: '10px'}}>13% of pledge goes to Tunga</div>
                     ):null}
@@ -778,7 +803,7 @@ export default class TaskForm extends ComponentWithModal {
                             <div>
                                 <div className="btn-choices">
                                     {this.state.milestones.map((milestone, idx) => {
-                                        const tooltip = (<Tooltip id="tooltip"><strong>{milestone.title}</strong><br/>{milestone.due_at?moment.utc(milestone.due_at).local().format('Do, MMMM YYYY, h:mm a'):null}</Tooltip>);
+                                        const tooltip = (<Tooltip id="tooltip"><strong>{milestone.title}</strong><br/>{milestone.due_at?moment.utc(milestone.due_at).local().format('Do, MMMM YYYY'):null}</Tooltip>);
                                         return (
                                             <OverlayTrigger key={milestone.due_at} placement="top"
                                                             overlay={tooltip}>
@@ -793,7 +818,7 @@ export default class TaskForm extends ComponentWithModal {
                                         <OverlayTrigger placement="top"
                                                         overlay={<Tooltip id="tooltip">
                                                     <strong>Hand over final draft</strong><br/>
-                                                    {moment.utc(this.state.deadline).subtract(1, 'days').local().format('Do, MMMM YYYY, h:mm a')}
+                                                    {moment.utc(this.state.deadline).subtract(1, 'days').local().format('Do, MMMM YYYY')}
                                                     </Tooltip>}>
                                             <Button bsStyle="default">{_.truncate('Hand over final draft', {length: 25})}</Button>
                                         </OverlayTrigger>

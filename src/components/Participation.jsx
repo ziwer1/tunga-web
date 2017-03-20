@@ -58,7 +58,6 @@ export default class Participation extends React.Component {
     render() {
         const { task, Task } = this.props;
         let total_shares = this.getTotalShares();
-        console.log('total_shares', total_shares);
 
         return (
             <div>

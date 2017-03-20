@@ -163,9 +163,9 @@ export default class ApplicationList extends ComponentWithModal {
                                             </div>
                                                 ):null}
                                             {application.hours_needed?(
-                                                <div className="bold">
+                                                <div>
                                                     <p className="title">Fee</p>
-                                                    <div>You will be charged €{getTotalFee(application.hours_needed)}</div>
+                                                    <div>You will be charged <span className="bold">€{getTotalFee(application.hours_needed)}</span></div>
                                                 </div>
                                             ):null}
                                             {application.deliver_at?(
@@ -174,13 +174,6 @@ export default class ApplicationList extends ComponentWithModal {
                                                 {moment.utc(application.deliver_at).local().format('dddd, Do MMMM, YYYY')}
                                             </div>
                                                 ):null}
-                                            <div>
-                                                <p className="title">Agreements</p>
-                                                <div>{application.details.user.first_name} has agreed to the deadline {task.update_interval || task.milestones.length?(
-                                                    (task.update_interval?((task.milestones.length?', ':' and ')+'update preferences'):'')+
-                                                        (task.milestones.length?` and milestones (${milestone_summary})`:'')
-                                                    ):null} you've set for this task</div>
-                                            </div>
                                         </div>
                                         {task.closed || application.responded?null:(
                                             <div className="actions">

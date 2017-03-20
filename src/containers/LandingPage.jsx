@@ -9,7 +9,7 @@ import ShowCaseFooter from './ShowCaseFooter';
 import ComponentWithModal from '../components/ComponentWithModal';
 
 import { openTaskWizard } from '../utils/tasks';
-import { showWizard, openCalendlyWidget } from '../utils/router';
+import { showWizard, showCallWidget, openCalendlyWidget } from '../utils/router';
 
 import { sendGAEvent, GA_EVENT_CATEGORIES, GA_EVENT_ACTIONS, GA_EVENT_LABELS } from '../utils/tracking';
 
@@ -32,13 +32,7 @@ let TESTIMONIALS = [
         company: 'Statehill',
         image: require("../images/testimonials/karl.png"),
         message: "We were pleasently surprised with how easy it was to get the right person onboard and the Ugandan developer we worked with professionally executed the project in a satisfactory manner."
-    },
-    /*{
-        name: 'Michiel',
-        company: 'Gaspedaal',
-        image: require("../images/testimonials/michiel.jpg"),
-        message: "The developers from Tunga do have knowledge, quickly anticipate on problems and are flexible in sharing responsibilities. Occasionally they send funny giphies through Slack, so they also have a sense of humor."
-    }*/
+    }
 ];
 
 var canOpen = true;
@@ -53,6 +47,10 @@ export default class LandingPage extends ComponentWithModal {
         if(showWizard(this.props.routes) && canOpen) {
             canOpen = false;
             openTaskWizard();
+        }
+
+        if(showCallWidget(this.props.routes)) {
+            openCalendlyWidget();
         }
     }
 

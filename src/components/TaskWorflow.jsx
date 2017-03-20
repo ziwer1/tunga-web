@@ -12,6 +12,7 @@ import ComponentWithModal from './ComponentWithModal';
 import Timeline from './Timeline';
 import MilestoneContainer from '../containers/MilestoneContainer';
 import Milestone from './Milestone';
+import TagList from './TagList';
 
 import {parse_task_status, canAddEstimate, canEditEstimate, canViewEstimate, canAddQuote, canEditQuote, canViewQuote} from '../utils/tasks';
 import {render_summary} from '../utils/html';
@@ -86,10 +87,16 @@ export default class TaskWorflow extends ComponentWithModal {
     redirectToNextStep(props) {
         const {task} = props;
 
-        if (getUser().id == task.user.id && task.closed && (!this.props.location.query || !this.props.location.query.nr) && (!props.params || !props.params.eventId)) {
+        if (getUser().id == task.user.id && (task.closed || (task.is_task && (!task.approved || !task.participation || !task.participation.length))) &&
+            (!this.props.location.query || !this.props.location.query.nr) && (!props.params || !props.params.eventId)
+        ) {
             const {router} = this.context;
             var next = null;
-            if (task.paid) {
+            if(!task.approved) {
+                next = `/work/${task.id}/edit/complete-task`;
+            } else if(!task.participation || !task.participation.length) {
+                next = `/work/${task.id}/applications`;
+            } else if (task.paid) {
                 next = `/work/${task.id}/rate`;
             } else {
                 next = `/work/${task.id}/pay`;
@@ -219,9 +226,7 @@ export default class TaskWorflow extends ComponentWithModal {
     }
 
     onToggleFilter(key, e) {
-        //e.preventDefault();
         e.stopPropagation();
-        console.log(key, e);
         var new_state = {};
         new_state[key] = !this.state[key];
         this.setState(new_state);
@@ -287,52 +292,54 @@ export default class TaskWorflow extends ComponentWithModal {
                         ):null}
                     </div>
 
-                    <div className="nav-top-filter pull-left">
-                        {canAddEstimate(task)?(
-                            <Link to={`/work/${task.id}/estimate/new`} className="btn">Add Estimate</Link>
-                        ):(
-                            canEditEstimate(task)?(
-                                <Link to={`/work/${task.id}/estimate/${task.estimate.id}/edit`}
-                                      className="btn">
-                                    Edit Estimate
-                                </Link>
+                    {!task.is_developer_ready?(
+                        <div className="nav-top-filter pull-left">
+                            {canAddEstimate(task)?(
+                                <Link to={`/work/${task.id}/estimate/new`} className="btn">Add Estimate</Link>
                             ):(
-                                canViewEstimate(task)?(
-                                    <Link to={`/work/${task.id}/estimate/${task.estimate.id}`}
+                                canEditEstimate(task)?(
+                                    <Link to={`/work/${task.id}/estimate/${task.estimate.id}/edit`}
                                           className="btn">
-                                        View Estimate
+                                        Edit Estimate
                                     </Link>
-                                ):null
-                            )
-                        )}
+                                ):(
+                                    canViewEstimate(task)?(
+                                        <Link to={`/work/${task.id}/estimate/${task.estimate.id}`}
+                                              className="btn">
+                                            View Estimate
+                                        </Link>
+                                    ):null
+                                )
+                            )}
 
-                        {canAddQuote(task)?(
-                            <Link to={`/work/${task.id}/quote/new`} className="btn">Add Quote</Link>
-                        ):(
-                            canEditQuote(task)?(
-                                <Link to={`/work/${task.id}/quote/${task.quote.id}/edit`}
-                                      className="btn">
-                                    Edit Quote
-                                </Link>
+                            {canAddQuote(task)?(
+                                <Link to={`/work/${task.id}/quote/new`} className="btn">Add Quote</Link>
                             ):(
-                                canViewQuote(task)?(
-                                    <Link to={`/work/${task.id}/quote/${task.quote.id}`}
+                                canEditQuote(task)?(
+                                    <Link to={`/work/${task.id}/quote/${task.quote.id}/edit`}
                                           className="btn">
-                                        View Quote
+                                        Edit Quote
                                     </Link>
-                                ):null
-                            )
-                        )}
+                                ):(
+                                    canViewQuote(task)?(
+                                        <Link to={`/work/${task.id}/quote/${task.quote.id}`}
+                                              className="btn">
+                                            View Quote
+                                        </Link>
+                                    ):null
+                                )
+                            )}
 
-                        {task.can_return?(
-                            <button className="btn"
-                                    onClick={this.onReturnProject.bind(this)}>
-                                Return {work_type}
-                            </button>
-                        ):null}
-                    </div>
+                            {task.can_return?(
+                                <button className="btn"
+                                        onClick={this.onReturnProject.bind(this)}>
+                                    Return {work_type}
+                                </button>
+                            ):null}
+                        </div>
+                    ):null}
 
-                    {task.is_developer_ready && is_admin_or_owner || task.is_admin || task.is_participant ? (
+                    {task.is_developer_ready && (is_admin_or_owner || task.is_admin || task.is_participant) ? (
                         <div className="nav-top-filter">
                             {is_admin_or_owner || can_edit_shares ? (
                                 <div className="pull-left">
@@ -510,7 +517,9 @@ export default class TaskWorflow extends ComponentWithModal {
                                     </Link>
                                 </li>
                             </ul>
-                        ) : null}
+                        ) : (
+                            <span>&nbsp;</span>
+                        )}
                     </div>
 
                     <div className="pull-right">
@@ -568,14 +577,9 @@ export default class TaskWorflow extends ComponentWithModal {
 
                                     {task.deadline ? (
                                         <div className="deadline">
-                                            <div>
-                                                <i className="fa fa-clock-o fa-2x"/>
-                                            </div>
-                                            <div>
-                                                <div className="bold">
+                                            <i className="fa fa-clock-o fa-2x"/> <span className="bold">
                                                     {moment.utc(task.deadline).local().format("Do MMM 'YY")}
-                                                </div>
-                                            </div>
+                                                </span>
                                         </div>
                                     ) : null}
                                 </Timeline>
@@ -633,6 +637,12 @@ export default class TaskWorflow extends ComponentWithModal {
                                         <p><a href={task.url}>{task.url}</a></p>
                                     </div>
                                 ) : null}
+                                {task.details && task.details.skills.length?(
+                                    <div>
+                                        <strong>Skills/ Products</strong>
+                                        <TagList tags={task.details.skills} max={3} linkPrefix="/work/skill/" moreLink={`/work/${task.id}/`}/>
+                                    </div>
+                                ):null}
                                 {task.milestones.length ? (
                                     <div>
                                         <strong>Milestones</strong>
@@ -642,7 +652,7 @@ export default class TaskWorflow extends ComponentWithModal {
                                                     <Link to={`/work/${task.id}/event/${milestone.id}`}>
                                                         <i className={"fa fa-flag"+((milestone.type==4)?'-checkered':'-o')}/> {milestone.title}
                                                         <span
-                                                            style={{marginLeft: '5px'}}>{moment.utc(milestone.due_at).local().format('Do, MMMM YYYY, h:mm a')}</span>
+                                                            style={{marginLeft: '5px'}}>{moment.utc(milestone.due_at).local().format('Do, MMMM YYYY')}</span>
                                                     </Link>
                                                 </div>
                                             );
@@ -651,21 +661,6 @@ export default class TaskWorflow extends ComponentWithModal {
                                 ) : null}
                             </div>
                         </div>
-                        {/*<div className="overview-files">
-                            {uploads ? (
-                                <div className="wrapper">
-                                    <h4>Files</h4>
-                                    {uploads.map(upload => {
-                                        return (
-                                            <div key={upload.id} className="file">
-                                                <a href={upload.url}><i className="fa fa-download"/> {upload.name}
-                                                    <strong>[{upload.display_size}]</strong></a>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                            ) : null}
-                        </div>*/}
                     </div>
                 </div>
             </div>

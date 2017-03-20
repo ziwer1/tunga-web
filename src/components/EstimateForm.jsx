@@ -12,7 +12,7 @@ import LargeModal from './LargeModal';
 import ActivityForm from './ActivityForm';
 
 import {DEVELOPER_FEE, STATUS_SUBMITTED} from '../constants/Api';
-import {getPayDetails, canEditEstimate} from '../utils/tasks';
+import {getPayDetails, canEditEstimate, canAddEstimate} from '../utils/tasks';
 
 momentLocalizer(moment);
 
@@ -43,7 +43,7 @@ export default class EstimateForm extends ComponentWithModal {
                     this.refs.estimate_form.reset();
                 }
                 const { router } = this.context;
-                router.replace(`/work/${estimate.task}/estimate/${Estimate.detail.estimate.id}`);
+                router.replace(`/work/${Estimate.detail.estimate.task}/estimate/${Estimate.detail.estimate.id}`);
             }
 
             this.setState({...Estimate.detail.estimate, submitted: false});
@@ -267,7 +267,7 @@ export default class EstimateForm extends ComponentWithModal {
                                 <label className="control-label">Start Date *</label>
                                 <DateTimePicker ref="due_at"
                                                 onChange={this.onStartDateChange.bind(this)}
-                                                defaultValue={this.state.start_date?(new Date(moment.utc(this.state.start_date).format())):null}
+                                                value={this.state.start_date?(new Date(moment.utc(this.state.start_date).format())):null}
                                                 time={false}/>
                             </div>
                         </div>
@@ -280,13 +280,13 @@ export default class EstimateForm extends ComponentWithModal {
                                 <label className="control-label">End Date *</label>
                                 <DateTimePicker ref="due_at"
                                                 onChange={this.onEndDateChange.bind(this)}
-                                                defaultValue={this.state.start_date?(new Date(moment.utc(this.state.start_date).format())):null}
+                                                value={this.state.end_date?(new Date(moment.utc(this.state.end_date).format())):null}
                                                 time={false}/>
                             </div>
                         </div>
                     </div>
 
-                    {canEditEstimate(task)?(
+                    {(!estimate.id && canAddEstimate(task) || (estimate.id && canEditEstimate(task)))?(
                         <div className="text-center clearfix">
                             <button type="submit"
                                     className="btn"

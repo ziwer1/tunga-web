@@ -84,12 +84,12 @@ class SkillSelector extends React.Component {
     }
 
     render() {
-        const { SkillSelection } = this.props;
+        const { SkillSelection, showTitle } = this.props;
 
         return (
             <div className="skill-selector tag-selector" onClick={this.handleComponentClick.bind(this)}>
                 <div className="selections">
-                    {this.state.suggested && this.state.suggested.length?(
+                    {showTitle && this.state.suggested && this.state.suggested.length?(
                         <p>Skills or products</p>
                     ):null}
                     {this.state.skills && this.state.skills.length?(
@@ -149,12 +149,14 @@ class SkillSelector extends React.Component {
 
 SkillSelector.propTypes = {
     skills: React.PropTypes.array,
-    suggested: React.PropTypes.array
+    suggested: React.PropTypes.array,
+    showTitle: React.PropTypes.bool
 };
 
 SkillSelector.defaultProps = {
     skills: [],
-    suggested: []
+    suggested: [],
+    showTitle: true
 };
 
 export default connect(SkillSelector);

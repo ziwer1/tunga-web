@@ -64,7 +64,7 @@ export default class Milestone extends React.Component {
                 <div className="milestone-page form-wrapper">
                     <div style={{marginBottom: '20px'}}>
                         {milestone.due_at?(
-                            <div><strong>Due Date:</strong> {moment.utc(milestone.due_at).local().format('Do, MMMM YYYY, h:mm a')}</div>
+                            <div><strong>Due Date:</strong> {moment.utc(milestone.due_at).local().format('Do, MMMM YYYY')}</div>
                         ):null}
 
                         {milestone.description?(

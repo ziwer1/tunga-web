@@ -57,14 +57,14 @@ export default class TaskDetail extends React.Component {
                     {task.deadline?(
                         <div className="title">
                             <span>Deadline: </span>
-                            <span>{moment.utc(task.deadline).local().format('Do, MMMM YYYY, h:mm a')}</span>
+                            <span>{moment.utc(task.deadline).local().format('Do, MMMM YYYY')}</span>
                         </div>
                     ):null}
                     {task.details?(
                         <TagList tags={task.details.skills} linkPrefix="/work/skill/"/>
                     ):null}
                     <div>
-                        <strong>Created</strong> <span>{moment.utc(task.created_at).local().format('Do, MMMM YYYY, h:mm a')}</span>
+                        <strong>Created</strong> <span>{moment.utc(task.created_at).local().format('Do, MMMM YYYY')}</span>
                     </div>
 
                     {task.description?(
