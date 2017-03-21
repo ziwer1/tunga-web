@@ -19,7 +19,7 @@ export default class UserCardProfile extends React.Component {
                     {profileLink?(
                         <Link to={`/people/${user.username}/`}>{user.display_name}</Link>
                     ):(
-                        <h4 className="title">{user.display_name}</h4>
+                        <div>{user.display_name}</div>
                     )}
 
                     {isAdmin()?(

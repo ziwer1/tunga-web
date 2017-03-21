@@ -42,7 +42,7 @@ export default class UserList extends React.Component {
     }
 
     render() {
-        const {User, Notification, UserActions, bsClass, max} = this.props;
+        const {User, Notification, UserActions, bsClass, max, profileLink, tagLinks} = this.props;
         const requests = Notification && Notification.notifications ? Notification.notifications.requests : 0;
 
         let filter = this.getFilter();
@@ -107,7 +107,9 @@ export default class UserList extends React.Component {
                                 return (
                                     <div className={bsClass || "col-sm-6 col-md-4"} key={id}>
                                         <UserCard user={user} UserActions={UserActions}
-                                                  hideOnDisconnect={filter == 'team'}/>
+                                                  hideOnDisconnect={filter == 'team'}
+                                                  profileLink={profileLink}
+                                                  tagLinks={tagLinks}/>
                                     </div>
                                 );
                             })}
@@ -129,11 +131,15 @@ export default class UserList extends React.Component {
 UserList.propTypes = {
     hide_header: React.PropTypes.bool,
     bsClass: React.PropTypes.string,
-    max: React.PropTypes.number
+    max: React.PropTypes.number,
+    profileLink: React.PropTypes.bool,
+    tagLinks: React.PropTypes.bool
 };
 
 UserList.defaultProps = {
     hide_header: false,
     bsClass: 'col-sm-6 col-md-4',
-    max: 0
+    max: 0,
+    profileLink: true,
+    tagLinks: true
 };

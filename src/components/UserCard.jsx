@@ -25,7 +25,7 @@ export default class UserCard extends React.Component {
     }
 
     render() {
-        const { user } = this.props;
+        const { user, profileLink, tagLinks } = this.props;
         var connection_msg = 'Send friend request';
         var remove_msg = 'Remove friend';
         if(isProjectOwner()) {
@@ -38,7 +38,7 @@ export default class UserCard extends React.Component {
 
         return (
             <div className="card user-card">
-                <UserCardProfile user={user}/>
+                <UserCardProfile user={user} profileLink={profileLink}/>
                 <div className={`skills ${user.is_developer?'':'skills-needed'}`}>
                     {user.profile?(
                         <div>
@@ -46,7 +46,11 @@ export default class UserCard extends React.Component {
                                 <div className="secondary">Skills I need:</div>
                             ):null}
                             {user.profile.skills.length?(
-                                <TagList tags={user.profile.skills} max={3} linkPrefix="/people/skill/" moreLink={`/people/${user.username}/`}/>
+                                <TagList tags={user.profile.skills}
+                                         max={3}
+                                         linkPrefix="/people/skill/"
+                                         moreLink={`/people/${user.username}/`}
+                                         showLinks={tagLinks} />
                             ):null}
                         </div>
                     ):null}
@@ -100,9 +104,13 @@ export default class UserCard extends React.Component {
 
 
 UserCard.propTypes = {
-    user: React.PropTypes.object.isRequired
+    user: React.PropTypes.object.isRequired,
+    profileLink: React.PropTypes.bool,
+    tagLinks: React.PropTypes.bool
 };
 
 UserCard.defaultProps = {
-    user: {}
+    user: {},
+    profileLink: true,
+    tagLinks: true
 };
