@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 import moment from 'moment';
+import TimeAgo from 'react-timeago';
 import {OverlayTrigger, Popover} from 'react-bootstrap';
 
 import CommentSection from '../containers/CommentSection';
@@ -288,8 +289,9 @@ export default class TaskWorflow extends ComponentWithModal {
                             </span>
                         </div>
                         {task.is_developer_ready?(
-                            <div className="task-status"><i className={"fa fa-circle " + task_status.css}/> {task_status.message}</div>
+                            <span className="task-status"><i className={"fa fa-circle " + task_status.css}/> {task_status.message}  | </span>
                         ):null}
+                        <span className="time">Posted <TimeAgo date={moment.utc(task.created_at).local().format()}/></span>
                     </div>
 
                     {!task.is_developer_ready?(
@@ -659,6 +661,21 @@ export default class TaskWorflow extends ComponentWithModal {
                                         })}
                                     </div>
                                 ) : null}
+
+                                {[
+                                    {key: 'deliverables', title: 'Deliverables'},
+                                    {key: 'stack_description', title: 'Technology Stack'}
+                                ].map(item => {
+                                    if(task[item.key]) {
+                                        return (
+                                            <div>
+                                                <strong>{item.title}</strong>
+                                                <div dangerouslySetInnerHTML={{__html: task[item.key]}}/>
+                                            </div>
+                                        )
+                                    }
+                                    return null;
+                                })}
                             </div>
                         </div>
                     </div>

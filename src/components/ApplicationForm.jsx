@@ -97,7 +97,7 @@ export default class ApplicationForm extends React.Component {
         const { Task } = this.props;
         const task = this.props.task || {};
         return (
-            <div>
+            <div className="form-wrapper">
                 {Task.detail.applications.isSaved?(
                 <Success message="Application sent successfully"/>
                     ):(
@@ -126,9 +126,11 @@ export default class ApplicationForm extends React.Component {
                         <label className="control-label">Development hours needed to complete task *</label>
                         <div>
                             <input type="text"
-                                    className="form-control"
-                                    ref="hours_needed"
-                                    placeholder="Development hours needed to complete task" onChange={this.onInputChange.bind(this, 'hours_needed')}/>
+                                   className="form-control"
+                                   ref="hours_needed"
+                                   placeholder="Development hours needed to complete task"
+                                   onChange={this.onInputChange.bind(this, 'hours_needed')}
+                                   required/>
                         </div>
                         <div>
                             <div className="alert alert-info">You will be paid €12.5/hour</div>
@@ -147,7 +149,7 @@ export default class ApplicationForm extends React.Component {
                     {(Task.detail.applications.error.update && Task.detail.applications.error.update.hours_available)?
                         (<FieldError message={Task.detail.applications.error.update.hours_available}/>):null}
                     <div className="form-group">
-                        <label className="control-label">Hours available to work on task *</label>
+                        <label className="control-label">Hours available to work on task</label>
                         <div><input type="text" className="form-control" ref="hours_available" placeholder="Hours available to work on task"/></div>
                     </div>
 

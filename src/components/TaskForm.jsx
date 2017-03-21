@@ -7,6 +7,7 @@ import momentLocalizer from 'react-widgets/lib/localizers/moment';
 import DateTimePicker from 'react-widgets/lib/DateTimePicker';
 import Dropzone from 'react-dropzone';
 import FormStatus from './status/FormStatus';
+import Error from './status/Error';
 import FieldError from './status/FieldError';
 import Success from '../components/status/Success';
 
@@ -69,6 +70,7 @@ export default class TaskForm extends ComponentWithModal {
             this.setState({
                 ...task,
                 assignee, participants, description, remarks,
+                fee: task.pay,
                 schedule: this.getScheduleId(), type: task.type,
                 skills: task.details && task.details.skills?task.details.skills.map((skill) => {
                     return skill.name;
@@ -78,11 +80,9 @@ export default class TaskForm extends ComponentWithModal {
         } else {
             const { project } = this.props;
             if(project && project.id) {
-                this.setState({type: project.type || TASK_TYPE_OTHER, scope: TASK_SCOPE_TASK});
+                this.setState({type: project.type || TASK_TYPE_OTHER, scope: TASK_SCOPE_TASK, ...this.props.options});
             }
         }
-
-        this.setState({...this.state,...this.props.options});
     }
 
     componentDidMount() {
@@ -109,36 +109,12 @@ export default class TaskForm extends ComponentWithModal {
                     billing_method: null, stack_description: '', deliverables: '', skype_id: '', contact_required: null,
                     has_more_info: false
                 });
-
-                if(isAuthenticated()) {
-                    const { router } = this.context;
-                    router.replace(`/work/${Task.detail.task.id}`);
-                }
             }
-        }
 
-        if(this.props.task && !prevProps.task) {
-            let task = this.props.task;
-            const assignee = task.assignee && task.assignee.user?task.assignee.user.id:null;
-            const description = task.description || '';
-            const remarks = task.remarks || '';
-            var participants = [];
-            if(task.details) {
-                task.details.participation.forEach((participant) => {
-                    if(participant.user.id != assignee) {
-                        participants.push(participant.user.id);
-                    }
-                });
+            if(isAuthenticated()) {
+                const { router } = this.context;
+                router.replace(`/work/${Task.detail.task.id}`);
             }
-            this.setState({
-                ...task,
-                assignee, participants, description, remarks,
-                schedule: this.getScheduleId(), type: task.type,
-                skills: task.details && task.details.skills?task.details.skills.map((skill) => {
-                    return skill.name;
-                }):[],
-                milestones: task.progress_events
-            });
         }
 
         var path_change = ['step', 'type', 'scope', 'contact_required', 'pm_required', 'has_more_info'].map((key) => {
@@ -452,7 +428,7 @@ export default class TaskForm extends ComponentWithModal {
         let is_project = this.state.scope != TASK_SCOPE_TASK;
         let work_type = (is_project)?'project':'task';
 
-        if(isAuthenticated() && !getUser().can_contribute) {
+        if(isAuthenticated() && !getUser().can_contribute && !task.id) {
             return (
                 <div>
                     {task.id?null:(
@@ -645,7 +621,7 @@ export default class TaskForm extends ComponentWithModal {
                               className="form-control"
                               ref="description"
                               onChange={this.onInputChange.bind(this, 'description')}
-                              value={this.state.description} required={!isAuthenticated()}/>
+                              value={this.state.description} required={!isAuthenticated()}>{this.state.description}</textarea>
                 </div>
             </div>
         );
@@ -1081,26 +1057,51 @@ export default class TaskForm extends ComponentWithModal {
                     description: descComp,
                     skills: skillsComp,
                     fee: feeComp,
+                    billing: billingComp,
                     deadline: deadlineComp,
                     milestone: milestoneComp,
-                    developers: developersComp
+                    developers: developersComp,
+                    deliverables: deliverablesComp,
+                    stack: stackDescComp,
+                    files: filesComp
                 };
 
-                var all_comps = [];
-                enabledWidgets.forEach(function (widget) {
-                    let comp = widgetMap[widget];
-                    if(comp) {
-                        all_comps.push(comp);
-                    }
-                });
 
-                if(all_comps.length) {
+                if(enabledWidgets[0] == 'complete-task') {
                     sections = [
                         {
-                            items: all_comps
+                            title: `Basic details about the ${work_type}`,
+                            items: [titleComp, descComp],
+                            requires: ['title', 'description']
+                        },
+                        {
+                            title: 'Task description',
+                            items: [deliverablesComp, stackDescComp, filesComp]
+                        },
+                        {
+                            title: 'Agreements',
+                            items: [feeComp, deadlineComp],
+                            requires: ['fee']
                         }
                     ];
+                } else {
+                    var all_comps = [];
+                    enabledWidgets.forEach(function (widget) {
+                        let comp = widgetMap[widget];
+                        if(comp) {
+                            all_comps.push(comp);
+                        }
+                    });
+
+                    if(all_comps.length) {
+                        sections = [
+                            {
+                                items: all_comps
+                            }
+                        ];
+                    }
                 }
+
             } else if(is_project_task) {
                 sections = [
                     {

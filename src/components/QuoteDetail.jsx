@@ -29,10 +29,6 @@ export default class QuoteDetail extends React.Component {
     onChangeStatus(status) {
         const { QuoteActions } = this.props;
         const quote = this.props.quote || {};
-        const task = this.props.task || {};
-
-        QuoteActions.updateQuote(quote.id, {status});
-
 
         if([STATUS_DECLINED, STATUS_REJECTED].indexOf(status) > -1) {
             confirm('Are you sure?', true, {placeholder: 'Reason'}).then(

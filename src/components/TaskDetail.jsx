@@ -28,13 +28,16 @@ export default class TaskDetail extends React.Component {
         var work_type = task.is_task?'task':'project';
 
         return (
-            <div>
+            <div className="estimate-presentation">
                 {Task.detail.isRetrieving?
                     (<Progress/>)
                     :(
                 <div className="task-page">
                     {task.can_apply?(
-                        <Link to={`/work/${task.id}/apply`} className="btn pull-right">Apply for this {work_type}</Link>
+                        <div className="pull-right">
+                            <Link to={`/work/${task.id}/apply`} className="btn">Apply for this {work_type}</Link>
+                            <Link to={`/conversation/start/task/${task.id}`} className="btn">Send message</Link>
+                        </div>
                     ):(!isDeveloper() || getUser().can_contribute?null:(
                             <div style={{marginBottom: '20px'}}>
                                 <div className="alert alert-info">You need to complete your profile before you can apply for {work_type}s</div>
@@ -67,12 +70,21 @@ export default class TaskDetail extends React.Component {
                         <strong>Created</strong> <span>{moment.utc(task.created_at).local().format('Do, MMMM YYYY')}</span>
                     </div>
 
-                    {task.description?(
-                        <div>
-                            <h5>Task description</h5>
-                            <div className="card" dangerouslySetInnerHTML={{__html: task.description}}/>
-                        </div>
-                    ):null}
+                    {[
+                        {key: 'description', title: 'Description'},
+                        {key: 'deliverables', title: 'Deliverables'},
+                        {key: 'stack_description', title: 'Technology Stack'}
+                    ].map(item => {
+                        if(task[item.key]) {
+                            return (
+                                <div>
+                                    <h5>{item.title}</h5>
+                                    <div className="card" dangerouslySetInnerHTML={{__html: task[item.key]}}/>
+                                </div>
+                            )
+                        }
+                        return null;
+                    })}
 
                     {task.update_schedule_display?(
                         <div>

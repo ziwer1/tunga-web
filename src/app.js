@@ -198,6 +198,7 @@ ReactDOM.render(
                             <IndexRedirect to="start"/>
                             <Route path="start" component={ChannelForm}>
                                 <Route path=":recipientId" />
+                                <Route path="task/:taskId" />
                             </Route>
                             <Route path=":channelId" component={ChannelContainer}>
                                 <IndexRedirect to="messages" />

@@ -98,13 +98,18 @@ export default class TaskCard extends ComponentWithModal {
                         <div className="row">
                             <div className="col-sm-12">
                                 {task.can_apply?(
-                                <Link to={`/work/${task.id}/apply`} className="btn btn-block">Apply for this {work_type}</Link>
+                                    <Link to={`/work/${task.id}/apply`} className="btn btn-block">Apply for this {work_type}</Link>
                                     ):(task.closed || !task.apply?(
                                 <div className="btn btn-block">Applications are closed for this {work_type}</div>
                                     ):(
                                 <div className="btn btn-block" style={{visibility: 'hidden'}}></div>
                                     ))}
                             </div>
+                            {task.can_apply?(
+                                <div className="col-sm-12">
+                                    <Link to={`/conversation/start/task/${task.id}`} className="btn btn-block">Send message</Link>
+                                </div>
+                            ):null}
                         </div>
                             ):null}
 

@@ -41,6 +41,9 @@ export const CREATE_SUPPORT_CHANNEL_FAILED = 'CREATE_SUPPORT_CHANNEL_FAILED';
 export const CREATE_DEVELOPER_CHANNEL_START = 'CREATE_DEVELOPER_CHANNEL_START';
 export const CREATE_DEVELOPER_CHANNEL_SUCCESS = 'CREATE_DEVELOPER_CHANNEL_SUCCESS';
 export const CREATE_DEVELOPER_CHANNEL_FAILED = 'CREATE_DEVELOPER_CHANNEL_FAILED';
+export const CREATE_TASK_CHANNEL_START = 'CREATE_TASK_CHANNEL_START';
+export const CREATE_TASK_CHANNEL_SUCCESS = 'CREATE_TASK_CHANNEL_SUCCESS';
+export const CREATE_TASK_CHANNEL_FAILED = 'CREATE_TASK_CHANNEL_FAILED';
 
 export function createChannel(channel) {
     return dispatch => {
@@ -343,6 +346,38 @@ export function createDeveloperChannelSuccess(channel) {
 export function createDeveloperChannelFailed(error) {
     return {
         type: CREATE_DEVELOPER_CHANNEL_FAILED,
+        error
+    }
+}
+
+export function createTaskChannel(task) {
+    return dispatch => {
+        dispatch(createTaskChannelStart());
+        axios.post(ENDPOINT_CHANNEL + `task/${task}/`)
+            .then(function(response) {
+                dispatch(createTaskChannelSuccess(response.data));
+            }).catch(function(error) {
+            dispatch(createTaskChannelFailed(error.response?error.response.data:null));
+        });
+    }
+}
+
+export function createTaskChannelStart() {
+    return {
+        type: CREATE_TASK_CHANNEL_START
+    }
+}
+
+export function createTaskChannelSuccess(channel) {
+    return {
+        type: CREATE_TASK_CHANNEL_SUCCESS,
+        channel
+    }
+}
+
+export function createTaskChannelFailed(error) {
+    return {
+        type: CREATE_TASK_CHANNEL_FAILED,
         error
     }
 }

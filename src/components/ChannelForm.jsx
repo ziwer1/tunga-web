@@ -20,8 +20,11 @@ export default class ChannelForm extends React.Component {
         }
 
         let recipientId = this.getRecipient();
+        let taskId = this.getTaskId();
         if(recipientId) {
             this.saveChannel([recipientId]);
+        } else if(taskId) {
+            this.saveChannel([], null, null, taskId);
         }
     }
 
@@ -38,6 +41,13 @@ export default class ChannelForm extends React.Component {
     getRecipient() {
         if(this.props.params && this.props.params.recipientId) {
             return this.props.params.recipientId;
+        }
+        return null;
+    }
+
+    getTaskId() {
+        if(this.props.params && this.props.params.taskId) {
+            return this.props.params.taskId;
         }
         return null;
     }
@@ -65,7 +75,7 @@ export default class ChannelForm extends React.Component {
         this.setState({type});
     }
 
-    saveChannel(participants=[], subject=null, message=null) {
+    saveChannel(participants=[], subject=null, message=null, task=null) {
         const { ChannelActions } = this.props;
 
         let channel = this.props.channel || {};
@@ -74,6 +84,8 @@ export default class ChannelForm extends React.Component {
             ChannelActions.updateChannel(channel.id, channel_info);
         } else if(this.state.type == CHANNEL_TYPES.developer) {
             ChannelActions.createDeveloperChannel(channel_info);
+        } else if(task) {
+            ChannelActions.createTaskChannel(task);
         } else {
             ChannelActions.createChannel(channel_info);
         }

@@ -201,7 +201,7 @@ export default class ApplicationList extends ComponentWithModal {
                                 })}
                         </div>
                         {applications.ids.length?null:(
-                        <div className="alert alert-info">No applications</div>
+                        <div className="alert alert-info">You will receive an email when developers apply for your {task.is_task?'task':'project'}.</div>
                             )}
                     </div>)
                     }

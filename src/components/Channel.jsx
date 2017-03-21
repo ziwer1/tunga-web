@@ -161,9 +161,11 @@ export default class Channel extends React.Component {
                                     </div>
                                 )}
                                 {['messages', null].indexOf(this.getView() > -1)?(
-                                    <SearchBox placeholder="Search messages"
-                                               onSearch={this.onSearch.bind(this)}
-                                               count={Channel.detail.activity.count[channel_key] || 0}/>
+                                    <div className="pull-right">
+                                        <SearchBox placeholder="Search messages"
+                                                   onSearch={this.onSearch.bind(this)}
+                                                   count={Channel.detail.activity.count[channel_key] || 0}/>
+                                    </div>
                                 ):null}
                             </div>
                             {isAuthenticated() && channel.type != CHANNEL_TYPES.support?(
