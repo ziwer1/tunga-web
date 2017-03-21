@@ -6,6 +6,8 @@ import Progress from './status/Progress';
 import LoadMore from './status/LoadMore';
 import SearchBox from './SearchBox';
 
+import Avatar from './Avatar';
+
 export default class MilestoneList extends React.Component {
 
     componentDidMount() {
@@ -100,7 +102,20 @@ export default class MilestoneList extends React.Component {
                                                 </div>
                                             ):null}
 
-
+                                            {milestone.details && milestone.details.active_participants && milestone.details.active_participants.length ? (
+                                                <div>
+                                                    <strong>Developers</strong>
+                                                    {milestone.details.active_participants.map(participation => {
+                                                        const participant = participation.user;
+                                                        return (
+                                                            <div className="collaborator" key={participant.id}>
+                                                                <Avatar src={participant.avatar_url}/>
+                                                                <Link to={`/people/${participant.username}/`}>{participant.display_name}</Link>
+                                                            </div>
+                                                        )
+                                                    })}
+                                                </div>
+                                            ) : null}
                                         </div>
                                     </div>
                                 );
