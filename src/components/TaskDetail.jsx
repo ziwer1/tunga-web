@@ -12,13 +12,14 @@ import { getUser, isDeveloper, isProjectManager, isAdmin } from '../utils/auth';
 export default class TaskDetail extends React.Component {
 
     onClaimProject() {
-        const {TaskActions, task} = this.props;
+        const {TaskActions} = this.props;
+        const task = this.props.task || {};
         TaskActions.claimTask(task.id);
     }
 
     render() {
         const { Task } = this.props;
-        const { task } = Task.detail;
+        const task = this.props.task || {};
         var task_status = parse_task_status(task);
         var work_type = task.is_task?'task':'project';
 

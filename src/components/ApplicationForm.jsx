@@ -80,11 +80,11 @@ export default class ApplicationForm extends React.Component {
         const task = this.props.task || {};
         var errors = null;
         if(!this.state.agree_schedule && task.update_interval && task.update_interval_units) {
-            errors = {...errors, agree_schedule: "You must agree to the update schedule to apply for this task"};
+            errors = {...errors, agree_schedule: `You must agree to the update schedule to apply for this ${work_type}`};
         }
 
         if(!this.state.agree_deadline && task.deadline) {
-            errors = {...errors, agree_deadline: "You must agree to the milestone deadlines to apply for this task"};
+            errors = {...errors, agree_deadline: `You must agree to the milestone deadlines to apply for this ${work_type}`};
         }
 
         const { TaskActions } = this.props;
@@ -111,8 +111,8 @@ export default class ApplicationForm extends React.Component {
                     {(Task.detail.applications.error.create && Task.detail.applications.error.create.pitch)?
                         (<FieldError message={Task.detail.applications.error.create.pitch}/>):null}
                     <div className="form-group">
-                        <label className="control-label">What makes you qualified for this task *</label>
-                        <textarea placeholder="What makes you qualified for this task"
+                        <label className="control-label">What makes you qualified for this {work_type} *</label>
+                        <textarea placeholder={`What makes you qualified for this ${work_type}`}
                                   className="form-control"
                                   ref="pitch"
                                   onChange={this.onInputChange.bind(this, 'pitch')}
@@ -124,24 +124,28 @@ export default class ApplicationForm extends React.Component {
                     {(Task.detail.applications.error.update && Task.detail.applications.error.update.hours_needed)?
                         (<FieldError message={Task.detail.applications.error.update.hours_needed}/>):null}
                     <div className="form-group">
-                        <label className="control-label">Development hours needed to complete task *</label>
+                        <label className="control-label">Development hours needed to complete {work_type} *</label>
                         <div>
                             <input type="text"
                                    className="form-control"
                                    ref="hours_needed"
-                                   placeholder="Development hours needed to complete task"
+                                   placeholder={`Development hours needed to complete ${work_type}`}
                                    onChange={this.onInputChange.bind(this, 'hours_needed')}
                                    required/>
                         </div>
-                        <div>
-                            <div className="alert alert-info">You will be paid €12.5/hour</div>
-                            {task.fee?(
-                                <div>Client's proposal: €{parseNumber(task.amount.developer)}</div>
-                            ):null}
-                            {this.state.hours_needed?(
-                                <div className="bold">Your Estimate: €{getDevFee(this.state.hours_needed)}</div>
-                            ):null}
-                        </div>
+                        {task.is_task?(
+                            <div>
+                                <div className="alert alert-info">You will be paid €12.5/hour</div>
+                                {task.fee?(
+                                    <div>Client's proposal: €{parseNumber(task.amount.developer)}</div>
+                                ):null}
+                                {this.state.hours_needed?(
+                                    <div className="bold">Your Estimate: €{getDevFee(this.state.hours_needed)}</div>
+                                ):null}
+                            </div>
+                        ):(
+                            <div></div>
+                        )}
                     </div>
 
 
@@ -175,7 +179,7 @@ export default class ApplicationForm extends React.Component {
                                 <input type="checkbox" ref="agree_schedule"
                                        checked={this.state.agree_schedule}
                                        onChange={this.onAgreeScheduleChange.bind(this)}/>
-                                I agree to the update schedule for this task
+                                I agree to the update schedule for this {work_type}
                             </label>
                         </div>
                     </div>
@@ -191,7 +195,7 @@ export default class ApplicationForm extends React.Component {
                                 <input type="checkbox" ref="agree_deadline"
                                        checked={this.state.agree_deadline}
                                        onChange={this.onAgreeDeadlineChange.bind(this)}/>
-                                I agree to the milestone deadlines for this task.
+                                I agree to the milestone deadlines for this {work_type}.
                             </label>
                         </div>
                     </div>

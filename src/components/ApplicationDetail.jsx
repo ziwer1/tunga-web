@@ -131,6 +131,7 @@ export default class ApplicationList extends ComponentWithModal {
                 return milestone.title;
             }).join(', ');
         }
+        let work_type = task.is_task?'task':'project';
 
         return (
             <div>
@@ -189,13 +190,19 @@ export default class ApplicationList extends ComponentWithModal {
                                             {application.hours_needed?(
                                             <div>
                                                 <p className="title">Workload</p>
-                                                <div>{application.details.user.first_name} estimates {application.hours_needed} hours for this task</div>
+                                                <div>{application.details.user.first_name} estimates {application.hours_needed} hours for this {work_type}</div>
                                             </div>
                                                 ):null}
-                                            {application.hours_needed?(
+                                            {application.hours_needed && task.is_task?(
                                                 <div>
                                                     <p className="title">Fee</p>
                                                     <div>You will be charged <span className="bold">€{getTotalFee(application.hours_needed)}</span></div>
+                                                </div>
+                                            ):null}
+                                            {application.days_available?(
+                                                <div>
+                                                    <p className="title">Availabilty</p>
+                                                    <div>{application.details.user.first_name} is available for {application.days_available} days for this {work_type}</div>
                                                 </div>
                                             ):null}
                                             {application.deliver_at?(
@@ -209,7 +216,7 @@ export default class ApplicationList extends ComponentWithModal {
                                                 <div>{application.details.user.first_name} has agreed to the deadline {task.update_interval || task.milestones.length?(
                                                     (task.update_interval?((task.milestones.length?', ':' and ')+'update preferences'):'')+
                                                         (task.milestones.length?` and milestones (${milestone_summary})`:'')
-                                                    ):null} you've set for this task</div>
+                                                    ):null} you've set for this {work_type}</div>
                                             </div>
                                         </div>
                                     </div>

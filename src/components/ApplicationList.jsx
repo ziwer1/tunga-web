@@ -85,7 +85,7 @@ export default class ApplicationList extends ComponentWithModal {
                     <div>
                         {this.state.modalStep == 'select'?(
                         <div>
-                            Would you like to work with one developer or create a team for this task?
+                            Would you like to work with one developer or create a team for this {work_type}?
                             <div className="popup-actions">
                                 <button type="button" className="btn"
                                         onClick={this.handleAcceptApplication.bind(this, true)}>
@@ -161,13 +161,19 @@ export default class ApplicationList extends ComponentWithModal {
                                             {application.hours_needed?(
                                             <div>
                                                 <p className="title">Workload</p>
-                                                <div>{application.details.user.first_name} estimates {application.hours_needed} hours for this task</div>
+                                                <div>{application.details.user.first_name} estimates {application.hours_needed} hours for this {work_type}</div>
                                             </div>
                                                 ):null}
-                                            {application.hours_needed?(
+                                            {application.hours_needed && task.is_task?(
                                                 <div>
                                                     <p className="title">Fee</p>
                                                     <div>You will be charged <span className="bold">€{getTotalFee(application.hours_needed)}</span></div>
+                                                </div>
+                                            ):null}
+                                            {application.days_available?(
+                                                <div>
+                                                    <p className="title">Availabilty</p>
+                                                    <div>{application.details.user.first_name} is available for {application.days_available} days for this {work_type}</div>
                                                 </div>
                                             ):null}
                                             {application.deliver_at?(

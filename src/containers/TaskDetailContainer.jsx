@@ -114,7 +114,7 @@ export default class TaskDetailContainer extends React.Component {
                     {this.renderChildren()}
                 </div>
                     ):(
-                <TaskDetail Task={Task} TaskActions={TaskActions} params={params}/>
+                <TaskDetail Task={Task} TaskActions={TaskActions} params={params} task={task}/>
                     )}
             </div>
         ):(
