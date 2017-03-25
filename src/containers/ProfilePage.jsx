@@ -3,6 +3,8 @@ import { Link } from 'react-router';
 import connect from '../utils/connectors/ProfileConnector';
 import { PROFILE_COMPLETE_PATH } from '../constants/patterns';
 
+import {isAdmin, isDeveloper, isProjectManager, isProjectOwner} from 'utils/auth';
+
 class ProfilePage extends React.Component {
 
     renderChildren() {
@@ -24,7 +26,7 @@ class ProfilePage extends React.Component {
 					<h2 className="title">Profile</h2>
 					<ul className="nav nav-pills nav-top-filter">
 						<li role="presentation"><Link to="/profile/personal" activeClassName="active">Personal</Link></li>
-                        {Auth.user.is_developer?(
+                        {isDeveloper() || isProjectManager()?(
                             [
                                 <li role="presentation"><Link to="/profile/stack" activeClassName="active">Experience</Link></li>,
                                 <li role="presentation"><Link to="/profile/id-document" activeClassName="active">ID Document</Link></li>,

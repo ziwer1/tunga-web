@@ -73,10 +73,13 @@ export default class ApplicationList extends ComponentWithModal {
     }
 
     renderModalContent() {
+        const { Task } = this.props;
+        const { task, applications } =  Task.detail;
+        let work_type = task.is_task?'task':'project';
 
         return (
             <div>
-                <LargeModal title="Developer Section" bsStyle="md"
+                <LargeModal title="Developer Selection" bsStyle="md"
                             show={this.state.showModal} onHide={this.close.bind(this)} bsStyle="modal-md">
                     {this.state.application?(
                     <div>
@@ -86,18 +89,22 @@ export default class ApplicationList extends ComponentWithModal {
                             <div className="popup-actions">
                                 <button type="button" className="btn"
                                         onClick={this.handleAcceptApplication.bind(this, true)}>
-                                    Select {this.state.application.details.user.display_name} and close applications</button>
+                                    Select {this.state.application.details.user.first_name} and close applications</button>
                                 <button type="button" className="btn"
                                         onClick={this.handleAcceptApplication.bind(this, false)}>
-                                    Add more developers and create a team for this task</button>
+                                    Select {this.state.application.details.user.first_name} and add more developers to create a team for this {work_type}</button>
                             </div>
                         </div>
                             ):null}
                         {this.state.modalStep == 'confirm'?(
                         <div>
-                            {this.state.application.details.user.display_name} {this.state.close_applications?`received a confirmation of your selection. ${this.state.application.details.user.first_name} now has access to the task page and will contact you soon.`:'has been added to the team'}
+                            {this.state.application.details.user.display_name} {this.state.close_applications?`received a confirmation of your selection. ${this.state.application.details.user.first_name} now has access to the ${work_type} page and will contact you soon.`:'has been added to the team'}
                             <div className="popup-actions">
-                                <button type="button" className="btn" onClick={this.close.bind(this)}>{this.state.close_applications?'Go to task page':'Select other developers'}</button>
+                                {this.state.close_applications?(
+                                    <Link to={`/work/${task.id}`} className="btn" onClick={this.close.bind(this)}>Go to {work_type} page</Link>
+                                ):(
+                                    <button type="button" className="btn" onClick={this.close.bind(this)}>Select more developers</button>
+                                )}
                             </div>
                         </div>
                             ):null}
@@ -112,12 +119,7 @@ export default class ApplicationList extends ComponentWithModal {
         const { Task } = this.props;
         const { task, applications } =  Task.detail;
 
-        var milestone_summary = '';
-        if(task.milestones) {
-            milestone_summary = task.milestones.map(milestone => {
-                return milestone.title;
-            }).join(', ');
-        }
+        let work_type = task.is_task?'task':'project';
 
         return (
             <div>
@@ -201,7 +203,10 @@ export default class ApplicationList extends ComponentWithModal {
                                 })}
                         </div>
                         {applications.ids.length?null:(
-                        <div className="alert alert-info">You will receive an email when developers apply for your {task.is_task?'task':'project'}.</div>
+                        <div className="alert alert-info text-center">
+                            Developers can now apply for your {work_type}. <br/>
+                            You will receive an email when a developer applies for your {work_type}.
+                        </div>
                             )}
                     </div>)
                     }

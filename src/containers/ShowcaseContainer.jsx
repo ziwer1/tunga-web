@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import { Affix } from 'react-overlays';
 
 import { openTaskWizard } from '../utils/tasks';
+import { showWizard, showCallWidget, openCalendlyWidget } from '../utils/router';
 
 import ChatWindow from '../containers/ChatWindow';
 
@@ -24,8 +25,8 @@ export default class ShowcaseContainer extends React.Component {
 
                             <div id="navbar" className="collapse navbar-collapse">
                                 <ul className="nav navbar-nav navbar-right nav-actions">
-                                    <li><a className="join" onClick={openTaskWizard}>Join</a></li>
-                                    <li><Link to="/signin" className="login">Login</Link></li>
+                                    <li><a className="primary" onClick={() => {openCalendlyWidget()}}>Talk with us</a></li>
+                                    <li><Link to="/signin">Login</Link></li>
                                 </ul>
                                 <ul className="nav navbar-nav navbar-right">
                                     <li><Link to="/how-it-works" activeClassName="active">How it works</Link></li>

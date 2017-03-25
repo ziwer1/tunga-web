@@ -13,6 +13,8 @@ import PlanForm from './PlanForm';
 
 import {DEVELOPER_FEE, STATUS_SUBMITTED} from '../constants/Api';
 import {getPayDetails, canAddQuote, canEditQuote} from '../utils/tasks';
+import {getUser, isAdminOrProjectOwner} from '../utils/auth';
+import {parseNumber} from '../utils/helpers';
 
 momentLocalizer(moment);
 
@@ -44,11 +46,13 @@ export default class QuoteForm extends ComponentWithModal {
         if(this.props.Quote.detail.isSaved && !prevProps.Quote.detail.isSaved) {
 
             if(!this.props.quote) {
-                if(this.refs.quote_form) {
-                    this.refs.quote_form.reset();
-                }
                 const { router } = this.context;
-                router.replace(`/work/${Quote.detail.quote}/quote/${Quote.detail.quote.id}`);
+                router.replace(`/work/${Quote.detail.quote.task}/quote/${Quote.detail.quote.id}`);
+            }
+
+            if(!this.props.quote || this.props.quote.id != Quote.detail.quote.id) {
+                const { router } = this.context;
+                router.replace(`/work/${Quote.detail.quote.task}/quote/${Quote.detail.quote.id}`);
             }
 
             this.setState({...Quote.detail.quote, submitted: false});
@@ -190,7 +194,7 @@ export default class QuoteForm extends ComponentWithModal {
                 <form onSubmit={this.handleSubmit} name="quote-form" role="form" ref="quote_form">
                     <FormStatus loading={Quote.detail.isSaving}
                                 success={Quote.detail.isSaved}
-                                message={'Quote saved successfully'}
+                                message={`Quote ${quote.status == STATUS_SUBMITTED?'submitted':'saved'} successfully`}
                                 error={Quote.detail.error.create}/>
 
                     {(Quote.detail.error.create && Quote.detail.error.create.message)?
@@ -337,7 +341,9 @@ export default class QuoteForm extends ComponentWithModal {
                                 <tr>
                                     <th>Activity</th>
                                     <th>Hours</th>
-                                    <th>Fee</th>
+                                    {isAdminOrProjectOwner()?(
+                                        <th>Fee</th>
+                                    ):null}
                                     <th>Description</th>
                                     <th></th>
                                 </tr>
@@ -351,7 +357,9 @@ export default class QuoteForm extends ComponentWithModal {
                                                 <a href="#" onClick={this.onComposeActivity.bind(this, {...activity, idx})}>{_.truncate(activity.title, {length: 25})}</a>
                                             </td>
                                             <td>{activity.hours} hrs</td>
-                                            <td>€{DEVELOPER_FEE*activity.hours}</td>
+                                            {isAdminOrProjectOwner()?(
+                                                <td>€{parseNumber(DEVELOPER_FEE*activity.hours)}</td>
+                                            ):null}
                                             <td>{activity.description}</td>
                                             <td><button className="btn" onClick={this.onDelete.bind(this, idx)}><i className="fa fa-trash-o"/></button></td>
                                         </tr>
@@ -365,21 +373,27 @@ export default class QuoteForm extends ComponentWithModal {
                                 <tr>
                                     <th>Development</th>
                                     <th>{payDetails.dev.hours} hrs</th>
-                                    <th>€{payDetails.dev.fee}</th>
+                                    {isAdminOrProjectOwner()?(
+                                        <th>€{payDetails.dev.fee}</th>
+                                    ):null}
                                     <th></th>
                                     <th></th>
                                 </tr>
                                 <tr>
                                     <th>Project Management</th>
                                     <th>{payDetails.pm.hours} hrs</th>
-                                    <th>€{payDetails.pm.fee}</th>
+                                    {isAdminOrProjectOwner()?(
+                                        <th>€{payDetails.pm.fee}</th>
+                                    ):null}
                                     <th></th>
                                     <th></th>
                                 </tr>
                                 <tr>
                                     <th>Total</th>
                                     <th>{payDetails.total.hours} hrs</th>
-                                    <th>€{payDetails.total.fee}</th>
+                                    {isAdminOrProjectOwner()?(
+                                        <th>€{payDetails.total.fee}</th>
+                                    ):null}
                                     <th></th>
                                     <th></th>
                                 </tr>
@@ -434,7 +448,15 @@ export default class QuoteForm extends ComponentWithModal {
                                     className="btn"
                                     disabled={Quote.detail.isSaving}>
                                 Save</button>
-                            <button type="submit" value={STATUS_SUBMITTED} className="btn" onClick={(e) => {this.setState({submitted: true}); return true;}} disabled={Quote.detail.isSaving}>Submit for Review</button>
+                            {!quote.user || quote.user.id == getUser().id?(
+                                <button type="submit"
+                                        value={STATUS_SUBMITTED}
+                                        className="btn"
+                                        onClick={(e) => {this.setState({submitted: true}); return true;}}
+                                        disabled={Quote.detail.isSaving}>
+                                    Submit for Review
+                                </button>
+                            ):null}
                         </div>
                     ):null}
                 </form>

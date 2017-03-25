@@ -7,18 +7,13 @@ import TagList from './TagList';
 import Avatar from './Avatar';
 
 import { parse_task_status } from '../utils/tasks';
-import { getUser, isDeveloper } from '../utils/auth';
+import { getUser, isDeveloper, isProjectManager, isAdmin } from '../utils/auth';
 
 export default class TaskDetail extends React.Component {
 
-    handleApplication() {
-        this.open();
-    }
-
-    handleSaveTask() {
-        const { Task, TaskActions } = this.props;
-        const { task } = Task.detail;
-        TaskActions.createSavedTask({task: task.id});
+    onClaimProject() {
+        const {TaskActions, task} = this.props;
+        TaskActions.claimTask(task.id);
     }
 
     render() {
@@ -47,6 +42,12 @@ export default class TaskDetail extends React.Component {
                             </div>
                         )
                     )}
+
+                    {(isProjectManager() || isAdmin()) && task.can_claim?(
+                        <div className="pull-right">
+                            <button className="btn btn-block" onClick={this.onClaimProject.bind(this)}>Claim {work_type}</button>
+                        </div>
+                    ):null}
 
                     <h3 className="title pull-left"><Link to={`/work/${task.id}/`}>{task.summary}</Link></h3>
                     <div className="time pull-left">

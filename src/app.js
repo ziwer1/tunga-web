@@ -155,6 +155,7 @@ ReactDOM.render(
                                 <IndexRoute component={TaskWorflow} />
                                 <Route path="edit" crumb="Edit">
                                     <IndexRoute component={TaskForm} />
+                                    {/*<Route path="complete-task" component={EditTaskSectionForm} crumb="Finalize Task"/>*/}
                                     <Route path=":editSection" component={EditTaskSectionForm} />
                                 </Route>
                                 <Route path="apply" component={ApplicationForm} crumb="Apply"/>

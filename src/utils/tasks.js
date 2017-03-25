@@ -15,11 +15,14 @@ import {parseNumber} from '../utils/helpers';
 export function parse_task_status(task) {
     let work_type = task.is_project?'project':'task';
     var task_status = {message: `This ${work_type} is open for applications`, css: 'open'};
-    if(task.closed) {
+    if(!task.approved && !task.is_developer_ready && task.pm) {
+        task_status.message =  `This ${work_type} is being estimated`;
+        task_status.css = 'in-progress';
+    } else if(task.closed) {
         task_status.message = `This ${work_type} is closed`;
         task_status.css = 'closed';
     } else if(!task.apply) {
-        task_status.message =  `Applications ${work_type} are closed for this task`;
+        task_status.message =  `Applications are closed for this ${work_type}`;
         task_status.css = 'in-progress';
     }
     return task_status;
@@ -89,10 +92,17 @@ export function getPayDetails(activities) {
     };
 
     details.total = {
-        hours: parseNumber(details.dev.hours + parseFloat(details.pm.hours)),
-        fee: parseNumber(parseFloat(details.dev.fee) + parseFloat(details.pm.fee))
+        hours: parseNumber(parseFloat(details.dev.hours) + parseFloat(details.pm.hours)),
+        fee: parseNumber(DEVELOPER_FEE*dev_hours + PM_FEE*0.15*dev_hours)
     };
     return details;
+}
+
+export function estimateDevHoursForFee(fee) {
+    if(!fee) {
+        return 0;
+    }
+    return parseNumber(fee/(DEVELOPER_FEE*1.0));
 }
 
 export function isTaskOwner(task) {

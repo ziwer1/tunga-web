@@ -178,36 +178,36 @@ export default class LandingPage extends ComponentWithModal {
                             <div className="col-md-5">
                                 <div className="workflow">
                                     <div className="step">
-                                        <i className="icon tunga-icon-browse-developers"/>
-                                        <h5>1. Browse Developers</h5>
+                                        <i className="icon tunga-icon-post-task"/>
+                                        <h5>1. Post your work</h5>
                                     </div>
 
                                     <img src={require('../images/down-right.png')}/>
 
                                     <div className="step">
-                                        <i className="icon tunga-icon-build-network"/>
-                                        <h5>2. Build a Network</h5>
+                                        <i className="icon tunga-icon-browse-developers"/>
+                                        <h5>2. Select developers</h5>
                                     </div>
 
                                     <img src={require('../images/down-left.png')}/>
-
-                                    <div className="step">
-                                        <i className="icon tunga-icon-post-task"/>
-                                        <h5>3. Post a Task</h5>
-                                    </div>
-
-                                    <img src={require('../images/down-right.png')}/>
 
                                     <div className="step">
                                         <i className="icon tunga-icon-manage-tasks"/>
-                                        <h5>4. Manage Tasks</h5>
+                                        <h5>3. Manage your work</h5>
+                                    </div>
+
+                                    <img src={require('../images/down-right.png')}/>
+
+                                    <div className="step">
+                                        <i className="icon tunga-icon-make-transaction"/>
+                                        <h5>4. Pay your developers</h5>
                                     </div>
 
                                     <img src={require('../images/down-left.png')}/>
 
                                     <div className="step">
-                                        <i className="icon tunga-icon-make-transaction"/>
-                                        <h5>5. Finalize Transaction</h5>
+                                        <i className="icon tunga-icon-build-network"/>
+                                        <h5>5. Increase your network</h5>
                                     </div>
                                 </div>
                             </div>

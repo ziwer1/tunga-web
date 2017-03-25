@@ -28,6 +28,10 @@ export function isProjectManager() {
     return getUser().is_project_manager;
 }
 
+export function isAdminOrProjectOwner() {
+    return isAdmin() || isProjectOwner();
+}
+
 export function isAdmin() {
     let user = getUser();
     return user.is_staff || user.is_superuser;

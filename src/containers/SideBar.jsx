@@ -19,7 +19,7 @@ class SideBar extends React.Component {
         $(window).resize(resizeSideBar);
         if(isAuthenticated()) {
             this.props.NotificationActions.getNotifications();
-            setInterval(this.props.NotificationActions.getNotifications, 15000);
+            //setInterval(this.props.NotificationActions.getNotifications, 15000);
         }
 
         const { SupportActions } = this.props;

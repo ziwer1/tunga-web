@@ -71,7 +71,7 @@ export default class PaymentList extends React.Component {
                                         <tr key={task.id}>
                                             <td><Link to={`/work/${task.id}/`}>{task.summary}</Link></td>
                                             <td>{moment.utc(invoice.created_at || task.closed_at).local().format('D/MMM/YYYY')}</td>
-                                            {isDeveloper()?(
+                                            {isDeveloper() && invoice.amount?(
                                                 [
                                                     <td>{invoice.amount.currency}{parseFloat(invoice.amount.pledge).toFixed(2)}</td>,
                                                     <td>{invoice.amount.currency}{parseFloat(invoice.developer_amount.processing || 0).toFixed(2)}</td>,

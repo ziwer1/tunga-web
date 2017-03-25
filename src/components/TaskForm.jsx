@@ -25,7 +25,9 @@ import {
 } from '../constants/Api';
 
 import { getTaskTypeUrl, getScopeUrl, sendGAPageView } from '../utils/tracking';
-import { isAuthenticated, getUser } from '../utils/auth';
+import { isAuthenticated, getUser, isAdmin } from '../utils/auth';
+import { estimateDevHoursForFee } from '../utils/tasks';
+import { parseNumber } from '../utils/helpers';
 
 momentLocalizer(moment);
 
@@ -419,7 +421,8 @@ export default class TaskForm extends ComponentWithModal {
         if(!isAuthenticated() && Task.detail.isSaved) {
             return (
                 <div className="thank-you">
-                    <Success message="Thanks for posting your work on Tunga, we'll get back to you shortly."/>
+                    Thank you for posting your work on Tunga.<br/>
+                    Please check your inbox for the next steps.
                 </div>
             );
         }
@@ -428,13 +431,13 @@ export default class TaskForm extends ComponentWithModal {
         let is_project = this.state.scope != TASK_SCOPE_TASK;
         let work_type = (is_project)?'project':'task';
 
-        if(isAuthenticated() && !getUser().can_contribute && !task.id) {
+        if(isAuthenticated() && !getUser().can_contribute && !task.id && !isAdmin()) {
             return (
                 <div>
                     {task.id?null:(
                         <h2>Post a new task</h2>
                     )}
-                    <div className="alert alert-info">You need to complete your profile before you can post tasks</div>
+                    <div className="alert alert-info">You need to complete your profile before you can post work</div>
                     <div>
                         <Link to="/profile"><i className="fa fa-arrow-right"/> Continue to your profile</Link>
                     </div>
@@ -613,7 +616,7 @@ export default class TaskForm extends ComponentWithModal {
                             this.state.scope == TASK_SCOPE_ONGOING?'What kind of work do you have for developers':(
                                 is_project?(
                                     this.state.has_requirements?'Goals of the project':'Describe the idea you have for the project'
-                                ):'Requirements for this task'
+                                ):`Description *`
                             )
                         ):'Description *'
                     }</label>
@@ -676,14 +679,10 @@ export default class TaskForm extends ComponentWithModal {
                 {(Task.detail.error.update && Task.detail.error.update.fee)?
                     (<FieldError message={Task.detail.error.update.fee}/>):null}
                 <div className="form-group">
-                    <label className="control-label">{
-                        (!isAuthenticated() || (is_project && !this.state.has_requirements))?
-                            'What is roughly the budget of this project?':
-                            `Fixed fee for this task (in Euros) ${is_project_task?' - optional':''}`
-                    }</label>
-                    <div><input type="text" className="form-control" ref="fee" required={!is_project_task && isAuthenticated()} placeholder="Amount in Euros"  onChange={this.onInputChange.bind(this, 'fee')} value={this.state.fee?(this.state.fee):''}/></div>
-                    {!is_project || this.state.has_requirements?(
-                        <div style={{marginTop: '10px'}}>13% of pledge goes to Tunga</div>
+                    <label className="control-label">What is your estimated budget for this {work_type} (in Euros)? - (optional)</label>
+                    <div><input type="number" className="form-control" ref="fee" required={!is_project_task && isAuthenticated()} placeholder="Amount in Euros"  onChange={this.onInputChange.bind(this, 'fee')} value={this.state.fee?parseNumber(this.state.fee):''}/></div>
+                    {this.state.fee?(
+                        <div style={{marginTop: '10px'}}>Estimated Number of development hours: <span className="bold">{estimateDevHoursForFee(this.state.fee)} hr{this.state.fee?'s':''}</span></div>
                     ):null}
                 </div>
             </div>
@@ -1080,7 +1079,7 @@ export default class TaskForm extends ComponentWithModal {
                         },
                         {
                             title: 'Agreements',
-                            items: [feeComp, deadlineComp],
+                            items: [deadlineComp, feeComp],
                             requires: ['fee']
                         }
                     ];

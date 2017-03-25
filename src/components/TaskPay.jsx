@@ -106,7 +106,7 @@ export default class TaskPay extends React.Component {
                                 <div className="form-group">
                                     <label className="control-label">Fee (in Euro) *</label>
                                     <div><input type="text" className="form-control" ref="fee" required placeholder="Fee in €" defaultValue={parseNumber(task.pay)}/></div>
-                                    <div style={{marginTop: '10px'}}>13% of fee goes to Tunga</div>
+                                    {/*<div style={{marginTop: '10px'}}>13% of fee goes to Tunga</div>*/}
                                 </div>
 
                                 {(Task.detail.Invoice.error.create && Task.detail.Invoice.error.create.payment_method)?
@@ -140,7 +140,7 @@ export default class TaskPay extends React.Component {
                             </form>
                         ):(
                             <div>
-                                <h4>Fee: <i className="fa fa-euro"/> {parseFloat(invoice.fee).toFixed(2)}</h4>
+                                <h4>Fee: <i className="fa fa-euro"/> {parseNumber(invoice.fee)}</h4>
 
                                 {invoice.payment_method == TASK_PAYMENT_METHOD_BITCOIN?(
                                     <div>

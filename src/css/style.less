@@ -46,10 +46,21 @@ a:focus {
 input, select, textarea, .form-control, .rw-input {
     background-color: @inactive-grey;
     border-width: 0;
+
+    &:focus, &:active {
+        outline-width: 0;
+        box-shadow: none;
+    }
 }
 
 .rw-input{
     background-color: @inactive-grey !important;
+}
+
+.form-control {
+    &:focus, &:active {
+        border-color: #ccc;
+    }
 }
 
 label {
@@ -113,7 +124,15 @@ th {
 }
 
 .alert.alert-info {
+    color: @primary-text;
     background: @active-white none;
+    border-color: @secondary;
+}
+
+.notify {
+    color: @primary-text;
+    background: @active-white none;
+    border-color: @secondary;
 }
 
 form .alert {
@@ -189,6 +208,33 @@ form .alert {
             font-weight: 300;
             color: @active-white;
             background: @primary none;
+        }
+    }
+
+
+    .notifications,
+    .notifications.dropdown {
+        .badge {
+            position: absolute;
+            top: 5px;
+            background: #fff;
+            color: @primary;
+            .font-size(1.0);
+        }
+
+        &.open {
+            .badge {
+                display: none;
+            }
+        }
+
+        .dropdown-menu {
+            right: -125px;
+            width: 300px;
+            max-height: 280px;
+            padding: 0;
+            overflow: hidden;
+            overflow-y: scroll;
         }
     }
 }
@@ -1061,6 +1107,17 @@ form[name='compose'] {
         color: @active-white;
     }
 
+    .task-type {
+        position: absolute;
+        top: 0;
+        left: 0;
+        color: @active-white;
+        font-size: 80%;
+        padding: 3px 5px;
+        background-color: @bg-grey-light;
+        border-radius: 5px 0 5px 0;
+    }
+
     .title {
         font-weight: 400;
         color: @primary-text;
@@ -1403,16 +1460,18 @@ form[name='compose'] {
 .popup-actions {
     margin: 10px auto;
 
-    .btn {
+    .btn, a.btn {
         width: 100%;
-        color: @primary-text;
-        background: #fff none;
-        border-color: #ccc;
-        margin: 0;
+        color: @primary;
+        background: @active-white none;
+        border-color: @primary;
+        margin: 2px 0;
     }
 
-    .btn:hover, .btn:active {
-        color: @primary;
+    .btn:hover, .btn:active,
+    a.btn:hover, a.btn:active {
+        color: @active-white;
+        background-color: @primary;
         border-color: @primary;
         outline-color: @primary;
     }
@@ -2635,11 +2694,9 @@ form[name='compose'] {
 
     .thank-you {
         text-align: center;
-        font-size: 1.4rem;
-
-        .alert-success {
-            display: inline-block;
-        }
+        padding-top: 80px;
+        .font-size(1.7);
+        font-weight: 400;
     }
 
     .task-form, .task-form.form-wrapper {
@@ -2715,8 +2772,8 @@ form[name='compose'] {
 .alert-success,
 .alert.alert-success {
     color: @secondary;
-    background: #d9edf7 none;
-    border-color: #bce8f1;
+    background: @active-white none;
+    border-color: @secondary;
 }
 
 @media (min-width: 640px) {
@@ -2845,55 +2902,83 @@ form[name='compose'] {
             }
         }
 
-        .nav-actions .join,
-        .nav-actions:hover .join:hover,
-        .nav-actions .login:hover {
+        .nav-actions .primary,
+        .nav-actions:hover .primary:hover,
+        .nav-actions a:hover {
             color: @active-white;
             background-color: @primary;
         }
 
-        .nav-actions .login,
-        .nav-actions:hover .join {
+        .nav-actions a,
+        .nav-actions:hover .primary {
             background-color: transparent;
         }
 
         .navbar-collapse, .navbar-form {
             box-shadow: none !important;
         }
-    }
 
-    .navbar.navbar-fixed-top {
-        min-height: 50px;
-        padding: 0;
-        border-width: 0;
-        z-index: 11;
-        background-color: @primary;
+        &.navbar-fixed-top {
+            min-height: 50px;
+            padding: 0;
+            border-width: 0;
+            z-index: 11;
+            background-color: @primary;
 
-        .navbar-nav {
-            li {
-                > a:hover,
-                > a.active,
-                > a:hover.active,
-                > a:focus.active,
-                > a:visited.active {
-                    border-bottom-color: @active-white;
+            .navbar-nav {
+                li {
+                    > a:hover,
+                    > a.active,
+                    > a:hover.active,
+                    > a:focus.active,
+                    > a:visited.active {
+                        border-bottom-color: @active-white;
+                    }
                 }
             }
-        }
 
-        .nav-actions .join,
-        .nav-actions:hover .join:hover,
-        .nav-actions .login:hover {
-            color: @primary;
-            background-color: @active-white;
-        }
 
-        .nav-actions .login,
-        .nav-actions:hover .join {
-            color: @active-white;
-            background-color: transparent;
-        }
+            .nav-actions {
+                li {
+                    padding: 7px 20px;
 
+                    > a {
+                        font-size: 1.3em;
+                        font-weight: 300;
+                        background-color: transparent;
+                        text-shadow: none;
+                        padding: 8px 0;
+                        border-bottom: 1px solid transparent;
+                        border-radius: 0;
+                    }
+
+                    > a:hover,
+                    > a.active,
+                    > a:hover.active,
+                    > a:focus.active,
+                    > a:visited.active {
+                        color: @active-white;
+                        border-bottom-color: @active-white;
+                    }
+                }
+            }
+
+            .nav-actions .primary,
+            .nav-actions:hover .primary:hover {
+                color: @active-white;
+                background-color: @primary;
+            }
+
+            .nav-actions .primary,
+            .nav-actions:hover .primary {
+                background-color: transparent;
+            }
+
+            .nav-actions .primary:hover {
+                color: @active-white;
+                border-bottom-color: @active-white;
+            }
+        }
     }
 
     .learn-more {

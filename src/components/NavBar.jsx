@@ -39,7 +39,7 @@ class NavBar extends React.Component {
     }
 
     render() {
-        
+
         return (
             <div className="navbar-wrapper">
                 <nav className="navbar navbar-fixed-top">
@@ -71,6 +71,16 @@ class NavBar extends React.Component {
                                             <li><Link to="/dashboard/updates"><i className="nav-icon fa fa-bell"/> Updates dashboard</Link></li>
                                         </ul>
                                     </li>):null}
+                                {/*<li className="dropdown notifications">
+                                    <a href="#" className="dropdown-toggle"
+                                       data-toggle="dropdown" role="button"
+                                       aria-expanded="false">
+                                        <i className="nav-icon fa fa-bell fa-lg"/> {0?(<span className="badge">{0}</span>):null}
+                                    </a>
+                                    <div className="dropdown-menu" role="menu">
+
+                                    </div>
+                                </li>*/}
                                 <li className="dropdown">
                                     <a href="#" className="dropdown-toggle account-actions-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                         {getUser().display_name} <span className="caret" style={{marginLeft: 5+'px'}} /> <Avatar src={getUser().avatar_url}/>

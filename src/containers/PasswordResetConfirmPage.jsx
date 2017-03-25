@@ -52,7 +52,7 @@ class PasswordResetConfirm extends React.Component {
                 ):(
                     <FormStatus loading={Auth.isResetting}
                                 success={Auth.isReset}
-                                message={is_new?'Password changed':'Password set successfully'}
+                                message={is_new?'Password set successfully':'Password changed'}
                                 error={Auth.error.reset_confirm}/>
                 )}
 

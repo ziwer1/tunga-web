@@ -13,6 +13,13 @@ import confirm from '../utils/confirm';
 
 export default class TaskCard extends ComponentWithModal {
 
+    componentDidUpdate(prevProps, prevState) {
+        if(this.props.task.pm && !prevProps.task.pm) {
+            const { router } = this.context;
+            router.replace(`/work/${this.props.task.id}`);
+        }
+    }
+
     onClaimProject() {
         const {TaskActions, task} = this.props;
         TaskActions.claimTask(task.id);
@@ -53,6 +60,13 @@ export default class TaskCard extends ComponentWithModal {
 
         return (
             <div className="card task-card">
+                <div className="task-type">
+                    {task.is_task?(
+                        <span><i className="tunga-icon-task"/> Task</span>
+                    ):(
+                        <span><i className="tunga-icon-project"/> Project</span>
+                    )}
+                </div>
                 <div className="time text-right">
                     Posted <TimeAgo date={moment.utc(task.created_at).local().format()}/>
                 </div>
@@ -143,3 +157,8 @@ TaskCard.propTypes = {
 TaskCard.defaultProps = {
     task: {}
 };
+
+TaskCard.contextTypes = {
+    router: React.PropTypes.object.isRequired
+};
+

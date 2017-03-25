@@ -8,7 +8,9 @@ import FormStatus from './status/FormStatus';
 
 import {DEVELOPER_FEE, STATUS_SUBMITTED, STATUS_APPROVED, STATUS_DECLINED, STATUS_ACCEPTED, STATUS_REJECTED} from '../constants/Api';
 import {getPayDetails, canEditEstimate, canModerateEstimate, canReviewEstimate} from '../utils/tasks';
+import {getUser, isAdminOrProjectOwner} from '../utils/auth';
 import confirm from '../utils/confirm';
+import {parseNumber} from '../utils/helpers';
 
 momentLocalizer(moment);
 
@@ -67,7 +69,9 @@ export default class EstimateDetail extends React.Component {
                             <tr>
                                 <th>Title</th>
                                 <th>Hours</th>
-                                <th>Fee</th>
+                                {isAdminOrProjectOwner()?(
+                                    <th>Fee</th>
+                                ):null}
                                 <th>Description</th>
                             </tr>
                             </thead>
@@ -78,7 +82,9 @@ export default class EstimateDetail extends React.Component {
                                     <tr>
                                         <td>{activity.title}</td>
                                         <td>{activity.hours} hrs</td>
-                                        <td>€{DEVELOPER_FEE*activity.hours}</td>
+                                        {isAdminOrProjectOwner()?(
+                                            <td>€{parseNumber(DEVELOPER_FEE*activity.hours)}</td>
+                                        ):null}
                                         <td>{activity.description}</td>
                                     </tr>
                                 )
@@ -91,19 +97,25 @@ export default class EstimateDetail extends React.Component {
                             <tr>
                                 <th>Development</th>
                                 <th>{payDetails.dev.hours} hrs</th>
-                                <th>€{payDetails.dev.fee}</th>
+                                {isAdminOrProjectOwner()?(
+                                    <th>€{payDetails.dev.fee}</th>
+                                ):null}
                                 <th></th>
                             </tr>
                             <tr>
                                 <th>Project Management</th>
                                 <th>{payDetails.pm.hours} hrs</th>
-                                <th>€{payDetails.pm.fee}</th>
+                                {isAdminOrProjectOwner()?(
+                                    <th>€{payDetails.pm.fee}</th>
+                                ):null}
                                 <th></th>
                             </tr>
                             <tr>
                                 <th>Total</th>
                                 <th>{payDetails.total.hours} hrs</th>
-                                <th>€{payDetails.total.fee}</th>
+                                {isAdminOrProjectOwner()?(
+                                    <th>€{payDetails.total.fee}</th>
+                                ):null}
                                 <th></th>
                             </tr>
                             </tfoot>
@@ -133,11 +145,13 @@ export default class EstimateDetail extends React.Component {
                                   className="btn">
                                 Edit Estimate
                             </Link>
-                            <button type="submit"
-                                    className="btn"
-                                    disabled={Estimate.detail.isSaving}
-                                    onClick={this.onChangeStatus.bind(this, STATUS_SUBMITTED)}>
-                                Submit for Review</button>
+                            {estimate.user && estimate.user.id == getUser().id?(
+                                <button type="submit"
+                                        className="btn"
+                                        disabled={Estimate.detail.isSaving}
+                                        onClick={this.onChangeStatus.bind(this, STATUS_SUBMITTED)}>
+                                    Submit for Review</button>
+                            ):null}
                         </div>
                     ):(
                         canModerateEstimate(task)?(

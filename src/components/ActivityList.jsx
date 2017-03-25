@@ -10,7 +10,7 @@ import Attachments from './Attachments';
 import randomstring from 'randomstring';
 
 import { PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT } from '../constants/Api';
-import { isAuthenticated, getUser } from '../utils/auth';
+import { isAuthenticated, getUser, isAdmin, isProjectOwner, isAdminOrProjectOwner } from '../utils/auth';
 import {getPayDetails} from '../utils/tasks';
 
 export function scrollList (listId) {
@@ -140,7 +140,9 @@ export default class ActivityList extends React.Component {
                                 <div style={{margin: '10px 0'}}>{comment_txt}</div>
                             ):null}
                             <div>Hours: {object.total_hours} hours</div>
-                            <div>Cost: €{object.total_pay}</div>
+                            {isAdminOrProjectOwner()?(
+                                <div>Cost: €{object.total_pay}</div>
+                            ):null}
                             <div>
                                 <Link to={`/work/${object.task}/${activity_type}/${object.id}/`}>
                                     View details

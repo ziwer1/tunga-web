@@ -1,12 +1,11 @@
+import numeral from 'numeral';
+
 export function isInt(n) {
     return parseInt(n) === n;
 }
 
 export function parseNumber(number, precision=2) {
-    if(isInt(number)) {
-        return parseInt(number);
-    }
-    return parseFloat(number).toFixed(precision);
+    return numeral(number).format('0,0.[00]');
 }
 
 export function truncateWords(sentence, number=25) {

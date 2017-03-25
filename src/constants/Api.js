@@ -105,8 +105,8 @@ export const USER_TYPE_CHOICES = [
 
 export const DEVELOPER_FEE = 19;
 export const PM_FEE = 39;
-export const TUNGA_PERCENTAGE_DEVELOPER = 0.34; // 34%
-export const TUNGA_PERCENTAGE_PM = 0.56; // 56%
+export const TUNGA_PERCENTAGE_DEVELOPER = 0.3421; // 34%
+export const TUNGA_PERCENTAGE_PM = 0.4871; // 56%
 
 export const PAYMENT_METHOD_BTC_WALLET = 'btc_wallet';
 export const PAYMENT_METHOD_BTC_ADDRESS = 'btc_address';

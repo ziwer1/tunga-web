@@ -246,6 +246,17 @@ export default class TaskWorflow extends ComponentWithModal {
         );
     }
 
+    getNewApplications() {
+        const {task, Task, TaskActions} = this.props;
+        var new_applications = [];
+        task.details.applications.map(application => {
+            if(!application.responded) {
+                new_applications.push(application);
+            }
+        });
+        return new_applications.length;
+    }
+
     render() {
         const {task, Task, TaskActions} = this.props;
         const {uploads} = Task.detail;
@@ -262,6 +273,7 @@ export default class TaskWorflow extends ComponentWithModal {
         let can_rate = is_admin_or_owner && task.closed && task.paid;
         let can_edit_shares = isAdmin() || is_confirmed_assignee && task.details && task.details.participation_shares.length > 1;
         let work_type = task.is_project?'project':'task';
+        let new_applications = this.getNewApplications();
 
         const pay_popover = (
             <Popover id="popover">
@@ -348,8 +360,8 @@ export default class TaskWorflow extends ComponentWithModal {
                                     {is_admin_or_owner?(
                                         <Link to={`/work/${task.id}/applications/`}
                                               className="btn">
-                                            View applications {task.details && task.details.applications && task.details.applications.length?(
-                                            <span className="badge">{task.details.applications.length}</span>
+                                            View applications {new_applications?(
+                                            <span className="badge">{new_applications}</span>
                                         ):null}
                                         </Link>
                                     ):null}
@@ -409,10 +421,10 @@ export default class TaskWorflow extends ComponentWithModal {
                                                                 Edit {work_type} description
                                                             </Link>
                                                         </li>,
-                                                        task.fee?(
+                                                        task.pay?(
                                                             <li>
                                                                 <Link to={`/work/${task.id}/edit/fee`} className="btn">
-                                                                    Edit the pledge for the {work_type}
+                                                                    Edit the fee for the {work_type}
                                                                 </Link>
                                                             </li>
                                                         ):null,

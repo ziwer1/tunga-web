@@ -12,7 +12,9 @@ import LargeModal from './LargeModal';
 import ActivityForm from './ActivityForm';
 
 import {DEVELOPER_FEE, STATUS_SUBMITTED} from '../constants/Api';
+import {getUser, isAdminOrProjectOwner} from '../utils/auth';
 import {getPayDetails, canEditEstimate, canAddEstimate} from '../utils/tasks';
+import {parseNumber} from '../utils/helpers';
 
 momentLocalizer(moment);
 
@@ -42,6 +44,9 @@ export default class EstimateForm extends ComponentWithModal {
                 if(this.refs.estimate_form) {
                     this.refs.estimate_form.reset();
                 }
+            }
+
+            if(!this.props.estimate || this.props.estimate != Estimate.detail.estimate.id) {
                 const { router } = this.context;
                 router.replace(`/work/${Estimate.detail.estimate.task}/estimate/${Estimate.detail.estimate.id}`);
             }
@@ -162,7 +167,7 @@ export default class EstimateForm extends ComponentWithModal {
                 <form onSubmit={this.handleSubmit} name="estimate-form" role="form" ref="estimate_form">
                     <FormStatus loading={Estimate.detail.isSaving}
                                 success={Estimate.detail.isSaved}
-                                message={'Estimate saved successfully'}
+                                message={`Estimate ${estimate.status == STATUS_SUBMITTED?'submitted':'saved'} successfully`}
                                 error={Estimate.detail.error.create}/>
 
                     {(Estimate.detail.error.create && Estimate.detail.error.create.message)?
@@ -203,7 +208,9 @@ export default class EstimateForm extends ComponentWithModal {
                                     <th>Activity</th>
                                     <th>Hours</th>
                                     <th>Fee</th>
-                                    <th>Description</th>
+                                    {isAdminOrProjectOwner()?(
+                                        <th>Description</th>
+                                    ):null}
                                     <th></th>
                                 </tr>
                                 </thead>
@@ -216,7 +223,9 @@ export default class EstimateForm extends ComponentWithModal {
                                                 <a href="#" onClick={this.onComposeActivity.bind(this, {...activity, idx})}>{_.truncate(activity.title, {length: 25})}</a>
                                             </td>
                                             <td>{activity.hours} hrs</td>
-                                            <td>€{DEVELOPER_FEE*activity.hours}</td>
+                                            {isAdminOrProjectOwner()?(
+                                                <td>€{parseNumber(DEVELOPER_FEE*activity.hours)}</td>
+                                            ):null}
                                             <td>{activity.description}</td>
                                             <td><button className="btn" onClick={this.onDelete.bind(this, idx)}><i className="fa fa-trash-o"/></button></td>
                                         </tr>
@@ -230,21 +239,27 @@ export default class EstimateForm extends ComponentWithModal {
                                 <tr>
                                     <th>Development</th>
                                     <th>{payDetails.dev.hours} hrs</th>
-                                    <th>€{payDetails.dev.fee}</th>
+                                    {isAdminOrProjectOwner()?(
+                                        <th>€{payDetails.dev.fee}</th>
+                                    ):null}
                                     <th></th>
                                     <th></th>
                                 </tr>
                                 <tr>
                                     <th>Project Management</th>
                                     <th>{payDetails.pm.hours} hrs</th>
-                                    <th>€{payDetails.pm.fee}</th>
+                                    {isAdminOrProjectOwner()?(
+                                        <th>€{payDetails.pm.fee}</th>
+                                    ):null}
                                     <th></th>
                                     <th></th>
                                 </tr>
                                 <tr>
                                     <th>Total</th>
                                     <th>{payDetails.total.hours} hrs</th>
-                                    <th>€{payDetails.total.fee}</th>
+                                    {isAdminOrProjectOwner()?(
+                                        <th>€{payDetails.total.fee}</th>
+                                    ):null}
                                     <th></th>
                                     <th></th>
                                 </tr>
@@ -292,7 +307,13 @@ export default class EstimateForm extends ComponentWithModal {
                                     className="btn"
                                     disabled={Estimate.detail.isSaving}>
                                 Save</button>
-                            <button type="submit" value={STATUS_SUBMITTED} className="btn" onClick={(e) => {this.setState({submitted: true}); return true;}} disabled={Estimate.detail.isSaving}>Submit for Review</button>
+                            {!estimate.user || estimate.user.id == getUser().id?(
+                                <button type="submit"
+                                        value={STATUS_SUBMITTED}
+                                        className="btn"
+                                        onClick={(e) => {this.setState({submitted: true}); return true;}}
+                                        disabled={Estimate.detail.isSaving}>Submit for Review</button>
+                            ):null}
                         </div>
                     ):null}
                 </form>

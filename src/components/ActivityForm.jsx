@@ -60,7 +60,7 @@ export default class ActivityForm extends React.Component {
                         (<FieldError message={this.state.error.hours}/>):null}
                     <div className="form-group">
                         <label className="control-label">Estimated hours *</label>
-                        <div><input type="text" className="form-control" ref="hours" required placeholder="Hours" defaultValue={activity.hours}/></div>
+                        <div><input type="number" step="0.01" className="form-control" ref="hours" required placeholder="Hours" defaultValue={activity.hours}/></div>
                     </div>
 
                     {(this.state.error && this.state.error.description)?

@@ -73,7 +73,7 @@ export default class ApplicationForm extends React.Component {
         e.preventDefault();
         var pitch = this.state.pitch;
         var hours_needed = this.refs.hours_needed.value.trim() || null;
-        var hours_available = this.refs.hours_available.value.trim() || null;
+        var days_available = this.refs.days_available.value.trim() || null;
         var deliver_at = this.state.deliver_at;
         var remarks = this.state.remarks;
 
@@ -89,13 +89,14 @@ export default class ApplicationForm extends React.Component {
 
         const { TaskActions } = this.props;
 
-        TaskActions.createApplication({task: task.id, pitch, hours_needed, hours_available, deliver_at, remarks}, errors);
+        TaskActions.createApplication({task: task.id, pitch, hours_needed, days_available, deliver_at, remarks}, errors);
         return;
     }
 
     render() {
         const { Task } = this.props;
         const task = this.props.task || {};
+        const work_type = task.is_task?'task':'project';
         return (
             <div className="form-wrapper">
                 {Task.detail.applications.isSaved?(
@@ -144,13 +145,13 @@ export default class ApplicationForm extends React.Component {
                     </div>
 
 
-                    {(Task.detail.applications.error.create && Task.detail.applications.error.create.hours_available)?
-                        (<FieldError message={Task.detail.applications.error.create.hours_available}/>):null}
-                    {(Task.detail.applications.error.update && Task.detail.applications.error.update.hours_available)?
-                        (<FieldError message={Task.detail.applications.error.update.hours_available}/>):null}
+                    {(Task.detail.applications.error.create && Task.detail.applications.error.create.days_available)?
+                        (<FieldError message={Task.detail.applications.error.create.days_available}/>):null}
+                    {(Task.detail.applications.error.update && Task.detail.applications.error.update.days_available)?
+                        (<FieldError message={Task.detail.applications.error.update.days_available}/>):null}
                     <div className="form-group">
-                        <label className="control-label">Hours available to work on task</label>
-                        <div><input type="text" className="form-control" ref="hours_available" placeholder="Hours available to work on task"/></div>
+                        <label className="control-label">Days available to work on {work_type}</label>
+                        <div><input type="text" className="form-control" ref="days_available" placeholder={`Days available to work on ${work_type}`}/></div>
                     </div>
 
                     {(Task.detail.applications.error.create && Task.detail.applications.error.create.deliver_at)?
