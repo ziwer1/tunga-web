@@ -7,6 +7,8 @@ import LoadMore from './status/LoadMore';
 
 import { ENDPOINT_TASK } from '../constants/Api';
 
+import { isAdmin, isDeveloper } from '../utils/auth';
+
 export default class PaymentList extends React.Component {
 
     componentDidMount() {
@@ -22,7 +24,7 @@ export default class PaymentList extends React.Component {
     }
 
     render() {
-        const { Auth, Task, TaskActions } = this.props;
+        const { Task, TaskActions } = this.props;
         return (
             <div>
                 <h2>Payments</h2>
@@ -43,7 +45,7 @@ export default class PaymentList extends React.Component {
                                 <tr>
                                     <th>Task</th>
                                     <th>Date</th>
-                                    {Auth.user.is_developer?(
+                                    {isDeveloper()?(
                                         [
                                             <th>Pledge</th>,
                                             <th>Payment fee</th>,
@@ -67,9 +69,9 @@ export default class PaymentList extends React.Component {
                                         };
                                     return(
                                         <tr key={task.id}>
-                                            <td><Link to={`/task/${task.id}/`}>{task.title}</Link></td>
+                                            <td><Link to={`/work/${task.id}/`}>{task.summary}</Link></td>
                                             <td>{moment.utc(invoice.created_at || task.closed_at).local().format('D/MMM/YYYY')}</td>
-                                            {Auth.user.is_developer?(
+                                            {isDeveloper() && invoice.amount?(
                                                 [
                                                     <td>{invoice.amount.currency}{parseFloat(invoice.amount.pledge).toFixed(2)}</td>,
                                                     <td>{invoice.amount.currency}{parseFloat(invoice.developer_amount.processing || 0).toFixed(2)}</td>,
@@ -84,9 +86,9 @@ export default class PaymentList extends React.Component {
                                                     <div>
                                                         <a href={`${ENDPOINT_TASK}${task.id}/download/invoice/?format=pdf&type=client`}
                                                            target="_blank">
-                                                            <span><i className="fa fa-download"/> {Auth.user.is_developer || Auth.user.is_staff?'Client':'Download'} Invoice(s)</span>
+                                                            <span><i className="fa fa-download"/> {isDeveloper() || isAdmin()?'Client':'Download'} Invoice(s)</span>
                                                         </a><br/>
-                                                        {Auth.user.is_developer || Auth.user.is_staff?(
+                                                        {isDeveloper() || isAdmin()?(
                                                             <a href={`${ENDPOINT_TASK}${task.id}/download/invoice/?format=pdf&type=developer`}
                                                                target="_blank">
                                                                 <span><i className="fa fa-download"/> Developer Invoice(s)</span>

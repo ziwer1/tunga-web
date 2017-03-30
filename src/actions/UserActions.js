@@ -17,8 +17,8 @@ export function listUsers(filter) {
         axios.get(ENDPOINT_USER, {params: filter})
             .then(function(response) {
                 dispatch(listUsersSuccess(response.data, filter))
-            }).catch(function(response) {
-                dispatch(listUsersFailed(response.data))
+            }).catch(function(error) {
+                dispatch(listUsersFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -54,8 +54,8 @@ export function retrieveUser(id) {
         axios.get(ENDPOINT_USER + id + '/')
             .then(function(response) {
                 dispatch(retrieveUserSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(retrieveUserFailed(response.data))
+            }).catch(function(error) {
+                dispatch(retrieveUserFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -87,8 +87,8 @@ export function listMoreUsers(url) {
         axios.get(url)
             .then(function(response) {
                 dispatch(listMoreUsersSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(listMoreUsersFailed(response.data))
+            }).catch(function(error) {
+                dispatch(listMoreUsersFailed(error.response?error.response.data:null))
             });
     }
 }

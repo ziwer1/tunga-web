@@ -7,35 +7,36 @@ import TagList from './TagList';
 import Avatar from './Avatar';
 
 import { parse_task_status } from '../utils/tasks';
+import { getUser, isDeveloper, isProjectManager, isAdmin } from '../utils/auth';
 
 export default class TaskDetail extends React.Component {
 
-    handleApplication() {
-        this.open();
-    }
-
-    handleSaveTask() {
-        const { Task, TaskActions } = this.props;
-        const { task } = Task.detail;
-        TaskActions.createSavedTask({task: task.id});
+    onClaimProject() {
+        const {TaskActions} = this.props;
+        const task = this.props.task || {};
+        TaskActions.claimTask(task.id);
     }
 
     render() {
-        const { Auth, Task, TaskActions } = this.props;
-        const { task } = Task.detail;
+        const { Task } = this.props;
+        const task = this.props.task || {};
         var task_status = parse_task_status(task);
+        var work_type = task.is_task?'task':'project';
 
         return (
-            <div>
+            <div className="estimate-presentation">
                 {Task.detail.isRetrieving?
                     (<Progress/>)
                     :(
                 <div className="task-page">
                     {task.can_apply?(
-                        <Link to={`/task/${task.id}/apply`} className="btn pull-right">Apply for this task</Link>
-                    ):(Auth.user.can_contribute?null:(
+                        <div className="pull-right">
+                            <Link to={`/work/${task.id}/apply`} className="btn">Apply for this {work_type}</Link>
+                            <Link to={`/conversation/start/task/${task.id}`} className="btn">Send message</Link>
+                        </div>
+                    ):(!isDeveloper() || getUser().can_contribute?null:(
                             <div style={{marginBottom: '20px'}}>
-                                <div className="alert alert-info">You need to complete your profile before you can apply for tasks</div>
+                                <div className="alert alert-info">You need to complete your profile before you can apply for {work_type}s</div>
                                 <div>
                                     <Link to="/profile"><i className="fa fa-arrow-right"/> Continue to your profile</Link>
                                 </div>
@@ -43,7 +44,13 @@ export default class TaskDetail extends React.Component {
                         )
                     )}
 
-                    <h3 className="title pull-left"><Link to={`/task/${task.id}/`}>{task.title}</Link></h3>
+                    {(isProjectManager() || isAdmin()) && task.can_claim?(
+                        <div className="pull-right">
+                            <button className="btn btn-block" onClick={this.onClaimProject.bind(this)}>Claim {work_type}</button>
+                        </div>
+                    ):null}
+
+                    <h3 className="title pull-left"><Link to={`/work/${task.id}/`}>{task.summary}</Link></h3>
                     <div className="time pull-left">
                         Posted <TimeAgo date={moment.utc(task.created_at).local().format()}/>
                     </div>
@@ -55,27 +62,36 @@ export default class TaskDetail extends React.Component {
                     {task.deadline?(
                         <div className="title">
                             <span>Deadline: </span>
-                            <span>{moment.utc(task.deadline).local().format('Do, MMMM YYYY, h:mm a')}</span>
+                            <span>{moment.utc(task.deadline).local().format('Do, MMMM YYYY')}</span>
                         </div>
                     ):null}
                     {task.details?(
-                        <TagList tags={task.details.skills} linkPrefix="/task/skill/"/>
+                        <TagList tags={task.details.skills} linkPrefix="/work/skill/"/>
                     ):null}
                     <div>
-                        <strong>Created</strong> <span>{moment.utc(task.created_at).local().format('Do, MMMM YYYY, h:mm a')}</span>
+                        <strong>Created</strong> <span>{moment.utc(task.created_at).local().format('Do, MMMM YYYY')}</span>
                     </div>
 
-                    {task.description?(
-                        <div>
-                            <h5>Task description</h5>
-                            <div className="card" dangerouslySetInnerHTML={{__html: task.description}}/>
-                        </div>
-                    ):null}
+                    {[
+                        {key: 'description', title: 'Description'},
+                        {key: 'deliverables', title: 'Deliverables'},
+                        {key: 'stack_description', title: 'Technology Stack'}
+                    ].map(item => {
+                        if(task[item.key]) {
+                            return (
+                                <div>
+                                    <h5>{item.title}</h5>
+                                    <div className="card" dangerouslySetInnerHTML={{__html: task[item.key]}}/>
+                                </div>
+                            )
+                        }
+                        return null;
+                    })}
 
                     {task.update_schedule_display?(
                         <div>
-                            <h5>Update schedule for this task</h5>
-                            <div className="card">As a developer for this task, you have to update the client {task.update_schedule_display.toLowerCase()}</div>
+                            <h5>Update schedule for this {work_type}</h5>
+                            <div className="card">As a developer for this {work_type}, you have to update the client {task.update_schedule_display.toLowerCase()}</div>
                         </div>
                     ):null}
 

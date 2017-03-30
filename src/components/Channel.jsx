@@ -8,6 +8,8 @@ import ChannelInfo from './ChannelInfo';
 import { CHANNEL_TYPES } from '../constants/Api';
 import { getChannelKey } from '../utils/reducers';
 
+import { isAuthenticated, isAdmin, isDeveloper } from '../utils/auth';
+
 
 export default class Channel extends React.Component {
 
@@ -103,7 +105,6 @@ export default class Channel extends React.Component {
     renderChildren() {
         return React.Children.map(this.props.children, function (child) {
             return React.cloneElement(child, {
-                Auth: this.props.Auth,
                 Channel: this.props.Channel,
                 Message: this.props.Message,
                 channel: this.getCurrentChannel(),
@@ -115,7 +116,7 @@ export default class Channel extends React.Component {
     }
 
     render() {
-        const { channelId, Auth, Channel } = this.props;
+        const { channelId, Channel } = this.props;
         let channel = this.getCurrentChannel();
         let channel_key = getChannelKey(channelId);
 
@@ -125,7 +126,7 @@ export default class Channel extends React.Component {
                 channel.id?(
                     <div className="chatbox">
                         <div className="chatbox-top clearfix">
-                            <div className={`chat-actions ${!Auth.isAuthenticated || (channel.type == CHANNEL_TYPES.support && !Auth.user.is_staff)?"":"pull-right"}`}>
+                            <div className={`chat-actions ${!isAuthenticated() || (channel.type == CHANNEL_TYPES.support && !isAdmin())?"":"pull-right"}`}>
                                 {channel.type == CHANNEL_TYPES.support?null:(
                                     <div className="btn-group btn-choices select pull-right" role="group">
                                         <Link to={`/conversation/${channel.id}/messages`}
@@ -138,7 +139,7 @@ export default class Channel extends React.Component {
                                               activeClassName="active">
                                             <i className="fa fa-paperclip"/>
                                         </Link>
-                                        {Auth.user.is_developer && channel.type == CHANNEL_TYPES.developer?null:(
+                                        {isDeveloper() && channel.type == CHANNEL_TYPES.developer?null:(
                                             <div className="dropdown" style={{display: 'inline-block'}}>
                                                 <button className="btn btn-borderless dropdown-toggle" type="button" id="chat-overflow" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                                     <i className="fa fa-ellipsis-v"/>
@@ -160,12 +161,14 @@ export default class Channel extends React.Component {
                                     </div>
                                 )}
                                 {['messages', null].indexOf(this.getView() > -1)?(
-                                    <SearchBox placeholder="Search messages"
-                                               onSearch={this.onSearch.bind(this)}
-                                               count={Channel.detail.activity.count[channel_key] || 0}/>
+                                    <div className="pull-right">
+                                        <SearchBox placeholder="Search messages"
+                                                   onSearch={this.onSearch.bind(this)}
+                                                   count={Channel.detail.activity.count[channel_key] || 0}/>
+                                    </div>
                                 ):null}
                             </div>
-                            {Auth.isAuthenticated && channel.type != CHANNEL_TYPES.support?(
+                            {isAuthenticated() && channel.type != CHANNEL_TYPES.support?(
                                 <div className="media">
                                     <div className="media-left">
                                         {channel.user?(

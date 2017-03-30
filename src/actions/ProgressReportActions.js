@@ -50,8 +50,8 @@ export function createProgressReport(progress_report, attachments) {
             axios.post(ENDPOINT_PROGRESS_REPORT, progress_report)
                 .then(function(response) {
                     dispatch(createProgressReportSuccess(response.data));
-                }).catch(function(response) {
-                    dispatch(createProgressReportFailed(response.data));
+                }).catch(function(error) {
+                    dispatch(createProgressReportFailed(error.response?error.response.data:null));
                 });
         }
     }
@@ -84,8 +84,8 @@ export function listProgressReports(filter) {
         axios.get(ENDPOINT_PROGRESS_REPORT, {params: filter})
             .then(function(response) {
                 dispatch(listProgressReportsSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(listProgressReportsFailed(response.data))
+            }).catch(function(error) {
+                dispatch(listProgressReportsFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -120,8 +120,8 @@ export function retrieveProgressReport(id) {
         axios.get(ENDPOINT_PROGRESS_REPORT + id + '/')
             .then(function(response) {
                 dispatch(retrieveProgressReportSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(retrieveProgressReportFailed(response.data))
+            }).catch(function(error) {
+                dispatch(retrieveProgressReportFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -153,8 +153,8 @@ export function updateProgressReport(id, data) {
         axios.patch(ENDPOINT_PROGRESS_REPORT + id + '/', data)
             .then(function(response) {
                 dispatch(updateProgressReportSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(updateProgressReportFailed(response.data))
+            }).catch(function(error) {
+                dispatch(updateProgressReportFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -187,8 +187,8 @@ export function deleteProgressReport(id) {
         axios.delete(ENDPOINT_PROGRESS_REPORT + id + '/')
             .then(function() {
                 dispatch(deleteProgressReportSuccess(id))
-            }).catch(function(response) {
-                dispatch(deleteProgressReportFailed(response.data))
+            }).catch(function(error) {
+                dispatch(deleteProgressReportFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -220,8 +220,8 @@ export function listMoreProgressReports(url) {
         axios.get(url)
             .then(function(response) {
                 dispatch(listMoreProgressReportsSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(listMoreProgressReportsFailed(response.data))
+            }).catch(function(error) {
+                dispatch(listMoreProgressReportsFailed(error.response?error.response.data:null))
             });
     }
 }

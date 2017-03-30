@@ -41,6 +41,9 @@ export const CREATE_SUPPORT_CHANNEL_FAILED = 'CREATE_SUPPORT_CHANNEL_FAILED';
 export const CREATE_DEVELOPER_CHANNEL_START = 'CREATE_DEVELOPER_CHANNEL_START';
 export const CREATE_DEVELOPER_CHANNEL_SUCCESS = 'CREATE_DEVELOPER_CHANNEL_SUCCESS';
 export const CREATE_DEVELOPER_CHANNEL_FAILED = 'CREATE_DEVELOPER_CHANNEL_FAILED';
+export const CREATE_TASK_CHANNEL_START = 'CREATE_TASK_CHANNEL_START';
+export const CREATE_TASK_CHANNEL_SUCCESS = 'CREATE_TASK_CHANNEL_SUCCESS';
+export const CREATE_TASK_CHANNEL_FAILED = 'CREATE_TASK_CHANNEL_FAILED';
 
 export function createChannel(channel) {
     return dispatch => {
@@ -48,8 +51,8 @@ export function createChannel(channel) {
         axios.post(ENDPOINT_CHANNEL, channel)
             .then(function(response) {
                 dispatch(createChannelSuccess(response.data));
-            }).catch(function(response) {
-                dispatch(createChannelFailed(response.data));
+            }).catch(function(error) {
+                dispatch(createChannelFailed(error.response?error.response.data:null));
             });
     }
 }
@@ -81,8 +84,8 @@ export function listChannels(filter) {
         axios.get(ENDPOINT_CHANNEL, {params: filter})
             .then(function(response) {
                 dispatch(listChannelsSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(listChannelsFailed(response.data))
+            }).catch(function(error) {
+                dispatch(listChannelsFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -117,8 +120,8 @@ export function retrieveChannel(id) {
         axios.get(ENDPOINT_CHANNEL + id + '/')
             .then(function(response) {
                 dispatch(retrieveChannelSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(retrieveChannelFailed(response.data))
+            }).catch(function(error) {
+                dispatch(retrieveChannelFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -150,8 +153,8 @@ export function retrieveDirectChannel(user_id) {
         axios.get(ENDPOINT_DIRECT_CHANNEL)
             .then(function(response) {
                 dispatch(retrieveDirectChannelSuccess(response.data))
-            }).catch(function(response) {
-            dispatch(retrieveDirectChannelFailed(response.data))
+            }).catch(function(error) {
+            dispatch(retrieveDirectChannelFailed(error.response?error.response.data:null))
         });
     }
 }
@@ -212,8 +215,8 @@ export function updateChannel(id, data, uploads) {
                 .then(function(response) {
                     dispatch(updateChannelSuccess(response.data))
                 })
-                .catch(function(response) {
-                    dispatch(updateChannelFailed(response.data))
+                .catch(function(error) {
+                    dispatch(updateChannelFailed(error.response?error.response.data:null))
                 });
         }
     }
@@ -256,8 +259,8 @@ export function deleteChannel(id) {
         axios.delete(ENDPOINT_CHANNEL + id + '/')
             .then(function() {
                 dispatch(deleteChannelSuccess(id))
-            }).catch(function(response) {
-                dispatch(deleteChannelFailed(response.data))
+            }).catch(function(error) {
+                dispatch(deleteChannelFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -289,8 +292,8 @@ export function createSupportChannel(data) {
         axios.post(ENDPOINT_CHANNEL + 'support/', data)
             .then(function(response) {
                 dispatch(createSupportChannelSuccess(response.data));
-            }).catch(function(response) {
-                dispatch(createSupportChannelFailed(response.data));
+            }).catch(function(error) {
+                dispatch(createSupportChannelFailed(error.response?error.response.data:null));
             });
     }
 }
@@ -321,8 +324,8 @@ export function createDeveloperChannel(data) {
         axios.post(ENDPOINT_CHANNEL + 'developer/', data)
             .then(function(response) {
                 dispatch(createDeveloperChannelSuccess(response.data));
-            }).catch(function(response) {
-            dispatch(createDeveloperChannelFailed(response.data));
+            }).catch(function(error) {
+            dispatch(createDeveloperChannelFailed(error.response?error.response.data:null));
         });
     }
 }
@@ -347,14 +350,46 @@ export function createDeveloperChannelFailed(error) {
     }
 }
 
+export function createTaskChannel(task) {
+    return dispatch => {
+        dispatch(createTaskChannelStart());
+        axios.post(ENDPOINT_CHANNEL + `task/${task}/`)
+            .then(function(response) {
+                dispatch(createTaskChannelSuccess(response.data));
+            }).catch(function(error) {
+            dispatch(createTaskChannelFailed(error.response?error.response.data:null));
+        });
+    }
+}
+
+export function createTaskChannelStart() {
+    return {
+        type: CREATE_TASK_CHANNEL_START
+    }
+}
+
+export function createTaskChannelSuccess(channel) {
+    return {
+        type: CREATE_TASK_CHANNEL_SUCCESS,
+        channel
+    }
+}
+
+export function createTaskChannelFailed(error) {
+    return {
+        type: CREATE_TASK_CHANNEL_FAILED,
+        error
+    }
+}
+
 export function updateChannelRead(id, data) {
     return dispatch => {
         dispatch(updateChannelReadStart(id));
         axios.post(ENDPOINT_CHANNEL + id + '/read/', data)
             .then(function(response) {
                 dispatch(updateChannelReadSuccess(response.data));
-            }).catch(function(response) {
-            dispatch(updateChannelReadFailed(response.data));
+            }).catch(function(error) {
+            dispatch(updateChannelReadFailed(error.response?error.response.data:null));
         });
     }
 }
@@ -386,8 +421,8 @@ export function listMoreChannels(url) {
         axios.get(url)
             .then(function(response) {
                 dispatch(listMoreChannelsSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(listMoreChannelsFailed(response.data))
+            }).catch(function(error) {
+                dispatch(listMoreChannelsFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -426,8 +461,8 @@ export function listChannelActivity(id, filter, update_read=true) {
                     dispatch(updateChannelRead(id, {last_read: response.data.results[0].id}));
                 }
                 dispatch(listChannelActivitySuccess(response.data, id, filter, get_new, !update_read));
-            }).catch(function(response) {
-            dispatch(listChannelActivityFailed(response.data, id, get_new))
+            }).catch(function(error) {
+            dispatch(listChannelActivityFailed(error.response?error.response.data:null, id, get_new))
         });
     }
 }
@@ -470,8 +505,8 @@ export function listMoreChannelActivity(url) {
         axios.get(url)
             .then(function(response) {
                  dispatch(listMoreChannelActivitySuccess(response.data, id));
-            }).catch(function(response) {
-            dispatch(listMoreChannelActivityFailed(response.data, id));
+            }).catch(function(error) {
+            dispatch(listMoreChannelActivityFailed(error.response?error.response.data:null, id));
         });
     }
 }

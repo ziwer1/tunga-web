@@ -27,8 +27,8 @@ export function createSupportSection(section, attachments) {
         axios.post(ENDPOINT_SUPPORT_SECTION, section)
             .then(function(response) {
                 dispatch(createSupportSectionSuccess(response.data))
-            }).catch(function(response) {
-            dispatch(createSupportSectionFailed(response.data))
+            }).catch(function(error) {
+            dispatch(createSupportSectionFailed(error.response?error.response.data:null))
         });
     }
 }
@@ -60,8 +60,8 @@ export function listSupportSections(filter) {
         axios.get(ENDPOINT_SUPPORT_SECTION, {params: filter})
             .then(function(response) {
                 dispatch(listSupportSectionsSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(listSupportSectionsFailed(response.data))
+            }).catch(function(error) {
+                dispatch(listSupportSectionsFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -96,8 +96,8 @@ export function retrieveSupportSection(id) {
         axios.get(ENDPOINT_SUPPORT_SECTION + id + '/')
             .then(function(response) {
                 dispatch(retrieveSupportSectionSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(retrieveSupportSectionFailed(response.data))
+            }).catch(function(error) {
+                dispatch(retrieveSupportSectionFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -129,8 +129,8 @@ export function updateSupportSection(id, section) {
         axios.patch(ENDPOINT_SUPPORT_SECTION + id + '/', section)
             .then(function(response) {
                 dispatch(updateSupportSectionSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(updateSupportSectionFailed(response.data))
+            }).catch(function(error) {
+                dispatch(updateSupportSectionFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -163,8 +163,8 @@ export function deleteSupportSection(id) {
         axios.delete(ENDPOINT_SUPPORT_SECTION + id + '/', {})
             .then(function() {
                 dispatch(deleteSupportSectionSuccess(id))
-            }).catch(function(response) {
-                dispatch(deleteSupportSectionFailed(response.data))
+            }).catch(function(error) {
+                dispatch(deleteSupportSectionFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -196,8 +196,8 @@ export function listMoreSupportSections(url) {
         axios.get(url)
             .then(function(response) {
                 dispatch(listMoreSupportSectionsSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(listMoreSupportSectionsFailed(response.data))
+            }).catch(function(error) {
+                dispatch(listMoreSupportSectionsFailed(error.response?error.response.data:null))
             });
     }
 }

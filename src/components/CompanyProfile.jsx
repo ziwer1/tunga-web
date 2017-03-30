@@ -6,10 +6,14 @@ import FieldError from './status/FieldError';
 import SkillSelector from '../containers/SkillSelector';
 import {TINY_MCE_CONFIG } from '../constants/settings';
 
-export default class Profile extends React.Component {
+export default class CompanyProfile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {bio: '', skills: []};
+    }
+
+    componentWillMount() {
+        this.addSkillsToState();
     }
 
     componentDidMount() {
@@ -17,12 +21,25 @@ export default class Profile extends React.Component {
         this.props.ProfileActions.retrieveProfile();
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        if(this.props.Profile.profile.skills != prevProps.Profile.profile.skills) {
+            this.addSkillsToState();
+        }
+    }
+
+    addSkillsToState() {
+        const { Profile } = this.props;
+        this.setState({skills: Profile.profile.skills?Profile.profile.skills.map((skill) => {
+            return skill.name;
+        }):[]});
+    }
+
     onBioChange(e) {
         this.setState({bio: e.target.getContent()});
     }
 
     onSkillChange(skills) {
-        this.setState({skills: skills});
+        this.setState({skills});
     }
 
     handleSubmit(e) {
@@ -86,8 +103,10 @@ export default class Profile extends React.Component {
                     {(Profile.error.profile && Profile.error.profile.skills)?
                         (<FieldError message={Profile.error.profile.skills}/>):null}
                     <div className="form-group">
-                        <label className="control-label">Skills *</label>
-                        <SkillSelector filter={{filter: null}} onChange={this.onSkillChange.bind(this)} skills={Profile.profile.skills?Profile.profile.skills:[]}/>
+                        <label className="control-label">Tag skills and products *</label>
+                        <SkillSelector filter={{filter: null}}
+                                       onChange={this.onSkillChange.bind(this)}
+                                       skills={this.state.skills?this.state.skills:[]}/>
                     </div>
 
                     {(Profile.error.profile && Profile.error.profile.vat_number)?

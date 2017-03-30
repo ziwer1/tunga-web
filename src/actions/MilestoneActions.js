@@ -50,8 +50,8 @@ export function createMilestone(milestone, attachments) {
             axios.post(ENDPOINT_MILESTONE, milestone)
                 .then(function(response) {
                     dispatch(createMilestoneSuccess(response.data));
-                }).catch(function(response) {
-                    dispatch(createMilestoneFailed(response.data));
+                }).catch(function(error) {
+                    dispatch(createMilestoneFailed(error.response?error.response.data:null));
                 });
         }
     }
@@ -84,8 +84,8 @@ export function listMilestones(filter) {
         axios.get(ENDPOINT_MILESTONE, {params: filter})
             .then(function(response) {
                 dispatch(listMilestonesSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(listMilestonesFailed(response.data))
+            }).catch(function(error) {
+                dispatch(listMilestonesFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -120,8 +120,8 @@ export function retrieveMilestone(id) {
         axios.get(ENDPOINT_MILESTONE + id + '/')
             .then(function(response) {
                 dispatch(retrieveMilestoneSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(retrieveMilestoneFailed(response.data))
+            }).catch(function(error) {
+                dispatch(retrieveMilestoneFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -153,8 +153,8 @@ export function updateMilestone(id, data) {
         axios.patch(ENDPOINT_MILESTONE + id + '/', data)
             .then(function(response) {
                 dispatch(updateMilestoneSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(updateMilestoneFailed(response.data))
+            }).catch(function(error) {
+                dispatch(updateMilestoneFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -187,8 +187,8 @@ export function deleteMilestone(id) {
         axios.delete(ENDPOINT_MILESTONE + id + '/')
             .then(function() {
                 dispatch(deleteMilestoneSuccess(id))
-            }).catch(function(response) {
-                dispatch(deleteMilestoneFailed(response.data))
+            }).catch(function(error) {
+                dispatch(deleteMilestoneFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -220,8 +220,8 @@ export function listMoreMilestones(url) {
         axios.get(url)
             .then(function(response) {
                 dispatch(listMoreMilestonesSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(listMoreMilestonesFailed(response.data))
+            }).catch(function(error) {
+                dispatch(listMoreMilestonesFailed(error.response?error.response.data:null))
             });
     }
 }

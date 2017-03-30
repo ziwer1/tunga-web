@@ -5,6 +5,7 @@ import ChatBox from '../components/ChatBox';
 
 import connect from '../utils/connectors/ChannelConnector';
 import { CHANNEL_TYPES } from '../constants/Api';
+import { isAuthenticated, isAdmin, isDeveloper, isProjectOwner, getUser } from '../utils/auth';
 
 export function resizeOverviewBox() {
     var w_h = $(window).height();
@@ -28,13 +29,12 @@ class ChatWindow extends React.Component {
     componentWillMount() {
         this.intervals = [];
 
-        const { Auth } = this.props;
         var channel = null;
         var open = false;
         if(this.props.channelId) {
             channel = {id: this.props.channelId};
             open = true;
-        } else if (!Auth.isAuthenticated && typeof(Storage) !== "undefined") {
+        } else if (!isAuthenticated() && typeof(Storage) !== "undefined") {
             try {
                 channel = JSON.parse(window.localStorage.channel);
             } catch (e) {
@@ -50,9 +50,9 @@ class ChatWindow extends React.Component {
 
         this.setInterval(this.getNewMessages.bind(this), 10000);
 
-        const { Auth, ChannelActions } = this.props;
+        const { ChannelActions } = this.props;
 
-        if(Auth.isAuthenticated) {
+        if(isAuthenticated()) {
             ChannelActions.createSupportChannel();
         }
     }
@@ -95,8 +95,7 @@ class ChatWindow extends React.Component {
     }
 
     saveChannel(channel) {
-        const { Auth } = this.props;
-        if (!Auth.isAuthenticated && typeof(Storage) !== "undefined") {
+        if (!isAuthenticated() && typeof(Storage) !== "undefined") {
             try {
                 window.localStorage.channel = JSON.stringify(channel);
             } catch (e) {
@@ -106,8 +105,8 @@ class ChatWindow extends React.Component {
     }
 
     startChannel() {
-        const { Auth, ChannelActions } = this.props;
-        if(Auth.isAuthenticated && !this.state.channel) {
+        const { ChannelActions } = this.props;
+        if(isAuthenticated() && !this.state.channel) {
             ChannelActions.createSupportChannel();
         }
         this.setState({open: true});
@@ -131,7 +130,7 @@ class ChatWindow extends React.Component {
     }
 
     render() {
-        const { Auth, Channel, Message, ChannelActions, MessageActions } = this.props;
+        const { Channel, Message, ChannelActions, MessageActions } = this.props;
         const { channel } = this.state;
 
         return (
@@ -144,16 +143,14 @@ class ChatWindow extends React.Component {
                                     <ChannelView
                                         channelId={channel.id}
                                         channelView="messages"
-                                        Auth={Auth}
                                         Channel={Channel}
                                         Message={Message}
                                         ChannelActions={ChannelActions}
                                         MessageActions={MessageActions}>
                                         <ChatBox />
                                     </ChannelView>
-                                ):(Auth.isAuthenticated?null:(
+                                ):(isAuthenticated()?null:(
                                     <SupportChannelForm
-                                        Auth={Auth}
                                         Channel={Channel}
                                         Message={Message}
                                         ChannelActions={ChannelActions}
@@ -171,7 +168,7 @@ class ChatWindow extends React.Component {
                         </button>
                     ):(
                         <button className="btn chat-btn" onClick={this.startChannel.bind(this)}>
-                            <i className={`${Auth.isAuthenticated?'tunga-icon-support':'fa fa-comments fa-lg'}`}/>
+                            <i className={`${isAuthenticated()?'tunga-icon-support':'fa fa-comments fa-lg'}`}/>
                             {this.state.new?(<span className="badge">{this.state.new}</span>):null}
                         </button>
                     )}

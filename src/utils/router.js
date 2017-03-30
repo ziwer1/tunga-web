@@ -2,6 +2,9 @@ export const AUTHED_ONLY = 'authedOnly';
 export const UNAUTHED_ONLY = 'unauthedOnly';
 export const AUTHED_OR_EMAIL_ONLY = 'authedOrEmailOnly';
 
+export const CALENDLY_CALL_URL = 'https://calendly.com/tunga/hello/';
+import { sendGAEvent, GA_EVENT_CATEGORIES, GA_EVENT_ACTIONS } from '../utils/tracking';
+
 export function requiresAuth(routes) {
     return getRouteParamValues(AUTHED_ONLY, routes).indexOf(true) > -1;
 }
@@ -35,7 +38,44 @@ export function getRouteParamValues(keys, routes) {
 
 export function getRouteCrumb(routes) {
     if(Array.isArray(routes) && routes.length) {
-        return routes[routes.length-1].crumb;
+        var x;
+        for(x=routes.length-1; x >= 0; x--) {
+            let route = routes[x];
+            if(route.crumb) {
+                return route.crumb;
+            }
+        }
     }
     return null;
+}
+
+export function showWizard(routes) {
+    if(Array.isArray(routes) && routes.length) {
+        var x;
+        for(x=routes.length-1; x >= 0; x--) {
+            let route = routes[x];
+            if(route.showTaskWizard) {
+                return route.showTaskWizard;
+            }
+        }
+    }
+    return false;
+}
+
+export function showCallWidget(routes) {
+    if(Array.isArray(routes) && routes.length) {
+        var x;
+        for(x=routes.length-1; x >= 0; x--) {
+            let route = routes[x];
+            if(route.showCallWidget) {
+                return route.showCallWidget;
+            }
+        }
+    }
+    return false;
+}
+
+export function openCalendlyWidget(url=CALENDLY_CALL_URL) {
+    Calendly.showPopupWidget(url);
+    sendGAEvent(GA_EVENT_CATEGORIES.CONTACT, GA_EVENT_ACTIONS.SCHEDULE_CALL);
 }

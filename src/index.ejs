@@ -5,9 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
 
-    <meta name="description" content="Tunga is a market network that allows you to build a flexible team
-    of skilled African software programmers, that you can mobilize on-demand."/>
-    <title>Tunga</title>
+    <meta name="description" content="<%= htmlWebpackPlugin.options.site.description %>"/>
+    <title><%= htmlWebpackPlugin.options.site.title %></title>
 
     <link rel="icon" href="https://tunga.io/favicon.ico">
     <link rel="icon" sizes="192x192" href="https://tunga.io/icons/Tunga_iconx192.png">
@@ -16,7 +15,7 @@
     <![endif]-->
 
     <!-- Chrome, Firefox OS and Opera -->
-    <meta name="theme-color" content="#f41152">
+    <meta name="theme-color" content="<%= htmlWebpackPlugin.options.site.colors.primary %>">
 
     <!-- iOS -->
     <link rel="apple-touch-icon" href="https://tunga.io/icons/apple-touch-icon.png">
@@ -24,16 +23,29 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
     <!-- Windows Phone -->
-    <meta name="msapplication-navbutton-color" content="#f41152">
+    <meta name="msapplication-navbutton-color" content="<%= htmlWebpackPlugin.options.site.colors.primary %>">
 
     <!-- Windows -->
     <meta name="application-name" content="Tunga" />
-    <meta name="msapplication-TileColor" content=" #f41152" />
+    <meta name="msapplication-TileColor" content="<%= htmlWebpackPlugin.options.site.colors.primary %>" />
 
     <meta name="msapplication-square70x70logo" content="https://tunga.io/icons/Tunga_iconx70.png" />
     <meta name="msapplication-square150x150logo" content="https://tunga.io/icons/Tunga_iconx150.png" />
     <meta name="msapplication-wide310x150logo" content="https://tunga.io/icons/Tunga_square310x150.png" />
     <meta name="msapplication-square310x310logo" content="https://tunga.io/icons/Tunga_iconx310.png" />
+
+    <!-- Open Graph Tags -->
+    <meta property="fb:app_id" content="<%= htmlWebpackPlugin.options.site.fb_app_id %>" />
+    <meta property="og:title" content="<%= htmlWebpackPlugin.options.site.title %>" />
+    <meta property="og:description" content="<%= htmlWebpackPlugin.options.site.description %>" />
+    <meta property="og:image" content="<%= htmlWebpackPlugin.options.site.images.hero %>" />
+
+    <!-- Twitter Card Tags -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@tunga_io" />
+    <meta name="twitter:title" content="<%= htmlWebpackPlugin.options.site.title %>" />
+    <meta name="twitter:description" content="<%= htmlWebpackPlugin.options.site.description %>" />
+    <meta name="twitter:image" content="<%= htmlWebpackPlugin.options.site.images.hero %>" />
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
@@ -56,6 +68,10 @@
     <% if (htmlWebpackPlugin.options.env == 'production') { %>
         <%- include ./src/analytics %>
     <% } %>
+
+    <!-- Optimizely -->
+    <script src="https://cdn.optimizely.com/js/<%= htmlWebpackPlugin.options.site.optimizely_id %>.js"></script>
+    <!-- End of Optimizely -->
 
     <!-- HTML5 shim, Respond.js, es5-shim and console shim for IE8 support of HTML5 elements, media queries, ES5 syntax and console -->
     <!--[if lt IE 9]>

@@ -6,29 +6,34 @@ class SkillSelector extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {skill: ''};
+        this.state = {skill: '', skills: [], suggested: []};
         this.handleSkillChange = this.handleSkillChange.bind(this);
         this.handleGetSuggestions = _.debounce(this.handleGetSuggestions, 250);
     }
 
     componentDidMount() {
-        const { SkillSelectionActions, skills } = this.props;
+        const { SkillSelectionActions, skills, suggested } = this.props;
         SkillSelectionActions.invalidateSkillSuggestions();
         SkillSelectionActions.clearSkillSelections();
 
         if(skills && Array.isArray(skills)) {
-            skills.forEach((skill) => {
-                SkillSelectionActions.addSkillSelection(skill.name);
-            });
+            this.setState({skills: Array.from(new Set([...this.state.skills, ...skills]))});
+        }
+
+        if(suggested && Array.isArray(suggested)) {
+            this.setState({suggested});
         }
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const { SkillSelection, onChange } = this.props;
-        if(prevProps.SkillSelection.selected != this.props.SkillSelection.selected) {
-            if(onChange) {
-                onChange(SkillSelection.selected);
-            }
+        const { onChange } = this.props;
+        const { SkillSelectionActions, skills, suggested } = this.props;
+        if(prevProps.skills != skills && skills && Array.isArray(skills)) {
+            this.setState({skills: Array.from(new Set([...this.state.skills, ...skills]))});
+        }
+
+        if(prevProps.suggested != suggested && suggested && Array.isArray(suggested)) {
+            this.setState({suggested});
         }
     }
 
@@ -53,15 +58,25 @@ class SkillSelector extends React.Component {
     }
 
     handleSelectSkill(skill) {
-        const { SkillSelectionActions } = this.props;
-        SkillSelectionActions.addSkillSelection(skill);
+        const { SkillSelectionActions, onChange } = this.props;
         SkillSelectionActions.invalidateSkillSuggestions();
-        this.setState({skill: ''});
+        let new_skills = Array.from(new Set([...this.state.skills, skill]));
+        if(onChange) {
+            onChange(new_skills);
+        }
+        this.setState({skill: '', skills: new_skills});
     }
 
     handleRemoveSkill(skill) {
-        const { SkillSelectionActions } = this.props;
-        SkillSelectionActions.removeSkillSelection(skill);
+        var idx = this.state.skills.indexOf(skill);
+        if(idx > -1) {
+            const { onChange } = this.props;
+            let new_skills = Array.from(new Set([...this.state.skills.slice(0, idx), ...this.state.skills.slice(idx+1)]));
+            if(onChange) {
+                onChange(new_skills);
+            }
+            this.setState({skills: new_skills});
+        }
     }
 
     handleComponentClick(e) {
@@ -69,24 +84,53 @@ class SkillSelector extends React.Component {
     }
 
     render() {
-        const { SkillSelection } = this.props;
+        const { SkillSelection, showTitle } = this.props;
 
         return (
-            <div className="form-group skill-selector tag-selector" onClick={this.handleComponentClick.bind(this)}>
+            <div className="skill-selector tag-selector" onClick={this.handleComponentClick.bind(this)}>
                 <div className="selections">
-                    {SkillSelection.selected.map((skill) => {
-                        return (
-                        <div key={skill} className="list-group-item selected-item">
-                            {skill}
-                            <a onClick={this.handleRemoveSkill.bind(this, skill)} className="close">
-                                <i className="fa fa-remove"/>
-                            </a>
-                        </div>)
-                        })}
+                    {showTitle && this.state.suggested && this.state.suggested.length?(
+                        <p>Skills or products</p>
+                    ):null}
+                    {this.state.skills && this.state.skills.length?(
+                        <div>
+                            {this.state.skills.map((skill) => {
+                                return (
+                                    <div key={skill} className="list-group-item selected-item">
+                                        {skill}
+                                        <a onClick={this.handleRemoveSkill.bind(this, skill)} className="close">
+                                            <i className="fa fa-remove"/>
+                                        </a>
+                                    </div>)
+                            })}
+                        </div>
+                    ):(
+                        <div className="alert alert-info">
+                            {this.state.suggested && this.state.suggested.length?'Click on some suggestions or a':'A'}dd some tags with the widget
+                        </div>
+                    )}
                 </div>
+                {this.state.suggested && this.state.suggested.length?(
+                    <div className="selections">
+                        <p>Quick Suggestions</p>
+                        {this.state.suggested.map((skill) => {
+                            if(this.state.skills.indexOf(skill) > -1) {
+                                return null;
+                            }
+                            return (
+                                <div key={skill} className="list-group-item selected-item">
+                                    <a onClick={this.handleSelectSkill.bind(this, skill)}>
+                                        {skill}
+                                    </a>
+                                </div>
+                            )
+                        })}
+                    </div>
+                ):null}
+
                 <div className="input-group">
                     <span className="input-group-addon"><i className="tunga-icon-tag"/></span>
-                    <input type="text" className="form-control" placeholder="Type here to get suggestions or Press enter to add a new skill"
+                    <input type="text" className="form-control" placeholder="Type here to get more suggestions or to add a new tag"
                            onChange={this.handleSkillChange}
                            onKeyPress={this.handleSkillChange}
                            value={this.state.skill}/>
@@ -102,5 +146,17 @@ class SkillSelector extends React.Component {
         );
     }
 }
+
+SkillSelector.propTypes = {
+    skills: React.PropTypes.array,
+    suggested: React.PropTypes.array,
+    showTitle: React.PropTypes.bool
+};
+
+SkillSelector.defaultProps = {
+    skills: [],
+    suggested: [],
+    showTitle: true
+};
 
 export default connect(SkillSelector);

@@ -10,6 +10,8 @@ import Attachments from './Attachments';
 import randomstring from 'randomstring';
 
 import { PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT } from '../constants/Api';
+import { isAuthenticated, getUser, isAdmin, isProjectOwner, isAdminOrProjectOwner } from '../utils/auth';
+import {getPayDetails} from '../utils/tasks';
 
 export function scrollList (listId) {
     var activity_list = $(`#list${listId}.activity-list`);
@@ -43,9 +45,11 @@ export default class ActivityList extends React.Component {
         var uploads = null;
         var more = null;
 
-        switch (item.action) {
-            case 'send':
-                if(activity_type == 'message') {
+        const { showMessages, showNotifications, showFiles } = this.props;
+
+        switch (activity_type) {
+            case 'message':
+                if(item.action == 'send' && showMessages) {
                     creator = object.sender || object.user;
                     created_at = object.created_at;
                     body = (<div dangerouslySetInnerHTML={{__html: object.html_body || object.body}}/>);
@@ -53,18 +57,22 @@ export default class ActivityList extends React.Component {
                 }
                 break;
             case 'comment':
-                creator = object.user;
-                created_at = object.created_at;
-                body = (<div dangerouslySetInnerHTML={{__html: object.html_body}}/>);
-                uploads = object.uploads;
+                if(showMessages) {
+                    creator = object.user;
+                    created_at = object.created_at;
+                    body = (<div dangerouslySetInnerHTML={{__html: object.html_body}}/>);
+                    uploads = object.uploads;
+                }
                 break;
             case 'upload':
-                creator = object.user;
-                created_at = object.created_at;
-                uploads = [object];
+                if(showFiles) {
+                    creator = object.user;
+                    created_at = object.created_at;
+                    uploads = [object];
+                }
                 break;
-            case 'add':
-                if(activity_type == 'participation') {
+            case 'participation':
+                if(item.action == 'add' && showNotifications) {
                     creator = object.created_by;
                     created_at = object.created_at;
                     let participant = object.details.user;
@@ -77,8 +85,75 @@ export default class ActivityList extends React.Component {
                     );
                 }
                 break;
-            case 'create':
-                if(activity_type == 'progress_event') {
+            case 'estimate':
+            case 'quote':
+                if(showNotifications && ['create', 'submit', 'approve', 'decline', 'accept', 'reject'].indexOf(item.action) > -1) {
+                    creator = object.user;
+
+                    let verb_map = {
+                        create: 'Created',
+                        submit: 'Submitted',
+                        approve: 'Approved',
+                        decline: 'Declined',
+                        accept: 'Accepted',
+                        reject: 'Rejected'
+                    };
+
+                    object.icon = 'fa-file-text';
+
+                    if(['approve', 'decline'].indexOf(item.action) > -1) {
+                        creator = object.moderated_by;
+                        created_at = object.moderated_at;
+                    }
+
+                    if(['accept', 'reject'].indexOf(item.action) > -1) {
+                        creator = object.reviewed_by;
+                        created_at = object.reviewed_at;
+                    }
+
+                    if(item.action == 'submit') {
+                        object.icon = 'fa-send';
+                    } else if(['approve', 'accept'].indexOf(item.action) > -1) {
+                        object.icon = 'fa-check-square-o';
+                    } else if(['decline', 'reject'].indexOf(item.action) > -1) {
+                        object.icon = 'fa-times-circle';
+                    }
+
+                    var comment_txt = null;
+                    if(item.action == 'decline') {
+                        comment_txt = object.moderator_comment;
+                    } else if(item.action == 'reject') {
+                        comment_txt = object.reviewer_comment;
+                    }
+
+                    let payDetails = getPayDetails(object.activities);
+
+                    object.total_hours = payDetails.total.hours;
+                    object.total_pay = payDetails.total.fee;
+
+                    body = (
+                        <div>
+                            <Link to={`/work/${object.task}/${activity_type}/${object.id}/`}>
+                                <i className={`fa ${object.icon}`}/> {verb_map[item.action]} a{activity_type == 'estimate'?'n':''} {activity_type}
+                            </Link>
+                            {comment_txt?(
+                                <div style={{margin: '10px 0'}}>{comment_txt}</div>
+                            ):null}
+                            <div>Hours: {object.total_hours} hours</div>
+                            {isAdminOrProjectOwner()?(
+                                <div>Cost: €{object.total_pay}</div>
+                            ):null}
+                            <div>
+                                <Link to={`/work/${object.task}/${activity_type}/${object.id}/`}>
+                                    View details
+                                </Link>
+                            </div>
+                        </div>
+                    );
+                }
+                break;
+            case 'progress_event':
+                if(showNotifications && item.action == 'create') {
                     creator = object.created_by || {
                             id: 'tunga',
                             username: null,
@@ -91,7 +166,7 @@ export default class ActivityList extends React.Component {
                             {[PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT].indexOf(object.type) > -1?(
                                 <div><i className={"fa fa-flag"+((object.type==4)?'-checkered':'-o')}/> Created a milestone:</div>
                             ):null}
-                            <Link to={`/task/${object.task}/event/${object.id}/`}>
+                            <Link to={`/work/${object.task}/event/${object.id}/`}>
                                 {object.title || (<span><i className="fa fa-flag-o"/> Scheduled an update</span>)}
                             </Link>
                             <div>Due: {moment.utc(object.due_at).local().format('Do, MMMM YYYY')}</div>
@@ -99,20 +174,20 @@ export default class ActivityList extends React.Component {
                     );
                 }
                 break;
-            case 'report':
-                if(activity_type == 'progress_report') {
+            case 'progress_report':
+                if(showNotifications && item.action == 'report') {
                     creator = object.user;
                     created_at = object.created_at;
                     uploads = object.uploads;
                     more = {
-                        link: `/task/${object.details.event.task}/event/${object.event}/`,
+                        link: `/work/${object.details.event.task}/event/${object.event}/`,
                         text: 'View full report'
                     };
                     let progress = object.percentage || 0;
                     body = (
                         <div>
                             <p><i className="fa fa-newspaper-o"/> Progress report: </p>
-                            <Link to={`/task/${object.details.event.task}/event/${object.event}/`}>
+                            <Link to={`/work/${object.details.event.task}/event/${object.event}/`}>
                                 {object.details.event.title || 'Scheduled Update'}
                             </Link>
                             <div>Status: {object.status_display}</div>
@@ -124,7 +199,10 @@ export default class ActivityList extends React.Component {
                             ):null}
                         </div>
                     );
-                } else if(activity_type == 'integration_activity') {
+                }
+                break;
+            case 'integration_activity':
+                if(showNotifications && item.action == 'report') {
                     creator = {
                         display_name: object.user_display_name,
                         avatar_url: object.avatar_url
@@ -155,13 +233,13 @@ export default class ActivityList extends React.Component {
             return null;
         }
 
-        const { Auth, last_read } = this.props;
+        const { last_read } = this.props;
         let activity = thread.first;
         let day_format = 'd/MM/YYYY';
         var last_sent_day = '';
         let today = moment.utc().local().format(day_format);
 
-        let is_current_user = (activity.user.id == Auth.user.id) || (!Auth.isAuthenticated && activity.user.inquirer);
+        let is_current_user = (activity.user.id == getUser().id) || (!isAuthenticated() && activity.user.inquirer);
         let display_name = is_current_user?'Me':activity.user.display_name;
 
         let avatar_div = (
@@ -174,7 +252,7 @@ export default class ActivityList extends React.Component {
             <div key={activity.id} id={"activity" + activity.id}
                  className={
                  "media message" +
-                 (last_read != null && activity.user.id != Auth.user.id && last_read < activity.id?' new':'') +
+                 (last_read != null && activity.user.id != getUser().id && last_read < activity.id?' new':'') +
                  (is_current_user?' pull-right clearfix':'')
                  }>
                 {is_current_user?null:avatar_div}
@@ -274,3 +352,24 @@ export default class ActivityList extends React.Component {
         );
     }
 }
+
+ActivityList.propTypes = {
+    activities: React.PropTypes.array.isRequired,
+    isLoading: React.PropTypes.bool,
+    isLoadingMore: React.PropTypes.bool,
+    loadMoreUrl: React.PropTypes.string,
+    loadMoreCallback: React.PropTypes.func,
+    loadMoreText: React.PropTypes.string,
+    showMessages: React.PropTypes.bool,
+    showNotifications: React.PropTypes.bool,
+    showFiles: React.PropTypes.bool
+};
+
+ActivityList.defaultProps = {
+    activities: [],
+    isLoading: false,
+    isLoadingMore: false,
+    showMessages: true,
+    showNotifications: true,
+    showFiles: true
+};

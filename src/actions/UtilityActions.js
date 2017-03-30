@@ -3,10 +3,16 @@ import { ENDPOINT_CONTACT_REQUEST, OFFER_ITEM_NAMES } from '../constants/Api';
 
 import { sendGAEvent, GA_EVENT_CATEGORIES, GA_EVENT_ACTIONS, GA_EVENT_LABELS } from '../utils/tracking';
 
+export const CLEAR_VALIDATIONS = 'CLEAR_VALIDATIONS';
 export const SEND_CONTACT_REQUEST_START = 'SEND_CONTACT_REQUEST_START';
 export const SEND_CONTACT_REQUEST_SUCCESS = 'SEND_CONTACT_REQUEST_SUCCESS';
 export const SEND_CONTACT_REQUEST_FAILED = 'SEND_CONTACT_REQUEST_FAILED';
 
+export function clearValidations() {
+    return {
+        type: CLEAR_VALIDATIONS
+    };
+}
 
 export function sendContactRequest(data) {
     return dispatch => {
@@ -15,8 +21,8 @@ export function sendContactRequest(data) {
             .then(function(response) {
                 dispatch(sendContactRequestSuccess(response.data));
 
-            }).catch(function(response) {
-                dispatch(sendContactRequestFailed(response.data));
+            }).catch(function(error) {
+                dispatch(sendContactRequestFailed(error.response?error.response.data:null));
             });
     }
 }

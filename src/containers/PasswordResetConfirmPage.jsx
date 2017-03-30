@@ -15,6 +15,13 @@ class PasswordResetConfirm extends React.Component {
     componentDidUpdate(prevProps, prevState) {
         if(this.props.Auth.isReset && !prevProps.Auth.isReset) {
             this.refs.reset_confirm_form.reset();
+
+            const { location } = this.props;
+            var next = '/';
+            if(location && location.query.next) {
+                next = location.query.next;
+            }
+            window.location.href = next;
         }
     }
 
@@ -34,35 +41,42 @@ class PasswordResetConfirm extends React.Component {
 
     renderHeaderContent() {
         const { Auth } = this.props;
+        let is_new = this.props.location && this.props.location.query.new_user;
 
         return (
             <form onSubmit={this.handleSubmit} name="reset-confirm" role="form" ref="reset_confirm_form">
-                <h2>Reset Password</h2>
+                <h2>{is_new?'Create':'Reset'} Password</h2>
 
                 {(Auth.error.reset_confirm && Auth.error.reset_confirm.token)?(
                     <Error message="Invalid token"/>
                 ):(
                     <FormStatus loading={Auth.isResetting}
                                 success={Auth.isReset}
-                                message={'Password changed'}
+                                message={is_new?'Password set successfully':'Password changed'}
                                 error={Auth.error.reset_confirm}/>
                 )}
 
                 {(Auth.error.reset_confirm && Auth.error.reset_confirm.new_password1)?
                     (<FieldError message={Auth.error.reset_confirm.new_password1}/>):''}
                 <div className="form-group">
-                    <label className="control-label">New Password</label>
-                    <div><input type="password" className="form-control" ref="new_password1" required placeholder="New Password"/></div>
+                    <label className="control-label">{is_new?null:'New '}Password</label>
+                    <div><input type="password" className="form-control" ref="new_password1" required placeholder={`${is_new?'':'New '}Password`}/></div>
                 </div>
 
                 {(Auth.error.reset_confirm && Auth.error.reset_confirm.new_password2)?
                     (<FieldError message={Auth.error.reset_confirm.new_password2}/>):''}
                 <div className="form-group">
-                    <label className="control-label">Confirm New Password</label>
-                    <div><input type="password" className="form-control" ref="new_password2" required placeholder="Confirm New Password"/></div>
+                    <label className="control-label">Confirm {is_new?null:'New '}Password</label>
+                    <div><input type="password" className="form-control" ref="new_password2" required placeholder={`Confirm ${is_new?'':'New '}Password`}/></div>
                 </div>
 
-                <button type="submit" className="btn pull-right" disabled={Auth.isResetting}>Change Password</button>
+                <div className="clearfix">
+                    <button type="submit"
+                            className="btn"
+                            disabled={Auth.isResetting}>
+                        {is_new?'Set':'Change'} Password
+                    </button>
+                </div>
             </form>
         );
     }

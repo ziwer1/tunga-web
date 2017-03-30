@@ -5,6 +5,8 @@ import FieldError from './status/FieldError';
 
 import { TASK_PAYMENT_METHOD_CHOICES, TASK_PAYMENT_METHOD_BITONIC, TASK_PAYMENT_METHOD_BITCOIN, TASK_PAYMENT_METHOD_BANK, ENDPOINT_TASK } from '../constants/Api';
 import { objectToQueryString } from '../utils/html';
+import { getUser } from '../utils/auth';
+import { parseNumber } from '../utils/helpers';
 
 export default class TaskPay extends React.Component {
 
@@ -14,12 +16,11 @@ export default class TaskPay extends React.Component {
     }
 
     componentDidMount() {
-        const { Auth, Task, TaskActions } = this.props;
-        const { task, Invoice } =  Task.detail;
+        const { task, Task, TaskActions } = this.props;
         if(task.id) {
-            if(Auth.user.id == task.user.id && task.closed && task.paid) {
+            if(getUser().id == task.user.id && task.closed && task.paid) {
                 const { router } = this.context;
-                router.replace(`/task/${Task.detail.task.id}/rate`);
+                router.replace(`/work/${Task.detail.task.id}/rate`);
             }
 
             if(task.payment_method) {
@@ -68,15 +69,14 @@ export default class TaskPay extends React.Component {
                 bitcoinaddress: encodeURIComponent(task.btc_address),
                 ext_data: encodeURIComponent(task.summary),
                 ordertype: 'buy',
-                euros: encodeURIComponent(task.fee)
+                euros: encodeURIComponent(task.pay)
             });
     }
 
 
     render() {
-        const { Task, Auth } = this.props;
-        const { task, Invoice } =  Task.detail;
-        const { invoice } =  Invoice;
+        const { task, Task } = this.props;
+        const { invoice } =  Task.detail.Invoice;
 
         var btc_amount = null;
         var btc_address = null;
@@ -105,8 +105,8 @@ export default class TaskPay extends React.Component {
                                     (<FieldError message={Task.detail.Invoice.error.create.fee}/>):null}
                                 <div className="form-group">
                                     <label className="control-label">Fee (in Euro) *</label>
-                                    <div><input type="text" className="form-control" ref="fee" required placeholder="Fee in €" defaultValue={parseFloat(task.fee).toFixed(2)}/></div>
-                                    <div style={{marginTop: '10px'}}>13% of fee goes to Tunga</div>
+                                    <div><input type="text" className="form-control" ref="fee" required placeholder="Fee in €" defaultValue={parseNumber(task.pay)}/></div>
+                                    {/*<div style={{marginTop: '10px'}}>13% of fee goes to Tunga</div>*/}
                                 </div>
 
                                 {(Task.detail.Invoice.error.create && Task.detail.Invoice.error.create.payment_method)?
@@ -140,7 +140,7 @@ export default class TaskPay extends React.Component {
                             </form>
                         ):(
                             <div>
-                                <h4>Fee: <i className="fa fa-euro"/> {parseFloat(invoice.fee).toFixed(2)}</h4>
+                                <h4>Fee: <i className="fa fa-euro"/> {parseNumber(invoice.fee)}</h4>
 
                                 {invoice.payment_method == TASK_PAYMENT_METHOD_BITCOIN?(
                                     <div>
@@ -185,6 +185,14 @@ export default class TaskPay extends React.Component {
         );
     }
 }
+
+TaskPay.propTypes = {
+    task: React.PropTypes.object.isRequired
+};
+
+TaskPay.defaultProps = {
+    task: {}
+};
 
 TaskPay.contextTypes = {
     router: React.PropTypes.object.isRequired

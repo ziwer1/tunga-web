@@ -20,7 +20,7 @@ $.ajaxSetup({
     }
 });
 
-var BACKEND_PATH = __BACKEND_ROOT_URL__ || (__PRODUCTION___?'/':'http://test.tunga.io/');
+var BACKEND_PATH = __BACKEND_ROOT_URL__ || (__PRODUCTION__?'/':'http://test.tunga.io/');
 var API_PATH = 'api/';
 var SOCIAL_LOGIN_PATH = 'accounts/social/';
 
@@ -80,9 +80,10 @@ export const ENDPOINT_COMMENT = getEndpointUrl('comment/');
 export const ENDPOINT_CHANNEL = getEndpointUrl('channel/');
 export const ENDPOINT_DIRECT_CHANNEL = getEndpointUrl('channel/direct/');
 export const ENDPOINT_MESSAGE = getEndpointUrl('message/');
-export const ENDPOINT_REPLY = getEndpointUrl('reply/');
 export const ENDPOINT_CONNECTION = getEndpointUrl('connection/');
 export const ENDPOINT_APPLICATION = getEndpointUrl('application/');
+export const ENDPOINT_ESTIMATE = getEndpointUrl('estimate/');
+export const ENDPOINT_QUOTE = getEndpointUrl('quote/');
 export const ENDPOINT_SAVED_TASK = getEndpointUrl('saved-task/');
 export const ENDPOINT_MILESTONE = getEndpointUrl('progress-event/');
 export const ENDPOINT_PROGRESS_REPORT = getEndpointUrl('progress-report/');
@@ -94,11 +95,18 @@ export const ENDPOINT_SUPPORT_PAGE = getEndpointUrl('support/page/');
 
 export const USER_TYPE_DEVELOPER = 1;
 export const USER_TYPE_PROJECT_OWNER = 2;
+export const USER_TYPE_PROJECT_MANAGER = 3;
 
 export const USER_TYPE_CHOICES = [
     {id: USER_TYPE_DEVELOPER, name: 'Developer'},
-    {id: USER_TYPE_PROJECT_OWNER, name: 'Project Owner'}
+    {id: USER_TYPE_PROJECT_OWNER, name: 'Project Owner'},
+    {id: USER_TYPE_PROJECT_MANAGER, name: 'Project Manager'}
 ];
+
+export const DEVELOPER_FEE = 19;
+export const PM_FEE = 39;
+export const TUNGA_PERCENTAGE_DEVELOPER = 0.3421; // 34%
+export const TUNGA_PERCENTAGE_PM = 0.4871; // 56%
 
 export const PAYMENT_METHOD_BTC_WALLET = 'btc_wallet';
 export const PAYMENT_METHOD_BTC_ADDRESS = 'btc_address';
@@ -107,11 +115,92 @@ export const PAYMENT_METHOD_MOBILE_MONEY = 'mobile_money';
 export const PAYMENT_METHOD_CHOICES = [
     {id: PAYMENT_METHOD_BTC_WALLET, name: 'Bitcoin Wallet'},
     {id: PAYMENT_METHOD_MOBILE_MONEY, name: 'Mobile Money'},
-    {id: PAYMENT_METHOD_BTC_ADDRESS, name: 'Bitcoin Address'},
+    {id: PAYMENT_METHOD_BTC_ADDRESS, name: 'Bitcoin Address'}
 ];
+
+export const STATUS_INITIAL = 'initial';
+export const STATUS_PENDING = 'pending';
+export const STATUS_INITIATED = 'initiated';
+export const STATUS_SUBMITTED = 'submitted';
+export const STATUS_PROCESSING = 'processing';
+export const STATUS_COMPLETED = 'completed';
+export const STATUS_FAILED = 'failed';
+export const STATUS_ACCEPTED = 'accepted';
+export const STATUS_REJECTED = 'rejected';
+export const STATUS_APPROVED = 'approved';
+export const STATUS_DECLINED = 'declined';
 
 export const BTC_WALLET_PROVIDER_COINBASE = 'coinbase';
 
+export const TASK_TYPE_WEB = 1;
+export const TASK_TYPE_MOBILE = 2;
+export const TASK_TYPE_OTHER = 3;
+
+export const TASK_TYPE_CHOICES = [
+    {id: TASK_TYPE_WEB, name: 'Web', icon: 'fa fa-globe'},
+    {id: TASK_TYPE_MOBILE, name: 'Mobile', icon: 'fa fa-mobile'},
+    {id: TASK_TYPE_OTHER, name: 'Other', icon: 'fa fa-question-circle'}
+];
+
+export function suggestTaskTypeSkills(type) {
+    switch (type) {
+        case TASK_TYPE_WEB:
+            return {
+                selected: ['HTML', 'CSS', 'JavaScript'],
+                suggested: [
+                    'PHP', 'WordPress', 'jQuery', 'Node.js', 'Bootstrap',
+                    'React.js', 'Angular.js', 'Rails', 'Django', 'express.js'
+                ]
+            };
+        case TASK_TYPE_MOBILE:
+            return {
+                selected: [],
+                suggested: [
+                    'Android', 'iOS', 'Java', 'Swift', 'React Native', 'Apache Cordova', 'Ionic'
+                ]
+            };
+        default:
+            return {
+                selected: [],
+                suggested: [
+                    'PHP', 'Python', 'Node.js', 'Java', 'Ruby', 'C#',
+                    'API', 'Docker',
+                    'Heroku', 'Amazon Web Services', 'Google App Engine', 'Microsoft Azure'
+                ]};
+    }
+}
+
+export const TASK_SCOPE_TASK = 1;
+export const TASK_SCOPE_ONGOING = 2;
+export const TASK_SCOPE_PROJECT = 3;
+
+export const TASK_SCOPE_CHOICES = [
+    {id: TASK_SCOPE_TASK, name: 'I have a task<br/>&lt; 50 hours', icon: 'tunga-icon-task'},
+    {id: TASK_SCOPE_PROJECT, name: 'I have a project<br/>&gt; than 50 hours', icon: 'tunga-icon-project'},
+    {id: TASK_SCOPE_ONGOING, name: 'I have an ongoing project', icon: 'tunga-icon-running-tasks'}
+];
+
+export const TASK_SCOPE_CHOICES_NEW_USER = [
+    {id: TASK_SCOPE_TASK, name: 'I have a task', icon: 'tunga-icon-task'},
+    {id: TASK_SCOPE_PROJECT, name: 'I have a project', icon: 'tunga-icon-project'},
+    {id: TASK_SCOPE_ONGOING, name: 'I have an ongoing project', icon: 'tunga-icon-running-tasks'}
+];
+
+export const TASK_BILLING_METHOD_FIXED = 1;
+export const TASK_BILLING_METHOD_HOURLY = 2;
+
+export const TASK_BILLING_METHOD_CHOICES = [
+    {id: TASK_BILLING_METHOD_FIXED, name: 'I want to pay a fixed fee'},
+    {id: TASK_BILLING_METHOD_HOURLY, name: 'I want to pay per actual hour'}
+];
+
+export const TASK_CODERS_NEEDED_ONE = 1;
+export const TASK_CODERS_NEEDED_MULTIPLE = -1;
+
+export const TASK_CODERS_NEEDED_CHOICES = [
+    {id: TASK_CODERS_NEEDED_ONE, name: `I need one coder`},
+    {id: TASK_CODERS_NEEDED_MULTIPLE, name: 'I need more than one coder'}
+];
 
 export const VISIBILITY_DEVELOPERS = 1;
 export const VISIBILITY_MY_TEAM = 2;
@@ -119,7 +208,7 @@ export const VISIBILITY_CUSTOM = 3;
 export const VISIBILITY_ONLY_ME = 4;
 
 export const TASK_VISIBILITY_CHOICES = [
-    {id: VISIBILITY_DEVELOPERS, name: 'All developers'},
+    {id: VISIBILITY_DEVELOPERS, name: 'All Tunga developers'},
     {id: VISIBILITY_MY_TEAM, name: 'Only my team'},
     {id: VISIBILITY_CUSTOM, name: 'Select developer(s)'}
 ];
@@ -130,12 +219,12 @@ export const SETTINGS_VISIBILITY_CHOICES = [
     {id: VISIBILITY_ONLY_ME, name: 'Only me'}
 ];
 
-export const UPDATE_INTERVAL_UNIT_HOURLY = 1
-export const UPDATE_INTERVAL_UNIT_DAILY = 2
-export const UPDATE_INTERVAL_UNIT_WEEKLY = 3
-export const UPDATE_INTERVAL_UNIT_MONTHLY = 4
-export const UPDATE_INTERVAL_UNIT_QUATERLY = 5
-export const UPDATE_INTERVAL_UNIT_ANNUALLY = 6
+export const UPDATE_INTERVAL_UNIT_HOURLY = 1;
+export const UPDATE_INTERVAL_UNIT_DAILY = 2;
+export const UPDATE_INTERVAL_UNIT_WEEKLY = 3;
+export const UPDATE_INTERVAL_UNIT_MONTHLY = 4;
+export const UPDATE_INTERVAL_UNIT_QUATERLY = 5;
+export const UPDATE_INTERVAL_UNIT_ANNUALLY = 6;
 
 export const UPDATE_SCHEDULE_CHOICES = [
     {number: 1, unit: UPDATE_INTERVAL_UNIT_DAILY, name: 'Daily'},
@@ -175,7 +264,7 @@ export const INTEGRATION_TYPE_ISSUE = 2;
 
 export const INTEGRATION_TYPE_CHOICES = [
     {id: INTEGRATION_TYPE_REPO, name: 'Repository'},
-    {id: INTEGRATION_TYPE_ISSUE, name: 'Issue'},
+    {id: INTEGRATION_TYPE_ISSUE, name: 'Issue'}
 ];
 
 export const INTEGRATION_EVENT_PUSH = 'push';

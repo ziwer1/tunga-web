@@ -5,6 +5,7 @@ import MessageForm from './MessageForm';
 import ActivityList from './ActivityList';
 
 import { getChannelKey } from '../utils/reducers';
+import { isAuthenticated } from '../utils/auth';
 
 
 export default class ChatBox extends React.Component {
@@ -93,7 +94,7 @@ export default class ChatBox extends React.Component {
                             uploadCallback={this.onUpload.bind(this)}
                             uploadSaved={Channel.detail.isSaved}
                             isSending={Message.detail.isSaving || Channel.detail.isSaving}
-                            canUpload={Auth.isAuthenticated} />
+                            canUpload={isAuthenticated()} />
                     ]
                 ):null}
             </div>

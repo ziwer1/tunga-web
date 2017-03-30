@@ -4,6 +4,8 @@ import Progress from './status/Progress';
 import FormStatus from './status/FormStatus';
 import Avatar from './Avatar';
 
+import {getUser} from '../utils/auth';
+
 export default class ProfilePicture extends React.Component {
     constructor(props) {
         super(props);
@@ -40,7 +42,8 @@ export default class ProfilePicture extends React.Component {
     }
 
     render() {
-        const { Auth, Profile } = this.props;
+        const { Profile } = this.props;
+        let prof_pic = this.state.photo?this.state.photo.preview:getUser().avatar_url;
 
         return (
             <div>
@@ -60,10 +63,12 @@ export default class ProfilePicture extends React.Component {
                     <Dropzone ref="dropzone" className="dropzone" multiple={false} accept={'image/*'}
                               onDrop={this.onDrop.bind(this)}>
                         <div className="msg">
-                            {this.state.photo?(
+                            {prof_pic?(
                             <div>
-                                <Avatar src={this.state.photo.preview} size="xxl"/>
-                                <p>{this.state.photo.name}</p>
+                                <Avatar src={prof_pic} size="xxl"/>
+                                {this.state.photo?(
+                                    <p>{this.state.photo.name}</p>
+                                ):null}
                             </div>
                                 ):(
                             <i className="fa fa-cloud-upload fa-2x" style={{marginTop: '30px'}}/>)}

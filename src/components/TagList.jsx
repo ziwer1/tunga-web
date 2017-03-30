@@ -4,19 +4,36 @@ import { Link } from 'react-router';
 export default class TagList extends React.Component {
 
     render() {
-        const { tags, linkPrefix, moreLink } = this.props;
+        const { tags, linkPrefix, moreLink, showLinks } = this.props;
         const max = this.props.max || tags.length;
         const excess = tags.length - max;
         var tag_list = tags.slice(0, max);
 
         return (
             <div className="tag-list">
-                {tag_list.map((tag, idx) => {
-                    return (<Link key={tag.id} to={`${linkPrefix || '/task/skill/'}${tag.name}/`}>{tag.name}{idx < tag_list.length-1?',':''} </Link>)
-                    })}
-                {excess > 0?(
-                <Link to={moreLink || '#'}> and {excess} more</Link>
-                    ):null}
+                {showLinks?(
+                    <span>
+                        {tag_list.map((tag, idx) => {
+                            return (
+                                <Link key={tag.id} to={`${linkPrefix || '/work/skill/'}${tag.name}/`}>{tag.name}{idx < tag_list.length-1?',':''} </Link>
+                            )
+                        })}
+                        {excess > 0?(
+                            <Link to={moreLink || '#'}> and {excess} more</Link>
+                        ):null}
+                    </span>
+                ):(
+                    <span>
+                        {tag_list.map((tag, idx) => {
+                            return (
+                                <span key={tag.id}>{tag.name}{idx < tag_list.length-1?',':''} </span>
+                            )
+                        })}
+                        {excess > 0?(
+                            <span> and {excess} more</span>
+                        ):null}
+                    </span>
+                )}
             </div>
         );
     }
@@ -25,9 +42,11 @@ export default class TagList extends React.Component {
 TagList.propTypes = {
     tags: React.PropTypes.array.isRequired,
     linkPrefix: React.PropTypes.string,
-    moreLink: React.PropTypes.string
+    moreLink: React.PropTypes.string,
+    showLinks: React.PropTypes.bool
 };
 
 TagList.defaultProps = {
-    tags: []
+    tags: [],
+    showLinks: true
 };

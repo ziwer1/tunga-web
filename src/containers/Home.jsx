@@ -1,8 +1,9 @@
 import React from 'react';
 import {Link} from 'react-router';
 import connect from '../utils/connectors/NotificationConnector';
-import Progress from '../components/status/Progress';
 import Clock from '../components/Clock';
+
+import { getUser, isAdmin, isProjectManager } from '../utils/auth';
 
 class Home extends React.Component {
     componentDidMount() {
@@ -38,7 +39,7 @@ class Home extends React.Component {
     }
 
     render() {
-        const {Notification, Auth} = this.props;
+        const {Notification} = this.props;
         return (
             <div className="home-page">
                 <div className="bg-wrapper">
@@ -48,12 +49,12 @@ class Home extends React.Component {
                 <div className="content">
                     <div className="card">
                         <p className="title">
-                            Hello {Auth.user.first_name || Auth.user.display_name}!
+                            Hello {getUser().first_name || getUser().display_name}!
                         </p>
                         <Clock/>
                     </div>
 
-                    <div className="notification-list">
+                    <div className={`notification-list ${isAdmin() || isProjectManager()?'large':''}`}>
                         <ul>
                             <li>
                                 <Link to="/profile">
@@ -91,7 +92,7 @@ class Home extends React.Component {
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/task/filter/running">
+                                <Link to="/work/filter/running">
                                 <span className="icon">
                                     <i className="tunga-icon-running-tasks"/>
                                     {Notification.notifications.tasks?(
@@ -101,6 +102,32 @@ class Home extends React.Component {
                                     Running tasks
                                 </Link>
                             </li>
+                            {isAdmin() || isProjectManager()?(
+                                [
+                                    <li>
+                                        <Link to="/work/filter/estimates">
+                                            <span className="icon">
+                                                <i className="tunga-icon-project"/>
+                                                {Notification.notifications.estimates?(
+                                                    <span className="badge">{Notification.notifications.estimates}</span>
+                                                ):null}
+                                            </span><br/>
+                                            Estimates
+                                        </Link>
+                                    </li>,
+                                    <li>
+                                        <Link to="/work/filter/quotes">
+                                            <span className="icon">
+                                                <i className="tunga-icon-project"/>
+                                                {Notification.notifications.quotes?(
+                                                    <span className="badge">{Notification.notifications.quotes}</span>
+                                                ):null}
+                                            </span><br/>
+                                            Quotes
+                                        </Link>
+                                    </li>
+                                ]
+                            ):null}
                         </ul>
                     </div>
                 </div>

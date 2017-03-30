@@ -51,8 +51,8 @@ export function createComment(comment, attachments) {
             axios.post(ENDPOINT_COMMENT, comment)
                 .then(function(response) {
                     dispatch(createCommentSuccess(response.data))
-                }).catch(function(response) {
-                    dispatch(createCommentFailed(response.data))
+                }).catch(function(error) {
+                    dispatch(createCommentFailed(error.response?error.response.data:null))
                 });
         }
     }
@@ -85,8 +85,8 @@ export function listComments(filter) {
         axios.get(ENDPOINT_COMMENT, {params: filter})
             .then(function(response) {
                 dispatch(listCommentsSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(listCommentsFailed(response.data))
+            }).catch(function(error) {
+                dispatch(listCommentsFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -121,8 +121,8 @@ export function retrieveComment(id) {
         axios.get(ENDPOINT_COMMENT + id + '/')
             .then(function(response) {
                 dispatch(retrieveCommentSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(retrieveCommentFailed(response.data))
+            }).catch(function(error) {
+                dispatch(retrieveCommentFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -154,8 +154,8 @@ export function updateComment(id, comment) {
         axios.patch(ENDPOINT_COMMENT + id + '/', comment)
             .then(function(response) {
                 dispatch(updateCommentSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(updateCommentFailed(response.data))
+            }).catch(function(error) {
+                dispatch(updateCommentFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -188,8 +188,8 @@ export function deleteComment(id) {
         axios.delete(ENDPOINT_COMMENT + id + '/', {})
             .then(function() {
                 dispatch(deleteCommentSuccess(id))
-            }).catch(function(response) {
-                dispatch(deleteCommentFailed(response.data))
+            }).catch(function(error) {
+                dispatch(deleteCommentFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -221,8 +221,8 @@ export function listMoreComments(url) {
         axios.get(url)
             .then(function(response) {
                 dispatch(listMoreCommentsSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(listMoreCommentsFailed(response.data))
+            }).catch(function(error) {
+                dispatch(listMoreCommentsFailed(error.response?error.response.data:null))
             });
     }
 }

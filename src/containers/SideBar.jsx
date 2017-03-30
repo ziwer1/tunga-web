@@ -1,13 +1,14 @@
 import React from 'react';
-import { Link, IndexLink } from 'react-router';
+import { Link } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-  import RunningTasks from './RunningTasks';
  import * as AuthActions from '../actions/AuthActions' 
 import * as NotificationActions from '../actions/NotificationActions' 
 import * as SupportSectionActions from '../actions/SupportSectionActions';
  import * as SupportPageActions from '../actions/SupportPageActions';
+
+import { isAuthenticated, isAdmin, isProjectOwner, isProjectManager } from '../utils/auth';
 
 import { resizeSideBar } from '../utils/ui';
 
@@ -16,9 +17,9 @@ class SideBar extends React.Component {
     componentDidMount() {
         $(document).ready(resizeSideBar);
         $(window).resize(resizeSideBar);
-        if(this.props.Auth.isAuthenticated) {
+        if(isAuthenticated()) {
             this.props.NotificationActions.getNotifications();
-            setInterval(this.props.NotificationActions.getNotifications, 15000);
+            //setInterval(this.props.NotificationActions.getNotifications, 15000);
         }
 
         const { SupportActions } = this.props;
@@ -37,7 +38,7 @@ class SideBar extends React.Component {
     }
 
     render() {
-        const { Auth, Notification, Support } = this.props;
+        const { Notification, Support } = this.props;
         const messages = Notification.notifications?Notification.notifications.messages:0;
         const tasks = Notification.notifications?Notification.notifications.tasks:0;
         const requests = Notification.notifications?Notification.notifications.requests:0;
@@ -52,14 +53,14 @@ class SideBar extends React.Component {
                             </Link>
                         </li>
                         <li>
-                            <Link to="/task" activeClassName={/task\/new\/?/.test(this.props.location.pathname)?"":"active"}>
-                                <i className="menu-icon tunga-icon-search"/> <span>Find a task</span>
+                            <Link to="/work" activeClassName={/\/work\/new\/?/.test(this.props.location.pathname)?"":"active"}>
+                                <i className="menu-icon tunga-icon-search"/> <span>Find work</span>
                             </Link>
                         </li>
-                        {Auth.user.is_project_owner || Auth.user.is_staff?(
+                        {isProjectOwner() || isProjectManager() || isAdmin()?(
                             <li>
-                                <Link to="/task/new" activeClassName="active">
-                                    <i className="menu-icon tunga-icon-task"/> <span>Post a task</span>
+                                <Link to="/work/new" activeClassName="active">
+                                    <i className="menu-icon tunga-icon-task"/> <span>Post work</span>
                                 </Link>
                             </li>):null}
                         <li>
@@ -96,8 +97,6 @@ class SideBar extends React.Component {
                             </li>
                         ):null}
                     </ul>
-
-                    {/*<RunningTasks onChange={resizeSideBar} num_tasks={tasks}/>*/}
                 </div>
             </div>
         );
@@ -105,7 +104,7 @@ class SideBar extends React.Component {
 }
 
 function mapStateToProps(state) { 
-    return {Auth: state.Auth, Support: state.Support, Notification: state.Notification}; 
+    return {Support: state.Support, Notification: state.Notification}; 
 }
 
   function mapDispatchToProps(dispatch) { 

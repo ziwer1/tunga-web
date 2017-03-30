@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import Rating from 'react-rating';
 
 import {RATING_CRITERIA_CHOICES} from '../constants/Api';
+import { getUser } from '../utils/auth';
 
 export default class RateDevelopers extends React.Component {
 
@@ -22,12 +23,12 @@ export default class RateDevelopers extends React.Component {
     }
 
     mapUserRatings(props) {
-        const {Auth, Task} = props;
+        const {Task} = props;
         const {task} = Task.detail;
         if (task && task.ratings && task.ratings.length) {
             var ratings_map = {};
             task.ratings.forEach(rating => {
-                if (rating.created_by.id == Auth.user.id) {
+                if (rating.created_by.id == getUser().id) {
                     ratings_map[rating.criteria] = rating.score;
                 }
             });

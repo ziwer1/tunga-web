@@ -6,10 +6,13 @@ import { connect } from 'react-redux';
 import Avatar from './Avatar';
 import SearchBox from './SearchBox';
 
+import * as AuthActions from '../actions/AuthActions';
 import * as SearchActions from '../actions/SearchActions';
 
 import { SEARCH_PATH } from '../constants/patterns';
 import { initSideBarToggle } from '../utils/ui';
+
+import { isAuthenticated, isAdmin, getUser } from '../utils/auth';
 
 class NavBar extends React.Component {
 
@@ -36,12 +39,12 @@ class NavBar extends React.Component {
     }
 
     render() {
-        const { Auth } = this.props;
+
         return (
             <div className="navbar-wrapper">
                 <nav className="navbar navbar-fixed-top">
                     <div className="navbar-header">
-                        {Auth.isAuthenticated?(
+                        {isAuthenticated()?(
                             <button type="button" className="sidebar-toggle navbar-toggle collapsed" data-toggle="sidebar-collapse" data-target="#sidebar" aria-expanded="false" aria-controls="sidebar">
                                 <span className="sr-only">Toggle side bar</span>
                                 <i className="fa fa-navicon fa-lg" />
@@ -54,22 +57,33 @@ class NavBar extends React.Component {
                         <Link to="/" className="navbar-brand"><img src={require('../images/header-logo.png')} /></Link>
                     </div>
                     <div id="navbar" className="navbar-collapse collapse">
-                        {Auth.isAuthenticated?(
+                        {isAuthenticated()?(
                             <ul className="nav navbar-nav navbar-right">
                                 <li><SearchBox placeholder="Search" query={this.props.location.query.q} hide_results={true} onSearch={this.onSearch.bind(this)}/></li>
-                                {Auth.isAuthenticated && Auth.user.is_staff?(
+                                {isAuthenticated() && isAdmin()?(
                                     <li className="dropdown">
                                         <a href="#" className="dropdown-toggle account-actions-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                             <i className="nav-icon fa fa-cogs"/> Manage  <span className="caret" style={{marginLeft: 5+'px'}} />
                                         </a>
                                         <ul className="dropdown-menu">
                                             <li><Link to="/help"><i className="nav-icon fa fa-question-circle fa-lg"/> Help</Link></li>
-                                            <li><Link to="/people/invite"><i className="nav-icon fa fa-user-plus"/> Invite Developers</Link></li>
+                                            <li><Link to="/people/invite"><i className="nav-icon fa fa-user-plus"/> Invite Users</Link></li>
+                                            <li><Link to="/dashboard/updates"><i className="nav-icon fa fa-bell"/> Updates dashboard</Link></li>
                                         </ul>
                                     </li>):null}
+                                {/*<li className="dropdown notifications">
+                                    <a href="#" className="dropdown-toggle"
+                                       data-toggle="dropdown" role="button"
+                                       aria-expanded="false">
+                                        <i className="nav-icon fa fa-bell fa-lg"/> {0?(<span className="badge">{0}</span>):null}
+                                    </a>
+                                    <div className="dropdown-menu" role="menu">
+
+                                    </div>
+                                </li>*/}
                                 <li className="dropdown">
                                     <a href="#" className="dropdown-toggle account-actions-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                        {Auth.user.display_name} <span className="caret" style={{marginLeft: 5+'px'}} /> <Avatar src={Auth.user.avatar_url}/>
+                                        {getUser().display_name} <span className="caret" style={{marginLeft: 5+'px'}} /> <Avatar src={getUser().avatar_url}/>
                                     </a>
                                     <ul className="dropdown-menu">
                                         <li><Link to="/profile"><i className="nav-icon tunga-icon-profile"/> My Profile</Link></li>
@@ -95,25 +109,18 @@ class NavBar extends React.Component {
     }
 }
 
-NavBar.propTypes = {
-    Auth: PropTypes.shape({
-        isAuthenticating: PropTypes.bool.isRequired,
-        isAuthenticated: PropTypes.bool.isRequired,
-        user: PropTypes.object
-    }).isRequired
-};
-
 NavBar.contextTypes = {
     router: React.PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
-    return {Auth: state.Auth, Search: state.Search};
+    return {};
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        SearchActions: bindActionCreators(SearchActions, dispatch),
+        AuthActions: bindActionCreators(AuthActions, dispatch),
+        SearchActions: bindActionCreators(SearchActions, dispatch)
     }
 }
 

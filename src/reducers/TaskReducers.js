@@ -5,6 +5,9 @@ import * as ApplicationActions from '../actions/ApplicationActions';
 import * as SavedTaskActions from '../actions/SavedTaskActions';
 import { PATH_CHANGE } from '../actions/NavActions';
 import { LOGOUT_SUCCESS, LIST_RUNNING_TASKS_SUCCESS } from '../actions/AuthActions';
+import { CLEAR_VALIDATIONS } from '../actions/UtilityActions';
+import * as EstimateActions from '../actions/EstimateActions';
+import * as QuoteActions from '../actions/QuoteActions';
 import { getIds } from '../utils/reducers';
 
 import Application from './ApplicationReducers';
@@ -12,16 +15,32 @@ import Integration from './IntegrationReducers';
 import Activity from './ActivityReducers';
 import Invoice from './InvoiceReducers';
 
+import {STATUS_ACCEPTED} from '../constants/Api';
+
 function task(state = {}, action) {
     switch (action.type) {
         case TaskActions.CREATE_TASK_SUCCESS:
         case TaskActions.RETRIEVE_TASK_SUCCESS:
+        case TaskActions.UPDATE_TASK_CLAIM_SUCCESS:
+        case TaskActions.UPDATE_TASK_RETURN_SUCCESS:
             return action.task;
         case TaskActions.UPDATE_TASK_SUCCESS:
             return {...state, ...action.task};
+        case EstimateActions.CREATE_ESTIMATE_SUCCESS:
+        case EstimateActions.UPDATE_ESTIMATE_SUCCESS:
+        case EstimateActions.RETRIEVE_ESTIMATE_SUCCESS:
+            if(action.estimate.task == state.id) {
+                return {...state, estimate: action.estimate};
+            }
+            return state;
+        case QuoteActions.CREATE_QUOTE_SUCCESS:
+        case QuoteActions.UPDATE_QUOTE_SUCCESS:
+        case QuoteActions.RETRIEVE_QUOTE_SUCCESS:
+            if(action.quote.task == state.id) {
+                return {...state, quote: action.quote, is_developer_ready: action.quote.status == STATUS_ACCEPTED?true:state.is_developer_ready};
+            }
+            return state;
         case TaskActions.DELETE_TASK_SUCCESS:
-        case TaskActions.CREATE_TASK_START:
-        case TaskActions.CREATE_TASK_FAILED:
         case TaskActions.RETRIEVE_TASK_START:
         case TaskActions.RETRIEVE_TASK_FAILED:
             return {};
@@ -79,6 +98,12 @@ function tasks(state = {}, action) {
         case TaskActions.LIST_TASKS_START:
         case TaskActions.LIST_TASKS_FAILED:
             return {};
+        case TaskActions.UPDATE_TASK_SUCCESS:
+        case TaskActions.UPDATE_TASK_CLAIM_SUCCESS:
+        case TaskActions.UPDATE_TASK_RETURN_SUCCESS:
+            var new_task = {};
+            new_task[action.task.id] = action.task;
+            return {...state, ...new_task};
         case ApplicationActions.CREATE_APPLICATION_SUCCESS:
             var task = state[action.application.task];
             if(task) {
@@ -170,6 +195,7 @@ function isSaving(state = false, action) {
         case TaskActions.UPDATE_TASK_SUCCESS:
         case TaskActions.UPDATE_TASK_FAILED:
         case TaskActions.RETRIEVE_TASK_START:
+        case CLEAR_VALIDATIONS:
             return false;
         default:
             return state;
@@ -186,6 +212,7 @@ function isSaved(state = false, action) {
         case TaskActions.UPDATE_TASK_START:
         case TaskActions.UPDATE_TASK_FAILED:
         case PATH_CHANGE:
+        case CLEAR_VALIDATIONS:
             return false;
         default:
             return state;
@@ -222,6 +249,7 @@ function isRetrieving(state = false, action) {
             return true;
         case TaskActions.RETRIEVE_TASK_SUCCESS:
         case TaskActions.RETRIEVE_TASK_FAILED:
+        case CLEAR_VALIDATIONS:
             return false;
         default:
             return state;
@@ -234,6 +262,7 @@ function isDeleting(state = false, action) {
             return true;
         case TaskActions.DELETE_TASK_SUCCESS:
         case TaskActions.DELETE_TASK_FAILED:
+        case CLEAR_VALIDATIONS:
             return false;
         default:
             return false;
@@ -252,6 +281,8 @@ function error(state = {}, action) {
         case TaskActions.UPDATE_TASK_START:
         case TaskActions.UPDATE_TASK_SUCCESS:
             return {...state, update: null};
+        case CLEAR_VALIDATIONS:
+            return {};
         default:
             return state;
     }

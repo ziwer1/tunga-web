@@ -23,8 +23,8 @@ export function createConnection(connection) {
         axios.post(ENDPOINT_CONNECTION, connection)
             .then(function(response) {
                 dispatch(createConnectionSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(createConnectionFailed(response.data))
+            }).catch(function(error) {
+                dispatch(createConnectionFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -56,8 +56,8 @@ export function listConnections(filter) {
         axios.get(ENDPOINT_CONNECTION, {params: filter})
             .then(function(response) {
                 dispatch(listConnectionsSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(listConnectionsFailed(response.data))
+            }).catch(function(error) {
+                dispatch(listConnectionsFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -92,8 +92,8 @@ export function retrieveConnection(id) {
         axios.get(ENDPOINT_CONNECTION + id + '/')
             .then(function(response) {
                 dispatch(retrieveConnectionSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(retrieveConnectionFailed(response.data))
+            }).catch(function(error) {
+                dispatch(retrieveConnectionFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -125,8 +125,8 @@ export function updateConnection(id, data) {
         axios.patch(ENDPOINT_CONNECTION + id + '/', data)
             .then(function(response) {
                 dispatch(updateConnectionSuccess(response.data));
-            }).catch(function(response) {
-                dispatch(updateConnectionFailed(response.data));
+            }).catch(function(error) {
+                dispatch(updateConnectionFailed(error.response?error.response.data:null));
             });
     }
 }
@@ -158,8 +158,8 @@ export function deleteConnection(id, user, hide=false) {
         axios.delete(ENDPOINT_CONNECTION + id + '/', {})
             .then(function() {
                 dispatch(deleteConnectionSuccess(id, user, hide))
-            }).catch(function(response) {
-                dispatch(deleteConnectionFailed(response.data))
+            }).catch(function(error) {
+                dispatch(deleteConnectionFailed(error.response?error.response.data:null))
             });
     }
 }

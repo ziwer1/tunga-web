@@ -3,6 +3,8 @@ import { Link } from 'react-router';
 import Rating from 'react-rating';
 import Avatar from './Avatar';
 
+import { isAuthenticated, isAdmin } from '../utils/auth';
+
 export default class UserCardProfile extends React.Component {
 
     render() {
@@ -17,19 +19,22 @@ export default class UserCardProfile extends React.Component {
                     {profileLink?(
                         <Link to={`/people/${user.username}/`}>{user.display_name}</Link>
                     ):(
-                        <h4 className="title">{user.display_name}</h4>
+                        <div>{user.display_name}</div>
                     )}
 
+                    {isAdmin()?(
+                        <p><a href={`mailto:${user.email}`}>{user.email}</a></p>
+                    ):null}
                     {user.is_project_owner?(
                     <p>{user.company}</p>
                         ):null}
-                    {user.profile?(
+                    {user.profile && (user.profile.city || user.profile.country_name)?(
                     <div>{user.profile.city}, {user.profile.country_name}</div>
                         ):null}
-                    {!user.is_developer && user.tasks_created?(
+                    {!user.is_developer && user.tasks_created && isAuthenticated()?(
                     <div>{user.tasks_created} task{user.tasks_created==1?'':'s'} created</div>
                         ):null}
-                    {user.is_developer && user.tasks_completed?(
+                    {user.is_developer && user.tasks_completed && isAuthenticated()?(
                     <div>{user.tasks_completed} task{user.tasks_completed==1?'':'s'} completed</div>
                         ):null}
                     {user.is_developer?(
@@ -38,11 +43,9 @@ export default class UserCardProfile extends React.Component {
                                 <div className="rating">
                                     <Rating start={0} stop={10} step={2} fractions={2} initialRate={user.ratings.avg}
                                             empty={'fa fa-star-o'} full={'fa fa-star'} readonly={true}/>
-                                </div><span className="secondary">({user.ratings.display_avg} rating)</span>
+                                </div>
                             </div>
-                        ):(
-                            <div className="secondary">No ratings yet!</div>
-                        )
+                        ):null
                     ):null}
                 </div>
             </div>

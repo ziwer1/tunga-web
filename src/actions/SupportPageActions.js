@@ -27,8 +27,8 @@ export function createSupportPage(page, attachments) {
         axios.post(ENDPOINT_SUPPORT_PAGE, page)
             .then(function(response) {
                 dispatch(createSupportPageSuccess(response.data))
-            }).catch(function(response) {
-            dispatch(createSupportPageFailed(response.data))
+            }).catch(function(error) {
+            dispatch(createSupportPageFailed(error.response?error.response.data:null))
         });
     }
 }
@@ -60,8 +60,8 @@ export function listSupportPages(filter) {
         axios.get(ENDPOINT_SUPPORT_PAGE, {params: filter})
             .then(function(response) {
                 dispatch(listSupportPagesSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(listSupportPagesFailed(response.data))
+            }).catch(function(error) {
+                dispatch(listSupportPagesFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -96,8 +96,8 @@ export function retrieveSupportPage(id) {
         axios.get(ENDPOINT_SUPPORT_PAGE + id + '/')
             .then(function(response) {
                 dispatch(retrieveSupportPageSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(retrieveSupportPageFailed(response.data))
+            }).catch(function(error) {
+                dispatch(retrieveSupportPageFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -129,8 +129,8 @@ export function updateSupportPage(id, page) {
         axios.patch(ENDPOINT_SUPPORT_PAGE + id + '/', page)
             .then(function(response) {
                 dispatch(updateSupportPageSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(updateSupportPageFailed(response.data))
+            }).catch(function(error) {
+                dispatch(updateSupportPageFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -163,8 +163,8 @@ export function deleteSupportPage(id) {
         axios.delete(ENDPOINT_SUPPORT_PAGE + id + '/', {})
             .then(function() {
                 dispatch(deleteSupportPageSuccess(id))
-            }).catch(function(response) {
-                dispatch(deleteSupportPageFailed(response.data))
+            }).catch(function(error) {
+                dispatch(deleteSupportPageFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -196,8 +196,8 @@ export function listMoreSupportPages(url) {
         axios.get(url)
             .then(function(response) {
                 dispatch(listMoreSupportPagesSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(listMoreSupportPagesFailed(response.data))
+            }).catch(function(error) {
+                dispatch(listMoreSupportPagesFailed(error.response?error.response.data:null))
             });
     }
 }

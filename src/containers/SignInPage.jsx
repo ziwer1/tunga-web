@@ -47,8 +47,8 @@ class SignIn extends React.Component {
                         (<Error message={Auth.error.auth.non_field_errors || "Sorry, we couldn't log you in. Please try again."}/>) :''}
 
                     <div className="form-group">
-                        <label className="control-label" htmlFor="username">Username</label>
-                        <input type="text" className="form-control" name="username" ref="username" required placeholder="Username" />
+                        <label className="control-label" htmlFor="username">Username or Email</label>
+                        <input type="text" className="form-control" name="username" ref="username" required placeholder="Username or Email" />
                     </div>
 
                     <div className="form-group">
@@ -56,9 +56,15 @@ class SignIn extends React.Component {
                         <input type="password" className="form-control" name="pwd" ref="password" required placeholder="Password" />
                     </div>
 
-                    <Link to="/reset-password" className="forgot_passwd">Forgot Password?</Link>
+                    <div className="clearfix">
+                        <Link to="/reset-password" className="forgot_passwd">Forgot Password?</Link>
 
-                    <button type="submit" className="btn pull-right" disabled={Auth.isAuthenticating}>Sign In</button>
+                        <button type="submit"
+                                className="btn pull-right"
+                                disabled={Auth.isAuthenticating}>
+                            Sign In
+                        </button>
+                    </div>
 
                 </form>
             </div>

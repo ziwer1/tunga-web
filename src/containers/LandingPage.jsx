@@ -2,26 +2,67 @@ import React from 'react';
 import {Link} from 'react-router';
 import YouTube from 'react-youtube';
 import Helmet from 'react-helmet';
+import Slider from 'react-slick';
 
 import ShowcaseContainer from './ShowcaseContainer';
 import ShowCaseFooter from './ShowCaseFooter';
-import EmailLoginWidget from '../components/EmailLoginWidget';
+import ComponentWithModal from '../components/ComponentWithModal';
+
+import { openTaskWizard } from '../utils/tasks';
+import { showWizard, showCallWidget, openCalendlyWidget } from '../utils/router';
 
 import { sendGAEvent, GA_EVENT_CATEGORIES, GA_EVENT_ACTIONS, GA_EVENT_LABELS } from '../utils/tracking';
 
-export default class LandingPage extends React.Component {
+
+let TESTIMONIALS = [
+    {
+        name: 'Luuk',
+        company: 'Blog Society',
+        image: require("../images/testimonials/luuk.jpg"),
+        message: "Within a minimum amount of time, we arranged that our platform - customized to the company's needs - could be build within a month. Outsourcing development has never been this easy."
+    },
+    {
+        name: 'Angella',
+        company: 'Ugandan Developer',
+        image: require("../images/testimonials/angella.jpg"),
+        message: "As a developer, Tunga allows me to work on interesting projects from around the globe, and build great working relationships with clients using tools like Slack"
+    },
+    {
+        name: 'Karl',
+        company: 'Statehill',
+        image: require("../images/testimonials/karl.png"),
+        message: "We were pleasently surprised with how easy it was to get the right person onboard and the Ugandan developer we worked with professionally executed the project in a satisfactory manner."
+    }
+];
+
+var canOpen = true;
+
+export default class LandingPage extends ComponentWithModal {
     constructor(props) {
         super(props);
         this.state = {player: null, play: false};
     }
 
+    componentDidMount() {
+        if(showWizard(this.props.routes) && canOpen) {
+            canOpen = false;
+            openTaskWizard();
+        }
+
+        if(showCallWidget(this.props.routes)) {
+            openCalendlyWidget();
+        }
+    }
+
     onScheduleCall() {
-        Calendly.showPopupWidget('https://calendly.com/tunga/30min/');
-        sendGAEvent(GA_EVENT_CATEGORIES.CONTACT, GA_EVENT_ACTIONS.SCHEDULE_CALL);
+        openCalendlyWidget();
     }
 
     onVideoReady(e) {
-        this.setState({player: e.target});
+        var player = e.target;
+        if(player) {
+            this.setState({player: e.target});
+        }
     }
 
     onPlayVideo() {
@@ -30,6 +71,10 @@ export default class LandingPage extends React.Component {
             this.state.player.playVideo();
             sendGAEvent(GA_EVENT_CATEGORIES.VIDEO, GA_EVENT_ACTIONS.PLAY, GA_EVENT_LABELS.INTRO_VIDEO);
         }
+    }
+
+    onPauseVideo() {
+        sendGAEvent(GA_EVENT_CATEGORIES.VIDEO, GA_EVENT_ACTIONS.PAUSE, GA_EVENT_LABELS.INTRO_VIDEO);
     }
 
     onCloseVideo() {
@@ -47,22 +92,19 @@ export default class LandingPage extends React.Component {
                         Instant access to skilled <br/>
                         African software developers.
                     </h1>
-                    <div className="details">
-                        <ul>
-                            <li>Easy <span className="light">set up</span></li>
-                            <li>Free <span className="light">to connect with freelancers</span></li>
-                            <li>No cure <span className="light"> no pay for tasks</span></li>
-                        </ul>
-                    </div>
-                </div>
-                <div>
-                    <div className="pull-left">
-                        <button className="btn btn-watch" onClick={this.onPlayVideo.bind(this)}><i
-                            className="fa fa-play"/> Watch the video
+                    <p className="details">
+                        <span>Easy set up</span>
+                        <span className="fa fa-circle"/>
+                        <span>Free to connect with freelancers</span>
+                        <span className="fa fa-circle"/>
+                        <span>No cure no pay for tasks</span>
+                    </p>
+                    <div>
+                        <button to="/work/new/"
+                                className="btn btn-callout"
+                                onClick={openTaskWizard}>
+                            Get Started
                         </button>
-                    </div>
-                    <div className="pull-right">
-                        <EmailLoginWidget />
                     </div>
                 </div>
             </div>
@@ -136,36 +178,36 @@ export default class LandingPage extends React.Component {
                             <div className="col-md-5">
                                 <div className="workflow">
                                     <div className="step">
-                                        <i className="icon tunga-icon-browse-developers"/>
-                                        <h5>1. Browse Developers</h5>
+                                        <i className="icon tunga-icon-post-task"/>
+                                        <h5>1. Post your work</h5>
                                     </div>
 
                                     <img src={require('../images/down-right.png')}/>
 
                                     <div className="step">
-                                        <i className="icon tunga-icon-build-network"/>
-                                        <h5>2. Build a Network</h5>
+                                        <i className="icon tunga-icon-browse-developers"/>
+                                        <h5>2. Select developers</h5>
                                     </div>
 
                                     <img src={require('../images/down-left.png')}/>
-
-                                    <div className="step">
-                                        <i className="icon tunga-icon-post-task"/>
-                                        <h5>3. Post a Task</h5>
-                                    </div>
-
-                                    <img src={require('../images/down-right.png')}/>
 
                                     <div className="step">
                                         <i className="icon tunga-icon-manage-tasks"/>
-                                        <h5>4. Manage Tasks</h5>
+                                        <h5>3. Manage your work</h5>
+                                    </div>
+
+                                    <img src={require('../images/down-right.png')}/>
+
+                                    <div className="step">
+                                        <i className="icon tunga-icon-make-transaction"/>
+                                        <h5>4. Pay your developers</h5>
                                     </div>
 
                                     <img src={require('../images/down-left.png')}/>
 
                                     <div className="step">
-                                        <i className="icon tunga-icon-make-transaction"/>
-                                        <h5>5. Finalize Transaction</h5>
+                                        <i className="icon tunga-icon-build-network"/>
+                                        <h5>5. Increase your network</h5>
                                     </div>
                                 </div>
                             </div>
@@ -176,6 +218,29 @@ export default class LandingPage extends React.Component {
                         <div className="text-center">
                             <Link className="btn btn-callout how-it-works-btn" to="/how-it-works/">Find out more</Link>
                         </div>
+                    </div>
+                </section>
+                <section id="clients-testmonial">
+                    <div className="container">
+                        <h2 className="text-center"><span className="bold">Testimonials</span> </h2>
+                        <Slider className="testimonials-slider text-center" {...slider_settings}>
+                            {TESTIMONIALS.map(testimonial => {
+                                return (
+                                    <div className="testimonial">
+                                        <div className="body">
+                                            <div>
+                                                <i className="fa fa-quote-left pull-left"/>
+                                                <span dangerouslySetInnerHTML={{__html: testimonial.message}}/>
+                                                <i className="fa fa-quote-right pull-right"/>
+                                            </div>
+                                        </div>
+                                        <div className="image" style={{backgroundImage: `url(${testimonial.image})`}} />
+                                        <div className="author">{testimonial.name}</div>
+                                        <div className="company">{testimonial.company}</div>
+                                    </div>
+                                );
+                            })}
+                        </Slider>
                     </div>
                 </section>
                 <section id="what-we-can-do">
@@ -228,6 +293,7 @@ export default class LandingPage extends React.Component {
                             videoId="FQHxc5VNs7A"
                             opts={{height: '80%', width: '100%'}}
                             onReady={this.onVideoReady.bind(this)}
+                            onPause={this.onPauseVideo.bind(this)}
                         />
                     </div>
                 </section>

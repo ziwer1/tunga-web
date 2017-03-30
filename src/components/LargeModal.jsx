@@ -1,12 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router';
 import { Modal } from 'react-bootstrap';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import * as NavActions from '../actions/NavActions';
 
-class ModalLarge extends React.Component {
+class LargeModal extends React.Component {
 
     constructor(props) {
         super(props);
@@ -51,9 +50,12 @@ class ModalLarge extends React.Component {
     }
 
     render() {
-        const { modalSize, bsStyle } = this.props;
+        const { modalSize, bsStyle, className } = this.props;
         return (
-            <Modal show={this.state.showModal} onHide={this.close.bind(this)} bsSize={modalSize} bsStyle={bsStyle}>
+            <Modal show={this.state.showModal}
+                   onHide={this.close.bind(this)}
+                   bsSize={modalSize} bsStyle={bsStyle}
+                   dialogClassName={className}>
                 <Modal.Header closeButton>
                     {this.state.title?(
                     <Modal.Title>{this.state.title}</Modal.Title>
@@ -76,4 +78,4 @@ function mapDispatchToProps(dispatch) {
         NavActions: bindActionCreators(NavActions, dispatch),
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(ModalLarge);
+export default connect(mapStateToProps, mapDispatchToProps)(LargeModal);

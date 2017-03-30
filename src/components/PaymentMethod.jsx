@@ -53,7 +53,7 @@ export default class PaymentMethod extends React.Component {
     }
 
     render() {
-        const { Profile, Auth } = this.props;
+        const { Profile } = this.props;
         const { profile } = Profile;
 
         var country_codes = [

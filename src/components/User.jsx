@@ -2,9 +2,10 @@ import React from 'react';
 import { Link } from 'react-router';
 import TagList from './TagList';
 import Rating from 'react-rating';
-import Avatar from './Avatar';
+
 import UserCardProfile from './UserCardProfile';
 import { RATING_CRITERIA_CHOICES } from '../constants/Api';
+import { isAuthenticated, isAdmin, isDeveloper, isProjectOwner, getUser } from '../utils/auth';
 
 export default class User extends React.Component {
 
@@ -28,7 +29,7 @@ export default class User extends React.Component {
     }
 
     mapUserRatings(props) {
-        const { Auth, User } = props;
+        const { User } = props;
         const { user } = User.detail;
         if(user && user.ratings && user.ratings.details && user.ratings.details.length) {
             var ratings_map = {};
@@ -60,12 +61,12 @@ export default class User extends React.Component {
     }
 
     render() {
-        const { Auth, User } = this.props;
+        const { User } = this.props;
         const { user } = User.detail;
 
         var connection_msg = 'Send friend request';
         var remove_msg = 'Remove friend';
-        if(Auth.user.is_project_owner) {
+        if(isProjectOwner()) {
             connection_msg = 'Add to my team';
             remove_msg = 'Remove from my team';
         } else if(user.is_project_owner) {

@@ -1,15 +1,13 @@
 import React from 'react';
-import connect from '../utils/connectors/ProjectConnector';
+import connect from '../utils/connectors/TaskConnector';
 
-class ProjectPage extends React.Component {
+class TaskContainer extends React.Component {
 
     renderChildren() {
         return React.Children.map(this.props.children, function (child) {
             return React.cloneElement(child, {
-                Auth: this.props.Auth,
-                Project: this.props.Project,
                 Task: this.props.Task,
-                ProjectActions: this.props.ProjectActions,
+                Application: this.props.Application,
                 TaskActions: this.props.TaskActions
             });
         }.bind(this));
@@ -24,4 +22,4 @@ class ProjectPage extends React.Component {
     }
 }
 
-export default connect(ProjectPage);
+export default connect(TaskContainer);

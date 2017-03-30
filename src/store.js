@@ -8,7 +8,7 @@ import TungaApp from './reducers/index';
 var enabled_middleware = [thunk, routerMiddleware(browserHistory)];
 var compose_args = [];
 
-if(!__PRODUCTION___) {
+if(!__PRODUCTION__) {
     const logger = createLogger({collapsed: true, level: 'info', duration: true});
     enabled_middleware.push(logger);
     compose_args.push(window.devToolsExtension?window.devToolsExtension(): f => f);

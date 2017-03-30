@@ -1,14 +1,14 @@
 import React from 'react';
-import connect from '../utils/connectors/TaskConnector';
+import connect from '../utils/connectors/EstimateConnector';
 
-class TaskPage extends React.Component {
+class EstimateContainer extends React.Component {
 
     renderChildren() {
         return React.Children.map(this.props.children, function (child) {
             return React.cloneElement(child, {
-                Auth: this.props.Auth,
-                Task: this.props.Task,
-                TaskActions: this.props.TaskActions
+                Estimate: this.props.Estimate,
+                EstimateActions: this.props.EstimateActions,
+                task: this.props.task
             });
         }.bind(this));
     }
@@ -22,4 +22,4 @@ class TaskPage extends React.Component {
     }
 }
 
-export default connect(TaskPage);
+export default connect(EstimateContainer);

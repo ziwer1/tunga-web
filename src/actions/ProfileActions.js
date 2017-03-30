@@ -1,6 +1,13 @@
 import axios from 'axios';
 import { ENDPOINT_ACCOUNT_INFO, ENDPOINT_USER_INFO, ENDPOINT_PROFILE, ENDPOINT_CHANGE_PASSWORD, ENDPOINT_USER_EDUCATION, ENDPOINT_USER_WORK, ENDPOINT_NOTIFICATION, ENDPOINT_COUNTRIES } from '../constants/Api';
 
+import {
+    sendGAEvent, getGAUserType,
+    GA_EVENT_CATEGORIES, GA_EVENT_ACTIONS,
+} from '../utils/tracking';
+import {getUser} from 'utils/auth';
+
+
 export const UPDATE_AUTH_USER_START = 'UPDATE_AUTH_USER_START';
 export const UPDATE_AUTH_USER_SUCCESS = 'UPDATE_AUTH_USER_SUCCESS';
 export const UPDATE_AUTH_USER_FAILED = 'UPDATE_AUTH_USER_FAILED';
@@ -56,8 +63,8 @@ export function updateAuthUser(user) {
             axios.patch(ENDPOINT_USER_INFO, user)
                 .then(function(response) {
                     dispatch(updateAuthUserSuccess(response.data))
-                }).catch(function(response) {
-                    dispatch(updateAuthUserFailed(response.data))
+                }).catch(function(error) {
+                    dispatch(updateAuthUserFailed(error.response?error.response.data:null))
                 });
         }
     }
@@ -70,6 +77,11 @@ export function updateAuthUserStart() {
 }
 
 export function updateAuthUserSuccess(user) {
+    var current_user = getUser();
+    if(current_user && !current_user.type) {
+        // If current user doesn't have a type, this can be treated as Sign Up
+        sendGAEvent(GA_EVENT_CATEGORIES.REGISTRATION, GA_EVENT_ACTIONS.SIGN_UP, getGAUserType(user));
+    }
     return {
         type: UPDATE_AUTH_USER_SUCCESS,
         user
@@ -89,8 +101,8 @@ export function updateAccountInfo(user) {
         axios.patch(ENDPOINT_ACCOUNT_INFO, user)
             .then(function(response) {
                 dispatch(updateAccountInfoSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(updateAccountInfoFailed(response.data))
+            }).catch(function(error) {
+                dispatch(updateAccountInfoFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -102,6 +114,8 @@ export function updateAccountInfoStart() {
 }
 
 export function updateAccountInfoSuccess(user) {
+    sendGAEvent(GA_EVENT_CATEGORIES.PROFILE, GA_EVENT_ACTIONS.UPDATE, getGAUserType(getUser()));
+
     return {
         type: UPDATE_ACCOUNT_INFO_SUCCESS,
         user
@@ -121,8 +135,8 @@ export function retrieveProfile() {
         axios.get(ENDPOINT_USER_INFO)
             .then(function(response) {
                 dispatch(retrieveProfileSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(retrieveProfileFailed(response.data))
+            }).catch(function(error) {
+                dispatch(retrieveProfileFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -175,8 +189,8 @@ export function updateProfile(id, profile) {
             axios.request({url: ENDPOINT_PROFILE, method: request_method, data: profile})
                 .then(function(response) {
                     dispatch(updateProfileSuccess(response.data))
-                }).catch(function(response) {
-                dispatch(updateProfileFailed(response.data))
+                }).catch(function(error) {
+                dispatch(updateProfileFailed(error.response?error.response.data:null))
             });
         }
     }
@@ -190,6 +204,8 @@ export function updateProfileStart(id) {
 }
 
 export function updateProfileSuccess(profile) {
+    sendGAEvent(GA_EVENT_CATEGORIES.PROFILE, GA_EVENT_ACTIONS.UPDATE, getGAUserType(getUser()));
+
     return {
         type: UPDATE_PROFILE_SUCCESS,
         profile
@@ -209,8 +225,8 @@ export function updatePassword(credentials) {
         axios.post(ENDPOINT_CHANGE_PASSWORD, credentials)
             .then(function(response) {
                 dispatch(updatePasswordSuccess())
-            }).catch(function(response) {
-                dispatch(updatePasswordFailed(response.data))
+            }).catch(function(error) {
+                dispatch(updatePasswordFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -222,6 +238,7 @@ export function updatePasswordStart() {
 }
 
 export function updatePasswordSuccess() {
+    sendGAEvent(GA_EVENT_CATEGORIES.AUTH, GA_EVENT_ACTIONS.CHANGE_PASSWORD, getGAUserType(getUser()));
     return {
         type: UPDATE_PASSWORD_SUCCESS
     }
@@ -240,8 +257,8 @@ export function createWork(work) {
         axios.post(ENDPOINT_USER_WORK, work)
             .then(function(response) {
                 dispatch(createWorkSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(createWorkFailed(response.data))
+            }).catch(function(error) {
+                dispatch(createWorkFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -273,8 +290,8 @@ export function updateWork(id, data) {
         axios.patch(ENDPOINT_USER_WORK + id + '/', data)
             .then(function(response) {
                 dispatch(updateWorkSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(updateWorkFailed(response.data))
+            }).catch(function(error) {
+                dispatch(updateWorkFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -306,8 +323,8 @@ export function createEducation(education) {
         axios.post(ENDPOINT_USER_EDUCATION, education)
             .then(function(response) {
                 dispatch(createEducationSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(createEducationFailed(response.data))
+            }).catch(function(error) {
+                dispatch(createEducationFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -339,8 +356,8 @@ export function updateEducation(id, data) {
         axios.patch(ENDPOINT_USER_EDUCATION + id + '/', data)
             .then(function(response) {
                 dispatch(updateEducationSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(updateEducationFailed(response.data))
+            }).catch(function(error) {
+                dispatch(updateEducationFailed(error.response?error.response.data:null))
             });
     }
 }
@@ -372,8 +389,8 @@ export function getCountries() {
         axios.get(ENDPOINT_COUNTRIES)
             .then(function(response) {
                 dispatch(getCountriesSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(getCountriesFailed(response.data))
+            }).catch(function(error) {
+                dispatch(getCountriesFailed(error.response?error.response.data:null))
             });
     }
 }

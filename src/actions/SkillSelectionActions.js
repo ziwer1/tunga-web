@@ -15,8 +15,8 @@ export function getSkillSuggestions(filter) {
         axios.get(ENDPOINT_SKILL, {params: filter})
             .then(function(response) {
                 dispatch(getSkillSuggestionsSuccess(response.data))
-            }).catch(function(response) {
-                dispatch(getSkillSuggestionsFailed(response.data))
+            }).catch(function(error) {
+                dispatch(getSkillSuggestionsFailed(error.response?error.response.data:null))
             });
     }
 }

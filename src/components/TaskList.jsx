@@ -5,6 +5,8 @@ import LoadMore from './status/LoadMore';
 import TaskCard from './TaskCard';
 import SearchBox from './SearchBox';
 
+import { isAdmin, isDeveloper, isProjectManager } from '../utils/auth';
+
 export default class TaskList extends React.Component {
 
     componentDidMount() {
@@ -32,7 +34,7 @@ export default class TaskList extends React.Component {
     }
 
     render() {
-        const { Auth, Task, TaskActions, hide_header } = this.props;
+        const { Task, TaskActions, hide_header, emptyListText } = this.props;
         let filter = this.getFilter();
         let skill = this.getSkill();
 
@@ -41,7 +43,7 @@ export default class TaskList extends React.Component {
                 {hide_header?null:(
                 <div>
                     <div className="clearfix">
-                        <h2 className="pull-left">{filter == 'my-tasks' && !Auth.user.is_developer?'My ':''}Tasks</h2>
+                        <h2 className="pull-left">{filter == 'my-tasks' && !isDeveloper()?'My ':''}Work</h2>
                         <div className="pull-right">
                             <SearchBox placeholder="Search for tasks"
                                        filter={{filter, skill, ...this.props.filters}}
@@ -49,19 +51,26 @@ export default class TaskList extends React.Component {
                                        count={Task.list.count}/>
                         </div>
                     </div>
-                    {filter == 'my-tasks' && !Auth.user.is_developer?null:(
+                    {filter == 'my-tasks' && !isDeveloper()?null:(
                     <ul className="nav nav-pills nav-top-filter">
-                        <li role="presentation"><IndexLink to="/task" activeClassName="active">All Tasks</IndexLink></li>
-                        <li role="presentation"><Link to="/task/filter/running" activeClassName="active"><i className="tunga-icon-running-tasks"/> Running Tasks</Link></li>
-                        {Auth.user.is_developer || Auth.user.is_staff?(
+                        <li role="presentation"><IndexLink to="/work" activeClassName="active">All</IndexLink></li>
+                        {isProjectManager() || isAdmin()?(
                             [
-                                <li role="presentation" key="skills"><Link to="/task/filter/skills" activeClassName="active">My Skills</Link></li>,
-                                <li role="presentation" key="clients"><Link to="/task/filter/project-owners" activeClassName="active">My Clients</Link></li>
+                                <li role="presentation" key="new-projects"><Link to="/work/filter/new-projects" activeClassName="active"><i className="tunga-icon-project"/> New Projects</Link></li>,
+                                <li role="presentation" key="estimates"><Link to="/work/filter/estimates" activeClassName="active"><i className="tunga-icon-project"/> Estimates</Link></li>,
+                                <li role="presentation" key="quotes"><Link to="/work/filter/quotes" activeClassName="active"><i className="tunga-icon-project"/> Quotes</Link></li>
+                            ]
+                        ):null}
+                        <li role="presentation"><Link to="/work/filter/running" activeClassName="active"><i className="tunga-icon-running-tasks"/> Running</Link></li>
+                        {isDeveloper() || isAdmin()?(
+                            [
+                                <li role="presentation" key="skills"  style={{marginLeft: '20px'}}><Link to="/work/filter/skills" activeClassName="active">My Skills</Link></li>,
+                                <li role="presentation" key="clients"><Link to="/work/filter/project-owners" activeClassName="active">My Clients</Link></li>
                             ]
                         ):null}
                         {skill?(
                             <li role="presentation" style={{marginLeft: '20px'}}>
-                                <Link to={`/task/skill/${skill}`} activeClassName="active"><i className="tunga-icon-tag"/> {skill}</Link>
+                                <Link to={`/work/skill/${skill}`} activeClassName="active"><i className="tunga-icon-tag"/> {skill}</Link>
                             </li>
                         ):null}
                     </ul>
@@ -77,14 +86,15 @@ export default class TaskList extends React.Component {
                                 const task = Task.list.tasks[id];
                                 return(
                                 <div className="col-sm-6 col-md-4" key={id}>
-                                    <TaskCard Auth={Auth} Task={Task} task={task} TaskActions={TaskActions}/>
+                                    <TaskCard Task={Task} task={task} TaskActions={TaskActions}/>
                                 </div>
                                     );
                                 })}
                         </div>
-                        <LoadMore url={Task.list.next} callback={TaskActions.listMoreTasks} loading={Task.list.isFetchingMore}/>
-                        {Task.list.ids.length?'':(
-                        <div className="alert alert-info">No tasks match your query</div>
+                        {Task.list.ids.length?(
+                            <LoadMore url={Task.list.next} callback={TaskActions.listMoreTasks} loading={Task.list.isFetchingMore}/>
+                        ):(
+                        <div className="alert alert-info">{emptyListText}</div>
                             )}
                     </div>)
                     }
@@ -92,3 +102,11 @@ export default class TaskList extends React.Component {
         );
     }
 }
+
+TaskList.propTypes = {
+    emptyListText: React.PropTypes.string
+};
+
+TaskList.defaultProps = {
+    emptyListText: 'No tasks match your query'
+};
