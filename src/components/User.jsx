@@ -5,7 +5,9 @@ import Rating from 'react-rating';
 
 import UserCardProfile from './UserCardProfile';
 import { RATING_CRITERIA_CHOICES } from '../constants/Api';
-import { isAuthenticated, isAdmin, isDeveloper, isProjectOwner, getUser } from '../utils/auth';
+import { isProjectOwner } from '../utils/auth';
+
+import { STATUS_ACCEPTED } from '../constants/Api';
 
 export default class User extends React.Component {
 
@@ -95,7 +97,7 @@ export default class User extends React.Component {
                                             onClick={this.handleConnectResponse.bind(this, false)}>Decline Request</button>
                                 ]
                             ):null)}
-                        {user.connection && user.connection.accepted?(
+                        {user.connection && user.connection.status == STATUS_ACCEPTED?(
                             <button type="button" className="btn"
                                     onClick={this.handleDeleteConnection.bind(this)}>{remove_msg}</button>
                         ):null}

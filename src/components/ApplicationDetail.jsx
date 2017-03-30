@@ -9,6 +9,8 @@ import LargeModal from './LargeModal';
 
 import confirm from '../utils/confirm';
 import { getTotalFee } from '../utils/tasks';
+import { STATUS_REJECTED, STATUS_INITIAL } from '../constants/Api';
+
 
 export default class ApplicationList extends ComponentWithModal {
 
@@ -156,8 +158,8 @@ export default class ApplicationList extends ComponentWithModal {
                                 const { user } =  application.details;
                                 return(
                                 <div className="col-xs-12" key={id}>
-                                    <div className={"card application-card detail-card" + ((application.responded && !application.accepted)?' rejected':'')}>
-                                        {task.closed || application.responded?null:(
+                                    <div className={"card application-card detail-card" + ((application.status == STATUS_REJECTED)?' rejected':'')}>
+                                        {task.closed || application.status != STATUS_INITIAL?null:(
                                         <div className="actions pull-right">
                                             <div>
                                                 <button type="button" className="btn btn-block "
