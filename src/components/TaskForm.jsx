@@ -320,6 +320,11 @@ export default class TaskForm extends ComponentWithModal {
 
     handleSubmit(e) {
         e.preventDefault();
+
+        const { TaskActions, project } = this.props;
+        const task = this.props.task || {};
+
+
         var req_data = {};
         req_data.title = this.refs.title?this.refs.title.value.trim():null;
         req_data.description = this.refs.description?this.refs.description.value.trim():null;
@@ -378,10 +383,6 @@ export default class TaskForm extends ComponentWithModal {
         if(project && project.id) {
             req_data.parent = project.id;
         }
-
-        const { TaskActions, project } = this.props;
-        const task = this.props.task || {};
-
 
         var task_info = {};
         Object.keys(req_data).forEach(function (key) {
