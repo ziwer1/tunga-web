@@ -42,7 +42,7 @@ export default class UserList extends React.Component {
     }
 
     render() {
-        const {User, Notification, UserActions, bsClass, max, profileLink, tagLinks} = this.props;
+        const {User, Notification, UserActions, bsClass, max, profileLink, tagLinks, filters} = this.props;
         const requests = Notification && Notification.notifications ? Notification.notifications.requests : 0;
 
         let filter = this.getFilter();
@@ -104,6 +104,9 @@ export default class UserList extends React.Component {
                         <div className="row flex-row">
                             {all_users.map((id) => {
                                 const user = User.list.users[id];
+                                if(filters.has_photo && !user.avatar_url) {
+                                    return;
+                                }
                                 return (
                                     <div className={bsClass || "col-sm-6 col-md-4"} key={id}>
                                         <UserCard user={user} UserActions={UserActions}
