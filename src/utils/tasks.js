@@ -43,7 +43,7 @@ export function openTaskWizard(options={}) {
                 <h3 className="text-center">Our developers</h3>
                 <div className="dev-list">
                     <UserPage>
-                        <UserList hide_header={true} bsClass="col-xs-12" filters={{ filter: 'developers'}} max={5} profileLink={false} tagLinks={false}/>
+                        <UserList hide_header={true} bsClass="col-xs-12" filters={{ filter: 'developers', has_photo: true}} max={5} profileLink={false} tagLinks={false}/>
                     </UserPage>
                 </div>
             </div>
