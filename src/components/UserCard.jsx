@@ -5,6 +5,8 @@ import TagList from './TagList';
 
 import { isProjectOwner } from '../utils/auth';
 
+import { STATUS_ACCEPTED } from '../constants/Api';
+
 export default class UserCard extends React.Component {
 
     handleConnectRequest() {
@@ -88,7 +90,7 @@ export default class UserCard extends React.Component {
                             </div>
                         </div>
                             ):null)}
-                    {user.connection && user.connection.accepted?(
+                    {user.connection && user.connection.status == STATUS_ACCEPTED?(
                     <div className="row">
                         <div className="col-sm-12">
                             <button type="button" className="btn btn-block "

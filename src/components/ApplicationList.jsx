@@ -10,6 +10,7 @@ import LargeModal from './LargeModal';
 import confirm from '../utils/confirm';
 import { getTotalFee } from '../utils/tasks';
 import { truncateWords } from '../utils/helpers';
+import { STATUS_REJECTED, STATUS_INITIAL } from '../constants/Api';
 
 export default class ApplicationList extends ComponentWithModal {
 
@@ -141,7 +142,7 @@ export default class ApplicationList extends ComponentWithModal {
                                 const { user } =  application.details;
                                 return(
                                 <div className="col-sm-6 col-md-4" key={id}>
-                                    <div className={"card application-card" + ((application.responded && !application.accepted)?' rejected':'')}>
+                                    <div className={"card application-card" + ((application.status == STATUS_REJECTED)?' rejected':'')}>
                                         <UserCardProfile user={user}/>
                                         {user.profile && user.profile.skills.length?(
                                         <div>
@@ -183,7 +184,7 @@ export default class ApplicationList extends ComponentWithModal {
                                             </div>
                                                 ):null}
                                         </div>
-                                        {task.closed || application.responded?null:(
+                                        {task.closed || application.status != STATUS_INITIAL?null:(
                                             <div className="actions">
                                                 <div>
                                                     <Link to={`/work/${application.task}/applications/${application.id}`}

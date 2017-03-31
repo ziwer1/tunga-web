@@ -23,6 +23,8 @@ import confirm from '../utils/confirm';
 import { SOCIAL_PROVIDERS } from '../constants/Api';
 import { isAdmin, getUser } from '../utils/auth';
 
+import { STATUS_REJECTED, STATUS_ACCEPTED, STATUS_INITIAL } from '../constants/Api';
+
 export function resizeOverviewBox() {
     var w_h = $(window).height();
     var nav_h = $('nav.navbar').height();
@@ -250,7 +252,7 @@ export default class TaskWorflow extends ComponentWithModal {
         const {task, Task, TaskActions} = this.props;
         var new_applications = [];
         task.details.applications.map(application => {
-            if(!application.responded) {
+            if(application.status == STATUS_INITIAL) {
                 new_applications.push(application);
             }
         });
@@ -266,7 +268,7 @@ export default class TaskWorflow extends ComponentWithModal {
         let is_admin_or_owner = is_owner || isAdmin();
 
         let is_pm = (task.pm && task.pm.id == getUser().id);
-        let is_confirmed_assignee = task.assignee && task.assignee.accepted && task.assignee.user.id == getUser().id;
+        let is_confirmed_assignee = task.assignee && task.assignee.status == STATUS_ACCEPTED && task.assignee.user.id == getUser().id;
 
         let workflow_link = `/work/${task.id}/?nr=true`;
         let can_pay = task.is_payable && is_admin_or_owner && task.closed && !task.paid;
@@ -495,7 +497,7 @@ export default class TaskWorflow extends ComponentWithModal {
                                     ):null}
                                 </div>
                             ) : null}
-                            {task.is_developer_ready && !task.closed && task.is_participant && task.my_participation && !task.my_participation.responded ? (
+                            {task.is_developer_ready && !task.closed && task.is_participant && task.my_participation && task.my_participation.status == STATUS_INITIAL ? (
                                 <div className="pull-right">
                                     <button type="button"
                                             className="btn"
@@ -619,7 +621,7 @@ export default class TaskWorflow extends ComponentWithModal {
                                             <Avatar src={task.assignee.user.avatar_url}/>
                                             <Link
                                                 to={`/people/${task.assignee.user.username}/`}>{task.assignee.user.display_name}</Link>
-                                            <span className="status">{task.assignee.accepted ?
+                                            <span className="status">{task.assignee.status == STATUS_ACCEPTED ?
                                                 <i className="fa fa-check-circle accepted"/> : '[Invited]'}</span>
                                         </div>
                                     </div>
@@ -631,12 +633,12 @@ export default class TaskWorflow extends ComponentWithModal {
                                         {task.details.participation.map((participation) => {
                                             const participant = participation.user;
                                             return (
-                                                (!task.assignee || participant.id != task.assignee.user.id) && (participation.accepted || !participation.responded) ? (
+                                                (!task.assignee || participant.id != task.assignee.user.id) && (participation.status != STATUS_REJECTED) ? (
                                                     <div className="collaborator" key={participant.id}>
                                                         <Avatar src={participant.avatar_url}/>
                                                         <Link
                                                             to={`/people/${participant.username}/`}>{participant.display_name}</Link>
-                                                        <span className="status">{participation.accepted ?
+                                                        <span className="status">{participation.status == STATUS_ACCEPTED ?
                                                             <i className="fa fa-check-circle accepted"/> : '[Invited]'}</span>
                                                     </div>
                                                 ) : null
