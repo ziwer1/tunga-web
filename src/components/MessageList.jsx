@@ -58,6 +58,10 @@ export default class MessageList extends React.Component {
             var last_sent_day = '';
             let today = moment.utc().local().format(day_format);
 
+            if(!message.user) {
+                message.user = {};
+            }
+
             return (
                 <div key={message.id} id={"message" + message.id}
                      className={"message" + (channel && message.user.id != getUser().id && Message.list.last_read < message.id?' new':'')}>
