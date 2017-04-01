@@ -5,7 +5,7 @@ import TagList from './TagList';
 
 import { isProjectOwner } from '../utils/auth';
 
-import { STATUS_ACCEPTED } from '../constants/Api';
+import { STATUS_ACCEPTED, STATUS_REJECTED } from '../constants/Api';
 
 export default class UserCard extends React.Component {
 
@@ -16,7 +16,7 @@ export default class UserCard extends React.Component {
 
     handleConnectResponse(accepted=false) {
         const { UserActions, user } = this.props;
-        UserActions.updateConnection(user.request, {accepted, responded: true});
+        UserActions.updateConnection(user.request, {accepted, status: accepted?STATUS_ACCEPTED:STATUS_REJECTED});
     }
 
     handleDeleteConnection() {

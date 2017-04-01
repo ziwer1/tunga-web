@@ -10,7 +10,7 @@ import LargeModal from './LargeModal';
 import confirm from '../utils/confirm';
 import { getTotalFee } from '../utils/tasks';
 import { truncateWords } from '../utils/helpers';
-import { STATUS_REJECTED, STATUS_INITIAL } from '../constants/Api';
+import { STATUS_REJECTED, STATUS_INITIAL, STATUS_ACCEPTED } from '../constants/Api';
 
 export default class ApplicationList extends ComponentWithModal {
 
@@ -21,7 +21,7 @@ export default class ApplicationList extends ComponentWithModal {
 
     componentDidMount() {
         const { TaskActions, Task } = this.props;
-        TaskActions.listApplications({task: Task.detail.task.id, responded: 'False'});
+        TaskActions.listApplications({task: Task.detail.task.id, status: STATUS_INITIAL});
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -60,15 +60,23 @@ export default class ApplicationList extends ComponentWithModal {
         var assignee = !task.assignee;
         this.setState({close_applications});
         const application = this.state.application;
-        TaskActions.updateApplication(application.id, {accepted: true, responded: true});
-        TaskActions.updateTask(application.task, {apply: !close_applications, participation: [{user: application.user.id, assignee, accepted: true, responded: true}]});
+        TaskActions.updateApplication(application.id, {status: STATUS_ACCEPTED});
+        TaskActions.updateTask(
+            application.task, 
+            {
+                apply: !close_applications, 
+                participation: [
+                    {user: application.user.id, assignee, status: STATUS_ACCEPTED}
+                ]
+            }
+        );
     }
 
     handleRejectApplication(application) {
         const { TaskActions } = this.props;
         confirm(`Decline ${application.user.display_name}'s application`).then(
             function () {
-                TaskActions.updateApplication(application.id, {accepted: false, responded: true});
+                TaskActions.updateApplication(application.id, {status: STATUS_REJECTED});
             }
         );
     }

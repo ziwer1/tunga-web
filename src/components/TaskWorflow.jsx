@@ -187,7 +187,7 @@ export default class TaskWorflow extends ComponentWithModal {
         TaskActions.updateTask(
             Task.detail.task.id,
             {
-                participation: [{user: getUser().id, accepted: true, responded: true}]
+                participation: [{user: getUser().id, status: STATUS_ACCEPTED}]
             }
         );
     }
@@ -199,7 +199,7 @@ export default class TaskWorflow extends ComponentWithModal {
                 TaskActions.updateTask(
                     Task.detail.task.id,
                     {
-                        participation: [{user: getUser().id, accepted: false, responded: true}]
+                        participation: [{user: getUser().id, status: STATUS_REJECTED}]
                     }
                 );
             }
