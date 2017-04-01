@@ -4,9 +4,6 @@ import 'babel-polyfill'; // Add Promises polyfill to global environment
 import 'react-widgets/lib/less/react-widgets.less';
 import "css/style.less";
 
-// Local JS
-import "script!js/js.cookie.js";
-
 import React from 'react';
 import ReactDOM  from 'react-dom';
 import { Provider } from 'react-redux';
