@@ -115,76 +115,83 @@ export function createTaskFailed(error) {
     }
 }
 
-export function listTasks(filter) {
+export function listTasks(filter, selection, prev_selection) {
     return dispatch => {
-        dispatch(listTasksStart(filter));
+        dispatch(listTasksStart(filter, selection, prev_selection));
         axios.get(ENDPOINT_TASK, {params: filter})
             .then(function(response) {
-                dispatch(listTasksSuccess(response.data, filter))
+                dispatch(listTasksSuccess(response.data, filter, selection))
             }).catch(function(error) {
-                dispatch(listTasksFailed(error.response?error.response.data:null))
+                dispatch(listTasksFailed(error.response?error.response.data:null, selection))
             });
     }
 }
 
-export function listTasksStart(filter) {
+export function listTasksStart(filter, selection, prev_selection) {
     return {
         type: LIST_TASKS_START,
-        filter
+        filter,
+        selection,
+        prev_selection
     }
 }
 
-export function listTasksSuccess(response, filter) {
+export function listTasksSuccess(response, filter, selection) {
     return {
         type: LIST_TASKS_SUCCESS,
         items: response.results,
         previous: response.previous,
         next: response.next,
         count: response.count,
-        filter
+        filter,
+        selection
     }
 }
 
-export function listTasksFailed(error) {
+export function listTasksFailed(error, selection) {
     return {
         type: LIST_TASKS_FAILED,
-        error
+        error,
+        selection
     }
 }
 
-export function listMoreTasks(url) {
+export function listMoreTasks(url, selection) {
     return dispatch => {
-        dispatch(listMoreTasksStart(url));
+        dispatch(listMoreTasksStart(url, selection));
         axios.get(url)
             .then(function(response) {
-                dispatch(listMoreTasksSuccess(response.data))
+                dispatch(listMoreTasksSuccess(response.data, selection))
             }).catch(function(error) {
-            dispatch(listMoreTasksFailed(error.response?error.response.data:null))
+            dispatch(listMoreTasksFailed(error.response?error.response.data:null, selection))
         });
     }
 }
 
-export function listMoreTasksStart(url) {
+export function listMoreTasksStart(url, selection) {
     return {
         type: LIST_MORE_TASKS_START,
-        url
+        url,
+        selection
     }
 }
 
-export function listMoreTasksSuccess(response) {
+export function listMoreTasksSuccess(response, selection) {
     return {
         type: LIST_MORE_TASKS_SUCCESS,
         items: response.results,
         previous: response.previous,
         next: response.next,
-        count: response.count
+        count: response.count,
+        selection
     }
 }
 
-export function listMoreTasksFailed(error) {
+export function listMoreTasksFailed(error, selection) {
     return {
         type: LIST_MORE_TASKS_FAILED,
-        error
+        error,
+        selection
     }
 }
 

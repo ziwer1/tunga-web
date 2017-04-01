@@ -93,15 +93,24 @@ function users(state = {}, action) {
     }
 }
 
-function ids(state = [], action) {
+function ids(state = {}, action) {
+    var selection_key = action.selection || 'default';
+    var new_state = {};
     switch (action.type) {
         case UserActions.LIST_USERS_SUCCESS:
-            return getIds(action.items);
+            new_state[selection_key] = getIds(action.items);
+            return {...state, ...new_state};
         case UserActions.LIST_MORE_USERS_SUCCESS:
-            return [...state, ...getIds(action.items)];
+            new_state[selection_key] = [...state[selection_key], ...getIds(action.items)];
+            return {...state, ...new_state};
         case UserActions.LIST_USERS_START:
+            if(action.prev_selection && state[action.prev_selection]) {
+                new_state[selection_key] = state[action.prev_selection];
+                return {...state, ...new_state};
+            }
+            return state;
         case UserActions.LIST_USERS_FAILED:
-            return [];
+            return state;
         case ConnectionActions.DELETE_CONNECTION_SUCCESS:
             if(action.user && action.hide) {
                 var idx = state.indexOf(action.user.id);

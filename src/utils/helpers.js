@@ -16,3 +16,12 @@ export function truncateWords(sentence, number=25) {
     var has_more = all_words.length > number;
     return all_words.splice(0, number).join(' ') + (has_more?' ...':'');
 }
+
+export function getItemsList(ids, itemsMap) {
+    if(Array.isArray(ids) && ids.length) {
+        return ids.map((id) => {
+            return itemsMap[id];
+        });
+    }
+    return [];
+}

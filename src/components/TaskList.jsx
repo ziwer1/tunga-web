@@ -1,22 +1,34 @@
 import React from 'react';
 import { Link, IndexLink } from 'react-router';
+
 import Progress from './status/Progress';
 import LoadMore from './status/LoadMore';
 import TaskCard from './TaskCard';
 import SearchBox from './SearchBox';
+import GenericListContainer from '../containers/GenericListContainer';
 
 import { isAdmin, isDeveloper, isProjectManager } from '../utils/auth';
 
-export default class TaskList extends React.Component {
-
-    componentDidMount() {
-        this.props.TaskActions.listTasks({filter: this.getFilter(), skill: this.getSkill(), ...this.props.filters, search: this.props.search});
-    }
+export default class TaskList extends GenericListContainer {
 
     componentDidUpdate(prevProps, prevState) {
-        if(prevProps.location && this.props.location && prevProps.location.pathname != this.props.location.pathname || prevProps.search != this.props.search) {
-            this.props.TaskActions.listTasks({filter: this.getFilter(), skill: this.getSkill(), ...this.props.filters, search: this.props.search});
+        super.componentDidUpdate(prevProps, prevState);
+
+        if (prevProps.location && this.props.location && prevProps.location.pathname != this.props.location.pathname) {
+            this.getList();
         }
+
+        if(prevProps.search != this.props.search) {
+            this.setState({selection_key: this.state.selection_key + (this.props.search || ''), prev_key: this.state.selection_key})
+        }
+    }
+
+    getList(filters) {
+        this.props.TaskActions.listTasks({
+            filter: this.getFilter(),
+            skill: this.getSkill(), ...this.props.filters,
+            search: this.props.search
+        }, this.state.selection_key, this.state.prev_key);
     }
 
     getFilter() {
@@ -37,6 +49,8 @@ export default class TaskList extends React.Component {
         const { Task, TaskActions, hide_header, emptyListText } = this.props;
         let filter = this.getFilter();
         let skill = this.getSkill();
+
+        const all_tasks = Task.list.ids[this.state.selection_key] || [];
 
         return (
             <div>
@@ -82,7 +96,7 @@ export default class TaskList extends React.Component {
                     :
                     (<div>
                         <div className="row flex-row">
-                            {Task.list.ids.map((id) => {
+                            {all_tasks.map((id) => {
                                 const task = Task.list.tasks[id];
                                 return(
                                 <div className="col-sm-6 col-md-4" key={id}>
@@ -91,8 +105,8 @@ export default class TaskList extends React.Component {
                                     );
                                 })}
                         </div>
-                        {Task.list.ids.length?(
-                            <LoadMore url={Task.list.next} callback={TaskActions.listMoreTasks} loading={Task.list.isFetchingMore}/>
+                        {all_tasks.length?(
+                            <LoadMore url={Task.list.next} callback={(x) => { TaskActions.listMoreTasks(x, this.state.selection_key)}} loading={Task.list.isFetchingMore}/>
                         ):(
                         <div className="alert alert-info">{emptyListText}</div>
                             )}
