@@ -95,7 +95,7 @@ function tasks(state = {}, action) {
                 all_tasks[task.id] = task;
             });
             return {...state, ...all_tasks};
-        case TaskActions.LIST_TASKS_START:
+        //case TaskActions.LIST_TASKS_START:
         case TaskActions.LIST_TASKS_FAILED:
             return {};
         case TaskActions.UPDATE_TASK_SUCCESS:
@@ -127,15 +127,24 @@ function tasks(state = {}, action) {
     }
 }
 
-function ids(state = [], action) {
+function ids(state = {}, action) {
+    var selection_key = action.selection || 'default';
+    var new_state = {};
     switch (action.type) {
         case TaskActions.LIST_TASKS_SUCCESS:
-            return getIds(action.items);
+            new_state[selection_key] = getIds(action.items);
+            return {...state, ...new_state};
         case TaskActions.LIST_MORE_TASKS_SUCCESS:
-            return [...state, ...getIds(action.items)];
+            new_state[selection_key] = [...state[selection_key], ...getIds(action.items)];
+            return {...state, ...new_state};
         case TaskActions.LIST_TASKS_START:
+            if(action.prev_selection && state[action.prev_selection]) {
+                new_state[selection_key] = state[action.prev_selection];
+                return {...state, ...new_state};
+            }
+            return state;
         case TaskActions.LIST_TASKS_FAILED:
-            return [];
+            return state;
         default:
             return state;
     }

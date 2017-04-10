@@ -4,27 +4,37 @@ import { Table } from 'react-bootstrap';
 import moment from 'moment';
 import Progress from './status/Progress';
 import LoadMore from './status/LoadMore';
+import GenericListContainer from '../containers/GenericListContainer';
 
 import { ENDPOINT_TASK } from '../constants/Api';
 
 import { isAdmin, isDeveloper } from '../utils/auth';
 
-export default class PaymentList extends React.Component {
+export default class PaymentList extends GenericListContainer {
 
-    componentDidMount() {
-        var payment_status = this.props.params.filter || null;
-        this.props.TaskActions.listTasks({payment_status, filter: 'payments'});
-    }
 
     componentDidUpdate(prevProps, prevState) {
-        if(prevProps.location.pathname != this.props.location.pathname) {
-            var payment_status = this.props.params.filter || null;
-            this.props.TaskActions.listTasks({payment_status, filter: 'payments'});
+        super.componentDidUpdate(prevProps, prevState);
+
+        if (prevProps.location && this.props.location && prevProps.location.pathname != this.props.location.pathname) {
+            this.getList();
         }
+
+        if(prevProps.search != this.props.search) {
+            this.setState({selection_key: this.state.selection_key + (this.props.search || ''), prev_key: this.state.selection_key})
+        }
+    }
+
+    getList(filters) {
+        var payment_status = this.props.params.filter || null;
+        this.props.TaskActions.listTasks({payment_status, filter: 'payments'}, this.state.selection_key, this.state.prev_key);
     }
 
     render() {
         const { Task, TaskActions } = this.props;
+
+        const all_tasks = Task.list.ids[this.state.selection_key] || [];
+
         return (
             <div>
                 <h2>Payments</h2>
@@ -39,7 +49,7 @@ export default class PaymentList extends React.Component {
                     (<Progress/>)
                     :
                     (<div>
-                        {Task.list.ids.length?(
+                        {all_tasks.length?(
                             <Table>
                                 <thead>
                                 <tr>
@@ -60,7 +70,7 @@ export default class PaymentList extends React.Component {
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {Task.list.ids.map((id) => {
+                                {all_tasks.map((id) => {
                                     const task = Task.list.tasks[id];
                                     const invoice = task.invoice || {
                                             amount: task.amount,
@@ -108,7 +118,7 @@ export default class PaymentList extends React.Component {
                         ):(
                         <div className="alert alert-info">No payments to display</div>
                             )}
-                        <LoadMore url={Task.list.next} callback={TaskActions.listMoreTasks} loading={Task.list.isFetchingMore}/>
+                        <LoadMore url={Task.list.next} callback={(x) => { TaskActions.listMoreTasks(x, this.state.selection_key)}} loading={Task.list.isFetchingMore}/>
                     </div>)
                     }
             </div>

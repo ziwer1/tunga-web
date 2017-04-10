@@ -25,7 +25,8 @@ class SearchPage extends React.Component {
                 MessageActions: this.props.MessageActions,
                 SupportActions: this.props.SupportActions,
                 search: this.props.Search.query,
-                hide_header: true
+                hide_header: true,
+                selectionKey: `search${this.props.Search.query}`
             });
         }.bind(this));
     }
@@ -33,10 +34,12 @@ class SearchPage extends React.Component {
     render() {
         const { Search } = this.props;
 
+        const search_count = Search.count[`search${Search.query}`] || 0;
+
         return (
             <div>
                 {Search.query?(
-                <h3 className="results">{Search.count?Search.count:"Search"} results for "<strong>{Search.query}</strong>"</h3>
+                <h3 className="results">{search_count?search_count:"Search"} results for "<strong>{Search.query}</strong>"</h3>
                     ):null}
                 <ul className="nav nav-pills nav-top-filter">
                     <li role="presentation"><Link to="/search/people" activeClassName="active">{isAdmin()?'People':'Developers'}</Link></li>

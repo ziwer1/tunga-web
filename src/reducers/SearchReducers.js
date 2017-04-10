@@ -15,13 +15,16 @@ function query(state = null, action) {
     }
 }
 
-function count(state = 0, action) {
+function count(state = {}, action) {
+    var selection_key = action.selection || 'default';
+    var new_state = {};
     switch (action.type) {
         case UserActions.LIST_USERS_SUCCESS:
         case TaskActions.LIST_TASKS_SUCCESS:
         case MessageActions.LIST_MESSAGES_SUCCESS:
         case SupportPageActions.LIST_SUPPORT_PAGES_SUCCESS:
-            return action.count;
+            new_state[selection_key] = action.count;
+            return {...state, ...new_state};
         case UserActions.LIST_USERS_START:
         case UserActions.LIST_USERS_FAILED:
         case TaskActions.LIST_TASKS_START:
@@ -30,7 +33,8 @@ function count(state = 0, action) {
         case MessageActions.LIST_MESSAGES_FAILED:
         case SupportPageActions.LIST_SUPPORT_PAGES_START:
         case SupportPageActions.LIST_SUPPORT_PAGES_FAILED:
-            return 0;
+            new_state[selection_key] = 0;
+            return {...state, ...new_state};
         default:
             return state;
     }

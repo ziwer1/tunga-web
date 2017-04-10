@@ -1,7 +1,7 @@
 export function getIds(items) {
-    return items.map((item) => {
+    return Array.from(new Set(items.map((item) => {
         return item.id;
-    });
+    })));
 }
 
 export function getTaskKey(id) {
