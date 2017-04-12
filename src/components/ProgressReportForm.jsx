@@ -39,6 +39,12 @@ export default class ProgressReportForm extends React.Component {
         }
     }
 
+    onInputChange(key, e) {
+        var new_state = {};
+        new_state[key] = e.target.value;
+        this.setState(new_state);
+    }
+
     onProgressStatusChange(status) {
         this.setState({status});
     }
@@ -94,10 +100,6 @@ export default class ProgressReportForm extends React.Component {
     render() {
         const { ProgressReport } = this.props;
         const progress_report = this.props.progress_report || {};
-        const accomplished = this.props.progress_report?progress_report.accomplished:'';
-        const next_steps = this.props.progress_report?progress_report.next_steps:'';
-        const obstacles = this.props.progress_report?progress_report.obstacles:'';
-        const remarks = this.props.progress_report?progress_report.remarks:'';
 
         return (
             <div>
@@ -145,10 +147,11 @@ export default class ProgressReportForm extends React.Component {
                         (<FieldError message={ProgressReport.detail.error.update.accomplished}/>):null}
                     <div className="form-group">
                         <label className="control-label">What have you accomplished since the last update? *</label>
-                        <TinyMCE
-                            content={accomplished}
-                            config={TINY_MCE_CONFIG}
-                            onChange={this.onAccomplishedChange.bind(this)}/>
+                        <textarea placeholder="What have you accomplished since the last update?"
+                                  className="form-control"
+                                  ref="accomplished"
+                                  onChange={this.onInputChange.bind(this, 'accomplished')}
+                                  value={this.state.accomplished} required>{this.state.accomplished}</textarea>
                     </div>
 
                     <div className="form-group">
@@ -177,10 +180,11 @@ export default class ProgressReportForm extends React.Component {
                         (<FieldError message={ProgressReport.detail.error.update.next_steps}/>):null}
                     <div className="form-group">
                         <label className="control-label">What are the next steps? *</label>
-                        <TinyMCE
-                            content={next_steps}
-                            config={TINY_MCE_CONFIG}
-                            onChange={this.onNextStepsChange.bind(this)}/>
+                        <textarea placeholder="What are the next steps?"
+                                  className="form-control"
+                                  ref="next_steps"
+                                  onChange={this.onInputChange.bind(this, 'next_steps')}
+                                  value={this.state.next_steps} required>{this.state.next_steps}</textarea>
                     </div>
 
                     {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.obstacles)?
@@ -189,10 +193,11 @@ export default class ProgressReportForm extends React.Component {
                         (<FieldError message={ProgressReport.detail.error.update.obstacles}/>):null}
                     <div className="form-group">
                         <label className="control-label">What obstacles are impeding your progress?</label>
-                        <TinyMCE
-                            content={obstacles}
-                            config={TINY_MCE_CONFIG}
-                            onChange={this.onObstaclesChange.bind(this)}/>
+                        <textarea placeholder="What obstacles are impeding your progress?"
+                                  className="form-control"
+                                  ref="obstacles"
+                                  onChange={this.onInputChange.bind(this, 'obstacles')}
+                                  value={this.state.obstacles} required>{this.state.obstacles}</textarea>
                     </div>
 
                     {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.remarks)?
@@ -201,10 +206,11 @@ export default class ProgressReportForm extends React.Component {
                         (<FieldError message={ProgressReport.detail.error.update.remarks}/>):null}
                     <div className="form-group">
                         <label className="control-label">Any other remarks or questions</label>
-                        <TinyMCE
-                            content={remarks}
-                            config={TINY_MCE_CONFIG}
-                            onChange={this.onRemarksChange.bind(this)}/>
+                        <textarea placeholder="Any other remarks or questions"
+                                  className="form-control"
+                                  ref="remarks"
+                                  onChange={this.onInputChange.bind(this, 'remarks')}
+                                  value={this.state.remarks} required>{this.state.remarks}</textarea>
                     </div>
 
                     <div className="text-center">
