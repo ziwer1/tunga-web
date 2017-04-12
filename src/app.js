@@ -62,7 +62,7 @@ import ChannelContainer from 'containers/ChannelContainer';
 import ChannelForm from 'components/ChannelForm';
 import ChatBox from 'components/ChatBox';
 import MessageList from 'components/MessageList';
-import ProfilePage from 'containers/ProfilePage';
+import ProfilePage from 'routes/ProfilePage';
 import Profile from 'components/Profile';
 import Stack from 'components/Stack';
 import CompanyProfile from 'components/CompanyProfile';

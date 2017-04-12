@@ -7,7 +7,7 @@ import TagList from './TagList';
 import Avatar from './Avatar';
 
 import { parse_task_status } from '../utils/tasks';
-import { getUser, isDeveloper, isProjectManager, isAdmin } from '../utils/auth';
+import { getUser, isDeveloper, isProjectManager, isAdmin, openProfileWizard } from '../utils/auth';
 
 export default class TaskDetail extends React.Component {
 
@@ -38,7 +38,7 @@ export default class TaskDetail extends React.Component {
                             <div style={{marginBottom: '20px'}}>
                                 <div className="alert alert-info">You need to complete your profile before you can apply for {work_type}s</div>
                                 <div>
-                                    <Link to="/profile"><i className="fa fa-arrow-right"/> Continue to your profile</Link>
+                                    <Link to="/profile" onClick={(e) => {e.preventDefault(); openProfileWizard()}}><i className="fa fa-arrow-right"/> Continue to your profile</Link>
                                 </div>
                             </div>
                         )

@@ -1,4 +1,10 @@
+import React from 'react';
 import store from '../store';
+
+import ProfileContainer from '../containers/ProfileContainer';
+import ProfileForm from '../components/ProfileForm';
+
+import createModal from '../components/Modal';
 
 export function getAuth() {
     return store.getState().Auth;
@@ -35,4 +41,20 @@ export function isAdminOrProjectOwner() {
 export function isAdmin() {
     let user = getUser();
     return user.is_staff || user.is_superuser;
+}
+
+export function openProfileWizard(options={}) {
+    return createModal(
+        <div className="task-wizard">
+            <div>
+                <div className="title-bar">
+                    <h2 className="title text-center">Complete your profile</h2>
+                </div>
+                <ProfileContainer>
+                    <ProfileForm options={options}/>
+                </ProfileContainer>
+            </div>
+            <div className="clearfix"></div>
+        </div>, null, null, {className: "profile-form-dialog", bsStyle: 'lg'}
+    );
 }

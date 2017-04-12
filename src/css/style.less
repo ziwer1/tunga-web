@@ -2769,6 +2769,123 @@ form[name='compose'] {
     }
 }
 
+
+.profile-form, .profile-form.form-wrapper {
+    max-width: 600px;
+
+    .section-title {
+        padding: 15px 10px;
+        border-bottom: 1px @border-grey solid;
+
+        h4 {
+            margin: 0;
+            float: left;
+            padding-left: 10px;
+        }
+
+        .slider {
+
+            i {
+                color: @primary;
+                margin: 2px;
+            }
+        }
+    }
+
+    form {
+        max-width: 600px;
+
+        .form-group {
+            max-width: 600px;
+            margin: 0 auto 15px;
+        }
+
+        .error {
+            max-width: 600px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            height: 400px;
+            min-height: initial !important;
+            overflow-y: scroll;
+
+            > * {
+                width: 100%;
+            }
+        }
+    }
+
+    .nav {
+        border-top: 1px @border-grey solid;
+        padding: 20px;
+        min-height: 73px;
+    }
+}
+
+
+.profile-form-dialog,
+.profile-form-dialog.modal-dialog {
+    margin-top: 120px;
+
+    .modal-header {
+        position: absolute;
+        right: 0;
+        z-index: 11;
+    }
+
+    .modal-body {
+        padding: 0;
+        margin: 0;
+    }
+
+    .title-bar {
+        text-align: center;
+        color: @primary;
+        border-bottom: 1px @border-grey solid;
+        padding: 20px 0;
+
+        h2 {
+            margin: 0;
+        }
+    }
+
+    .status-bar {
+
+    }
+
+    .thank-you {
+        text-align: center;
+        padding-top: 80px;
+        .font-size(1.7);
+        font-weight: 400;
+    }
+
+    .profile-form, .profile-form.form-wrapper {
+        max-width: 600px;
+        margin: 0 auto;
+
+        .form {
+            max-width: 100%;
+        }
+
+        form {
+            max-width: 100%;
+            padding: 20px 0 0;
+
+            .step {
+                height: 320px;
+                min-height: initial;
+            }
+        }
+    }
+}
+
 .alert-success,
 .alert.alert-success {
     color: @secondary;

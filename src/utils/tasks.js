@@ -7,7 +7,7 @@ import TaskContainer from '../containers/TaskContainer';
 import TaskForm from '../components/TaskForm';
 
 import createModal from '../components/Modal';
-import {DEVELOPER_FEE, PM_FEE, TUNGA_PERCENTAGE_DEVELOPER, SOCIAL_PROVIDERS, STATUS_SUBMITTED, STATUS_APPROVED, STATUS_ACCEPTED} from '../constants/Api';
+import {DEVELOPER_FEE, PM_FEE, TUNGA_PERCENTAGE_DEVELOPER, STATUS_SUBMITTED, STATUS_APPROVED, STATUS_ACCEPTED} from '../constants/Api';
 
 import {isAdmin, getUser} from '../utils/auth';
 import {parseNumber} from '../utils/helpers';

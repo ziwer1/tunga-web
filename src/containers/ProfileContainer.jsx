@@ -1,13 +1,14 @@
 import React from 'react';
-import connect from '../utils/connectors/UserConnector';
+import connect from '../utils/connectors/ProfileConnector';
 
-class UserContainer extends React.Component {
+class ProfileContainer extends React.Component {
 
     renderChildren() {
         return React.Children.map(this.props.children, function (child) {
             return React.cloneElement(child, {
-                User: this.props.User,
-                UserActions: this.props.UserActions
+                Auth: this.props.Auth,
+                Profile: this.props.Profile,
+                ProfileActions: this.props.ProfileActions
             });
         }.bind(this));
     }
@@ -21,4 +22,4 @@ class UserContainer extends React.Component {
     }
 }
 
-export default connect(UserContainer);
+export default connect(ProfileContainer);

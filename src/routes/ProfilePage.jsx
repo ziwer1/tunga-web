@@ -1,24 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router';
-import connect from '../utils/connectors/ProfileConnector';
-import { PROFILE_COMPLETE_PATH } from '../constants/patterns';
 
+import ProfileContainer from '../containers/ProfileContainer';
+
+import { PROFILE_COMPLETE_PATH } from '../constants/patterns';
 import {isAdmin, isDeveloper, isProjectManager, isProjectOwner} from 'utils/auth';
 
-class ProfilePage extends React.Component {
-
-    renderChildren() {
-        return React.Children.map(this.props.children, function (child) {
-            return React.cloneElement(child, {
-                Auth: this.props.Auth,
-                Profile: this.props.Profile,
-                ProfileActions: this.props.ProfileActions
-            });
-        }.bind(this));
-    }
+export default class ProfilePage extends React.Component {
 
     render() {
-        const { Auth } = this.props;
         return (
             <div  className="form-wrapper">
                 {PROFILE_COMPLETE_PATH.test(this.props.location.pathname)?null:(
@@ -41,10 +31,11 @@ class ProfilePage extends React.Component {
 					</ul>
 				</div>
                     )}
-                {this.renderChildren()}
+                <ProfileContainer>
+                    {this.props.children}
+                </ProfileContainer>
             </div>
         );
     }
 }
 
-export default connect(ProfilePage);

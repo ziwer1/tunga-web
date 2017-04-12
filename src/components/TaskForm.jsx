@@ -7,9 +7,7 @@ import momentLocalizer from 'react-widgets/lib/localizers/moment';
 import DateTimePicker from 'react-widgets/lib/DateTimePicker';
 import Dropzone from 'react-dropzone';
 import FormStatus from './status/FormStatus';
-import Error from './status/Error';
 import FieldError from './status/FieldError';
-import Success from '../components/status/Success';
 
 import UserSelector from '../containers/UserSelector';
 import SkillSelector from '../containers/SkillSelector';
@@ -25,7 +23,7 @@ import {
 } from '../constants/Api';
 
 import { getTaskTypeUrl, getScopeUrl, sendGAPageView } from '../utils/tracking';
-import { isAuthenticated, getUser, isAdmin } from '../utils/auth';
+import { isAuthenticated, getUser, isAdmin, openProfileWizard } from '../utils/auth';
 import { estimateDevHoursForFee } from '../utils/tasks';
 import { parseNumber } from '../utils/helpers';
 
@@ -440,7 +438,7 @@ export default class TaskForm extends ComponentWithModal {
                     )}
                     <div className="alert alert-info">You need to complete your profile before you can post work</div>
                     <div>
-                        <Link to="/profile"><i className="fa fa-arrow-right"/> Continue to your profile</Link>
+                        <Link to="/profile" onClick={(e) => {e.preventDefault(); openProfileWizard()}}><i className="fa fa-arrow-right"/> Continue to your profile</Link>
                     </div>
                 </div>
             );
@@ -999,10 +997,28 @@ export default class TaskForm extends ComponentWithModal {
 
         let emailComp = (
             <div>
+                {(Task.detail.error.create && Task.detail.error.create.email)?
+                    (<FieldError message={Task.detail.error.create.email}/>):null}
+                {(Task.detail.error.update && Task.detail.error.update.email)?
+                    (<FieldError message={Task.detail.error.update.email}/>):null}
+                <div className="form-group">
+                    <div className="highlight">We'll use your email to contact you with important information</div>
+                    <label className="control-label">E-mail address *</label>
+                    <div><input type="email" name="email" className="form-control" ref="email" required placeholder="Email"  onChange={this.onInputChange.bind(this, 'email')} value={this.state.email}/></div>
+                </div>
+            </div>
+        );
+
+        let personalComp = (
+            <div>
                 {(Task.detail.error.create && Task.detail.error.create.first_name)?
                     (<FieldError message={Task.detail.error.create.first_name}/>):null}
                 {(Task.detail.error.update && Task.detail.error.update.first_name)?
                     (<FieldError message={Task.detail.error.update.first_name}/>):null}
+                {(Task.detail.error.create && Task.detail.error.create.last_name)?
+                    (<FieldError message={Task.detail.error.create.last_name}/>):null}
+                {(Task.detail.error.update && Task.detail.error.update.last_name)?
+                    (<FieldError message={Task.detail.error.update.last_name}/>):null}
                 <div className="form-group">
                     <label className="control-label">Name *</label>
                     <div className="row">
@@ -1013,16 +1029,6 @@ export default class TaskForm extends ComponentWithModal {
                             <input type="text" name="last_name" className="form-control" ref="last_name" required placeholder="Last Name"  onChange={this.onInputChange.bind(this, 'last_name')} value={this.state.last_name}/>
                         </div>
                     </div>
-                </div>
-
-                {(Task.detail.error.create && Task.detail.error.create.email)?
-                    (<FieldError message={Task.detail.error.create.email}/>):null}
-                {(Task.detail.error.update && Task.detail.error.update.email)?
-                    (<FieldError message={Task.detail.error.update.email}/>):null}
-                <div className="form-group">
-                    <div className="highlight">We'll use your email to contact you with more details</div>
-                    <label className="control-label">E-mail address *</label>
-                    <div><input type="email" name="email" className="form-control" ref="email" required placeholder="Email"  onChange={this.onInputChange.bind(this, 'email')} value={this.state.email}/></div>
                 </div>
             </div>
         );
@@ -1277,9 +1283,9 @@ export default class TaskForm extends ComponentWithModal {
             sections = [
                 ...sections,
                 {
-                    title: "Contact details",
-                    items: [emailComp],
-                    requires: ['email', 'first_name', 'last_name']
+                    title: "Personal information",
+                    items: [personalComp],
+                    requires: ['first_name', 'last_name']
                 }
             ];
 
@@ -1307,6 +1313,15 @@ export default class TaskForm extends ComponentWithModal {
                     ...sections
                 ];
             }
+
+            sections = [
+                {
+                    title: "Contact information",
+                    items: [emailComp],
+                    requires: ['email']
+                },
+                ...sections
+            ];
         }
 
         let current_section = sections[this.state.step-1];
