@@ -33,6 +33,7 @@ export default class ApplicationList extends ComponentWithModal {
                     modalStep: 'confirm'
                 });
             }
+            window.location.reload();
         }
     }
 
@@ -62,9 +63,9 @@ export default class ApplicationList extends ComponentWithModal {
         const application = this.state.application;
         TaskActions.updateApplication(application.id, {status: STATUS_ACCEPTED});
         TaskActions.updateTask(
-            application.task, 
+            application.task,
             {
-                apply: !close_applications, 
+                apply: !close_applications,
                 participation: [
                     {user: application.user.id, assignee, status: STATUS_ACCEPTED}
                 ]

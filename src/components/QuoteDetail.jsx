@@ -16,6 +16,20 @@ momentLocalizer(moment);
 
 export default class QuoteDetail extends React.Component {
 
+    componentDidUpdate(prevProps, prevState) {
+        const { Quote } = this.props;
+
+        const quote = this.props.quote || {};
+
+        if(this.props.Quote.detail.isSaved && !prevProps.Quote.detail.isSaved) {
+
+            if(Quote.detail.quote.status == STATUS_ACCEPTED) {
+                const { router } = this.context;
+                window.location.href = `/work/${Quote.detail.quote.task}/quote/${Quote.detail.quote.id}`;
+            }
+        }
+    }
+
     getTotalHours() {
         const quote = this.props.quote || {};
         if(!quote.activities || !quote.activities.length) {

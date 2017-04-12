@@ -11,7 +11,7 @@ import LargeModal from './LargeModal';
 import ActivityForm from './ActivityForm';
 import PlanForm from './PlanForm';
 
-import {DEVELOPER_FEE, STATUS_SUBMITTED} from '../constants/Api';
+import {DEVELOPER_FEE, STATUS_SUBMITTED, STATUS_ACCEPTED} from '../constants/Api';
 import {getPayDetails, canAddQuote, canEditQuote} from '../utils/tasks';
 import {getUser, isAdminOrProjectOwner} from '../utils/auth';
 import {parseNumber} from '../utils/helpers';
@@ -50,9 +50,9 @@ export default class QuoteForm extends ComponentWithModal {
                 router.replace(`/work/${Quote.detail.quote.task}/quote/${Quote.detail.quote.id}`);
             }
 
-            if(!this.props.quote || this.props.quote.id != Quote.detail.quote.id) {
+            if(this.props.quote.id != Quote.detail.quote.id || Quote.detail.quote.status == STATUS_ACCEPTED) {
                 const { router } = this.context;
-                router.replace(`/work/${Quote.detail.quote.task}/quote/${Quote.detail.quote.id}`);
+                window.location.href = `/work/${Quote.detail.quote.task}/quote/${Quote.detail.quote.id}`;
             }
 
             this.setState({...Quote.detail.quote, submitted: false});

@@ -33,6 +33,7 @@ export default class ApplicationList extends ComponentWithModal {
                     modalStep: 'confirm'
                 });
             }
+            window.location.reload();
         }
     }
 
