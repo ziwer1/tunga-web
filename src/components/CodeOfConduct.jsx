@@ -1,6 +1,7 @@
 import React from 'react';
 import ShowcaseContainer from '../containers/ShowcaseContainer';
 import ShowCaseFooter from '../containers/ShowCaseFooter';
+import Helmet from 'react-helmet';
 
 export default class CodeOfConduct extends React.Component {
 
@@ -50,8 +51,18 @@ export default class CodeOfConduct extends React.Component {
     }
 
     render() {
+        let meta_title = "Tunga | Code of Conduct";
+
         return (
             <ShowcaseContainer className="agreement-page" headerContent={this.renderHeaderContent()}>
+                <Helmet
+                    title={meta_title}
+                    meta={[
+                        {name: "twitter:title", content: meta_title},
+                        {property: "og:title", content: meta_title}
+                    ]}
+                />
+
                 <ShowCaseFooter />
             </ShowcaseContainer>
         );

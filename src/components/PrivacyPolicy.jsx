@@ -1,4 +1,6 @@
 import React from 'react';
+import Helmet from 'react-helmet';
+
 import ShowcaseContainer from '../containers/ShowcaseContainer';
 import ShowCaseFooter from '../containers/ShowCaseFooter';
 
@@ -149,8 +151,18 @@ export default class PrivacyPolicy extends React.Component {
     }
 
     render() {
+        let meta_title = "Tunga | Privacy Policy";
+
         return (
             <ShowcaseContainer className="agreement-page" headerContent={this.renderHeaderContent()}>
+                <Helmet
+                    title={meta_title}
+                    meta={[
+                        {name: "twitter:title", content: meta_title},
+                        {property: "og:title", content: meta_title}
+                    ]}
+                />
+                
                 <ShowCaseFooter />
             </ShowcaseContainer>
         );
