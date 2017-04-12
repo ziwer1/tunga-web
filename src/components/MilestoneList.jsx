@@ -74,7 +74,7 @@ export default class MilestoneList extends React.Component {
                                 let time_24_hrs = 24*60*60;
                                 let is_missed = ((timestamp + time_24_hrs) < ts_now && !milestone.report); // Developers have 24 hrs before a task update is missed
 
-                                if(milestone.report) {
+                                if(milestone.reports && milestone.reports.length) {
                                     milestone_status = 'Completed';
                                 } else if((timestamp + time_24_hrs) > ts_now) {
                                     milestone_status = 'Upcoming';

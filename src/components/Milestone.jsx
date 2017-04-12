@@ -8,7 +8,7 @@ import ProgressReportForm from './ProgressReportForm';
 import BreadCrumb from '../containers/BreadCrumb';
 
 import { PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT } from '../constants/Api';
-import { isDeveloper } from '../utils/auth';
+import { isDeveloper, getUser } from '../utils/auth';
 
 export default class Milestone extends React.Component {
 
@@ -46,7 +46,8 @@ export default class Milestone extends React.Component {
     render() {
         const { Milestone, ProgressReport, ProgressReportActions } = this.props;
         const { milestone } = Milestone.detail;
-        const { report } = milestone;
+        const { reports, my_report } = milestone;
+        const report = my_report;
 
         const timestamp = moment.utc(milestone.due_at).unix();
         const ts_now = moment.utc().unix();
@@ -75,77 +76,78 @@ export default class Milestone extends React.Component {
                         ):null}
                     </div>
 
-
-                    {report && (!this.state.editReport || !isDeveloper())?(
-                        <div>
-                            <h4><i className="fa fa-newspaper-o"/> Progress Report</h4>
-                            {report.user?(
-                                <div>
-                                    <strong>Posted by</strong>
-                                    <div>
-                                        <Avatar src={report.user.avatar_url}/> <Link to={`/people/${report.user.username}/`}>{report.user.display_name}</Link>
-                                    </div>
-                                </div>
-                            ):null}
-                            <p>
-                                <strong>Status: </strong><span>{report.status_display}</span>
-                            </p>
-                            <p>
-                                <div>
-                                    <ProgressBar bsStyle="success" now={report.percentage || 0} label={`${report.percentage || 0}% Completed`} />
-                                </div>
-                            </p>
-                            {report.accomplished?(
-                                <div>
-                                    <strong>Accomplished</strong>
-                                    <div dangerouslySetInnerHTML={{__html: report.accomplished}}/>
-                                </div>
-                            ):null}
-                            {report.uploads && report.uploads.length?(
-                                <div>
-                                    <strong>Files</strong>
-                                    {report.uploads.map(upload => {
-                                        return (
-                                            <div key={upload.id} className="file">
-                                                <a href={upload.url}><i className="fa fa-download"/> {upload.name} <strong>[{upload.display_size}]</strong></a>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                            ):null}
-                            {report.next_steps?(
-                                <div>
-                                    <strong>Next steps</strong>
-                                    <div dangerouslySetInnerHTML={{__html: report.next_steps}}/>
-                                </div>
-                            ):null}
-                            {report.obstacles?(
-                                <div>
-                                    <strong>Obstacles</strong>
-                                    <div dangerouslySetInnerHTML={{__html: report.obstacles}}/>
-                                </div>
-                            ):null}
-                            {report.remarks?(
-                                <div>
-                                    <strong>Remarks</strong>
-                                    <div dangerouslySetInnerHTML={{__html: report.remarks}}/>
-                                </div>
-                            ):null}
-                            {isDeveloper() && !is_missed?(
-                                <button className="btn " onClick={this.onEditReport.bind(this)}><i className="fa fa-pencil"/> Edit Report</button>
-                            ):null}
-                        </div>
+                    {((!report && !is_missed) || this.state.editReport)  && milestone.is_participant?(
+                        <ProgressReportForm milestone={milestone}
+                                            progress_report={report}
+                                            ProgressReport={ProgressReport}
+                                            ProgressReportActions={ProgressReportActions}/>
                     ):(
-                        is_missed?(
+                        reports && reports.length?(
                             <div>
-                                <strong>{[PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT].indexOf(milestone.type) > -1?'Milestone':'Update'} missed</strong>
+                                <h4><i className="fa fa-newspaper-o"/> Progress Reports</h4>
+
+                                {reports.map(report => {
+                                    return <div className="card">
+                                        {report.user?(
+                                            <div>
+                                                <Avatar src={report.user.avatar_url}/> <Link to={`/people/${report.user.username}/`}>{report.user.display_name}</Link>
+                                            </div>
+                                        ):null}
+                                        <p>
+                                            <strong>Status: </strong><span>{report.status_display}</span>
+                                        </p>
+                                        <p>
+                                            <div>
+                                                <ProgressBar bsStyle="success" now={report.percentage || 0} label={`${report.percentage || 0}% Completed`} />
+                                            </div>
+                                        </p>
+                                        {report.accomplished?(
+                                            <div>
+                                                <strong>Accomplished</strong>
+                                                <div dangerouslySetInnerHTML={{__html: report.accomplished}}/>
+                                            </div>
+                                        ):null}
+                                        {report.uploads && report.uploads.length?(
+                                            <div>
+                                                <strong>Files</strong>
+                                                {report.uploads.map(upload => {
+                                                    return (
+                                                        <div key={upload.id} className="file">
+                                                            <a href={upload.url}><i className="fa fa-download"/> {upload.name} <strong>[{upload.display_size}]</strong></a>
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        ):null}
+                                        {report.next_steps?(
+                                            <div>
+                                                <strong>Next steps</strong>
+                                                <div dangerouslySetInnerHTML={{__html: report.next_steps}}/>
+                                            </div>
+                                        ):null}
+                                        {report.obstacles?(
+                                            <div>
+                                                <strong>Obstacles</strong>
+                                                <div dangerouslySetInnerHTML={{__html: report.obstacles}}/>
+                                            </div>
+                                        ):null}
+                                        {report.remarks?(
+                                            <div>
+                                                <strong>Remarks</strong>
+                                                <div dangerouslySetInnerHTML={{__html: report.remarks}}/>
+                                            </div>
+                                        ):null}
+                                        {isDeveloper() && !is_missed && report.user.id == getUser().id?(
+                                            <button className="btn " onClick={this.onEditReport.bind(this)}><i className="fa fa-pencil"/> Edit Report</button>
+                                        ):null}
+                                    </div>
+                                })}
                             </div>
                         ):(
-                            isDeveloper()?(
-                                <ProgressReportForm milestone={milestone}
-                                                    progress_report={report}
-                                                    ProgressReport={ProgressReport}
-                                                    ProgressReportActions={ProgressReportActions}/>
+                            is_missed?(
+                                <div>
+                                    <strong>{[PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT].indexOf(milestone.type) > -1?'Milestone':'Update'} missed</strong>
+                                </div>
                             ):null
                         )
                     )}
