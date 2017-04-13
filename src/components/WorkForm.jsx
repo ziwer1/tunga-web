@@ -1,10 +1,8 @@
 import React from 'react';
 import moment from 'moment';
-import TinyMCE  from 'react-tinymce';
-import Progress from './status/Progress';
+
 import FormStatus from './status/FormStatus';
 import FieldError from './status/FieldError';
-import {TINY_MCE_CONFIG } from '../constants/settings';
 
 export default class WorkForm extends React.Component {
     constructor(props) {
@@ -30,8 +28,10 @@ export default class WorkForm extends React.Component {
         }
     }
 
-    onDetailsChange(e) {
-        this.setState({details: e.target.getContent()});
+    onInputChange(key, e) {
+        var new_state = {};
+        new_state[key] = e.target.value;
+        this.setState(new_state);
     }
 
     handleSubmit(e) {
@@ -58,7 +58,6 @@ export default class WorkForm extends React.Component {
     render() {
         const { Profile } = this.props;
         const work = this.props.work || {};
-        const details = this.props.work?work.details:'';
         var count = 0;
         var months = [];
         while (count <= 12) {
@@ -146,10 +145,11 @@ export default class WorkForm extends React.Component {
                         (<FieldError message={Profile.error.work.details}/>):null}
                     <div className="form-group">
                         <label className="control-label">Details *</label>
-                        <TinyMCE
-                            content={details}
-                            config={TINY_MCE_CONFIG}
-                            onChange={this.onDetailsChange.bind(this)}/>
+                        <textarea className="form-control"
+                                  onChange={this.onInputChange.bind(this, 'details')}
+                                  defaultValue={work.details}
+                                  ref="details"
+                                  placeholder="Details" required/>
                     </div>
 
 

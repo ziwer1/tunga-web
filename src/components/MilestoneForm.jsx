@@ -2,9 +2,8 @@ import React from 'react';
 import moment from 'moment';
 import momentLocalizer from 'react-widgets/lib/localizers/moment';
 import DateTimePicker from 'react-widgets/lib/DateTimePicker';
-import TinyMCE  from 'react-tinymce';
+
 import FieldError from './status/FieldError';
-import {TINY_MCE_CONFIG } from '../constants/settings';
 
 momentLocalizer(moment);
 
@@ -23,12 +22,14 @@ export default class MilestoneForm extends React.Component {
         }
     }
 
-    onDueAtChange(date) {
-        this.setState({due_at: moment(date).utc().format()});
+    onInputChange(key, e) {
+        var new_state = {};
+        new_state[key] = e.target.value;
+        this.setState(new_state);
     }
 
-    onDescriptionChange(e) {
-        this.setState({description: e.target.getContent()});
+    onDueAtChange(date) {
+        this.setState({due_at: moment(date).utc().format()});
     }
 
     handleSubmit(e) {
@@ -71,10 +72,11 @@ export default class MilestoneForm extends React.Component {
 
                     <div className="form-group">
                         <label className="control-label">Description</label>
-                        <TinyMCE
-                            content={description}
-                            config={TINY_MCE_CONFIG}
-                            onChange={this.onDescriptionChange.bind(this)}/>
+                        <textarea className="form-control"
+                                  onChange={this.onInputChange.bind(this, 'description')}
+                                  defaultValue={milestone.description}
+                                  ref="description"
+                                  placeholder="Description" />
                     </div>
 
                     <div className="text-center">

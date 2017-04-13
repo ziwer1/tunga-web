@@ -1,12 +1,10 @@
 import React from 'react';
 import moment from 'moment';
 import momentLocalizer from 'react-widgets/lib/localizers/moment';
-import TinyMCE  from 'react-tinymce';
 import Dropzone from 'react-dropzone';
 import FormStatus from './status/FormStatus';
 import FieldError from './status/FieldError';
 import { PROGRESS_REPORT_STATUS_CHOICES } from '../constants/Api';
-import {TINY_MCE_CONFIG } from '../constants/settings';
 
 momentLocalizer(moment);
 
@@ -210,7 +208,7 @@ export default class ProgressReportForm extends React.Component {
                                   className="form-control"
                                   ref="remarks"
                                   onChange={this.onInputChange.bind(this, 'remarks')}
-                                  value={this.state.remarks} required>{this.state.remarks}</textarea>
+                                  value={this.state.remarks}>{this.state.remarks}</textarea>
                     </div>
 
                     <div className="text-center">
