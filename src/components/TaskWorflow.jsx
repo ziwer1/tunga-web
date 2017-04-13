@@ -277,6 +277,8 @@ export default class TaskWorflow extends ComponentWithModal {
         let work_type = task.is_project?'project':'task';
         let new_applications = this.getNewApplications();
 
+        let is_project_task = task && task.parent;
+
         const pay_popover = (
             <Popover id="popover">
                 <div>{task.paid ? 'Payment has been completed' : 'Close the task to move to this step'}</div>
@@ -397,6 +399,13 @@ export default class TaskWorflow extends ComponentWithModal {
                                         <Link to={`/work/${task.id}/participation/`}
                                               className="btn">
                                             Participation shares
+                                        </Link>
+                                    ):null}
+
+                                    {!is_project_task && is_admin_or_owner?(
+                                        <Link to={`/work/${task.id}/edit/updates/`}
+                                              className="btn">
+                                            Configure updates
                                         </Link>
                                     ):null}
 

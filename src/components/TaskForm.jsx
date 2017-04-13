@@ -356,7 +356,7 @@ export default class TaskForm extends ComponentWithModal {
         if(schedule_id) {
             update_schedule = this.state.schedule_map[schedule_id];
         }
-        req_data.update_schedule = update_schedule;
+        req_data = {...req_data, ...update_schedule};
 
         var participation = [];
         var assignee = this.state.assignee;
@@ -1069,7 +1069,8 @@ export default class TaskForm extends ComponentWithModal {
                     developers: developersComp,
                     deliverables: deliverablesComp,
                     stack: stackDescComp,
-                    files: filesComp
+                    files: filesComp,
+                    updates: updatesComp
                 };
 
 
