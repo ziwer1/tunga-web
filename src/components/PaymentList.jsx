@@ -8,7 +8,7 @@ import GenericListContainer from '../containers/GenericListContainer';
 
 import { ENDPOINT_TASK } from '../constants/Api';
 
-import { isAdmin, isDeveloper } from '../utils/auth';
+import { isAdmin, isDeveloper, isProjectManager } from '../utils/auth';
 
 export default class PaymentList extends GenericListContainer {
 
@@ -96,7 +96,7 @@ export default class PaymentList extends GenericListContainer {
                                                     <div>
                                                         <a href={`${ENDPOINT_TASK}${task.id}/download/invoice/?format=pdf&type=client`}
                                                            target="_blank">
-                                                            <span><i className="fa fa-download"/> {isDeveloper() || isAdmin()?'Client':'Download'} Invoice(s)</span>
+                                                            <span><i className="fa fa-download"/> {isDeveloper() || isProjectManager() || isAdmin()?'Client':'Download'} Invoice(s)</span>
                                                         </a><br/>
                                                         {isDeveloper() || isAdmin()?(
                                                             <a href={`${ENDPOINT_TASK}${task.id}/download/invoice/?format=pdf&type=developer`}
@@ -106,7 +106,7 @@ export default class PaymentList extends GenericListContainer {
                                                         ):null}
                                                     </div>
                                                 ):(
-                                                    <div>Contact <a href="mailto:support@tunga.io">support@tunga.io</a></div>
+                                                    <div>Contact <a href="mailto:hello@tunga.io">hello@tunga.io</a></div>
                                                 )}
                                             </td>
                                             <td>{task.payment_status}</td>
@@ -118,7 +118,9 @@ export default class PaymentList extends GenericListContainer {
                         ):(
                         <div className="alert alert-info">No payments to display</div>
                             )}
-                        <LoadMore url={Task.list.next} callback={(x) => { TaskActions.listMoreTasks(x, this.state.selection_key)}} loading={Task.list.isFetchingMore}/>
+                        {all_tasks.length && Task.list.next?(
+                            <LoadMore url={Task.list.next} callback={(x) => { TaskActions.listMoreTasks(x, this.state.selection_key)}} loading={Task.list.isFetchingMore}/>
+                        ):null}
                     </div>)
                     }
             </div>

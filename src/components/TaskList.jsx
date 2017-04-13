@@ -106,7 +106,9 @@ export default class TaskList extends GenericListContainer {
                                 })}
                         </div>
                         {all_tasks.length?(
-                            <LoadMore url={Task.list.next} callback={(x) => { TaskActions.listMoreTasks(x, this.state.selection_key)}} loading={Task.list.isFetchingMore}/>
+                            Task.list.next?(
+                                <LoadMore url={Task.list.next} callback={(x) => { TaskActions.listMoreTasks(x, this.state.selection_key)}} loading={Task.list.isFetchingMore}/>
+                            ):null
                         ):(
                         <div className="alert alert-info">{emptyListText}</div>
                             )}

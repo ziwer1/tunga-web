@@ -54,10 +54,7 @@ export default class UserList extends GenericListContainer {
         let filter = this.getFilter();
         let skill = this.getSkill();
 
-        console.log(User.list.ids);
-
         var all_users = User.list.ids[this.state.selection_key] || [];
-        console.log(all_users);
         if(max > 0) {
             all_users = all_users.slice(0, max);
         }
@@ -126,7 +123,7 @@ export default class UserList extends GenericListContainer {
                                 );
                             })}
                         </div>
-                        {all_users.length < max?(
+                        {(max && all_users.length < max) || (!max && User.list.next)?(
                             <LoadMore url={User.list.next} callback={(x) => { UserActions.listMoreUsers(x, this.state.selection_key)}}
                                       loading={User.list.isFetchingMore}/>
                         ):null}
