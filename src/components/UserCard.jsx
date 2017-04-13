@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
+import Linkify from 'react-linkify';
+
 import UserCardProfile from './UserCardProfile';
 import TagList from './TagList';
 
@@ -60,7 +62,7 @@ export default class UserCard extends React.Component {
 
                 <div className="short-description">
                     {user.profile?(
-                        <div dangerouslySetInnerHTML={{__html: user.profile.bio}}/>
+                        <Linkify properties={{target: '_blank'}}>{user.profile.bio}</Linkify>
                     ):null}
                 </div>
                 <div className="actions">

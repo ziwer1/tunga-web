@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
 import TimeAgo from 'react-timeago';
+import Linkify from 'react-linkify';
+
 import Progress from './status/Progress';
 import TagList from './TagList';
 import Avatar from './Avatar';
@@ -81,7 +83,9 @@ export default class TaskDetail extends React.Component {
                             return (
                                 <div>
                                     <h5>{item.title}</h5>
-                                    <div className="card" dangerouslySetInnerHTML={{__html: task[item.key]}}/>
+                                    <div className="card">
+                                        <Linkify properties={{target: '_blank'}}>{task[item.key]}</Linkify>
+                                    </div>
                                 </div>
                             )
                         }
@@ -138,7 +142,9 @@ export default class TaskDetail extends React.Component {
                     {task.remarks?(
                         <div>
                             <h5>Files {task.user.display_name} can provide</h5>
-                            <div className="card" dangerouslySetInnerHTML={{__html: task.remarks}}/>
+                            <div className="card">
+                                <Linkify properties={{target: '_blank'}}>{task.remarks}</Linkify>
+                            </div>
                         </div>
                     ):null}
                 </div>

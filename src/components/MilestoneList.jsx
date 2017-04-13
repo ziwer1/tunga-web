@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, IndexLink } from 'react-router';
 import moment from 'moment';
+import Linkify from 'react-linkify';
 
 import Progress from './status/Progress';
 import LoadMore from './status/LoadMore';
@@ -98,7 +99,9 @@ export default class MilestoneList extends React.Component {
                                             {milestone.description?(
                                                 <div>
                                                     <strong>Description</strong>
-                                                    <div className="description" dangerouslySetInnerHTML={{__html: milestone.description}}/>
+                                                    <div className="description">
+                                                        <Linkify properties={{target: '_blank'}}>{milestone.description}</Linkify>
+                                                    </div>
                                                 </div>
                                             ):null}
 

@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router';
 import { ProgressBar } from 'react-bootstrap';
 import moment from 'moment';
+import Linkify from 'react-linkify';
+
 import Avatar from './Avatar';
 import Progress from './status/Progress';
 import ProgressReportForm from './ProgressReportForm';
@@ -71,7 +73,9 @@ export default class Milestone extends React.Component {
                         {milestone.description?(
                             <div>
                                 <strong>Description</strong>
-                                <div className="description" dangerouslySetInnerHTML={{__html: milestone.description}}/>
+                                <div className="description">
+                                    <Linkify properties={{target: '_blank'}}>{milestone.description}</Linkify>
+                                </div>
                             </div>
                         ):null}
                     </div>
@@ -104,7 +108,9 @@ export default class Milestone extends React.Component {
                                         {report.accomplished?(
                                             <div>
                                                 <strong>Accomplished</strong>
-                                                <div dangerouslySetInnerHTML={{__html: report.accomplished}}/>
+                                                <div>
+                                                    <Linkify properties={{target: '_blank'}}>{report.accomplished}</Linkify>
+                                                </div>
                                             </div>
                                         ):null}
                                         {report.uploads && report.uploads.length?(
@@ -122,19 +128,25 @@ export default class Milestone extends React.Component {
                                         {report.next_steps?(
                                             <div>
                                                 <strong>Next steps</strong>
-                                                <div dangerouslySetInnerHTML={{__html: report.next_steps}}/>
+                                                <div>
+                                                    <Linkify properties={{target: '_blank'}}>{report.next_steps}</Linkify>
+                                                </div>
                                             </div>
                                         ):null}
                                         {report.obstacles?(
                                             <div>
                                                 <strong>Obstacles</strong>
-                                                <div dangerouslySetInnerHTML={{__html: report.obstacles}}/>
+                                                <div>
+                                                    <Linkify properties={{target: '_blank'}}>{report.obstacles}</Linkify>
+                                                </div>
                                             </div>
                                         ):null}
                                         {report.remarks?(
                                             <div>
                                                 <strong>Remarks</strong>
-                                                <div dangerouslySetInnerHTML={{__html: report.remarks}}/>
+                                                <div>
+                                                    <Linkify properties={{target: '_blank'}}>{report.remarks}</Linkify>
+                                                </div>
                                             </div>
                                         ):null}
                                         {isDeveloper() && !is_missed && report.user.id == getUser().id?(

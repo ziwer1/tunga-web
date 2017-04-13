@@ -3,6 +3,8 @@ import { Link } from 'react-router';
 import moment from 'moment';
 import TimeAgo from 'react-timeago';
 import { ProgressBar } from 'react-bootstrap';
+import Linkify from 'react-linkify';
+
 import Progress from './status/Progress';
 import LoadMore from './status/LoadMore';
 import Avatar from './Avatar';
@@ -52,7 +54,7 @@ export default class ActivityList extends React.Component {
                 if(item.action == 'send' && showMessages) {
                     creator = object.sender || object.user;
                     created_at = object.created_at;
-                    body = (<div dangerouslySetInnerHTML={{__html: object.html_body || object.body}}/>);
+                    body = (<Linkify properties={{target: '_blank'}}>{object.body}</Linkify>);
                     uploads = object.attachments;
                 }
                 break;
@@ -60,7 +62,7 @@ export default class ActivityList extends React.Component {
                 if(showMessages) {
                     creator = object.user;
                     created_at = object.created_at;
-                    body = (<div dangerouslySetInnerHTML={{__html: object.html_body}}/>);
+                    body = (<Linkify properties={{target: '_blank'}}>{object.body}</Linkify>);
                     uploads = object.uploads;
                 }
                 break;
@@ -195,7 +197,7 @@ export default class ActivityList extends React.Component {
                                 <ProgressBar bsStyle="success" now={progress} label={`${progress}% Completed`} />
                             </div>
                             {object.accomplished?(
-                                <div dangerouslySetInnerHTML={{__html: object.accomplished}}/>
+                                <Linkify properties={{target: '_blank'}}>{object.accomplished}</Linkify>
                             ):null}
                         </div>
                     );

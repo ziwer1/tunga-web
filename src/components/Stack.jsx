@@ -1,4 +1,5 @@
 import React from 'react';
+import Linkify from 'react-linkify';
 
 import Progress from './status/Progress';
 import FormStatus from './status/FormStatus';
@@ -152,7 +153,9 @@ export default class Stack extends React.Component {
                                             <div>
                                                 Period: {item.start_month_display}/{item.start_year} - {item.end_year?`${item.end_month_display}/${item.end_year}`:'Present'}
                                             </div>
-                                            <div className="short-description" dangerouslySetInnerHTML={{__html: item.details}}/>
+                                            <div className="short-description">
+                                                <Linkify properties={{target: '_blank'}}>{item.details}</Linkify>
+                                            </div>
                                             <button type="button" className="btn" onClick={this.handleAddWork.bind(this, item)}><i className="fa fa-pencil"/> Edit</button>
                                         </div>
                                         )
@@ -176,7 +179,9 @@ export default class Stack extends React.Component {
                                         <div>
                                             Period: {item.start_month_display}/{item.start_year} - {item.end_year?`${item.end_month_display}/${item.end_year}`:'Present'}
                                         </div>
-                                        <div className="short-description" dangerouslySetInnerHTML={{__html: item.details}}/>
+                                        <div className="short-description">
+                                            <Linkify properties={{target: '_blank'}}>{item.details}</Linkify>
+                                        </div>
                                         <button type="button" className="btn" onClick={this.handleAddEducation.bind(this, item)}><i className="fa fa-pencil"/> Edit</button>
                                     </div>
                                         )

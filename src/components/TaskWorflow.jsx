@@ -3,6 +3,7 @@ import {Link} from 'react-router';
 import moment from 'moment';
 import TimeAgo from 'react-timeago';
 import {OverlayTrigger, Popover} from 'react-bootstrap';
+import Linkify from 'react-linkify';
 
 import CommentSection from '../containers/CommentSection';
 import Avatar from './Avatar';
@@ -612,8 +613,9 @@ export default class TaskWorflow extends ComponentWithModal {
                                 {task.description ? (
                                     <div>
                                         <strong>Description</strong>
-                                        <div className="description"
-                                             dangerouslySetInnerHTML={{__html: task.description}}/>
+                                        <div className="description">
+                                            <Linkify properties={{target: '_blank'}}>{task.description}</Linkify>
+                                        </div>
                                     </div>
                                 ) : null}
 
@@ -693,7 +695,9 @@ export default class TaskWorflow extends ComponentWithModal {
                                         return (
                                             <div>
                                                 <strong>{item.title}</strong>
-                                                <div dangerouslySetInnerHTML={{__html: task[item.key]}}/>
+                                                <div>
+                                                    <Linkify properties={{target: '_blank'}}>{task[item.key]}</Linkify>
+                                                </div>
                                             </div>
                                         )
                                     }

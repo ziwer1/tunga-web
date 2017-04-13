@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 import moment from 'moment';
+import Linkify from 'react-linkify';
 
 import Progress from './status/Progress';
 import UserCardProfile from './UserCardProfile';
@@ -165,7 +166,9 @@ export default class ApplicationList extends ComponentWithModal {
                                             {application.pitch?(
                                             <div>
                                                 <p className="title">Motivation</p>
-                                                <div className="description" dangerouslySetInnerHTML={{__html: truncateWords(application.pitch, 12)}}/>
+                                                <div className="description">
+                                                    <Linkify properties={{target: '_blank'}}>{truncateWords(application.pitch, 12)}</Linkify>
+                                                </div>
                                             </div>
                                                 ):null}
                                             {application.hours_needed?(

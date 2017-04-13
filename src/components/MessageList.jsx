@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
 import TimeAgo from 'react-timeago';
+import Linkify from 'react-linkify';
+
 import Progress from './status/Progress';
 import LoadMore from './status/LoadMore';
 import Avatar from './Avatar';
@@ -74,7 +76,9 @@ export default class MessageList extends React.Component {
                                 <Link to={channel?`/people/${message.user.username}/`:`/conversation/${message.channel}/#message${message.id}`}>{message.user.display_name}</Link>
                                 <TimeAgo date={moment.utc(message.created_at).local().format()} className="pull-right"/>
                             </p>
-                            <div dangerouslySetInnerHTML={{__html: message.body}}/>
+                            <div>
+                                <Linkify properties={{target: '_blank'}}>{message.body}</Linkify>
+                            </div>
                             {message.attachments.length?(<Attachments attachments={message.attachments}/>):null}
                         </div>
 
@@ -88,7 +92,9 @@ export default class MessageList extends React.Component {
                                                 <TimeAgo date={moment.utc(other_msg.created_at).local().format()} className="pull-right"/>
                                             </p>
                                         )}
-                                        <div dangerouslySetInnerHTML={{__html: other_msg.body}}/>
+                                        <div>
+                                            <Linkify properties={{target: '_blank'}}>{other_msg.body}</Linkify>
+                                        </div>
                                         {other_msg.attachments.length?(<Attachments attachments={other_msg.attachments}/>):null}
                                     </div>
                                 );
