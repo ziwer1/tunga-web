@@ -48,7 +48,6 @@ export default class MilestoneForm extends React.Component {
 
     render() {
         const milestone = this.props.milestone || {};
-        const description = this.props.milestone?milestone.description:'';
 
         return (
             <div>

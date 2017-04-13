@@ -2,9 +2,12 @@ import React from 'react';
 import moment from 'moment';
 import momentLocalizer from 'react-widgets/lib/localizers/moment';
 import Dropzone from 'react-dropzone';
+import DateTimePicker from 'react-widgets/lib/DateTimePicker';
+
 import FormStatus from './status/FormStatus';
 import FieldError from './status/FieldError';
 import { PROGRESS_REPORT_STATUS_CHOICES } from '../constants/Api';
+import { isDeveloper, getUser, isProjectManager } from '../utils/auth';
 
 momentLocalizer(moment);
 
@@ -12,19 +15,18 @@ export default class ProgressReportForm extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {status: null, accomplished: '', next_steps: '', obstacles: '', remarks: '', attachments: []};
+        this.state = {
+            status: null, accomplished: '', next_steps: '', obstacles: '', remarks: '',
+            last_deadline_met: null, deadline_report: '', next_deadline: null, team_appraisal: '',
+            attachments: []
+        };
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
         const progress_report = this.props.progress_report || {};
         if(progress_report.id) {
-            const status = progress_report.status || null;
-            const accomplished = progress_report.accomplished || '';
-            const next_steps = progress_report.next_steps || '';
-            const obstacles = progress_report.obstacles || '';
-            const remarks = progress_report.remarks || '';
-            this.setState({status, accomplished, next_steps, obstacles, remarks});
+            this.setState({...progress_report});
         }
     }
 
@@ -32,7 +34,11 @@ export default class ProgressReportForm extends React.Component {
         if(this.props.ProgressReport.detail.isSaved && !prevProps.ProgressReport.detail.isSaved) {
             if(!this.props.progress_report) {
                 this.refs.progress_report_form.reset();
-                this.setState({status: null, accomplished: '', next_steps: '', obstacles: '', remarks: '', attachments: []});
+                this.setState({
+                    status: null, accomplished: '', next_steps: '', obstacles: '', remarks: '',
+                    last_deadline_met: null, deadline_report: '', next_deadline: null, team_appraisal: '',
+                    attachments: []
+                });
             }
         }
     }
@@ -47,20 +53,12 @@ export default class ProgressReportForm extends React.Component {
         this.setState({status});
     }
 
-    onAccomplishedChange(e) {
-        this.setState({accomplished: e.target.getContent()});
+    onLastDeadlineStatusChange(last_deadline_met) {
+        this.setState({last_deadline_met});
     }
 
-    onNextStepsChange(e) {
-        this.setState({next_steps: e.target.getContent()});
-    }
-
-    onObstaclesChange(e) {
-        this.setState({obstacles: e.target.getContent()});
-    }
-
-    onRemarksChange(e) {
-        this.setState({remarks: e.target.getContent()});
+    onNextDeadlineChange(date) {
+        this.setState({next_deadline: moment(date).utc().format()});
     }
 
     onDrop(attachments) {
@@ -81,12 +79,19 @@ export default class ProgressReportForm extends React.Component {
         var obstacles = this.state.obstacles;
         var remarks = this.state.remarks;
         const attachments = this.state.attachments;
+        var last_deadline_met = this.state.last_deadline_met;
+        var deadline_report = this.state.deadline_report;
+        var next_deadline = this.state.next_deadline;
+        var team_appraisal = this.state.team_appraisal;
 
         const { ProgressReportActions } = this.props;
         const progress_report = this.props.progress_report || {};
         const milestone = this.props.milestone || {};
 
-        const progress_report_info = {event: milestone.id, status, percentage, accomplished, next_steps, obstacles, remarks};
+        const progress_report_info = {
+            event: milestone.id, status, percentage, accomplished, next_steps, obstacles, remarks,
+            last_deadline_met, deadline_report, next_deadline, team_appraisal
+        };
         if(progress_report.id) {
             ProgressReportActions.updateProgressReport(progress_report.id, progress_report_info);
         } else {
@@ -139,13 +144,57 @@ export default class ProgressReportForm extends React.Component {
                         </div>
                     </div>
 
+                    {isProjectManager()?(
+                        <div>
+                            {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.last_deadline_met)?
+                                (<FieldError message={ProgressReport.detail.error.create.last_deadline_met}/>):null}
+                            {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.last_deadline_met)?
+                                (<FieldError message={ProgressReport.detail.error.update.last_deadline_met}/>):null}
+                            <div className="form-group">
+                                <label className="control-label">Was the last deadline met? *</label>
+                                <div>
+                                    <div className="btn-group btn-choices select" role="group" aria-label="task ststus">
+                                        {[
+                                            {id: true, name: 'Yes'},
+                                            {id: false, name: 'No'}
+                                        ].map(status => {
+                                            return (
+                                                <button key={status.id} type="button"
+                                                        className={"btn " + (typeof this.state.last_deadline_met == 'boolean' && this.state.last_deadline_met == status.id?' active':'')}
+                                                        onClick={this.onLastDeadlineStatusChange.bind(this, status.id)}>{status.name}
+                                                </button>
+                                            )
+                                        })}
+                                    </div>
+                                </div>
+                            </div>
+
+                            {typeof this.state.last_deadline_met == 'boolean' && !this.state.last_deadline_met?(
+                                <div>
+                                    {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.deadline_report)?
+                                        (<FieldError message={ProgressReport.detail.error.create.deadline_report}/>):null}
+                                    {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.deadline_report)?
+                                        (<FieldError message={ProgressReport.detail.error.update.deadline_report}/>):null}
+                                    <div className="form-group">
+                                        <label className="control-label">Why wasn't the last deadline met? Please provide a detailed explanation. *</label>
+                                    <textarea placeholder="Why wasn't the last deadline met? Please provide a detailed explanation."
+                                              className="form-control"
+                                              ref="deadline_report"
+                                              onChange={this.onInputChange.bind(this, 'deadline_report')}
+                                              value={this.state.deadline_report} required>{this.state.deadline_report}</textarea>
+                                    </div>
+                                </div>
+                            ):null}
+                        </div>
+                    ):null}
+
                     {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.accomplished)?
                         (<FieldError message={ProgressReport.detail.error.create.accomplished}/>):null}
                     {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.accomplished)?
                         (<FieldError message={ProgressReport.detail.error.update.accomplished}/>):null}
                     <div className="form-group">
-                        <label className="control-label">What have you accomplished since the last update? *</label>
-                        <textarea placeholder="What have you accomplished since the last update?"
+                        <label className="control-label">What has been accomplished since the last update? *</label>
+                        <textarea placeholder="What has been accomplished since the last update?"
                                   className="form-control"
                                   ref="accomplished"
                                   onChange={this.onInputChange.bind(this, 'accomplished')}
@@ -184,6 +233,31 @@ export default class ProgressReportForm extends React.Component {
                                   onChange={this.onInputChange.bind(this, 'next_steps')}
                                   value={this.state.next_steps} required>{this.state.next_steps}</textarea>
                     </div>
+
+                    {isProjectManager()?(
+                        <div>
+                            <div className="form-group">
+                                <label className="control-label">When is the next deadline? *</label>
+                                <DateTimePicker ref="due_at"
+                                                onChange={this.onNextDeadlineChange.bind(this)}
+                                                defaultValue={this.state.next_deadline?(new Date(moment.utc(this.state.next_deadline).format())):null}
+                                                time={false}/>
+                            </div>
+
+                            {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.team_appraisal)?
+                                (<FieldError message={ProgressReport.detail.error.create.team_appraisal}/>):null}
+                            {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.team_appraisal)?
+                                (<FieldError message={ProgressReport.detail.error.update.team_appraisal}/>):null}
+                            <div className="form-group">
+                                <label className="control-label">Are you satisfied with the performance of the developers on this project, please give details? *</label>
+                            <textarea placeholder="Are you satisfied with the performance of the developers on this project, please give details?"
+                                      className="form-control"
+                                      ref="team_appraisal"
+                                      onChange={this.onInputChange.bind(this, 'team_appraisal')}
+                                      value={this.state.team_appraisal} required>{this.state.team_appraisal}</textarea>
+                            </div>
+                        </div>
+                    ):null}
 
                     {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.obstacles)?
                         (<FieldError message={ProgressReport.detail.error.create.obstacles}/>):null}
