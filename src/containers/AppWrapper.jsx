@@ -19,7 +19,7 @@ export default class AppWrapper extends React.Component {
     render() {
         const {children, location} = this.props;
         return (
-            <div className="app-wrapper" onClick={this.handleAppClick.bind(this)}>
+            <div className="app-wrapper dashboard" onClick={this.handleAppClick.bind(this)}>
                 <Helmet
                     title="Tunga"
                     meta={[

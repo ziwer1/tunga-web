@@ -118,7 +118,7 @@ export default class ChannelForm extends React.Component {
 
                     {isAdmin()?(
                         <div className="form-group">
-                            <label className="control-label">Audience *</label>
+                            {/*<label className="control-label">Audience *</label>*/}
                             <br/>
                             <div className="btn-group btn-choices btn-switch" role="group" aria-label="visibility">
                                 <button type="button"

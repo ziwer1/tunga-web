@@ -139,6 +139,18 @@ form .alert {
     display: block;
 }
 
+.dashboard {
+    .navbar {
+        .navbar-brand {
+            width: 200px;
+
+            img {
+                margin: 0 auto;
+            }
+        }
+    }
+}
+
 .navbar {
     color: @active-white;
     min-height: 60px;
@@ -403,6 +415,10 @@ form[name="comment"], form[name="reply"] {
 
 form[name="task"] {
     max-width: 600px;
+
+    .control-label {
+        .font-size(1.6);
+    }
 }
 
 form[name="invoice"] {
@@ -418,6 +434,7 @@ form {
 form.steps-all {
     .step {
         min-height: initial;
+        min-height: initial;
         height: auto !important;
         overflow-y: visible !important;
     }
@@ -430,6 +447,7 @@ form.steps-all {
 .form-control {
     height: 30px;
     .font-size(1.1);
+    box-shadow: none;
 }
 
 .input-group {
@@ -508,13 +526,13 @@ form[name='compose'] {
     }
 
     .menu-icon {
-        font-size: 1.6em;
+        font-size: 2.5em;
         vertical-align: middle;
-        margin: 0 12px 0 8px;
+        margin: 0 20px 0 8px;
     }
 
     .menu-icon.tunga-icon-running-tasks {
-        font-size: 1.9em;
+        font-size: 2.9em;
         margin-right: 8px;
     }
 
@@ -1274,6 +1292,7 @@ form[name='compose'] {
 
             .day {
                 color: @primary;
+                .font-size(1.6rem);
             }
         }
     }
@@ -1305,7 +1324,7 @@ form[name='compose'] {
                     display: inline-block;
                     color: @active-white;
                     text-align: center;
-                    .font-size(1.0);
+                    .font-size(1.2);
                     border: 1px solid @primary;
                     background: @primary none;
                     margin: 0;
@@ -2615,6 +2634,7 @@ form[name='compose'] {
             margin: 0;
             float: left;
             padding-left: 10px;
+            font-weight: 300;
         }
 
         .slider {
@@ -2709,10 +2729,10 @@ form[name='compose'] {
 
         form {
             max-width: 100%;
-            padding: 20px 0 0;
+            padding: 0;
 
             .step {
-                height: 320px;
+                height: 315px;
                 min-height: initial;
             }
         }
@@ -2721,15 +2741,14 @@ form[name='compose'] {
     .task-section {
         width: 75%;
         float: left;
-        box-shadow: 0 10px 5px 0 rgba(0, 0, 0, 0.2);
-        min-height: 552px;
+        border-right: 1px #eee solid;
+        min-height: 525px;
     }
 
     .dev-section {
         width: 25%;
         float: right;
         padding: 0 10px;
-        height: 552px;
         overflow-y: hidden;
         position: relative;
 
@@ -2741,7 +2760,7 @@ form[name='compose'] {
 
         .dev-list {
             overflow-y: scroll;
-            height: 522px;
+            height: 450px;
         }
 
         .card {
@@ -2781,6 +2800,7 @@ form[name='compose'] {
             margin: 0;
             float: left;
             padding-left: 10px;
+            font-weight: 300;
         }
 
         .slider {
