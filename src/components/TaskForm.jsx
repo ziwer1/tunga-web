@@ -636,7 +636,7 @@ export default class TaskForm extends ComponentWithModal {
                     (<FieldError message={Task.detail.error.update.stack_description}/>):null}
                 <div className="form-group">
                     <label className="control-label">Description of the stack/technology you want to use</label>
-                    <textarea placeholder="Description of the stack/technology you want to use" className="form-control" ref="stack_description" onChange={this.onInputChange.bind(this, 'stack_description')} value={this.state.stack_description}></textarea>
+                    <textarea placeholder="" className="form-control" ref="stack_description" onChange={this.onInputChange.bind(this, 'stack_description')} value={this.state.stack_description}></textarea>
                 </div>
             </div>
         );
@@ -649,7 +649,7 @@ export default class TaskForm extends ComponentWithModal {
                     (<FieldError message={Task.detail.error.update.deliverables}/>):null}
                 <div className="form-group">
                     <label className="control-label">What are the deliverables</label>
-                    <textarea placeholder="What are the deliverables" className="form-control" ref="deliverables" onChange={this.onInputChange.bind(this, 'deliverables')} value={this.state.deliverables}></textarea>
+                    <textarea placeholder="" className="form-control" ref="deliverables" onChange={this.onInputChange.bind(this, 'deliverables')} value={this.state.deliverables}></textarea>
                 </div>
             </div>
         );
@@ -678,7 +678,7 @@ export default class TaskForm extends ComponentWithModal {
                 {(Task.detail.error.update && Task.detail.error.update.fee)?
                     (<FieldError message={Task.detail.error.update.fee}/>):null}
                 <div className="form-group">
-                    <label className="control-label">What is your estimated budget for this {work_type} (in Euros)? - (optional)</label>
+                    <label className="control-label">What is your estimated budget for this {work_type}? - (optional)</label>
                     <div><input type="number" className="form-control" ref="fee" required={!is_project_task && isAuthenticated()} placeholder="Amount in Euros"  onChange={this.onInputChange.bind(this, 'fee')} value={this.state.fee?parseNumber(this.state.fee):''}/></div>
                     {this.state.fee?(
                         <div style={{marginTop: '10px'}}>Estimated Number of development hours: <span className="bold">{estimateDevHoursForFee(this.state.fee)} hr{this.state.fee?'s':''}</span></div>
@@ -973,7 +973,6 @@ export default class TaskForm extends ComponentWithModal {
                 {(Task.detail.error.update && Task.detail.error.update.skype_id)?
                     (<FieldError message={Task.detail.error.update.skype_id}/>):null}
                 <div className="form-group">
-                    <p className="highlight">We'll reach out to you to plan a call to find the perfect match</p>
                     <label className="control-label">Please fill in your skype id</label>
                     <div className="row">
                         <div className="col-md-6">
