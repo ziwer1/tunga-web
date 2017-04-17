@@ -59,7 +59,7 @@ class NavBar extends React.Component {
                     <div id="navbar" className="navbar-collapse collapse">
                         {isAuthenticated()?(
                             <ul className="nav navbar-nav navbar-right">
-                                <li><SearchBox placeholder="Search" query={this.props.location.query.q} hide_results={true} onSearch={this.onSearch.bind(this)}/></li>
+                                <li id="navbar-search"><SearchBox placeholder="Search" query={this.props.location.query.q} hide_results={true} onSearch={this.onSearch.bind(this)}/></li>
                                 {isAuthenticated() && isAdmin()?(
                                     <li className="dropdown">
                                         <a href="#" className="dropdown-toggle account-actions-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -81,7 +81,7 @@ class NavBar extends React.Component {
 
                                     </div>
                                 </li>*/}
-                                <li className="dropdown">
+                                <li className="dropdown" id="navbar-account">
                                     <a href="#" className="dropdown-toggle account-actions-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                         {getUser().display_name} <span className="caret" style={{marginLeft: 5+'px'}} /> <Avatar src={getUser().avatar_url}/>
                                     </a>

@@ -2,6 +2,8 @@ import 'babel-polyfill'; // Add Promises polyfill to global environment
 
 //Import local css
 import 'react-widgets/lib/less/react-widgets.less';
+import "css/tour.scss";
+//import 'react-joyride/lib/react-joyride.scss';
 import "css/style.less";
 
 import React from 'react';

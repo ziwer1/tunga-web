@@ -24,7 +24,8 @@ module.exports = {
         loaders: [
             { test: /\.coffee$/, loader: 'coffee-loader' },
             { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel?cacheDirectory'},
-            { test: /\.less$/, loader: 'style-loader!css-loader!less-loader' }, // use ! to chain loaders
+            { test: /\.less$/, loader: 'style-loader!css-loader!less-loader' },
+            { test: /\.scss$/, loader: 'style-loader!css-loader!sass-loader' },
             { test: /\.css$/, loader: 'style-loader!css-loader' },
             { test: /\.(png|jpg|gif)$/, loader: 'url-loader?limit=8192&name=images/[hash].[ext]?v='+ common_config.hash}, // inline base64 URLs for <=8k images, direct URLs for the rest
             { test: /\.woff(2)?(\?v=[0-9].[0-9].[0-9])?$/, loader: "url-loader?mimetype=application/font-woff&name=fonts/[hash].[ext]" },

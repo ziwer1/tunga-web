@@ -167,7 +167,7 @@ class ChatWindow extends React.Component {
                             <i className="fa fa-times fa-lg"/>
                         </button>
                     ):(
-                        <button className="btn chat-btn" onClick={this.startChannel.bind(this)}>
+                        <button id="support-chat" className="btn chat-btn" onClick={this.startChannel.bind(this)}>
                             <i className={`${isAuthenticated()?'tunga-icon-support':'fa fa-comments fa-lg'}`}/>
                             {this.state.new?(<span className="badge">{this.state.new}</span>):null}
                         </button>
