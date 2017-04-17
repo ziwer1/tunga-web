@@ -1,5 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
+import moment from 'moment';
+
 import connect from '../utils/connectors/NotificationConnector';
 import Clock from '../components/Clock';
 
@@ -40,10 +42,13 @@ class Home extends React.Component {
 
     render() {
         const {Notification} = this.props;
+
+        var imageNumber = (parseInt(moment().format('E') + moment().format('w')) % 5) + 1;
+
         return (
             <div className="home-page">
                 <div className="bg-wrapper">
-                    <img src={require("../images/home/image-5.jpg")}/>
+                    <img src={require(`../images/home/Image-${imageNumber}.jpg`)}/>
                 </div>
 
                 <div className="content">
