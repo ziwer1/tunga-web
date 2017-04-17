@@ -120,9 +120,9 @@ export default class AppWrapper extends React.Component {
 
                 <Joyride ref="joyride"
                          steps={steps}
-                         run={true}
-                         debug={!__PRODUCTION__}
-                         autoStart={!__PRODUCTION__}
+                         run={!__PRODUCTION__ || __PRERELEASE__}
+                         debug={!__PRODUCTION__ || __PRERELEASE__}
+                         autoStart={!__PRODUCTION__ || __PRERELEASE__}
                          type="continuous"
                          showStepsProgress={true}
                          showSkipButton={true}/>
