@@ -2,8 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import { Affix } from 'react-overlays';
 
-import { openTaskWizard } from '../utils/tasks';
-import { showWizard, showCallWidget, openCalendlyWidget } from '../utils/router';
+import { openCalendlyWidget } from '../utils/router';
 
 import ChatWindow from '../containers/ChatWindow';
 
