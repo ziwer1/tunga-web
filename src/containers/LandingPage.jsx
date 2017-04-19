@@ -3,8 +3,7 @@ import {Link} from 'react-router';
 import YouTube from 'react-youtube';
 import Helmet from 'react-helmet';
 import Slider from 'react-slick';
-import { Affix, AutoAffix, Transition } from 'react-overlays';
-import Waypoint from 'react-waypoint';
+import Reveal from 'react-reveal';
 
 import ShowcaseContainer from './ShowcaseContainer';
 import ShowCaseFooter from './ShowCaseFooter';
@@ -129,102 +128,112 @@ export default class LandingPage extends ComponentWithModal {
                 <Helmet title="Tunga | Unlocking Africa's Tech talent potential."/>
 
                 <section id="press">
-                    <Affix affixClassName="animated fadeInUp" affixStyle={{position: 'static'}}>
-                        <div className="container ">
-                            <h2 className="text-center">Featured press</h2>
-                            <ul className="press-links">
-                                <li>
-                                    <a href="http://www.bbc.co.uk/news/world-africa-38294998"
-                                       target="_blank">
-                                        <img src={require("../images/press/bbc.png")}/>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="https://www.youtube.com/watch?v=v9uRtYpZDQs" target="_blank">
-                                        <img src={require("../images/press/campus-party.png")}/>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="https://www.oneworld.nl/startup-tunga-lanceert-pilot-programma-voor-nieuw-soort-freelance-platform"
-                                       target="_blank">
-                                        <img src={require("../images/press/OWlogo.png")}/>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="http://trendwatching.com/blog/featured-innovator-tunga/" target="_blank">
-                                        <img src={require("../images/press/trend-watching.png")}/>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="https://soundcloud.com/african-tech-round-up/a-chat-with-ernesto-spruyt-of-tungaio?in=african-tech-round-up/sets/quick-chats"
-                                       target="_blank">
-                                        <img src={require("../images/press/African-Tech-Round-Up.png")}/>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="http://spendmatters.com/2016/04/01/tunga-wip-of-the-week/" target="_blank">
-                                        <img src={require("../images/press/Spend-Matters.png")}/>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="https://www.nabc.nl/africa-business-news/5/technology/377/tunga-founder-ernesto-spruyt-we-create-21st-century-jobs-in-africa"
-                                       target="_blank">
-                                        <img src={require("../images/press/netherlands-african-business-council.png")}/>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                     </Affix>
+                    <div className="container ">
+                        <Reveal effect="animated fadeInUp">
+                            <div>
+                                <h2 className="text-center">Featured press</h2>
+                                <ul className="press-links">
+                                    <li>
+                                        <a href="http://www.bbc.co.uk/news/world-africa-38294998"
+                                           target="_blank">
+                                            <img src={require("../images/press/bbc.png")}/>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.youtube.com/watch?v=v9uRtYpZDQs" target="_blank">
+                                            <img src={require("../images/press/campus-party.png")}/>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.oneworld.nl/startup-tunga-lanceert-pilot-programma-voor-nieuw-soort-freelance-platform"
+                                           target="_blank">
+                                            <img src={require("../images/press/OWlogo.png")}/>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="http://trendwatching.com/blog/featured-innovator-tunga/" target="_blank">
+                                            <img src={require("../images/press/trend-watching.png")}/>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://soundcloud.com/african-tech-round-up/a-chat-with-ernesto-spruyt-of-tungaio?in=african-tech-round-up/sets/quick-chats"
+                                           target="_blank">
+                                            <img src={require("../images/press/African-Tech-Round-Up.png")}/>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="http://spendmatters.com/2016/04/01/tunga-wip-of-the-week/" target="_blank">
+                                            <img src={require("../images/press/Spend-Matters.png")}/>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.nabc.nl/africa-business-news/5/technology/377/tunga-founder-ernesto-spruyt-we-create-21st-century-jobs-in-africa"
+                                           target="_blank">
+                                            <img src={require("../images/press/netherlands-african-business-council.png")}/>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </Reveal>
+                    </div>
                 </section>
                 <section id="how-it-works">
                     <div className="container">
                         <h2>How it works</h2>
                         <div className="row">
                             <div className="col-md-5">
-                                <AutoAffix affixStyle={{position: 'static'}} onAffix={() => {$('#how-it-works .workflow img').addClass('animated slideInDown')}}>
+                                <Reveal effect="animated fadeIn">
                                     <div className="workflow">
                                         <div className="step">
                                             <i className="icon tunga-icon-post-task"/>
                                             <h5>1. Post your work</h5>
                                         </div>
 
-                                        <span style={{minHeight: '75px'}}>
+                                        <Reveal effect="animated slideInDown">
+                                            <span style={{minHeight: '75px'}}>
                                             <img src={require('../images/down-right.png')}/>
                                         </span>
+                                        </Reveal>
 
                                         <div className="step">
                                             <i className="icon tunga-icon-browse-developers"/>
                                             <h5>2. Select developers</h5>
                                         </div>
 
-                                        <span style={{minHeight: '75px'}}>
+                                        <Reveal effect="animated slideInDown">
+                                            <span style={{minHeight: '75px'}}>
                                             <img src={require('../images/down-left.png')}/>
                                         </span>
+                                        </Reveal>
 
                                         <div className="step">
                                             <i className="icon tunga-icon-manage-tasks"/>
                                             <h5>3. Manage your work</h5>
                                         </div>
 
-                                        <span style={{minHeight: '75px'}}>
+                                        <Reveal effect="animated slideInDown">
+                                            <span style={{minHeight: '75px'}}>
                                             <img src={require('../images/down-right.png')}/>
                                         </span>
+                                        </Reveal>
 
                                         <div className="step">
                                             <i className="icon tunga-icon-make-transaction"/>
                                             <h5>4. Pay your developers</h5>
                                         </div>
 
-                                        <span style={{minHeight: '75px'}}>
+                                        <Reveal effect="animated slideInDown">
+                                            <span style={{minHeight: '75px'}}>
                                             <img src={require('../images/down-left.png')}/>
                                         </span>
+                                        </Reveal>
 
                                         <div className="step">
                                             <i className="icon tunga-icon-build-network"/>
                                             <h5>5. Increase your network</h5>
                                         </div>
                                     </div>
-                                </AutoAffix>
+                                </Reveal>
                             </div>
                             <div id="demo-mbp" className="col-md-7">
                                 <img src={require('../images/mbp.jpg')}/>
@@ -238,60 +247,72 @@ export default class LandingPage extends ComponentWithModal {
                 <section id="clients-testmonial">
                     <div className="container">
                         <h2 className="text-center"><span className="bold">Testimonials</span> </h2>
-                        <AutoAffix affixClassName="animated zoomInDown" affixStyle={{position: 'static'}} onAffix={() => {$('#clients-testmonial .testimonial').addClass('animated zoomInDown')}}>
+                        <Reveal effect="animated fadeIn">
                             <Slider className="testimonials-slider text-center" {...slider_settings}>
                                 {TESTIMONIALS.map(testimonial => {
                                     return (
-                                        <div className="testimonial">
-                                            <div className="body">
-                                                <div>
-                                                    <i className="fa fa-quote-left pull-left"/>
-                                                    <span dangerouslySetInnerHTML={{__html: testimonial.message}}/>
-                                                    <i className="fa fa-quote-right pull-right"/>
+                                        <Reveal effect="animated zoomInDown">
+                                            <div className="testimonial">
+                                                <div className="body">
+                                                    <div>
+                                                        <i className="fa fa-quote-left pull-left"/>
+                                                        <span dangerouslySetInnerHTML={{__html: testimonial.message}}/>
+                                                        <i className="fa fa-quote-right pull-right"/>
+                                                    </div>
                                                 </div>
+                                                <div className="image" style={{backgroundImage: `url(${testimonial.image})`}} />
+                                                <div className="author">{testimonial.name}</div>
+                                                <div className="company">{testimonial.company}</div>
                                             </div>
-                                            <div className="image" style={{backgroundImage: `url(${testimonial.image})`}} />
-                                            <div className="author">{testimonial.name}</div>
-                                            <div className="company">{testimonial.company}</div>
-                                        </div>
+                                        </Reveal>
                                     );
                                 })}
                             </Slider>
-                         </AutoAffix>
+                         </Reveal>
                     </div>
                 </section>
                 <section id="what-we-can-do">
                     <div className="container">
-                        <AutoAffix affixStyle={{position: 'static'}} onAffix={() => {$('#what-we-can-do .row div > span').addClass('animated rollIn')}}>
+                        <Reveal effect="animated fadeIn">
                             <div>
                                 <h2 className="text-center">What we can do</h2>
                                 <div className="row">
                                     <div className="col-sm-4" id="building-websites">
-                                        <span></span>
+                                        <Reveal effect="animated rollIn">
+                                            <span/>
+                                        </Reveal>
                                         <p>Full stack capacity for web development available</p>
                                     </div>
                                     <div className="col-sm-4" id="solving-issues">
-                                        <span></span>
+                                        <Reveal effect="animated rollIn">
+                                            <span/>
+                                        </Reveal>
                                         <p>Building custom service integrations and solving issues in your
                                             Github/Gitlab/Bitbucket workflow</p>
                                     </div>
                                     <div className="col-sm-4" id="full-stack">
-                                        <span></span>
+                                        <Reveal effect="animated rollIn">
+                                            <span/>
+                                        </Reveal>
                                         <p>Scheduled progress reports from our developers for maximum overview</p>
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="col-sm-offset-1 col-sm-5" id="mobile-app">
-                                        <span></span>
+                                        <Reveal effect="animated rollIn">
+                                            <span/>
+                                        </Reveal>
                                         <p>Mobile application developments & maintenance</p>
                                     </div>
                                     <div className="col-sm-5" id="html-slicing">
-                                        <span></span>
+                                        <Reveal effect="animated rollIn">
+                                            <span/>
+                                        </Reveal>
                                         <p>HTML Slicing (PSD to HTML)</p>
                                     </div>
                                 </div>
                             </div>
-                        </AutoAffix>
+                        </Reveal>
                     </div>
 
                 </section>
