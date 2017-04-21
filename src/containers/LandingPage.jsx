@@ -93,7 +93,7 @@ export default class LandingPage extends ComponentWithModal {
                         Instant access to skilled <br/>
                         African software developers.
                     </h1>
-                    <p className="details">
+                    <p className="details animated fadeIn">
                         <span>Easy set up</span>
                         <span className="fa fa-circle"/>
                         <span>Free to connect with freelancers</span>
@@ -123,7 +123,9 @@ export default class LandingPage extends ComponentWithModal {
         };
 
         return (
-            <ShowcaseContainer className="landing-page" headerContent={this.renderHeaderContent()}
+            <ShowcaseContainer className="landing-page"
+                               headerContent={this.renderHeaderContent()}
+                               headerVideo={true}
                                chatId={this.props.params?this.props.params.chatId:null}>
                 <Helmet title="Tunga | Unlocking Africa's Tech talent potential."/>
 
