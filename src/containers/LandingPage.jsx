@@ -34,6 +34,12 @@ let TESTIMONIALS = [
         message: "We were pleasently surprised with how easy it was to get the right person onboard and the Ugandan developer we worked with professionally executed the project in a satisfactory manner."
     },
     {
+        name: 'Marion',
+        company: 'Blog Society',
+        image: require("../images/testimonials/marion.jpg"),
+        message: "We are not developers ourselves and we are very happy with the high level of customer service and the proactive stance of the Tunga people, to help us bring our ideas to life."
+    },
+    {
         name: 'Michiel',
         company: 'Gaspedaal',
         image: require("../images/testimonials/michiel.jpg"),
@@ -44,12 +50,6 @@ let TESTIMONIALS = [
         company: 'Yoohcan',
         image: require("../images/testimonials/annette.jpg"),
         message: "I have to admit I was a bit sceptic at first, but the quality was good and the process was smooth. And at these rates using Tunga is a no-brainer for us."
-    },
-    {
-        name: 'Marion',
-        company: 'Blog Society',
-        image: require("../images/testimonials/marion.jpg"),
-        message: "We are not developers ourselves and we are very happy with the high level of customer service and the proactive stance of the Tunga people, to help us bring our ideas to life."
     }
 ];
 
