@@ -8,7 +8,7 @@ import ShowcaseContainer from './ShowcaseContainer';
 import ShowCaseFooter from './ShowCaseFooter';
 import ComponentWithModal from '../components/ComponentWithModal';
 
-import { openTaskWizard } from '../utils/tasks';
+import { openTaskWizard, getDLPTaskType } from '../utils/tasks';
 import { showWizard, showCallWidget, openCalendlyWidget } from '../utils/router';
 
 import { sendGAEvent, GA_EVENT_CATEGORIES, GA_EVENT_ACTIONS, GA_EVENT_LABELS } from '../utils/tracking';
@@ -102,13 +102,43 @@ export default class LandingPage extends ComponentWithModal {
         }
     }
 
+    getDLPTag() {
+        const { location } = this.props;
+        if(location && location.query.dlp_tag) {
+            return location.query.dlp_tag;
+        }
+        return null;
+    }
+
+    getDLPDesc() {
+        const { location } = this.props;
+        if(location && location.query.dlp_desc) {
+            return location.query.dlp_desc;
+        }
+        return null;
+    }
+
+    getDLPPhrase() {
+        const tag = this.getDLPTag();
+        const desc = this.getDLPDesc();
+        if(tag || desc) {
+            return `${this.getDLPTag() || 'software'} ${this.getDLPDesc() || 'developers'}`;
+        }
+        return null;
+    }
+
+
     renderHeaderContent() {
+
+        const dlp_phrase = this.getDLPPhrase();
+        const dlp_tag = this.getDLPTag();
+
         return (
             <div>
                 <div className="head-desc">
                     <h1>
                         Instant access to skilled <br/>
-                        African software developers.
+                        African {this.getDLPTag() || 'software'} {this.getDLPDesc() || 'developers'}.
                     </h1>
                     <p className="details">
                         <span>Easy set up</span>
@@ -120,8 +150,15 @@ export default class LandingPage extends ComponentWithModal {
                     <div>
                         <button to="/work/new/"
                                 className="btn btn-callout"
-                                onClick={openTaskWizard}>
-                            Get Started
+                                onClick={
+                                    () => {
+                                        openTaskWizard({
+                                            type: getDLPTaskType(dlp_tag),
+                                            skills: dlp_tag?[dlp_tag]:[]
+                                        })
+                                    }
+                                }>
+                            {dlp_phrase?`Start hiring ${dlp_phrase}`:'Get Started'}
                         </button>
                     </div>
                 </div>

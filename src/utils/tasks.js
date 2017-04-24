@@ -7,7 +7,7 @@ import TaskContainer from '../containers/TaskContainer';
 import TaskForm from '../components/TaskForm';
 
 import createModal from '../components/Modal';
-import {DEVELOPER_FEE, PM_FEE, TUNGA_PERCENTAGE_DEVELOPER, STATUS_SUBMITTED, STATUS_APPROVED, STATUS_ACCEPTED} from '../constants/Api';
+import {DEVELOPER_FEE, PM_FEE, TUNGA_PERCENTAGE_DEVELOPER, STATUS_SUBMITTED, STATUS_APPROVED, STATUS_ACCEPTED, TASK_TYPE_WEB, TASK_TYPE_MOBILE, TASK_TYPE_OTHER} from '../constants/Api';
 
 import {isAdmin, getUser} from '../utils/auth';
 import {parseNumber} from '../utils/helpers';
@@ -26,6 +26,28 @@ export function parse_task_status(task) {
         task_status.css = 'in-progress';
     }
     return task_status;
+}
+
+
+export const DLP_WEB_TAGS = [
+    'php', 'wordpress', 'jquery', 'node.js', 'bootstrap',
+    'react.js', 'angularjs', 'rails', 'django', 'express.js', 'ruby on rails',
+    'html', 'css', 'css3', 'html5', 'javascript', 'flask'
+];
+export const DLP_MOBILE_TAGS = [
+    'android', 'ios', 'windows mobile',
+    'ionic', 'react native', 'apache cordova', 'cordova'
+];
+
+export function getDLPTaskType(tag) {
+    tag = tag.toLowerCase();
+    console.log('tag', tag);
+    if(DLP_WEB_TAGS.indexOf(tag) > -1) {
+        return TASK_TYPE_WEB;
+    } else if(DLP_MOBILE_TAGS.indexOf(tag) > -1) {
+        return TASK_TYPE_MOBILE;
+    }
+    return null;
 }
 
 export function openTaskWizard(options={}) {

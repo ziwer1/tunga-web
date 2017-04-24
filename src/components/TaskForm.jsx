@@ -49,7 +49,7 @@ export default class TaskForm extends ComponentWithModal {
             step: 1, schedule: null, attachments: [], showAll: false, milestones: [],
             modalMilestone: null, modalContent: null, modalTitle: '', coders_needed: null, type: null,
             has_requirements: null, pm_required: null, billing_method: null, stack_description: '', deliverables: '',
-            skype_id: '', contact_required: null, has_more_info: null, overrideErrors: false
+            skype_id: '', contact_required: null, has_more_info: null, overrideErrors: false, ...props.options
         };
     }
 
@@ -1303,15 +1303,17 @@ export default class TaskForm extends ComponentWithModal {
                     ];
                 }
 
-                sections = [
-                    {
-                        title: 'What kind of work do you have?',
-                        items: [taskTypeComp],
-                        required: true,
-                        forks: ['type']
-                    },
-                    ...sections
-                ];
+                if(!options || !options.type) {
+                    sections = [
+                        {
+                            title: 'What kind of work do you have?',
+                            items: [taskTypeComp],
+                            required: true,
+                            forks: ['type']
+                        },
+                        ...sections
+                    ];
+                }
             }
 
             sections = [
