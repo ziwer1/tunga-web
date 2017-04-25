@@ -61,76 +61,70 @@ class Home extends React.Component {
 
                     <div className={`notification-list ${isAdmin() || isProjectManager()?'large':''}`}>
                         <ul>
-                            <li>
-                                <Link to="/profile">
+                            {Notification.notifications.profile &&
+                            Notification.notifications.profile.missing &&
+                            Notification.notifications.profile.missing.length?(
+                                <li>
+                                    <Link to="/profile">
+                                        <span className="icon">
+                                            <i className="tunga-icon-profile"/> <span className="badge">{Notification.notifications.profile.missing.length}</span>
+                                        </span><br/>
+                                        My Profile
+                                    </Link>
+                                </li>
+                            ):null}
+                            {Notification.notifications.requests?(
+                                <li>
+                                    <Link to="/people/filter/requests">
                                 <span className="icon">
-                                    <i className="tunga-icon-profile"/>
-                                    {Notification.notifications.profile &&
-                                    Notification.notifications.profile.missing &&
-                                    Notification.notifications.profile.missing.length?(
-                                        <span className="badge">{Notification.notifications.profile.missing.length}</span>
-                                    ):null}
+                                    <i className="tunga-icon-tribe"/> <span className="badge">{Notification.notifications.requests}</span>
                                 </span><br/>
-                                    My Profile
-                                </Link>
-                            </li>
-                            <li>
-                                <Link to="/people/filter/requests">
+                                        Tribe
+                                    </Link>
+                                </li>
+                            ):null}
+                            {Notification.notifications.messages?(
+                                <li>
+                                    <Link to="/conversation">
                                 <span className="icon">
-                                    <i className="tunga-icon-tribe"/>
-                                    {Notification.notifications.requests?(
-                                        <span className="badge">{Notification.notifications.requests}</span>
-                                    ):null}
+                                    <i className="tunga-icon-message"/> <span className="badge">{Notification.notifications.messages}</span>
                                 </span><br/>
-                                    Tribe
-                                </Link>
-                            </li>
-                            <li>
-                                <Link to="/conversation">
+                                        Messages
+                                    </Link>
+                                </li>
+                            ):null}
+                            {Notification.notifications.tasks?(
+                                <li>
+                                    <Link to="/work/filter/running">
                                 <span className="icon">
-                                    <i className="tunga-icon-message"/>
-                                    {Notification.notifications.messages?(
-                                        <span className="badge">{Notification.notifications.messages}</span>
-                                    ):null}
+                                    <i className="tunga-icon-running-tasks"/> <span className="badge">{Notification.notifications.tasks}</span>
                                 </span><br/>
-                                    Messages
-                                </Link>
-                            </li>
-                            <li>
-                                <Link to="/work/filter/running">
-                                <span className="icon">
-                                    <i className="tunga-icon-running-tasks"/>
-                                    {Notification.notifications.tasks?(
-                                        <span className="badge">{Notification.notifications.tasks}</span>
-                                    ):null}
-                                </span><br/>
-                                    Running tasks
-                                </Link>
-                            </li>
+                                        Running tasks
+                                    </Link>
+                                </li>
+                            ):null}
                             {isAdmin() || isProjectManager()?(
                                 [
-                                    <li>
-                                        <Link to="/work/filter/estimates">
+                                    Notification.notifications.estimates?(
+                                        <li>
+                                            <Link to="/work/filter/estimates">
                                             <span className="icon">
-                                                <i className="tunga-icon-project"/>
-                                                {Notification.notifications.estimates?(
-                                                    <span className="badge">{Notification.notifications.estimates}</span>
-                                                ):null}
+                                                <i className="tunga-icon-project"/> <span className="badge">{Notification.notifications.estimates}</span>
                                             </span><br/>
-                                            Estimates
-                                        </Link>
-                                    </li>,
-                                    <li>
-                                        <Link to="/work/filter/quotes">
+                                                Estimates
+                                            </Link>
+                                        </li>
+                                    ):null,
+                                    Notification.notifications.quotes?(
+                                        <li>
+                                            <Link to="/work/filter/quotes">
                                             <span className="icon">
-                                                <i className="tunga-icon-project"/>
-                                                {Notification.notifications.quotes?(
-                                                    <span className="badge">{Notification.notifications.quotes}</span>
-                                                ):null}
+                                                <i className="tunga-icon-project"/> <span className="badge">{Notification.notifications.quotes}</span>
                                             </span><br/>
-                                            Quotes
-                                        </Link>
-                                    </li>
+                                                Quotes
+                                            </Link>
+                                        </li>
+                                    ):null
                                 ]
                             ):null}
                         </ul>
