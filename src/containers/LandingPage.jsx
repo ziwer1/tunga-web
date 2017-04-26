@@ -132,13 +132,14 @@ export default class LandingPage extends ComponentWithModal {
 
         const dlp_phrase = this.getDLPPhrase();
         const dlp_tag = this.getDLPTag();
+        const dlp_desc = this.getDLPDesc();
 
         return (
             <div>
                 <div className="head-desc">
                     <h1>
                         Instant access to skilled <br/>
-                        African {this.getDLPTag() || 'software'} {this.getDLPDesc() || 'developers'}.
+                        African {this.getDLPTag() || 'software'} {dlp_desc?dlp_desc.toLowerCase():'developers'}.
                     </h1>
                     <p className="details">
                         <span>Easy set up</span>

@@ -40,12 +40,13 @@ export const DLP_MOBILE_TAGS = [
 ];
 
 export function getDLPTaskType(tag) {
-    tag = tag.toLowerCase();
-    console.log('tag', tag);
-    if(DLP_WEB_TAGS.indexOf(tag) > -1) {
-        return TASK_TYPE_WEB;
-    } else if(DLP_MOBILE_TAGS.indexOf(tag) > -1) {
-        return TASK_TYPE_MOBILE;
+    if(tag) {
+        tag = tag.toLowerCase();
+        if(DLP_WEB_TAGS.indexOf(tag) > -1) {
+            return TASK_TYPE_WEB;
+        } else if(DLP_MOBILE_TAGS.indexOf(tag) > -1) {
+            return TASK_TYPE_MOBILE;
+        }
     }
     return null;
 }
