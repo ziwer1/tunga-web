@@ -16,14 +16,14 @@ import LargeModal from './LargeModal';
 import MilestoneForm from './MilestoneForm';
 
 import {
-    USER_TYPE_DEVELOPER, TASK_TYPE_CHOICES, TASK_SCOPE_CHOICES, TASK_SCOPE_CHOICES_NEW_USER, TASK_SCOPE_ONGOING, TASK_SCOPE_PROJECT,
+    USER_TYPE_DEVELOPER, USER_TYPE_PROJECT_MANAGER, TASK_TYPE_CHOICES, TASK_SCOPE_CHOICES, TASK_SCOPE_CHOICES_NEW_USER, TASK_SCOPE_ONGOING, TASK_SCOPE_PROJECT,
     TASK_BILLING_METHOD_CHOICES, TASK_BILLING_METHOD_FIXED, TASK_BILLING_METHOD_HOURLY, TASK_CODERS_NEEDED_CHOICES,
     TASK_VISIBILITY_CHOICES, VISIBILITY_DEVELOPERS, VISIBILITY_CUSTOM, UPDATE_SCHEDULE_CHOICES, suggestTaskTypeSkills,
     TASK_TYPE_OTHER, TASK_SCOPE_TASK
 } from '../constants/Api';
 
 import { getTaskTypeUrl, getScopeUrl, sendGAPageView } from '../utils/tracking';
-import { isAuthenticated, getUser, isAdmin, openProfileWizard } from '../utils/auth';
+import { isAuthenticated, isProjectManager, getUser, isAdmin, openProfileWizard } from '../utils/auth';
 import { estimateDevHoursForFee } from '../utils/tasks';
 import { parseNumber } from '../utils/helpers';
 
@@ -49,7 +49,7 @@ export default class TaskForm extends ComponentWithModal {
             step: 1, schedule: null, attachments: [], showAll: false, milestones: [],
             modalMilestone: null, modalContent: null, modalTitle: '', coders_needed: null, type: null,
             has_requirements: null, pm_required: null, billing_method: null, stack_description: '', deliverables: '',
-            skype_id: '', contact_required: null, has_more_info: null, overrideErrors: false, ...props.options
+            skype_id: '', contact_required: null, has_more_info: null, overrideErrors: false, pm: null, ...props.options
         };
     }
 
@@ -105,7 +105,7 @@ export default class TaskForm extends ComponentWithModal {
                     description: '', remarks: '', visibility: VISIBILITY_DEVELOPERS,
                     assignee: null, participants: [], schedule: null, attachments: [], showAll: false,
                     step: 1, milestones: [], modalMilestone: null, modalContent: null, modalTitle: '', coders_needed: null,
-                    type: null, has_requirements: null, pm_required: null,
+                    type: null, has_requirements: null, pm_required: null, pm: null,
                     billing_method: null, stack_description: '', deliverables: '', skype_id: '', contact_required: null,
                     has_more_info: false
                 });
@@ -262,7 +262,15 @@ export default class TaskForm extends ComponentWithModal {
         if(Array.isArray(users) && users.length) {
             assignee = users[0];
         }
-        this.setState({assignee: assignee});
+        this.setState({assignee});
+    }
+
+    onPMChange(users) {
+        var pm = null;
+        if(Array.isArray(users) && users.length) {
+            pm = users[0];
+        }
+        this.setState({pm});
     }
 
     onParticipantChange(users) {
@@ -300,10 +308,20 @@ export default class TaskForm extends ComponentWithModal {
     }
 
     onStateValueChange(key, value) {
+        const task = this.props.task || {};
+
         var new_state = {};
         new_state[key] = value;
         if(key == 'type') {
             new_state.skills = Array.from(new Set([...this.state.skills, ...suggestTaskTypeSkills(value)['selected']]));
+        }
+
+        if(key == 'scope') {
+            if(value == TASK_SCOPE_TASK) {
+                new_state.pm_required = false;
+            } else if(!task.id && isProjectManager()) {
+                new_state.pm_required = false;
+            }
         }
 
         this.setState(new_state);
@@ -350,6 +368,7 @@ export default class TaskForm extends ComponentWithModal {
         req_data.last_name = this.refs.last_name?this.refs.last_name.value.trim():null;
 
         req_data.visibility = this.state.visibility;
+        req_data.pm = this.state.pm;
 
         var schedule_id = this.state.schedule || null;
         var update_schedule = null;
@@ -574,7 +593,7 @@ export default class TaskForm extends ComponentWithModal {
                         <div className="btn-choices" role="group">
                             {[
                                 {id: true, name: 'Get me in touch with a project manager'},
-                                {id: false, name: 'Fill in more information and get an estimate'}
+                                {id: false, name: `Fill in more information${isAdmin()?'':' and get an estimate'}`}
                             ].map(contact_options => {
                                 return (
                                     <button key={contact_options.id} type="button"
@@ -828,6 +847,22 @@ export default class TaskForm extends ComponentWithModal {
             </div>
         );
 
+        let pmComp = (
+            <div>
+                {(Task.detail.error.create && Task.detail.error.create.pm)?
+                    (<FieldError message={Task.detail.error.create.pm}/>):null}
+                {(Task.detail.error.update && Task.detail.error.update.pm)?
+                    (<FieldError message={Task.detail.error.update.pm}/>):null}
+                <div className="form-group">
+                    <label className="control-label">Project Manager</label>
+                    <UserSelector filter={{type: USER_TYPE_PROJECT_MANAGER}}
+                                  onChange={this.onPMChange.bind(this)}
+                                  selected={task.pm?[task.pm]:[]}
+                                  max={1}/>
+                </div>
+            </div>
+        );
+
         let visibilityComp = (
             <div>
                 {(Task.detail.error.create && Task.detail.error.create.visibility)?
@@ -1069,7 +1104,8 @@ export default class TaskForm extends ComponentWithModal {
                     deliverables: deliverablesComp,
                     stack: stackDescComp,
                     files: filesComp,
-                    updates: updatesComp
+                    updates: updatesComp,
+                    pm: pmComp
                 };
 
 
@@ -1157,15 +1193,17 @@ export default class TaskForm extends ComponentWithModal {
                 ];
 
                 if(is_project) {
-                    sections = [
-                        ...sections,
-                        {
-                            title: `Do you want a project manager for this ${work_type}?`,
-                            items: [requiresPMComp],
-                            required: true,
-                            forks: ['pm_required']
-                        }
-                    ];
+                    if(!isProjectManager()) {
+                        sections = [
+                            ...sections,
+                            {
+                                title: `Do you want a project manager for this ${work_type}?`,
+                                items: [requiresPMComp],
+                                required: true,
+                                forks: ['pm_required']
+                            }
+                        ];
+                    }
 
                     var stepComps = [];
 
@@ -1191,8 +1229,6 @@ export default class TaskForm extends ComponentWithModal {
                                 forks: ['contact_required']
                             }
                         ];
-
-
                     } else {
                         sections = [
                             ...sections,
@@ -1212,6 +1248,17 @@ export default class TaskForm extends ComponentWithModal {
                             }
                         ];
                     }
+
+                    if(isAdmin() || isProjectManager()) {
+                        sections = [
+                            ...sections,
+                            {
+                                title: `Who would you like to see your ${work_type}?`,
+                                items: [visibilityComp]
+                            }
+                        ];
+                    }
+
                 } else {
                     sections = [
                         ...sections,
@@ -1229,6 +1276,8 @@ export default class TaskForm extends ComponentWithModal {
                         }
                     ]
                 }
+
+
             }
 
             if(!(enabledWidgets && enabledWidgets.length) && !task.id && !is_project_task && !canShowAll) {
