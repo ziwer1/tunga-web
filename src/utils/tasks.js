@@ -11,6 +11,7 @@ import {DEVELOPER_FEE, PM_FEE, TUNGA_PERCENTAGE_DEVELOPER, STATUS_SUBMITTED, STA
 
 import {isAdmin, getUser} from '../utils/auth';
 import {parseNumber} from '../utils/helpers';
+import {getTaskTypeUrl, getScopeUrl} from '../utils/tracking';
 
 export function parse_task_status(task) {
     let work_type = task.is_project?'project':'task';
@@ -49,6 +50,36 @@ export function getDLPTaskType(tag) {
         }
     }
     return null;
+}
+
+export function getAcquisitionUrl(task, completed=false) {
+    if(task.id) {
+        var suffix = '';
+        const scope_url = getScopeUrl(task.scope);
+        if(scope_url) {
+            suffix = '/scope/' + scope_url + suffix;
+        }
+
+        const type_url = getTaskTypeUrl(task.type);
+        if(type_url) {
+            suffix = '/type/' + type_url + suffix;
+        }
+        return window.location.protocol + '//' + window.location.hostname+ (window.location.port?`:${window.location.port}`:'') + '/lead' + (task.source == 2?'/member':'/new') + `/${task.id}/${completed?'complete':'start'}` + suffix;
+    }
+    return null;
+}
+
+export function hasStarted(task) {
+    var started = false;
+    console.log('participation', task.participation);
+    if(task.participation) {
+        task.participation.forEach(item => {
+            if(item.status == STATUS_ACCEPTED) {
+                started = true;
+            }
+        });
+    }
+    return started;
 }
 
 export function openTaskWizard(options={}) {

@@ -9,7 +9,9 @@ import ComponentWithModal from './ComponentWithModal';
 import LargeModal from './LargeModal';
 
 import confirm from '../utils/confirm';
-import { getTotalFee } from '../utils/tasks';
+import { getTotalFee, getAcquisitionUrl, hasStarted } from '../utils/tasks';
+import { sendGAPageView } from '../utils/tracking';
+
 import { STATUS_REJECTED, STATUS_INITIAL, STATUS_ACCEPTED } from '../constants/Api';
 
 
@@ -34,7 +36,21 @@ export default class ApplicationList extends ComponentWithModal {
                     modalStep: 'confirm'
                 });
             }
-            window.location.reload();
+
+            if(hasStarted(prevProps.task)) {
+                this.props.TaskActions.retrieveTask(this.props.task.id);
+            }
+        }
+
+        if(prevProps.task && this.props.task) {
+            const had_started = hasStarted(prevProps.task);
+            const has_started = hasStarted(this.props.task);
+
+            if(!had_started && has_started) {
+                sendGAPageView(getAcquisitionUrl(this.props.task, true));
+                
+                this.props.TaskActions.retrieveTask(this.props.task.id);
+            }
         }
     }
 

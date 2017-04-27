@@ -24,7 +24,7 @@ import {
 
 import { getTaskTypeUrl, getScopeUrl, sendGAPageView } from '../utils/tracking';
 import { isAuthenticated, isProjectManager, getUser, isAdmin, openProfileWizard } from '../utils/auth';
-import { estimateDevHoursForFee } from '../utils/tasks';
+import { estimateDevHoursForFee, getAcquisitionUrl } from '../utils/tasks';
 import { parseNumber } from '../utils/helpers';
 
 momentLocalizer(moment);
@@ -95,6 +95,8 @@ export default class TaskForm extends ComponentWithModal {
         if(this.props.Task.detail.isSaved && !prevProps.Task.detail.isSaved) {
             this.reportFunnelUrl(this.getStepUrl(true));
 
+            this.reportAcquistion();
+
             const { Task } = this.props;
             if(!this.props.task) {
                 if(this.refs.task_form) {
@@ -121,7 +123,7 @@ export default class TaskForm extends ComponentWithModal {
             return this.state[key] != prevState[key];
         });
 
-        if(path_change.indexOf(true) > -1) {
+        if(path_change.indexOf(true) > -1 && !this.props.Task.detail.isSaved) {
             this.reportFunnelUrl(this.getStepUrl());
         }
     }
@@ -177,7 +179,15 @@ export default class TaskForm extends ComponentWithModal {
         if(type_url && this.canShowFork('type')) {
             suffix = '/type/' + type_url + suffix;
         }
-        return window.location.protocol + (window.location.port?window.location.port:'') + '//' + window.location.hostname + (isAuthenticated()?'/work/new':'/start') + suffix;
+        return window.location.protocol + '//' + window.location.hostname + (window.location.port?`:${window.location.port}`:'') + (isAuthenticated()?'/work/new':'/start') + suffix;
+    }
+
+    reportAcquistion() {
+        const task = this.props.Task.detail.task;
+        const url = getAcquisitionUrl(task);
+        if(!this.props.task && url) {
+            sendGAPageView(url);
+        }
     }
 
     canShowFork(fork) {

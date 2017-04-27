@@ -16,13 +16,14 @@ import MilestoneContainer from '../containers/MilestoneContainer';
 import Milestone from './Milestone';
 import TagList from './TagList';
 
-import {parse_task_status, canAddEstimate, canEditEstimate, canViewEstimate, canAddQuote, canEditQuote, canViewQuote} from '../utils/tasks';
+import {parse_task_status, canAddEstimate, canEditEstimate, canViewEstimate, canAddQuote, canEditQuote, canViewQuote, getAcquisitionUrl, hasStarted} from '../utils/tasks';
 import {render_summary} from '../utils/html';
 import {getTaskKey} from '../utils/reducers';
 import confirm from '../utils/confirm';
 
 import { SOCIAL_PROVIDERS } from '../constants/Api';
 import { isAdmin, getUser } from '../utils/auth';
+import { sendGAPageView } from '../utils/tracking';
 
 import { STATUS_REJECTED, STATUS_ACCEPTED, STATUS_INITIAL } from '../constants/Api';
 
@@ -77,6 +78,17 @@ export default class TaskWorflow extends ComponentWithModal {
 
         if (nextProps.Task.detail.task.closed != this.props.Task.detail.task.closed) {
             this.redirectToNextStep(nextProps);
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if(prevProps.task && this.props.task) {
+            const had_started = hasStarted(prevProps.task);
+            const has_started = hasStarted(this.props.task);
+
+            if(!had_started && has_started) {
+                sendGAPageView(getAcquisitionUrl(this.props.task, true));
+            }
         }
     }
 
