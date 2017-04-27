@@ -89,11 +89,11 @@ export default class LandingPage extends ComponentWithModal {
         return (
             <div>
                 <div className="head-desc">
-                    <h1 className="animated bounce">
+                    <h1 className="animated">
                         Instant access to skilled <br/>
                         African software developers.
                     </h1>
-                    <p className="details animated fadeIn">
+                    <p className="details animated">
                         <span>Easy set up</span>
                         <span className="fa fa-circle"/>
                         <span>Free to connect with freelancers</span>
@@ -102,7 +102,7 @@ export default class LandingPage extends ComponentWithModal {
                     </p>
                     <div>
                         <button to="/work/new/"
-                                className="btn btn-callout animated fadeInDown"
+                                className="btn btn-callout animated"
                                 onClick={openTaskWizard}>
                             Get Started
                         </button>
@@ -131,7 +131,7 @@ export default class LandingPage extends ComponentWithModal {
 
                 <section id="press">
                     <div className="container ">
-                        <Reveal effect="animated fadeInUp">
+                        <Reveal effect="animated fadeInLeft">
                             <div>
                                 <h2 className="text-center">Featured press</h2>
                                 <ul className="press-links">
@@ -191,44 +191,36 @@ export default class LandingPage extends ComponentWithModal {
                                             <h5>1. Post your work</h5>
                                         </div>
 
-                                        <Reveal effect="animated slideInDown">
-                                            <span style={{minHeight: '75px'}}>
+                                        <span style={{minHeight: '75px'}}>
                                             <img src={require('../images/down-right.png')}/>
                                         </span>
-                                        </Reveal>
 
                                         <div className="step">
                                             <i className="icon tunga-icon-browse-developers"/>
                                             <h5>2. Select developers</h5>
                                         </div>
 
-                                        <Reveal effect="animated slideInDown">
-                                            <span style={{minHeight: '75px'}}>
+                                        <span style={{minHeight: '75px'}}>
                                             <img src={require('../images/down-left.png')}/>
                                         </span>
-                                        </Reveal>
 
                                         <div className="step">
                                             <i className="icon tunga-icon-manage-tasks"/>
                                             <h5>3. Manage your work</h5>
                                         </div>
 
-                                        <Reveal effect="animated slideInDown">
-                                            <span style={{minHeight: '75px'}}>
+                                        <span style={{minHeight: '75px'}}>
                                             <img src={require('../images/down-right.png')}/>
                                         </span>
-                                        </Reveal>
 
                                         <div className="step">
                                             <i className="icon tunga-icon-make-transaction"/>
                                             <h5>4. Pay your developers</h5>
                                         </div>
 
-                                        <Reveal effect="animated slideInDown">
-                                            <span style={{minHeight: '75px'}}>
+                                        <span style={{minHeight: '75px'}}>
                                             <img src={require('../images/down-left.png')}/>
                                         </span>
-                                        </Reveal>
 
                                         <div className="step">
                                             <i className="icon tunga-icon-build-network"/>
