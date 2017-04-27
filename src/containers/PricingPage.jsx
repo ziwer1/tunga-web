@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
@@ -12,21 +13,18 @@ import ComponentWithModal from '../components/ComponentWithModal';
 import LargeModal from '../components/LargeModal';
 
 import { OFFER_REQUEST_ITEMS, TASK_SCOPE_TASK, TASK_SCOPE_PROJECT } from '../constants/Api';
-import { openTaskWizard } from '../utils/tasks';
 import { openCalendlyWidget } from '../utils/router';
 
 const OFFER_DETAILS = [
     {
         title: 'Tasks',
         sub: 'Post your task on Tunga',
-        description: 'Agree with a developer on the fee. We recommend calculating the fee with around 19 euro depending on the complexity of your task. ',
+        description: 'Agree with a developer on the fee. We recommend calculating the fee with around €19 depending on the complexity of your task. ',
         icon: 'tunga-icon-do-it-yourself',
         key: OFFER_REQUEST_ITEMS.self_guided,
         cta: {
             text: 'Start a task now',
-            action: function () {
-                openTaskWizard({scope: TASK_SCOPE_TASK});
-            }
+            link: `/start/?scope=${TASK_SCOPE_TASK}`
         }
     },
     {
@@ -37,9 +35,7 @@ const OFFER_DETAILS = [
         key: OFFER_REQUEST_ITEMS.onboarding,
         cta: {
             text: 'Start a project now',
-            action: function () {
-                openTaskWizard({scope: TASK_SCOPE_PROJECT});
-            }
+            link: `/start/?scope=${TASK_SCOPE_PROJECT}`
         }
     },
     {
@@ -195,6 +191,8 @@ class PricingPage extends ComponentWithModal {
 
     render() {
         let meta_title = "Tunga | Pricing";
+        let current_offer = OFFER_DETAILS[this.state.step];
+
         return (
             <ShowcaseContainer className="pricing-page" headerContent={this.renderHeaderContent()}>
                 <Helmet
@@ -226,13 +224,19 @@ class PricingPage extends ComponentWithModal {
                                 })}
                             </ul>
                             <div className="description">
-                                <div className="subtitle bold" dangerouslySetInnerHTML={{__html: OFFER_DETAILS[this.state.step].sub}}/>
-                                <p dangerouslySetInnerHTML={{__html: OFFER_DETAILS[this.state.step].description}}/>
-                                {OFFER_DETAILS[this.state.step].cta?(
-                                    <button className="btn"
-                                            onClick={OFFER_DETAILS[this.state.step].cta.action.bind(this)}>
-                                        {OFFER_DETAILS[this.state.step].cta.text}
-                                    </button>
+                                <div className="subtitle bold" dangerouslySetInnerHTML={{__html: current_offer.sub}}/>
+                                <p dangerouslySetInnerHTML={{__html: current_offer.description}}/>
+                                {current_offer.cta?(
+                                    current_offer.cta.action?(
+                                        <button className="btn"
+                                                onClick={current_offer.cta.action.bind(this)}>
+                                            {current_offer.cta.text}
+                                        </button>
+                                    ):(current_offer.cta.link?(
+                                        <Link to={current_offer.cta.link} className="btn">
+                                            {current_offer.cta.text}
+                                        </Link>
+                                    ):null)
                                 ):null}
                             </div>
                         </div>
