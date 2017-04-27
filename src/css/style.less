@@ -3707,16 +3707,21 @@ form[name='compose'] {
                 padding: 0;
 
                 .step {
-                    height: 315px;
-                    min-height: initial;
+                    height: auto;
+                    min-height: 250px !important;
                     overflow: initial;
                 }
+            }
+
+            .nav {
+                padding: 10px;
+                min-height: initial;
             }
         }
 
         .task-section {
             width: 100%;
-            min-height: 400px;
+            min-height: 270px;
         }
 
         .dev-section {
@@ -3742,18 +3747,17 @@ form[name='compose'] {
         }
 
         &.show-trust {
-            max-width: 800px;
+            max-width: 700px;
 
             .task-form,
             .task-form.form-wrapper {
-                max-width: 400px;
+                max-width: 350px;
             }
 
             .task-section {
                 width: 60%;
                 float: left;
-                border-right: 1px #eee solid;
-                min-height: 400px;
+                min-height: 300px;
             }
 
             .dev-section {
@@ -3763,6 +3767,7 @@ form[name='compose'] {
                 padding: 0 5px;
                 overflow-y: hidden;
                 position: relative;
+                border-left: 1px #eee solid;
 
                 h3 {
                     height: 35px;
@@ -3772,7 +3777,7 @@ form[name='compose'] {
 
                 .dev-list {
                     overflow-y: scroll;
-                    height: 400px;
+                    height: 330px;
                 }
 
                 .card {

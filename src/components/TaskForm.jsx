@@ -1468,18 +1468,16 @@ export default class TaskForm extends ComponentWithModal {
                         items: [skillsComp]
                     },
                     {
+                        title: `Basic details about the ${work_type}`,
+                        items: [descComp]
+                    },
+                    {
                         title: 'Additional information',
                         items: [deliverablesComp, stackDescComp, filesComp]
                     },
                     {
-                        title: `Basic details about the ${work_type}`,
-                        items: [descComp],
-                        requires: ['description']
-                    },
-                    {
                         title: 'Additional information',
-                        items:  [feeComp, deadlineComp],
-                        requires: ['fee']
+                        items:  [feeComp, deadlineComp]
                     }
                 ];
             }

@@ -29,7 +29,7 @@ export default class TaskWizard extends React.Component {
     }
 
     renderHeaderContent() {
-        var testimonials = getClientTestimonials(3);
+        var testimonials = getClientTestimonials(2);
         const {options} = this.props;
 
         return (
