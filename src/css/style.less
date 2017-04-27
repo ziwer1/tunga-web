@@ -2,12 +2,7 @@
 
 @import "dimens";
 
-.font-size(@sizeValue) {
-    @remValue: @sizeValue;
-    @pxValue: (@sizeValue * 10);
-    font-size: ~"@{pxValue}px";
-    font-size: ~"@{remValue}rem";
-}
+@import "typo";
 
 html {
     width: 100%;
@@ -46,10 +41,13 @@ a:focus {
 input, select, textarea, .form-control, .rw-input {
     background-color: @inactive-grey;
     border-width: 0;
+    outline-width: 0;
+    outline-color: transparent;
 
     &:focus, &:active {
         outline-width: 0;
-        box-shadow: none;
+        outline-color: transparent;
+        /*box-shadow: none;*/
     }
 }
 
@@ -447,7 +445,7 @@ form.steps-all {
 .form-control {
     height: 30px;
     .font-size(1.1);
-    box-shadow: none;
+    /*box-shadow: none;*/
 }
 
 .input-group {
@@ -928,7 +926,7 @@ form[name='compose'] {
     height: 40px;
     color: @active-white;
     background-color: @primary;
-    display: inline-block;
+    background-size: cover;
     margin: 5px;
     border-radius: 50%;
     border: 1px solid @primary;
@@ -1667,6 +1665,22 @@ form[name='compose'] {
             .fa, .icon {
                 color: @primary;
                 .font-size(6);
+            }
+        }
+    }
+}
+
+.btn-choices.choice-fork.xs {
+    .choice {
+        width: 50%;
+
+        .btn {
+            padding: 20px;
+            min-width: 30%;
+
+            .fa, .icon {
+                color: @primary;
+                .font-size(4);
             }
         }
     }
@@ -2681,114 +2695,6 @@ form[name='compose'] {
     }
 }
 
-.task-form-dialog,
-.task-form-dialog.modal-dialog {
-    margin-top: 120px;
-
-    .modal-header {
-        position: absolute;
-        right: 0;
-        z-index: 11;
-    }
-
-    .modal-body {
-        padding: 0;
-        margin: 0;
-    }
-
-    .title-bar {
-        text-align: center;
-        color: @primary;
-        border-bottom: 1px @border-grey solid;
-        padding: 20px 0;
-
-        h2 {
-            margin: 0;
-        }
-    }
-
-    .status-bar {
-
-    }
-
-    .thank-you {
-        text-align: center;
-        padding-top: 80px;
-        .font-size(1.7);
-        font-weight: 400;
-    }
-
-    .task-form, .task-form.form-wrapper {
-        max-width: 750px;
-        margin: 0 auto;
-
-        .form {
-            max-width: 100%;
-        }
-
-        form {
-            max-width: 100%;
-            padding: 0;
-
-            .step {
-                height: 315px;
-                min-height: initial;
-                overflow: initial;
-            }
-        }
-    }
-
-    .task-section {
-        width: 75%;
-        float: left;
-        border-right: 1px #eee solid;
-        min-height: 525px;
-    }
-
-    .dev-section {
-        width: 25%;
-        float: right;
-        padding: 0 10px;
-        overflow-y: hidden;
-        position: relative;
-
-        h3 {
-            height: 35px;
-            text-align: center;
-            margin-bottom: 15px;
-        }
-
-        .dev-list {
-            overflow-y: scroll;
-            height: 450px;
-        }
-
-        .card {
-            padding: 0 10px;
-            margin: 5px 0;
-
-            .short-description, .actions  {
-                display: none;
-            }
-
-            .skills,
-            .skills.skills-needed {
-                min-height: inherit;
-            }
-
-            .avatar.large {
-                width: 60px !important;
-                height: 60px !important;
-            }
-
-            .avatar.avatar-icon.large {
-                font-size: 60px !important;
-            }
-        }
-    }
-}
-
-
 .profile-form, .profile-form.form-wrapper {
     max-width: 600px;
 
@@ -2883,7 +2789,7 @@ form[name='compose'] {
         text-align: center;
         padding-top: 80px;
         .font-size(1.7);
-        font-weight: 400;
+        font-weight: 300;
     }
 
     .profile-form, .profile-form.form-wrapper {
@@ -2928,7 +2834,7 @@ form[name='compose'] {
 @media (min-width: 992px) {
     .task-form-dialog,
     .task-form-dialog.modal-dialog {
-        width: 1100px;
+        width: 1000px;
     }
 }
 
@@ -3729,6 +3635,163 @@ form[name='compose'] {
     }
 }
 
+.showcase.task-wizard-page {
+
+    color: @primary-text;
+
+    header {
+        color: @primary-text;
+        min-height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .task-wizard {
+        background-color: @active-white;
+        border-radius: 8px;
+        max-width: 600px;
+        margin: 0 auto;
+
+        .title-bar {
+            text-align: center;
+            border-bottom: 1px @border-grey solid;
+            padding: 20px 0;
+
+            h3 {
+                margin: 0;
+                font-weight: 300;
+            }
+        }
+
+        .status-bar {
+
+        }
+
+        .thank-you {
+            text-align: center;
+            padding-top: 80px;
+            .font-size(1.7);
+            font-weight: 300;
+
+            .fa {
+                color: @green;
+                .font-size(9);
+            }
+        }
+
+        .task-form,
+        .task-form.form-wrapper {
+            max-width: 550px;
+            margin: 0 auto;
+
+            .form {
+                max-width: 100%;
+            }
+
+            form {
+                max-width: 100%;
+                padding: 0;
+
+                .step {
+                    height: 315px;
+                    min-height: initial;
+                    overflow: initial;
+                }
+            }
+        }
+
+        .task-section {
+            width: 100%;
+            min-height: 400px;
+        }
+
+        .dev-section {
+            display: none;
+        }
+
+        .call-highlight {
+            color: @primary;
+
+            .icon {
+                display: inline-block;
+                .font-size(3.2);
+                margin-bottom: 10px;
+            }
+
+            .skype-id {
+                display: inline-block;
+                border-radius: 5px;
+                padding: 5px 20px;
+                border: 1px @primary solid;
+                margin-bottom: 30px;
+            }
+        }
+
+        &.show-trust {
+            max-width: 800px;
+
+            .task-form,
+            .task-form.form-wrapper {
+                max-width: 400px;
+            }
+
+            .task-section {
+                width: 60%;
+                float: left;
+                border-right: 1px #eee solid;
+                min-height: 400px;
+            }
+
+            .dev-section {
+                display: block;
+                width: 40%;
+                float: right;
+                padding: 0 5px;
+                overflow-y: hidden;
+                position: relative;
+
+                h3 {
+                    height: 35px;
+                    text-align: center;
+                    margin-bottom: 15px;
+                }
+
+                .dev-list {
+                    overflow-y: scroll;
+                    height: 400px;
+                }
+
+                .card {
+                    padding: 5px 10px;
+                    margin: 5px 0;
+
+                    .media {
+                        padding: 0;
+                    }
+
+                    .short-description, .actions  {
+                        display: none;
+                    }
+
+                    .skills,
+                    .skills.skills-needed {
+                        min-height: inherit;
+                    }
+
+                    .avatar {
+                        width: 55px !important;
+                        height: 55px !important;
+                    }
+
+                    .avatar.avatar-icon {
+                        font-size: 55px !important;
+                    }
+                }
+            }
+        }
+    }
+}
+
 .showcase.pricing-page {
     background-color: @inactive-grey;
 
@@ -3817,7 +3880,6 @@ form[name='compose'] {
         background-color: @inactive-grey;
     }
 }
-
 
 .pricing-options {
     .card {

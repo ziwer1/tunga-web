@@ -1,12 +1,8 @@
 import React from 'react';
 
-import UserPage from '../containers/UserPage';
-import UserList from '../components/UserList';
-
-import TaskContainer from '../containers/TaskContainer';
-import TaskForm from '../components/TaskForm';
-
 import createModal from '../components/Modal';
+import TaskWizard from '../containers/TaskWizard';
+
 import {DEVELOPER_FEE, PM_FEE, TUNGA_PERCENTAGE_DEVELOPER, STATUS_SUBMITTED, STATUS_APPROVED, STATUS_ACCEPTED, TASK_TYPE_WEB, TASK_TYPE_MOBILE, TASK_TYPE_OTHER} from '../constants/Api';
 
 import {isAdmin, getUser} from '../utils/auth';
@@ -53,25 +49,7 @@ export function getDLPTaskType(tag) {
 
 export function openTaskWizard(options={}) {
     return createModal(
-        <div className="task-wizard">
-            <div className="task-section">
-                <div className="title-bar">
-                    <h2 className="title text-center">Hire top African coders!</h2>
-                </div>
-                <TaskContainer>
-                    <TaskForm options={options}/>
-                </TaskContainer>
-            </div>
-            <div className="dev-section">
-                <h3 className="text-center">Our developers</h3>
-                <div className="dev-list">
-                    <UserPage>
-                        <UserList hide_header={true} bsClass="col-xs-12" filters={{ filter: 'developers', has_photo: true}} max={5} profileLink={false} tagLinks={false}/>
-                    </UserPage>
-                </div>
-            </div>
-            <div className="clearfix"></div>
-        </div>, null, null, {className: "task-form-dialog", bsStyle: 'lg'}
+        <TaskWizard options={options}/>, null, null, {className: "task-form-dialog", bsStyle: 'lg'}
     );
 }
 

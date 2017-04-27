@@ -4,12 +4,10 @@ import Helmet from 'react-helmet';
 
 import ShowcaseContainer from './ShowcaseContainer';
 
-import { openTaskWizard } from '../utils/tasks';
-
 const STEP_DETAILS = [
     {
         title: "<span class='bold'>1. Post</span><br/>your work",
-        description: <div>Use our <Link to='/start' onClick={(e) => {e.preventDefault(); openTaskWizard()}}>wizard</Link> to submit you software need. Our developers and project managers will get back to you soon with a match with great developers.</div>,
+        description: <div>Use our <Link to='/start'>wizard</Link> to submit you software need. Our developers and project managers will get back to you soon with a match with great developers.</div>,
         icon: 'tunga-icon-post-task'
     },
     {
