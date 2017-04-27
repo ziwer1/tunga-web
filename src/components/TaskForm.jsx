@@ -49,7 +49,8 @@ export default class TaskForm extends ComponentWithModal {
             step: 1, schedule: null, attachments: [], showAll: false, milestones: [],
             modalMilestone: null, modalContent: null, modalTitle: '', coders_needed: null, type: null,
             has_requirements: null, pm_required: null, billing_method: null, stack_description: '', deliverables: '',
-            skype_id: '', contact_required: null, has_more_info: null, overrideErrors: false, pm: null, ...props.options
+            skype_id: '', contact_required: null, has_more_info: null, overrideErrors: false, pm: null,
+            schedule_call: {day: null, from: null, to: null}, ...props.options
         };
     }
 
@@ -93,6 +94,13 @@ export default class TaskForm extends ComponentWithModal {
 
     componentDidUpdate(prevProps, prevState) {
         if(this.props.Task.detail.isSaved && !prevProps.Task.detail.isSaved) {
+            if(!isAuthenticated() && this.props.onStepChange) {
+                this.props.onStepChange({
+                    title: "Thank you for using Tunga!",
+                    subtitle: "One of our project hackers will reach out to you ASAP!"
+                }, this.state.step-1, sections);
+            }
+
             this.reportFunnelUrl(this.getStepUrl(true));
 
             this.reportAcquistion();
@@ -125,6 +133,10 @@ export default class TaskForm extends ComponentWithModal {
 
         if(path_change.indexOf(true) > -1 && !this.props.Task.detail.isSaved) {
             this.reportFunnelUrl(this.getStepUrl());
+        }
+
+        if(this.state.step != prevState.step && this.props.onStepChange && !this.props.Task.detail.isSaved) {
+            this.props.onStepChange(sections[this.state.step-1], this.state.step-1, sections);
         }
     }
 
@@ -239,6 +251,24 @@ export default class TaskForm extends ComponentWithModal {
         this.setState({deadline: (date?moment(date).utc().format():undefined)});
     }
 
+    onScheduleChange(part, date) {
+        console.log('schedule', part, moment(date).utc().format());
+        var new_schedule_call = this.state.schedule_call;
+        switch(part) {
+            case 'day':
+                new_schedule_call.day = moment(date).utc().format('YYYY-MM-DD');
+                break;
+            case 'from':
+            case 'to':
+                new_schedule_call[part] = moment(date).utc().format('hh:mm:ss');
+                break;
+            default:
+                break
+        }
+        console.log('new_schedule_call', new_schedule_call);
+        this.setState({schedule_call: new_schedule_call});
+    }
+
     onRichTextChange(key, e) {
         var new_state = {};
         new_state[key] = e.target.getContent();
@@ -322,6 +352,8 @@ export default class TaskForm extends ComponentWithModal {
 
         var new_state = {};
         new_state[key] = value;
+
+        var shouldChangeStep = false;
         if(key == 'type') {
             new_state.skills = Array.from(new Set([...this.state.skills, ...suggestTaskTypeSkills(value)['selected']]));
         }
@@ -334,12 +366,27 @@ export default class TaskForm extends ComponentWithModal {
             }
         }
 
+        if(!isAuthenticated() && key == 'contact_required' && typeof value == 'boolean') {
+            if(value) {
+                // Schedule a call
+                new_state.has_more_info = false;
+            } else {
+                // request more info
+                new_state.has_more_info = true;
+            }
+            shouldChangeStep = true;
+        }
+
         this.setState(new_state);
         if(['type', 'scope', 'is_project', 'has_requirements', 'pm_required'].indexOf(key) > -1) {
-            this.changeStep();
+            shouldChangeStep = true;
         }
 
         if(key == 'has_more_info' && value) {
+            shouldChangeStep = true;
+        }
+
+        if(shouldChangeStep) {
             this.changeStep();
         }
     }
@@ -358,7 +405,7 @@ export default class TaskForm extends ComponentWithModal {
         req_data.deliverables = this.refs.deliverables?this.refs.deliverables.value.trim():null;
 
         req_data.type = this.state.type;
-        req_data.scope = this.state.scope;
+        req_data.scope = (!isAuthenticated() && !this.state.scope)?TASK_SCOPE_PROJECT:this.state.scope;
 
         req_data.has_requirements = this.state.has_requirements;
         req_data.pm_required = this.state.pm_required;
@@ -411,6 +458,15 @@ export default class TaskForm extends ComponentWithModal {
             req_data.parent = project.id;
         }
 
+        if(this.state.schedule_call && this.state.schedule_call.day) {
+            if(this.state.schedule_call.from) {
+                req_data.schedule_call_start = `${this.state.schedule_call.day}T${this.state.schedule_call.from}Z`;
+            }
+            if(this.state.schedule_call.to) {
+                req_data.schedule_call_end = `${this.state.schedule_call.day}T${this.state.schedule_call.to}Z`;
+            }
+        }
+
         var task_info = {};
         Object.keys(req_data).forEach(function (key) {
             const data_value = req_data[key];
@@ -443,14 +499,14 @@ export default class TaskForm extends ComponentWithModal {
     }
 
     render() {
-        const { Task, project, enabledWidgets, options } = this.props;
+        const { Task, project, enabledWidgets, options, showSectionHeader } = this.props;
         const task = this.props.task || {};
 
         if(!isAuthenticated() && Task.detail.isSaved) {
             return (
                 <div className="thank-you">
-                    Thank you for posting your work on Tunga.<br/>
-                    Please check your inbox for the next steps.
+                    Awesome!<br/>
+                    <i className="fa fa-check-circle"/>
                 </div>
             );
         }
@@ -1011,28 +1067,23 @@ export default class TaskForm extends ComponentWithModal {
             </div>
         );
 
-        let contactComp = (
+        let skypeComp = (
             <div>
                 {(Task.detail.error.create && Task.detail.error.create.skype_id)?
                     (<FieldError message={Task.detail.error.create.skype_id}/>):null}
                 {(Task.detail.error.update && Task.detail.error.update.skype_id)?
                     (<FieldError message={Task.detail.error.update.skype_id}/>):null}
                 <div className="form-group">
-                    <label className="control-label">Please fill in your skype id</label>
+                    <label className="control-label">Skype id</label>
                     <div className="row">
-                        <div className="col-md-6">
-                            <div><input type="text"
+                        <div className="col-md-12">
+                            <div>
+                                <input type="text"
                                         className="form-control"
                                         ref="skype_id" placeholder="Your Skype ID"
                                         defaultValue={task.skype_id}
-                                        onClick={this.onStateValueChange.bind(this, 'skype_id', this.refs.skype_id?this.refs.skype_id.value.trim():'')}
-                            /></div>
-                        </div>
-                        <div>
-                            <button type="button"
-                                    className={"btn btn-grey " + (this.state.skype_id === undefined?' active':'')}
-                                    onClick={this.onStateValueChange.bind(this, 'skype_id', undefined)}>I don't have Skype, Contact me via email
-                            </button>
+                                        onChange={this.onInputChange.bind(this, 'skype_id')}/>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1046,7 +1097,6 @@ export default class TaskForm extends ComponentWithModal {
                 {(Task.detail.error.update && Task.detail.error.update.email)?
                     (<FieldError message={Task.detail.error.update.email}/>):null}
                 <div className="form-group">
-                    <div className="highlight">We'll use your email to contact you with important information</div>
                     <label className="control-label">E-mail address *</label>
                     <div><input type="email" name="email" className="form-control" ref="email" required placeholder="Email"  onChange={this.onInputChange.bind(this, 'email')} value={this.state.email}/></div>
                 </div>
@@ -1096,6 +1146,95 @@ export default class TaskForm extends ComponentWithModal {
                             </button>
                         )
                     })}
+                </div>
+            </div>
+        );
+
+        if(!isAuthenticated()) {
+            hasMoreInfoComp = (
+                <div>
+                    {(Task.detail.error.create && Task.detail.error.create.contact_required)?
+                        (<FieldError message={Task.detail.error.create.contact_required}/>):null}
+                    {(Task.detail.error.update && Task.detail.error.update.contact_required)?
+                        (<FieldError message={Task.detail.error.update.contact_required}/>):null}
+                    <div className="form-group">
+                        {this.state.skype_id?(
+                            <div className="call-highlight">
+                                <div className="text-center">
+                                    <i className="icon tunga-icon-headphone"/><br/>
+                                    <div className="skype-id">{this.state.skype_id}</div>
+                                </div>
+                            </div>
+                        ):null}
+                        <div className="text-center">
+                            In a hurry? Schedule a call<br/>
+                            Have some time? Provide more info to speed up the process!
+                        </div>
+                        <div>
+                            <div className="btn-choices choice-fork xs two" role="group" style={{ maxWidth: '300px'}}>
+                                {[
+                                    {id: true, name: 'Schedule call', icon: 'tunga-icon-schedule'},
+                                    {id: false, name: 'Speed up process', icon: 'tunga-icon-rocket'}
+                                ].map(contact_options => {
+                                    return (
+                                    <div className="choice">
+                                        <button key={contact_options.id} type="button"
+                                                className={"btn" + (this.state.contact_required == contact_options.id?' active':'')}
+                                                onClick={this.onStateValueChange.bind(this, 'contact_required', contact_options.id)}>
+                                            <i className={`icon ${contact_options.icon}`}/>
+                                        </button>
+                                        <div dangerouslySetInnerHTML={{__html: contact_options.name}} />
+                                    </div>
+                                    )
+                                })}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        let scheduleCallComp = (
+            <div>
+                {(Task.detail.error.create && Task.detail.error.create.schedule_call_start)?
+                    (<FieldError message={Task.detail.error.create.schedule_call_start}/>):null}
+                {(Task.detail.error.update && Task.detail.error.update.schedule_call_start)?
+                    (<FieldError message={Task.detail.error.update.schedule_call_start}/>):null}
+
+                {(Task.detail.error.create && Task.detail.error.create.schedule_call_end)?
+                    (<FieldError message={Task.detail.error.create.schedule_call_end}/>):null}
+                {(Task.detail.error.update && Task.detail.error.update.schedule_call_end)?
+                    (<FieldError message={Task.detail.error.update.schedule_call_end}/>):null}
+                <div className="form-group">
+                    <label className="control-label">When are you available for a call?</label>
+                    <div>
+                        <DateTimePicker ref="schedule_call_day"
+                                        onChange={this.onScheduleChange.bind(this, 'day')}
+                                        defaultValue={task.schedule_call_start?(new Date(moment.utc(task.schedule_call_start).format())):null}
+                                        value={this.state.schedule_call.day?new Date(moment.utc(this.state.schedule_call.day).format()):null}
+                                        time={false} min={new Date()} format="dddd, Do MMMM, YYYY"/>
+                    </div>
+                </div>
+
+                <div className="form-group">
+                    <div className="row">
+                        <div className="col-md-6">
+                            <label className="control-label">From:</label>
+                            <DateTimePicker ref="schedule_call_from"
+                                            onChange={this.onScheduleChange.bind(this, 'from')}
+                                            defaultValue={task.schedule_call_start?(new Date(moment.utc(task.schedule_call_start).format('hh:mm:ss'))):null}
+                                            value={this.state.schedule_call.from?new Date(moment.utc(`${moment().format('YYYY-MM-DD')}T${this.state.schedule_call.from}Z`).format()):null}
+                                            calendar={false}/>
+                        </div>
+                        <div className="col-md-6">
+                            <label className="control-label">To:</label>
+                            <DateTimePicker ref="schedule_call_to"
+                                            onChange={this.onScheduleChange.bind(this, 'to')}
+                                            defaultValue={task.schedule_call_end?(new Date(moment.utc(task.schedule_call_end).format('hh:mm:ss'))):null}
+                                            value={this.state.schedule_call.to?new Date(moment.utc(`${moment().format('YYYY-MM-DD')}T${this.state.schedule_call.to}Z`).format()):null}
+                                            calendar={false}/>
+                        </div>
+                    </div>
                 </div>
             </div>
         );
@@ -1185,7 +1324,7 @@ export default class TaskForm extends ComponentWithModal {
                     },
                     {
                         title: 'The next step',
-                        items: [contactComp]
+                        items: [skypeComp]
                     }
                 ]
             } else {
@@ -1221,7 +1360,7 @@ export default class TaskForm extends ComponentWithModal {
                         stepComps = [
                             requiresContactComp,
                             this.state.contact_required === null?null:(
-                                this.state.contact_required?contactComp:(
+                                this.state.contact_required?skypeComp:(
                                     <div>
                                         {descComp}
                                         {deliverablesComp}
@@ -1308,28 +1447,34 @@ export default class TaskForm extends ComponentWithModal {
                 ];
             }
         } else {
-            sections = [
-                {
-                    title: `Tag skills or products that are relevant to this ${work_type}`,
-                    items: [skillsComp]
-                }
-            ];
+            sections = [];
 
-            sections = [
-                ...sections,
-                {
-                    title: `Basic details about the ${work_type}`,
-                    items: [descComp, hasMoreInfoComp],
-                    forks: ['has_more_info']
-                }
-            ];
+            if(!canShowAll) {
+                sections = [
+                    ...sections,
+                    {
+                        title: "Let's launch your project",
+                        items: [hasMoreInfoComp],
+                        required: true
+                    }
+                ];
+            }
 
             if(this.state.has_more_info) {
                 sections = [
                     ...sections,
                     {
+                        title: `Tag skills or products that are relevant to this ${work_type}`,
+                        items: [skillsComp]
+                    },
+                    {
                         title: 'Additional information',
                         items: [deliverablesComp, stackDescComp, filesComp]
+                    },
+                    {
+                        title: `Basic details about the ${work_type}`,
+                        items: [descComp],
+                        requires: ['description']
                     },
                     {
                         title: 'Additional information',
@@ -1342,30 +1487,18 @@ export default class TaskForm extends ComponentWithModal {
             sections = [
                 ...sections,
                 {
-                    title: "Personal information",
-                    items: [personalComp],
-                    requires: ['first_name', 'last_name']
+                    title: 'Schedule Call',
+                    items: [scheduleCallComp],
+                    required: true
                 }
             ];
 
             if(!canShowAll) {
 
-                if(!options || !options.scope) {
-                    sections = [
-                        {
-                            title: 'Scope of your work',
-                            items: [taskScopeComp],
-                            required: true,
-                            forks: ['scope']
-                        },
-                        ...sections
-                    ];
-                }
-
                 if(!options || !options.type) {
                     sections = [
                         {
-                            title: 'What kind of work do you have?',
+                            title: 'What kind of project do you have?',
                             items: [taskTypeComp],
                             required: true,
                             forks: ['type']
@@ -1377,15 +1510,20 @@ export default class TaskForm extends ComponentWithModal {
 
             sections = [
                 {
-                    title: "Contact information",
-                    items: [emailComp],
-                    requires: ['email']
+                    title: "Hire top African developers from Tunga!",
+                    items: [personalComp, emailComp, skypeComp],
+                    requires: ['first_name', 'last_name', 'email'],
+                    action: 'Find me great developers'
                 },
                 ...sections
             ];
         }
 
         let current_section = sections[this.state.step-1];
+
+        let showPrev = this.state.step > 1 && (current_section && !current_section.required && !canShowAll);
+        let showNext = this.state.step < sections.length && (current_section && !current_section.required && !canShowAll);
+        let showSubmit = this.state.step == sections.length || canShowAll;
 
         return (
             <div className="form-wrapper task-form">
@@ -1394,7 +1532,7 @@ export default class TaskForm extends ComponentWithModal {
                     <h2 className="title text-center">Post work</h2>
                     )}
 
-                {current_section && current_section.title && !canShowAll?(
+                {showSectionHeader && current_section && current_section.title && !canShowAll?(
                     <div className="section-title clearfix">
                         <h4 className="pull-left"
                             id={`task-wizard-title-step-${this.canShowFork('type')?getTaskTypeUrl(this.state.type):''}-${this.canShowFork('scope')?getScopeUrl(this.state.scope):''}-${typeof this.state.pm_required == 'boolean' && this.canShowFork('pm_required')?(this.state.pm_required?'pm':'nopm'):''}-${this.state.step}`}>{current_section.title}</h4>
@@ -1434,32 +1572,38 @@ export default class TaskForm extends ComponentWithModal {
                         )
                     })}
 
-                    <div className="nav text-center">
-                        {this.state.step > 1?(
-                            <button type="button" className="btn btn-alt nav-btn prev-btn pull-left" onClick={this.changeStep.bind(this, false, true)}>
-                                <i className="fa fa-chevron-left"/> Previous
-                            </button>
-                        ):null}
-                        {this.state.step < sections.length && (current_section && !current_section.required && !canShowAll)?(
-                            <button type="button"
-                                    className="btn btn-alt nav-btn next-btn pull-right"
-                                    onClick={this.changeStep.bind(this, true)}>
-                                {current_section && this.canSkip(current_section.required, current_section.requires)?'Next':'Skip'} <i className="fa fa-chevron-right"/>
-                            </button>
-                        ):null}
-                        {this.state.step == sections.length || canShowAll?(
-                            <div className="text-center">
-                                <button type="submit"
-                                        onClick={this.showAll.bind(this)}
-                                        className="btn"
-                                        disabled={Task.detail.isSaving}>
-                                    {this.state.scope == TASK_SCOPE_ONGOING || !isAuthenticated()?'Find me awesome developers':(
-                                        `${task.id?'Update':'Publish'} ${is_project?'project':'task'}`
-                                    )}
+                    {showPrev || showNext || showSubmit?(
+                        <div className="nav text-center">
+                            {showPrev?(
+                                <button type="button" className="btn btn-alt nav-btn prev-btn pull-left" onClick={this.changeStep.bind(this, false, true)}>
+                                    <i className="fa fa-chevron-left"/> Previous
                                 </button>
-                            </div>
-                        ):null}
-                    </div>
+                            ):null}
+                            {showNext?(
+                                <div className={current_section.action?'text-center':'pull-right'}>
+                                    <button type="button"
+                                            className={`btn ${current_section.action?'':'btn-alt nav-btn next-btn'}`}
+                                            onClick={this.changeStep.bind(this, true)} disabled={!this.canSkip(current_section.required, current_section.requires)}>
+                                        {current_section.action?current_section.action:(
+                                            <span>{current_section && this.canSkip(current_section.required, current_section.requires)?'Next':'Skip'} <i className="fa fa-chevron-right"/></span>
+                                        )}
+                                    </button>
+                                </div>
+                            ):null}
+                            {showSubmit?(
+                                <div className="text-center">
+                                    <button type="submit"
+                                            onClick={this.showAll.bind(this)}
+                                            className="btn"
+                                            disabled={Task.detail.isSaving}>
+                                        {this.state.scope == TASK_SCOPE_ONGOING || !isAuthenticated()?'Find me awesome developers':(
+                                            `${task.id?'Update':'Publish'} ${is_project?'project':'task'}`
+                                        )}
+                                    </button>
+                                </div>
+                            ):null}
+                        </div>
+                    ):null}
                     <div className="clearfix"></div>
                 </form>
             </div>
@@ -1473,14 +1617,16 @@ TaskForm.propTypes = {
     task: React.PropTypes.object,
     project: React.PropTypes.object,
     enabledWidgets: React.PropTypes.array,
-    options: React.PropTypes.object
+    options: React.PropTypes.object,
+    showSectionHeader: React.PropTypes.bool
 };
 
 TaskForm.defaultProps = {
     task: null,
     project: null,
     enabledWidgets: [],
-    options: null
+    options: null,
+    showSectionHeader: true
 };
 
 TaskForm.contextTypes = {

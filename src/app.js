@@ -88,7 +88,7 @@ import QuoteContainer from 'containers/QuoteContainer';
 import QuoteDetailContainer from 'containers/QuoteDetailContainer';
 import QuoteForm from 'components/QuoteForm';
 import QuoteDetail from 'components/QuoteDetail';
-
+import TaskWizard from 'containers/TaskWizard';
 
 ReactDOM.render(
     <Provider store={store}>
@@ -97,7 +97,7 @@ ReactDOM.render(
                 <IndexRoute component={LandingPage} unauthedOnly={true}/>
                 <Route unauthedOnly={true}>
                     {/* No Auth Pages */}
-                    <Route path="start" component={LandingPage} showTaskWizard={true}/>
+                    <Route path="start" component={TaskWizard} showTaskWizard={true}/>
                     <Route path="call" component={LandingPage} showCallWidget={true}/>
                     <Route path="how-it-works" component={HowItWorksPage}/>
                     <Route path="pricing" component={PricingPage}/>

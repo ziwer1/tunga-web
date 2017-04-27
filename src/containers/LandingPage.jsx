@@ -8,50 +8,10 @@ import ShowcaseContainer from './ShowcaseContainer';
 import ShowCaseFooter from './ShowCaseFooter';
 import ComponentWithModal from '../components/ComponentWithModal';
 
-import { openTaskWizard, getDLPTaskType } from '../utils/tasks';
 import { showWizard, showCallWidget, openCalendlyWidget } from '../utils/router';
+import { TESTIMONIALS } from '../constants/data';
 
 import { sendGAEvent, GA_EVENT_CATEGORIES, GA_EVENT_ACTIONS, GA_EVENT_LABELS } from '../utils/tracking';
-
-
-let TESTIMONIALS = [
-    {
-        name: 'Luuk',
-        company: 'Blog Society',
-        image: require("../images/testimonials/luuk.jpg"),
-        message: "Within a minimum amount of time, we arranged that our platform - customized to the company's needs - could be build within a month. Outsourcing development has never been this easy."
-    },
-    {
-        name: 'Angella',
-        company: 'Ugandan Developer',
-        image: require("../images/testimonials/angella.jpg"),
-        message: "As a developer, Tunga allows me to work on interesting projects from around the globe, and build great working relationships with clients using tools like Slack"
-    },
-    {
-        name: 'Karl',
-        company: 'Statehill',
-        image: require("../images/testimonials/karl.png"),
-        message: "We were pleasently surprised with how easy it was to get the right person onboard and the Ugandan developer we worked with professionally executed the project in a satisfactory manner."
-    },
-    {
-        name: 'Marion',
-        company: 'Blog Society',
-        image: require("../images/testimonials/marion.jpg"),
-        message: "We are not developers ourselves and we are very happy with the high level of customer service and the proactive stance of the Tunga people, to help us bring our ideas to life."
-    },
-    {
-        name: 'Michiel',
-        company: 'Gaspedaal',
-        image: require("../images/testimonials/michiel.jpg"),
-        message: "The developers from Tunga do have knowledge, quickly anticipate on problems and are flexible in sharing responsibilities. Occasionally they send funny giphies through Slack, so they also have a sense of humor."
-    },
-    {
-        name: 'Annette',
-        company: 'Yoohcan',
-        image: require("../images/testimonials/annette.jpg"),
-        message: "I have to admit I was a bit sceptic at first, but the quality was good and the process was smooth. And at these rates using Tunga is a no-brainer for us."
-    }
-];
 
 var canOpen = true;
 
@@ -64,7 +24,6 @@ export default class LandingPage extends ComponentWithModal {
     componentDidMount() {
         if(showWizard(this.props.routes) && canOpen) {
             canOpen = false;
-            openTaskWizard();
         }
 
         if(showCallWidget(this.props.routes)) {
@@ -149,18 +108,10 @@ export default class LandingPage extends ComponentWithModal {
                         <span>No cure no pay for tasks</span>
                     </p>
                     <div>
-                        <button to="/work/new/"
-                                className="btn btn-callout"
-                                onClick={
-                                    () => {
-                                        openTaskWizard({
-                                            type: getDLPTaskType(dlp_tag),
-                                            skills: dlp_tag?[dlp_tag]:[]
-                                        })
-                                    }
-                                }>
+                        <Link to="/start/"
+                                className="btn btn-callout">
                             {dlp_phrase?`Start hiring ${dlp_phrase}`:'Get Started'}
-                        </button>
+                        </Link>
                     </div>
                 </div>
             </div>

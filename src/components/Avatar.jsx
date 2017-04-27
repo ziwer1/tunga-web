@@ -8,10 +8,8 @@ export default class Avatar extends React.Component {
         return (
             <div className="avatar-wrapper">
                 {badge?<span className="badge">{badge}</span>:null}
-                <div className={"avatar " + (image?'':' avatar-icon ') + (size || '')}>
-                    {image?(
-                        <img src={image}/>
-                    ):(
+                <div className={"avatar " + (image?'':' avatar-icon ') + (size || '')} style={image?{backgroundImage: `url(${image})`}:{}}>
+                    {image?null:(
                         <span className={"glyphicon " + (icon || "glyphicon-user")}/>
                     )}
                 </div>
