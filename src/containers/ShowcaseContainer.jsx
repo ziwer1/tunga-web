@@ -13,8 +13,8 @@ export default class ShowcaseContainer extends React.Component {
             <div className={"showcase "+this.props.className}>
                 <header style={this.props.headerVideo?{overflow: 'hidden', position: 'relative'}:null}>
                     {this.props.headerVideo?(
-                        <video autoPlay loop style={{position: 'absolute', top: '0', left: 0, width: '100%', minHeight: '100%'}}>
-                            <source src={require("file!../video/homepagetunga.mp4")} type="video/mp4"/>
+                        <video autoPlay loop style={{position: 'absolute', top: '0', left: 0, width: '100%', minHeight: '100%'}} muted>
+                            <source src={require("../video/homepagetunga.mp4")} type="video/mp4"/>
                         </video>
                     ):null}
                     <Affix affixClassName="navbar-fixed-top" offsetTop={60}>
