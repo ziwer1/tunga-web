@@ -164,7 +164,7 @@ export function isTaskOwner(task) {
 }
 
 export function isTaskPM(task) {
-    return (task.pm && task.pm.id == getUser().id);
+    return (task.pm == getUser().id);
 }
 
 export function canAddEstimate(task) {

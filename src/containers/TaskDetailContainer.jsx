@@ -104,7 +104,7 @@ export default class TaskDetailContainer extends React.Component {
 
                 {task.user.id == getUser().id ||
                 task.is_admin || task.is_participant ||
-                (task.pm && task.pm.id == getUser().id) ||
+                (task.pm == getUser().id) ||
                 isAdmin() || (lastRoute && lastRoute.path == 'apply' && task.can_apply)?(
                 <div>
                     <BreadCrumb
