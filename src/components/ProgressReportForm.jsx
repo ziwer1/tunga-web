@@ -33,7 +33,9 @@ export default class ProgressReportForm extends React.Component {
     componentDidUpdate(prevProps, prevState) {
         if(this.props.ProgressReport.detail.isSaved && !prevProps.ProgressReport.detail.isSaved) {
             if(!this.props.progress_report) {
-                this.refs.progress_report_form.reset();
+                if(this.refs.progress_report_form) {
+                    this.refs.progress_report_form.reset();
+                }
                 this.setState({
                     status: null, accomplished: '', next_steps: '', obstacles: '', remarks: '',
                     last_deadline_met: null, deadline_report: '', next_deadline: null, team_appraisal: '',
@@ -103,6 +105,15 @@ export default class ProgressReportForm extends React.Component {
     render() {
         const { ProgressReport } = this.props;
         const progress_report = this.props.progress_report || {};
+
+        if(ProgressReport.detail.isSaved) {
+            return (
+                <FormStatus loading={ProgressReport.detail.isSaving}
+                            success={ProgressReport.detail.isSaved}
+                            message={'Progress Report saved successfully'}
+                            error={ProgressReport.detail.error.create || ProgressReport.detail.error.update}/>
+            );
+        }
 
         return (
             <div>
@@ -264,7 +275,7 @@ export default class ProgressReportForm extends React.Component {
                     {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.obstacles)?
                         (<FieldError message={ProgressReport.detail.error.update.obstacles}/>):null}
                     <div className="form-group">
-                        <label className="control-label">What obstacles are impeding your progress?</label>
+                        <label className="control-label">What obstacles are impeding your progress? *</label>
                         <textarea placeholder="What obstacles are impeding your progress?"
                                   className="form-control"
                                   ref="obstacles"
