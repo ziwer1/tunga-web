@@ -1536,7 +1536,7 @@ form[name='compose'] {
 }
 
 .auth-form-wrapper .well {
-    background: #fff none;
+    background: @active-white none;
 }
 
 .rw-widget {
@@ -1576,6 +1576,11 @@ form[name='compose'] {
             background-color: @primary !important;
             border-color: @primary;
         }
+    }
+
+    .rw-empty-cell {
+        height: 36px;
+        background-color: @inactive-grey;
     }
 }
 
@@ -1686,6 +1691,7 @@ form[name='compose'] {
         .btn {
             padding: 20px;
             min-width: 30%;
+            max-width: 160px;
 
             .fa, .icon {
                 color: @primary;

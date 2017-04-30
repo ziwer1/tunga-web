@@ -140,7 +140,7 @@ export const TASK_TYPE_OTHER = 3;
 export const TASK_TYPE_CHOICES = [
     {id: TASK_TYPE_WEB, name: 'Web', icon: 'fa fa-globe'},
     {id: TASK_TYPE_MOBILE, name: 'Mobile', icon: 'fa fa-mobile'},
-    {id: TASK_TYPE_OTHER, name: 'Other', icon: 'fa fa-question-circle'}
+    {id: TASK_TYPE_OTHER, name: 'Other', icon: 'fa fa-tasks'}
 ];
 
 export function suggestTaskTypeSkills(type) {

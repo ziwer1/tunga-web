@@ -1211,6 +1211,7 @@ export default class TaskForm extends ComponentWithModal {
                     <label className="control-label">When are you available for a call?</label>
                     <div>
                         <Calendar ref="schedule_call_day"
+                                  min={new Date()}
                                   onChange={this.onScheduleChange.bind(this, 'day')}
                                   defaultValue={task.schedule_call_start?(new Date(moment.utc(task.schedule_call_start).format())):null}
                                   value={this.state.schedule_call.day?new Date(moment.utc(this.state.schedule_call.day).format()):null}/>
@@ -1466,6 +1467,7 @@ export default class TaskForm extends ComponentWithModal {
                     ...sections,
                     {
                         title: "Let's launch your project",
+                        subtitle: "One of our project hackers will reach out to you soon",
                         items: [hasMoreInfoComp],
                         required: true
                     }
@@ -1523,7 +1525,7 @@ export default class TaskForm extends ComponentWithModal {
                     title: "Hire top African developers from Tunga!",
                     items: [personalComp, emailComp, skypeComp],
                     requires: ['first_name', 'last_name', 'email'],
-                    action: 'Find me great developers'
+                    action: 'Get started'
                 },
                 ...sections
             ];
