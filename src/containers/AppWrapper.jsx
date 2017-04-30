@@ -146,6 +146,83 @@ export default class AppWrapper extends React.Component {
 
         ];
 
+        steps = [
+            ...steps,
+            {
+                title: 'View Applications',
+                text: 'View Task Applications from developers',
+                selector: '#view-applications-btn',
+                position: 'bottom'
+            },
+            {
+                title: 'Project Board',
+                text: 'View Project Board',
+                selector: '#project-board-btn',
+                position: 'bottom'
+            },
+            {
+                title: 'Make Payment',
+                text: 'Make payments to developers',
+                selector: '#make-payment-btn',
+                position: 'bottom'
+            },
+            {
+                title: 'Rate Developers',
+                text: 'Rate Project Developers',
+                selector: '#rate-developers-btn',
+                position: 'bottom'
+            },
+            {
+                title: 'Participation Shares',
+                text: 'Participation shares',
+                selector: '#participation-shares-btn',
+                position: 'bottom'
+            },
+            {
+                title: 'Configure updates',
+                text: 'Manage updates',
+                selector: '#configure-updates-btn',
+                position: 'bottom'
+            },
+            {
+                title: 'Settings',
+                text: 'Manage Settings',
+                selector: '#menu-btn',
+                position: 'bottom'
+            },
+            {
+                title: 'Github Repo',
+                text: 'View project or task on github',
+                selector: '#github-btn',
+                position: 'left'
+            },
+            {
+                title: 'Slack team',
+                text: 'Go to project or task slack team',
+                selector: '#slack-btn',
+                position: 'left'
+            },
+            {
+                title: 'Comment Area',
+                text: 'View activity about your task or project',
+                selector: '#comment-box',
+                position: 'top'
+            },
+            {
+                title: 'Comment Widget',
+                text: 'Share messages and upload files',
+                selector: '#comment-widget',
+                position: 'top'
+            },
+            {
+                title: 'Sidebar Bar',
+                text: 'View your task or project details',
+                selector: '#sidebox',
+                position: 'left'
+            }
+
+        ];
+
         return (
             <div className="app-wrapper dashboard" onClick={this.handleAppClick.bind(this)}>
                 <Helmet

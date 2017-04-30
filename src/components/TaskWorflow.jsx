@@ -376,7 +376,7 @@ export default class TaskWorflow extends ComponentWithModal {
                                 <div className="pull-left">
                                     {is_admin_or_owner?(
                                         <Link to={`/work/${task.id}/applications/`}
-                                              className="btn">
+                                              className="btn" id="view-applications-btn">
                                             View applications {new_applications?(
                                             <span className="badge">{new_applications}</span>
                                         ):null}
@@ -384,13 +384,13 @@ export default class TaskWorflow extends ComponentWithModal {
                                     ):null}
                                     {is_admin_or_owner && task.is_project?(
                                         <Link to={`/work/${task.id}/board/`}
-                                              className="btn">
+                                              className="btn" id="project-board-btn">
                                             Project Board
                                         </Link>
                                     ):null}
                                     {can_pay?(
                                         <Link to={`/work/${task.id}/pay/`}
-                                              className="btn">
+                                              className="btn" id="make-payment-btn">
                                             {can_pay ? 'Make payment' : (
                                                 <OverlayTrigger placement="top" overlay={pay_popover}>
                                                     <div>Make payment</div>
@@ -400,7 +400,7 @@ export default class TaskWorflow extends ComponentWithModal {
                                     ):null}
                                     {can_rate?(
                                         <Link to={can_rate?`/work/${task.id}/rate/`:workflow_link}
-                                              className="btn">
+                                              className="btn" id="rate-developers-btn">
                                             {can_rate ? 'Rate Developers' : (
                                                 <OverlayTrigger placement="top" overlay={rate_dev_popover}>
                                                     <div>Rate Developers</div>
@@ -410,14 +410,14 @@ export default class TaskWorflow extends ComponentWithModal {
                                     ):null}
                                     {can_edit_shares && task.details && task.details.participation && task.details.participation.length?(
                                         <Link to={`/work/${task.id}/participation/`}
-                                              className="btn">
+                                              className="btn" id="participation-shares-btn">
                                             Participation shares
                                         </Link>
                                     ):null}
 
                                     {!is_project_task && is_admin_or_owner?(
                                         <Link to={`/work/${task.id}/edit/updates/`}
-                                              className="btn">
+                                              className="btn" id="configure-updates-btn">
                                             Configure updates
                                         </Link>
                                     ):null}
@@ -430,7 +430,7 @@ export default class TaskWorflow extends ComponentWithModal {
                                                     data-toggle="dropdown"
                                                     aria-haspopup="true"
                                                     aria-expanded="true">
-                                                Task actions <i className="fa fa-ellipsis-v"/>
+                                                Task actions <i className="fa fa-ellipsis-v" id="menu-btn"/>
                                             </button>
                                             <ul className="dropdown-menu dropdown-menu-right" aria-labelledby="chat-overflow">
                                                 {is_admin_or_owner?(
@@ -540,14 +540,14 @@ export default class TaskWorflow extends ComponentWithModal {
                     <div className="pull-right" style={{width: '30%'}}>
                         {task.is_developer_ready && is_admin_or_owner && !task.parent ? (
                             <ul className="integration-options pull-right">
-                                <li>
+                                <li id="github-btn">
                                     <Link to={`/work/${task.id}/integrations/${SOCIAL_PROVIDERS.github}`}
                                           activeClassName="active"
                                           title="GitHub">
                                         <i className="fa fa-github"/>
                                     </Link>
                                 </li>
-                                <li>
+                                <li id="slack-btn">
                                     <Link to={`/work/${task.id}/integrations/${SOCIAL_PROVIDERS.slack}`}
                                           activeClassName="active"
                                           title="Slack">
@@ -593,17 +593,17 @@ export default class TaskWorflow extends ComponentWithModal {
                             </div>
                         ) : null}
                         {task.details ? (
-                            <CommentSection className="comment-box">
+                            <CommentSection className="comment-box" id="comment-box">
                                 <CommentForm
                                     object_details={{content_type: task.content_type, object_id: task.id}}
                                     uploadCallback={this.onUpload.bind(this)}
                                     uploadSaved={Task.detail.isSaved}
-                                    isSaving={Task.detail.isSaving}/>
+                                    isSaving={Task.detail.isSaving} id="comment-widget"/>
                             </CommentSection>
                         ) : null}
                     </div>
 
-                    <div className="sidebox">
+                    <div className="sidebox" id="sidebox">
                         <div className="overview-details">
                             <div className="wrapper">
                                 <Timeline task={task}
