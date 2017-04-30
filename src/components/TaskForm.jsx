@@ -361,7 +361,7 @@ export default class TaskForm extends ComponentWithModal {
         if(key == 'scope') {
             if(value == TASK_SCOPE_TASK) {
                 new_state.pm_required = false;
-            } else if(!task.id && isProjectManager()) {
+            } else if(!task.id && (isProjectManager() || isAdmin())) {
                 new_state.pm_required = false;
             }
         }
@@ -895,13 +895,15 @@ export default class TaskForm extends ComponentWithModal {
 
         let developersComp = (
             <div>
-                <div className="form-group">
-                    <label className="control-label">Assignee *</label>
-                    <UserSelector filter={{type: USER_TYPE_DEVELOPER}}
-                                  onChange={this.onAssigneeChange.bind(this)}
-                                  selected={task.assignee && task.assignee.user?[task.assignee.user]:[]}
-                                  max={1}/>
-                </div>
+                {is_project?null:(
+                    <div className="form-group">
+                        <label className="control-label">Assignee *</label>
+                        <UserSelector filter={{type: USER_TYPE_DEVELOPER}}
+                                      onChange={this.onAssigneeChange.bind(this)}
+                                      selected={task.assignee && task.assignee.user?[task.assignee.user]:[]}
+                                      max={1}/>
+                    </div>
+                )}
                 <div className="form-group">
                     <label className="control-label">Collaborators</label>
                     <UserSelector filter={{type: USER_TYPE_DEVELOPER}}
@@ -923,7 +925,7 @@ export default class TaskForm extends ComponentWithModal {
                     <label className="control-label">Project Manager</label>
                     <UserSelector filter={{type: USER_TYPE_PROJECT_MANAGER}}
                                   onChange={this.onPMChange.bind(this)}
-                                  selected={task.pm?[task.pm]:[]}
+                                  selected={task.details && task.details.pm?[task.details.pm]:[]}
                                   max={1}/>
                 </div>
             </div>
@@ -1342,7 +1344,7 @@ export default class TaskForm extends ComponentWithModal {
                 ];
 
                 if(is_project) {
-                    if(!isProjectManager()) {
+                    if(!isProjectManager() && !isAdmin()) {
                         sections = [
                             ...sections,
                             {
@@ -1350,6 +1352,17 @@ export default class TaskForm extends ComponentWithModal {
                                 items: [requiresPMComp],
                                 required: true,
                                 forks: ['pm_required']
+                            }
+                        ];
+                    }
+
+                    if(isAdmin()) {
+                        sections = [
+                            ...sections,
+                            {
+                                title: 'Select a project manager',
+                                items: [pmComp],
+                                requires: ['pm']
                             }
                         ];
                     }

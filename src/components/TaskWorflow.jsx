@@ -280,7 +280,7 @@ export default class TaskWorflow extends ComponentWithModal {
         let is_owner = getUser().id == task.user.id;
         let is_admin_or_owner = is_owner || isAdmin();
 
-        let is_pm = (task.pm && task.pm.id == getUser().id);
+        let is_pm = (task.pm == getUser().id);
         let is_confirmed_assignee = task.assignee && task.assignee.status == STATUS_ACCEPTED && task.assignee.user.id == getUser().id;
 
         let workflow_link = `/work/${task.id}/?nr=true`;
@@ -457,11 +457,19 @@ export default class TaskWorflow extends ComponentWithModal {
                                                                 Add skills
                                                             </Link>
                                                         </li>,
+                                                        task.is_project && !task.pm?(
+                                                            <li>
+                                                                <Link to={`/work/${task.id}/edit/pm`} className="btn">
+                                                                    Assign a PM to this {work_type}
+                                                                </Link>
+                                                            </li>
+                                                        ):null,
                                                         <li>
                                                             <Link to={`/work/${task.id}/edit/developers`} className="btn">
                                                                 Add another developer to this {work_type}
                                                             </Link>
-                                                        </li>,
+                                                        </li>
+                                                        ,
                                                         task.parent?null:(
                                                             <li>
                                                                 <Link to={`/work/${task.id}/edit/milestone`} className="btn">
@@ -636,6 +644,16 @@ export default class TaskWorflow extends ComponentWithModal {
                                     <Avatar src={task.user.avatar_url}/> <Link
                                     to={`/people/${task.user.username}/`}>{task.user.display_name}</Link>
                                 </div>
+
+                                {task.pm && task.details && task.details.pm?(
+                                    <div>
+                                        <strong>Project Manager</strong>
+                                        <div>
+                                            <Avatar src={task.details.pm.avatar_url}/> <Link
+                                            to={`/people/${task.details.pm.username}/`}>{task.details.pm.display_name}</Link>
+                                        </div>
+                                    </div>
+                                ):null}
 
                                 {task.assignee ? (
                                     <div>
