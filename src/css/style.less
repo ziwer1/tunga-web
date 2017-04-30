@@ -4,6 +4,8 @@
 
 @import "typo";
 
+@import "bootstrap";
+
 html {
     width: 100%;
     height: 100%;
@@ -431,7 +433,6 @@ form {
 
 form.steps-all {
     .step {
-        min-height: initial;
         min-height: initial;
         height: auto !important;
         overflow-y: visible !important;
@@ -1551,6 +1552,30 @@ form[name='compose'] {
 .rw-datetimepicker {
     > .rw-select {
         border-radius: 0 5px 5px 0;
+    }
+}
+
+.rw-calendar {
+    .rw-header .rw-btn-view {
+        background-color: @inactive-grey;
+    }
+
+    .rw-btn {
+
+        &:hover, &:focus, &:active {
+            color: @primary;
+            background-color: @active-white !important;
+            border-color: @primary;
+        }
+
+        &.rw-state-selected,
+        &.rw-state-selected:hover,
+        &.rw-state-selected:active,
+        &.rw-state-selected:focus {
+            color: @active-white;
+            background-color: @primary !important;
+            border-color: @primary;
+        }
     }
 }
 
@@ -2679,7 +2704,7 @@ form[name='compose'] {
             justify-content: center;
             flex-direction: column;
             height: 400px;
-            min-height: initial !important;
+            min-height: initial;
             overflow-y: scroll;
 
             > * {
@@ -3697,7 +3722,7 @@ form[name='compose'] {
 
         .task-form,
         .task-form.form-wrapper {
-            max-width: 550px;
+            max-width: 400px;
             margin: 0 auto;
 
             .form {
@@ -3710,7 +3735,7 @@ form[name='compose'] {
 
                 .step {
                     height: auto;
-                    min-height: 250px !important;
+                    min-height: 280px;
                     overflow: initial;
                 }
             }
@@ -3718,12 +3743,17 @@ form[name='compose'] {
             .nav {
                 padding: 10px;
                 min-height: initial;
+                border-width: 0;
+            }
+
+            .btn-choices.choice-fork.three {
+                margin: 0 -75px;
             }
         }
 
         .task-section {
             width: 100%;
-            min-height: 270px;
+            min-height: 365px;
         }
 
         .dev-section {
@@ -3749,22 +3779,28 @@ form[name='compose'] {
         }
 
         &.show-trust {
-            max-width: 700px;
-
             .task-form,
             .task-form.form-wrapper {
-                max-width: 350px;
+                max-width: 280px;
+
+                form {
+
+                    .step {
+                        height: auto;
+                        min-height: 285px;
+                    }
+                }
             }
 
             .task-section {
-                width: 60%;
+                width: 55%;
                 float: left;
-                min-height: 300px;
+                min-height: 365px;
             }
 
             .dev-section {
                 display: block;
-                width: 40%;
+                width: 45%;
                 float: right;
                 padding: 0 5px;
                 overflow-y: hidden;
@@ -3779,15 +3815,22 @@ form[name='compose'] {
 
                 .dev-list {
                     overflow-y: scroll;
-                    height: 330px;
+                    height: 365px;
                 }
 
                 .card {
                     padding: 5px 10px;
                     margin: 5px 0;
+                    background-color: @active-white;
+                    border: 1px solid @border-grey;
+                    min-height: 175px;
 
                     .media {
                         padding: 0;
+
+                        .fa {
+                            color: @primary;
+                        }
                     }
 
                     .short-description, .actions  {

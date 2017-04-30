@@ -4,7 +4,7 @@ import moment from 'moment';
 import _ from 'lodash';
 import {Button, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import momentLocalizer from 'react-widgets/lib/localizers/moment';
-import DateTimePicker from 'react-widgets/lib/DateTimePicker';
+import {DateTimePicker, Calendar} from 'react-widgets';
 import Dropzone from 'react-dropzone';
 import FormStatus from './status/FormStatus';
 import FieldError from './status/FieldError';
@@ -256,7 +256,7 @@ export default class TaskForm extends ComponentWithModal {
         var new_schedule_call = this.state.schedule_call;
         switch(part) {
             case 'day':
-                new_schedule_call.day = moment(date).utc().format('YYYY-MM-DD');
+                new_schedule_call.day = moment(date).format('YYYY-MM-DD');
                 break;
             case 'from':
             case 'to':
@@ -1210,11 +1210,10 @@ export default class TaskForm extends ComponentWithModal {
                 <div className="form-group">
                     <label className="control-label">When are you available for a call?</label>
                     <div>
-                        <DateTimePicker ref="schedule_call_day"
-                                        onChange={this.onScheduleChange.bind(this, 'day')}
-                                        defaultValue={task.schedule_call_start?(new Date(moment.utc(task.schedule_call_start).format())):null}
-                                        value={this.state.schedule_call.day?new Date(moment.utc(this.state.schedule_call.day).format()):null}
-                                        time={false} min={new Date()} format="dddd, Do MMMM, YYYY"/>
+                        <Calendar ref="schedule_call_day"
+                                  onChange={this.onScheduleChange.bind(this, 'day')}
+                                  defaultValue={task.schedule_call_start?(new Date(moment.utc(task.schedule_call_start).format())):null}
+                                  value={this.state.schedule_call.day?new Date(moment.utc(this.state.schedule_call.day).format()):null}/>
                     </div>
                 </div>
 
