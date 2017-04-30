@@ -142,7 +142,7 @@ export default class LandingPage extends ComponentWithModal {
                     <div className="container ">
                         <Reveal effect="animated fadeInLeft">
                             <div>
-                                <h2 className="text-center">Featured press</h2>
+                                <div className="section-heading text-center">Featured press</div>
                                 <ul className="press-links">
                                     <li>
                                         <a href="http://www.bbc.co.uk/news/world-africa-38294998"
@@ -190,7 +190,7 @@ export default class LandingPage extends ComponentWithModal {
                 </section>
                 <section id="how-it-works">
                     <div className="container">
-                        <h2>How it works</h2>
+                        <div className="section-heading">How it works</div>
                         <div className="row">
                             <div className="col-md-5">
                                 <Reveal effect="animated fadeIn">
@@ -249,7 +249,7 @@ export default class LandingPage extends ComponentWithModal {
                 </section>
                 <section id="clients-testmonial">
                     <div className="container">
-                        <h2 className="text-center"><span className="bold">Testimonials</span> </h2>
+                        <div className="section-heading text-center">Testimonials</div>
                         <Reveal effect="animated fadeIn">
                             <Slider className="testimonials-slider text-center" {...slider_settings}>
                                 {TESTIMONIALS.map(testimonial => {
@@ -278,7 +278,7 @@ export default class LandingPage extends ComponentWithModal {
                     <div className="container">
                         <Reveal effect="animated fadeIn">
                             <div>
-                                <h2 className="text-center">What we can do</h2>
+                                <div className="section-heading text-center">What we can do</div>
                                 <div className="row">
                                     <div className="col-sm-4" id="building-websites">
                                         <Reveal effect="animated rollIn">

@@ -35,8 +35,8 @@ export default class TaskWizard extends React.Component {
         return (
             <div className={`task-wizard ${this.state.step == 1?'show-trust':''}`}>
                 <div className="title-bar">
-                    <div className="heading-2 text-center">{this.state.title}</div>
-                    <div className="body-3 text-light">{this.state.subtitle}</div>
+                    <div className="heading-3 text-center">{this.state.title}</div>
+                    <div className="heading-1">{this.state.subtitle}</div>
                 </div>
                 <div className="task-section">
                     <TaskContainer>

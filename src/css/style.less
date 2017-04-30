@@ -20,11 +20,16 @@ body {
     overflow-x: hidden;
     word-break: break-word;
     .font-size(1.2);
+    color: @primary-text;
 }
 
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
     font-weight: 400;
+}
+
+h2, .h2 {
+    .font-size(2.8);
 }
 
 strong {
@@ -71,6 +76,7 @@ label {
 .control-label {
     color: @primary-text;
     display: block;
+    .font-size(1.4);
 }
 
 th {
@@ -152,6 +158,7 @@ form .alert {
 }
 
 .navbar {
+    .font-size(1.3);
     color: @active-white;
     min-height: 60px;
     padding-top: 5px;
@@ -350,6 +357,7 @@ form {
 .btn:hover,
 .btn:focus,
 .btn:active {
+    .font-size(1.4);
     font-weight: 300;
     color: @active-white;
     background: @primary none;
@@ -445,8 +453,7 @@ form.steps-all {
 
 .form-control {
     height: 30px;
-    .font-size(1.1);
-    /*box-shadow: none;*/
+    .font-size(1.4);
 }
 
 .input-group {
@@ -497,7 +504,7 @@ form[name='compose'] {
 }
 
 .nav-sidebar {
-    .font-size(1.3);
+    .font-size(1.4);
     margin-top: 30px;
 
     a {
@@ -681,6 +688,7 @@ form[name='compose'] {
 
 .nav-top-filter,
 .nav-top-filter.nav-pills {
+    .font-size(1.4);
     margin-bottom: 10px;
 
     a, .btn,
@@ -1114,7 +1122,7 @@ form[name='compose'] {
         top: 0;
         right: 0;
         color: @active-white;
-        font-size: 80%;
+        .font-size(1);
         padding: 3px 5px;
         background-color: @bg-grey-light;
         border-radius: 0 5px 0 5px;
@@ -1291,7 +1299,7 @@ form[name='compose'] {
 
             .day {
                 color: @primary;
-                .font-size(1.6rem);
+                .font-size(1.4);
             }
         }
     }
@@ -1302,6 +1310,7 @@ form[name='compose'] {
         margin: 30px auto 20px;
         max-width: 500px;
         text-align: center;
+        .font-size(1.4);
 
         ul {
             list-style: none;
@@ -2807,7 +2816,7 @@ form[name='compose'] {
         border-bottom: 1px @border-grey solid;
         padding: 20px 0;
 
-        h2 {
+        > * {
             margin: 0;
         }
     }
@@ -3076,12 +3085,6 @@ form[name='compose'] {
         margin-top: 20px;
     }
 
-
-    .btn-callout:hover,
-    .btn-callout:focus {
-        font-weight: bold;
-    }
-
     .card {
         position: relative;
         background: @inactive-grey none;
@@ -3096,6 +3099,7 @@ form[name='compose'] {
         display: flex;
         align-items: center;
         flex-direction: column;
+        .font-size(1.4);
 
         h4 {
             font-size: 18px;
@@ -3448,6 +3452,8 @@ form[name='compose'] {
 
         .testimonials-slider {
             .testimonial {
+                .font-size(1.4);
+
                 .body {
                     position: relative;
                     color: @primary-text;
@@ -3490,12 +3496,10 @@ form[name='compose'] {
                 }
 
                 .author {
-                    .font-size(1.4);
                     font-weight: 400;
                 }
 
                 .company {
-                    .font-size(1.2);
                     font-weight: 100;
                 }
             }
@@ -3583,6 +3587,7 @@ form[name='compose'] {
         min-height: 50%;
         display: flex;
         align-items: center;
+        .font-size(1.4);
 
         .row {
             text-align: center;
@@ -3683,6 +3688,7 @@ form[name='compose'] {
 }
 
 .showcase.task-wizard-page {
+    .font-size(1.4);
 
     color: @primary-text;
 
@@ -3704,9 +3710,8 @@ form[name='compose'] {
             border-bottom: 1px @border-grey solid;
             padding: 20px 0;
 
-            h3 {
+            > * {
                 margin: 0;
-                font-weight: 300;
             }
         }
 
@@ -3825,6 +3830,7 @@ form[name='compose'] {
                 }
 
                 .card {
+                    .font-size(1.2);
                     padding: 5px 10px;
                     margin: 5px 0;
                     background-color: @active-white;
@@ -4006,6 +4012,8 @@ form[name='compose'] {
 }
 
 .showcase.auth-page {
+    .font-size(1.4);
+
     header {
         min-height: 100%;
         text-align: center;

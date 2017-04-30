@@ -34,7 +34,7 @@ class PasswordReset extends React.Component {
 
         return (
             <form onSubmit={this.handleSubmit} name="reset-form" role="form" ref="reset_form">
-                <h2>Reset Password</h2>
+                <div className="heading-3">Reset Password</div>
 
                 {Auth.isResetting? (<Progress/>) :null}
 
