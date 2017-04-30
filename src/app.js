@@ -155,7 +155,7 @@ ReactDOM.render(
                                 <Route path="edit" crumb="Edit">
                                     <IndexRoute component={TaskForm} />
                                     {/*<Route path="complete-task" component={EditTaskSectionForm} crumb="Finalize Task"/>*/}
-                                    <Route path=":editSection" component={EditTaskSectionForm} />
+                                    <Route path=":editSection" component={EditTaskSectionForm} crumbs={{trello: 'Trello', 'google-drive': 'Google Drive'}}/>
                                 </Route>
                                 <Route path="apply" component={ApplicationForm} crumb="Apply"/>
                                 <Route path="estimate" component={EstimateContainer} crumb="Estimate">
@@ -181,9 +181,11 @@ ReactDOM.render(
                                 </Route>
                                 <Route path="board" component={ProjectBoard} crumb="Project Board"/>
                                 <Route path="task/new" component={ProjectTaskForm} crumb="Add task"/>
-                                <Route path="integrations" component={IntegrationList} crumb="Integrations">
-                                    <IndexRedirect to="github" />
-                                    <Route path=":provider" crumb="Integrations"/>
+                                <Route path="integrations" crumb="Integrations">
+                                    <IndexRedirect to="github" component={IntegrationList} />
+                                    <Route path="trello" component={TaskForm} crumb="Trello"/>
+                                    <Route path="google" component={TaskForm} crumb="Google Drive"/>
+                                    <Route path=":provider" component={IntegrationList} crumb="Integrations" crumbs={{slack: 'Slack', github: 'GitHub'}}/>
                                 </Route>
                                 <Route path="pay" component={TaskPay} crumb="Pay"/>
                                 <Route path="participation" component={Participation} crumb="Participation shares"/>

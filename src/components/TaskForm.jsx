@@ -426,6 +426,8 @@ export default class TaskForm extends ComponentWithModal {
 
         req_data.visibility = this.state.visibility;
         req_data.pm = this.state.pm;
+        req_data.trello_board_url = this.state.trello_board_url;
+        req_data.google_drive_url = this.state.google_drive_url;
 
         var schedule_id = this.state.schedule || null;
         var update_schedule = null;
@@ -1241,6 +1243,42 @@ export default class TaskForm extends ComponentWithModal {
             </div>
         );
 
+        let trelloComp = (
+            <div>
+                {(Task.detail.error.create && Task.detail.error.create.trello_board_url)?
+                    (<FieldError message={Task.detail.error.create.trello_board_url}/>):null}
+                {(Task.detail.error.update && Task.detail.error.update.trello_board_url)?
+                    (<FieldError message={Task.detail.error.update.trello_board_url}/>):null}
+                <div className="form-group">
+                    <label className="control-label"><i className="fa fa-trello trello"/> Trello board url</label>
+                    <div>
+                        <input type="text" className="form-control" ref="trello_board_url"
+                               required placeholder="Trello board url"
+                               onChange={this.onInputChange.bind(this, 'trello_board_url')}
+                               value={this.state.trello_board_url}/>
+                    </div>
+                </div>
+            </div>
+        );
+
+        let googleDriveComp = (
+            <div>
+                {(Task.detail.error.create && Task.detail.error.create.google_drive_url)?
+                    (<FieldError message={Task.detail.error.create.google_drive_url}/>):null}
+                {(Task.detail.error.update && Task.detail.error.update.google_drive_url)?
+                    (<FieldError message={Task.detail.error.update.google_drive_url}/>):null}
+                <div className="form-group">
+                    <label className="control-label"><i className="tunga-icon-google-drive google"/> Google Drive url</label>
+                    <div>
+                        <input type="text" className="form-control" ref="google_drive_url"
+                               required placeholder="Google Drive url"
+                               onChange={this.onInputChange.bind(this, 'google_drive_url')}
+                               value={this.state.google_drive_url}/>
+                    </div>
+                </div>
+            </div>
+        );
+
         if(isAuthenticated()) {
             if(enabledWidgets && enabledWidgets.length) {
                 let widgetMap = {
@@ -1256,7 +1294,9 @@ export default class TaskForm extends ComponentWithModal {
                     stack: stackDescComp,
                     files: filesComp,
                     updates: updatesComp,
-                    pm: pmComp
+                    pm: pmComp,
+                    trello: trelloComp,
+                    'google-drive': googleDriveComp,
                 };
 
 

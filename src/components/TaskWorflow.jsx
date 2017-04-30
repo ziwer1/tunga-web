@@ -562,6 +562,20 @@ export default class TaskWorflow extends ComponentWithModal {
                                         <i className="fa fa-slack"/>
                                     </Link>
                                 </li>
+                                <li id="trello-btn">
+                                    <Link to={`/work/${task.id}/edit/${SOCIAL_PROVIDERS.trello}`}
+                                          activeClassName="active"
+                                          title="Trello">
+                                        <i className="fa fa-trello"/>
+                                    </Link>
+                                </li>
+                                <li id="google-drive-btn">
+                                    <Link to={`/work/${task.id}/edit/${SOCIAL_PROVIDERS['google-drive']}`}
+                                          activeClassName="active"
+                                          title="Google Drive">
+                                        <i className="tunga-icon-google-drive"/>
+                                    </Link>
+                                </li>
                             </ul>
                         ) : (
                             <span>&nbsp;</span>
@@ -690,8 +704,8 @@ export default class TaskWorflow extends ComponentWithModal {
 
                                 {task.url ? (
                                     <div>
-                                        <strong>Code Location</strong>
-                                        <p><a href={task.url}>{task.url}</a></p>
+                                        <strong><i className="fa fa-globe"/> Code Location</strong>
+                                        <p><a href={task.url} target="_blank">{task.url}</a></p>
                                     </div>
                                 ) : null}
                                 {task.details && task.details.skills.length?(
@@ -700,6 +714,18 @@ export default class TaskWorflow extends ComponentWithModal {
                                         <TagList tags={task.details.skills} max={3} linkPrefix="/work/skill/" moreLink={`/work/${task.id}/`}/>
                                     </div>
                                 ):null}
+                                {task.trello_board_url ? (
+                                    <div>
+                                        <strong><i className="fa fa-trello trello"/> Trello board url</strong>
+                                        <p><a href={task.trello_board_url} target="_blank">{task.trello_board_url}</a></p>
+                                    </div>
+                                ) : null}
+                                {task.google_drive_url ? (
+                                    <div>
+                                        <strong><i className="tunga-icon-google-drive google"/> Google Drive url</strong>
+                                        <p><a href={task.google_drive_url} target="_blank">{task.google_drive_url}</a></p>
+                                    </div>
+                                ) : null}
                                 {task.milestones.length ? (
                                     <div>
                                         <strong>Milestones</strong>

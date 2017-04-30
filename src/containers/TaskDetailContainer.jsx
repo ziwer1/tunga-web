@@ -42,6 +42,32 @@ export default class TaskDetailContainer extends React.Component {
         return null;
     }
 
+    getEditSection() {
+        if(this.props.params) {
+            return this.props.params.editSection;
+        }
+        return null;
+    }
+
+    getProvider() {
+        if(this.props.params) {
+            return this.props.params.provider;
+        }
+        return null;
+    }
+
+    getCrumbSection() {
+        var section = this.getEditSection();
+        if(section) {
+            return section;
+        }
+        section = this.getProvider();
+        if(section) {
+            return section;
+        }
+        return null;
+    }
+
     getApplication() {
         let id = this.getApplicationId();
         const applications = this.props.Task.detail.applications.items;
@@ -108,7 +134,7 @@ export default class TaskDetailContainer extends React.Component {
                 isAdmin() || (lastRoute && lastRoute.path == 'apply' && task.can_apply)?(
                 <div>
                     <BreadCrumb
-                        section={application_id?(application?application.user.display_name:`Application #${application_id}`):getRouteCrumb(routes)}
+                        section={application_id?(application?application.user.display_name:`Application #${application_id}`):getRouteCrumb(routes, this.getCrumbSection())}
                         parents={crumb_parents} />
 
                     {this.renderChildren()}

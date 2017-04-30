@@ -40,7 +40,9 @@ export const SOCIAL_PROVIDERS = {
     linkedin: 'linkedin',
     github: 'github',
     coinbase: 'coinbase',
-    slack: 'slack'
+    slack: 'slack',
+    trello: 'trello',
+    'google-drive': 'google-drive'
 };
 
 export const SOCIAL_LOGIN_URLS = {
