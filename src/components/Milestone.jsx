@@ -10,7 +10,7 @@ import ProgressReportForm from './ProgressReportForm';
 import BreadCrumb from '../containers/BreadCrumb';
 
 import { PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT } from '../constants/Api';
-import { isDeveloper, getUser } from '../utils/auth';
+import { isDeveloper, getUser, isAdmin, isAdminOrProjectOwner } from '../utils/auth';
 
 export default class Milestone extends React.Component {
 
@@ -91,6 +91,9 @@ export default class Milestone extends React.Component {
                                 <h4><i className="fa fa-newspaper-o"/> Progress Reports</h4>
 
                                 {reports.map(report => {
+                                    if(report.user && report.user.is_project_manager && !isAdmin() && report.user.id != getUser().id) {
+                                        return null;
+                                    }
                                     return <div className="card">
                                         {report.user?(
                                             <div>
@@ -105,6 +108,21 @@ export default class Milestone extends React.Component {
                                                 <ProgressBar bsStyle="success" now={report.percentage || 0} label={`${report.percentage || 0}% Completed`} />
                                             </div>
                                         </p>
+                                        {typeof report.last_deadline_met == 'boolean'?(
+                                            <div>
+                                                <p>
+                                                    <strong>Was the last deadline met?: </strong><span>{report.last_deadline_met?'Yes':'No'}</span>
+                                                </p>
+                                                {report.deadline_report?(
+                                                    <div>
+                                                        <strong>Deadline Report</strong>
+                                                        <div>
+                                                            <Linkify properties={{target: '_blank'}}>{report.deadline_report}</Linkify>
+                                                        </div>
+                                                    </div>
+                                                ):null}
+                                            </div>
+                                        ):null}
                                         {report.accomplished?(
                                             <div>
                                                 <strong>Accomplished</strong>
@@ -130,6 +148,17 @@ export default class Milestone extends React.Component {
                                                 <strong>Next steps</strong>
                                                 <div>
                                                     <Linkify properties={{target: '_blank'}}>{report.next_steps}</Linkify>
+                                                </div>
+                                            </div>
+                                        ):null}
+                                        {report.next_deadline?(
+                                            <div><strong>Next Deadline:</strong> {moment.utc(milestone.next_deadline).local().format('dddd, Do MMMM, YYYY')}</div>
+                                        ):null}
+                                        {report.team_appraisal?(
+                                            <div>
+                                                <strong>Team appraisal</strong>
+                                                <div>
+                                                    <Linkify properties={{target: '_blank'}}>{report.team_appraisal}</Linkify>
                                                 </div>
                                             </div>
                                         ):null}
