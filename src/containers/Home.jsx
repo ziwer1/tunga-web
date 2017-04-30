@@ -64,7 +64,7 @@ class Home extends React.Component {
                             {Notification.notifications.profile &&
                             Notification.notifications.profile.missing &&
                             Notification.notifications.profile.missing.length?(
-                                <li>
+                                <li id="inner-my-profile">
                                     <Link to="/profile">
                                         <span className="icon">
                                             <i className="tunga-icon-profile"/> <span className="badge">{Notification.notifications.profile.missing.length}</span>
@@ -74,7 +74,7 @@ class Home extends React.Component {
                                 </li>
                             ):null}
                             {Notification.notifications.requests?(
-                                <li>
+                                <li id="inner-tribe">
                                     <Link to="/people/filter/requests">
                                 <span className="icon">
                                     <i className="tunga-icon-tribe"/> <span className="badge">{Notification.notifications.requests}</span>
@@ -84,7 +84,7 @@ class Home extends React.Component {
                                 </li>
                             ):null}
                             {Notification.notifications.messages?(
-                                <li>
+                                <li id="inner-my-messages">
                                     <Link to="/conversation">
                                 <span className="icon">
                                     <i className="tunga-icon-message"/> <span className="badge">{Notification.notifications.messages}</span>
@@ -94,7 +94,7 @@ class Home extends React.Component {
                                 </li>
                             ):null}
                             {Notification.notifications.tasks?(
-                                <li>
+                                <li id="inner-running-tasks">
                                     <Link to="/work/filter/running">
                                 <span className="icon">
                                     <i className="tunga-icon-running-tasks"/> <span className="badge">{Notification.notifications.tasks}</span>
@@ -106,7 +106,7 @@ class Home extends React.Component {
                             {isAdmin() || isProjectManager()?(
                                 [
                                     Notification.notifications.estimates?(
-                                        <li>
+                                        <li id="inner-estimates">
                                             <Link to="/work/filter/estimates">
                                             <span className="icon">
                                                 <i className="tunga-icon-project"/> <span className="badge">{Notification.notifications.estimates}</span>
@@ -116,7 +116,7 @@ class Home extends React.Component {
                                         </li>
                                     ):null,
                                     Notification.notifications.quotes?(
-                                        <li>
+                                        <li id="inner-quotes">
                                             <Link to="/work/filter/quotes">
                                             <span className="icon">
                                                 <i className="tunga-icon-project"/> <span className="badge">{Notification.notifications.quotes}</span>

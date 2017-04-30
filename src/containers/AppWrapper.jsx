@@ -105,6 +105,47 @@ export default class AppWrapper extends React.Component {
             ]
         }
 
+        steps = [
+            ...steps,
+            {
+                title: 'My Profile',
+                text: 'Manage your profile and settings',
+                selector: '#inner-my-profile',
+                position: 'top'
+            },
+            {
+                title: 'Tribe',
+                text: 'View your team of developers',
+                selector: '#inner-tribe',
+                position: 'top'
+            },
+            {
+                title: 'Messages',
+                text: 'Start conversations and check on your new messages',
+                selector: '#inner-messages',
+                position: 'top'
+            },
+            {
+                title: 'Running Tasks',
+                text: 'View your on-going tasks',
+                selector: '#inner-running-tasks',
+                position: 'top'
+            },
+            {
+                title: 'Estimates',
+                text: 'Manage your task estimates',
+                selector: '#inner-estimates',
+                position: 'top'
+            },
+            {
+                title: 'Quotes',
+                text: 'Manage your task quotes',
+                selector: '#inner-quotes',
+                position: 'top'
+            }
+
+        ];
+
         return (
             <div className="app-wrapper dashboard" onClick={this.handleAppClick.bind(this)}>
                 <Helmet
