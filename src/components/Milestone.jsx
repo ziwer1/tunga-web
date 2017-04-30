@@ -105,6 +105,21 @@ export default class Milestone extends React.Component {
                                                 <ProgressBar bsStyle="success" now={report.percentage || 0} label={`${report.percentage || 0}% Completed`} />
                                             </div>
                                         </p>
+                                        {typeof report.last_deadline_met == 'boolean'?(
+                                            <div>
+                                                <p>
+                                                    <strong>Was the last deadline met?: </strong><span>{report.last_deadline_met?'Yes':'No'}</span>
+                                                </p>
+                                                {report.deadline_report?(
+                                                    <div>
+                                                        <strong>Accomplished</strong>
+                                                        <div>
+                                                            <Linkify properties={{target: '_blank'}}>{report.deadline_report}</Linkify>
+                                                        </div>
+                                                    </div>
+                                                ):null}
+                                            </div>
+                                        ):null}
                                         {report.accomplished?(
                                             <div>
                                                 <strong>Accomplished</strong>
@@ -130,6 +145,17 @@ export default class Milestone extends React.Component {
                                                 <strong>Next steps</strong>
                                                 <div>
                                                     <Linkify properties={{target: '_blank'}}>{report.next_steps}</Linkify>
+                                                </div>
+                                            </div>
+                                        ):null}
+                                        {report.next_deadline?(
+                                            <div><strong>Next Deadline:</strong> {moment.utc(milestone.next_deadline).local().format('dddd, Do MMMM, YYYY')}</div>
+                                        ):null}
+                                        {report.team_appraisal?(
+                                            <div>
+                                                <strong>Team appraisal</strong>
+                                                <div>
+                                                    <Linkify properties={{target: '_blank'}}>{report.team_appraisal}</Linkify>
                                                 </div>
                                             </div>
                                         ):null}
