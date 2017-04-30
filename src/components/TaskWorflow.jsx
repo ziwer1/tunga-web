@@ -4,6 +4,7 @@ import moment from 'moment';
 import TimeAgo from 'react-timeago';
 import {OverlayTrigger, Popover} from 'react-bootstrap';
 import Linkify from 'react-linkify';
+import Joyride from 'react-joyride';
 
 import CommentSection from '../containers/CommentSection';
 import Avatar from './Avatar';
@@ -304,9 +305,96 @@ export default class TaskWorflow extends ComponentWithModal {
             </Popover>
         );
 
+        let steps = [
+            ...steps,
+            {
+                title: 'View Applications',
+                text: 'View Task Applications from developers',
+                selector: '#view-applications-btn',
+                position: 'bottom'
+            },
+            {
+                title: 'Project Board',
+                text: 'View Project Board',
+                selector: '#project-board-btn',
+                position: 'bottom'
+            },
+            {
+                title: 'Make Payment',
+                text: 'Make payments to developers',
+                selector: '#make-payment-btn',
+                position: 'bottom'
+            },
+            {
+                title: 'Rate Developers',
+                text: 'Rate Project Developers',
+                selector: '#rate-developers-btn',
+                position: 'bottom'
+            },
+            {
+                title: 'Participation Shares',
+                text: 'Participation shares',
+                selector: '#participation-shares-btn',
+                position: 'bottom'
+            },
+            {
+                title: 'Configure updates',
+                text: 'Manage updates',
+                selector: '#configure-updates-btn',
+                position: 'bottom'
+            },
+            {
+                title: 'Settings',
+                text: 'Manage Settings',
+                selector: '#menu-btn',
+                position: 'bottom'
+            },
+            {
+                title: 'Github Repo',
+                text: 'View project or task on github',
+                selector: '#github-btn',
+                position: 'left'
+            },
+            {
+                title: 'Slack team',
+                text: 'Go to project or task slack team',
+                selector: '#slack-btn',
+                position: 'left'
+            },
+            {
+                title: 'Comment Area',
+                text: 'View activity about your task or project',
+                selector: '#comment-box',
+                position: 'top'
+            },
+            {
+                title: 'Comment Widget',
+                text: 'Share messages and upload files',
+                selector: '#comment-widget',
+                position: 'top'
+            },
+            {
+                title: 'Sidebar Bar',
+                text: 'View your task or project details',
+                selector: '#sidebox',
+                position: 'left'
+            }
+
+        ];
+
         return (
             <div>
                 {this.renderModalContent()}
+
+                <Joyride ref="joyride_workflow"
+                         steps={steps}
+                         run={!__PRODUCTION__ || __PRERELEASE__}
+                         debug={!__PRODUCTION__ || __PRERELEASE__}
+                         autoStart={!__PRODUCTION__ || __PRERELEASE__}
+                         type="continuous"
+                         showStepsProgress={true}
+                         showSkipButton={true}/>
+
                 <div className="workflow-head clearfix">
                     <div className="" style={{marginBottom: '10px'}}>
                         <div className="title">

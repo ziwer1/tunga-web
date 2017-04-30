@@ -97,7 +97,6 @@ export default class TaskForm extends ComponentWithModal {
             if(!isAuthenticated() && this.props.onStepChange) {
                 this.props.onStepChange({
                     title: "Thank you for using Tunga!",
-                    subtitle: "One of our project hackers will reach out to you ASAP!"
                 }, this.state.step-1, sections);
             }
 
@@ -507,7 +506,7 @@ export default class TaskForm extends ComponentWithModal {
         if(!isAuthenticated() && Task.detail.isSaved) {
             return (
                 <div className="thank-you">
-                    Awesome!<br/>
+                    One of our project hackers will reach out to you ASAP!<br/>
                     <i className="fa fa-check-circle"/>
                 </div>
             );
@@ -1120,10 +1119,10 @@ export default class TaskForm extends ComponentWithModal {
                 <div className="form-group">
                     <label className="control-label">Name *</label>
                     <div className="row">
-                        <div className="col-md-6">
+                        <div className="col-md-5">
                             <input type="text" name="first_name" className="form-control" ref="first_name" required placeholder="First Name"  onChange={this.onInputChange.bind(this, 'first_name')} value={this.state.first_name}/>
                         </div>
-                        <div className="col-md-6">
+                        <div className="col-md-7">
                             <input type="text" name="last_name" className="form-control" ref="last_name" required placeholder="Last Name"  onChange={this.onInputChange.bind(this, 'last_name')} value={this.state.last_name}/>
                         </div>
                     </div>

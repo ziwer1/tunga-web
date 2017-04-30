@@ -70,7 +70,7 @@ export default class HowItWorksPage extends React.Component {
                 <div className="content">
                     <section>
                         <div className="container">
-                            <div className="step-slider five">
+                            <div className="step-slider five clearfix">
                                 <ul>
                                     {STEP_DETAILS.map((step, idx) => {
                                         return (

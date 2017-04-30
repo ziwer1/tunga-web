@@ -18,7 +18,7 @@ export default class ShowcaseContainer extends React.Component {
                         </video>
                     ):null}
                     <Affix affixClassName="navbar-fixed-top" offsetTop={60}>
-                        <nav className="navbar">
+                        <nav className="navbar navbar-fixed-top">
                             <div className="navbar-header">
                                 <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                                     <span className="sr-only">Toggle navigation</span>
@@ -29,11 +29,11 @@ export default class ShowcaseContainer extends React.Component {
 
                             <div id="navbar" className="collapse navbar-collapse">
                                 <ul className="nav navbar-nav navbar-right nav-actions">
-                                    <li><a className="primary" onClick={() => {openCalendlyWidget()}}>Request demo</a></li>
+                                    <li><a className="primary" onClick={() => {openCalendlyWidget()}}>Hire talent</a></li>
                                     <li><Link to="/signin">Login</Link></li>
                                 </ul>
-                                <ul className="nav navbar-nav navbar-right">
-                                    <li><Link to="/how-it-works" activeClassName="active">How it works</Link></li>
+                                <ul className="nav navbar-nav navbar-left nav-main">
+                                    {/*<li><Link to="/how-it-works" activeClassName="active">How it works</Link></li>*/}
                                     <li><Link to="/pricing" activeClassName="active">Pricing</Link></li>
                                     <li><a href="https://blog.tunga.io" target="_blank">Blog</a></li>
                                 </ul>

@@ -99,7 +99,7 @@ ReactDOM.render(
                     {/* No Auth Pages */}
                     <Route path="start" component={TaskWizard} showTaskWizard={true}/>
                     <Route path="call" component={LandingPage} showCallWidget={true}/>
-                    <Route path="how-it-works" component={HowItWorksPage}/>
+                    {/*<Route path="how-it-works" component={HowItWorksPage}/>*/}
                     <Route path="pricing" component={PricingPage}/>
                     <Route path="press" component={LandingPage}/>
                     <Route path="FAQ" component={LandingPage}/>

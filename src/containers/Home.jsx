@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 import moment from 'moment';
+import Joyride from 'react-joyride';
 
 import connect from '../utils/connectors/NotificationConnector';
 import Clock from '../components/Clock';
@@ -45,8 +46,73 @@ class Home extends React.Component {
 
         var imageNumber = (parseInt(moment().format('E') + moment().format('w')) % 5) + 1;
 
+        let all_steps = [
+            {
+                title: 'My Profile',
+                text: 'Manage your profile and settings',
+                selector: '#inner-my-profile',
+                position: 'top',
+                condition: Notification.notifications.profile && Notification.notifications.profile.missing && Notification.notifications.profile.missing.length
+            },
+            {
+                title: 'Tribe',
+                text: 'View your team of developers',
+                selector: '#inner-tribe',
+                position: 'top',
+                condition: Notification.notifications.requests
+            },
+            {
+                title: 'Messages',
+                text: 'Start conversations and check on your new messages',
+                selector: '#inner-messages',
+                position: 'top',
+                condition: Notification.notifications.messages
+            },
+            {
+                title: 'Running Tasks',
+                text: 'View your on-going tasks',
+                selector: '#inner-running-tasks',
+                position: 'top',
+                condition: Notification.notifications.tasks
+            },
+            {
+                title: 'Estimates',
+                text: 'Manage your task estimates',
+                selector: '#inner-estimates',
+                position: 'top',
+                condition: Notification.notifications.estimates
+            },
+            {
+                title: 'Quotes',
+                text: 'Manage your task quotes',
+                selector: '#inner-quotes',
+                position: 'top',
+                condition: Notification.notifications.quotes
+            }
+
+        ];
+
+        var steps = [];
+        all_steps.forEach(step => {
+           if(step.condition){
+               delete step['condition'];
+               return steps.push(step);
+           }
+        });
+
+        console.log('steps', steps);
+
         return (
             <div className="home-page">
+                <Joyride ref="joyride_home"
+                         steps={steps}
+                         run={!__PRODUCTION__ || __PRERELEASE__}
+                         debug={!__PRODUCTION__ || __PRERELEASE__}
+                         autoStart={!__PRODUCTION__ || __PRERELEASE__}
+                         type="continuous"
+                         showStepsProgress={true}
+                         showSkipButton={true}/>
+
                 <div className="bg-wrapper">
                     <img src={require(`../images/home/Image-${imageNumber}.jpg`)}/>
                 </div>

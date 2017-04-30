@@ -14,19 +14,41 @@ import { TESTIMONIALS } from '../constants/data';
 
 import { sendGAEvent, GA_EVENT_CATEGORIES, GA_EVENT_ACTIONS, GA_EVENT_LABELS } from '../utils/tracking';
 
-var canOpen = true;
+const STEP_DETAILS = [
+    {
+        title: "1. Tell us what software<br/>capacity you need",
+        description: <div>Use our <Link to='/start'>wizard</Link> to submit you software need. Our developers and project managers will get back to you soon with a match with great developers.</div>,
+        icon: 'tunga-icon-post-task'
+    },
+    {
+        title: "2. Tunga matches the best<br/> developers to you",
+        description: "Select a developer or a team of developers to work on your software project.",
+        icon: 'tunga-icon-browse-developers'
+    },
+    {
+        title: "3. Use the Tunga workflow<br/>or integrate your own.",
+        description: "Tunga offers a wide range of integrations (e.g Github, Slack, Trello) that allows you to easily set up a workflow or allow you to integrate your existing workflow.",
+        icon: 'tunga-icon-manage-tasks'
+    },
+    {
+        title: "4. Effortless payments<br/>and invoice overview.",
+        description: "Pay only for approved work done. Fast, cheap and easy. Get your invoices on the fly.",
+        icon: 'tunga-icon-make-transaction'
+    },
+    {
+        title: "5. Increase your team of<br/>developers for future project.",
+        description: "Increase you network of coders for all your future software needs.",
+        icon: 'tunga-icon-build-network'
+    }
+];
 
 export default class LandingPage extends ComponentWithModal {
     constructor(props) {
         super(props);
-        this.state = {player: null, play: false};
+        this.state = {player: null, play: false, step: 0};
     }
 
     componentDidMount() {
-        if(showWizard(this.props.routes) && canOpen) {
-            canOpen = false;
-        }
-
         if(showCallWidget(this.props.routes)) {
             openCalendlyWidget();
         }
@@ -62,6 +84,10 @@ export default class LandingPage extends ComponentWithModal {
         }
     }
 
+    onChangeSliderStep(step) {
+        this.setState({step});
+    }
+
     getDLPTag() {
         const { location } = this.props;
         if(location && location.query.dlp_tag) {
@@ -87,6 +113,10 @@ export default class LandingPage extends ComponentWithModal {
         return null;
     }
 
+    onRevealNumber(target) {
+        var numAnim = new CountUp(target, 0, parseInt($('#'+target).html()));
+        numAnim.start();
+    }
 
     renderHeaderContent() {
 
@@ -111,7 +141,7 @@ export default class LandingPage extends ComponentWithModal {
                     <div>
                         <Link to="/start/"
                                 className="btn btn-callout">
-                            {dlp_phrase?`Start hiring ${dlp_phrase}`:'Get Started'}
+                            <i className="fa fa-rocket fa-lg"/> {dlp_phrase?`Start hiring ${dlp_phrase}`:'Launch your project'}
                         </Link>
                     </div>
                 </div>
@@ -138,11 +168,75 @@ export default class LandingPage extends ComponentWithModal {
                                chatId={this.props.params?this.props.params.chatId:null}>
                 <Helmet title="Tunga | Unlocking Africa's Tech talent potential."/>
 
+                <section id="how-it-works">
+                    <div className="container">
+                        <div className="section-heading text-center">How it works</div>
+                        <div className="step-slider five clearfix">
+                            <ul>
+                                {STEP_DETAILS.map((step, idx) => {
+                                    return (
+                                        <li key={idx}>
+                                            <a href="#"
+                                               onClick={this.onChangeSliderStep.bind(this, idx)}
+                                               onMouseOver={this.onChangeSliderStep.bind(this, idx)}
+                                               className={`slide ${this.state.step == idx?"active":""} animated fadeInRight`}
+                                               style={{animationDelay: `${idx}s`}}>
+                                                <div className="icon">
+                                                    <i className={step.icon}/>
+                                                </div>
+                                                <span dangerouslySetInnerHTML={{__html: step.title}}/>
+                                            </a>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="platform-info">
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-md-5">
+                                <div className="workflow">
+                                    <div className="step">
+                                        <Reveal effect="animated fadeIn" onReveal={this.onRevealNumber.bind(this, "platform-devs")}>
+                                            <div className="highlight" id="platform-devs">154</div>
+                                            <div>developers</div>
+                                        </Reveal>
+                                    </div>
+
+                                    <div className="step">
+                                        <Reveal effect="animated fadeIn" onReveal={this.onRevealNumber.bind(this, "platform-skills")}>
+                                            <div className="highlight" id="platform-skills">89</div>
+                                            <div>different coding skills</div>
+                                        </Reveal>
+                                    </div>
+
+                                    <div className="step">
+                                        <Reveal effect="animated fadeIn" onReveal={this.onRevealNumber.bind(this, "platform-code")}>
+                                            <div className="highlight" id="platform-code">349281</div>
+                                            <div>lines of code written</div>
+                                        </Reveal>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-md-7">
+                                <YouTube
+                                    videoId="RVVtyapBmuo"
+                                    opts={{width: '100%'}}
+                                    onReady={this.onVideoReady.bind(this)}
+                                    onPause={this.onPauseVideo.bind(this)}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </section>
                 <section id="press">
                     <div className="container ">
                         <Reveal effect="animated fadeInLeft">
                             <div>
-                                <div className="section-heading text-center">Featured press</div>
+                                <div className="section-heading text-center">Tunga in the press</div>
                                 <ul className="press-links">
                                     <li>
                                         <a href="http://www.bbc.co.uk/news/world-africa-38294998"
@@ -188,65 +282,6 @@ export default class LandingPage extends ComponentWithModal {
                         </Reveal>
                     </div>
                 </section>
-                <section id="how-it-works">
-                    <div className="container">
-                        <div className="section-heading">How it works</div>
-                        <div className="row">
-                            <div className="col-md-5">
-                                <Reveal effect="animated fadeIn">
-                                    <div className="workflow">
-                                        <div className="step">
-                                            <i className="icon tunga-icon-post-task"/>
-                                            <h5>1. Post your work</h5>
-                                        </div>
-
-                                        <span style={{minHeight: '75px'}}>
-                                            <img src={require('../images/down-right.png')}/>
-                                        </span>
-
-                                        <div className="step">
-                                            <i className="icon tunga-icon-browse-developers"/>
-                                            <h5>2. Select developers</h5>
-                                        </div>
-
-                                        <span style={{minHeight: '75px'}}>
-                                            <img src={require('../images/down-left.png')}/>
-                                        </span>
-
-                                        <div className="step">
-                                            <i className="icon tunga-icon-manage-tasks"/>
-                                            <h5>3. Manage your work</h5>
-                                        </div>
-
-                                        <span style={{minHeight: '75px'}}>
-                                            <img src={require('../images/down-right.png')}/>
-                                        </span>
-
-                                        <div className="step">
-                                            <i className="icon tunga-icon-make-transaction"/>
-                                            <h5>4. Pay your developers</h5>
-                                        </div>
-
-                                        <span style={{minHeight: '75px'}}>
-                                            <img src={require('../images/down-left.png')}/>
-                                        </span>
-
-                                        <div className="step">
-                                            <i className="icon tunga-icon-build-network"/>
-                                            <h5>5. Increase your network</h5>
-                                        </div>
-                                    </div>
-                                </Reveal>
-                            </div>
-                            <div id="demo-mbp" className="col-md-7">
-                                <img src={require('../images/mbp.jpg')}/>
-                            </div>
-                        </div>
-                        <div className="text-center">
-                            <Link className="btn btn-callout how-it-works-btn" to="/how-it-works/">Find out more</Link>
-                        </div>
-                    </div>
-                </section>
                 <section id="clients-testmonial">
                     <div className="container">
                         <div className="section-heading text-center">Testimonials</div>
@@ -272,6 +307,9 @@ export default class LandingPage extends ComponentWithModal {
                                 })}
                             </Slider>
                          </Reveal>
+                        <div className="text-center"style={{marginTop: '40px'}}>
+                            <button className="btn btn-callout" onClick={this.onScheduleCall.bind(this)}>Hire talent</button>
+                        </div>
                     </div>
                 </section>
                 <section id="what-we-can-do">
@@ -316,13 +354,6 @@ export default class LandingPage extends ComponentWithModal {
                                 </div>
                             </div>
                         </Reveal>
-                    </div>
-
-                </section>
-                <section id="contact-us">
-                    <div className="container text-center">
-                        <p>Do you have a project or task and want to find out more?</p>
-                        <button className="btn" onClick={this.onScheduleCall.bind(this)}>Schedule a call</button>
                     </div>
                 </section>
                 <section id="video-overlay" className={this.state.play?"on":""}>
