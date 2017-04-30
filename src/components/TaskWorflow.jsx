@@ -716,13 +716,13 @@ export default class TaskWorflow extends ComponentWithModal {
                                 ):null}
                                 {task.trello_board_url ? (
                                     <div>
-                                        <strong><i className="fa fa-trello trello"/> Trello board url</strong>
+                                        <strong><i className="fa fa-trello trello"/> Trello board</strong>
                                         <p><a href={task.trello_board_url} target="_blank">{task.trello_board_url}</a></p>
                                     </div>
                                 ) : null}
                                 {task.google_drive_url ? (
                                     <div>
-                                        <strong><i className="tunga-icon-google-drive google"/> Google Drive url</strong>
+                                        <strong><i className="tunga-icon-google-drive google"/> Google Drive</strong>
                                         <p><a href={task.google_drive_url} target="_blank">{task.google_drive_url}</a></p>
                                     </div>
                                 ) : null}
