@@ -10,7 +10,7 @@ import ProgressReportForm from './ProgressReportForm';
 import BreadCrumb from '../containers/BreadCrumb';
 
 import { PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT } from '../constants/Api';
-import { isDeveloper, getUser } from '../utils/auth';
+import { isDeveloper, getUser, isAdmin, isAdminOrProjectOwner } from '../utils/auth';
 
 export default class Milestone extends React.Component {
 
@@ -91,6 +91,9 @@ export default class Milestone extends React.Component {
                                 <h4><i className="fa fa-newspaper-o"/> Progress Reports</h4>
 
                                 {reports.map(report => {
+                                    if(report.user && report.user.is_project_manager && !isAdmin() && report.user.id != getUser().id) {
+                                        return null;
+                                    }
                                     return <div className="card">
                                         {report.user?(
                                             <div>
@@ -112,7 +115,7 @@ export default class Milestone extends React.Component {
                                                 </p>
                                                 {report.deadline_report?(
                                                     <div>
-                                                        <strong>Accomplished</strong>
+                                                        <strong>Deadline Report</strong>
                                                         <div>
                                                             <Linkify properties={{target: '_blank'}}>{report.deadline_report}</Linkify>
                                                         </div>
