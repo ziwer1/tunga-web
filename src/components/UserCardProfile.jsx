@@ -25,8 +25,8 @@ export default class UserCardProfile extends React.Component {
                     {isAdmin()?(
                         <p><a href={`mailto:${user.email}`}>{user.email}</a></p>
                     ):null}
-                    {user.is_project_owner?(
-                    <p>{user.company}</p>
+                    {user.is_project_owner && user.profile?(
+                    <p>{user.profile.company}</p>
                         ):null}
                     {user.profile && (user.profile.city || user.profile.country_name)?(
                     <div>{user.profile.city}, {user.profile.country_name}</div>

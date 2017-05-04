@@ -5,7 +5,7 @@ import Linkify from 'react-linkify';
 
 import TagList from './TagList';
 import UserCardProfile from './UserCardProfile';
-import { RATING_CRITERIA_CHOICES } from '../constants/Api';
+import { RATING_CRITERIA_CHOICES , ENDPOINT_USER} from '../constants/Api';
 import { isProjectOwner } from '../utils/auth';
 
 import { STATUS_ACCEPTED, STATUS_REJECTED } from '../constants/Api';
@@ -102,6 +102,7 @@ export default class User extends React.Component {
                             <button type="button" className="btn"
                                     onClick={this.handleDeleteConnection.bind(this)}>{remove_msg}</button>
                         ):null}
+                        <a href={`${ENDPOINT_USER}${user.id}/download/profile?format=pdf`} className="btn btn-primary" target="_blank"><i className="fa fa-file-pdf-o"/> Download Pdf</a>
                     </div>
                     <div>
                         {user.profile?(
