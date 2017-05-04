@@ -52,12 +52,14 @@ export default class CodeOfConduct extends React.Component {
 
     render() {
         let meta_title = "Tunga | Code of Conduct";
+        let meta_description = "Tunga code of conduct";
 
         return (
             <ShowcaseContainer className="agreement-page" headerContent={this.renderHeaderContent()}>
                 <Helmet
                     title={meta_title}
                     meta={[
+                        {name: "description",content: meta_description},
                         {name: "twitter:title", content: meta_title},
                         {property: "og:title", content: meta_title}
                     ]}

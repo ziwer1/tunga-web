@@ -63,6 +63,7 @@ input, select, textarea, .form-control, .rw-input {
 }
 
 .form-control {
+
     &:focus, &:active {
         border-color: #ccc;
     }
@@ -1284,7 +1285,7 @@ form[name='compose'] {
         max-width: 400px;
         text-align: center;
         margin: 90px auto 30px;
-        background-color: rgba(255,255,255, 0.65);
+        background-color: fade(@active-white, 65%);
         border-color: transparent;
         padding: 40px 10px;
 
@@ -1889,6 +1890,10 @@ form[name='compose'] {
 .profile-page {
     .actions {
         margin: 5px 0 10px 120px;
+
+        .fa, [class^="tunga-icon-"], [class*=" tunga-icon-"] {
+            color: inherit;
+        }
     }
 
     .fa, [class^="tunga-icon-"], [class*=" tunga-icon-"] {
@@ -2911,6 +2916,10 @@ form[name='compose'] {
     color: @showcase-text;
     height: 100%;
 
+    img {
+        max-width: 100%;
+    }
+
     header {
         color: @active-white;
         min-height: 60%;
@@ -2948,8 +2957,8 @@ form[name='compose'] {
     }
 
     .navbar, .navbar.navbar-fixed-top {
-
         min-height: 50px;
+        height: 50px;
         padding: 0;
         border-width: 0;
         z-index: 11;
@@ -2970,7 +2979,7 @@ form[name='compose'] {
                     text-shadow: none;
                     padding: 8px 0;
                     border-bottom: 1px solid transparent;
-                    color: @primary;
+                    color: @showcase-nav-text;
                 }
 
                 > a:hover,
@@ -3004,7 +3013,7 @@ form[name='compose'] {
 
         .nav-actions a,
         .nav-actions:hover .primary {
-            color: @primary !important;
+            color: @showcase-nav-text !important;
             background-color: transparent !important;
         }
 
@@ -3148,7 +3157,7 @@ form[name='compose'] {
                 display: block;
                 float: left;
 
-                a {
+                a, .slide {
                     display: block;
                     color: @primary-text;
                     text-align: center;
@@ -3228,7 +3237,7 @@ form[name='compose'] {
     header {
         background-color: #777;
         background-image: url('../images/header-bg.jpg');
-        min-height: 75%;
+        min-height: 90%;
 
         display: flex;
         flex-direction: column;
@@ -3248,6 +3257,12 @@ form[name='compose'] {
 
         .head-desc {
             text-align: center;
+            background-color: fade(@primary-text, 30%);
+            padding: 30px 20px;
+
+            > * {
+               margin-top: 0;
+            }
 
             .details {
                 font-weight: 100;
@@ -3835,6 +3850,34 @@ form[name='compose'] {
     }
 }
 
+.showcase.our-story-page {
+    .font-size(1.4);
+
+    header {
+        background-image: url('../images/showcase/ourstory.jpg');
+        min-height: 50%;
+    }
+
+    p {
+        margin: 20px 0;
+    }
+
+    .image-wrapper {
+        text-align: center;
+
+        img {
+            max-width: 90%;
+            margin: 0 auto;
+        }
+    }
+
+    ol {
+        padding-left: 14px;
+    }
+
+
+}
+
 .showcase.pricing-page {
     background-color: @inactive-grey;
 
@@ -3957,7 +4000,46 @@ form[name='compose'] {
 
     header {
         min-height: 50%;
-        background-image: url('../images/showcase/howitworks.jpg');
+        background-image: url('../images/showcase/quality.jpg');
+    }
+
+    .step-slider {
+        padding: 0;
+
+        ul {
+            padding: 0;
+
+            li {
+                padding: 0 10px 0 0;
+
+                &:last-child {
+                    padding-right: 0;
+                }
+
+                .slide {
+                    display: block;
+                    color: @showcase-text;
+                    background-color: @active-white;
+                    text-align: center;
+                    width: 100%;
+                    padding: 20px;
+                    min-height: 100px;
+                    text-decoration: none;
+                    border-radius: 5px;
+
+                    .title {
+                        font-weight: 400;
+                        color: @showcase-text;
+                    }
+
+                    .description {
+                        font-weight: 100;
+                        padding: 0;
+                        margin: 0;
+                    }
+                }
+            }
+        }
     }
 
     section {
@@ -4145,7 +4227,7 @@ form[name='compose'] {
 
             .content {
                 .container {
-                    padding-top: 30px;
+                    padding-top: 40px;
                 }
             }
 

@@ -29,11 +29,12 @@ export default class ShowcaseContainer extends React.Component {
 
                             <div id="navbar" className="collapse navbar-collapse">
                                 <ul className="nav navbar-nav navbar-right nav-actions">
-                                    <li><a className="primary" onClick={() => {openCalendlyWidget()}}>Hire talent</a></li>
+                                    <li><a className="primary" onClick={() => {openCalendlyWidget()}}>Explore possibilities</a></li>
                                     <li><Link to="/signin">Login</Link></li>
                                 </ul>
                                 <ul className="nav navbar-nav navbar-left nav-main">
-                                    {/*<li><Link to="/how-it-works" activeClassName="active">How it works</Link></li>*/}
+                                    <li><Link to="/our-story" activeClassName="active">Our Story</Link></li>
+                                    <li><Link to="/quality" activeClassName="active">Quality</Link></li>
                                     <li><Link to="/pricing" activeClassName="active">Pricing</Link></li>
                                     <li><a href="https://blog.tunga.io" target="_blank">Blog</a></li>
                                 </ul>

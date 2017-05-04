@@ -152,12 +152,14 @@ export default class PrivacyPolicy extends React.Component {
 
     render() {
         let meta_title = "Tunga | Privacy Policy";
+        let meta_description = "Tunga privacy policy";
 
         return (
             <ShowcaseContainer className="agreement-page" headerContent={this.renderHeaderContent()}>
                 <Helmet
                     title={meta_title}
                     meta={[
+                        {name: "description",content: meta_description},
                         {name: "twitter:title", content: meta_title},
                         {property: "og:title", content: meta_title}
                     ]}

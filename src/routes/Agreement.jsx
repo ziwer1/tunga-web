@@ -188,6 +188,7 @@ export default class Agreement extends React.Component {
 
     render() {
         let meta_title = "Tunga | Terms and Conditions";
+        let meta_description = "Tunga user agreement";
 
         return (
           <ShowcaseContainer className="agreement-page" headerContent={this.renderHeaderContent()}>
@@ -195,6 +196,7 @@ export default class Agreement extends React.Component {
               <Helmet
                   title={meta_title}
                   meta={[
+                        {name: "description",content: meta_description},
                         {name: "twitter:title", content: meta_title},
                         {property: "og:title", content: meta_title}
                     ]}

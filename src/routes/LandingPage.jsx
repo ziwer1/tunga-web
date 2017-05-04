@@ -5,8 +5,8 @@ import Helmet from 'react-helmet';
 import Slider from 'react-slick';
 import Reveal from 'react-reveal';
 
-import ShowcaseContainer from './ShowcaseContainer';
-import ShowCaseFooter from './ShowCaseFooter';
+import ShowcaseContainer from '../containers/ShowcaseContainer';
+import ShowCaseFooter from '../containers/ShowCaseFooter';
 import ComponentWithModal from '../components/ComponentWithModal';
 
 import { showWizard, showCallWidget, openCalendlyWidget } from '../utils/router';
@@ -308,7 +308,7 @@ export default class LandingPage extends ComponentWithModal {
                             </Slider>
                          </Reveal>
                         <div className="text-center"style={{marginTop: '40px'}}>
-                            <button className="btn btn-callout" onClick={this.onScheduleCall.bind(this)}>Hire talent</button>
+                            <button className="btn btn-callout" onClick={this.onScheduleCall.bind(this)}>Explore possibilities</button>
                         </div>
                     </div>
                 </section>

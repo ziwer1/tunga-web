@@ -8,7 +8,7 @@ import Error from '../components/status/Error';
 import Success from '../components/status/Success';
 import FieldError from '../components/status/FieldError';
 import SocialSignIn from '../components/SocialSignIn';
-import ShowcaseContainer from './ShowcaseContainer';
+import ShowcaseContainer from '../containers/ShowcaseContainer';
 
 import { USER_TYPE_DEVELOPER, USER_TYPE_PROJECT_OWNER } from '../constants/Api';
 

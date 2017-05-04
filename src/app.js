@@ -23,19 +23,17 @@ if(__PRODUCTION__) {
 
 import App from 'containers/App';
 import AppWrapper from 'containers/AppWrapper';
-import LandingPage from 'containers/LandingPage';
-import PricingPage from 'containers/PricingPage';
-import HowItWorksPage from 'containers/HowItWorksPage';
-import Home from 'containers/Home';
-import SignInPage from 'containers/SignInPage';
-import AccountType from 'containers/AccountType';
-import SignUpPage from 'containers/SignUpPage';
-import DeveloperApplication from 'containers/DeveloperApplication';
+import LandingPage from 'routes/LandingPage';
+import PricingPage from 'routes/PricingPage';
+import QualityPage from 'routes/QualityPage';
+import Home from 'routes/Home';
+import SignInPage from 'routes/SignInPage';
+import SignUpPage from 'routes/SignUpPage';
 import PasswordResetPage from 'containers/PasswordResetPage';
 import PasswordResetConfirmPage from 'containers/PasswordResetConfirmPage';
-import Agreement from 'components/Agreement';
-import PrivacyPolicy from 'components/PrivacyPolicy';
-import CodeOfConduct from 'components/CodeOfConduct';
+import Agreement from 'routes/Agreement';
+import PrivacyPolicy from 'routes/PrivacyPolicy';
+import CodeOfConduct from 'routes/CodeOfConduct';
 import SettingsPage from 'containers/SettingsPage';
 import ProjectBoard from 'components/ProjectBoard';
 import ProjectTaskForm from 'components/ProjectTaskForm';
@@ -55,11 +53,11 @@ import IntegrationList from 'components/IntegrationList';
 import TaskPay from 'components/TaskPay';
 import Participation from 'components/Participation';
 import RateDevelopers from 'components/RateDevelopers';
-import UserPage from 'containers/UserPage';
+import UserPage from 'routes/UserPage';
 import UserList from 'components/UserList';
 import User from 'components/User';
 import InviteDeveloper from 'containers/InviteDeveloper';
-import MessagePage from 'containers/MessagePage';
+import MessagePage from 'routes/MessagePage';
 import ChannelContainer from 'containers/ChannelContainer';
 import ChannelForm from 'components/ChannelForm';
 import ChatBox from 'components/ChatBox';
@@ -75,10 +73,10 @@ import ProfilePicture from 'components/ProfilePicture';
 import PasswordChangeForm from 'components/PasswordChangeForm';
 import ProfileType from 'components/ProfileType';
 import PaymentList from 'components/PaymentList';
-import SupportPage from 'containers/SupportPage';
+import SupportPage from 'routes/SupportPage';
 import SupportSectionList from 'components/SupportSectionList';
 import SupportPageDetail from 'components/SupportPageDetail';
-import SearchPage from 'containers/SearchPage';
+import SearchPage from 'routes/SearchPage';
 import SupportPageList from 'components/SupportPageList';
 import EstimateContainer from 'containers/EstimateContainer';
 import EstimateDetailContainer from 'containers/EstimateDetailContainer';
@@ -89,6 +87,7 @@ import QuoteDetailContainer from 'containers/QuoteDetailContainer';
 import QuoteForm from 'components/QuoteForm';
 import QuoteDetail from 'components/QuoteDetail';
 import TaskWizard from 'containers/TaskWizard';
+import StoryPage from 'routes/StoryPage';
 
 ReactDOM.render(
     <Provider store={store}>
@@ -99,7 +98,8 @@ ReactDOM.render(
                     {/* No Auth Pages */}
                     <Route path="start" component={TaskWizard} showTaskWizard={true}/>
                     <Route path="call" component={LandingPage} showCallWidget={true}/>
-                    {/*<Route path="how-it-works" component={HowItWorksPage}/>*/}
+                    <Route path="our-story" component={StoryPage}/>
+                    <Route path="quality" component={QualityPage}/>
                     <Route path="pricing" component={PricingPage}/>
                     <Route path="press" component={LandingPage}/>
                     <Route path="FAQ" component={LandingPage}/>
@@ -110,11 +110,9 @@ ReactDOM.render(
                     <Route path="signin" component={SignInPage}/>
                     <Route path="signup">
                         <IndexRedirect to="/signin"/>
-                        {/*<IndexRoute component={AccountType} />*/}
                         <Route path="project-owner" component={SignUpPage} />
                         <Route path="invite/:invitationKey" component={SignUpPage} />
                         <Route path="developer">
-                            {/*<IndexRoute component={DeveloperApplication}/>*/}
                             <Route path="invite/:invitationKey" component={SignUpPage} />
                             <Route path=":confirmationKey" component={SignUpPage} />
                         </Route>

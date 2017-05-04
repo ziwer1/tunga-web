@@ -7,7 +7,7 @@ import Helmet from 'react-helmet';
 import * as UtilityActions from '../actions/UtilityActions';
 import Success from '../components/status/Success';
 import Error from '../components/status/Error';
-import ShowcaseContainer from './ShowcaseContainer';
+import ShowcaseContainer from '../containers/ShowcaseContainer';
 
 import ComponentWithModal from '../components/ComponentWithModal';
 import LargeModal from '../components/LargeModal';
@@ -17,17 +17,6 @@ import { openCalendlyWidget } from '../utils/router';
 
 const OFFER_DETAILS = [
     {
-        title: 'Tasks',
-        sub: 'Post your task on Tunga',
-        description: 'Agree with a developer on the fee. We recommend calculating the fee with around €19 depending on the complexity of your task. ',
-        icon: 'tunga-icon-do-it-yourself',
-        key: OFFER_REQUEST_ITEMS.self_guided,
-        cta: {
-            text: 'Start a task now',
-            link: `/start/?scope=${TASK_SCOPE_TASK}`
-        }
-    },
-    {
         title: 'Projects',
         sub: 'Post your project on Tunga',
         description: 'On projects Tunga developers cost €19 per hour. We also have very skilled project manager with international experience availible that can manage your project for you. For project managers Tunga are €39 per hour.',
@@ -36,6 +25,17 @@ const OFFER_DETAILS = [
         cta: {
             text: 'Start a project now',
             link: `/start/?scope=${TASK_SCOPE_PROJECT}`
+        }
+    },
+    {
+        title: 'Tasks',
+        sub: 'Post your task on Tunga',
+        description: 'Agree with a developer on the fee. We recommend calculating the fee with around €19 depending on the complexity of your task. ',
+        icon: 'tunga-icon-do-it-yourself',
+        key: OFFER_REQUEST_ITEMS.self_guided,
+        cta: {
+            text: 'Start a task now',
+            link: `/start/?scope=${TASK_SCOPE_TASK}`
         }
     },
     {
@@ -191,6 +191,8 @@ class PricingPage extends ComponentWithModal {
 
     render() {
         let meta_title = "Tunga | Pricing";
+        let meta_description = "Tunga privacy policy";
+
         let current_offer = OFFER_DETAILS[this.state.step];
 
         return (
@@ -198,6 +200,7 @@ class PricingPage extends ComponentWithModal {
                 <Helmet
                     title={meta_title}
                     meta={[
+                        {name: "description",content: meta_description},
                         {name: "twitter:title", content: meta_title},
                         {property: "og:title", content: meta_title}
                     ]}/>

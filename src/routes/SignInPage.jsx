@@ -7,7 +7,7 @@ import Error from '../components/status/Error';
 import SocialSignIn from '../components/SocialSignIn';
 import connect from '../utils/connectors/AuthConnector';
 
-import ShowcaseContainer from './ShowcaseContainer';
+import ShowcaseContainer from '../containers/ShowcaseContainer';
 
 class SignIn extends React.Component {
     constructor(props) {
@@ -34,7 +34,6 @@ class SignIn extends React.Component {
 
         return (
             <div>
-                <Helmet title="Tunga | Sign In" />
                 <form onSubmit={this.handleSubmit} name="signin" role="signin">
                     <p className="text-center">Sign in with</p>
 
@@ -73,8 +72,19 @@ class SignIn extends React.Component {
 
     render() {
 
+        let meta_title = "Tunga | Sign In";
+        let meta_description = "Sign In to hire skilled professional African developers ready work on your software project";
+
         return (
-            <ShowcaseContainer className="auth-page" headerContent={this.renderHeaderContent()}/>
+            <ShowcaseContainer className="auth-page" headerContent={this.renderHeaderContent()}>
+                <Helmet
+                    title={meta_title}
+                    meta={[
+                        {name: "description",content: meta_description},
+                        {name: "twitter:title", content: meta_title},
+                        {property: "og:title", content: meta_title}
+                    ]}/>
+            </ShowcaseContainer>
         );
     }
 }
