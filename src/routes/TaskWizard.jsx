@@ -1,9 +1,10 @@
 import React from 'react';
 import Helmet from 'react-helmet';
 
-import ShowcaseContainer from './ShowcaseContainer';
+import ShowcaseContainer from '../containers/ShowcaseContainer';
 
-import TaskContainer from './TaskContainer';
+import TaskContainer from '../containers/TaskContainer';
+import TaskDetailContainer from '../containers/TaskDetailContainer';
 import TaskForm from '../components/TaskForm';
 import Avatar from '../components/Avatar';
 
@@ -19,13 +20,25 @@ export default class TaskWizard extends React.Component {
     }
 
     onStepChange(step, idx, all_steps) {
-        console.log('New step', step);
-
         this.setState({
             title: step && step.title?step.title:'Hire top African developers from Tunga!',
             subtitle: step && step.subtitle?step.subtitle:null,
             step: idx?idx+1:-1
         });
+    }
+
+    getTaskId() {
+        if(this.props.params) {
+            return this.props.params.taskId;
+        }
+        return null;
+    }
+
+    getEditToken() {
+        if(this.props.params) {
+            return this.props.params.editToken;
+        }
+        return null;
     }
 
     renderHeaderContent() {
@@ -35,12 +48,15 @@ export default class TaskWizard extends React.Component {
         return (
             <div className={`task-wizard ${this.state.step == 1?'show-trust':''}`}>
                 <div className="title-bar">
+                    <i className="icon tunga-icon-post-task"/>
                     <div className="heading-3 text-center">{this.state.title}</div>
                     <div className="heading-1">{this.state.subtitle}</div>
                 </div>
                 <div className="task-section">
                     <TaskContainer>
-                        <TaskForm showSectionHeader={false} options={options} onStepChange={this.onStepChange.bind(this)}/>
+                        <TaskDetailContainer taskId={this.getTaskId()} editToken={this.getEditToken()}>
+                            <TaskForm showSectionHeader={false} options={options} onStepChange={this.onStepChange.bind(this)}/>
+                        </TaskDetailContainer>
                     </TaskContainer>
                 </div>
                 <div className="dev-section">

@@ -193,8 +193,6 @@ class PricingPage extends ComponentWithModal {
         let meta_title = "Tunga | Pricing";
         let meta_description = "Tunga privacy policy";
 
-        let current_offer = OFFER_DETAILS[this.state.step];
-
         return (
             <ShowcaseContainer className="pricing-page" headerContent={this.renderHeaderContent()}>
                 <Helmet
@@ -213,35 +211,33 @@ class PricingPage extends ComponentWithModal {
                                 {OFFER_DETAILS.map((offer, idx) => {
                                     return (
                                         <li key={offer.key}>
-                                            <a href="#"
-                                               onClick={this.onChangeSliderStep.bind(this, idx)}
-                                               onMouseOver={this.onChangeSliderStep.bind(this, idx)}
-                                               className={`slide ${this.state.step == idx?"active":""}`}>
+                                            <div className="slide animated slideInRight"
+                                                 style={{animationDelay: `${idx}s`}}>
                                                 <span className="bold" dangerouslySetInnerHTML={{__html: offer.title}}/>
                                                 <div className="icon">
                                                     <i className={offer.icon}/>
                                                 </div>
-                                            </a>
+                                                <div className="description">
+                                                    <div className="subtitle bold" dangerouslySetInnerHTML={{__html: offer.sub}}/>
+                                                    <p dangerouslySetInnerHTML={{__html: offer.description}}/>
+                                                    {offer.cta?(
+                                                        offer.cta.action?(
+                                                            <button className="btn"
+                                                                    onClick={offer.cta.action.bind(this)}>
+                                                                {offer.cta.text}
+                                                            </button>
+                                                        ):(offer.cta.link?(
+                                                            <Link to={offer.cta.link} className="btn">
+                                                                {offer.cta.text}
+                                                            </Link>
+                                                        ):null)
+                                                    ):null}
+                                                </div>
+                                            </div>
                                         </li>
                                     );
                                 })}
                             </ul>
-                            <div className="description">
-                                <div className="subtitle bold" dangerouslySetInnerHTML={{__html: current_offer.sub}}/>
-                                <p dangerouslySetInnerHTML={{__html: current_offer.description}}/>
-                                {current_offer.cta?(
-                                    current_offer.cta.action?(
-                                        <button className="btn"
-                                                onClick={current_offer.cta.action.bind(this)}>
-                                            {current_offer.cta.text}
-                                        </button>
-                                    ):(current_offer.cta.link?(
-                                        <Link to={current_offer.cta.link} className="btn">
-                                            {current_offer.cta.text}
-                                        </Link>
-                                    ):null)
-                                ):null}
-                            </div>
                         </div>
                     </div>
                 </section>

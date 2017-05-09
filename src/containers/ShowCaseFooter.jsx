@@ -30,13 +30,14 @@ class ShowCaseFooter extends React.Component {
                     <div className="col-sm-3" id="social">
                         <div id="tunga-logo-btm"><img src={require("../images/logo_round.png")}/></div>
                         <div id="social-networks">
+                            <a target="_blank" href="https://www.linkedin.com/company/tunga" id="fb" title="LinkedIn"><i className="fa fa-linkedin"/></a>
                             <a target="_blank" href="https://www.facebook.com/tunga.io" id="fb" title="Facebook"><i className="fa fa-facebook"/></a>
                             <a target="_blank" href="https://twitter.com/tunga_io" id="twitter" title="Twitter"><i className="fa fa-twitter"/></a>
                             <a target="_blank" href="https://blog.tunga.io" id="medium" title="Medium"><i className="fa fa-medium"/></a>
                         </div>
                     </div>
                     <div className="col-sm-6" id="contact-info">
-                        <h4>CONTACT & LEGAL INFORMATION</h4>
+                        <h4>Contact & legal information</h4>
                         <p><i className="fa fa-map-marker"/> Ms van Riemsdijkweg 57, 1033RC Amsterdam, The Netherlands</p>
                         <p><i className="fa fa-phone"/> +31(0)615955194 </p>
                         <p><i className="fa fa-envelope"/> <a href="mailto:hello@tunga.io" target="_blank">hello@tunga.io</a></p>
@@ -47,7 +48,7 @@ class ShowCaseFooter extends React.Component {
                         </div>
                     </div>
                     <div className="col-sm-3" id="latest-from-blog">
-                        <h4>LATEST FROM OUR BLOG</h4>
+                        <h4>Latest from our blog</h4>
                         <ul className="list-unstyled">
                             <li><a target="_blank" href="https://blog.tunga.io/why-its-a-good-idea-to-mobilize-remote-workers-in-africa-f9c707cdced7?source=latest---"><i className="fa fa-angle-right"></i> Why it’s a Good Idea to Mobilize Remote Workers in Africa.</a></li>
                             <li><a target="_blank" href="https://blog.tunga.io/how-using-bitcoin-to-pay-gig-workers-in-africa-is-a-no-brainer-621087d03852?source=latest---"><i className="fa fa-angle-right"></i> How using Bitcoin to pay gig-workers in Africa is a no-brainer</a></li>

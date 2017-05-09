@@ -7,7 +7,8 @@ const STEP_DETAILS = [
     {
         title: "1. Soft skills",
         description: "We assess our developers on several \"soft skills\". Such as communication skills, management of expectations, work ethics, stress mangement and Time management. At Tunga we believe that soft skills are as much or more important than development skills",
-        icon: 'tunga-icon-soft-skills'
+        //icon: 'tunga-icon-soft-skills',
+        image: require('../images/icons/softskills.png')
     },
     {
         title: "2. Coding skills",
@@ -17,7 +18,8 @@ const STEP_DETAILS = [
     {
         title: "3. Learning on the job",
         description: "When a developer passed all our assessments he or she gets to work on a first project on Tunga. For the first couple of projects the developers work work under the guidance of a senior Tunga developer to ensure great collobaration between you and the developer(s).",
-        icon: 'tunga-icon-team-work'
+        //icon: 'tunga-icon-teamwork',
+        image: require('../images/icons/teamwork.png')
     }
 ];
 
@@ -61,7 +63,11 @@ export default class QualityPage extends React.Component {
                                                      style={{animationDelay: `${idx}s`}}>
                                                     <div className="title" dangerouslySetInnerHTML={{__html: step.title}}/>
                                                     <div className="icon">
-                                                        <i className={step.icon}/>
+                                                        {step.icon?(
+                                                            <i className={step.icon}/>
+                                                        ):(
+                                                            <img src={step.image}/>
+                                                        )}
                                                     </div>
                                                     <div className="description" dangerouslySetInnerHTML={{__html: step.description}}/>
                                                 </div>

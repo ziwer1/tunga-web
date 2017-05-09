@@ -1,7 +1,7 @@
 import React from 'react';
 
 import createModal from '../components/Modal';
-import TaskWizard from '../containers/TaskWizard';
+import TaskWizard from '../routes/TaskWizard';
 
 import {DEVELOPER_FEE, PM_FEE, TUNGA_PERCENTAGE_DEVELOPER, STATUS_SUBMITTED, STATUS_APPROVED, STATUS_ACCEPTED, TASK_TYPE_WEB, TASK_TYPE_MOBILE, TASK_TYPE_OTHER} from '../constants/Api';
 
@@ -60,14 +60,14 @@ export function getAcquisitionUrl(task, completed=false) {
         if(type_url) {
             suffix = '/type/' + type_url + suffix;
         }
-        return window.location.protocol + '//' + window.location.hostname+ (window.location.port?`:${window.location.port}`:'') + '/lead' + (task.source == 2?'/member':'/new') + `/${task.id}/${completed?'complete':'start'}` + suffix;
+        return window.location.protocol + '//' + window.location.hostname+ (window.location.port?`:${window.location.port}`:'')  + '/track/lead' + (task.source == 2?'/member':'/new') + `/${task.id}/${completed?'complete':'start'}` + suffix;
     }
     return null;
 }
 
 export function hasStarted(task) {
     var started = false;
-    console.log('participation', task.participation);
+    
     if(task.participation) {
         task.participation.forEach(item => {
             if(item.status == STATUS_ACCEPTED) {

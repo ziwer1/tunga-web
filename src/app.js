@@ -17,6 +17,7 @@ import history from './history';
 if(__PRODUCTION__) {
     history.listen(location => {
         window.ga('send', 'pageview');
+        console.log('Page View sent');
         window.twq('track', 'PageView');
     });
 }
@@ -41,7 +42,7 @@ import TaskContainer from 'containers/TaskContainer';
 import TaskList from 'components/TaskList';
 import TaskForm from 'components/TaskForm';
 import EditTaskSectionForm from 'components/EditTaskSectionForm';
-import TaskDetailContainer from 'containers/TaskDetailContainer';
+import TaskDetailPage from 'routes/TaskDetailPage';
 import ApplicationForm from 'components/ApplicationForm';
 import TaskWorflow from 'components/TaskWorflow';
 import ApplicationList from 'components/ApplicationList';
@@ -86,7 +87,7 @@ import QuoteContainer from 'containers/QuoteContainer';
 import QuoteDetailContainer from 'containers/QuoteDetailContainer';
 import QuoteForm from 'components/QuoteForm';
 import QuoteDetail from 'components/QuoteDetail';
-import TaskWizard from 'containers/TaskWizard';
+import TaskWizard from 'routes/TaskWizard';
 import StoryPage from 'routes/StoryPage';
 
 ReactDOM.render(
@@ -96,7 +97,10 @@ ReactDOM.render(
                 <IndexRoute component={LandingPage} unauthedOnly={true}/>
                 <Route unauthedOnly={true}>
                     {/* No Auth Pages */}
-                    <Route path="start" component={TaskWizard} showTaskWizard={true}/>
+                    <Route path="start">
+                        <IndexRoute component={TaskWizard}/>
+                        <Route path="finish/:taskId/:editToken" component={TaskWizard}/>
+                    </Route>
                     <Route path="call" component={LandingPage} showCallWidget={true}/>
                     <Route path="our-story" component={StoryPage}/>
                     <Route path="quality" component={QualityPage}/>
@@ -148,7 +152,7 @@ ReactDOM.render(
                             <Route path="new" component={TaskForm} />
                             <Route path="filter/:filter" component={TaskList} />
                             <Route path="skill/:skill(/:filter)" component={TaskList} />
-                            <Route path=":taskId" component={TaskDetailContainer}>
+                            <Route path=":taskId" component={TaskDetailPage}>
                                 <IndexRoute component={TaskWorflow} />
                                 <Route path="edit" crumb="Edit">
                                     <IndexRoute component={TaskForm} />

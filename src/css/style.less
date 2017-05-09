@@ -1574,6 +1574,9 @@ form[name='compose'] {
 }
 
 .rw-calendar {
+    margin: 10px auto 0;
+    max-width: 500px;
+
     .rw-header .rw-btn-view {
         background-color: @inactive-grey;
     }
@@ -1597,6 +1600,7 @@ form[name='compose'] {
     }
 
     .rw-empty-cell {
+        display: none;
         height: 36px;
         background-color: @inactive-grey;
     }
@@ -1650,31 +1654,33 @@ form[name='compose'] {
 }
 
 .btn-choices.choice-fork {
-    max-width: 600px;
     margin: 0 auto;
-    display: flex;
-    flex-direction: row;
-    align-items: baseline;
+    text-align: center;
 
     .choice {
         display: inline-block;
-        width: 50%;
         padding: 10px;
         margin: 0;
         text-align: center;
         .font-size(1.6);
 
+        .help-text {
+            .font-size(1.4);
+        }
+
         .btn {
             padding: 40px;
-            min-width: 50%;
             white-space: normal;
             border-radius: 20px;
             opacity: 0.8;
             margin-bottom: 10px;
 
             .fa, .icon {
+                display: inline-block;
                 color: @primary;
                 .font-size(9);
+                min-width: 90px;
+                min-height: 90px;
             }
         }
 
@@ -1695,25 +1701,41 @@ form[name='compose'] {
     }
 
     > .btn {
-        width: 48%;
-        padding: 40px 0;
-        margin: 0 1%;
+        padding: 40px;
+        margin: 0 10px;
         white-space: normal;
+        min-width: 90px;
+        min-height: 90px;
+    }
+}
+
+.btn-choices.choice-fork.medium {
+    .choice {
+
+        .btn {
+            padding: 30px;
+
+            .fa, .icon {
+                color: @primary;
+                .font-size(7);
+                min-width: 70px;
+                min-height: 70px;
+            }
+        }
     }
 }
 
 .btn-choices.choice-fork.small {
     .choice {
-        width: 50%;
 
         .btn {
             padding: 20px;
-            min-width: 30%;
-            max-width: 160px;
 
             .fa, .icon {
                 color: @primary;
                 .font-size(6);
+                min-width: 60px;
+                min-height: 60px;
             }
         }
     }
@@ -1721,26 +1743,16 @@ form[name='compose'] {
 
 .btn-choices.choice-fork.xs {
     .choice {
-        width: 50%;
 
         .btn {
             padding: 20px;
-            min-width: 30%;
 
             .fa, .icon {
                 color: @primary;
                 .font-size(4);
+                min-width: 40px;
+                min-height: 40px;
             }
-        }
-    }
-}
-
-.btn-choices.choice-fork.three {
-    .choice {
-        width: 33%;
-
-        .btn {
-            min-width: 100%;
         }
     }
 }
@@ -2745,6 +2757,14 @@ form[name='compose'] {
         border-top: 1px @border-grey solid;
         padding: 20px;
         min-height: 73px;
+
+        .btn-borderless {
+            padding: 0;
+
+            .fa {
+                .font-size(1.8);
+            }
+        }
     }
 }
 
@@ -2995,26 +3015,16 @@ form[name='compose'] {
 
         .nav-actions {
             li {
-                padding: 7px 0 0 ;
-
                 > a {
-                    padding: 8px 20px;
-                    border-radius: 5px;
                 }
             }
         }
 
-        .nav-actions .primary,
-        .nav-actions:hover .primary:hover,
-        .nav-actions a:hover {
+        .nav-actions .primary  {
             color: @active-white !important;
             background-color: @primary !important;
-        }
-
-        .nav-actions a,
-        .nav-actions:hover .primary {
-            color: @showcase-nav-text !important;
-            background-color: transparent !important;
+            border-radius: 5px;
+            padding: 8px 20px;
         }
 
         .navbar-collapse, .navbar-form {
@@ -3111,9 +3121,9 @@ form[name='compose'] {
                 text-align: center;
                 font-size: 18px;
                 color: @active-white;
-                width: 50px;
-                height: 50px;
-                padding-top: 11px;
+                width: 40px;
+                height: 40px;
+                padding-top: 6px;
                 border: 1px solid @active-white;
                 border-radius: 50%;
                 margin: 0 5px;
@@ -3157,40 +3167,31 @@ form[name='compose'] {
                 display: block;
                 float: left;
 
-                a, .slide {
+                .slide {
                     display: block;
-                    color: @primary-text;
+                    color: @showcase-text;
+                    background-color: @active-white;
                     text-align: center;
                     width: 100%;
-                    padding: 30px 10px 0;
-                    border-radius: 5px 5px 0 0;
+                    padding: 20px;
                     min-height: 100px;
                     text-decoration: none;
+                    border-radius: 5px;
 
                     .icon {
                         .font-size(9.0);
                         color: @primary;
                         padding: 10px 0;
                         height: 120px;
-                    }
-                }
 
-                a:hover, a.active {
-                    text-decoration: none;
-                    background-color: @active-white;
-
-                    .icon {
-                        text-decoration: none;
+                        img {
+                            vertical-align: top;
+                            width: 90px;
+                            height: 90px;
+                        }
                     }
                 }
             }
-        }
-
-        .description {
-            clear: both;
-            background-color: @active-white;
-            padding: 20px;
-            border-radius: 5px;
         }
     }
 
@@ -3236,8 +3237,8 @@ form[name='compose'] {
 .showcase.landing-page {
     header {
         background-color: #777;
-        background-image: url('../images/header-bg.jpg');
-        min-height: 90%;
+        background-image: none;
+        min-height: 85%;
 
         display: flex;
         flex-direction: column;
@@ -3257,7 +3258,6 @@ form[name='compose'] {
 
         .head-desc {
             text-align: center;
-            background-color: fade(@primary-text, 30%);
             padding: 30px 20px;
 
             > * {
@@ -3281,6 +3281,15 @@ form[name='compose'] {
                 .font-size(1.8);
                 padding: 8px 25px;
             }
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: fade(@primary-text, 30%);
         }
 
         .light {
@@ -3341,7 +3350,7 @@ form[name='compose'] {
 
     #how-it-works {
         .container {
-            padding: 20px 0;
+            padding: 20px 0 50px;
         }
 
         .animated {
@@ -3684,16 +3693,22 @@ form[name='compose'] {
     .task-wizard {
         background-color: @active-white;
         border-radius: 8px;
-        max-width: 600px;
+        max-width: 800px;
         margin: 0 auto;
 
         .title-bar {
             text-align: center;
             border-bottom: 1px @border-grey solid;
             padding: 20px 0;
+            margin-bottom: 20px;
 
             > * {
                 margin: 0;
+            }
+
+            .icon {
+                color: @primary;
+                .font-size(6);
             }
         }
 
@@ -3715,7 +3730,7 @@ form[name='compose'] {
 
         .task-form,
         .task-form.form-wrapper {
-            max-width: 400px;
+            max-width: 600px;
             margin: 0 auto;
 
             .form {
@@ -3734,13 +3749,9 @@ form[name='compose'] {
             }
 
             .nav {
-                padding: 10px;
+                padding: 0;
                 min-height: initial;
                 border-width: 0;
-            }
-
-            .btn-choices.choice-fork.three {
-                margin: 0 -75px;
             }
         }
 
@@ -3769,12 +3780,16 @@ form[name='compose'] {
                 border: 1px @primary solid;
                 margin-bottom: 30px;
             }
+
+            .form-group {
+                display: inline-block;
+            }
         }
 
         &.show-trust {
             .task-form,
             .task-form.form-wrapper {
-                max-width: 280px;
+                max-width: 380px;
 
                 form {
 
@@ -3786,14 +3801,14 @@ form[name='compose'] {
             }
 
             .task-section {
-                width: 55%;
+                width: 50%;
                 float: left;
                 min-height: 365px;
             }
 
             .dev-section {
                 display: block;
-                width: 45%;
+                width: 50%;
                 float: right;
                 padding: 0 5px;
                 overflow-y: hidden;
@@ -3809,6 +3824,7 @@ form[name='compose'] {
                 .dev-list {
                     overflow-y: scroll;
                     height: 365px;
+                    padding-top: 20px;
                 }
 
                 .card {
@@ -3817,7 +3833,7 @@ form[name='compose'] {
                     margin: 5px 0;
                     background-color: @active-white;
                     /*border: 1px solid @border-grey;*/
-                    min-height: 175px;
+                    min-height: 125px;
 
                     .media {
                         padding: 0;
@@ -3852,6 +3868,7 @@ form[name='compose'] {
 
 .showcase.our-story-page {
     .font-size(1.4);
+    text-align: justify;
 
     header {
         background-image: url('../images/showcase/ourstory.jpg');
@@ -3864,6 +3881,7 @@ form[name='compose'] {
 
     .image-wrapper {
         text-align: center;
+        padding: 20px 0;
 
         img {
             max-width: 90%;
@@ -3964,6 +3982,24 @@ form[name='compose'] {
 
     section.pricing-options {
         background-color: @inactive-grey;
+    }
+
+    ul {
+        padding: 0;
+
+        li {
+            padding: 0 10px 0 0;
+
+            &:last-child {
+                padding-right: 0;
+            }
+
+            .description {
+                p {
+                    min-height: 100px;
+                }
+            }
+        }
     }
 }
 
@@ -4151,7 +4187,7 @@ form[name='compose'] {
     }
     .showcase.landing-page {
         header {
-            background-image: url('../images/header-bgx@{screen-xs-bp}.jpg');
+
         }
         #watch-our-video {
             background-image: url("../images/videox@{screen-xs-bp}.jpg");
@@ -4172,13 +4208,12 @@ form[name='compose'] {
                 margin-left: 40px;
             }
             .nav-main {
-                margin-left: 220px;
+                margin-left: 240px;
             }
         }
     }
     .showcase.landing-page {
         header {
-            background-image: url('../images/header-bgx@{screen-sm-bp}.jpg');
 
             #head-desc {
                 h1 {
@@ -4235,7 +4270,7 @@ form[name='compose'] {
     }
     .showcase.landing-page {
         header {
-            background-image: url('../images/header-bgx@{screen-md-bp}.jpg');
+
         }
         #meet-our-developers {
             #our-devs {
@@ -4284,7 +4319,7 @@ form[name='compose'] {
 
     .showcase.landing-page {
         header {
-            background-image: url('../images/header-bgx@{screen-lg-bp}.jpg');
+
         }
         #how-it-works {
             #demo-mbp {

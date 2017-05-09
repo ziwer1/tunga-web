@@ -195,10 +195,10 @@ export function listMoreTasksFailed(error, selection) {
     }
 }
 
-export function retrieveTask(id) {
+export function retrieveTask(id, editToken) {
     return dispatch => {
         dispatch(retrieveTaskStart(id));
-        axios.get(ENDPOINT_TASK + id + '/')
+        axios.get(ENDPOINT_TASK + id + '/', {headers: {'X-EDIT-TOKEN': editToken}})
             .then(function(response) {
                 dispatch(retrieveTaskSuccess(response.data))
             }).catch(function(error) {
@@ -228,7 +228,7 @@ export function retrieveTaskFailed(error) {
     }
 }
 
-export function updateTask(id, data, uploads) {
+export function updateTask(id, data, uploads, editToken) {
     return dispatch => {
         dispatch(updateTaskStart(id));
 
@@ -251,7 +251,8 @@ export function updateTask(id, data, uploads) {
                 type: "PATCH",
                 data: form_data,
                 processData: false,
-                contentType: false
+                contentType: false,
+                headers: {'X-EDIT-TOKEN': editToken}
             }).then(function (response) {
                 dispatch(updateTaskSuccess(response, data));
                 if(!data) {
@@ -261,7 +262,7 @@ export function updateTask(id, data, uploads) {
                 dispatch(updateTaskFailed(response));
             });
         } else {
-            axios.patch(ENDPOINT_TASK + id + '/', data)
+            axios.patch(ENDPOINT_TASK + id + '/', data, {headers: {'X-EDIT-TOKEN': editToken}})
                 .then(function(response) {
                     dispatch(updateTaskSuccess(response.data, data));
                 }).catch(function(error) {

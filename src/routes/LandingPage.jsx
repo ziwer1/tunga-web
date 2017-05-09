@@ -285,28 +285,24 @@ export default class LandingPage extends ComponentWithModal {
                 <section id="clients-testmonial">
                     <div className="container">
                         <div className="section-heading text-center">Testimonials</div>
-                        <Reveal effect="animated fadeIn">
-                            <Slider className="testimonials-slider text-center" {...slider_settings}>
-                                {TESTIMONIALS.map(testimonial => {
-                                    return (
-                                        <Reveal effect="animated zoomInDown">
-                                            <div className="testimonial">
-                                                <div className="body">
-                                                    <div>
-                                                        <i className="fa fa-quote-left pull-left"/>
-                                                        <span dangerouslySetInnerHTML={{__html: testimonial.message}}/>
-                                                        <i className="fa fa-quote-right pull-right"/>
-                                                    </div>
-                                                </div>
-                                                <div className="image" style={{backgroundImage: `url(${testimonial.image})`}} />
-                                                <div className="author">{testimonial.name}</div>
-                                                <div className="company">{testimonial.company}</div>
+                        <Slider className="testimonials-slider text-center" {...slider_settings}>
+                            {TESTIMONIALS.map(testimonial => {
+                                return (
+                                    <div className="testimonial">
+                                        <div className="body">
+                                            <div>
+                                                <i className="fa fa-quote-left pull-left"/>
+                                                <span dangerouslySetInnerHTML={{__html: testimonial.message}}/>
+                                                <i className="fa fa-quote-right pull-right"/>
                                             </div>
-                                        </Reveal>
-                                    );
-                                })}
-                            </Slider>
-                         </Reveal>
+                                        </div>
+                                        <div className="image" style={{backgroundImage: `url(${testimonial.image})`}} />
+                                        <div className="author">{testimonial.name}</div>
+                                        <div className="company">{testimonial.company}</div>
+                                    </div>
+                                );
+                            })}
+                        </Slider>
                         <div className="text-center"style={{marginTop: '40px'}}>
                             <button className="btn btn-callout" onClick={this.onScheduleCall.bind(this)}>Explore possibilities</button>
                         </div>
@@ -322,20 +318,34 @@ export default class LandingPage extends ComponentWithModal {
                                         <Reveal effect="animated rollIn">
                                             <span/>
                                         </Reveal>
-                                        <p>Full stack capacity for web development available</p>
+                                        <p>
+                                            Full stack capacity for web<br/>
+                                            API development<br/>
+                                            All popular JS frameworks capacity<br/>
+                                            Backend development
+                                        </p>
                                     </div>
                                     <div className="col-sm-4" id="solving-issues">
                                         <Reveal effect="animated rollIn">
                                             <span/>
                                         </Reveal>
-                                        <p>Building custom service integrations and solving issues in your
-                                            Github/Gitlab/Bitbucket workflow</p>
+                                        <p>
+                                            Integrations with your current workflow<br/>
+                                            Slack, Trello, Github, Drive etc.<br/>
+                                            Or set up a custom workflow on Tunga<br/>
+                                            <Link to="/start">Find out how this will work for you.</Link>
+                                        </p>
                                     </div>
                                     <div className="col-sm-4" id="full-stack">
                                         <Reveal effect="animated rollIn">
                                             <span/>
                                         </Reveal>
-                                        <p>Scheduled progress reports from our developers for maximum overview</p>
+                                        <p>
+                                            Excellent Project manager available<br/>
+                                            Daily updates from developers<br/>
+                                            Full overview of the progress<br/>
+                                            <Link to="/start/">Start a project now</Link>
+                                        </p>
                                     </div>
                                 </div>
                                 <div className="row">
@@ -343,13 +353,23 @@ export default class LandingPage extends ComponentWithModal {
                                         <Reveal effect="animated rollIn">
                                             <span/>
                                         </Reveal>
-                                        <p>Mobile application developments & maintenance</p>
+                                        <p>
+                                            Excellent native app development<br/>
+                                            Specialized iOS and Android teams<br/>
+                                            App maintenance and improvements<br/>
+                                            From idea to application.
+                                        </p>
                                     </div>
                                     <div className="col-sm-5" id="html-slicing">
                                         <Reveal effect="animated rollIn">
                                             <span/>
                                         </Reveal>
-                                        <p>HTML Slicing (PSD to HTML)</p>
+                                        <p>
+                                            Slicing experts on demand<br/>
+                                            From PSD, Sketch, or AI to webpage<br/>
+                                            All popular CMS<br/>
+                                            Ready within days
+                                        </p>
                                     </div>
                                 </div>
                             </div>

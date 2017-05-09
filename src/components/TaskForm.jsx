@@ -6,6 +6,8 @@ import {Button, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import momentLocalizer from 'react-widgets/lib/localizers/moment';
 import {DateTimePicker, Calendar} from 'react-widgets';
 import Dropzone from 'react-dropzone';
+
+import Progress from './status/Progress';
 import FormStatus from './status/FormStatus';
 import FieldError from './status/FieldError';
 
@@ -42,6 +44,15 @@ export default class TaskForm extends ComponentWithModal {
             schedule_options.push({id: `${schedule.number}_${schedule.unit}`, name: schedule.name});
             schedule_map[`${schedule.number}_${schedule.unit}`] = {update_interval: schedule.number, update_interval_units: schedule.unit};
         });
+
+        var user = {};
+        if(!isAuthenticated()) {
+            const task = props.task || {};
+            if(task && task.user && props.editToken) {
+                user = {first_name: task.user.first_name, last_name: task.user.last_name, email: task.user.email};
+            }
+        }
+
         this.state = {
             is_project: null, deadline: null, skills: [], scope: null,
             description: '', remarks: '', visibility: VISIBILITY_DEVELOPERS,
@@ -50,7 +61,7 @@ export default class TaskForm extends ComponentWithModal {
             modalMilestone: null, modalContent: null, modalTitle: '', coders_needed: null, type: null,
             has_requirements: null, pm_required: null, billing_method: null, stack_description: '', deliverables: '',
             skype_id: '', contact_required: null, has_more_info: null, overrideErrors: false, pm: null,
-            schedule_call: {day: null, from: null, to: null}, ...props.options
+            schedule_call: {day: null, from: null, to: null}, ...user, ...props.options, autoSave: false
         };
     }
 
@@ -68,6 +79,10 @@ export default class TaskForm extends ComponentWithModal {
                     }
                 });
             }
+            var user = {};
+            if(!isAuthenticated() && task.user && this.props.editToken) {
+                user = {first_name: task.user.first_name, last_name: task.user.last_name, email: task.user.email};
+            }
             this.setState({
                 ...task,
                 assignee, participants, description, remarks,
@@ -76,7 +91,8 @@ export default class TaskForm extends ComponentWithModal {
                 skills: task.details && task.details.skills?task.details.skills.map((skill) => {
                     return skill.name;
                 }):[],
-                milestones: task.progress_events
+                milestones: task.progress_events,
+                ...user
             });
         } else {
             const { project } = this.props;
@@ -94,17 +110,23 @@ export default class TaskForm extends ComponentWithModal {
 
     componentDidUpdate(prevProps, prevState) {
         if(this.props.Task.detail.isSaved && !prevProps.Task.detail.isSaved) {
-            if(!isAuthenticated() && this.props.onStepChange) {
-                this.props.onStepChange({
-                    title: "Thank you for using Tunga!",
-                }, this.state.step-1, sections);
-            }
-
             this.reportFunnelUrl(this.getStepUrl(true));
 
-            this.reportAcquistion();
+            this.reportAcquisition();
 
             const { Task } = this.props;
+            const { router } = this.context;
+
+            if(!isAuthenticated()) {
+                if(this.state.autoSave) {
+                    router.replace(`/start/finish/${Task.detail.task.id}/${Task.detail.task.edit_token}`);
+                } else if(this.props.onStepChange) {
+                    this.props.onStepChange({
+                        title: "Thank you for using Tunga!"
+                    }, this.state.step-1, sections);
+                }
+            }
+
             if(!this.props.task) {
                 if(this.refs.task_form) {
                     this.refs.task_form.reset();
@@ -121,9 +143,12 @@ export default class TaskForm extends ComponentWithModal {
             }
 
             if(isAuthenticated()) {
-                const { router } = this.context;
                 router.replace(`/work/${Task.detail.task.id}`);
             }
+        }
+
+        if(this.state.autoSave && !prevState.autoSave) {
+            this.saveTask();
         }
 
         var path_change = ['step', 'type', 'scope', 'contact_required', 'pm_required', 'has_more_info'].map((key) => {
@@ -161,6 +186,8 @@ export default class TaskForm extends ComponentWithModal {
 
     getStepUrl(complete=false) {
 
+        const {task, editToken} = this.props;
+
         var suffix = '';
         if(complete) {
             suffix = '/complete'
@@ -190,10 +217,10 @@ export default class TaskForm extends ComponentWithModal {
         if(type_url && this.canShowFork('type')) {
             suffix = '/type/' + type_url + suffix;
         }
-        return window.location.protocol + '//' + window.location.hostname + (window.location.port?`:${window.location.port}`:'') + (isAuthenticated()?'/work/new':'/start') + suffix;
+        return window.location.protocol + '//' + window.location.hostname + (window.location.port?`:${window.location.port}`:'') + '/track' + (isAuthenticated()?'/work/new':`/start${task.id && editToken?('/finish/'+task.id):''}`) + suffix;
     }
 
-    reportAcquistion() {
+    reportAcquisition() {
         const task = this.props.Task.detail.task;
         const url = getAcquisitionUrl(task);
         if(!this.props.task && url) {
@@ -259,7 +286,7 @@ export default class TaskForm extends ComponentWithModal {
                 break;
             case 'from':
             case 'to':
-                new_schedule_call[part] = moment(date).utc().format('hh:mm:ss');
+                new_schedule_call[part] = moment(date).utc().format('HH:mm:ss');
                 break;
             default:
                 break
@@ -327,8 +354,8 @@ export default class TaskForm extends ComponentWithModal {
         this.refs.dropzone.open();
     }
 
-    showAll(e) {
-        this.setState({showAll: !this.refs.task_form.checkValidity(), overrideErrors: false});
+    showAll() {
+        this.setState({showAll: !this.refs.task_form.checkValidity(), overrideErrors: false, autoSave: false});
     }
 
     onComposeMilestone(milestone) {
@@ -354,7 +381,13 @@ export default class TaskForm extends ComponentWithModal {
 
         var shouldChangeStep = false;
         if(key == 'type') {
-            new_state.skills = Array.from(new Set([...this.state.skills, ...suggestTaskTypeSkills(value)['selected']]));
+            if(isAuthenticated()) {
+                new_state.skills = Array.from(
+                    new Set([...this.state.skills, ...suggestTaskTypeSkills(value)['selected']])
+                );
+            } else {
+                new_state.autoSave = true;
+            }
         }
 
         if(key == 'scope') {
@@ -392,8 +425,12 @@ export default class TaskForm extends ComponentWithModal {
 
     handleSubmit(e) {
         e.preventDefault();
+        this.saveTask();
+        return;
+    }
 
-        const { TaskActions, project } = this.props;
+    saveTask() {
+        const { TaskActions, project, editToken } = this.props;
         const task = this.props.task || {};
 
 
@@ -477,11 +514,10 @@ export default class TaskForm extends ComponentWithModal {
         });
 
         if(task.id) {
-            TaskActions.updateTask(task.id, task_info, attachments);
+            TaskActions.updateTask(task.id, task_info, attachments, editToken);
         } else {
             TaskActions.createTask(task_info, attachments);
         }
-        return;
     }
 
     renderModalContent() {
@@ -543,7 +579,7 @@ export default class TaskForm extends ComponentWithModal {
                     (<FieldError message={Task.detail.error.create.type}/>):null}
                 {(Task.detail.error.update && Task.detail.error.update.type)?
                     (<FieldError message={Task.detail.error.update.type}/>):null}
-                <div className="btn-choices choice-fork three" role="group">
+                <div className="btn-choices choice-fork" role="group">
                     {TASK_TYPE_CHOICES.map(type => {
                         return (
                             <div className="choice">
@@ -566,7 +602,7 @@ export default class TaskForm extends ComponentWithModal {
                     (<FieldError message={Task.detail.error.create.scope}/>):null}
                 {(Task.detail.error.update && Task.detail.error.update.scope)?
                     (<FieldError message={Task.detail.error.update.scope}/>):null}
-                <div className="btn-choices choice-fork three" role="group">
+                <div className="btn-choices choice-fork" role="group">
                     {(isAuthenticated()?TASK_SCOPE_CHOICES:TASK_SCOPE_CHOICES_NEW_USER).map(scope_type => {
                         return (
                             <div className="choice">
@@ -1077,15 +1113,15 @@ export default class TaskForm extends ComponentWithModal {
                 {(Task.detail.error.update && Task.detail.error.update.skype_id)?
                     (<FieldError message={Task.detail.error.update.skype_id}/>):null}
                 <div className="form-group">
-                    <label className="control-label">Skype id</label>
+                    <label className="control-label">Skype ID</label>
                     <div className="row">
                         <div className="col-md-12">
                             <div>
                                 <input type="text"
-                                        className="form-control"
-                                        ref="skype_id" placeholder="Your Skype ID"
-                                        defaultValue={task.skype_id}
-                                        onChange={this.onInputChange.bind(this, 'skype_id')}/>
+                                       className="form-control"
+                                       ref="skype_id" placeholder="Your Skype ID"
+                                       value={this.state.skype_id}
+                                       onChange={this.onInputChange.bind(this, 'skype_id')}/>
                             </div>
                         </div>
                     </div>
@@ -1120,10 +1156,16 @@ export default class TaskForm extends ComponentWithModal {
                     <label className="control-label">Name *</label>
                     <div className="row">
                         <div className="col-md-5">
-                            <input type="text" name="first_name" className="form-control" ref="first_name" required placeholder="First Name"  onChange={this.onInputChange.bind(this, 'first_name')} value={this.state.first_name}/>
+                            <input type="text" name="first_name" className="form-control"
+                                   ref="first_name" required placeholder="First Name"
+                                   onChange={this.onInputChange.bind(this, 'first_name')}
+                                   value={this.state.first_name}/>
                         </div>
                         <div className="col-md-7">
-                            <input type="text" name="last_name" className="form-control" ref="last_name" required placeholder="Last Name"  onChange={this.onInputChange.bind(this, 'last_name')} value={this.state.last_name}/>
+                            <input type="text" name="last_name" className="form-control"
+                                   ref="last_name" required placeholder="Last Name"
+                                   onChange={this.onInputChange.bind(this, 'last_name')}
+                                   value={this.state.last_name}/>
                         </div>
                     </div>
                 </div>
@@ -1161,32 +1203,33 @@ export default class TaskForm extends ComponentWithModal {
                     {(Task.detail.error.update && Task.detail.error.update.contact_required)?
                         (<FieldError message={Task.detail.error.update.contact_required}/>):null}
                     <div className="form-group">
-                        {this.state.skype_id?(
-                            <div className="call-highlight">
-                                <div className="text-center">
-                                    <i className="icon tunga-icon-headphone"/><br/>
-                                    <div className="skype-id">{this.state.skype_id}</div>
+                        <div className="call-highlight">
+                            <div className="text-center">
+                                <i className="icon tunga-icon-headphone"/><br/>
+                                <div>
+                                    {skypeComp}
                                 </div>
                             </div>
-                        ):null}
-                        <div className="text-center">
+                        </div>
+                        {/*<div className="text-center">
                             In a hurry? Schedule a call<br/>
                             Have some time? Provide more info to speed up the process!
-                        </div>
+                        </div>*/}
                         <div>
-                            <div className="btn-choices choice-fork xs two" role="group" style={{ maxWidth: '300px'}}>
+                            <div className="btn-choices choice-fork medium" role="group">
                                 {[
-                                    {id: true, name: 'Schedule call', icon: 'tunga-icon-schedule'},
-                                    {id: false, name: 'Speed up process', icon: 'tunga-icon-rocket'}
+                                    {id: true, name: 'Schedule call', icon: 'tunga-icon-schedule', helpText: 'In a hurry?'},
+                                    {id: false, name: 'Speed up process', icon: 'tunga-icon-rocket', helpText: 'Have some time?'}
                                 ].map(contact_options => {
                                     return (
                                     <div className="choice">
-                                        <button key={contact_options.id} type="button"
+                                        <div className="help-text">{contact_options.helpText}</div>
+                                        <button key={contact_options.id} type="button" style={{ minWidth: '0px'}}
                                                 className={"btn" + (this.state.contact_required == contact_options.id?' active':'')}
                                                 onClick={this.onStateValueChange.bind(this, 'contact_required', contact_options.id)}>
                                             <i className={`icon ${contact_options.icon}`}/>
                                         </button>
-                                        <div dangerouslySetInnerHTML={{__html: contact_options.name}} />
+                                        <div dangerouslySetInnerHTML={{__html: contact_options.name}}/>
                                     </div>
                                     )
                                 })}
@@ -1552,7 +1595,8 @@ export default class TaskForm extends ComponentWithModal {
                             title: 'What kind of project do you have?',
                             items: [taskTypeComp],
                             required: true,
-                            forks: ['type']
+                            forks: ['type'],
+                            save: true
                         },
                         ...sections
                     ];
@@ -1572,7 +1616,7 @@ export default class TaskForm extends ComponentWithModal {
 
         let current_section = sections[this.state.step-1];
 
-        let showPrev = this.state.step > 1 && (current_section && !current_section.required && !canShowAll);
+        let showPrev = this.state.step > 1 && !canShowAll;
         let showNext = this.state.step < sections.length && (current_section && !current_section.required && !canShowAll);
         let showSubmit = this.state.step == sections.length || canShowAll;
 
@@ -1598,63 +1642,71 @@ export default class TaskForm extends ComponentWithModal {
                 ):null}
 
                 <form onSubmit={this.handleSubmit.bind(this)} name="task" role="form" ref="task_form" className={canShowAll?'steps-all':null}>
-                    <div className="form-group">
-                        <FormStatus loading={Task.detail.isSaving}
-                                    success={Task.detail.isSaved}
-                                    message={'Task saved successfully'}
-                                    error={Task.detail.error.create || Task.detail.error.update}
-                                    errorMessage={Task.detail.error.create && Task.detail.error.create.form || Task.detail.error.update && Task.detail.error.update.form}/>
-                    </div>
+                    {isAuthenticated()?(
+                        <div className="form-group">
+                            <FormStatus loading={Task.detail.isSaving}
+                                        success={Task.detail.isSaved}
+                                        message={'Task saved successfully'}
+                                        error={Task.detail.error.create || Task.detail.error.update}
+                                        errorMessage={Task.detail.error.create && Task.detail.error.create.form || Task.detail.error.update && Task.detail.error.update.form}/>
+                        </div>
+                    ):null}
 
-                    {sections.map((section, idx) => {
-                        if(section.forks && this.state.step == idx+1) {
-                            section.forks.forEach(function (fork) {
-                                if(fork) {
-                                    fork_position[fork] = this.state.step;
+                    {Task.detail.isSaving?(
+                        <Progress/>
+                    ):(
+                        <div>
+                            {sections.map((section, idx) => {
+                                if(section.forks && this.state.step == idx+1) {
+                                    section.forks.forEach(function (fork) {
+                                        if(fork) {
+                                            fork_position[fork] = this.state.step;
+                                        }
+                                    }, this);
                                 }
-                            }, this);
-                        }
-                        return (
-                            <div className={this.state.step == (idx+1) || canShowAll?'step':'sr-only'}>
-                                {section.items.map(item => {
-                                    return item;
-                                })}
-                            </div>
-                        )
-                    })}
+                                return (
+                                    <div className={this.state.step == (idx+1) || canShowAll?'step':'sr-only'}>
+                                        {section.items.map(item => {
+                                            return item;
+                                        })}
+                                    </div>
+                                )
+                            })}
 
-                    {showPrev || showNext || showSubmit?(
-                        <div className="nav text-center">
-                            {showPrev?(
-                                <button type="button" className="btn btn-alt nav-btn prev-btn pull-left" onClick={this.changeStep.bind(this, false, true)}>
-                                    <i className="fa fa-chevron-left"/> Previous
-                                </button>
-                            ):null}
-                            {showNext?(
-                                <div className={current_section.action?'text-center':'pull-right'}>
-                                    <button type="button"
-                                            className={`btn ${current_section.action?'':'btn-alt nav-btn next-btn'}`}
-                                            onClick={this.changeStep.bind(this, true)} disabled={!this.canSkip(current_section.required, current_section.requires)}>
-                                        {current_section.action?current_section.action:(
-                                            <span>{current_section && this.canSkip(current_section.required, current_section.requires)?'Next':'Skip'} <i className="fa fa-chevron-right"/></span>
-                                        )}
-                                    </button>
-                                </div>
-                            ):null}
-                            {showSubmit?(
-                                <div className="text-center">
-                                    <button type="submit"
-                                            onClick={this.showAll.bind(this)}
-                                            className="btn"
-                                            disabled={Task.detail.isSaving}>
-                                        {this.state.scope == TASK_SCOPE_ONGOING || !isAuthenticated()?'Find me awesome developers':(
-                                            `${task.id?'Update':'Publish'} ${is_project?'project':'task'}`
-                                        )}
-                                    </button>
+                            {showPrev || showNext || showSubmit?(
+                                <div className="nav text-center">
+                                    {showPrev?(
+                                        <button type="button" className="btn btn-borderless nav-btn prev-btn pull-left" onClick={this.changeStep.bind(this, false, true)}>
+                                            <i className="fa fa-chevron-left"/>
+                                        </button>
+                                    ):null}
+                                    {showNext?(
+                                        <div className={current_section.action?'text-center':'pull-right'}>
+                                            <button type="button"
+                                                    className={`btn ${current_section.action?'':'btn-borderless nav-btn next-btn'}`}
+                                                    onClick={this.changeStep.bind(this, true)} disabled={!this.canSkip(current_section.required, current_section.requires)}>
+                                                {current_section.action?current_section.action:(
+                                                    <span>{current_section && this.canSkip(current_section.required, current_section.requires)?'':''} <i className="fa fa-chevron-right"/></span>
+                                                )}
+                                            </button>
+                                        </div>
+                                    ):null}
+                                    {showSubmit?(
+                                        <div className="text-center">
+                                            <button type="submit"
+                                                    onClick={this.showAll.bind(this)}
+                                                    className="btn"
+                                                    disabled={Task.detail.isSaving}>
+                                                {this.state.scope == TASK_SCOPE_ONGOING || !isAuthenticated()?'Find me awesome developers':(
+                                                    `${task.id?'Update':'Publish'} ${is_project?'project':'task'}`
+                                                )}
+                                            </button>
+                                        </div>
+                                    ):null}
                                 </div>
                             ):null}
                         </div>
-                    ):null}
+                    )}
                     <div className="clearfix"></div>
                 </form>
             </div>
@@ -1666,6 +1718,7 @@ export default class TaskForm extends ComponentWithModal {
 
 TaskForm.propTypes = {
     task: React.PropTypes.object,
+    editToken: React.PropTypes.string,
     project: React.PropTypes.object,
     enabledWidgets: React.PropTypes.array,
     options: React.PropTypes.object,
@@ -1674,6 +1727,7 @@ TaskForm.propTypes = {
 
 TaskForm.defaultProps = {
     task: null,
+    editToken: null,
     project: null,
     enabledWidgets: [],
     options: null,

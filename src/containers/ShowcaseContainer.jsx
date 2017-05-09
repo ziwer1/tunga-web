@@ -17,6 +17,9 @@ export default class ShowcaseContainer extends React.Component {
                             <source src={require("../video/homepagetunga.mp4")} type="video/mp4"/>
                         </video>
                     ):null}
+                    {this.props.headerVideo?(
+                        <div className="video-overlay"/>
+                    ):null}
                     <Affix affixClassName="navbar-fixed-top" offsetTop={60}>
                         <nav className="navbar navbar-fixed-top">
                             <div className="navbar-header">
@@ -30,7 +33,7 @@ export default class ShowcaseContainer extends React.Component {
                             <div id="navbar" className="collapse navbar-collapse">
                                 <ul className="nav navbar-nav navbar-right nav-actions">
                                     <li><a className="primary" onClick={() => {openCalendlyWidget()}}>Explore possibilities</a></li>
-                                    <li><Link to="/signin">Login</Link></li>
+                                    <li><Link to="/signin" activeClassName="active">Login</Link></li>
                                 </ul>
                                 <ul className="nav navbar-nav navbar-left nav-main">
                                     <li><Link to="/our-story" activeClassName="active">Our Story</Link></li>
