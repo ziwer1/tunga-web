@@ -304,7 +304,7 @@ export default class LandingPage extends ComponentWithModal {
                             })}
                         </Slider>
                         <div className="text-center"style={{marginTop: '40px'}}>
-                            <button className="btn btn-callout" onClick={this.onScheduleCall.bind(this)}>Explore possibilities</button>
+                            <button className="btn btn-callout" onClick={this.onScheduleCall.bind(this)}>Schedule call</button>
                         </div>
                     </div>
                 </section>
@@ -333,7 +333,7 @@ export default class LandingPage extends ComponentWithModal {
                                             Integrations with your current workflow<br/>
                                             Slack, Trello, Github, Drive etc.<br/>
                                             Or set up a custom workflow on Tunga<br/>
-                                            <Link to="/start">Find out how this will work for you.</Link>
+                                            <Link to="/start">Find out how this will work for you</Link>
                                         </p>
                                     </div>
                                     <div className="col-sm-4" id="full-stack">
@@ -357,7 +357,7 @@ export default class LandingPage extends ComponentWithModal {
                                             Excellent native app development<br/>
                                             Specialized iOS and Android teams<br/>
                                             App maintenance and improvements<br/>
-                                            From idea to application.
+                                            From idea to application
                                         </p>
                                     </div>
                                     <div className="col-sm-5" id="html-slicing">
@@ -366,7 +366,7 @@ export default class LandingPage extends ComponentWithModal {
                                         </Reveal>
                                         <p>
                                             Slicing experts on demand<br/>
-                                            From PSD, Sketch, or AI to webpage<br/>
+                                            From PSD, Sketch or AI to webpage<br/>
                                             All popular CMS<br/>
                                             Ready within days
                                         </p>

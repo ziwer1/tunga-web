@@ -51,34 +51,32 @@ export default class QualityPage extends React.Component {
                     ]}
                 />
 
-                <div className="content">
-                    <section>
-                        <div className="container">
-                            <div className="step-slider three clearfix">
-                                <ul>
-                                    {STEP_DETAILS.map((step, idx) => {
-                                        return (
-                                            <li key={idx}>
-                                                <div className="slide animated slideInRight"
-                                                     style={{animationDelay: `${idx}s`}}>
-                                                    <div className="title" dangerouslySetInnerHTML={{__html: step.title}}/>
-                                                    <div className="icon">
-                                                        {step.icon?(
-                                                            <i className={step.icon}/>
-                                                        ):(
-                                                            <img src={step.image}/>
-                                                        )}
-                                                    </div>
-                                                    <div className="description" dangerouslySetInnerHTML={{__html: step.description}}/>
+                <section>
+                    <div className="container">
+                        <div className="step-slider three clearfix">
+                            <ul>
+                                {STEP_DETAILS.map((step, idx) => {
+                                    return (
+                                        <li key={idx}>
+                                            <div className="slide animated slideInRight"
+                                                 style={{animationDelay: `${idx}s`}}>
+                                                <div className="title" dangerouslySetInnerHTML={{__html: step.title}}/>
+                                                <div className="icon">
+                                                    {step.icon?(
+                                                        <i className={step.icon}/>
+                                                    ):(
+                                                        <img src={step.image}/>
+                                                    )}
                                                 </div>
-                                            </li>
-                                        );
-                                    })}
-                                </ul>
-                            </div>
+                                                <div className="description" dangerouslySetInnerHTML={{__html: step.description}}/>
+                                            </div>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
                         </div>
-                    </section>
-                </div>
+                    </div>
+                </section>
             </ShowcaseContainer>
         );
     }
