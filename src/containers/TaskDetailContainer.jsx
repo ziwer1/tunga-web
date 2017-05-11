@@ -10,7 +10,7 @@ export default class TaskDetailContainer extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const {taskId} = this.props;
+        const {taskId, editToken} = this.props;
         if(taskId != prevProps.taskId) {
             this.props.TaskActions.retrieveTask(taskId, editToken);
         }
@@ -21,6 +21,7 @@ export default class TaskDetailContainer extends React.Component {
             return React.cloneElement(child, {
                 Task: this.props.Task,
                 task: this.props.Task.detail.task,
+                taskId: this.props.taskId,
                 editToken: this.props.editToken,
                 TaskActions: this.props.TaskActions,
                 location: this.props.location
@@ -29,16 +30,11 @@ export default class TaskDetailContainer extends React.Component {
     }
 
     render() {
-        const { Task } = this.props;
-
         return (
-            Task.detail.isRetrieving?(
-                <Progress/>
-            ):(
-                <div>
-                    {this.renderChildren()}
-                </div>
-            ));
+            <div>
+                {this.renderChildren()}
+            </div>
+        );
     }
 }
 

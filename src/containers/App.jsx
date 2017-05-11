@@ -120,19 +120,20 @@ class App extends React.Component {
     render() {
         const {Auth} = this.props;
         return (
-            Auth.isVerifying?
-                (
-                    <div className="app-loading">
-                        <div>
-                            <img src={require('../images/logo.png')}/>
+            <div style={{height: '100%'}}>
+                {Auth.isVerifying?
+                    (
+                        <div className="app-loading">
+                            <div>
+                                <img src={require('../images/logo.png')} height="50px"/>
+                            </div>
+                            <Progress message="Initializing ..."/>
                         </div>
-                        <Progress message="Initializing ..."/>
-                    </div>
-                ):(
-                <div style={{height: '100%'}}>
+                    ):null}
+                <div style={{height: '100%', display: Auth.isVerifying?'none':'block'}}>
                     {this.renderChildren()}
                 </div>
-            )
+            </div>
         );
     }
 }

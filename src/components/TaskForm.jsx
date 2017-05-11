@@ -45,14 +45,6 @@ export default class TaskForm extends ComponentWithModal {
             schedule_map[`${schedule.number}_${schedule.unit}`] = {update_interval: schedule.number, update_interval_units: schedule.unit};
         });
 
-        var user = {};
-        if(!isAuthenticated()) {
-            const task = props.task || {};
-            if(task && task.user && props.editToken) {
-                user = {first_name: task.user.first_name, last_name: task.user.last_name, email: task.user.email};
-            }
-        }
-
         this.state = {
             is_project: null, deadline: null, skills: [], scope: null,
             description: '', remarks: '', visibility: VISIBILITY_DEVELOPERS,
@@ -61,13 +53,32 @@ export default class TaskForm extends ComponentWithModal {
             modalMilestone: null, modalContent: null, modalTitle: '', coders_needed: null, type: null,
             has_requirements: null, pm_required: null, billing_method: null, stack_description: '', deliverables: '',
             skype_id: '', contact_required: null, has_more_info: null, overrideErrors: false, pm: null,
-            schedule_call: {day: null, from: null, to: null}, ...user, ...props.options, autoSave: false
+            schedule_call: {day: null, from: null, to: null}, ...props.options, autoSave: false,
+            lastFunnelUrl: null, lastAcquisitionUrl: null
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
+        if(this.state.step == 1) {
+            this.reportFunnelUrl(this.getStepUrl());
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+
         const task = this.props.task || {};
-        if(task.id) {
+        const { project } = this.props;
+
+        var new_state = {};
+
+        if(this.props.editToken && !prevProps.editToken) {
+            this.reportFunnelUrl(this.getStepUrl(false, true));
+            if(this.state.step == 1) {
+                new_state.step = 3;
+            }
+        }
+
+        if(task.id && (!prevProps.task || task.id != prevProps.task.id)) {
             const assignee = task.assignee && task.assignee.user?task.assignee.user.id:null;
             const description = task.description || '';
             const remarks = task.remarks || '';
@@ -83,7 +94,14 @@ export default class TaskForm extends ComponentWithModal {
             if(!isAuthenticated() && task.user && this.props.editToken) {
                 user = {first_name: task.user.first_name, last_name: task.user.last_name, email: task.user.email};
             }
-            this.setState({
+
+            let step = this.state.step;
+            if(this.props.editToken) {
+                step = 3;
+            }
+
+            new_state = {
+                ...new_state,
                 ...task,
                 assignee, participants, description, remarks,
                 fee: task.pay,
@@ -92,23 +110,15 @@ export default class TaskForm extends ComponentWithModal {
                     return skill.name;
                 }):[],
                 milestones: task.progress_events,
-                ...user
-            });
-        } else {
-            const { project } = this.props;
-            if(project && project.id) {
-                this.setState({type: project.type || TASK_TYPE_OTHER, scope: TASK_SCOPE_TASK, ...this.props.options});
-            }
+                ...user,
+                step
+            };
         }
-    }
 
-    componentDidMount() {
-        if(this.state.step == 1) {
-            this.reportFunnelUrl(this.getStepUrl());
+        if(project && (!prevProps.project || project.id != prevProps.project.id)) {
+            new_state = {...new_state, type: project.type || TASK_TYPE_OTHER, scope: TASK_SCOPE_TASK, ...this.props.options};
         }
-    }
 
-    componentDidUpdate(prevProps, prevState) {
         if(this.props.Task.detail.isSaved && !prevProps.Task.detail.isSaved) {
             this.reportFunnelUrl(this.getStepUrl(true));
 
@@ -131,20 +141,24 @@ export default class TaskForm extends ComponentWithModal {
                 if(this.refs.task_form) {
                     this.refs.task_form.reset();
                 }
-                this.setState({
-                    is_project: null, deadline: null, skills: [], scope: null,
+                new_state = {
+                    ...new_state, is_project: null, deadline: null, skills: [], scope: null,
                     description: '', remarks: '', visibility: VISIBILITY_DEVELOPERS,
                     assignee: null, participants: [], schedule: null, attachments: [], showAll: false,
                     step: 1, milestones: [], modalMilestone: null, modalContent: null, modalTitle: '', coders_needed: null,
                     type: null, has_requirements: null, pm_required: null, pm: null,
                     billing_method: null, stack_description: '', deliverables: '', skype_id: '', contact_required: null,
                     has_more_info: false
-                });
+                };
             }
 
             if(isAuthenticated()) {
                 router.replace(`/work/${Task.detail.task.id}`);
             }
+        }
+
+        if(Object.keys(new_state).length) {
+            this.setState(new_state);
         }
 
         if(this.state.autoSave && !prevState.autoSave) {
@@ -179,57 +193,62 @@ export default class TaskForm extends ComponentWithModal {
 
     reportFunnelUrl(url) {
         const { enabledWidgets } = this.props;
-        if(!(enabledWidgets && enabledWidgets.length)) {
+        if(!(enabledWidgets && enabledWidgets.length) && url != this.state.lastFunnelUrl) {
             sendGAPageView(url);
+            this.setState({lastFunnelUrl: url});
         }
     }
 
-    getStepUrl(complete=false) {
+    getStepUrl(complete=false, start=false) {
 
-        const {task, editToken} = this.props;
+        const {task, taskId, editToken} = this.props;
 
         var suffix = '';
-        if(complete) {
-            suffix = '/complete'
-        }
-        if(this.state.step > 1) {
-            suffix = '/step/' + this.state.step + suffix;
+        if(!start) {
+            if(complete) {
+                suffix = '/complete'
+            }
+            if(this.state.step > 1) {
+                suffix = '/step/' + this.state.step + suffix;
+            }
+
+            if(typeof this.state.contact_required == 'boolean' && this.canShowFork('has_more_info', complete)) {
+                suffix = '/more-info/' + (this.state.has_more_info?'yes':'no') + suffix;
+            }
+
+            if(typeof this.state.contact_required == 'boolean' && this.canShowFork('contact_required', complete)) {
+                suffix = '/talk/' + (this.state.contact_required?'yes':'no') + suffix;
+            }
+
+            if(typeof this.state.pm_required == 'boolean' && this.canShowFork('pm_required', complete)) {
+                suffix = '/pm/' + (this.state.pm_required?'yes':'no') + suffix;
+            }
+
+            const scope_url = getScopeUrl(this.state.scope);
+            if(scope_url && this.canShowFork('scope', complete)) {
+                suffix = '/scope/' + scope_url + suffix;
+            }
+
+            const type_url = getTaskTypeUrl(this.state.type);
+            if(type_url && this.canShowFork('type', complete)) {
+                suffix = '/type/' + type_url + suffix;
+            }
         }
 
-        if(this.state.has_more_info && this.canShowFork('has_more_info')) {
-            suffix = '/more-info/' + (this.state.has_more_info?'yes':'no') + suffix;
-        }
-
-        if(typeof this.state.contact_required == 'boolean' && this.canShowFork('contact_required')) {
-            suffix = '/talk/' + (this.state.contact_required?'yes':'no') + suffix;
-        }
-
-        if(typeof this.state.pm_required == 'boolean' && this.canShowFork('pm_required')) {
-            suffix = '/pm/' + (this.state.pm_required?'yes':'no') + suffix;
-        }
-
-        const scope_url = getScopeUrl(this.state.scope);
-        if(scope_url && this.canShowFork('scope')) {
-            suffix = '/scope/' + scope_url + suffix;
-        }
-
-        const type_url = getTaskTypeUrl(this.state.type);
-        if(type_url && this.canShowFork('type')) {
-            suffix = '/type/' + type_url + suffix;
-        }
-        return window.location.protocol + '//' + window.location.hostname + (window.location.port?`:${window.location.port}`:'') + '/track' + (isAuthenticated()?'/work/new':`/start${task.id && editToken?('/finish/'+task.id):''}`) + suffix;
+        return window.location.protocol + '//' + window.location.hostname + (window.location.port?`:${window.location.port}`:'') + '/track' + (isAuthenticated()?'/work/new':`/start${taskId && editToken?('-finish/' + taskId):''}`) + suffix;
     }
 
     reportAcquisition() {
         const task = this.props.Task.detail.task;
         const url = getAcquisitionUrl(task);
-        if(!this.props.task && url) {
+        if(!this.props.task && url && url != this.state.lastAcquisitionUrl) {
             sendGAPageView(url);
+            this.setState({lastAcquisitionUrl: url});
         }
     }
 
-    canShowFork(fork) {
-        return fork_position[fork] && this.state.step > fork_position[fork];
+    canShowFork(fork, complete=false) {
+        return fork_position[fork] && this.state.step >= (fork_position[fork] + complete?0:1);
     }
 
     canSkip(required, requires) {
@@ -382,11 +401,13 @@ export default class TaskForm extends ComponentWithModal {
         var shouldChangeStep = false;
         if(key == 'type') {
             if(isAuthenticated()) {
+                shouldChangeStep = true;
                 new_state.skills = Array.from(
                     new Set([...this.state.skills, ...suggestTaskTypeSkills(value)['selected']])
                 );
             } else {
                 new_state.autoSave = true;
+                shouldChangeStep = false;
             }
         }
 
@@ -398,23 +419,17 @@ export default class TaskForm extends ComponentWithModal {
             }
         }
 
-        if(!isAuthenticated() && key == 'contact_required' && typeof value == 'boolean') {
-            if(value) {
-                // Schedule a call
-                new_state.has_more_info = false;
-            } else {
-                // request more info
-                new_state.has_more_info = true;
+        if(key == 'has_more_info') {
+            if(isAuthenticated()) {
+                shouldChangeStep = value || shouldChangeStep;
+            } else if(typeof value == 'boolean') {
+                new_state.contact_required = true;
+                shouldChangeStep = true;
             }
-            shouldChangeStep = true;
         }
 
         this.setState(new_state);
-        if(['type', 'scope', 'is_project', 'has_requirements', 'pm_required'].indexOf(key) > -1) {
-            shouldChangeStep = true;
-        }
-
-        if(key == 'has_more_info' && value) {
+        if(['scope', 'is_project', 'has_requirements', 'pm_required'].indexOf(key) > -1) {
             shouldChangeStep = true;
         }
 
@@ -1198,10 +1213,10 @@ export default class TaskForm extends ComponentWithModal {
         if(!isAuthenticated()) {
             hasMoreInfoComp = (
                 <div>
-                    {(Task.detail.error.create && Task.detail.error.create.contact_required)?
-                        (<FieldError message={Task.detail.error.create.contact_required}/>):null}
-                    {(Task.detail.error.update && Task.detail.error.update.contact_required)?
-                        (<FieldError message={Task.detail.error.update.contact_required}/>):null}
+                    {(Task.detail.error.create && Task.detail.error.create.has_more_info)?
+                        (<FieldError message={Task.detail.error.create.has_more_info}/>):null}
+                    {(Task.detail.error.update && Task.detail.error.update.has_more_info)?
+                        (<FieldError message={Task.detail.error.update.has_more_info}/>):null}
                     <div className="form-group">
                         <div className="call-highlight">
                             <div className="text-center">
@@ -1218,18 +1233,18 @@ export default class TaskForm extends ComponentWithModal {
                         <div>
                             <div className="btn-choices choice-fork medium" role="group">
                                 {[
-                                    {id: true, name: 'Schedule call', icon: 'tunga-icon-schedule', helpText: 'In a hurry?'},
-                                    {id: false, name: 'Speed up process', icon: 'tunga-icon-rocket', helpText: 'Have some time?'}
-                                ].map(contact_options => {
+                                    {id: false, name: 'Schedule call', icon: 'tunga-icon-schedule', helpText: 'In a hurry?'},
+                                    {id: true, name: 'Speed up process', icon: 'tunga-icon-rocket', helpText: 'Have some time?'}
+                                ].map(info_options => {
                                     return (
                                     <div className="choice">
-                                        <div className="help-text">{contact_options.helpText}</div>
-                                        <button key={contact_options.id} type="button" style={{ minWidth: '0px'}}
-                                                className={"btn" + (this.state.contact_required == contact_options.id?' active':'')}
-                                                onClick={this.onStateValueChange.bind(this, 'contact_required', contact_options.id)}>
-                                            <i className={`icon ${contact_options.icon}`}/>
+                                        <div className="help-text">{info_options.helpText}</div>
+                                        <button key={info_options.id} type="button" style={{ minWidth: '0px'}}
+                                                className={"btn" + (this.state.has_more_info == info_options.id?' active':'')}
+                                                onClick={this.onStateValueChange.bind(this, 'has_more_info', info_options.id)}>
+                                            <i className={`icon ${info_options.icon}`}/>
                                         </button>
-                                        <div dangerouslySetInnerHTML={{__html: contact_options.name}}/>
+                                        <div dangerouslySetInnerHTML={{__html: info_options.name}}/>
                                     </div>
                                     )
                                 })}
@@ -1551,7 +1566,8 @@ export default class TaskForm extends ComponentWithModal {
                         title: "Let's launch your project",
                         subtitle: "One of our project hackers will reach out to you soon",
                         items: [hasMoreInfoComp],
-                        required: true
+                        required: true,
+                        forks: ['has_more_info']
                     }
                 ];
             }
@@ -1718,6 +1734,7 @@ export default class TaskForm extends ComponentWithModal {
 
 TaskForm.propTypes = {
     task: React.PropTypes.object,
+    taskId: React.PropTypes.string,
     editToken: React.PropTypes.string,
     project: React.PropTypes.object,
     enabledWidgets: React.PropTypes.array,

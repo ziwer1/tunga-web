@@ -60,14 +60,14 @@ export function getAcquisitionUrl(task, completed=false) {
         if(type_url) {
             suffix = '/type/' + type_url + suffix;
         }
-        return window.location.protocol + '//' + window.location.hostname+ (window.location.port?`:${window.location.port}`:'')  + '/track/lead' + (task.source == 2?'/member':'/new') + `/${task.id}/${completed?'complete':'start'}` + suffix;
+        return window.location.protocol + '//' + window.location.hostname+ (window.location.port?`:${window.location.port}`:'')  + '/track/acquisition' + (task.source == 2?'/new':'/member') + `/${task.id}/${completed?'complete':'start'}` + suffix;
     }
     return null;
 }
 
 export function hasStarted(task) {
     var started = false;
-    
+
     if(task.participation) {
         task.participation.forEach(item => {
             if(item.status == STATUS_ACCEPTED) {
@@ -76,12 +76,6 @@ export function hasStarted(task) {
         });
     }
     return started;
-}
-
-export function openTaskWizard(options={}) {
-    return createModal(
-        <TaskWizard options={options}/>, null, null, {className: "task-form-dialog", bsStyle: 'lg'}
-    );
 }
 
 export function getDevFee(hours) {
