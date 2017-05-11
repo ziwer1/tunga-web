@@ -1278,7 +1278,7 @@ export default class TaskForm extends ComponentWithModal {
                                   onChange={this.onScheduleChange.bind(this, 'day')}
                                   defaultValue={task.schedule_call_start?(new Date(moment.utc(task.schedule_call_start).format())):null}
                                   value={this.state.schedule_call.day?new Date(moment.utc(this.state.schedule_call.day).format()):null}
-                                  min={new Date(moment() < moment.utc().set('hour', 14)?moment():moment().add(1, 'day'))}/>
+                                  min={new Date(moment.utc() < moment.utc().set('hour', 12)?moment():moment().add(1, 'day'))}/>
                     </div>
                 </div>
 
@@ -1291,7 +1291,7 @@ export default class TaskForm extends ComponentWithModal {
                                             defaultValue={task.schedule_call_start?(new Date(moment.utc(task.schedule_call_start).format('hh:mm:ss'))):null}
                                             value={this.state.schedule_call.from?new Date(moment.utc(`${moment().format('YYYY-MM-DD')}T${this.state.schedule_call.from}Z`).format()):null}
                                             calendar={false}
-                                            min={new Date(moment.utc().set('hour', 6).set('minute', 0))}
+                                            min={new Date(this.state.schedule_call.day && moment.utc(this.state.schedule_call.day).startOf('day').format() == moment.utc().startOf('day').format() && moment.utc() > moment.utc().set('hour', 2).set('minute', 0)?moment.utc().add(4, 'hour').set('minute', 0):moment.utc().set('hour', 6).set('minute', 0))}
                                             max={new Date(moment.utc().set('hour', 18).set('minute', 0))}/>
                         </div>
                         <div className="col-md-6">
@@ -1300,7 +1300,7 @@ export default class TaskForm extends ComponentWithModal {
                                             onChange={this.onScheduleChange.bind(this, 'to')}
                                             defaultValue={task.schedule_call_end?(new Date(moment.utc(task.schedule_call_end).format('hh:mm:ss'))):null}
                                             value={this.state.schedule_call.to?new Date(moment.utc(`${moment().format('YYYY-MM-DD')}T${this.state.schedule_call.to}Z`).format()):null}
-                                            min={new Date(moment.utc().set('hour', 6).set('minute', 0))}
+                                            min={this.state.schedule_call.from?new Date(moment.utc(`${moment().format('YYYY-MM-DD')}T${this.state.schedule_call.from}Z`).format()):new Date(moment.utc().set('hour', 6).set('minute', 0))}
                                             max={new Date(moment.utc().set('hour', 18).set('minute', 0))}
                                             calendar={false}/>
                         </div>
