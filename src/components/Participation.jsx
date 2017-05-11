@@ -83,7 +83,7 @@ export default class Participation extends React.Component {
                                                 </div>
                                                 <div className="col-md-6">
                                                     <input type="text" className="form-control" required placeholder="Share"
-                                                           defaultValue={parseNumber(item.percentage)}
+                                                           defaultValue={parseNumber(item.percentage, false)}
                                                            onChange={this.onShareChange.bind(this, item.participant.user.id)}/>
                                                 </div>
                                             </div>

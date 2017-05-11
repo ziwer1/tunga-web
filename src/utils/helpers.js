@@ -4,8 +4,8 @@ export function isInt(n) {
     return parseInt(n) === n;
 }
 
-export function parseNumber(number, precision=2) {
-    return numeral(number).format('0,0.[00]');
+export function parseNumber(number, has_comma=true) {
+    return numeral(number).format(`0${has_comma?',0':''}.[00]`);
 }
 
 export function truncateWords(sentence, number=25) {

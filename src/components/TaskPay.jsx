@@ -105,7 +105,10 @@ export default class TaskPay extends React.Component {
                                     (<FieldError message={Task.detail.Invoice.error.create.fee}/>):null}
                                 <div className="form-group">
                                     <label className="control-label">Fee (in Euro) *</label>
-                                    <div><input type="text" className="form-control" ref="fee" required placeholder="Fee in €" defaultValue={parseNumber(task.pay)}/></div>
+                                    <div><input type="text" className="form-control" ref="fee"
+                                                required
+                                                placeholder="Fee in €"
+                                                defaultValue={parseNumber(task.pay, false)}/></div>
                                     {/*<div style={{marginTop: '10px'}}>13% of fee goes to Tunga</div>*/}
                                 </div>
 

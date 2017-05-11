@@ -818,7 +818,10 @@ export default class TaskForm extends ComponentWithModal {
                     (<FieldError message={Task.detail.error.update.fee}/>):null}
                 <div className="form-group">
                     <label className="control-label">What is your estimated budget for this {work_type}? - (optional)</label>
-                    <div><input type="number" className="form-control" ref="fee" required={!is_project_task && isAuthenticated()} placeholder="Amount in Euros"  onChange={this.onInputChange.bind(this, 'fee')} value={this.state.fee?parseNumber(this.state.fee):''}/></div>
+                    <div><input type="number" className="form-control" ref="fee" required={!is_project_task && isAuthenticated()}
+                                placeholder="Amount in Euros"
+                                onChange={this.onInputChange.bind(this, 'fee')}
+                                value={this.state.fee?parseNumber(this.state.fee, false):''}/></div>
                     {this.state.fee?(
                         <div style={{marginTop: '10px'}}>Estimated Number of development hours: <span className="bold">{estimateDevHoursForFee(this.state.fee)} hr{this.state.fee?'s':''}</span></div>
                     ):null}
@@ -1272,10 +1275,10 @@ export default class TaskForm extends ComponentWithModal {
                     <label className="control-label">When are you available for a call?</label>
                     <div>
                         <Calendar ref="schedule_call_day"
-                                  min={new Date()}
                                   onChange={this.onScheduleChange.bind(this, 'day')}
                                   defaultValue={task.schedule_call_start?(new Date(moment.utc(task.schedule_call_start).format())):null}
-                                  value={this.state.schedule_call.day?new Date(moment.utc(this.state.schedule_call.day).format()):null}/>
+                                  value={this.state.schedule_call.day?new Date(moment.utc(this.state.schedule_call.day).format()):null}
+                                  min={new Date(moment() < moment.utc().set('hour', 14)?moment():moment().add(1, 'day'))}/>
                     </div>
                 </div>
 
@@ -1287,7 +1290,9 @@ export default class TaskForm extends ComponentWithModal {
                                             onChange={this.onScheduleChange.bind(this, 'from')}
                                             defaultValue={task.schedule_call_start?(new Date(moment.utc(task.schedule_call_start).format('hh:mm:ss'))):null}
                                             value={this.state.schedule_call.from?new Date(moment.utc(`${moment().format('YYYY-MM-DD')}T${this.state.schedule_call.from}Z`).format()):null}
-                                            calendar={false}/>
+                                            calendar={false}
+                                            min={new Date(moment.utc().set('hour', 6).set('minute', 0))}
+                                            max={new Date(moment.utc().set('hour', 18).set('minute', 0))}/>
                         </div>
                         <div className="col-md-6">
                             <label className="control-label">To:</label>
@@ -1295,6 +1300,8 @@ export default class TaskForm extends ComponentWithModal {
                                             onChange={this.onScheduleChange.bind(this, 'to')}
                                             defaultValue={task.schedule_call_end?(new Date(moment.utc(task.schedule_call_end).format('hh:mm:ss'))):null}
                                             value={this.state.schedule_call.to?new Date(moment.utc(`${moment().format('YYYY-MM-DD')}T${this.state.schedule_call.to}Z`).format()):null}
+                                            min={new Date(moment.utc().set('hour', 6).set('minute', 0))}
+                                            max={new Date(moment.utc().set('hour', 18).set('minute', 0))}
                                             calendar={false}/>
                         </div>
                     </div>
