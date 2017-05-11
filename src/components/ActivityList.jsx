@@ -4,12 +4,12 @@ import moment from 'moment';
 import TimeAgo from 'react-timeago';
 import { ProgressBar } from 'react-bootstrap';
 import Linkify from 'react-linkify';
+import randomstring from 'randomstring';
 
 import Progress from './status/Progress';
 import LoadMore from './status/LoadMore';
 import Avatar from './Avatar';
 import Attachments from './Attachments';
-import randomstring from 'randomstring';
 
 import { PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT } from '../constants/Api';
 import { isAuthenticated, getUser, isAdmin, isProjectOwner, isAdminOrProjectOwner } from '../utils/auth';

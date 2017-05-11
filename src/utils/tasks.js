@@ -60,7 +60,7 @@ export function getAcquisitionUrl(task, completed=false) {
         if(type_url) {
             suffix = '/type/' + type_url + suffix;
         }
-        return window.location.protocol + '//' + window.location.hostname+ (window.location.port?`:${window.location.port}`:'')  + '/track/acquisition' + (task.source == 2?'/new':'/member') + `/${task.id}/${completed?'complete':'start'}` + suffix;
+        return window.location.protocol + '//' + window.location.hostname+ (window.location.port?`:${window.location.port}`:'')  + `/track/${task.analytics_id || 'no_id'}/acquisition` + (task.source == 2?'/new':'/member') + `/${task.id}/${completed?'complete':'start'}` + suffix;
     }
     return null;
 }

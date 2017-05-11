@@ -6,6 +6,7 @@ import {Button, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import momentLocalizer from 'react-widgets/lib/localizers/moment';
 import {DateTimePicker, Calendar} from 'react-widgets';
 import Dropzone from 'react-dropzone';
+import randomstring from 'randomstring';
 
 import Progress from './status/Progress';
 import FormStatus from './status/FormStatus';
@@ -54,7 +55,7 @@ export default class TaskForm extends ComponentWithModal {
             has_requirements: null, pm_required: null, billing_method: null, stack_description: '', deliverables: '',
             skype_id: '', contact_required: null, has_more_info: null, overrideErrors: false, pm: null,
             schedule_call: {day: null, from: null, to: null}, ...props.options, autoSave: false,
-            lastFunnelUrl: null, lastAcquisitionUrl: null
+            lastFunnelUrl: null, lastAcquisitionUrl: null, analytics_id: props.analyticsId || randomstring.generate()
         };
     }
 
@@ -73,7 +74,7 @@ export default class TaskForm extends ComponentWithModal {
 
         if(this.props.editToken && !prevProps.editToken) {
             this.reportFunnelUrl(this.getStepUrl(false, true));
-            if(this.state.step == 1) {
+            if(this.state.step < 1) {
                 new_state.step = 3;
             }
         }
@@ -235,7 +236,7 @@ export default class TaskForm extends ComponentWithModal {
             }
         }
 
-        return window.location.protocol + '//' + window.location.hostname + (window.location.port?`:${window.location.port}`:'') + '/track' + (isAuthenticated()?'/work/new':`/start${taskId && editToken?('-finish/' + taskId):''}`) + suffix;
+        return window.location.protocol + '//' + window.location.hostname + (window.location.port?`:${window.location.port}`:'') + `/track/${this.state.analytics_id}` + (isAuthenticated()?'/work/new':`/start${taskId && editToken?('-finish/' + taskId):''}`) + suffix;
     }
 
     reportAcquisition() {
@@ -531,6 +532,7 @@ export default class TaskForm extends ComponentWithModal {
         if(task.id) {
             TaskActions.updateTask(task.id, task_info, attachments, editToken);
         } else {
+            task_info.analytics_id = this.state.analytics_id;
             TaskActions.createTask(task_info, attachments);
         }
     }

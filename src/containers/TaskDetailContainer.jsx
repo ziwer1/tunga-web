@@ -22,7 +22,8 @@ export default class TaskDetailContainer extends React.Component {
                 Task: this.props.Task,
                 task: this.props.Task.detail.task,
                 taskId: this.props.taskId,
-                editToken: this.props.editToken,
+                editToken: this.props.editToken == this.props.Task.detail.task.edit_token?this.props.editToken:'',
+                analyticsId: this.props.Task.detail.task.analytics_id,
                 TaskActions: this.props.TaskActions,
                 location: this.props.location
             });
