@@ -1468,7 +1468,7 @@ export default class TaskForm extends ComponentWithModal {
                             {
                                 title: 'Select a project manager',
                                 items: [pmComp],
-                                requires: ['pm']
+                                //requires: ['pm']
                             }
                         ];
                     }
