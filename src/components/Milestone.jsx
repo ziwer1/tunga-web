@@ -53,7 +53,8 @@ export default class Milestone extends React.Component {
 
         const timestamp = moment.utc(milestone.due_at).unix();
         const ts_now = moment.utc().unix();
-        let is_missed = ((timestamp + 24*60*60) < ts_now && milestone.type); // Developers have 24 hrs before a task update is missed
+        // 48 hrs for devs to fill and 72 hrs for PMs
+        let is_missed = ((timestamp + (isDeveloper()?48:72)*60*60) < ts_now && milestone.type);
 
         return (
             Milestone.detail.isRetrieving?
