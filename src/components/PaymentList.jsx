@@ -67,6 +67,9 @@ export default class PaymentList extends GenericListContainer {
                                     )}
                                     <th>Invoice</th>
                                     <th>Status</th>
+                                    {(isAdmin() || isProjectManager()) &&
+                                        <th>Select To Pay</th>
+                                    }
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -110,6 +113,10 @@ export default class PaymentList extends GenericListContainer {
                                                 )}
                                             </td>
                                             <td>{task.payment_status}</td>
+                                            <td>{(task.payment_status == "Pending" && (isDeveloper() || isAdmin())) &&
+                                                    <input type="checkbox" className="tasks_to_pay" value={task.id}/>
+                                                }
+                                            </td>
                                         </tr>
                                     );
                                 })}
