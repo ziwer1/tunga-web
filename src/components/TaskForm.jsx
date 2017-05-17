@@ -1617,7 +1617,7 @@ export default class TaskForm extends ComponentWithModal {
                 if(!options || !options.type) {
                     sections = [
                         {
-                            title: 'What kind of project do you have?',
+                            title: 'What kind of work do you have?',
                             items: [taskTypeComp],
                             required: true,
                             forks: ['type'],
