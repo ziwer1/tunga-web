@@ -45,6 +45,9 @@ export default class PaymentList extends GenericListContainer {
                     <li role="presentation"><Link to="/payments/processing" activeClassName="active">Processing</Link></li>
                     <li role="presentation"><Link to="/payments/paid" activeClassName="active">Paid</Link></li>
                 </ul>
+                <ul className="nav nav-pills nav-top-filter navbar-right">
+                    <li role="presentation"><Link to="/payments/multi-task-payment">Pay Selected Tasks</Link></li>
+                </ul>
                 {Task.list.isFetching?
                     (<Progress/>)
                     :
