@@ -81,7 +81,7 @@ export default class Milestone extends React.Component {
                         ):null}
                     </div>
 
-                    {((!report && !is_missed) || this.state.editReport)  && milestone.is_participant?(
+                    {((!report && !is_missed) || this.state.editReport) && milestone.is_participant?(
                         <ProgressReportForm milestone={milestone}
                                             progress_report={report}
                                             ProgressReport={ProgressReport}

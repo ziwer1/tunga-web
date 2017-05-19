@@ -274,6 +274,7 @@ export default class TaskForm extends ComponentWithModal {
     getScheduleId() {
         const task = this.props.task || {};
         var schedule_id = null;
+        console.log('task', task);
         if(task.update_interval && task.update_interval_units) {
             schedule_id = `${task.update_interval}_${task.update_interval_units}`;
         }
@@ -298,7 +299,6 @@ export default class TaskForm extends ComponentWithModal {
     }
 
     onScheduleChange(part, date) {
-        console.log('schedule', part, moment(date).utc().format());
         var new_schedule_call = this.state.schedule_call;
         switch(part) {
             case 'day':
@@ -311,7 +311,6 @@ export default class TaskForm extends ComponentWithModal {
             default:
                 break
         }
-        console.log('new_schedule_call', new_schedule_call);
         this.setState({schedule_call: new_schedule_call});
     }
 

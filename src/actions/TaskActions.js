@@ -86,7 +86,6 @@ export function createTask(task, attachments) {
                 .then(function(response) {
                     dispatch(createTaskSuccess(response.data))
                 }).catch(function(error) {
-                console.log('Task error', error);
                 dispatch(createTaskFailed(error.response?error.response.data:null))
             });
         }
