@@ -57,51 +57,41 @@ class NavBar extends React.Component {
                         <Link to="/" className="navbar-brand"><img src={require('../images/logo.png')} /></Link>
                     </div>
                     <div id="navbar" className="navbar-collapse collapse">
-                        {isAuthenticated()?(
-                            <ul className="nav navbar-nav navbar-right">
-                                <li id="navbar-search"><SearchBox placeholder="Search" query={this.props.location.query.q} hide_results={true} onSearch={this.onSearch.bind(this)}/></li>
-                                {isAuthenticated() && isAdmin()?(
-                                    <li className="dropdown">
-                                        <a href="#" className="dropdown-toggle account-actions-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                            <i className="nav-icon fa fa-cogs"/> Manage  <span className="caret" style={{marginLeft: 5+'px'}} />
-                                        </a>
-                                        <ul className="dropdown-menu">
-                                            <li><Link to="/help"><i className="nav-icon fa fa-question-circle fa-lg"/> Help</Link></li>
-                                            <li><Link to="/people/invite"><i className="nav-icon fa fa-user-plus"/> Invite Users</Link></li>
-                                            <li><Link to="/dashboard/updates"><i className="nav-icon fa fa-bell"/> Updates dashboard</Link></li>
-                                        </ul>
-                                    </li>):null}
-                                {/*<li className="dropdown notifications">
-                                    <a href="#" className="dropdown-toggle"
-                                       data-toggle="dropdown" role="button"
-                                       aria-expanded="false">
-                                        <i className="nav-icon fa fa-bell fa-lg"/> {0?(<span className="badge">{0}</span>):null}
-                                    </a>
-                                    <div className="dropdown-menu" role="menu">
-
-                                    </div>
-                                </li>*/}
-                                <li className="dropdown" id="navbar-account">
+                        <ul className="nav navbar-nav navbar-right">
+                            <li id="navbar-search"><SearchBox placeholder="Search" query={this.props.location.query.q} hide_results={true} onSearch={this.onSearch.bind(this)}/></li>
+                            {isAuthenticated() && isAdmin()?(
+                                <li className="dropdown">
                                     <a href="#" className="dropdown-toggle account-actions-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                        {getUser().display_name} <span className="caret" style={{marginLeft: 5+'px'}} /> <Avatar src={getUser().avatar_url}/>
+                                        <i className="nav-icon fa fa-cogs"/> Manage  <span className="caret" style={{marginLeft: 5+'px'}} />
                                     </a>
                                     <ul className="dropdown-menu">
-                                        <li><Link to="/profile"><i className="nav-icon tunga-icon-profile"/> My Profile</Link></li>
-                                        <li><Link to="/settings"><i className="nav-icon tunga-icon-settings"/> Settings</Link></li>
-                                        <li role="separator" className="divider"/>
-                                        <li><Link to="" onClick={this.handleLogout}><i className="nav-icon tunga-icon-sign-out"/> Sign Out</Link></li>
+                                        <li><Link to="/help"><i className="nav-icon fa fa-question-circle fa-lg"/> Help</Link></li>
+                                        <li><Link to="/people/invite"><i className="nav-icon fa fa-user-plus"/> Invite Users</Link></li>
+                                        <li><Link to="/dashboard/updates"><i className="nav-icon fa fa-bell"/> Updates dashboard</Link></li>
                                     </ul>
-                                </li>
-                            </ul>
-                        ):(
-                            <ul className="nav navbar-nav navbar-right">
-                                <li><Link to="/how-it-works">How it works</Link></li>
-                                <li><Link to="/pricing">Pricing</Link></li>
-                                <li><a href="https://blog.tunga.io" target="_blank">Blog</a></li>
-                                <li style={{marginLeft: '40px'}}><Link to="/signup">Sign Up</Link></li>
-                                <li><Link to="/signin">Login</Link></li>
-                            </ul>
-                        )}
+                                </li>):null}
+                            {/*<li className="dropdown notifications">
+                             <a href="#" className="dropdown-toggle"
+                             data-toggle="dropdown" role="button"
+                             aria-expanded="false">
+                             <i className="nav-icon fa fa-bell fa-lg"/> {0?(<span className="badge">{0}</span>):null}
+                             </a>
+                             <div className="dropdown-menu" role="menu">
+
+                             </div>
+                             </li>*/}
+                            <li className="dropdown" id="navbar-account">
+                                <a href="#" className="dropdown-toggle account-actions-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                    {getUser().display_name} <span className="caret" style={{marginLeft: 5+'px'}} /> <Avatar src={getUser().avatar_url}/>
+                                </a>
+                                <ul className="dropdown-menu">
+                                    <li><Link to="/profile"><i className="nav-icon tunga-icon-profile"/> My Profile</Link></li>
+                                    <li><Link to="/settings"><i className="nav-icon tunga-icon-settings"/> Settings</Link></li>
+                                    <li role="separator" className="divider"/>
+                                    <li><Link to="" onClick={this.handleLogout}><i className="nav-icon tunga-icon-sign-out"/> Sign Out</Link></li>
+                                </ul>
+                            </li>
+                        </ul>
                     </div>
                 </nav>
             </div>

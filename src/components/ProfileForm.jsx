@@ -9,11 +9,11 @@ import FieldError from './status/FieldError';
 
 import { PAYMENT_METHOD_CHOICES, PAYMENT_METHOD_BTC_WALLET, PAYMENT_METHOD_MOBILE_MONEY, PAYMENT_METHOD_BTC_ADDRESS, SOCIAL_LOGIN_URLS } from '../constants/Api';
 
-export default class Profile extends React.Component {
+export default class ProfileForm extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {step: 1, photo: null, payment_method: PAYMENT_METHOD_MOBILE_MONEY, country_code: null, overrideErrors: false};
+        this.state = {step: 1, photo: null, payment_method: null, country_code: null, overrideErrors: false};
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
