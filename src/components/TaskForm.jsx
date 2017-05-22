@@ -568,7 +568,7 @@ export default class TaskForm extends ComponentWithModal {
         let is_project = this.state.scope != TASK_SCOPE_TASK;
         let work_type = (is_project)?'project':'task';
 
-        if(isAuthenticated() && !getUser().can_contribute && !task.id && !isAdmin()) {
+        if(isAuthenticated() && !getUser().can_contribute && !task.id /*&& !isAdmin()*/) {
             return (
                 <div>
                     {task.id?null:(
