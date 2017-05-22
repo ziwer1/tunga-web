@@ -34,7 +34,7 @@ export default class CompanyProfile extends React.Component {
 
     addSkillsToState() {
         const { Profile } = this.props;
-        this.setState({skills: Profile.profile.skills?Profile.profile.skills.map((skill) => {
+        this.setState({skills: Profile.profile && Profile.profile.skills?Profile.profile.skills.map((skill) => {
             return skill.name;
         }):[]});
     }
