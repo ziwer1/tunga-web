@@ -19,7 +19,7 @@ import LargeModal from './LargeModal';
 import MilestoneForm from './MilestoneForm';
 
 import {
-    USER_TYPE_DEVELOPER, USER_TYPE_PROJECT_MANAGER, TASK_TYPE_CHOICES, TASK_SCOPE_CHOICES, TASK_SCOPE_CHOICES_NEW_USER, TASK_SCOPE_ONGOING, TASK_SCOPE_PROJECT,
+    USER_TYPE_DEVELOPER, USER_TYPE_PROJECT_MANAGER, USER_TYPE_PROJECT_OWNER, TASK_TYPE_CHOICES, TASK_SCOPE_CHOICES, TASK_SCOPE_CHOICES_NEW_USER, TASK_SCOPE_ONGOING, TASK_SCOPE_PROJECT,
     TASK_BILLING_METHOD_CHOICES, TASK_BILLING_METHOD_FIXED, TASK_BILLING_METHOD_HOURLY, TASK_CODERS_NEEDED_CHOICES,
     TASK_VISIBILITY_CHOICES, VISIBILITY_DEVELOPERS, VISIBILITY_CUSTOM, UPDATE_SCHEDULE_CHOICES, suggestTaskTypeSkills,
     TASK_TYPE_OTHER, TASK_SCOPE_TASK
@@ -987,6 +987,22 @@ export default class TaskForm extends ComponentWithModal {
             </div>
         );
 
+        let poComp = (
+            <div>
+                {(Task.detail.error.create && Task.detail.error.create.po)?
+                    (<FieldError message={Task.detail.error.create.po}/>):null}
+                {(Task.detail.error.update && Task.detail.error.update.po)?
+                    (<FieldError message={Task.detail.error.update.po}/>):null}
+                <div className="form-group">
+                    <label className="control-label">Project Owner</label>
+                    <UserSelector filter={{type: USER_TYPE_PROJECT_OWNER}}
+                                  onChange={this.onPMChange.bind(this)}
+                                  selected={task.details && task.details.po?[task.details.po]:[]}
+                                  max={1}/>
+                </div>
+            </div>
+        );
+
         let visibilityComp = (
             <div>
                 {(Task.detail.error.create && Task.detail.error.create.visibility)?
@@ -1360,6 +1376,7 @@ export default class TaskForm extends ComponentWithModal {
                     files: filesComp,
                     updates: updatesComp,
                     pm: pmComp,
+                    po: poComp,
                     trello: trelloComp,
                     'google-drive': googleDriveComp,
                 };
