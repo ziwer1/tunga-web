@@ -458,11 +458,11 @@ export default class TaskWorflow extends ComponentWithModal {
                         </div>
                     ):null}
 
-                    {task.is_developer_ready && (is_admin_or_owner || task.is_admin || task.is_participant) ? (
+                    {/*task.is_developer_ready &&*/ (is_admin_or_owner || task.is_admin || task.is_participant) ? (
                         <div className="nav-top-filter">
                             {is_admin_or_owner || can_edit_shares ? (
                                 <div className="pull-left">
-                                    {is_admin_or_owner?(
+                                    {task.is_developer_ready && is_admin_or_owner?(
                                         <Link to={`/work/${task.id}/applications/`}
                                               className="btn" id="view-applications-btn">
                                             View applications {new_applications?(
@@ -470,7 +470,7 @@ export default class TaskWorflow extends ComponentWithModal {
                                         ):null}
                                         </Link>
                                     ):null}
-                                    {is_admin_or_owner && task.is_project?(
+                                    {task.is_developer_ready && is_admin_or_owner && task.is_project?(
                                         <Link to={`/work/${task.id}/board/`}
                                               className="btn" id="project-board-btn">
                                             Project Board
@@ -496,14 +496,14 @@ export default class TaskWorflow extends ComponentWithModal {
                                             )}
                                         </Link>
                                     ):null}
-                                    {can_edit_shares && task.details && task.details.participation && task.details.participation.length?(
+                                    {task.is_developer_ready && can_edit_shares && task.details && task.details.participation && task.details.participation.length?(
                                         <Link to={`/work/${task.id}/participation/`}
                                               className="btn" id="participation-shares-btn">
                                             Participation shares
                                         </Link>
                                     ):null}
 
-                                    {!is_project_task && is_admin_or_owner?(
+                                    {task.is_developer_ready && !is_project_task && is_admin_or_owner?(
                                         <Link to={`/work/${task.id}/edit/updates/`}
                                               className="btn" id="configure-updates-btn">
                                             Configure updates
@@ -518,7 +518,7 @@ export default class TaskWorflow extends ComponentWithModal {
                                                     data-toggle="dropdown"
                                                     aria-haspopup="true"
                                                     aria-expanded="true">
-                                                Task actions <i className="fa fa-ellipsis-v" id="menu-btn"/>
+                                                {work_type} actions <i className="fa fa-ellipsis-v" id="menu-btn"/>
                                             </button>
                                             <ul className="dropdown-menu dropdown-menu-right" aria-labelledby="chat-overflow">
                                                 {is_admin_or_owner?(
@@ -533,7 +533,7 @@ export default class TaskWorflow extends ComponentWithModal {
                                                                 Edit {work_type} description
                                                             </Link>
                                                         </li>,
-                                                        task.pay?(
+                                                        task.is_developer_ready && task.pay?(
                                                             <li>
                                                                 <Link to={`/work/${task.id}/edit/fee`} className="btn">
                                                                     Edit the fee for the {work_type}
@@ -545,6 +545,13 @@ export default class TaskWorflow extends ComponentWithModal {
                                                                 Add skills
                                                             </Link>
                                                         </li>,
+                                                        isAdmin() && !task.po?(
+                                                            <li>
+                                                                <Link to={`/work/${task.id}/edit/po`} className="btn">
+                                                                    Add Project Owner
+                                                                </Link>
+                                                            </li>
+                                                        ):null,
                                                         task.is_project && !task.pm?(
                                                             <li>
                                                                 <Link to={`/work/${task.id}/edit/pm`} className="btn">
@@ -552,20 +559,19 @@ export default class TaskWorflow extends ComponentWithModal {
                                                                 </Link>
                                                             </li>
                                                         ):null,
-                                                        <li>
+                                                        task.is_developer_ready?(<li>
                                                             <Link to={`/work/${task.id}/edit/developers`} className="btn">
                                                                 Add another developer to this {work_type}
                                                             </Link>
-                                                        </li>
-                                                        ,
-                                                        task.parent?null:(
+                                                        </li>):null,
+                                                        task.is_developer_ready && !task.parent?(
                                                             <li>
                                                                 <Link to={`/work/${task.id}/edit/milestone`} className="btn">
                                                                     Add a milestone
                                                                 </Link>
                                                             </li>
-                                                        ),
-                                                        task.closed?null:(
+                                                        ):null,
+                                                        task.is_developer_ready && !task.closed?(
                                                             <li>
                                                                 {task.apply?(
                                                                     <button type="button" className="btn " onClick={this.handleCloseApplications.bind(this)}>Close applications</button>
@@ -573,8 +579,8 @@ export default class TaskWorflow extends ComponentWithModal {
                                                                     <button type="button" className="btn " onClick={this.handleOpenApplications.bind(this)}>Open applications</button>
                                                                 )}
                                                             </li>
-                                                        ),
-                                                        <li>
+                                                        ):null,
+                                                        task.is_developer_ready?(<li>
                                                             {task.closed ? (
                                                                 task.paid ? (
                                                                     null
@@ -582,18 +588,18 @@ export default class TaskWorflow extends ComponentWithModal {
                                                                     <button type="button"
                                                                             className="btn"
                                                                             onClick={this.handleOpenTask.bind(this)}>
-                                                                        Open task
+                                                                        Open {work_type}
                                                                     </button>
                                                                 )
                                                             ) : (
                                                                 <button type="button"
                                                                         className="btn"
                                                                         onClick={this.handleCloseTask.bind(this)}>
-                                                                    Close task
+                                                                    Close {work_type}
                                                                 </button>
                                                             )}
-                                                        </li>,
-                                                        task.closed && !task.paid && isAdmin() ? (
+                                                        </li>):null,
+                                                        task.is_developer_ready && task.closed && !task.paid && isAdmin() ? (
                                                             <li>
                                                                 <button type="button"
                                                                         className="btn"
