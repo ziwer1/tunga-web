@@ -152,7 +152,9 @@ ReactDOM.render(
                             <Route path="complete" component={ProfileType} />
                             <Redirect path="*" to="personal" />
                         </Route>
-                        <Route path="estimate/new" component={EstimateForm} />
+                        <Route path="estimate" component={EstimateContainer}>
+                            <Route path="new" component={EstimateForm} />
+                        </Route>
                         <Route path="settings" component={SettingsPage} />
                         <Route path="work" component={TaskContainer}>
                             <IndexRoute component={TaskList}/>
