@@ -12,7 +12,7 @@ import Avatar from './Avatar';
 import Attachments from './Attachments';
 
 import { PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT } from '../constants/Api';
-import { isAuthenticated, getUser, isAdmin, isProjectOwner, isAdminOrProjectOwner } from '../utils/auth';
+import { isAuthenticated, getUser, isAdmin, isProjectOwner, isAdminOrProjectOwner, isDeveloper, isProjectManager } from '../utils/auth';
 import {getPayDetails} from '../utils/tasks';
 
 export function scrollList (listId) {
@@ -155,6 +155,15 @@ export default class ActivityList extends React.Component {
                 }
                 break;
             case 'progress_event':
+                if(isDeveloper() && object.type > 5) {
+                    break;
+                }
+                if(isProjectManager() && object.type > 6) {
+                    break;
+                }
+                if(isProjectOwner() && object.type  == 5) {
+                    break;
+                }
                 if(showNotifications && item.action == 'create') {
                     creator = object.created_by || {
                             id: 'tunga',
@@ -177,6 +186,15 @@ export default class ActivityList extends React.Component {
                 }
                 break;
             case 'progress_report':
+                if(isDeveloper() && object.details.event.type > 5) {
+                    break;
+                }
+                if(isProjectManager() && object.details.event.type > 6) {
+                    break;
+                }
+                if(isProjectOwner() && object.details.event.type == 5) {
+                    break;
+                }
                 if(showNotifications && item.action == 'report') {
                     creator = object.user;
                     created_at = object.created_at;

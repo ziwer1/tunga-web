@@ -889,7 +889,7 @@ export default class TaskForm extends ComponentWithModal {
                         <label className="control-label">How often would you like to receive an update?</label>
                         <div className="secondary">* Tunga recommends daily updates</div>
                         <div>
-                            <div className="btn-choices" role="group" aria-label="update preference">
+                            <div className="btn-choices" role="group">
                                 <button type="button"
                                         className={"btn " + (!this.state.schedule?' active':'')}
                                         onClick={this.onUpdateScheduleChange.bind(this, null)}>No updates
@@ -996,7 +996,7 @@ export default class TaskForm extends ComponentWithModal {
                 <div className="form-group">
                     <label className="control-label">Who would you like to be able to see your {work_type}?</label>
                     <br/>
-                    <div className="btn-choices" role="group" aria-label="visibility">
+                    <div className="btn-choices" role="group">
                         {TASK_VISIBILITY_CHOICES.map(visibility => {
                             return (
                                 <button key={visibility.id} type="button"
@@ -1052,7 +1052,7 @@ export default class TaskForm extends ComponentWithModal {
                 <div className="form-group">
                     <label className="control-label">How many coders will you need for this {work_type}</label>
                     <div>
-                        <div className="btn-choices" role="group" aria-label="coders">
+                        <div className="btn-choices" role="group">
                             {TASK_CODERS_NEEDED_CHOICES.map(coder_number => {
                                 return (
                                     <button key={coder_number.id} type="button"
@@ -1076,7 +1076,7 @@ export default class TaskForm extends ComponentWithModal {
                 <div className="form-group">
                     <label className="control-label">How would you like to pay?</label>
                     <div>
-                        <div className="btn-choices" role="group" aria-label="coders">
+                        <div className="btn-choices" role="group">
                             {TASK_BILLING_METHOD_CHOICES.map(billing_method => {
                                 return (
                                     <button key={billing_method.id} type="button"

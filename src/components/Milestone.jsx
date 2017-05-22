@@ -10,7 +10,7 @@ import ProgressReportForm from './ProgressReportForm';
 import BreadCrumb from '../containers/BreadCrumb';
 
 import { PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT } from '../constants/Api';
-import { isDeveloper, getUser, isAdmin, isAdminOrProjectOwner } from '../utils/auth';
+import { isDeveloper, getUser, isAdmin, isAdminOrProjectOwner, isProjectOwner } from '../utils/auth';
 
 export default class Milestone extends React.Component {
 
@@ -53,8 +53,8 @@ export default class Milestone extends React.Component {
 
         const timestamp = moment.utc(milestone.due_at).unix();
         const ts_now = moment.utc().unix();
-        // 48 hrs for devs to fill and 72 hrs for PMs
-        let is_missed = ((timestamp + (isDeveloper()?48:72)*60*60) < ts_now && milestone.type);
+        // 48 hrs for devs to fill and 72 hrs for PMs, forever for clients
+        let is_missed = isProjectOwner()?false:((timestamp + (isDeveloper()?48:72)*60*60) < ts_now && milestone.type);
 
         return (
             Milestone.detail.isRetrieving?
@@ -92,7 +92,7 @@ export default class Milestone extends React.Component {
                                 <h4><i className="fa fa-newspaper-o"/> Progress Reports</h4>
 
                                 {reports.map(report => {
-                                    if(report.user && report.user.is_project_manager && !isAdmin() && report.user.id != getUser().id) {
+                                    if(report.user && (report.user.is_project_owner || report.user.is_project_manager) && !isAdmin() && report.user.id != getUser().id) {
                                         return null;
                                     }
                                     return <div className="card">

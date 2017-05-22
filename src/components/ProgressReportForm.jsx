@@ -3,11 +3,12 @@ import moment from 'moment';
 import momentLocalizer from 'react-widgets/lib/localizers/moment';
 import Dropzone from 'react-dropzone';
 import DateTimePicker from 'react-widgets/lib/DateTimePicker';
+import _ from 'lodash';
 
 import FormStatus from './status/FormStatus';
 import FieldError from './status/FieldError';
 import { PROGRESS_REPORT_STATUS_CHOICES } from '../constants/Api';
-import { isDeveloper, getUser, isProjectManager } from '../utils/auth';
+import { isDeveloper, getUser, isProjectManager, isProjectOwner } from '../utils/auth';
 
 momentLocalizer(moment);
 
@@ -51,6 +52,12 @@ export default class ProgressReportForm extends React.Component {
         this.setState(new_state);
     }
 
+    onStateValueChange(key, value) {
+        var new_state = {};
+        new_state[key] = value;
+        this.setState(new_state);
+    }
+
     onProgressStatusChange(status) {
         this.setState({status});
     }
@@ -70,6 +77,10 @@ export default class ProgressReportForm extends React.Component {
 
     onAddAttachment() {
         this.refs.dropzone.open();
+    }
+
+    getRatingsMap() {
+        return _.range(0,11).map(x => { return {id: x, name: x}});
     }
 
     handleSubmit(e) {
@@ -110,7 +121,7 @@ export default class ProgressReportForm extends React.Component {
             return (
                 <FormStatus loading={ProgressReport.detail.isSaving}
                             success={ProgressReport.detail.isSaved}
-                            message={'Progress Report saved successfully'}
+                            message={`${isProjectOwner()?'Weekly Survey':'Progress Report'} saved successfully`}
                             error={ProgressReport.detail.error.create || ProgressReport.detail.error.update}/>
             );
         }
@@ -118,44 +129,48 @@ export default class ProgressReportForm extends React.Component {
         return (
             <div>
                 <form onSubmit={this.handleSubmit} name="progress_report" role="form" ref="progress_report_form">
-                    <h4>Progress Report</h4>
+                    <h4>{isProjectOwner()?'Weekly Survey':'Progress Report'}</h4>
                     <FormStatus loading={ProgressReport.detail.isSaving}
                                 success={ProgressReport.detail.isSaved}
-                                message={'Progress Report saved successfully'}
+                                message={`${isProjectOwner()?'Weekly Survey':'Progress Report'} saved successfully`}
                                 error={ProgressReport.detail.error.create || ProgressReport.detail.error.update}/>
 
-                    {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.status)?
-                        (<FieldError message={ProgressReport.detail.error.create.status}/>):null}
-                    {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.status)?
-                        (<FieldError message={ProgressReport.detail.error.update.status}/>):null}
-                    <div className="form-group">
-                        <label className="control-label">Task status *</label>
+                    {isDeveloper() || isProjectManager()?(
                         <div>
-                            <div className="btn-group btn-choices select" role="group" aria-label="task ststus">
-                                {PROGRESS_REPORT_STATUS_CHOICES.map(status => {
-                                    return (
-                                    <button key={status.id} type="button"
-                                            className={"btn " + (this.state.status == status.id?' active':'')}
-                                            onClick={this.onProgressStatusChange.bind(this, status.id)}>{status.name}
-                                    </button>
-                                        )
-                                    })}
+                            {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.status)?
+                                (<FieldError message={ProgressReport.detail.error.create.status}/>):null}
+                            {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.status)?
+                                (<FieldError message={ProgressReport.detail.error.update.status}/>):null}
+                            <div className="form-group">
+                                <label className="control-label">Task status *</label>
+                                <div>
+                                    <div className="btn-group btn-choices select" role="group">
+                                        {PROGRESS_REPORT_STATUS_CHOICES.map(status => {
+                                            return (
+                                                <button key={status.id} type="button"
+                                                        className={"btn " + (this.state.status == status.id?' active':'')}
+                                                        onClick={this.onProgressStatusChange.bind(this, status.id)}>{status.name}
+                                                </button>
+                                            )
+                                        })}
+                                    </div>
+                                </div>
+                            </div>
+
+                            {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.percentage)?
+                                (<FieldError message={ProgressReport.detail.error.create.percentage}/>):null}
+                            {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.percentage)?
+                                (<FieldError message={ProgressReport.detail.error.update.percentage}/>):null}
+                            <div className="form-group">
+                                <label className="control-label">Percentage completed *</label>
+                                <div>
+                                    <input type="number" className="form-control" ref="percentage" required placeholder="Percentage completed" defaultValue={progress_report.percentage}/>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    ):null}
 
-                    {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.percentage)?
-                        (<FieldError message={ProgressReport.detail.error.create.percentage}/>):null}
-                    {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.percentage)?
-                        (<FieldError message={ProgressReport.detail.error.update.percentage}/>):null}
-                    <div className="form-group">
-                        <label className="control-label">Percentage completed *</label>
-                        <div>
-                            <input type="number" className="form-control" ref="percentage" required placeholder="Percentage completed" defaultValue={progress_report.percentage}/>
-                        </div>
-                    </div>
-
-                    {isProjectManager()?(
+                    {isProjectManager() || isProjectOwner()?(
                         <div>
                             {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.last_deadline_met)?
                                 (<FieldError message={ProgressReport.detail.error.create.last_deadline_met}/>):null}
@@ -164,7 +179,7 @@ export default class ProgressReportForm extends React.Component {
                             <div className="form-group">
                                 <label className="control-label">Was the last deadline met? *</label>
                                 <div>
-                                    <div className="btn-group btn-choices select" role="group" aria-label="task ststus">
+                                    <div className="btn-group btn-choices select" role="group">
                                         {[
                                             {id: true, name: 'Yes'},
                                             {id: false, name: 'No'}
@@ -180,7 +195,7 @@ export default class ProgressReportForm extends React.Component {
                                 </div>
                             </div>
 
-                            {typeof this.state.last_deadline_met == 'boolean' && !this.state.last_deadline_met?(
+                            {isProjectManager() && typeof this.state.last_deadline_met == 'boolean' && !this.state.last_deadline_met?(
                                 <div>
                                     {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.deadline_report)?
                                         (<FieldError message={ProgressReport.detail.error.create.deadline_report}/>):null}
@@ -199,89 +214,137 @@ export default class ProgressReportForm extends React.Component {
                         </div>
                     ):null}
 
-                    {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.accomplished)?
-                        (<FieldError message={ProgressReport.detail.error.create.accomplished}/>):null}
-                    {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.accomplished)?
-                        (<FieldError message={ProgressReport.detail.error.update.accomplished}/>):null}
-                    <div className="form-group">
-                        <label className="control-label">What has been accomplished since the last update? *</label>
+                    {isProjectOwner()?(
+                        <div>
+                            {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.rate_deliverables)?
+                                (<FieldError message={ProgressReport.detail.error.create.rate_deliverables}/>):null}
+                            {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.rate_deliverables)?
+                                (<FieldError message={ProgressReport.detail.error.update.rate_deliverables}/>):null}
+                            <div className="form-group">
+                                <label className="control-label">Are you satisfied with the deliverables? *</label>
+                                <div>
+                                    <div className="btn-group btn-choices select" role="group">
+                                        {this.getRatingsMap().map(status => {
+                                            return (
+                                                <button key={status.id} type="button"
+                                                        className={"btn " + (typeof this.state.rate_deliverables == 'boolean' && this.state.rate_deliverables == status.id?' active':'')}
+                                                        onClick={this.onStateValueChange.bind(this, 'rate_deliverables', status.id)}>{status.name}
+                                                </button>
+                                            )
+                                        })}
+                                    </div>
+                                </div>
+                            </div>
+
+                            {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.rate_communication)?
+                                (<FieldError message={ProgressReport.detail.error.create.rate_communication}/>):null}
+                            {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.rate_communication)?
+                                (<FieldError message={ProgressReport.detail.error.update.rate_communication}/>):null}
+                            <div className="form-group">
+                                <label className="control-label">Is communication going well between you, the PM and Developers? *</label>
+                                <div>
+                                    <div className="btn-group btn-choices select" role="group">
+                                        {this.getRatingsMap().map(status => {
+                                            return (
+                                                <button key={status.id} type="button"
+                                                        className={"btn " + (typeof this.state.rate_communication == 'boolean' && this.state.last_deadline_met == status.id?' active':'')}
+                                                        onClick={this.onStateValueChange.bind(this, 'rate_communication', status.id)}>{status.name}
+                                                </button>
+                                            )
+                                        })}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    ):null}
+
+                    {isDeveloper() || isProjectManager()?(
+                        <div>
+                            {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.accomplished)?
+                                (<FieldError message={ProgressReport.detail.error.create.accomplished}/>):null}
+                            {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.accomplished)?
+                                (<FieldError message={ProgressReport.detail.error.update.accomplished}/>):null}
+                            <div className="form-group">
+                                <label className="control-label">What has been accomplished since the last update? *</label>
                         <textarea placeholder="What has been accomplished since the last update?"
                                   className="form-control"
                                   ref="accomplished"
                                   onChange={this.onInputChange.bind(this, 'accomplished')}
                                   value={this.state.accomplished} required>{this.state.accomplished}</textarea>
-                    </div>
+                            </div>
 
-                    <div className="form-group">
-                        <label className="control-label">Files</label>
-                        <div>
-                            <Dropzone ref="dropzone" onDrop={this.onDrop.bind(this)} style={{display: 'none'}}>
-                                <div>Try dropping some files here, or click to select files to upload.</div>
-                            </Dropzone>
-                            {this.state.attachments?(
+                            <div className="form-group">
+                                <label className="control-label">Files</label>
                                 <div>
-                                    {this.state.attachments.map((file) => {
-                                        return (<div><i className="fa fa-file-text-o"/> {file.name}</div>)
-                                    })}
+                                    <Dropzone ref="dropzone" onDrop={this.onDrop.bind(this)} style={{display: 'none'}}>
+                                        <div>Try dropping some files here, or click to select files to upload.</div>
+                                    </Dropzone>
+                                    {this.state.attachments?(
+                                        <div>
+                                            {this.state.attachments.map((file) => {
+                                                return (<div><i className="fa fa-file-text-o"/> {file.name}</div>)
+                                            })}
+                                        </div>
+                                    ):null}
+                                    <button type="button" className="btn " style={{marginRight: '5px'}}
+                                            onClick={this.onAddAttachment.bind(this)}>
+                                        <i className="fa fa-upload"/> Upload files
+                                    </button>
                                 </div>
-                            ):null}
-                            <button type="button" className="btn " style={{marginRight: '5px'}}
-                                    onClick={this.onAddAttachment.bind(this)}>
-                                <i className="fa fa-upload"/> Upload files
-                            </button>
-                        </div>
-                    </div>
+                            </div>
 
-                    {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.next_steps)?
-                        (<FieldError message={ProgressReport.detail.error.create.next_steps}/>):null}
-                    {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.next_steps)?
-                        (<FieldError message={ProgressReport.detail.error.update.next_steps}/>):null}
-                    <div className="form-group">
-                        <label className="control-label">What are the next steps? *</label>
+                            {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.next_steps)?
+                                (<FieldError message={ProgressReport.detail.error.create.next_steps}/>):null}
+                            {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.next_steps)?
+                                (<FieldError message={ProgressReport.detail.error.update.next_steps}/>):null}
+                            <div className="form-group">
+                                <label className="control-label">What are the next steps? *</label>
                         <textarea placeholder="What are the next steps?"
                                   className="form-control"
                                   ref="next_steps"
                                   onChange={this.onInputChange.bind(this, 'next_steps')}
                                   value={this.state.next_steps} required>{this.state.next_steps}</textarea>
-                    </div>
-
-                    {isProjectManager()?(
-                        <div>
-                            <div className="form-group">
-                                <label className="control-label">When is the next deadline? *</label>
-                                <DateTimePicker ref="due_at"
-                                                onChange={this.onNextDeadlineChange.bind(this)}
-                                                defaultValue={this.state.next_deadline?(new Date(moment.utc(this.state.next_deadline).format())):null}
-                                                time={false}/>
                             </div>
 
-                            {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.team_appraisal)?
-                                (<FieldError message={ProgressReport.detail.error.create.team_appraisal}/>):null}
-                            {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.team_appraisal)?
-                                (<FieldError message={ProgressReport.detail.error.update.team_appraisal}/>):null}
-                            <div className="form-group">
-                                <label className="control-label">Are you satisfied with the performance of the developers on this project, please give details? *</label>
+                            {isProjectManager()?(
+                                <div>
+                                    <div className="form-group">
+                                        <label className="control-label">When is the next deadline? *</label>
+                                        <DateTimePicker ref="due_at"
+                                                        onChange={this.onNextDeadlineChange.bind(this)}
+                                                        defaultValue={this.state.next_deadline?(new Date(moment.utc(this.state.next_deadline).format())):null}
+                                                        time={false}/>
+                                    </div>
+
+                                    {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.team_appraisal)?
+                                        (<FieldError message={ProgressReport.detail.error.create.team_appraisal}/>):null}
+                                    {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.team_appraisal)?
+                                        (<FieldError message={ProgressReport.detail.error.update.team_appraisal}/>):null}
+                                    <div className="form-group">
+                                        <label className="control-label">Are you satisfied with the performance of the developers on this project, please give details? *</label>
                             <textarea placeholder="Are you satisfied with the performance of the developers on this project, please give details?"
                                       className="form-control"
                                       ref="team_appraisal"
                                       onChange={this.onInputChange.bind(this, 'team_appraisal')}
                                       value={this.state.team_appraisal} required>{this.state.team_appraisal}</textarea>
-                            </div>
-                        </div>
-                    ):null}
+                                    </div>
+                                </div>
+                            ):null}
 
-                    {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.obstacles)?
-                        (<FieldError message={ProgressReport.detail.error.create.obstacles}/>):null}
-                    {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.obstacles)?
-                        (<FieldError message={ProgressReport.detail.error.update.obstacles}/>):null}
-                    <div className="form-group">
-                        <label className="control-label">What obstacles are impeding your progress? *</label>
+                            {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.obstacles)?
+                                (<FieldError message={ProgressReport.detail.error.create.obstacles}/>):null}
+                            {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.obstacles)?
+                                (<FieldError message={ProgressReport.detail.error.update.obstacles}/>):null}
+                            <div className="form-group">
+                                <label className="control-label">What obstacles are impeding your progress? *</label>
                         <textarea placeholder="What obstacles are impeding your progress?"
                                   className="form-control"
                                   ref="obstacles"
                                   onChange={this.onInputChange.bind(this, 'obstacles')}
                                   value={this.state.obstacles} required>{this.state.obstacles}</textarea>
-                    </div>
+                            </div>
+                        </div>
+                    ):null}
 
                     {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.remarks)?
                         (<FieldError message={ProgressReport.detail.error.create.remarks}/>):null}
