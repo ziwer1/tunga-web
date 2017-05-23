@@ -69,6 +69,7 @@ export default class TaskForm extends ComponentWithModal {
 
         const task = this.props.task || {};
         const { project } = this.props;
+        const { router } = this.context;
 
         var new_state = {};
 
@@ -126,15 +127,17 @@ export default class TaskForm extends ComponentWithModal {
             this.reportAcquisition();
 
             const { Task } = this.props;
-            const { router } = this.context;
 
             if(!isAuthenticated()) {
                 if(this.state.autoSave) {
-                    router.replace(`/start/finish/${Task.detail.task.id}/${Task.detail.task.edit_token}`);
-                } else if(this.props.onStepChange) {
-                    this.props.onStepChange({
-                        title: "Thank you for using Tunga!"
-                    }, this.state.step-1, sections);
+                    router.replace(`/start/finish/${Task.detail.task.id}`);
+                } else {
+                    if(this.props.onStepChange) {
+                        this.props.onStepChange({
+                            title: "Thank you for using Tunga!"
+                        }, this.state.step-1, sections);
+                    }
+                    router.replace(this.getStepUrl(true, false, false));
                 }
             }
 
@@ -172,6 +175,7 @@ export default class TaskForm extends ComponentWithModal {
 
         if(path_change.indexOf(true) > -1 && !this.props.Task.detail.isSaved) {
             this.reportFunnelUrl(this.getStepUrl());
+            router.replace(this.getStepUrl(false, false, false));
         }
 
         if(this.state.step != prevState.step && this.props.onStepChange && !this.props.Task.detail.isSaved) {
@@ -200,7 +204,7 @@ export default class TaskForm extends ComponentWithModal {
         }
     }
 
-    getStepUrl(complete=false, start=false) {
+    getStepUrl(complete=false, start=false, virtual=true) {
 
         const {task, taskId, editToken} = this.props;
 
@@ -236,7 +240,11 @@ export default class TaskForm extends ComponentWithModal {
             }
         }
 
-        return window.location.protocol + '//' + window.location.hostname + (window.location.port?`:${window.location.port}`:'') + `/track/${this.state.analytics_id}` + (isAuthenticated()?'/work/new':`/start${taskId && editToken?('-finish/' + taskId):''}`) + suffix;
+        let path = (isAuthenticated()?'/work/new':`/start${taskId?(`${virtual?'-':'/'}finish/${taskId}`):''}`) + suffix;
+        if (virtual) {
+            return window.location.protocol + '//' + window.location.hostname + (window.location.port?`:${window.location.port}`:'') + `/track/${this.state.analytics_id}` + path;
+        }
+        return path;
     }
 
     reportAcquisition() {
@@ -564,7 +572,7 @@ export default class TaskForm extends ComponentWithModal {
         const { Task, project, enabledWidgets, options, showSectionHeader } = this.props;
         const task = this.props.task || {};
 
-        if(!isAuthenticated() && Task.detail.isSaved) {
+        if(!isAuthenticated() && Task.detail.isSaved || /\/start\/finish\/.*\/complete/.test(window.location.href)) {
             return (
                 <div className="thank-you">
                     One of our project hackers will reach out to you ASAP!<br/>

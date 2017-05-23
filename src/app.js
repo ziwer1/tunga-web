@@ -105,7 +105,9 @@ ReactDOM.render(
                     {/* No Auth Pages */}
                     <Route path="start">
                         <IndexRoute component={TaskWizard}/>
-                        <Route path="finish/:taskId/:editToken" component={TaskWizard}/>
+                        <Route path="finish/:taskId" component={TaskWizard}/>
+                        <Route path="finish/:taskId/*" component={TaskWizard}/>
+                        <Route path ="*" component={TaskWizard}/>
                     </Route>
                     <Route path="call" component={LandingPage} showCallWidget={true}/>
                     <Route path="our-story" component={StoryPage}/>

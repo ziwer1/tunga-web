@@ -9,6 +9,7 @@ import TaskForm from '../components/TaskForm';
 import Avatar from '../components/Avatar';
 
 import {getClientTestimonials} from '../constants/data';
+import {getEditToken} from '../utils/tasks';
 
 export default class TaskWizard extends React.Component {
 
@@ -34,13 +35,6 @@ export default class TaskWizard extends React.Component {
         return null;
     }
 
-    getEditToken() {
-        if(this.props.params) {
-            return this.props.params.editToken;
-        }
-        return null;
-    }
-
     renderHeaderContent() {
         var testimonials = getClientTestimonials(2);
         const {options} = this.props;
@@ -54,7 +48,7 @@ export default class TaskWizard extends React.Component {
                 </div>
                 <div className="task-section">
                     <TaskContainer>
-                        <TaskDetailContainer taskId={this.getTaskId()} editToken={this.getEditToken()}>
+                        <TaskDetailContainer taskId={this.getTaskId()} editToken={getEditToken()}>
                             <TaskForm showSectionHeader={false} options={options} onStepChange={this.onStepChange.bind(this)}/>
                         </TaskDetailContainer>
                     </TaskContainer>
