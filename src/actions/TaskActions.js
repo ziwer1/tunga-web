@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { ENDPOINT_TASK } from '../constants/Api';
 import { sendGAEvent, GA_EVENT_CATEGORIES, GA_EVENT_ACTIONS, getGAUserType } from '../utils/tracking';
-import {getUser} from 'utils/auth';
+import {getUser} from '../utils/auth';
+import {setEditToken} from '../utils/tasks';
 
 export const CREATE_TASK_START = 'CREATE_TASK_START';
 export const CREATE_TASK_SUCCESS = 'CREATE_TASK_SUCCESS';
@@ -101,6 +102,8 @@ export function createTaskStart(task) {
 
 export function createTaskSuccess(task) {
     sendGAEvent(GA_EVENT_CATEGORIES.TASK, GA_EVENT_ACTIONS.CREATE, getGAUserType(getUser()));
+
+    setEditToken(task.edit_token);
 
     return {
         type: CREATE_TASK_SUCCESS,

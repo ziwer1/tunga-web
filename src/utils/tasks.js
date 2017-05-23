@@ -1,13 +1,17 @@
-import React from 'react';
-
-import createModal from '../components/Modal';
-import TaskWizard from '../routes/TaskWizard';
-
+import * as Cookies from "js-cookie";
 import {DEVELOPER_FEE, PM_FEE, TUNGA_PERCENTAGE_DEVELOPER, STATUS_SUBMITTED, STATUS_APPROVED, STATUS_ACCEPTED, TASK_TYPE_WEB, TASK_TYPE_MOBILE, TASK_TYPE_OTHER} from '../constants/Api';
 
 import {isAdmin, getUser} from '../utils/auth';
 import {parseNumber} from '../utils/helpers';
 import {getTaskTypeUrl, getScopeUrl} from '../utils/tracking';
+
+export function setEditToken (token) {
+    Cookies.set('taskEditToken', token);
+}
+
+export function getEditToken () {
+    return Cookies.get('taskEditToken');
+}
 
 export function parse_task_status(task) {
     let work_type = task.is_project?'project':'task';
