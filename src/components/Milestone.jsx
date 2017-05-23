@@ -9,7 +9,7 @@ import Progress from './status/Progress';
 import ProgressReportForm from './ProgressReportForm';
 import BreadCrumb from '../containers/BreadCrumb';
 
-import { PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT } from '../constants/Api';
+import { PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT, PROGRESS_EVENT_TYPE_COMPLETE, PROGRESS_EVENT_TYPE_CLIENT } from '../constants/Api';
 import { isDeveloper, getUser, isAdmin, isAdminOrProjectOwner, isProjectOwner } from '../utils/auth';
 
 export default class Milestone extends React.Component {
@@ -89,7 +89,7 @@ export default class Milestone extends React.Component {
                     ):(
                         reports && reports.length?(
                             <div>
-                                <h4><i className="fa fa-newspaper-o"/> Progress Reports</h4>
+                                <h4><i className="fa fa-newspaper-o"/> {milestone.type == PROGRESS_EVENT_TYPE_CLIENT?'Weekly Survey':'Progress Reports'}</h4>
 
                                 {reports.map(report => {
                                     if(report.user && (report.user.is_project_owner || report.user.is_project_manager) && !isAdmin() && report.user.id != getUser().id) {
@@ -131,6 +131,16 @@ export default class Milestone extends React.Component {
                                                     <Linkify properties={{target: '_blank'}}>{report.accomplished}</Linkify>
                                                 </div>
                                             </div>
+                                        ):null}
+                                        {report.rate_deliverables?(
+                                            <p>
+                                                <strong>Rate Deliverables: </strong><span>{report.rate_deliverables}/10</span>
+                                            </p>
+                                        ):null}
+                                        {report.rate_communication?(
+                                            <p>
+                                                <strong>Rate Communication: </strong><span>{report.rate_communication}/10</span>
+                                            </p>
                                         ):null}
                                         {report.uploads && report.uploads.length?(
                                             <div>
@@ -188,7 +198,7 @@ export default class Milestone extends React.Component {
                         ):(
                             is_missed?(
                                 <div>
-                                    <strong>{[PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT].indexOf(milestone.type) > -1?'Milestone':'Update'} missed</strong>
+                                    <strong>{[PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT, PROGRESS_EVENT_TYPE_COMPLETE].indexOf(milestone.type) > -1?'Milestone':'Update'} missed</strong>
                                 </div>
                             ):null
                         )

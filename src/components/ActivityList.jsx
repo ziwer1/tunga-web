@@ -11,7 +11,7 @@ import LoadMore from './status/LoadMore';
 import Avatar from './Avatar';
 import Attachments from './Attachments';
 
-import { PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT } from '../constants/Api';
+import { PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT, PROGRESS_EVENT_TYPE_COMPLETE, PROGRESS_EVENT_TYPE_PM, PROGRESS_EVENT_TYPE_CLIENT } from '../constants/Api';
 import { isAuthenticated, getUser, isAdmin, isProjectOwner, isAdminOrProjectOwner, isDeveloper, isProjectManager } from '../utils/auth';
 import {getPayDetails} from '../utils/tasks';
 
@@ -155,13 +155,13 @@ export default class ActivityList extends React.Component {
                 }
                 break;
             case 'progress_event':
-                if(isDeveloper() && object.type > 5) {
+                if(isDeveloper() && [PROGRESS_EVENT_TYPE_PM, PROGRESS_EVENT_TYPE_CLIENT].indexOf(object.type) > -1) {
                     break;
                 }
-                if(isProjectManager() && object.type > 6) {
+                if(isProjectManager() && object.type == PROGRESS_EVENT_TYPE_CLIENT) {
                     break;
                 }
-                if(isProjectOwner() && object.type  == 5) {
+                if(isProjectManager() && !isAdmin() && object.type == PROGRESS_EVENT_TYPE_PM) {
                     break;
                 }
                 if(showNotifications && item.action == 'create') {
@@ -174,7 +174,7 @@ export default class ActivityList extends React.Component {
                     created_at = object.created_at;
                     body = (
                         <div>
-                            {[PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT].indexOf(object.type) > -1?(
+                            {[PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT, PROGRESS_EVENT_TYPE_COMPLETE].indexOf(object.type) > -1?(
                                 <div><i className={"fa fa-flag"+((object.type==4)?'-checkered':'-o')}/> Created a milestone:</div>
                             ):null}
                             <Link to={`/work/${object.task}/event/${object.id}/`}>
@@ -186,13 +186,13 @@ export default class ActivityList extends React.Component {
                 }
                 break;
             case 'progress_report':
-                if(isDeveloper() && object.details.event.type > 5) {
+                if(isDeveloper() && [PROGRESS_EVENT_TYPE_PM, PROGRESS_EVENT_TYPE_CLIENT].indexOf(object.details.event.type) > -1) {
                     break;
                 }
-                if(isProjectManager() && object.details.event.type > 6) {
+                if(isProjectManager() && object.details.event.type == PROGRESS_EVENT_TYPE_CLIENT) {
                     break;
                 }
-                if(isProjectOwner() && object.details.event.type == 5) {
+                if(isProjectManager() && !isAdmin() && object.details.event.type == PROGRESS_EVENT_TYPE_PM) {
                     break;
                 }
                 if(showNotifications && item.action == 'report') {
