@@ -545,9 +545,9 @@ export default class TaskWorflow extends ComponentWithModal {
                                                                 Add skills
                                                             </Link>
                                                         </li>,
-                                                        isAdmin() && !task.po?(
+                                                        isAdmin() && !task.owner?(
                                                             <li>
-                                                                <Link to={`/work/${task.id}/edit/po`} className="btn">
+                                                                <Link to={`/work/${task.id}/edit/owner`} className="btn">
                                                                     Add Project Owner
                                                                 </Link>
                                                             </li>
