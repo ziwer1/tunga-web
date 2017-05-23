@@ -7,7 +7,7 @@ import DateTimePicker from 'react-widgets/lib/DateTimePicker';
 import FormStatus from './status/FormStatus';
 import FieldError from './status/FieldError';
 import { PROGRESS_REPORT_STATUS_CHOICES } from '../constants/Api';
-import { isDeveloper, getUser, isProjectManager } from '../utils/auth';
+import { isDeveloper, getUser, isProjectManager, isProjectOwner } from '../utils/auth';
 
 momentLocalizer(moment);
 
@@ -226,7 +226,135 @@ export default class ProgressReportForm extends React.Component {
 
                     ):null}
 
+                    {isProjectOwner()?(
+                        <div>
+                            {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.this_week_deadline_met)?
+                                (<FieldError message={ProgressReport.detail.error.create.this_week_deadline_met}/>):null}
+                            {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.this_week_deadline_met)?
+                                (<FieldError message={ProgressReport.detail.error.update.this_week_deadline_met}/>):null}
+                            <div className="form-group">
+                                <label className="control-label">Was the deadline for this week met? *</label>
+                                <div>
+                                    <div className="btn-group btn-choices select" role="group" aria-label="task ststus">
+                                        {[
+                                            {id: true, name: 'Yes'},
+                                            {id: false, name: 'No'}
+                                        ].map(status => {
+                                            return (
+                                                <button key={status.id} type="button"
+                                                        className={"btn " + (typeof this.state.this_week_deadline_met == 'boolean' && this.state.this_week_deadline_met == status.id?' active':'')}
+                                                        onClick={this.onThisWeekDeadlineMetStatusChange.bind(this, status.id)}>{status.name}
+                                                </button>
+                                            )
+                                        })}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
+                        <div>
+                            {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.pm_deadline_informed)?
+                                (<FieldError message={ProgressReport.detail.error.create.pm_deadline_informed}/>):null}
+                            {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.pm_deadline_informed)?
+                                (<FieldError message={ProgressReport.detail.error.update.pm_deadline_informed}/>):null}
+                            <div className="form-group">
+                                <label className="control-label">Did the project manager/developer(s) inform you promptly about not making the deadline?  *</label>
+                                <div>
+                                    <div className="btn-group btn-choices select" role="group" aria-label="task ststus">
+                                        {[
+                                            {id: true, name: 'Yes'},
+                                            {id: false, name: 'No'}
+                                        ].map(status => {
+                                            return (
+                                                <button key={status.id} type="button"
+                                                        className={"btn " + (typeof this.state.pm_deadline_informed == 'boolean' && this.state.pm_deadline_informed == status.id?' active':'')}
+                                                        onClick={this.onPmDeadlineInformedStatusChange.bind(this, status.id)}>{status.name}
+                                                </button>
+                                            )
+                                        })}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.deliverable_satisfaction)?
+                                (<FieldError message={ProgressReport.detail.error.create.deliverable_satisfaction}/>):null}
+                            {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.deliverable_satisfaction)?
+                                (<FieldError message={ProgressReport.detail.error.update.deliverable_satisfaction}/>):null}
+                            <div className="form-group">
+                                <label className="control-label">Are you satisfied with the deliverables?  *</label>
+                                <div>
+                                    <div className="btn-group btn-choices select" role="group" aria-label="task ststus">
+                                        {[
+                                            {id: true, name: 'Yes'},
+                                            {id: false, name: 'No'}
+                                        ].map(status => {
+                                            return (
+                                                <button key={status.id} type="button"
+                                                        className={"btn " + (typeof this.state.deliverable_satisfaction == 'boolean' && this.state.deliverable_satisfaction == status.id?' active':'')}
+                                                        onClick={this.onDeliverableSatisfactionStatusChange.bind(this, status.id)}>{status.name}
+                                                </button>
+                                            )
+                                        })}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.developer_deliverables_rate)?
+                            (<FieldError message={ProgressReport.detail.error.create.developer_deliverables_rate}/>):null}
+                        {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.developer_deliverables_rate)?
+                            (<FieldError message={ProgressReport.detail.error.update.developer_deliverables_rate}/>):null}
+                        <div className="form-group">
+                            <label className="control-label">How would you rate the deliverables on a scale from 1 to 10? *</label>
+                            <div>
+                                <input type="number" className="form-control" ref="developer_deliverables_rate" required placeholder="Deadline Date Deliverable Rate" defaultValue={progress_report.developer_deliverables_rate}/>
+                            </div>
+                        </div>
+
+                        <div>
+                            {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.pm_communication)?
+                                (<FieldError message={ProgressReport.detail.error.create.pm_communication}/>):null}
+                            {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.pm_communication)?
+                                (<FieldError message={ProgressReport.detail.error.update.pm_communication}/>):null}
+                            <div className="form-group">
+                                <label className="control-label">Is the communication between you and the project manager/clients going well?   *</label>
+                                <div>
+                                    <div className="btn-group btn-choices select" role="group" aria-label="task ststus">
+                                        {[
+                                            {id: true, name: 'Yes'},
+                                            {id: false, name: 'No'}
+                                        ].map(status => {
+                                            return (
+                                                <button key={status.id} type="button"
+                                                        className={"btn " + (typeof this.state.pm_communication == 'boolean' && this.state.pm_communication == status.id?' active':'')}
+                                                        onClick={this.onDeliverableSatisfactionStatusChange.bind(this, status.id)}>{status.name}
+                                                </button>
+                                            )
+                                        })}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.remarks)?
+                            (<FieldError message={ProgressReport.detail.error.create.remarks}/>):null}
+                        {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.remarks)?
+                            (<FieldError message={ProgressReport.detail.error.update.remarks}/>):null}
+                        <div className="form-group">
+                            <label className="control-label">Any other remarks or questions</label>
+                            <textarea placeholder="Any other remarks or questions"
+                                      className="form-control"
+                                      ref="remarks"
+                                      onChange={this.onInputChange.bind(this, 'remarks')}
+                                      value={this.state.remarks}>{this.state.remarks}</textarea>
+                        </div>
+
+
+                    ):null}
+
+                    
 
                     <div className="text-center">
                         <button type="submit" className="btn  " disabled={ProgressReport.detail.isSaving}>{progress_report.id?'Update Report':'Save Report'}</button>
