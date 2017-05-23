@@ -358,6 +358,14 @@ export default class TaskForm extends ComponentWithModal {
         this.setState({pm});
     }
 
+    onOwnerChange(users) {
+        var owner = null;
+        if(Array.isArray(users) && users.length) {
+            owner = users[0];
+        }
+        this.setState({owner});
+    }
+
     onParticipantChange(users) {
         if(Array.isArray(users)) {
             this.setState({participants: Array.from(new Set([...this.state.participants, ...users]))});
@@ -477,6 +485,7 @@ export default class TaskForm extends ComponentWithModal {
 
         req_data.visibility = this.state.visibility;
         req_data.pm = this.state.pm;
+        req_data.owner = this.state.owner;
         req_data.trello_board_url = this.state.trello_board_url;
         req_data.google_drive_url = this.state.google_drive_url;
 
@@ -987,17 +996,17 @@ export default class TaskForm extends ComponentWithModal {
             </div>
         );
 
-        let poComp = (
+        let ownerComp = (
             <div>
-                {(Task.detail.error.create && Task.detail.error.create.po)?
-                    (<FieldError message={Task.detail.error.create.po}/>):null}
-                {(Task.detail.error.update && Task.detail.error.update.po)?
-                    (<FieldError message={Task.detail.error.update.po}/>):null}
+                {(Task.detail.error.create && Task.detail.error.create.owner)?
+                    (<FieldError message={Task.detail.error.create.owner}/>):null}
+                {(Task.detail.error.update && Task.detail.error.update.owner)?
+                    (<FieldError message={Task.detail.error.update.owner}/>):null}
                 <div className="form-group">
                     <label className="control-label">Project Owner</label>
                     <UserSelector filter={{type: USER_TYPE_PROJECT_OWNER}}
-                                  onChange={this.onPMChange.bind(this)}
-                                  selected={task.details && task.details.po?[task.details.po]:[]}
+                                  onChange={this.onOwnerChange.bind(this)}
+                                  selected={task.details && task.details.owner?[task.details.owner]:[]}
                                   max={1}/>
                 </div>
             </div>
@@ -1376,7 +1385,7 @@ export default class TaskForm extends ComponentWithModal {
                     files: filesComp,
                     updates: updatesComp,
                     pm: pmComp,
-                    po: poComp,
+                    owner: ownerComp,
                     trello: trelloComp,
                     'google-drive': googleDriveComp,
                 };

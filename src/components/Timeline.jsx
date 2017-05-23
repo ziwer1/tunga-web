@@ -6,7 +6,7 @@ import { OverlayTrigger, Popover } from 'react-bootstrap';
 import { resizeOverviewBox } from './TaskWorflow';
 import Milestone from './Milestone';
 
-import { PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT } from '../constants/Api';
+import { PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT, PROGRESS_EVENT_TYPE_COMPLETE } from '../constants/Api';
 
 export default class Timeline extends React.Component {
 
@@ -105,7 +105,7 @@ export default class Timeline extends React.Component {
                 <div className="title">{event.title || 'Scheduled Update'}</div>
                 {event.is_now?(
                 <div>
-                    {this.state.next_event.type?('Next '+([PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT].indexOf(event.type) > -1?'Milestone':'Update')):'Deadline'}
+                    {this.state.next_event.type?('Next '+([PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT, PROGRESS_EVENT_TYPE_COMPLETE].indexOf(event.type) > -1?'Milestone':'Update')):'Deadline'}
                     <span> is </span>
                     <TimeAgo date={moment.utc(this.state.next_event.due_at).local().format()}/>
                 </div>
@@ -120,7 +120,7 @@ export default class Timeline extends React.Component {
                         ):(
                         is_missed?(
                         <div>
-                            <strong>{[PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT].indexOf(event.type) > -1?'Milestone':'Update'} missed</strong>
+                            <strong>{[PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT, PROGRESS_EVENT_TYPE_COMPLETE].indexOf(event.type) > -1?'Milestone':'Update'} missed</strong>
                         </div>
                             ):null
                         )}
