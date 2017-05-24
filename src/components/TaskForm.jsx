@@ -73,7 +73,7 @@ export default class TaskForm extends ComponentWithModal {
 
         var new_state = {};
 
-        if(this.props.editToken && !prevProps.editToken) {
+        if(!isAuthenticated() && this.props.taskId && !prevProps.taskId) {
             this.reportFunnelUrl(this.getStepUrl(false, true));
             if(this.state.step < 1) {
                 new_state.step = 3;
@@ -282,7 +282,7 @@ export default class TaskForm extends ComponentWithModal {
     getScheduleId() {
         const task = this.props.task || {};
         var schedule_id = null;
-        console.log('task', task);
+
         if(task.update_interval && task.update_interval_units) {
             schedule_id = `${task.update_interval}_${task.update_interval_units}`;
         }
@@ -572,7 +572,7 @@ export default class TaskForm extends ComponentWithModal {
         const { Task, project, enabledWidgets, options, showSectionHeader } = this.props;
         const task = this.props.task || {};
 
-        if(!isAuthenticated() && Task.detail.isSaved || /\/start\/finish\/.*\/complete/.test(window.location.href)) {
+        if(!isAuthenticated() && Task.detail.isSaved && !this.state.autoSave || /\/start\/finish\/.*\/complete$/.test(window.location.href)) {
             return (
                 <div className="thank-you">
                     One of our project hackers will reach out to you ASAP!<br/>

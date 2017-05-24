@@ -14,18 +14,18 @@ import store from './store';
 import history from './history';
 
 
-if(__PRODUCTION__) {
-    history.listen(location => {
+history.listen(location => {
+    if(__PRODUCTION__) {
         window.ga('send', 'pageview');
-        console.log('Page View sent');
         window.twq('track', 'PageView');
-    });
+    }
+    console.log('Page View sent', location.pathname);
+});
 
+
+if(__PRODUCTION__) {
     // Configure raven
     Raven.config('https://3b4b870154ce496c9d3dd9673a529bb9@sentry.io/121717').install()
-} else {
-    // Development raven
-    Raven.config('https://02dedeb854384d2aa422adec5fc2fb11@sentry.io/168307').install()
 }
 
 import App from 'containers/App';
