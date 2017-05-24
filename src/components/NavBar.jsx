@@ -39,6 +39,7 @@ class NavBar extends React.Component {
     }
 
     render() {
+        const {Auth} = this.props;
 
         return (
             <div className="navbar-wrapper">
@@ -82,7 +83,7 @@ class NavBar extends React.Component {
                              </li>*/}
                             <li className="dropdown" id="navbar-account">
                                 <a href="#" className="dropdown-toggle account-actions-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                    {getUser().display_name} <span className="caret" style={{marginLeft: 5+'px'}} /> <Avatar src={getUser().avatar_url}/>
+                                    {Auth.user.display_name} <span className="caret" style={{marginLeft: '5px'}} /> <Avatar src={Auth.user.avatar_url}/>
                                 </a>
                                 <ul className="dropdown-menu">
                                     <li><Link to="/profile"><i className="nav-icon tunga-icon-profile"/> My Profile</Link></li>
@@ -104,7 +105,7 @@ NavBar.contextTypes = {
 };
 
 function mapStateToProps(state) {
-    return {};
+    return {Auth: state.Auth};
 }
 
 function mapDispatchToProps(dispatch) {
