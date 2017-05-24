@@ -1,9 +1,11 @@
 import React from 'react';
+import StripeCheckout from 'react-stripe-checkout';
+
 import Progress from './status/Progress';
 import FormStatus from './status/FormStatus';
 import FieldError from './status/FieldError';
 
-import { TASK_PAYMENT_METHOD_CHOICES, TASK_PAYMENT_METHOD_BITONIC, TASK_PAYMENT_METHOD_BITCOIN, TASK_PAYMENT_METHOD_BANK, ENDPOINT_TASK } from '../constants/Api';
+import { TASK_PAYMENT_METHOD_CHOICES, TASK_PAYMENT_METHOD_BITONIC, TASK_PAYMENT_METHOD_BITCOIN, TASK_PAYMENT_METHOD_BANK, TASK_PAYMENT_METHOD_STRIPE, ENDPOINT_TASK } from '../constants/Api';
 import { objectToQueryString } from '../utils/html';
 import { getUser } from '../utils/auth';
 import { parseNumber } from '../utils/helpers';
@@ -37,6 +39,10 @@ export default class TaskPay extends React.Component {
 
             this.setState({showForm: false});
 
+            if(Invoice.invoice.payment_method == TASK_PAYMENT_METHOD_STRIPE) {
+                this.refs.pay_stripe.click();
+            }
+
             if(Invoice.invoice.payment_method == TASK_PAYMENT_METHOD_BITONIC) {
                 window.location.href = `${ENDPOINT_TASK}${task.id}/pay/bitonic/`;
             }
@@ -51,6 +57,22 @@ export default class TaskPay extends React.Component {
         this.setState({pay_method: pay_method.id, pay_details: pay_method.details});
     }
 
+    onStripeToken(token) {
+        const {task, Task, TaskActions} = this.props;
+        const { invoice } =  Task.detail.Invoice;
+
+        let stripe_options = {
+            token: token.id,
+            email: token.email,
+            amount: task.fee*100,
+            description: task.summary,
+            task_id: task.id,
+            invoice_id: invoice.id,
+            currency: 'EUR'
+        };
+        TaskActions.makeTaskPayment(task.id, 'stripe', stripe_options);
+    }
+
     handleSubmit(e) {
         e.preventDefault();
         var fee = this.refs.fee.value.trim();
@@ -62,8 +84,7 @@ export default class TaskPay extends React.Component {
     }
 
     getBitonicPaymentUrl() {
-        const { Task } = this.props;
-        const { task } =  Task.detail;
+        const { task } = this.props;
 
         return 'https://bitonic.nl/partner/263?'+ objectToQueryString({
                 bitcoinaddress: encodeURIComponent(task.btc_address),
@@ -128,7 +149,7 @@ export default class TaskPay extends React.Component {
                                                             <i className={payment_method.icon_class + " fa-lg pull-left"}/>{payment_method.name}
                                                         </button>
                                                     </div>
-                                                    <div className="col-md-6">{payment_method.meta}</div>
+                                                    <div className="col-md-6" dangerouslySetInnerHTML={{__html: payment_method.meta}}/>
                                                 </div>
                                             );
                                         })}
@@ -172,6 +193,27 @@ export default class TaskPay extends React.Component {
                                         </div>
                                         <a href={`${ENDPOINT_TASK}${task.id}/pay/bitonic/`} className="btn "><i className="fa fa-money"/> Pay with iDeal</a>
                                     </div>
+                                ):null}
+
+                                {invoice.payment_method == TASK_PAYMENT_METHOD_STRIPE?(
+                                    <StripeCheckout
+                                        name="Tunga"
+                                        description={task.summary}
+                                        image="https://tunga.io/icons/tunga_square.png"
+                                        ComponentClass="span"
+                                        panelLabel="Make Payment"
+                                        amount={invoice.fee*100}
+                                        currency="EUR"
+                                        stripeKey={__STRIPE_KEY__}
+                                        locale="en"
+                                        bitcoin={true}
+                                        email={getUser().email}
+                                        token={this.onStripeToken.bind(this)}
+                                        reconfigureOnUpdate={false}
+                                        triggerEvent="onClick">
+
+                                        <button type="button" className="btn btn-success" ref="pay_stripe">Pay with Stripe</button>
+                                    </StripeCheckout>
                                 ):null}
 
                                 {!task.paid?(

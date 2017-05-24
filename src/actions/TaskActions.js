@@ -53,6 +53,9 @@ export const UPDATE_TASK_CLAIM_FAILED = 'UPDATE_TASK_CLAIM_FAILED';
 export const UPDATE_TASK_RETURN_START = 'UPDATE_TASK_RETURN_START';
 export const UPDATE_TASK_RETURN_SUCCESS = 'UPDATE_TASK_RETURN_SUCCESS';
 export const UPDATE_TASK_RETURN_FAILED = 'UPDATE_TASK_RETURN_FAILED';
+export const MAKE_TASK_PAYMENT_START = 'MAKE_TASK_PAYMENT_START';
+export const MAKE_TASK_PAYMENT_SUCCESS = 'MAKE_TASK_PAYMENT_SUCCESS';
+export const MAKE_TASK_PAYMENT_FAILED = 'MAKE_TASK_PAYMENT_FAILED';
 
 
 export function createTask(task, attachments) {
@@ -441,6 +444,33 @@ export function createTaskIntegration(id, provider, data) {
     }
 }
 
+export function createTaskIntegrationStart(id, provider) {
+    return {
+        type: CREATE_TASK_INTEGRATION_START,
+        id,
+        provider
+    }
+}
+
+export function createTaskIntegrationSuccess(response, provider) {
+    sendGAEvent(GA_EVENT_CATEGORIES.TASK, GA_EVENT_ACTIONS.INTEGRATE, provider);
+
+    return {
+        type: CREATE_TASK_INTEGRATION_SUCCESS,
+        task: response.task,
+        provider,
+        integration: response
+    }
+}
+
+export function createTaskIntegrationFailed(error, provider) {
+    return {
+        type: CREATE_TASK_INTEGRATION_FAILED,
+        error,
+        provider
+    }
+}
+
 export function updateTaskRead(id, data) {
     return dispatch => {
         dispatch(updateTaskReadStart(id));
@@ -471,33 +501,6 @@ export function updateTaskReadFailed(error) {
     return {
         type: UPDATE_TASK_READ_FAILED,
         error
-    }
-}
-
-export function createTaskIntegrationStart(id, provider) {
-    return {
-        type: CREATE_TASK_INTEGRATION_START,
-        id,
-        provider
-    }
-}
-
-export function createTaskIntegrationSuccess(response, provider) {
-    sendGAEvent(GA_EVENT_CATEGORIES.TASK, GA_EVENT_ACTIONS.INTEGRATE, provider);
-
-    return {
-        type: CREATE_TASK_INTEGRATION_SUCCESS,
-        task: response.task,
-        provider,
-        integration: response
-    }
-}
-
-export function createTaskIntegrationFailed(error, provider) {
-    return {
-        type: CREATE_TASK_INTEGRATION_FAILED,
-        error,
-        provider
     }
 }
 
@@ -670,5 +673,46 @@ export function returnTaskFailed(error) {
     return {
         type: UPDATE_TASK_RETURN_FAILED,
         error
+    }
+}
+
+
+export function makeTaskPayment(id, provider, data) {
+    return dispatch => {
+        dispatch(makeTaskPaymentStart(id));
+        axios.post(ENDPOINT_TASK + id + '/pay/' + provider + '/', data)
+            .then(function(response) {
+                dispatch(makeTaskPaymentSuccess(response.data, provider))
+            }).catch(function(error) {
+            dispatch(makeTaskPaymentFailed(error.response?error.response.data:null, provider))
+        });
+    }
+}
+
+export function makeTaskPaymentStart(id, provider) {
+    return {
+        type: MAKE_TASK_PAYMENT_START,
+        id,
+        provider
+    }
+}
+
+export function makeTaskPaymentSuccess(response, provider) {
+    sendGAEvent(GA_EVENT_CATEGORIES.TASK, GA_EVENT_ACTIONS.PAY, provider);
+
+    return {
+        type: MAKE_TASK_PAYMENT_SUCCESS,
+        task: response.task,
+        payment: response.payment,
+        provider,
+        integration: response
+    }
+}
+
+export function makeTaskPaymentFailed(error, provider) {
+    return {
+        type: MAKE_TASK_PAYMENT_FAILED,
+        error,
+        provider
     }
 }
