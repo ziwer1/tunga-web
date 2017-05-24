@@ -166,6 +166,7 @@ ReactDOM.render(
                                     <IndexRoute component={TaskForm} />
                                     {/*<Route path="complete-task" component={EditTaskSectionForm} crumb="Finalize Task"/>*/}
                                     <Route path=":editSection" component={EditTaskSectionForm} crumbs={{trello: 'Trello', 'google-drive': 'Google Drive'}}/>
+                                    <Route path="*" component={TaskForm} />
                                 </Route>
                                 <Route path="apply" component={ApplicationForm} crumb="Apply"/>
                                 <Route path="estimate" component={EstimateContainer} crumb="Estimate">
@@ -204,6 +205,7 @@ ReactDOM.render(
                                     <Route path=":eventId" component={Milestone}/>
                                 </Route>
                             </Route>
+                            <Route path="*" component={TaskForm} />
                         </Route>
                         <Redirect path="task*" to="work*"/>
                         <Route path="conversation" component={MessagePage}>
