@@ -134,13 +134,13 @@ export default class LandingPage extends ComponentWithModal {
                     <p className="details">
                         <span>Easy set up</span>
                         <span className="fa fa-circle"/>
-                        <span>Free to connect with freelancers</span>
+                        <span>The best developers on demand</span>
                         <span className="fa fa-circle"/>
-                        <span>No cure no pay for tasks</span>
+                        <span>Discuss your project today</span>
                     </p>
                     <div>
                         <Link to="/start/"
-                                className="btn btn-callout">
+                                className="btn btn-callout btn-main-cta">
                             <i className="fa fa-rocket fa-lg"/> {dlp_phrase?`Start hiring ${dlp_phrase}`:'Launch your project'}
                         </Link>
                     </div>

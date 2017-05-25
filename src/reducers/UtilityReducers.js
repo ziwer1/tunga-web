@@ -2,6 +2,17 @@ import { combineReducers } from 'redux';
 import * as UtilityActions from '../actions/UtilityActions';
 import { PATH_CHANGE } from '../actions/NavActions';
 
+function posts(state = [], action) {
+    switch (action.type) {
+        case UtilityActions.GET_MEDIUM_POSTS_SUCCESS:
+            return action.posts;
+        case UtilityActions.GET_MEDIUM_POSTS_START:
+        case UtilityActions.GET_MEDIUM_POSTS_FAILED:
+            return [];
+        default:
+            return state;
+    }
+}
 
 function isSending(state = false, action) {
     switch (action.type) {
@@ -47,6 +58,7 @@ const contact = combineReducers({
 });
 
 const Utility = combineReducers({
+    posts,
     contact
 });
 

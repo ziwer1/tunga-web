@@ -7,7 +7,7 @@ const STEP_DETAILS = [
     {
         title: "1. Soft skills",
         description: "We assess our developers on several \"soft skills\". Such as communication skills, management of expectations, work ethics, stress mangement and Time management. At Tunga we believe that soft skills are as much or more important than development skills",
-        //icon: 'tunga-icon-soft-skills',
+        icon: 'tunga-icon-soft-skills',
         image: require('../images/icons/softskills.png')
     },
     {

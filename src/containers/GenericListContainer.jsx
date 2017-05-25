@@ -22,7 +22,6 @@ export default class GenericListContainer extends GenericContainer {
         }
 
         if(!_.isEqual(this.props.filters, prevProps.filters) || this.state.selection_key != prevState.selection_key) {
-            console.log('Here 2', _.isEqual(this.props.filters, prevProps.filters), this.props.filters, prevProps.filters);
             this.getList(this.props.filters);
         }
     }

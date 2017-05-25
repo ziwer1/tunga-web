@@ -20,6 +20,12 @@ if(__PRODUCTION__) {
         console.log('Page View sent');
         window.twq('track', 'PageView');
     });
+
+    // Configure raven
+    Raven.config('https://3b4b870154ce496c9d3dd9673a529bb9@sentry.io/121717').install()
+} else {
+    // Development raven
+    Raven.config('https://02dedeb854384d2aa422adec5fc2fb11@sentry.io/168307').install()
 }
 
 import App from 'containers/App';
@@ -99,7 +105,9 @@ ReactDOM.render(
                     {/* No Auth Pages */}
                     <Route path="start">
                         <IndexRoute component={TaskWizard}/>
-                        <Route path="finish/:taskId/:editToken" component={TaskWizard}/>
+                        <Route path="finish/:taskId" component={TaskWizard}/>
+                        <Route path="finish/:taskId/*" component={TaskWizard}/>
+                        <Route path ="*" component={TaskWizard}/>
                     </Route>
                     <Route path="call" component={LandingPage} showCallWidget={true}/>
                     <Route path="our-story" component={StoryPage}/>
@@ -146,7 +154,9 @@ ReactDOM.render(
                             <Route path="complete" component={ProfileType} />
                             <Redirect path="*" to="personal" />
                         </Route>
-                        <Route path="estimate/new" component={EstimateForm} />
+                        <Route path="estimate" component={EstimateContainer}>
+                            <Route path="new" component={EstimateForm} />
+                        </Route>
                         <Route path="settings" component={SettingsPage} />
                         <Route path="work" component={TaskContainer}>
                             <IndexRoute component={TaskList}/>

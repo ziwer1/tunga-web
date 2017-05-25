@@ -100,8 +100,6 @@ class Home extends React.Component {
            }
         });
 
-        console.log('steps', steps);
-
         return (
             <div className="home-page">
                 <Joyride ref="joyride_home"

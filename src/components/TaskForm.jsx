@@ -19,7 +19,7 @@ import LargeModal from './LargeModal';
 import MilestoneForm from './MilestoneForm';
 
 import {
-    USER_TYPE_DEVELOPER, USER_TYPE_PROJECT_MANAGER, TASK_TYPE_CHOICES, TASK_SCOPE_CHOICES, TASK_SCOPE_CHOICES_NEW_USER, TASK_SCOPE_ONGOING, TASK_SCOPE_PROJECT,
+    USER_TYPE_DEVELOPER, USER_TYPE_PROJECT_MANAGER, USER_TYPE_PROJECT_OWNER, TASK_TYPE_CHOICES, TASK_SCOPE_CHOICES, TASK_SCOPE_CHOICES_NEW_USER, TASK_SCOPE_ONGOING, TASK_SCOPE_PROJECT,
     TASK_BILLING_METHOD_CHOICES, TASK_BILLING_METHOD_FIXED, TASK_BILLING_METHOD_HOURLY, TASK_CODERS_NEEDED_CHOICES,
     TASK_VISIBILITY_CHOICES, VISIBILITY_DEVELOPERS, VISIBILITY_CUSTOM, UPDATE_SCHEDULE_CHOICES, suggestTaskTypeSkills,
     TASK_TYPE_OTHER, TASK_SCOPE_TASK
@@ -69,6 +69,7 @@ export default class TaskForm extends ComponentWithModal {
 
         const task = this.props.task || {};
         const { project } = this.props;
+        const { router } = this.context;
 
         var new_state = {};
 
@@ -126,15 +127,17 @@ export default class TaskForm extends ComponentWithModal {
             this.reportAcquisition();
 
             const { Task } = this.props;
-            const { router } = this.context;
 
             if(!isAuthenticated()) {
                 if(this.state.autoSave) {
-                    router.replace(`/start/finish/${Task.detail.task.id}/${Task.detail.task.edit_token}`);
-                } else if(this.props.onStepChange) {
-                    this.props.onStepChange({
-                        title: "Thank you for using Tunga!"
-                    }, this.state.step-1, sections);
+                    router.replace(`/start/finish/${Task.detail.task.id}`);
+                } else {
+                    if(this.props.onStepChange) {
+                        this.props.onStepChange({
+                            title: "Thank you for using Tunga!"
+                        }, this.state.step-1, sections);
+                    }
+                    router.replace(this.getStepUrl(true, false, false));
                 }
             }
 
@@ -172,6 +175,7 @@ export default class TaskForm extends ComponentWithModal {
 
         if(path_change.indexOf(true) > -1 && !this.props.Task.detail.isSaved) {
             this.reportFunnelUrl(this.getStepUrl());
+            router.replace(this.getStepUrl(false, false, false));
         }
 
         if(this.state.step != prevState.step && this.props.onStepChange && !this.props.Task.detail.isSaved) {
@@ -200,7 +204,7 @@ export default class TaskForm extends ComponentWithModal {
         }
     }
 
-    getStepUrl(complete=false, start=false) {
+    getStepUrl(complete=false, start=false, virtual=true) {
 
         const {task, taskId, editToken} = this.props;
 
@@ -236,7 +240,11 @@ export default class TaskForm extends ComponentWithModal {
             }
         }
 
-        return window.location.protocol + '//' + window.location.hostname + (window.location.port?`:${window.location.port}`:'') + `/track/${this.state.analytics_id}` + (isAuthenticated()?'/work/new':`/start${taskId && editToken?('-finish/' + taskId):''}`) + suffix;
+        let path = (isAuthenticated()?'/work/new':`/start${taskId?(`${virtual?'-':'/'}finish/${taskId}`):''}`) + suffix;
+        if (virtual) {
+            return window.location.protocol + '//' + window.location.hostname + (window.location.port?`:${window.location.port}`:'') + `/track/${this.state.analytics_id}` + path;
+        }
+        return path;
     }
 
     reportAcquisition() {
@@ -274,6 +282,7 @@ export default class TaskForm extends ComponentWithModal {
     getScheduleId() {
         const task = this.props.task || {};
         var schedule_id = null;
+        console.log('task', task);
         if(task.update_interval && task.update_interval_units) {
             schedule_id = `${task.update_interval}_${task.update_interval_units}`;
         }
@@ -298,7 +307,6 @@ export default class TaskForm extends ComponentWithModal {
     }
 
     onScheduleChange(part, date) {
-        console.log('schedule', part, moment(date).utc().format());
         var new_schedule_call = this.state.schedule_call;
         switch(part) {
             case 'day':
@@ -311,7 +319,6 @@ export default class TaskForm extends ComponentWithModal {
             default:
                 break
         }
-        console.log('new_schedule_call', new_schedule_call);
         this.setState({schedule_call: new_schedule_call});
     }
 
@@ -357,6 +364,14 @@ export default class TaskForm extends ComponentWithModal {
             pm = users[0];
         }
         this.setState({pm});
+    }
+
+    onOwnerChange(users) {
+        var owner = null;
+        if(Array.isArray(users) && users.length) {
+            owner = users[0];
+        }
+        this.setState({owner});
     }
 
     onParticipantChange(users) {
@@ -478,6 +493,7 @@ export default class TaskForm extends ComponentWithModal {
 
         req_data.visibility = this.state.visibility;
         req_data.pm = this.state.pm;
+        req_data.owner = this.state.owner;
         req_data.trello_board_url = this.state.trello_board_url;
         req_data.google_drive_url = this.state.google_drive_url;
 
@@ -556,7 +572,7 @@ export default class TaskForm extends ComponentWithModal {
         const { Task, project, enabledWidgets, options, showSectionHeader } = this.props;
         const task = this.props.task || {};
 
-        if(!isAuthenticated() && Task.detail.isSaved) {
+        if(!isAuthenticated() && Task.detail.isSaved || /\/start\/finish\/.*\/complete/.test(window.location.href)) {
             return (
                 <div className="thank-you">
                     One of our project hackers will reach out to you ASAP!<br/>
@@ -569,7 +585,7 @@ export default class TaskForm extends ComponentWithModal {
         let is_project = this.state.scope != TASK_SCOPE_TASK;
         let work_type = (is_project)?'project':'task';
 
-        if(isAuthenticated() && !getUser().can_contribute && !task.id && !isAdmin()) {
+        if(isAuthenticated() && !getUser().can_contribute && !task.id /*&& !isAdmin()*/) {
             return (
                 <div>
                     {task.id?null:(
@@ -890,7 +906,7 @@ export default class TaskForm extends ComponentWithModal {
                         <label className="control-label">How often would you like to receive an update?</label>
                         <div className="secondary">* Tunga recommends daily updates</div>
                         <div>
-                            <div className="btn-choices" role="group" aria-label="update preference">
+                            <div className="btn-choices" role="group">
                                 <button type="button"
                                         className={"btn " + (!this.state.schedule?' active':'')}
                                         onClick={this.onUpdateScheduleChange.bind(this, null)}>No updates
@@ -988,6 +1004,22 @@ export default class TaskForm extends ComponentWithModal {
             </div>
         );
 
+        let ownerComp = (
+            <div>
+                {(Task.detail.error.create && Task.detail.error.create.owner)?
+                    (<FieldError message={Task.detail.error.create.owner}/>):null}
+                {(Task.detail.error.update && Task.detail.error.update.owner)?
+                    (<FieldError message={Task.detail.error.update.owner}/>):null}
+                <div className="form-group">
+                    <label className="control-label">Project Owner</label>
+                    <UserSelector filter={{type: USER_TYPE_PROJECT_OWNER}}
+                                  onChange={this.onOwnerChange.bind(this)}
+                                  selected={task.details && task.details.owner?[task.details.owner]:[]}
+                                  max={1}/>
+                </div>
+            </div>
+        );
+
         let visibilityComp = (
             <div>
                 {(Task.detail.error.create && Task.detail.error.create.visibility)?
@@ -997,7 +1029,7 @@ export default class TaskForm extends ComponentWithModal {
                 <div className="form-group">
                     <label className="control-label">Who would you like to be able to see your {work_type}?</label>
                     <br/>
-                    <div className="btn-choices" role="group" aria-label="visibility">
+                    <div className="btn-choices" role="group">
                         {TASK_VISIBILITY_CHOICES.map(visibility => {
                             return (
                                 <button key={visibility.id} type="button"
@@ -1053,7 +1085,7 @@ export default class TaskForm extends ComponentWithModal {
                 <div className="form-group">
                     <label className="control-label">How many coders will you need for this {work_type}</label>
                     <div>
-                        <div className="btn-choices" role="group" aria-label="coders">
+                        <div className="btn-choices" role="group">
                             {TASK_CODERS_NEEDED_CHOICES.map(coder_number => {
                                 return (
                                     <button key={coder_number.id} type="button"
@@ -1077,7 +1109,7 @@ export default class TaskForm extends ComponentWithModal {
                 <div className="form-group">
                     <label className="control-label">How would you like to pay?</label>
                     <div>
-                        <div className="btn-choices" role="group" aria-label="coders">
+                        <div className="btn-choices" role="group">
                             {TASK_BILLING_METHOD_CHOICES.map(billing_method => {
                                 return (
                                     <button key={billing_method.id} type="button"
@@ -1361,6 +1393,7 @@ export default class TaskForm extends ComponentWithModal {
                     files: filesComp,
                     updates: updatesComp,
                     pm: pmComp,
+                    owner: ownerComp,
                     trello: trelloComp,
                     'google-drive': googleDriveComp,
                 };
@@ -1617,7 +1650,7 @@ export default class TaskForm extends ComponentWithModal {
                 if(!options || !options.type) {
                     sections = [
                         {
-                            title: 'What kind of project do you have?',
+                            title: 'What kind of work do you have?',
                             items: [taskTypeComp],
                             required: true,
                             forks: ['type'],

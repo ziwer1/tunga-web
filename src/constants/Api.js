@@ -95,6 +95,7 @@ export const ENDPOINT_COUNTRIES = getEndpointUrl('countries/');
 export const ENDPOINT_CONTACT_REQUEST = getEndpointUrl('contact-request/');
 export const ENDPOINT_SUPPORT_SECTION = getEndpointUrl('support/section/');
 export const ENDPOINT_SUPPORT_PAGE = getEndpointUrl('support/page/');
+export const ENDPOINT_MEDIUM = getEndpointUrl('medium/');
 
 export const USER_TYPE_DEVELOPER = 1;
 export const USER_TYPE_PROJECT_OWNER = 2;
@@ -251,6 +252,9 @@ export const PROGRESS_EVENT_TYPE_DEFAULT = 1;
 export const PROGRESS_EVENT_TYPE_PERIODIC = 2;
 export const PROGRESS_EVENT_TYPE_MILESTONE = 3;
 export const PROGRESS_EVENT_TYPE_SUBMIT = 4;
+export const PROGRESS_EVENT_TYPE_COMPLETE = 5;
+export const PROGRESS_EVENT_TYPE_PM = 6;
+export const PROGRESS_EVENT_TYPE_CLIENT = 7;
 
 export const PROGRESS_REPORT_STATUS_ON_SCHEDULE = 1;
 export const PROGRESS_REPORT_STATUS_BEHIND = 2;
