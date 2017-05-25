@@ -257,9 +257,8 @@ export const PROGRESS_REPORT_STATUS_BEHIND = 2;
 export const PROGRESS_REPORT_STATUS_STUCK = 3;
 
 export const PROGRESS_REPORT_STATUS_CHOICES = [
-    {id: PROGRESS_REPORT_STATUS_ON_SCHEDULE, name: 'On schedule'},
-    {id: PROGRESS_REPORT_STATUS_BEHIND, name: 'Behind'},
-    {id: PROGRESS_REPORT_STATUS_STUCK, name: 'Stuck'}
+    {id: PROGRESS_REPORT_STATUS_BEHIND_AND_STUCK, name: 'Behind and Stuck'},
+    {id: PROGRESS_REPORT_STATUS_BEHIND_BUT_PROGRESSING, name: 'Behind but Progressing'}
 ];
 
 export const INTEGRATION_TYPE_REPO = 1;
