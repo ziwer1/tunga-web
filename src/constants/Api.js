@@ -318,7 +318,7 @@ export const TASK_PAYMENT_METHOD_STRIPE = 'stripe';
 export const TASK_PAYMENT_METHOD_CHOICES = [
     {
         id: TASK_PAYMENT_METHOD_STRIPE,
-        name: 'Pay with Stripe',
+        name: 'Pay with Card',
         meta: '1.4% payment fee + €0.25 for European cards<br/>' +
         '2.9% payment fee + €0.25 for non-European cards',
         icon_class: 'fa fa-cc-stripe',
