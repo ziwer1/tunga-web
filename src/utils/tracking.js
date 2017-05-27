@@ -53,7 +53,8 @@ export const GA_EVENT_ACTIONS = {
     RATE: 'Rate',
     SCHEDULE_CALL: 'Schedule Call',
     REQUEST_OFFER: 'Request Offer',
-    SEND: 'Send'
+    SEND: 'Send',
+    PAY: 'Pay'
 };
 
 export const GA_EVENT_LABELS = {

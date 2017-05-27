@@ -62,6 +62,11 @@ function task(state = {}, action) {
                 return {...state, fee, payment_method: invoice.payment_method, btc_address: invoice.btc_address};
             }
             return state;
+        case TaskActions.MAKE_TASK_PAYMENT_SUCCESS:
+            if(state.id == action.task.id) {
+                return {...state, ...action.task, paid: true};
+            }
+            return state;
         default:
             return state;
     }
