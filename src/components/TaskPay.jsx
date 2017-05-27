@@ -206,7 +206,7 @@ export default class TaskPay extends React.Component {
                                         currency="EUR"
                                         stripeKey={__STRIPE_KEY__}
                                         locale="en"
-                                        bitcoin={true}
+                                        //bitcoin={true}
                                         email={getUser().email}
                                         token={this.onStripeToken.bind(this)}
                                         reconfigureOnUpdate={false}
