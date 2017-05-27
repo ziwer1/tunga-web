@@ -178,7 +178,7 @@ export default class ActivityList extends React.Component {
                                 <div><i className={"fa fa-flag"+((object.type==4)?'-checkered':'-o')}/> Created a milestone:</div>
                             ):null}
                             <Link to={`/work/${object.task}/event/${object.id}/`}>
-                                {object.title || (<span><i className="fa fa-flag-o"/> Scheduled an update</span>)}
+                                {object.title || (<span><i className="fa fa-flag-o"/> Scheduled {object.type == PROGRESS_EVENT_TYPE_CLIENT?'a weekly survey':'an update'}</span>)}
                             </Link>
                             <div>Due: {moment.utc(object.due_at).local().format('Do, MMMM YYYY')}</div>
                         </div>
@@ -206,17 +206,21 @@ export default class ActivityList extends React.Component {
                     let progress = object.percentage || 0;
                     body = (
                         <div>
-                            <p><i className="fa fa-newspaper-o"/> Progress report: </p>
+                            <p><i className="fa fa-newspaper-o"/> {object.details.event.type == PROGRESS_EVENT_TYPE_CLIENT?'Weekly survey':'Progress report'}: </p>
                             <Link to={`/work/${object.details.event.task}/event/${object.event}/`}>
-                                {object.details.event.title || 'Scheduled Update'}
+                                {object.details.event.type == PROGRESS_EVENT_TYPE_CLIENT?'Weekly survey':(object.details.event.title || 'Scheduled Update')}
                             </Link>
-                            <div>Status: {object.status_display}</div>
-                            <div>
-                                <ProgressBar bsStyle="success" now={progress} label={`${progress}% Completed`} />
-                            </div>
-                            {object.accomplished?(
-                                <Linkify properties={{target: '_blank'}}>{object.accomplished}</Linkify>
-                            ):null}
+                            {object.details.event.type == PROGRESS_EVENT_TYPE_CLIENT?null:(
+                                <div>
+                                    <div>Status: {object.status_display}</div>
+                                    <div>
+                                        <ProgressBar bsStyle="success" now={progress} label={`${progress}% Completed`} />
+                                    </div>
+                                    {object.accomplished?(
+                                        <Linkify properties={{target: '_blank'}}>{object.accomplished}</Linkify>
+                                    ):null}
+                                </div>
+                            )}
                         </div>
                     );
                 }
