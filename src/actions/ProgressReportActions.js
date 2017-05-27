@@ -26,7 +26,7 @@ export function createProgressReport(progress_report, attachments) {
         if(attachments.length) {
             var data = new FormData();
             Object.keys(progress_report).map((key, idx) => {
-                if(!Array.isArray(progress_report[key]) || progress_report[key].length) {
+                if((Array.isArray(progress_report[key]) && progress_report[key].length) || (!Array.isArray(progress_report[key]) && progress_report[key] != null)) {
                     data.append(key, progress_report[key]);
                 }
             });

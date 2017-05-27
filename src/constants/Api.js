@@ -313,28 +313,37 @@ export const CHAT_INTEGRATION_EVENT_CHOICES = [
 export const TASK_PAYMENT_METHOD_BITONIC = 'bitonic';
 export const TASK_PAYMENT_METHOD_BITCOIN = 'bitcoin';
 export const TASK_PAYMENT_METHOD_BANK = 'bank';
+export const TASK_PAYMENT_METHOD_STRIPE = 'stripe';
 
 export const TASK_PAYMENT_METHOD_CHOICES = [
+    {
+        id: TASK_PAYMENT_METHOD_STRIPE,
+        name: 'Pay with Stripe',
+        meta: '1.4% payment fee + €0.25 for European cards<br/>' +
+        '2.9% payment fee + €0.25 for non-European cards',
+        icon_class: 'fa fa-cc-stripe',
+        details: "Click continue to pay with your credit/debit card on Stripe."
+    },
     {
         id: TASK_PAYMENT_METHOD_BITONIC,
         name: 'Pay with iDeal (NL)',
         meta: '3% payment fee',
         icon_class: 'tunga-icon-iDeal',
-        details: "Our payment partner Bitonic makes it possible to send bitcoins to our developers in Africa. Tunga uses Bitcoins because it is the easiest and fastest way of sending money to Africa. Our developers in Africa can very conveniently convert the received Bitcoins to local currency. if you continue with paying with iDeal you will be directed to the website of Bitonic where you can complete the payment. Note: When it is your first time paying via Bitonic you need to verify your bank account. This process will take less than a minute. "
+        details: "Our payment partner Bitonic makes it possible to send bitcoins to our developers in Africa. Tunga uses Bitcoin because it is the easiest and fastest way of sending money to Africa. Our developers in Africa can very conveniently convert the received Bitcoin to local currency. if you continue with paying with iDeal you will be directed to the website of Bitonic where you can complete the payment. Note: When it is your first time paying via Bitonic you need to verify your bank account. This process will take less than a minute. "
     },
     {
         id: TASK_PAYMENT_METHOD_BITCOIN,
-        name: 'Pay with bitcoin',
+        name: 'Pay with BitCoin',
         meta: 'No payment fee',
         icon_class: 'fa fa-bitcoin',
-        details: "Click on continue to view the BTC address the payment needs to be send to or scan our QR code."
+        details: "Click continue to view the BTC address the payment needs to be sent to or scan our QR code."
     },
     {
         id: TASK_PAYMENT_METHOD_BANK,
         name: 'Pay by bank transfer via invoice',
         meta: '5% payment fee',
         icon_class: 'fa fa-bank',
-        details: "Click on continue to be able to download the invoice. Please make the payment within a week. To be able to perform a bank transfer you need to fill in VAT number on your profile."
+        details: "Click continue to be able to download the invoice. Please make the payment within a week. To be able to perform a bank transfer you need to fill in VAT number on your profile."
     }
 ];
 
