@@ -33,7 +33,7 @@ module.exports = {
             __PRERELEASE__: JSON.stringify(JSON.parse(process.env.BUILD_PRERELEASE || 'false')),
             __PRODUCTION__: JSON.stringify(process.env.NODE_ENV == 'production'),
             __BACKEND_ROOT_URL__: JSON.stringify(process.env.BACKEND_ROOT),
-            __STRIPE_KEY__: JSON.stringify(process.env.NODE_ENV == 'production'?'':'pk_test_lUZpYKnVWZ5RbdPcmnBqqE8l')
+            __STRIPE_KEY__: JSON.stringify(process.env.NODE_ENV == 'production' && process.env.STRIPE_ENV != 'development'?'pk_live_2AjNhLWO1Cg4nby71Vh01a2T':'pk_test_lUZpYKnVWZ5RbdPcmnBqqE8l')
         }),
         CleanWebpackPlugin: new CleanWebpackPlugin(['build'], {
             root: __dirname,
