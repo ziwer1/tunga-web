@@ -206,7 +206,7 @@ class PricingPage extends ComponentWithModal {
 
                 <section className="pricing-options">
                     <div className="container">
-                        <div className="step-slider three clearfix">
+                        <div className="step-slider three-sm clearfix">
                             <ul>
                                 {OFFER_DETAILS.map((offer, idx) => {
                                     return (

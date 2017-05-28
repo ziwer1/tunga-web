@@ -53,7 +53,7 @@ export default class QualityPage extends React.Component {
 
                 <section>
                     <div className="container">
-                        <div className="step-slider three clearfix">
+                        <div className="step-slider three-sm clearfix">
                             <ul>
                                 {STEP_DETAILS.map((step, idx) => {
                                     return (

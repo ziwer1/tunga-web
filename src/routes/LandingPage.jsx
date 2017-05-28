@@ -140,7 +140,7 @@ export default class LandingPage extends ComponentWithModal {
                     </p>
                     <div>
                         <Link to="/start/"
-                                className="btn btn-callout btn-main-cta">
+                              className="btn btn-callout btn-main-cta">
                             <i className="fa fa-rocket fa-lg"/> {dlp_phrase?`Start hiring ${dlp_phrase}`:'Launch your project'}
                         </Link>
                     </div>
@@ -171,7 +171,7 @@ export default class LandingPage extends ComponentWithModal {
                 <section id="how-it-works">
                     <div className="container">
                         <div className="section-heading text-center">How it works</div>
-                        <div className="step-slider five clearfix">
+                        <div className="step-slider five-sm clearfix">
                             <ul>
                                 {STEP_DETAILS.map((step, idx) => {
                                     return (

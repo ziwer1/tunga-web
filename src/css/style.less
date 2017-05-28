@@ -291,40 +291,7 @@ form .alert {
     }
 }
 
-@media (min-width: @screen-xs-max) {
-    .navbar {
 
-        .dropdown {
-            .account-actions-toggle {
-                .avatar-wrapper {
-                    float: none;
-                }
-            }
-        }
-
-        .navbar-nav {
-            .dropdown-menu>li>a,
-            .dropdown-menu>li>a:hover,
-            .dropdown-menu>li>a:active {
-                color: @primary;
-                background: @active-white none;
-            }
-        }
-    }
-
-    .sidebar.collapse {
-        display: block !important;
-    }
-
-    .sidebar {
-        background: @inactive-grey;
-        box-shadow: none;
-    }
-
-    .main-content {
-        margin-left: 200px;
-    }
-}
 
 .main {
     padding: 20px;
@@ -336,12 +303,6 @@ form .alert {
     h2 {
         color: @primary;
         margin-top: 0;
-    }
-}
-
-@media (min-width: @screen-xs-max) {
-    .main {
-        padding: 50px 60px 20px 80px;
     }
 }
 
@@ -1393,21 +1354,6 @@ form[name='compose'] {
     }
 }
 
-@media (min-width: @screen-xs-max) {
-    .home-page {
-
-        .bg-wrapper {
-            left: 200px;
-        }
-
-        .card {
-            .title {
-                .font-size(4.5);
-            }
-        }
-    }
-}
-
 .message-list,
 .activity-list {
     max-width: 800px;
@@ -1477,25 +1423,6 @@ form[name='compose'] {
             max-width: none;
         }
     }
-}
-
-@media (min-width: @screen-xs-max) {
-    .navbar {
-        .search-box {
-            form {
-                max-width: 250px;
-            }
-
-            .form-control {
-                max-width: 230px;
-            }
-
-            .form-control:focus {
-                max-width: 230px;
-            }
-        }
-    }
-
 }
 
 .popup-actions {
@@ -1853,7 +1780,7 @@ form[name='compose'] {
 }
 
 .message.new {
-   font-weight: 400;
+    font-weight: 400;
 }
 
 .load-more {
@@ -2000,34 +1927,6 @@ form[name='compose'] {
 
 .rating.large {
     font-size: 1.7em;
-}
-
-@media (min-width: @screen-xs-max) {
-    .flex-row.row {
-        display: flex;
-        flex-wrap: wrap;
-    }
-    .flex-row.row > [class*='col-'] {
-        display: flex;
-        flex-direction: column;
-
-        .card {
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-
-            .top, .middle, .bottom, .actions {
-                flex-direction: column;
-                display: flex;
-                justify-content: flex-start;
-            }
-
-            .bottom, .actions {
-                flex-grow: 1;
-                justify-content: flex-end;
-            }
-        }
-    }
 }
 
 .quick-actions {
@@ -2288,10 +2187,10 @@ form[name='compose'] {
         height: 100%;
     }
 
-	.mainbox {
+    .mainbox {
         width: 70%;
         height: 100%;
-	}
+    }
 
     .chatbox {
         position: relative;
@@ -2899,25 +2798,6 @@ form[name='compose'] {
     border-color: @secondary;
 }
 
-@media (min-width: 640px) {
-    .modal-md.modal-dialog {
-        width: 500px;
-        margin-top: 80px;
-    }
-
-    .task-form-dialog,
-    .task-form-dialog.modal-dialog {
-        width: 1000px;
-    }
-}
-
-@media (min-width: 992px) {
-    .task-form-dialog,
-    .task-form-dialog.modal-dialog {
-        width: 1000px;
-    }
-}
-
 .showcase, .modal, .chat-widget {
     input, select, textarea, .form-control, .rw-input {
         background-color: @inactive-grey;
@@ -2957,8 +2837,8 @@ form[name='compose'] {
         padding-top: 70px;
 
         h1 {
-            .font-size(6.2);
-            line-height: 52px;
+            .font-size(5.2);
+            line-height: 42px;
             font-weight: 600;
         }
 
@@ -2986,7 +2866,7 @@ form[name='compose'] {
     .btn-callout.btn-main-cta,
     .btn-main-cta {
         .font-size(2.2);
-        padding: 20px 30px;
+        padding: 10px 20px;
         margin: 20px 2px;
     }
 
@@ -2996,7 +2876,10 @@ form[name='compose'] {
         padding: 0;
         border-width: 0;
         z-index: 11;
-        background-color: @inactive-grey;
+
+        #navbar {
+            background-color: @inactive-grey;
+        }
 
         .navbar-brand {
             padding: 0;
@@ -3179,7 +3062,6 @@ form[name='compose'] {
 
             li {
                 display: block;
-                float: left;
 
                 .slide {
                     display: block;
@@ -3188,6 +3070,7 @@ form[name='compose'] {
                     text-align: center;
                     width: 100%;
                     padding: 20px;
+                    margin-bottom: 10px;
                     min-height: 100px;
                     text-decoration: none;
                     border-radius: 5px;
@@ -3209,18 +3092,24 @@ form[name='compose'] {
         }
     }
 
-    .step-slider.three {
-        ul {
-            li {
-                width: 33.3%;
+    .step-slider {
+        &.three, &.three-xs {
+            ul {
+                li {
+                    float: left;
+                    width: 33.3%;
+                }
             }
         }
     }
 
-    .step-slider.five {
-        ul {
-            li {
-                width: 20%;
+    .step-slider {
+        &.five, &.five-xs {
+            ul {
+                li {
+                    float: left;
+                    width: 20%;
+                }
             }
         }
     }
@@ -3263,11 +3152,15 @@ form[name='compose'] {
             display: flex;
             align-items: center;
             z-index: 2;
+
+            .container {
+                padding: 0;
+            }
         }
 
         h1 {
-            .font-size(7.4);
-            line-height: 60px;
+            .font-size(5.4);
+            line-height: 50px;
         }
 
         .head-desc {
@@ -3275,7 +3168,7 @@ form[name='compose'] {
             padding: 30px 20px;
 
             > * {
-               margin-top: 0;
+                margin-top: 0;
             }
 
             .details {
@@ -3421,7 +3314,8 @@ form[name='compose'] {
 
             li {
                 display: inline-block;
-                width: 14%;
+                width: 28%;
+                margin-bottom: 10px;
 
                 a {
                     width: 100%;
@@ -4002,12 +3896,6 @@ form[name='compose'] {
         padding: 0;
 
         li {
-            padding: 0 10px 0 0;
-
-            &:last-child {
-                padding-right: 0;
-            }
-
             .description {
                 p {
                     min-height: 100px;
@@ -4060,12 +3948,6 @@ form[name='compose'] {
             padding: 0;
 
             li {
-                padding: 0 10px 0 0;
-
-                &:last-child {
-                    padding-right: 0;
-                }
-
                 .slide {
                     display: block;
                     color: @showcase-text;
@@ -4116,6 +3998,10 @@ form[name='compose'] {
     header {
         min-height: 100%;
         text-align: center;
+
+        .navbar {
+            text-align: left;
+        }
 
         h2 {
             font-weight: 400;
@@ -4181,274 +4067,6 @@ form[name='compose'] {
     }
 }
 
-/*XTRA-XTRA SMALL*/
-@media (max-width: @screen-xxs-max) {
-    .showcase {
-        section {
-            .media {
-                .media-body,
-                .media-left,
-                .media-right {
-                    display: block;
-                    width: 100%;
-                }
-
-                .media-object {
-                    margin: 10px auto;
-                }
-            }
-        }
-    }
-    .showcase.landing-page {
-        header {
-
-        }
-        #watch-our-video {
-            background-image: url("../images/videox@{screen-xs-bp}.jpg");
-        }
-        #contact-us {
-            background-image: url("../images/footerx@{screen-xs-bp}.jpg");
-        }
-    }
-}
-
-/*XTRA SMALL*/
-@media (min-width: @screen-xs-min) {
-    .showcase {
-        .navbar,
-        .navbar.navbar-fixed-top {
-            .nav-actions {
-                margin-right: 20px;
-                margin-left: 40px;
-            }
-            .nav-main {
-                margin-left: 240px;
-            }
-        }
-    }
-    .showcase.landing-page {
-        header {
-
-            #head-desc {
-                h1 {
-                    .font-size(3.2);
-                    line-height: 36px;
-                }
-
-                .details {
-                    .font-size(1.4)
-                }
-            }
-        }
-        #watch-our-video {
-            background-image: url("../images/videox@{screen-sm-bp}.jpg");
-            min-height: 450px;
-        }
-        #contact-us {
-            background-image: url("../images/footerx@{screen-sm-bp}.jpg");
-        }
-    }
-}
-
-/*SMALL SCREENS*/
-@media (min-width: @screen-sm-min) {
-    #chat-widget {
-        #chat-window {
-            top: 100px;
-        }
-    }
-
-    .showcase {
-
-        header {
-            .navbar {
-                .container {
-                    max-width: 450px;
-                }
-            }
-
-            .navbar {
-                .navbar-header {
-                    position: absolute;
-                    left: 0;
-                }
-            }
-
-            .content {
-                .container {
-                    padding-top: 40px;
-                }
-            }
-
-        }
-    }
-    .showcase.landing-page {
-        header {
-
-        }
-        #meet-our-developers {
-            #our-devs {
-                img {
-                    width: auto;
-                    height: 170px;
-                }
-            }
-        }
-        #watch-our-video {
-            background-image: url("../images/videox@{screen-md-bp}.jpg");
-        }
-        #contact-us {
-            background-image: url("../images/footerx@{screen-md-bp}.jpg");
-        }
-    }
-}
-
-/*MEDIUM SCREENS*/
-@media (min-width: @screen-md-min) {
-    .showcase {
-
-        header {
-            .container {
-                max-width: 670px;
-            }
-
-            #navbar,
-            .navbar {
-                padding-left: 0;
-
-                ul {
-                    > li:first-child {
-                        padding-left: 0;
-                    }
-                }
-            }
-        }
-
-        .content {
-            .container {
-                max-width: 1000px;
-            }
-        }
-    }
-
-    .showcase.landing-page {
-        header {
-
-        }
-        #how-it-works {
-            #demo-mbp {
-                img {
-                    padding-top: 60px;
-                    max-width: 130%;
-                }
-            }
-
-            .how-it-works-btn {
-                margin-top: -40px;
-            }
-        }
-        #contact-us {
-            background-image: url("../images/footerx@{screen-lg-bp}.jpg");
-        }
-    }
-
-    .home-page {
-        .card {
-            max-width: 600px;
-            padding: 60px 10px;
-
-            .title {
-                color: @primary;
-                text-align: center;
-                text-shadow: rgba(255, 255, 255, 0.1) 0 0 3px;
-                .font-size(3.2);
-                font-weight: 400;
-            }
-        }
-
-        .notification-list {
-            max-width: 700px;
-
-            ul {
-
-                li {
-                    margin: 5px 25px;
-
-                    a {
-                        padding: 20px 10px 5px;
-                        min-width: 100px;
-
-                        .icon {
-                            display: inline-block;
-                            text-align: center;
-                            margin-bottom: 2px;
-                            position: relative;
-
-                            i {
-                                .font-size(3.5);
-                            }
-                        }
-                    }
-
-                    a:hover {
-                        text-decoration: none;
-                    }
-                }
-            }
-
-            .fa.fa-caret-right {
-                margin-left: 5px;
-            }
-        }
-    }
-
-    .notification-list.large {
-        max-width: 800px;
-
-        ul {
-
-            li {
-                margin: 5px 10px;
-            }
-        }
-    }
-}
-
-/*LARGE SCREENS*/
-@media (min-width: @screen-lg-min) {
-    .showcase {
-
-        header {
-            .navbar {
-                .container {
-                    max-width: 870px;
-                }
-            }
-
-            .container {
-                max-width: 870px;
-            }
-        }
-    }
-}
-
-@media (min-width: 1360px) {
-    .showcase {
-
-        header {
-            .navbar {
-                .container {
-                    max-width: 1000px;
-                }
-            }
-
-            .container {
-                max-width: 1000px;
-            }
-        }
-    }
-}
-
 form[name="estimate-form"] {
 
     .activities {
@@ -4468,5 +4086,4 @@ form[name="estimate-form"] {
     margin-left: 200px;
 }
 
-
-
+@import "media";
