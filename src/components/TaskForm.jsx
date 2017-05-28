@@ -1207,13 +1207,13 @@ export default class TaskForm extends ComponentWithModal {
                 <div className="form-group">
                     <label className="control-label">Name *</label>
                     <div className="row">
-                        <div className="col-md-5">
+                        <div className="col-xs-5">
                             <input type="text" name="first_name" className="form-control"
                                    ref="first_name" required placeholder="First Name"
                                    onChange={this.onInputChange.bind(this, 'first_name')}
                                    value={this.state.first_name}/>
                         </div>
-                        <div className="col-md-7">
+                        <div className="col-xs-7">
                             <input type="text" name="last_name" className="form-control"
                                    ref="last_name" required placeholder="Last Name"
                                    onChange={this.onInputChange.bind(this, 'last_name')}
