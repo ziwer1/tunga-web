@@ -283,6 +283,97 @@
                 }
             }
         }
+
+        &.task-wizard-page {
+            .task-wizard {
+                &.show-trust {
+                    .task-section {
+                        width: 50%;
+                        float: left;
+                        min-height: 365px;
+                    }
+
+                    .dev-section {
+                        display: block;
+                        width: 50%;
+                        float: right;
+                    }
+                }
+            }
+        }
+    }
+
+    .btn-choices.choice-fork {
+        .choice {
+            padding: 10px;
+
+            .btn {
+                padding: 40px;
+
+                .fa, .icon {
+                    color: @primary;
+                    .font-size(9);
+                    min-width: 90px;
+                    min-height: 90px;
+                }
+            }
+        }
+
+        > .btn {
+            padding: 40px;
+            margin: 0 10px;
+            white-space: normal;
+            min-width: 90px;
+            min-height: 90px;
+        }
+
+        &.medium {
+            .choice {
+
+                .btn {
+                    padding: 30px;
+
+                    .fa, .icon {
+                        color: @primary;
+                        .font-size(7);
+                        min-width: 70px;
+                        min-height: 70px;
+                    }
+                }
+            }
+        }
+
+        &.small {
+            .choice {
+
+                .btn {
+                    padding: 20px;
+
+                    .fa, .icon {
+                        color: @primary;
+                        .font-size(6);
+                        min-width: 60px;
+                        min-height: 60px;
+                    }
+                }
+            }
+        }
+
+        &.xs {
+            .choice {
+
+                .btn {
+                    padding: 20px;
+
+                    .fa, .icon {
+                        color: @primary;
+                        .font-size(4);
+                        min-width: 40px;
+                        min-height: 40px;
+                    }
+                }
+            }
+        }
     }
 }
 
