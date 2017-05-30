@@ -16,29 +16,24 @@ import { sendGAEvent, GA_EVENT_CATEGORIES, GA_EVENT_ACTIONS, GA_EVENT_LABELS } f
 
 const STEP_DETAILS = [
     {
-        title: "1. Tell us what software<br/>capacity you need",
-        description: <div>Use our <Link to='/start'>wizard</Link> to submit you software need. Our developers and project managers will get back to you soon with a match with great developers.</div>,
+        title: "1. Tell us what you need.",
         icon: 'tunga-icon-post-task'
     },
     {
-        title: "2. Tunga matches the best<br/> developers to you",
-        description: "Select a developer or a team of developers to work on your software project.",
+        title: "2. Tunga matches developers with objectively verified skills.",
         icon: 'tunga-icon-browse-developers'
     },
     {
-        title: "3. Use the Tunga workflow<br/>or integrate your own.",
-        description: "Tunga offers a wide range of integrations (e.g Github, Slack, Trello) that allows you to easily set up a workflow or allow you to integrate your existing workflow.",
+        title: "3. Developers start working in your workflow or set one up for you.",
         icon: 'tunga-icon-manage-tasks'
     },
     {
-        title: "4. Effortless payments<br/>and invoice overview.",
-        description: "Pay only for approved work done. Fast, cheap and easy. Get your invoices on the fly.",
-        icon: 'tunga-icon-make-transaction'
+        title: "4. Get daily feedback reports on progress & quality.",
+        icon: 'tunga-icon-build-network'
     },
     {
-        title: "5. Increase your team of<br/>developers for future project.",
-        description: "Increase you network of coders for all your future software needs.",
-        icon: 'tunga-icon-build-network'
+        title: "5. Effortless payments & invoice overview.",
+        icon: 'tunga-icon-make-transaction'
     }
 ];
 
@@ -128,15 +123,14 @@ export default class LandingPage extends ComponentWithModal {
             <div>
                 <div className="head-desc">
                     <h1>
-                        Instant access to skilled <br/>
-                        African {this.getDLPTag() || 'software'} {dlp_desc?dlp_desc.toLowerCase():'developers'}.
+                        Software outsourcing done right.
                     </h1>
                     <p className="details">
-                        <span>Easy set up</span>
+                        <span>Verified skills matching</span>
                         <span className="fa fa-circle"/>
-                        <span>The best developers on demand</span>
+                        <span>Transcultural quality & communications system</span>
                         <span className="fa fa-circle"/>
-                        <span>Discuss your project today</span>
+                        <span>Impact sourcing</span>
                     </p>
                     <div>
                         <Link to="/start/"
