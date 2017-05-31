@@ -115,7 +115,7 @@ export default class ProgressReportForm extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
         var status = this.state.status;
-        var percentage = this.refs.percentage.value.trim();
+        var percentage = this.refs.percentage?this.refs.percentage.value.trim():null;
         var accomplished = this.state.accomplished;
         var next_steps = this.state.next_steps;
         var obstacles = this.state.obstacles;
@@ -201,7 +201,7 @@ export default class ProgressReportForm extends React.Component {
                     {isDeveloper() && this.state.status == PROGRESS_REPORT_STATUS_BEHIND_AND_STUCK ?(
                         <div>
                             {/* check status if stuck and is developer for this */}
-                            
+
                             {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.stuck_reason)?
                                 (<FieldError message={ProgressReport.detail.error.create.stuck_reason}/>):null}
                             {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.stuck_reason)?
@@ -400,7 +400,7 @@ export default class ProgressReportForm extends React.Component {
                                       onChange={this.onInputChange.bind(this, 'team_appraisal')}
                                       value={this.state.team_appraisal} required>{this.state.team_appraisal}</textarea>
                             </div>
-                            
+
                             {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.obstacles)?
                                 (<FieldError message={ProgressReport.detail.error.create.obstacles}/>):null}
                             {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.obstacles)?
@@ -478,34 +478,35 @@ export default class ProgressReportForm extends React.Component {
                                     </div>
                                 </div>
                             </div>
-                        
-                            {/* check this_week_deadline_met state if no for this */}
-                        
-                            {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.pm_deadline_informed)?
-                                (<FieldError message={ProgressReport.detail.error.create.pm_deadline_informed}/>):null}
-                            {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.pm_deadline_informed)?
-                                (<FieldError message={ProgressReport.detail.error.update.pm_deadline_informed}/>):null}
-                            <div className="form-group">
-                                <label className="control-label">Did the project manager/developer(s) inform you promptly about not making the deadline?  *</label>
+
+                            {typeof this.state.this_week_deadline_met == 'boolean' && !this.state.this_week_deadline_met?(
                                 <div>
-                                    <div className="btn-group btn-choices select" role="group" aria-label="PM deadline info">
-                                        {[
-                                            {id: true, name: 'Yes'},
-                                            {id: false, name: 'No'}
-                                        ].map(status => {
-                                            return (
-                                                <button key={status.id} type="button"
-                                                        className={"btn " + (typeof this.state.pm_deadline_informed == 'boolean' && this.state.pm_deadline_informed == status.id?' active':'')}
-                                                        onClick={this.onPmDeadlineInformedChange.bind(this, status.id)}>{status.name}
-                                                </button>
-                                            )
-                                        })}
+                                    {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.pm_deadline_informed)?
+                                        (<FieldError message={ProgressReport.detail.error.create.pm_deadline_informed}/>):null}
+                                    {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.pm_deadline_informed)?
+                                        (<FieldError message={ProgressReport.detail.error.update.pm_deadline_informed}/>):null}
+                                    <div className="form-group">
+                                        <label className="control-label">Did the project manager/developer(s) inform you promptly about not making the deadline?  *</label>
+                                        <div>
+                                            <div className="btn-group btn-choices select" role="group" aria-label="PM deadline info">
+                                                {[
+                                                    {id: true, name: 'Yes'},
+                                                    {id: false, name: 'No'}
+                                                ].map(status => {
+                                                    return (
+                                                        <button key={status.id} type="button"
+                                                                className={"btn " + (typeof this.state.pm_deadline_informed == 'boolean' && this.state.pm_deadline_informed == status.id?' active':'')}
+                                                                onClick={this.onPmDeadlineInformedChange.bind(this, status.id)}>{status.name}
+                                                        </button>
+                                                    )
+                                                })}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        
+                            ):null}
 
-                        
+
                             {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.deliverable_satisfaction)?
                                 (<FieldError message={ProgressReport.detail.error.create.deliverable_satisfaction}/>):null}
                             {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.deliverable_satisfaction)?
@@ -528,9 +529,9 @@ export default class ProgressReportForm extends React.Component {
                                     </div>
                                 </div>
                             </div>
-                        
 
-                        
+
+
                             {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.rate_deliverables)?
                                 (<FieldError message={ProgressReport.detail.error.create.rate_deliverables}/>):null}
                             {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.rate_deliverables)?
@@ -550,9 +551,9 @@ export default class ProgressReportForm extends React.Component {
                                     </div>
                                 </div>
                             </div>
-                        
 
-                        
+
+
                             {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.pm_communication)?
                                 (<FieldError message={ProgressReport.detail.error.create.pm_communication}/>):null}
                             {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.pm_communication)?
@@ -575,7 +576,7 @@ export default class ProgressReportForm extends React.Component {
                                     </div>
                                 </div>
                             </div>
-                        
+
 
                             {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.remarks)?
                                 (<FieldError message={ProgressReport.detail.error.create.remarks}/>):null}
@@ -593,7 +594,7 @@ export default class ProgressReportForm extends React.Component {
 
                     ):null}
 
-                    
+
 
                     <div className="text-center">
                         <button type="submit" className="btn  " disabled={ProgressReport.detail.isSaving}>{progress_report.id?'Update Report':'Save Report'}</button>
