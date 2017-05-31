@@ -21,7 +21,7 @@ export default class ProgressReportForm extends React.Component {
             last_deadline_met: null, deadline_report: '', next_deadline: null, team_appraisal: '',
             attachments: [], task_start: null, next_deadline_meet: null, today_to_dos: '',
             this_week_deadline_met: null, pm_deadline_informed: null, deliverable_satisfaction: null,
-            pm_communication: null, stuck_details: ''
+            pm_communication: null, stuck_details: '', next_deadline_fail_reason:''
         };
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -44,7 +44,7 @@ export default class ProgressReportForm extends React.Component {
                     last_deadline_met: null, deadline_report: '', next_deadline: null, team_appraisal: '',
                     attachments: [], task_start: null, next_deadline_meet: null, today_to_dos: '',
                     this_week_deadline_met: null, pm_deadline_informed: null, deliverable_satisfaction: null,
-                    pm_communication: null, stuck_details: ''
+                    pm_communication: null, stuck_details: '', next_deadline_fail_reason:''
                 });
             }
         }
@@ -133,6 +133,8 @@ export default class ProgressReportForm extends React.Component {
         var deliverable_satisfaction = this.state.deliverable_satisfaction;
         var pm_communication = this.state.pm_communication;
         var stuck_details = this.state.stuck_details;
+        var next_deadline_fail_reason = this.state.next_deadline_fail_reason;
+
 
         const { ProgressReportActions } = this.props;
         const progress_report = this.props.progress_report || {};
@@ -142,7 +144,7 @@ export default class ProgressReportForm extends React.Component {
             event: milestone.id, status, percentage, accomplished, next_steps, obstacles, remarks,
             last_deadline_met, deadline_report, next_deadline, team_appraisal, task_start, next_deadline_meet,
             today_to_dos, this_week_deadline_met, pm_deadline_informed, deliverable_satisfaction,
-            pm_communication, stuck_details
+            pm_communication, stuck_details, next_deadline_fail_reason
         };
         if(progress_report.id) {
             ProgressReportActions.updateProgressReport(progress_report.id, progress_report_info);
@@ -273,6 +275,19 @@ export default class ProgressReportForm extends React.Component {
                                             })}
                                         </div>
                                     </div>
+                                </div>
+
+                                {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.next_deadline_fail_reason)?
+                                    (<FieldError message={ProgressReport.detail.error.create.next_deadline_fail_reason}/>):null}
+                                {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.next_deadline_fail_reason)?
+                                    (<FieldError message={ProgressReport.detail.error.update.next_deadline_fail_reason}/>):null}
+                                <div className="form-group">
+                                    <label className="control-label">Why won't you be able to make the next deadline?</label>
+                                    <textarea placeholder="Reasons why you won't be able to make the next deadline"
+                                              className="form-control"
+                                              ref="next_deadline_fail_reason"
+                                              onChange={this.onInputChange.bind(this, 'next_deadline_fail_reason')}
+                                              value={this.state.next_deadline_fail_reason}>{this.state.next_deadline_fail_reason}</textarea>
                                 </div>
                             </div>
                         </div>
