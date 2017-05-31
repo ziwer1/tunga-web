@@ -537,10 +537,10 @@ export default class ProgressReportForm extends React.Component {
                             {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.rate_deliverables)?
                                 (<FieldError message={ProgressReport.detail.error.update.rate_deliverables}/>):null}
                             <div className="form-group">
-                                <label className="control-label">How would you rate the deliverables on a scale from 1 to 10? *</label>
+                                <label className="control-label">How would you rate the deliverables on a scale from 1 to 5? *</label>
                                 <div>
                                     <div className="btn-group btn-choices select" role="group">
-                                        {this.getRatingsMap(11).map(status => {
+                                        {this.getRatingsMap(6).map(status => {
                                             return (
                                                 <button key={status.id} type="button"
                                                         className={"btn " + (typeof this.state.rate_deliverables == 'boolean' && this.state.rate_deliverables == status.id?' active':'')}
