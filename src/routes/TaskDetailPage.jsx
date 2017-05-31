@@ -128,7 +128,7 @@ export default class TaskDetailPage extends React.Component {
                     <Success message="Application sent successfully"/>
                 ):null}
 
-                {task.user.id == getUser().id ||
+                {[task.user.id, task.owner].indexOf(getUser().id) > -1 ||
                 task.is_admin || task.is_participant ||
                 (task.pm == getUser().id) ||
                 isAdmin() || (lastRoute && lastRoute.path == 'apply' && task.can_apply)?(

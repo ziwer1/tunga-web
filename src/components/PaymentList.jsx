@@ -53,7 +53,7 @@ export default class PaymentList extends GenericListContainer {
                     :
                     (<div>
                         {all_tasks.length?(
-                            <Table>
+                            <table className="table table-striped table-responsive">
                                 <thead>
                                 <tr>
                                     <th>Task</th>
@@ -124,7 +124,7 @@ export default class PaymentList extends GenericListContainer {
                                     );
                                 })}
                                 </tbody>
-                            </Table>
+                            </table>
                         ):(
                         <div className="alert alert-info">No payments to display</div>
                             )}

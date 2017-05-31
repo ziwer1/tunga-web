@@ -295,6 +295,11 @@ function error(state = {}, action) {
         case TaskActions.UPDATE_TASK_START:
         case TaskActions.UPDATE_TASK_SUCCESS:
             return {...state, update: null};
+        case TaskActions.MAKE_TASK_PAYMENT_FAILED:
+            return {...state, pay: action.error};
+        case TaskActions.MAKE_TASK_PAYMENT_START:
+        case TaskActions.MAKE_TASK_PAYMENT_SUCCESS:
+            return {...state, pay: null};
         case CLEAR_VALIDATIONS:
             return {};
         default:

@@ -4,6 +4,7 @@ import StripeCheckout from 'react-stripe-checkout';
 import Progress from './status/Progress';
 import FormStatus from './status/FormStatus';
 import FieldError from './status/FieldError';
+import Error from './status/Error';
 
 import { TASK_PAYMENT_METHOD_CHOICES, TASK_PAYMENT_METHOD_BITONIC, TASK_PAYMENT_METHOD_BITCOIN, TASK_PAYMENT_METHOD_BANK, TASK_PAYMENT_METHOD_STRIPE, ENDPOINT_TASK } from '../constants/Api';
 import { objectToQueryString } from '../utils/html';
@@ -69,7 +70,7 @@ export default class TaskPay extends React.Component {
         let stripe_options = {
             token: token.id,
             email: token.email,
-            amount: task.fee*100,
+            amount: parseInt(this.getTotalAmount()*100),
             description: task.summary,
             task_id: task.id,
             invoice_id: invoice.id,
@@ -99,6 +100,21 @@ export default class TaskPay extends React.Component {
             });
     }
 
+    getTotalAmount() {
+        const {task, Task, TaskActions} = this.props;
+        const { invoice } =  Task.detail.Invoice;
+
+        switch (invoice.payment_method) {
+            case TASK_PAYMENT_METHOD_STRIPE:
+                return (invoice.fee*1.029) + 0.25; // 2.9% + 25c charge
+            case TASK_PAYMENT_METHOD_BITONIC:
+                return (invoice.fee*1.03); // 3%
+            case TASK_PAYMENT_METHOD_BANK:
+                return (invoice.fee*1.055); // 5.5%
+            default:
+                return invoice.fee;
+        }
+    }
 
     render() {
         const { task, Task } = this.props;
@@ -135,7 +151,6 @@ export default class TaskPay extends React.Component {
                                                 required
                                                 placeholder="Fee in €"
                                                 defaultValue={parseNumber(task.pay, false)}/></div>
-                                    {/*<div style={{marginTop: '10px'}}>13% of fee goes to Tunga</div>*/}
                                 </div>
 
                                 {(Task.detail.Invoice.error.create && Task.detail.Invoice.error.create.payment_method)?
@@ -154,7 +169,7 @@ export default class TaskPay extends React.Component {
                                                             <i className={payment_method.icon_class + " fa-lg pull-left"}/>{payment_method.name}
                                                         </button>
                                                     </div>
-                                                    <div className="col-md-6" dangerouslySetInnerHTML={{__html: payment_method.meta}} style={payment_method.id == TASK_PAYMENT_METHOD_STRIPE?{}:{paddingTop: '10px'}}/>
+                                                    <div className="col-md-6" dangerouslySetInnerHTML={{__html: payment_method.meta}} style={{paddingTop: '10px'}}/>
                                                 </div>
                                             );
                                         })}
@@ -178,9 +193,38 @@ export default class TaskPay extends React.Component {
                                     </div>
                                 ):(
                                     <div>
-                                        <h4 className="title">Make Payment</h4>
+                                        {(Task.detail.error.pay && Task.detail.error.pay.message)?
+                                            (<Error message={Task.detail.error.pay.message}/>):null}
 
-                                        <h4>Fee: <i className="fa fa-euro"/> {parseNumber(invoice.fee)}</h4>
+                                        <table className="table table-striped">
+                                            <thead>
+                                            <tr>
+                                                <th colSpan="2">Payment Details</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td>Task fee:</td><td>&euro; {parseNumber(invoice.fee)}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Payment costs:</td><td>&euro; {parseNumber(this.getTotalAmount()-invoice.fee)}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Subtotal:</th><th>&euro; {parseNumber(this.getTotalAmount())}</th>
+                                            </tr>
+                                            <tr>
+                                                <td>VAT 0%:</td><td>&euro; 0</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Total: </th><th>&euro; {parseNumber(this.getTotalAmount())}</th>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                        <h4> </h4>
+                                        <h4> </h4>
+                                        <h4> </h4>
+                                        <h4> </h4>
+
 
                                         {invoice.payment_method == TASK_PAYMENT_METHOD_BITCOIN?(
                                             <div>
@@ -218,7 +262,7 @@ export default class TaskPay extends React.Component {
                                                 image="https://tunga.io/icons/tunga_square.png"
                                                 ComponentClass="span"
                                                 panelLabel="Make Payment"
-                                                amount={invoice.fee*100}
+                                                amount={this.getTotalAmount()*100}
                                                 currency="EUR"
                                                 stripeKey={__STRIPE_KEY__}
                                                 locale="en"

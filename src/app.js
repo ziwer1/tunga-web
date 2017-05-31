@@ -201,7 +201,7 @@ ReactDOM.render(
                                     <Route path="google" component={TaskForm} crumb="Google Drive"/>
                                     <Route path=":provider" component={IntegrationList} crumb="Integrations" crumbs={{slack: 'Slack', github: 'GitHub'}}/>
                                 </Route>
-                                <Route path="pay" component={TaskPay} crumb="Pay"/>
+                                <Route path="pay" component={TaskPay} crumb="Make Payment"/>
                                 <Route path="participation" component={Participation} crumb="Participation shares"/>
                                 <Route path="rate" component={RateDevelopers} crumb="Rate Developers"/>
                                 <Route path="event" component={MilestoneContainer}>

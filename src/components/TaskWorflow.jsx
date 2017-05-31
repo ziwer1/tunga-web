@@ -278,7 +278,7 @@ export default class TaskWorflow extends ComponentWithModal {
         const {uploads} = Task.detail;
         var task_status = parse_task_status(task);
 
-        let is_owner = getUser().id == task.user.id;
+        let is_owner = [task.user.id, task.owner].indexOf(getUser().id) > -1;
         let is_admin_or_owner = is_owner || isAdmin();
 
         let is_pm = (task.pm == getUser().id);
@@ -746,6 +746,16 @@ export default class TaskWorflow extends ComponentWithModal {
                                         </div>
                                     </div>
                                 ) : null}
+
+                                {task.owner && task.details && task.details.owner?(
+                                    <div>
+                                        <strong>Project Owner</strong>
+                                        <div>
+                                            <Avatar src={task.details.owner.avatar_url}/> <Link
+                                            to={`/people/${task.details.owner.username}/`}>{task.details.owner.display_name}</Link>
+                                        </div>
+                                    </div>
+                                ):null}
 
                                 <strong>Posted by</strong>
                                 <div>
