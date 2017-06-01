@@ -194,6 +194,14 @@ export default class Milestone extends React.Component {
                                                 </div>
                                             </div>
                                         ):null}
+                                        {typeof report.pm_deadline_informed == 'boolean'?(
+                                            <div>
+                                                <strong>Did the project manager/developer(s) inform you promptly about not making the deadline?</strong>
+                                                <div>
+                                                    <span>{report.pm_deadline_informed?'Yes':'No'}</span>
+                                                </div>
+                                            </div>
+                                        ):null}
 
                                         {report.rate_deliverables?(
                                             <p>
