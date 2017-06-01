@@ -186,6 +186,15 @@ export default class Milestone extends React.Component {
                                                 </div>
                                             </div>
                                         ):null}
+                                        {typeof report.this_week_deadline_met == 'boolean'?(
+                                            <div>
+                                                <strong>Was the deadline for this week met?</strong>
+                                                <div>
+                                                    <span>{report.this_week_deadline_met?'Yes':'No'}</span>
+                                                </div>
+                                            </div>
+                                        ):null}
+
                                         {report.rate_deliverables?(
                                             <p>
                                                 <strong>Rate Deliverables: </strong><span>{report.rate_deliverables}/5</span>
