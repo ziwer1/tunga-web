@@ -521,7 +521,6 @@ export default class ProgressReportForm extends React.Component {
                                 </div>
                             ):null}
 
-
                             {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.deliverable_satisfaction)?
                                 (<FieldError message={ProgressReport.detail.error.create.deliverable_satisfaction}/>):null}
                             {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.deliverable_satisfaction)?
@@ -545,8 +544,6 @@ export default class ProgressReportForm extends React.Component {
                                 </div>
                             </div>
 
-
-
                             {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.rate_deliverables)?
                                 (<FieldError message={ProgressReport.detail.error.create.rate_deliverables}/>):null}
                             {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.rate_deliverables)?
@@ -566,8 +563,6 @@ export default class ProgressReportForm extends React.Component {
                                     </div>
                                 </div>
                             </div>
-
-
 
                             {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.pm_communication)?
                                 (<FieldError message={ProgressReport.detail.error.create.pm_communication}/>):null}
@@ -591,8 +586,11 @@ export default class ProgressReportForm extends React.Component {
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    ):null}
 
-
+                    {isDeveloper()|| isProjectOwner()?(
+                        <div>
                             {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.remarks)?
                                 (<FieldError message={ProgressReport.detail.error.create.remarks}/>):null}
                             {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.remarks)?
