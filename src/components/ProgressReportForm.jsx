@@ -209,7 +209,7 @@ export default class ProgressReportForm extends React.Component {
                             {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.stuck_reason)?
                                 (<FieldError message={ProgressReport.detail.error.update.stuck_reason}/>):null}
                             <div className="form-group">
-                                <label className="control-label">Explain Further why you are stuck/what should be done.</label>
+                                <label className="control-label">Select reason why you are stuck</label>
                                 <select className="form-control">
                                     <option value="1">Resolving an Error</option>
                                     <option value="2">Poor Documenatation</option>
