@@ -81,7 +81,7 @@ export default class ProgressReportForm extends React.Component {
         this.setState({task_start: moment(date).utc().format()});
     }
 
-    onNextDeadlineMeetChange(last_deadline_meet) {
+    onNextDeadlineMeetChange(next_deadline_meet) {
         this.setState({next_deadline_meet});
     }
 
