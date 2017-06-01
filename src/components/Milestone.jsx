@@ -109,6 +109,60 @@ export default class Milestone extends React.Component {
                                                 <ProgressBar bsStyle="success" now={report.percentage || 0} label={`${report.percentage || 0}% Completed`} />
                                             </div>
                                         </p>
+                                        {report.stuck_reason?(
+                                            <div>
+                                                <strong>Select reason why you are stuck</strong>
+                                                <div>
+                                                    <Linkify properties={{target: '_blank'}}>{report.stuck_reason}</Linkify>
+                                                </div>
+                                            </div>
+                                        ):null}
+                                        {report.stuck_details?(
+                                            <div>
+                                                <strong>Explain Further why you are stuck/what should be done.</strong>
+                                                <div>
+                                                    <Linkify properties={{target: '_blank'}}>{report.stuck_details}</Linkify>
+                                                </div>
+                                            </div>
+                                        ):null}
+                                        {report.task_start?(
+                                            <div>
+                                                <div><strong>When did you start this sprint/task/project?</strong></div>
+                                                <div>{moment.utc(report.task_start).local().format('dddd, Do MMMM, YYYY')}</div>
+                                            </div>
+                                        ):null}
+                                        {report.next_deadline?(
+                                            <div><strong>Next Deadline:</strong> {moment.utc(milestone.next_deadline).local().format('dddd, Do MMMM, YYYY')}</div>
+                                        ):null}
+                                        {typeof report.next_deadline_meet == 'boolean'?(
+                                            <div>
+                                                <strong>Do you anticipate to meet this deadline?</strong>
+                                                <div>
+                                                    <span>{report.next_deadline_meet?'Yes':'No'}</span>
+                                                </div>
+                                            </div>
+                                        ):null}
+                                        {report.next_deadline_fail_reason?(
+                                            <div>
+                                                <strong>Why won't you be able to make the next deadline?</strong>
+                                                <div>
+                                                    <Linkify properties={{target: '_blank'}}>{report.next_deadline_fail_reason}</Linkify>
+                                                </div>
+                                            </div>
+                                        ):null}
+                                        {report.today_to_dos?(
+                                            <div>
+                                                <strong>what do you intend to achieve/complete today?</strong>
+                                                <div>
+                                                    <Linkify properties={{target: '_blank'}}>{report.today_to_dos}</Linkify>
+                                                </div>
+                                            </div>
+                                        ):null}
+                                        {report.deadline_deliverable_rate?(
+                                            <p>
+                                                <strong>How do you rate your deliverable for today's deadline? </strong><span>{report.deadline_deliverable_rate}/5</span>
+                                            </p>
+                                        ):null}
                                         {typeof report.last_deadline_met == 'boolean'?(
                                             <div>
                                                 <p>
@@ -161,9 +215,6 @@ export default class Milestone extends React.Component {
                                                     <Linkify properties={{target: '_blank'}}>{report.next_steps}</Linkify>
                                                 </div>
                                             </div>
-                                        ):null}
-                                        {report.next_deadline?(
-                                            <div><strong>Next Deadline:</strong> {moment.utc(milestone.next_deadline).local().format('dddd, Do MMMM, YYYY')}</div>
                                         ):null}
                                         {report.team_appraisal?(
                                             <div>
