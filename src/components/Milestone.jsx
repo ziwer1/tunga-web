@@ -210,11 +210,18 @@ export default class Milestone extends React.Component {
                                                 </div>
                                             </div>
                                         ):null}
-
                                         {report.rate_deliverables?(
                                             <p>
                                                 <strong>Rate Deliverables: </strong><span>{report.rate_deliverables}/5</span>
                                             </p>
+                                        ):null}
+                                        {typeof report.pm_communication == 'boolean'?(
+                                            <div>
+                                                <strong>Is the communication between you and the project manager/clients going well?</strong>
+                                                <div>
+                                                    <span>{report.pm_communication?'Yes':'No'}</span>
+                                                </div>
+                                            </div>
                                         ):null}
                                         {report.rate_communication?(
                                             <p>
