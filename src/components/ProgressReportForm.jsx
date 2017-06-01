@@ -214,7 +214,9 @@ export default class ProgressReportForm extends React.Component {
                                     <option value="1">Resolving an Error</option>
                                     <option value="2">Poor Documenatation</option>
                                     <option value="3">Hardware problem</option>
-                                    <option value="4">Other</option>
+                                    <option value="4">Unclear specifications</option>
+                                    <option value="5">Personal Circumstances</option>
+                                    <option value="6">Other</option>
                                 </select>
                             </div>
 
