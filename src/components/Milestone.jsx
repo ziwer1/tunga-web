@@ -202,6 +202,14 @@ export default class Milestone extends React.Component {
                                                 </div>
                                             </div>
                                         ):null}
+                                        {typeof report.deliverable_satisfaction == 'boolean'?(
+                                            <div>
+                                                <strong>Are you satisfied with the deliverables?</strong>
+                                                <div>
+                                                    <span>{report.deliverable_satisfaction?'Yes':'No'}</span>
+                                                </div>
+                                            </div>
+                                        ):null}
 
                                         {report.rate_deliverables?(
                                             <p>
