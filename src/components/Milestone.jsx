@@ -188,7 +188,7 @@ export default class Milestone extends React.Component {
                                         ):null}
                                         {report.rate_deliverables?(
                                             <p>
-                                                <strong>Rate Deliverables: </strong><span>{report.rate_deliverables}/10</span>
+                                                <strong>Rate Deliverables: </strong><span>{report.rate_deliverables}/5</span>
                                             </p>
                                         ):null}
                                         {report.rate_communication?(
