@@ -162,7 +162,7 @@ export default class ProgressReportForm extends React.Component {
             return (
                 <FormStatus loading={ProgressReport.detail.isSaving}
                             success={ProgressReport.detail.isSaved}
-                            message={'Progress Report saved successfully'}
+                            message={`${isProjectOwner()?'Weekly Survey':'Progress Report'} saved successfully`}
                             error={ProgressReport.detail.error.create || ProgressReport.detail.error.update}/>
             );
         }
@@ -170,10 +170,10 @@ export default class ProgressReportForm extends React.Component {
         return (
             <div>
                 <form onSubmit={this.handleSubmit} name="progress_report" role="form" ref="progress_report_form">
-                    <h4>Progress Report</h4>
+                    <h4>{isProjectOwner()?'Weekly Survey':'Progress Report'}</h4>
                     <FormStatus loading={ProgressReport.detail.isSaving}
                                 success={ProgressReport.detail.isSaved}
-                                message={'Progress Report saved successfully'}
+                                message={`${isProjectOwner()?'Weekly Survey':'Progress Report'} saved successfully`}
                                 error={ProgressReport.detail.error.create || ProgressReport.detail.error.update}/>
 
                     {isDeveloper() || isProjectManager()?(
