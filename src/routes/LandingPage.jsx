@@ -109,8 +109,10 @@ export default class LandingPage extends ComponentWithModal {
     }
 
     onRevealNumber(target) {
-        var numAnim = new CountUp(target, 0, parseInt($('#'+target).html()));
-        numAnim.start();
+        $(document).ready(function () {
+            var numAnim = new CountUp(target, 0, parseInt($('#'+target).html()));
+            numAnim.start();
+        });
     }
 
     renderHeaderContent() {
@@ -125,6 +127,9 @@ export default class LandingPage extends ComponentWithModal {
                     <h1>
                         Software outsourcing done right.
                     </h1>
+                    <h3>
+                        flexible access to top African {this.getDLPTag() || 'software'} {dlp_desc?dlp_desc.toLowerCase():'developers'}.
+                    </h3>
                     <p className="details">
                         <span>Verified skills matching</span>
                         <span className="fa fa-circle"/>
