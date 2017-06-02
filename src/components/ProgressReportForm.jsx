@@ -210,7 +210,9 @@ export default class ProgressReportForm extends React.Component {
                                 (<FieldError message={ProgressReport.detail.error.update.stuck_reason}/>):null}
                             <div className="form-group">
                                 <label className="control-label">Select reason why you are stuck</label>
-                                <select className="form-control">
+                                <select className="form-control"
+                                        value={this.state.stuck_reason}
+                                        onChange={this.onInputChange.bind(this, 'stuck_reason')}>
                                     <option value="1">Resolving an Error</option>
                                     <option value="2">Poor Documenatation</option>
                                     <option value="3">Hardware problem</option>
