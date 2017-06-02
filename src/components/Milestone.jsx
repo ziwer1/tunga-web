@@ -113,7 +113,7 @@ export default class Milestone extends React.Component {
                                             <div>
                                                 <strong>Select reason why you are stuck</strong>
                                                 <div>
-                                                    <Linkify properties={{target: '_blank'}}>{report.stuck_reason}</Linkify>
+                                                    <Linkify properties={{target: '_blank'}}>{report.stuck_reason_display}</Linkify>
                                                 </div>
                                             </div>
                                         ):null}
@@ -125,14 +125,17 @@ export default class Milestone extends React.Component {
                                                 </div>
                                             </div>
                                         ):null}
-                                        {report.task_start?(
+                                        {report.started_at?(
                                             <div>
                                                 <div><strong>When did you start this sprint/task/project?</strong></div>
-                                                <div>{moment.utc(report.task_start).local().format('dddd, Do MMMM, YYYY')}</div>
+                                                <div>{moment.utc(report.started_at).local().format('dddd, Do MMMM, YYYY')}</div>
                                             </div>
                                         ):null}
                                         {report.next_deadline?(
-                                            <div><strong>Next Deadline:</strong> {moment.utc(milestone.next_deadline).local().format('dddd, Do MMMM, YYYY')}</div>
+                                            <div>
+                                                <div><strong>Next Deadline:</strong></div>
+                                                <div>{moment.utc(milestone.next_deadline).local().format('dddd, Do MMMM, YYYY')}</div>
+                                            </div>
                                         ):null}
                                         {typeof report.next_deadline_meet == 'boolean'?(
                                             <div>
@@ -160,7 +163,8 @@ export default class Milestone extends React.Component {
                                         ):null}
                                         {report.deadline_deliverable_rate?(
                                             <p>
-                                                <strong>How do you rate your deliverable for today's deadline? </strong><span>{report.deadline_deliverable_rate}/5</span>
+                                                <strong>How do you rate your deliverable for today's deadline? </strong>
+                                                <div>{report.deadline_deliverable_rate}/5</div>
                                             </p>
                                         ):null}
                                         {typeof report.last_deadline_met == 'boolean'?(

@@ -19,7 +19,7 @@ export default class ProgressReportForm extends React.Component {
         this.state = {
             status: null, accomplished: '', next_steps: '', obstacles: '', remarks: '',
             last_deadline_met: null, deadline_report: '', next_deadline: null, team_appraisal: '',
-            attachments: [], task_start: null, next_deadline_meet: null, today_to_dos: '',
+            attachments: [], started_at: null, next_deadline_meet: null, today_to_dos: '',
             this_week_deadline_met: null, pm_deadline_informed: null, deliverable_satisfaction: null,
             pm_communication: null, stuck_details: '', next_deadline_fail_reason:''
         };
@@ -42,7 +42,7 @@ export default class ProgressReportForm extends React.Component {
                 this.setState({
                     status: null, accomplished: '', next_steps: '', obstacles: '', remarks: '',
                     last_deadline_met: null, deadline_report: '', next_deadline: null, team_appraisal: '',
-                    attachments: [], task_start: null, next_deadline_meet: null, today_to_dos: '',
+                    attachments: [], started_at: null, next_deadline_meet: null, today_to_dos: '',
                     this_week_deadline_met: null, pm_deadline_informed: null, deliverable_satisfaction: null,
                     pm_communication: null, stuck_details: '', next_deadline_fail_reason:''
                 });
@@ -78,7 +78,7 @@ export default class ProgressReportForm extends React.Component {
     }
 
     onTaskStartChange(date) {
-        this.setState({task_start: moment(date).utc().format()});
+        this.setState({started_at: moment(date).utc().format()});
     }
 
     onNextDeadlineMeetChange(next_deadline_meet) {
@@ -125,12 +125,14 @@ export default class ProgressReportForm extends React.Component {
         var deadline_report = this.state.deadline_report;
         var next_deadline = this.state.next_deadline;
         var team_appraisal = this.state.team_appraisal;
-        var task_start = this.state.task_start;
+        var started_at = this.state.started_at;
         var next_deadline_meet = this.state.next_deadline_meet;
         var today_to_dos = this.state.today_to_dos;
         var this_week_deadline_met = this.state.this_week_deadline_met;
         var pm_deadline_informed = this.state.pm_deadline_informed;
         var deliverable_satisfaction = this.state.deliverable_satisfaction;
+        var deadline_deliverable_rate = this.state.deadline_deliverable_rate;
+        var stuck_reason = this.state.stuck_reason;
         var pm_communication = this.state.pm_communication;
         var stuck_details = this.state.stuck_details;
         var next_deadline_fail_reason = this.state.next_deadline_fail_reason;
@@ -142,9 +144,9 @@ export default class ProgressReportForm extends React.Component {
 
         const progress_report_info = {
             event: milestone.id, status, percentage, accomplished, next_steps, obstacles, remarks,
-            last_deadline_met, deadline_report, next_deadline, team_appraisal, task_start, next_deadline_meet,
+            last_deadline_met, deadline_report, next_deadline, team_appraisal, started_at, next_deadline_meet,
             today_to_dos, this_week_deadline_met, pm_deadline_informed, deliverable_satisfaction,
-            pm_communication, stuck_details, next_deadline_fail_reason
+            pm_communication, stuck_details, next_deadline_fail_reason, deadline_deliverable_rate, stuck_reason
         };
         if(progress_report.id) {
             ProgressReportActions.updateProgressReport(progress_report.id, progress_report_info);
@@ -244,6 +246,7 @@ export default class ProgressReportForm extends React.Component {
                                     <label className="control-label">When did you start this sprint/task/project?</label>
                                     <DateTimePicker ref="started_at"
                                                     onChange={this.onTaskStartChange.bind(this)}
+                                                    value={this.state.started_at?new Date(moment.utc(this.state.started_at).format()):null}
                                                     time={false}/>
                                 </div>
                             </div>
@@ -253,6 +256,7 @@ export default class ProgressReportForm extends React.Component {
                                     <label className="control-label">When is the next deadline? *</label>
                                     <DateTimePicker ref="due_at"
                                                     onChange={this.onNextDeadlineChange.bind(this)}
+                                                    value={this.state.next_deadline?new Date(moment.utc(this.state.next_deadline).format()):null}
                                                     time={false}/>
                                 </div>
                             </div>
