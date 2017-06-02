@@ -161,12 +161,6 @@ export default class Milestone extends React.Component {
                                                 </div>
                                             </div>
                                         ):null}
-                                        {report.deadline_deliverable_rate?(
-                                            <p>
-                                                <strong>How do you rate your deliverable for today's deadline? </strong>
-                                                <div>{report.deadline_deliverable_rate}/5</div>
-                                            </p>
-                                        ):null}
                                         {typeof report.last_deadline_met == 'boolean'?(
                                             <div>
                                                 <p>
@@ -182,27 +176,11 @@ export default class Milestone extends React.Component {
                                                 ):null}
                                             </div>
                                         ):null}
-                                        {report.accomplished?(
+                                        {typeof report.deadline_miss_communicated == 'boolean'?(
                                             <div>
-                                                <strong>Accomplished</strong>
+                                                <strong>{report.user.is_project_owner?'Did the project manager/developer(s) inform you':'Did you inform the client'} promptly about not making the deadline?</strong>
                                                 <div>
-                                                    <Linkify properties={{target: '_blank'}}>{report.accomplished}</Linkify>
-                                                </div>
-                                            </div>
-                                        ):null}
-                                        {typeof report.this_week_deadline_met == 'boolean'?(
-                                            <div>
-                                                <strong>Was the deadline for this week met?</strong>
-                                                <div>
-                                                    <span>{report.this_week_deadline_met?'Yes':'No'}</span>
-                                                </div>
-                                            </div>
-                                        ):null}
-                                        {typeof report.pm_deadline_informed == 'boolean'?(
-                                            <div>
-                                                <strong>Did the project manager/developer(s) inform you promptly about not making the deadline?</strong>
-                                                <div>
-                                                    <span>{report.pm_deadline_informed?'Yes':'No'}</span>
+                                                    <span>{report.deadline_miss_communicated?'Yes':'No'}</span>
                                                 </div>
                                             </div>
                                         ):null}
@@ -218,6 +196,14 @@ export default class Milestone extends React.Component {
                                             <p>
                                                 <strong>Rate Deliverables: </strong><span>{report.rate_deliverables}/5</span>
                                             </p>
+                                        ):null}
+                                        {report.accomplished?(
+                                            <div>
+                                                <strong>Accomplished</strong>
+                                                <div>
+                                                    <Linkify properties={{target: '_blank'}}>{report.accomplished}</Linkify>
+                                                </div>
+                                            </div>
                                         ):null}
                                         {typeof report.pm_communication == 'boolean'?(
                                             <div>
@@ -244,11 +230,11 @@ export default class Milestone extends React.Component {
                                                 })}
                                             </div>
                                         ):null}
-                                        {report.next_steps?(
+                                        {report.todo?(
                                             <div>
                                                 <strong>Next steps</strong>
                                                 <div>
-                                                    <Linkify properties={{target: '_blank'}}>{report.next_steps}</Linkify>
+                                                    <Linkify properties={{target: '_blank'}}>{report.todo}</Linkify>
                                                 </div>
                                             </div>
                                         ):null}

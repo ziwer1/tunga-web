@@ -19,10 +19,10 @@ export default class ProgressReportForm extends FormComponent {
     constructor(props) {
         super(props);
         this.state = {
-            status: null, accomplished: '', next_steps: '', obstacles: '', remarks: '',
+            status: null, accomplished: '', todo: '', obstacles: '', remarks: '',
             last_deadline_met: null, deadline_report: '', next_deadline: null, team_appraisal: '',
             attachments: [], started_at: null, next_deadline_meet: null, today_to_dos: '',
-            this_week_deadline_met: null, pm_deadline_informed: null, deliverable_satisfaction: null,
+            deadline_miss_communicated: null, deliverable_satisfaction: null,
             pm_communication: null, stuck_details: '', next_deadline_fail_reason:''
         };
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -42,10 +42,10 @@ export default class ProgressReportForm extends FormComponent {
                     this.refs.progress_report_form.reset();
                 }
                 this.setState({
-                    status: null, accomplished: '', next_steps: '', obstacles: '', remarks: '',
+                    status: null, accomplished: '', todo: '', obstacles: '', remarks: '',
                     last_deadline_met: null, deadline_report: '', next_deadline: null, team_appraisal: '',
                     attachments: [], started_at: null, next_deadline_meet: null, today_to_dos: '',
-                    this_week_deadline_met: null, pm_deadline_informed: null, deliverable_satisfaction: null,
+                    deadline_miss_communicated: null, deliverable_satisfaction: null,
                     pm_communication: null, stuck_details: '', next_deadline_fail_reason:''
                 });
             }
@@ -87,14 +87,6 @@ export default class ProgressReportForm extends FormComponent {
         this.setState({next_deadline_meet});
     }
 
-    onThisWeekDeadlineMetChange(this_week_deadline_met) {
-        this.setState({this_week_deadline_met});
-    }
-
-    onPmDeadlineInformedChange(pm_deadline_informed) {
-        this.setState({pm_deadline_informed});
-    }
-
     onDeliverableSatisfactionChange(deliverable_satisfaction) {
         this.setState({deliverable_satisfaction});
     }
@@ -119,7 +111,7 @@ export default class ProgressReportForm extends FormComponent {
         var status = this.state.status;
         var percentage = this.refs.percentage?this.refs.percentage.value.trim():null;
         var accomplished = this.state.accomplished;
-        var next_steps = this.state.next_steps;
+        var todo = this.state.todo;
         var obstacles = this.state.obstacles;
         var remarks = this.state.remarks;
         const attachments = this.state.attachments;
@@ -130,10 +122,8 @@ export default class ProgressReportForm extends FormComponent {
         var started_at = this.state.started_at;
         var next_deadline_meet = this.state.next_deadline_meet;
         var today_to_dos = this.state.today_to_dos;
-        var this_week_deadline_met = this.state.this_week_deadline_met;
-        var pm_deadline_informed = this.state.pm_deadline_informed;
+        var deadline_miss_communicated = this.state.deadline_miss_communicated;
         var deliverable_satisfaction = this.state.deliverable_satisfaction;
-        var deadline_deliverable_rate = this.state.deadline_deliverable_rate;
         var rate_deliverables = this.state.rate_deliverables;
         var stuck_reason = this.state.stuck_reason;
         var pm_communication = this.state.pm_communication;
@@ -146,10 +136,10 @@ export default class ProgressReportForm extends FormComponent {
         const milestone = this.props.milestone || {};
 
         const progress_report_info = {
-            event: milestone.id, status, percentage, accomplished, next_steps, obstacles, remarks,
+            event: milestone.id, status, percentage, accomplished, todo, obstacles, remarks,
             last_deadline_met, deadline_report, next_deadline, team_appraisal, started_at, next_deadline_meet,
-            today_to_dos, this_week_deadline_met, pm_deadline_informed, deliverable_satisfaction,
-            pm_communication, stuck_details, next_deadline_fail_reason, deadline_deliverable_rate, stuck_reason,
+            today_to_dos, deadline_miss_communicated, deliverable_satisfaction,
+            pm_communication, stuck_details, next_deadline_fail_reason, stuck_reason,
             rate_deliverables
         };
         if(progress_report.id) {
@@ -206,7 +196,7 @@ export default class ProgressReportForm extends FormComponent {
                         </div>
                     ):null}
 
-                    {isDeveloper() && this.state.status == PROGRESS_REPORT_STATUS_BEHIND_AND_STUCK ?(
+                    {(isDeveloper() || isProjectManager()) && this.state.status == PROGRESS_REPORT_STATUS_BEHIND_AND_STUCK ?(
                         <div>
                             {/* check status if stuck and is developer for this */}
 
@@ -254,74 +244,6 @@ export default class ProgressReportForm extends FormComponent {
                                                     time={false}/>
                                 </div>
                             </div>
-
-                            <div>
-                                <div className="form-group">
-                                    <label className="control-label">When is the next deadline? *</label>
-                                    <DateTimePicker ref="due_at"
-                                                    onChange={this.onNextDeadlineChange.bind(this)}
-                                                    value={this.state.next_deadline?new Date(moment.utc(this.state.next_deadline).format()):null}
-                                                    time={false}/>
-                                </div>
-                            </div>
-
-                            <div>
-                                {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.next_deadline_meet)?
-                                    (<FieldError message={ProgressReport.detail.error.create.next_deadline_meet}/>):null}
-                                {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.next_deadline_meet)?
-                                    (<FieldError message={ProgressReport.detail.error.update.next_deadline_meet}/>):null}
-                                <div className="form-group">
-                                    <label className="control-label">Do you anticipate to meet this deadline? *</label>
-                                    <div>
-                                        <div className="btn-group btn-choices select" role="group" aria-label="task deadline meet">
-                                            {[
-                                                {id: true, name: 'Yes'},
-                                                {id: false, name: 'No'}
-                                            ].map(status => {
-                                                return (
-                                                    <button key={status.id} type="button"
-                                                            className={"btn " + (typeof this.state.next_deadline_meet == 'boolean' && this.state.next_deadline_meet == status.id?' active':'')}
-                                                            onClick={this.onNextDeadlineMeetChange.bind(this, status.id)}>{status.name}
-                                                    </button>
-                                                )
-                                            })}
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {typeof this.state.next_deadline_meet == 'boolean' && !this.state.next_deadline_meet?(
-                                    <div>
-                                        {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.next_deadline_fail_reason)?
-                                            (<FieldError message={ProgressReport.detail.error.create.next_deadline_fail_reason}/>):null}
-                                        {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.next_deadline_fail_reason)?
-                                            (<FieldError message={ProgressReport.detail.error.update.next_deadline_fail_reason}/>):null}
-                                        <div className="form-group">
-                                            <label className="control-label">Why won't you be able to make the next deadline?</label>
-                                    <textarea placeholder="Reasons why you won't be able to make the next deadline"
-                                              className="form-control"
-                                              ref="next_deadline_fail_reason"
-                                              onChange={this.onInputChange.bind(this, 'next_deadline_fail_reason')}
-                                              value={this.state.next_deadline_fail_reason}>{this.state.next_deadline_fail_reason}</textarea>
-                                        </div>
-                                    </div>
-                                ):null}
-                            </div>
-                        </div>
-                    ):null}
-
-                    {isDeveloper()|| isProjectManager()?(
-                        <div>
-                            {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.percentage)?
-                                (<FieldError message={ProgressReport.detail.error.create.percentage}/>):null}
-                            {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.percentage)?
-                                (<FieldError message={ProgressReport.detail.error.update.percentage}/>):null}
-                            <div className="form-group">
-                                <label className="control-label">Percentage completed *</label>
-                                <div>
-                                    <input type="number" className="form-control" ref="percentage" required placeholder="Percentage completed" defaultValue={progress_report.percentage}/>
-                                </div>
-                            </div>
-
                         </div>
                     ):null}
 
@@ -366,6 +288,55 @@ export default class ProgressReportForm extends FormComponent {
                                     </div>
                                 </div>
                             ):null}
+
+
+                            {typeof this.state.last_deadline_met == 'boolean' && !this.state.last_deadline_met?(
+                                <div>
+                                    {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.deadline_miss_communicated)?
+                                        (<FieldError message={ProgressReport.detail.error.create.deadline_miss_communicated}/>):null}
+                                    {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.deadline_miss_communicated)?
+                                        (<FieldError message={ProgressReport.detail.error.update.deadline_miss_communicated}/>):null}
+                                    <div className="form-group">
+                                        <label className="control-label">Did you inform the client promptly about not making the deadline?  *</label>
+                                        <div>
+                                            <div className="btn-group btn-choices select" role="group" aria-label="PM deadline info">
+                                                {[
+                                                    {id: true, name: 'Yes'},
+                                                    {id: false, name: 'No'}
+                                                ].map(status => {
+                                                    return (
+                                                        <button key={status.id} type="button"
+                                                                className={"btn " + (typeof this.state.deadline_miss_communicated == 'boolean' && this.state.deadline_miss_communicated == status.id?' active':'')}
+                                                                onClick={this.onStateValueChange.bind(this, 'deadline_miss_communicated', status.id)}>{status.name}
+                                                        </button>
+                                                    )
+                                                })}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ):null}
+                        </div>
+                    ):null}
+
+                    {isDeveloper()|| isProjectManager()?(
+                        <div>
+                            {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.percentage)?
+                                (<FieldError message={ProgressReport.detail.error.create.percentage}/>):null}
+                            {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.percentage)?
+                                (<FieldError message={ProgressReport.detail.error.update.percentage}/>):null}
+                            <div className="form-group">
+                                <label className="control-label">Percentage completed *</label>
+                                <div>
+                                    <input type="number" className="form-control" ref="percentage" required placeholder="Percentage completed" defaultValue={progress_report.percentage}/>
+                                </div>
+                            </div>
+
+                        </div>
+                    ):null}
+
+                    {isDeveloper() || isProjectManager()?(
+                        <div>
                             {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.accomplished)?
                                 (<FieldError message={ProgressReport.detail.error.create.accomplished}/>):null}
                             {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.accomplished)?
@@ -378,6 +349,30 @@ export default class ProgressReportForm extends FormComponent {
                                           onChange={this.onInputChange.bind(this, 'accomplished')}
                                           value={this.state.accomplished} required>{this.state.accomplished}</textarea>
                             </div>
+
+                            {isDeveloper()?(
+                                <div>
+                                    {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.rate_deliverables)?
+                                        (<FieldError message={ProgressReport.detail.error.create.rate_deliverables}/>):null}
+                                    {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.rate_deliverables)?
+                                        (<FieldError message={ProgressReport.detail.error.update.rate_deliverables}/>):null}
+                                    <div className="form-group">
+                                        <label className="control-label">How do you rate your latest deliverable?*</label>
+                                        <div>
+                                            <div className="btn-group btn-choices select" role="group">
+                                                {this.getRatingsMap(6).map(status => {
+                                                    return (
+                                                        <button key={status.id} type="button"
+                                                                className={"btn " + (this.state.rate_deliverables == status.id?' active':'')}
+                                                                onClick={this.onStateValueChange.bind(this, 'rate_deliverables', status.id)}>{status.name}
+                                                        </button>
+                                                    )
+                                                })}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ):null}
 
                             <div className="form-group">
                                 <label className="control-label">Files</label>
@@ -399,26 +394,91 @@ export default class ProgressReportForm extends FormComponent {
                                 </div>
                             </div>
 
-                            {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.next_steps)?
-                                (<FieldError message={ProgressReport.detail.error.create.next_steps}/>):null}
-                            {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.next_steps)?
-                                (<FieldError message={ProgressReport.detail.error.update.next_steps}/>):null}
+                            {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.todo)?
+                                (<FieldError message={ProgressReport.detail.error.create.todo}/>):null}
+                            {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.todo)?
+                                (<FieldError message={ProgressReport.detail.error.update.todo}/>):null}
                             <div className="form-group">
-                                <label className="control-label">What are the next steps? *</label>
-                                <textarea placeholder="What are the next steps?"
+                                <label className="control-label">{isDeveloper()?'What do you intend to achieve/complete today?':'What are the next steps?'} *</label>
+                                <textarea placeholder={isDeveloper()?'What do you intend to achieve/complete today?':'What are the next steps?'}
                                           className="form-control"
-                                          ref="next_steps"
-                                          onChange={this.onInputChange.bind(this, 'next_steps')}
-                                          value={this.state.next_steps} required>{this.state.next_steps}</textarea>
+                                          ref="todo"
+                                          onChange={this.onInputChange.bind(this, 'todo')}
+                                          value={this.state.todo} required>{this.state.todo}</textarea>
                             </div>
+
                             <div className="form-group">
                                 <label className="control-label">When is the next deadline? *</label>
                                 <DateTimePicker ref="due_at"
                                                 onChange={this.onNextDeadlineChange.bind(this)}
-                                                defaultValue={this.state.next_deadline?(new Date(moment.utc(this.state.next_deadline).format())):null}
+                                                value={this.state.next_deadline?new Date(moment.utc(this.state.next_deadline).format()):null}
                                                 time={false}/>
                             </div>
 
+                            {isDeveloper()?(
+                                <div>
+                                    {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.next_deadline_meet)?
+                                        (<FieldError message={ProgressReport.detail.error.create.next_deadline_meet}/>):null}
+                                    {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.next_deadline_meet)?
+                                        (<FieldError message={ProgressReport.detail.error.update.next_deadline_meet}/>):null}
+                                    <div className="form-group">
+                                        <label className="control-label">Do you anticipate to meet this deadline? *</label>
+                                        <div>
+                                            <div className="btn-group btn-choices select" role="group" aria-label="task deadline meet">
+                                                {[
+                                                    {id: true, name: 'Yes'},
+                                                    {id: false, name: 'No'}
+                                                ].map(status => {
+                                                    return (
+                                                        <button key={status.id} type="button"
+                                                                className={"btn " + (typeof this.state.next_deadline_meet == 'boolean' && this.state.next_deadline_meet == status.id?' active':'')}
+                                                                onClick={this.onNextDeadlineMeetChange.bind(this, status.id)}>{status.name}
+                                                        </button>
+                                                    )
+                                                })}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {typeof this.state.next_deadline_meet == 'boolean' && !this.state.next_deadline_meet?(
+                                        <div>
+                                            {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.next_deadline_fail_reason)?
+                                                (<FieldError message={ProgressReport.detail.error.create.next_deadline_fail_reason}/>):null}
+                                            {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.next_deadline_fail_reason)?
+                                                (<FieldError message={ProgressReport.detail.error.update.next_deadline_fail_reason}/>):null}
+                                            <div className="form-group">
+                                                <label className="control-label">Why won't you be able to make the next deadline?</label>
+                                    <textarea placeholder="Reasons why you won't be able to make the next deadline"
+                                              className="form-control"
+                                              ref="next_deadline_fail_reason"
+                                              onChange={this.onInputChange.bind(this, 'next_deadline_fail_reason')}
+                                              value={this.state.next_deadline_fail_reason}>{this.state.next_deadline_fail_reason}</textarea>
+                                            </div>
+                                        </div>
+                                    ):null}
+                                </div>
+                            ):(
+                                <div>
+                                    {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.obstacles)?
+                                        (<FieldError message={ProgressReport.detail.error.create.obstacles}/>):null}
+                                    {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.obstacles)?
+                                        (<FieldError message={ProgressReport.detail.error.update.obstacles}/>):null}
+                                    <div className="form-group">
+                                        <label className="control-label">What obstacles are impeding your progress? *</label>
+                                <textarea placeholder="What obstacles are impeding your progress?"
+                                          className="form-control"
+                                          ref="obstacles"
+                                          onChange={this.onInputChange.bind(this, 'obstacles')}
+                                          value={this.state.obstacles} required>{this.state.obstacles}</textarea>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
+                    ):null}
+
+                    {isProjectManager()?(
+                        <div>
                             {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.team_appraisal)?
                                 (<FieldError message={ProgressReport.detail.error.create.team_appraisal}/>):null}
                             {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.team_appraisal)?
@@ -431,68 +491,17 @@ export default class ProgressReportForm extends FormComponent {
                                       onChange={this.onInputChange.bind(this, 'team_appraisal')}
                                       value={this.state.team_appraisal} required>{this.state.team_appraisal}</textarea>
                             </div>
-
-                            {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.obstacles)?
-                                (<FieldError message={ProgressReport.detail.error.create.obstacles}/>):null}
-                            {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.obstacles)?
-                                (<FieldError message={ProgressReport.detail.error.update.obstacles}/>):null}
-                            <div className="form-group">
-                                <label className="control-label">What obstacles are impeding your progress? *</label>
-                                <textarea placeholder="What obstacles are impeding your progress?"
-                                          className="form-control"
-                                          ref="obstacles"
-                                          onChange={this.onInputChange.bind(this, 'obstacles')}
-                                          value={this.state.obstacles} required>{this.state.obstacles}</textarea>
-                            </div>
                         </div>
-                    ):null}
-
-                    {isDeveloper()?(
-                        <div>
-                            {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.today_to_dos)?
-                                (<FieldError message={ProgressReport.detail.error.create.today_to_dos}/>):null}
-                            {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.today_to_dos)?
-                                (<FieldError message={ProgressReport.detail.error.update.today_to_dos}/>):null}
-                            <div className="form-group">
-                                <label className="control-label">what do you intend to achieve/complete today? *</label>
-                                <textarea placeholder="What are your to dos for today?"
-                                          className="form-control"
-                                          ref="today_to_dos"
-                                          onChange={this.onInputChange.bind(this, 'today_to_dos')}
-                                          value={this.state.today_to_dos} required>{this.state.today_to_dos}</textarea>
-                            </div>
-
-                            {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.deadline_deliverable_rate)?
-                                    (<FieldError message={ProgressReport.detail.error.create.deadline_deliverable_rate}/>):null}
-                                {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.deadline_deliverable_rate)?
-                                    (<FieldError message={ProgressReport.detail.error.update.deadline_deliverable_rate}/>):null}
-                                <div className="form-group">
-                                    <label className="control-label">How do you rate your deliverable for today's deadline?*</label>
-                                    <div>
-                                        <div className="btn-group btn-choices select" role="group">
-                                            {this.getRatingsMap(6).map(status => {
-                                                return (
-                                                    <button key={status.id} type="button"
-                                                            className={"btn " + (this.state.deadline_deliverable_rate == status.id?' active':'')}
-                                                            onClick={this.onStateValueChange.bind(this, 'deadline_deliverable_rate', status.id)}>{status.name}
-                                                    </button>
-                                                )
-                                            })}
-                                        </div>
-                                    </div>
-                                </div>
-                        </div>
-
                     ):null}
 
                     {isProjectOwner()?(
                         <div>
-                            {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.this_week_deadline_met)?
-                                (<FieldError message={ProgressReport.detail.error.create.this_week_deadline_met}/>):null}
-                            {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.this_week_deadline_met)?
-                                (<FieldError message={ProgressReport.detail.error.update.this_week_deadline_met}/>):null}
+                            {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.last_deadline_met)?
+                                (<FieldError message={ProgressReport.detail.error.create.last_deadline_met}/>):null}
+                            {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.last_deadline_met)?
+                                (<FieldError message={ProgressReport.detail.error.update.last_deadline_met}/>):null}
                             <div className="form-group">
-                                <label className="control-label">Was the deadline for this week met? *</label>
+                                <label className="control-label">Was the last deadline met? *</label>
                                 <div>
                                     <div className="btn-group btn-choices select" role="group" aria-label="this week deadline met">
                                         {[
@@ -501,8 +510,8 @@ export default class ProgressReportForm extends FormComponent {
                                         ].map(status => {
                                             return (
                                                 <button key={status.id} type="button"
-                                                        className={"btn " + (typeof this.state.this_week_deadline_met == 'boolean' && this.state.this_week_deadline_met == status.id?' active':'')}
-                                                        onClick={this.onStateValueChange.bind(this, 'this_week_deadline_met', status.id)}>{status.name}
+                                                        className={"btn " + (typeof this.state.last_deadline_met == 'boolean' && this.state.last_deadline_met == status.id?' active':'')}
+                                                        onClick={this.onStateValueChange.bind(this, 'last_deadline_met', status.id)}>{status.name}
                                                 </button>
                                             )
                                         })}
@@ -510,12 +519,12 @@ export default class ProgressReportForm extends FormComponent {
                                 </div>
                             </div>
 
-                            {typeof this.state.this_week_deadline_met == 'boolean' && !this.state.this_week_deadline_met?(
+                            {typeof this.state.last_deadline_met == 'boolean' && !this.state.last_deadline_met?(
                                 <div>
-                                    {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.pm_deadline_informed)?
-                                        (<FieldError message={ProgressReport.detail.error.create.pm_deadline_informed}/>):null}
-                                    {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.pm_deadline_informed)?
-                                        (<FieldError message={ProgressReport.detail.error.update.pm_deadline_informed}/>):null}
+                                    {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.deadline_miss_communicated)?
+                                        (<FieldError message={ProgressReport.detail.error.create.deadline_miss_communicated}/>):null}
+                                    {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.deadline_miss_communicated)?
+                                        (<FieldError message={ProgressReport.detail.error.update.deadline_miss_communicated}/>):null}
                                     <div className="form-group">
                                         <label className="control-label">Did the project manager/developer(s) inform you promptly about not making the deadline?  *</label>
                                         <div>
@@ -526,8 +535,8 @@ export default class ProgressReportForm extends FormComponent {
                                                 ].map(status => {
                                                     return (
                                                         <button key={status.id} type="button"
-                                                                className={"btn " + (typeof this.state.pm_deadline_informed == 'boolean' && this.state.pm_deadline_informed == status.id?' active':'')}
-                                                                onClick={this.onStateValueChange.bind(this, 'pm_deadline_informed', status.id)}>{status.name}
+                                                                className={"btn " + (typeof this.state.deadline_miss_communicated == 'boolean' && this.state.deadline_miss_communicated == status.id?' active':'')}
+                                                                onClick={this.onStateValueChange.bind(this, 'deadline_miss_communicated', status.id)}>{status.name}
                                                         </button>
                                                     )
                                                 })}
@@ -605,25 +614,20 @@ export default class ProgressReportForm extends FormComponent {
                         </div>
                     ):null}
 
-                    {isDeveloper()|| isProjectOwner()?(
-                        <div>
-                            {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.remarks)?
-                                (<FieldError message={ProgressReport.detail.error.create.remarks}/>):null}
-                            {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.remarks)?
-                                (<FieldError message={ProgressReport.detail.error.update.remarks}/>):null}
-                            <div className="form-group">
-                                <label className="control-label">Any other remarks or questions</label>
+                    <div>
+                        {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.remarks)?
+                            (<FieldError message={ProgressReport.detail.error.create.remarks}/>):null}
+                        {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.remarks)?
+                            (<FieldError message={ProgressReport.detail.error.update.remarks}/>):null}
+                        <div className="form-group">
+                            <label className="control-label">Any other remarks or questions</label>
                                 <textarea placeholder="Any other remarks or questions"
                                           className="form-control"
                                           ref="remarks"
                                           onChange={this.onInputChange.bind(this, 'remarks')}
                                           value={this.state.remarks}>{this.state.remarks}</textarea>
-                            </div>
                         </div>
-
-                    ):null}
-
-
+                    </div>
 
                     <div className="text-center">
                         <button type="submit" className="btn  " disabled={ProgressReport.detail.isSaving}>{progress_report.id?'Update Report':'Save Report'}</button>

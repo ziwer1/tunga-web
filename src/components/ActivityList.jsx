@@ -161,7 +161,7 @@ export default class ActivityList extends React.Component {
                 if(isProjectManager() && object.type == PROGRESS_EVENT_TYPE_CLIENT) {
                     break;
                 }
-                if(isProjectManager() && !isAdmin() && object.type == PROGRESS_EVENT_TYPE_PM) {
+                if(isProjectOwner() && !isAdmin() && object.type == PROGRESS_EVENT_TYPE_PM) {
                     break;
                 }
                 if(showNotifications && item.action == 'create') {
@@ -192,7 +192,7 @@ export default class ActivityList extends React.Component {
                 if(isProjectManager() && object.details.event.type == PROGRESS_EVENT_TYPE_CLIENT) {
                     break;
                 }
-                if(isProjectManager() && !isAdmin() && object.details.event.type == PROGRESS_EVENT_TYPE_PM) {
+                if(isProjectOwner() && !isAdmin() && object.details.event.type == PROGRESS_EVENT_TYPE_PM) {
                     break;
                 }
                 if(showNotifications && item.action == 'report') {
