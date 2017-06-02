@@ -279,18 +279,22 @@ export default class ProgressReportForm extends React.Component {
                                     </div>
                                 </div>
 
-                                {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.next_deadline_fail_reason)?
-                                    (<FieldError message={ProgressReport.detail.error.create.next_deadline_fail_reason}/>):null}
-                                {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.next_deadline_fail_reason)?
-                                    (<FieldError message={ProgressReport.detail.error.update.next_deadline_fail_reason}/>):null}
-                                <div className="form-group">
-                                    <label className="control-label">Why won't you be able to make the next deadline?</label>
+                                {typeof this.state.next_deadline_meet == 'boolean' && !this.state.next_deadline_meet?(
+                                    <div>
+                                        {(ProgressReport.detail.error.create && ProgressReport.detail.error.create.next_deadline_fail_reason)?
+                                            (<FieldError message={ProgressReport.detail.error.create.next_deadline_fail_reason}/>):null}
+                                        {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.next_deadline_fail_reason)?
+                                            (<FieldError message={ProgressReport.detail.error.update.next_deadline_fail_reason}/>):null}
+                                        <div className="form-group">
+                                            <label className="control-label">Why won't you be able to make the next deadline?</label>
                                     <textarea placeholder="Reasons why you won't be able to make the next deadline"
                                               className="form-control"
                                               ref="next_deadline_fail_reason"
                                               onChange={this.onInputChange.bind(this, 'next_deadline_fail_reason')}
                                               value={this.state.next_deadline_fail_reason}>{this.state.next_deadline_fail_reason}</textarea>
-                                </div>
+                                        </div>
+                                    </div>
+                                ):null}
                             </div>
                         </div>
                     ):null}
@@ -459,7 +463,7 @@ export default class ProgressReportForm extends React.Component {
                                             {this.getRatingsMap(6).map(status => {
                                                 return (
                                                     <button key={status.id} type="button"
-                                                            className={"btn " + (typeof this.state.deadline_deliverable_rate == 'boolean' && this.state.deadline_deliverable_rate == status.id?' active':'')}
+                                                            className={"btn " + (this.state.deadline_deliverable_rate == status.id?' active':'')}
                                                             onClick={this.onStateValueChange.bind(this, 'deadline_deliverable_rate', status.id)}>{status.name}
                                                     </button>
                                                 )

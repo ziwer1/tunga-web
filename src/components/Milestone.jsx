@@ -104,11 +104,11 @@ export default class Milestone extends React.Component {
                                         <p>
                                             <strong>Status: </strong><span>{report.status_display}</span>
                                         </p>
-                                        <p>
+                                        {report.user.is_developer || report.user.is_project_manager?(
                                             <div>
                                                 <ProgressBar bsStyle="success" now={report.percentage || 0} label={`${report.percentage || 0}% Completed`} />
                                             </div>
-                                        </p>
+                                        ):null}
                                         {report.stuck_reason?(
                                             <div>
                                                 <strong>Select reason why you are stuck</strong>
