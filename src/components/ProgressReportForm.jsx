@@ -7,12 +7,14 @@ import _ from 'lodash';
 
 import FormStatus from './status/FormStatus';
 import FieldError from './status/FieldError';
+import FormComponent from './FormComponent';
+
 import { PROGRESS_REPORT_STATUS_CHOICES, PROGRESS_REPORT_STATUS_BEHIND_AND_STUCK } from '../constants/Api';
 import { isDeveloper, getUser, isProjectManager, isProjectOwner } from '../utils/auth';
 
 momentLocalizer(moment);
 
-export default class ProgressReportForm extends React.Component {
+export default class ProgressReportForm extends FormComponent {
 
     constructor(props) {
         super(props);
@@ -108,7 +110,7 @@ export default class ProgressReportForm extends React.Component {
     }
 
     getRatingsMap(to) {
-        return _.range(0,to).map(x => { return {id: x, name: x}});
+        return _.range(1,to).map(x => { return {id: x, name: x}});
     }
 
 
@@ -132,6 +134,7 @@ export default class ProgressReportForm extends React.Component {
         var pm_deadline_informed = this.state.pm_deadline_informed;
         var deliverable_satisfaction = this.state.deliverable_satisfaction;
         var deadline_deliverable_rate = this.state.deadline_deliverable_rate;
+        var rate_deliverables = this.state.rate_deliverables;
         var stuck_reason = this.state.stuck_reason;
         var pm_communication = this.state.pm_communication;
         var stuck_details = this.state.stuck_details;
@@ -146,7 +149,8 @@ export default class ProgressReportForm extends React.Component {
             event: milestone.id, status, percentage, accomplished, next_steps, obstacles, remarks,
             last_deadline_met, deadline_report, next_deadline, team_appraisal, started_at, next_deadline_meet,
             today_to_dos, this_week_deadline_met, pm_deadline_informed, deliverable_satisfaction,
-            pm_communication, stuck_details, next_deadline_fail_reason, deadline_deliverable_rate, stuck_reason
+            pm_communication, stuck_details, next_deadline_fail_reason, deadline_deliverable_rate, stuck_reason,
+            rate_deliverables
         };
         if(progress_report.id) {
             ProgressReportActions.updateProgressReport(progress_report.id, progress_report_info);
@@ -498,7 +502,7 @@ export default class ProgressReportForm extends React.Component {
                                             return (
                                                 <button key={status.id} type="button"
                                                         className={"btn " + (typeof this.state.this_week_deadline_met == 'boolean' && this.state.this_week_deadline_met == status.id?' active':'')}
-                                                        onClick={this.onThisWeekDeadlineMetChange.bind(this, status.id)}>{status.name}
+                                                        onClick={this.onStateValueChange.bind(this, 'this_week_deadline_met', status.id)}>{status.name}
                                                 </button>
                                             )
                                         })}
@@ -523,7 +527,7 @@ export default class ProgressReportForm extends React.Component {
                                                     return (
                                                         <button key={status.id} type="button"
                                                                 className={"btn " + (typeof this.state.pm_deadline_informed == 'boolean' && this.state.pm_deadline_informed == status.id?' active':'')}
-                                                                onClick={this.onPmDeadlineInformedChange.bind(this, status.id)}>{status.name}
+                                                                onClick={this.onStateValueChange.bind(this, 'pm_deadline_informed', status.id)}>{status.name}
                                                         </button>
                                                     )
                                                 })}
@@ -567,7 +571,7 @@ export default class ProgressReportForm extends React.Component {
                                         {this.getRatingsMap(6).map(status => {
                                             return (
                                                 <button key={status.id} type="button"
-                                                        className={"btn " + (typeof this.state.rate_deliverables == 'boolean' && this.state.rate_deliverables == status.id?' active':'')}
+                                                        className={"btn " + (this.state.rate_deliverables == status.id?' active':'')}
                                                         onClick={this.onStateValueChange.bind(this, 'rate_deliverables', status.id)}>{status.name}
                                                 </button>
                                             )

@@ -276,7 +276,7 @@ export default class Milestone extends React.Component {
                                                 </div>
                                             </div>
                                         ):null}
-                                        {isDeveloper() && !is_missed && report.user.id == getUser().id?(
+                                        {!is_missed && report.user.id == getUser().id?(
                                             <button className="btn " onClick={this.onEditReport.bind(this)}><i className="fa fa-pencil"/> Edit Report</button>
                                         ):null}
                                     </div>
