@@ -45,9 +45,9 @@ export default class PaymentList extends GenericListContainer {
                     <li role="presentation"><Link to="/payments/processing" activeClassName="active">Processing</Link></li>
                     <li role="presentation"><Link to="/payments/paid" activeClassName="active">Paid</Link></li>
                 </ul>
-                <ul className="nav nav-pills nav-top-filter navbar-right">
+                {/*<ul className="nav nav-pills nav-top-filter navbar-right">
                     <li role="presentation"><Link to="/payments/multi-task-payment">Pay Selected Tasks</Link></li>
-                </ul>
+                </ul>*/}
                 {Task.list.isFetching?
                     (<Progress/>)
                     :
@@ -70,9 +70,9 @@ export default class PaymentList extends GenericListContainer {
                                     )}
                                     <th>Invoice</th>
                                     <th>Status</th>
-                                    {(isAdmin() || isProjectManager()) &&
+                                    {/*(isAdmin() || isProjectManager()) &&
                                         <th>Select To Pay</th>
-                                    }
+                                    */}
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -116,10 +116,10 @@ export default class PaymentList extends GenericListContainer {
                                                 )}
                                             </td>
                                             <td>{task.payment_status}</td>
-                                            <td>{(task.payment_status == "Pending" && (isDeveloper() || isAdmin())) &&
+                                            {/*<td>{(task.payment_status == "Pending" && (isDeveloper() || isAdmin())) &&
                                                     <input type="checkbox" className="tasks_to_pay" value={task.id}/>
                                                 }
-                                            </td>
+                                            </td>*/}
                                         </tr>
                                     );
                                 })}
