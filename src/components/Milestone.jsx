@@ -24,9 +24,9 @@ export default class Milestone extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if(this.props.ProgressReport.detail.isSaved && !prevProps.ProgressReport.detail.isSaved) {
+        /*if(this.props.ProgressReport.detail.isSaved && !prevProps.ProgressReport.detail.isSaved) {
             this.setState({editReport: false});
-        }
+        }*/
     }
 
     onEditReport() {

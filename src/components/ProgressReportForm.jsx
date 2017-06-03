@@ -14,17 +14,19 @@ import { isDeveloper, getUser, isProjectManager, isProjectOwner } from '../utils
 
 momentLocalizer(moment);
 
+let defaultState = {
+    status: null, accomplished: '', todo: '', obstacles: '', remarks: '',
+    last_deadline_met: null, deadline_report: '', next_deadline: null, team_appraisal: '',
+    attachments: [], started_at: null, next_deadline_meet: null, today_to_dos: '',
+    deadline_miss_communicated: null, deliverable_satisfaction: null,
+    pm_communication: null, stuck_details: '', next_deadline_fail_reason:''
+};
+
 export default class ProgressReportForm extends FormComponent {
 
     constructor(props) {
         super(props);
-        this.state = {
-            status: null, accomplished: '', todo: '', obstacles: '', remarks: '',
-            last_deadline_met: null, deadline_report: '', next_deadline: null, team_appraisal: '',
-            attachments: [], started_at: null, next_deadline_meet: null, today_to_dos: '',
-            deadline_miss_communicated: null, deliverable_satisfaction: null,
-            pm_communication: null, stuck_details: '', next_deadline_fail_reason:''
-        };
+        this.state = defaultState;
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -41,13 +43,7 @@ export default class ProgressReportForm extends FormComponent {
                 if(this.refs.progress_report_form) {
                     this.refs.progress_report_form.reset();
                 }
-                this.setState({
-                    status: null, accomplished: '', todo: '', obstacles: '', remarks: '',
-                    last_deadline_met: null, deadline_report: '', next_deadline: null, team_appraisal: '',
-                    attachments: [], started_at: null, next_deadline_meet: null, today_to_dos: '',
-                    deadline_miss_communicated: null, deliverable_satisfaction: null,
-                    pm_communication: null, stuck_details: '', next_deadline_fail_reason:''
-                });
+                this.setState(defaultState);
             }
         }
     }
@@ -156,10 +152,10 @@ export default class ProgressReportForm extends FormComponent {
 
         if(ProgressReport.detail.isSaved) {
             return (
-                <FormStatus loading={ProgressReport.detail.isSaving}
-                            success={ProgressReport.detail.isSaved}
-                            message={`${isProjectOwner()?'Weekly Survey':'Progress Report'} saved successfully`}
-                            error={ProgressReport.detail.error.create || ProgressReport.detail.error.update}/>
+                <div className="thank-you">
+                    Thank you for {isProjectOwner()?'filling in your progress report!':'responding to the survey!'}<br/>
+                    <i className="fa fa-check-circle"/>
+                </div>
             );
         }
 
