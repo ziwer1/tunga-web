@@ -101,11 +101,12 @@ export default class Milestone extends React.Component {
                                                 <Avatar src={report.user.avatar_url}/> <Link to={`/people/${report.user.username}/`}>{report.user.display_name}</Link>
                                             </div>
                                         ):null}
-                                        <p>
-                                            <strong>Status: </strong><span>{report.status_display}</span>
-                                        </p>
+                                        {/* Status */}
                                         {report.user.is_developer || report.user.is_project_manager?(
                                             <div>
+                                                <p>
+                                                    <strong>Status: </strong><span>{report.status_display}</span>
+                                                </p>
                                                 <ProgressBar bsStyle="success" now={report.percentage || 0} label={`${report.percentage || 0}% Completed`} />
                                             </div>
                                         ):null}
@@ -131,10 +132,80 @@ export default class Milestone extends React.Component {
                                                 <div>{moment.utc(report.started_at).local().format('dddd, Do MMMM, YYYY')}</div>
                                             </div>
                                         ):null}
+
+                                        {typeof report.last_deadline_met == 'boolean'?(
+                                            <div>
+                                                <p>
+                                                    <strong>Was the last deadline met?: </strong><span>{report.last_deadline_met?'Yes':'No'}</span>
+                                                </p>
+                                                {report.deadline_report?(
+                                                    <div>
+                                                        <strong>Deadline Report</strong>
+                                                        <div>
+                                                            <Linkify properties={{target: '_blank'}}>{report.deadline_report}</Linkify>
+                                                        </div>
+                                                    </div>
+                                                ):null}
+                                            </div>
+                                        ):null}
+
+                                        {typeof report.deadline_miss_communicated == 'boolean'?(
+                                            <div>
+                                                <strong>{report.user.is_project_owner?'Did the project manager/developer(s) inform you':'Did you inform the client'} promptly about not making the deadline?</strong>
+                                                <div>
+                                                    <span>{report.deadline_miss_communicated?'Yes':'No'}</span>
+                                                </div>
+                                            </div>
+                                        ):null}
+                                        {typeof report.deliverable_satisfaction == 'boolean'?(
+                                            <div>
+                                                <strong>Are you satisfied with the deliverables?</strong>
+                                                <div>
+                                                    <span>{report.deliverable_satisfaction?'Yes':'No'}</span>
+                                                </div>
+                                            </div>
+                                        ):null}
+                                        {report.accomplished?(
+                                            <div>
+                                                <strong>What has been accomplished since the last update?</strong>
+                                                <div>
+                                                    <Linkify properties={{target: '_blank'}}>{report.accomplished}</Linkify>
+                                                </div>
+                                            </div>
+                                        ):null}
+                                        {report.rate_deliverables?(
+                                            <p>
+                                                <strong>Rate Deliverables: </strong><span>{report.rate_deliverables}/5</span>
+                                            </p>
+                                        ):null}
+                                        {report.uploads && report.uploads.length?(
+                                            <div>
+                                                <strong>Files</strong>
+                                                {report.uploads.map(upload => {
+                                                    return (
+                                                        <div key={upload.id} className="file">
+                                                            <a href={upload.url}><i className="fa fa-download"/> {upload.name} <strong>[{upload.display_size}]</strong></a>
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        ):null}
+
+
+                                        {/* Next */}
+                                        {report.todo?(
+                                            <div>
+                                                <strong>{report.user.is_developer?'What do you intend to achieve/complete today?':'Next steps'}</strong>
+                                                <div>
+                                                    <Linkify properties={{target: '_blank'}}>{report.todo}</Linkify>
+                                                </div>
+                                            </div>
+                                        ):null}
+
                                         {report.next_deadline?(
                                             <div>
                                                 <div><strong>Next Deadline:</strong></div>
-                                                <div>{moment.utc(milestone.next_deadline).local().format('dddd, Do MMMM, YYYY')}</div>
+                                                <div>{moment.utc(report.next_deadline).local().format('dddd, Do MMMM, YYYY')}</div>
                                             </div>
                                         ):null}
                                         {typeof report.next_deadline_meet == 'boolean'?(
@@ -153,58 +224,16 @@ export default class Milestone extends React.Component {
                                                 </div>
                                             </div>
                                         ):null}
-                                        {report.today_to_dos?(
+                                        {report.obstacles?(
                                             <div>
-                                                <strong>what do you intend to achieve/complete today?</strong>
+                                                <strong>Obstacles</strong>
                                                 <div>
-                                                    <Linkify properties={{target: '_blank'}}>{report.today_to_dos}</Linkify>
+                                                    <Linkify properties={{target: '_blank'}}>{report.obstacles}</Linkify>
                                                 </div>
                                             </div>
                                         ):null}
-                                        {typeof report.last_deadline_met == 'boolean'?(
-                                            <div>
-                                                <p>
-                                                    <strong>Was the last deadline met?: </strong><span>{report.last_deadline_met?'Yes':'No'}</span>
-                                                </p>
-                                                {report.deadline_report?(
-                                                    <div>
-                                                        <strong>Deadline Report</strong>
-                                                        <div>
-                                                            <Linkify properties={{target: '_blank'}}>{report.deadline_report}</Linkify>
-                                                        </div>
-                                                    </div>
-                                                ):null}
-                                            </div>
-                                        ):null}
-                                        {typeof report.deadline_miss_communicated == 'boolean'?(
-                                            <div>
-                                                <strong>{report.user.is_project_owner?'Did the project manager/developer(s) inform you':'Did you inform the client'} promptly about not making the deadline?</strong>
-                                                <div>
-                                                    <span>{report.deadline_miss_communicated?'Yes':'No'}</span>
-                                                </div>
-                                            </div>
-                                        ):null}
-                                        {typeof report.deliverable_satisfaction == 'boolean'?(
-                                            <div>
-                                                <strong>Are you satisfied with the deliverables?</strong>
-                                                <div>
-                                                    <span>{report.deliverable_satisfaction?'Yes':'No'}</span>
-                                                </div>
-                                            </div>
-                                        ):null}
-                                        {report.rate_deliverables?(
-                                            <p>
-                                                <strong>Rate Deliverables: </strong><span>{report.rate_deliverables}/5</span>
-                                            </p>
-                                        ):null}
-                                        {report.accomplished?(
-                                            <div>
-                                                <strong>Accomplished</strong>
-                                                <div>
-                                                    <Linkify properties={{target: '_blank'}}>{report.accomplished}</Linkify>
-                                                </div>
-                                            </div>
-                                        ):null}
+
+                                        {/* General */}
                                         {typeof report.pm_communication == 'boolean'?(
                                             <div>
                                                 <strong>Is the communication between you and the project manager/clients going well?</strong>
@@ -218,39 +247,12 @@ export default class Milestone extends React.Component {
                                                 <strong>Rate Communication: </strong><span>{report.rate_communication}/10</span>
                                             </p>
                                         ):null}
-                                        {report.uploads && report.uploads.length?(
-                                            <div>
-                                                <strong>Files</strong>
-                                                {report.uploads.map(upload => {
-                                                    return (
-                                                        <div key={upload.id} className="file">
-                                                            <a href={upload.url}><i className="fa fa-download"/> {upload.name} <strong>[{upload.display_size}]</strong></a>
-                                                        </div>
-                                                    );
-                                                })}
-                                            </div>
-                                        ):null}
-                                        {report.todo?(
-                                            <div>
-                                                <strong>Next steps</strong>
-                                                <div>
-                                                    <Linkify properties={{target: '_blank'}}>{report.todo}</Linkify>
-                                                </div>
-                                            </div>
-                                        ):null}
+
                                         {report.team_appraisal?(
                                             <div>
                                                 <strong>Team appraisal</strong>
                                                 <div>
                                                     <Linkify properties={{target: '_blank'}}>{report.team_appraisal}</Linkify>
-                                                </div>
-                                            </div>
-                                        ):null}
-                                        {report.obstacles?(
-                                            <div>
-                                                <strong>Obstacles</strong>
-                                                <div>
-                                                    <Linkify properties={{target: '_blank'}}>{report.obstacles}</Linkify>
                                                 </div>
                                             </div>
                                         ):null}
