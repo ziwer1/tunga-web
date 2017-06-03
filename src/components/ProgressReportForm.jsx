@@ -588,7 +588,7 @@ export default class ProgressReportForm extends FormComponent {
                             {(ProgressReport.detail.error.update && ProgressReport.detail.error.update.pm_communication)?
                                 (<FieldError message={ProgressReport.detail.error.update.pm_communication}/>):null}
                             <div className="form-group">
-                                <label className="control-label">Is the communication between you and the project manager/clients going well?   *</label>
+                                <label className="control-label">Is the communication between you and the project manager/developer(s) going well?   *</label>
                                 <div>
                                     <div className="btn-group btn-choices select" role="group" aria-label="PM communication">
                                         {[

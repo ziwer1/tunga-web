@@ -236,7 +236,7 @@ export default class Milestone extends React.Component {
                                         {/* General */}
                                         {typeof report.pm_communication == 'boolean'?(
                                             <div>
-                                                <strong>Is the communication between you and the project manager/clients going well?</strong>
+                                                <strong>Is the communication between you and the project manager/developer(s) going well?</strong>
                                                 <div>
                                                     <span>{report.pm_communication?'Yes':'No'}</span>
                                                 </div>
