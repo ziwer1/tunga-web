@@ -1,4 +1,6 @@
 import React from 'react';
+import {Button, OverlayTrigger, Tooltip} from 'react-bootstrap';
+
 import ChannelView from '../components/Channel';
 import SupportChannelForm from '../components/SupportChannelForm';
 import ChatBox from '../components/ChatBox';
@@ -95,7 +97,7 @@ class ChatWindow extends React.Component {
     }
 
     saveChannel(channel) {
-        if (!isAuthenticated() && typeof(Storage) !== "undefined") {
+        if (!isAuthenticated() && typeof(Storage) !== "undefined" && !channel.created_by) {
             try {
                 window.localStorage.channel = JSON.stringify(channel);
             } catch (e) {
@@ -132,6 +134,9 @@ class ChatWindow extends React.Component {
     render() {
         const { Channel, Message, ChannelActions, MessageActions } = this.props;
         const { channel } = this.state;
+        let tooltip = (
+            <Tooltip id="tooltip">Chat with us!</Tooltip>
+        );
 
         return (
             <div id="chat-widget">
@@ -167,10 +172,13 @@ class ChatWindow extends React.Component {
                             <i className="fa fa-times fa-lg"/>
                         </button>
                     ):(
-                        <button id="support-chat" className="btn chat-btn" onClick={this.startChannel.bind(this)}>
-                            <i className={`${isAuthenticated()?'tunga-icon-support':'fa fa-comments fa-lg'}`}/>
-                            {this.state.new?(<span className="badge">{this.state.new}</span>):null}
-                        </button>
+                        <OverlayTrigger placement="top"
+                                        overlay={tooltip}>
+                            <button id="support-chat" className="btn chat-btn" onClick={this.startChannel.bind(this)}>
+                                <i className="fa fa-comments fa-lg"/>
+                                {this.state.new?(<span className="badge">{this.state.new}</span>):null}
+                            </button>
+                        </OverlayTrigger>
                     )}
                 </div>
             </div>

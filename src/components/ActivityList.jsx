@@ -263,7 +263,7 @@ export default class ActivityList extends React.Component {
         var last_sent_day = '';
         let today = moment.utc().local().format(day_format);
 
-        let is_current_user = (activity.user.id == getUser().id) || (!isAuthenticated() && activity.user.inquirer);
+        let is_current_user = (isAuthenticated() && activity.user.id == getUser().id) || (!isAuthenticated() && activity.user.inquirer);
         let display_name = is_current_user?'Me':activity.user.display_name;
 
         let avatar_div = (
@@ -290,7 +290,9 @@ export default class ActivityList extends React.Component {
                             )}
                             {activity.summary?(<span> {activity.summary}</span>):null}
 
-                            <TimeAgo date={moment.utc(activity.created_at).local().format()} className="pull-right"/>
+                            {activity.created_at?(
+                                <TimeAgo date={moment.utc(activity.created_at).local().format()} className="pull-right"/>
+                            ):null}
                         </p>
                         <div>{activity.body}</div>
                         {activity.uploads && activity.uploads.length?(
