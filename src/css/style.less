@@ -174,7 +174,7 @@ form .alert {
         padding: 0;
 
         img {
-            height: 51px;
+            height: 50px;
         }
     }
 
@@ -3111,17 +3111,17 @@ form[name='compose'] {
             }
         }
 
-        h1 {
-            .font-size(5.4);
-            line-height: 50px;
-        }
-
-        h3 {
-            .font-size(3.8);
-            line-height: 34px;
-        }
-
         .head-desc {
+            h1 {
+                .font-size(5.4);
+                line-height: 50px;
+            }
+
+            h3 {
+                .font-size(3.8);
+                line-height: 34px;
+            }
+
             text-align: center;
             padding: 30px 20px;
 
@@ -3557,7 +3557,6 @@ form[name='compose'] {
 
 .showcase.task-wizard-page {
     .font-size(1.4);
-
     color: @primary-text;
 
     header {
@@ -3565,7 +3564,8 @@ form[name='compose'] {
         min-height: 100%;
         display: flex;
         flex-direction: column;
-        background: @active-white none;
+        background-color: @active-white;
+        background-image: none;
     }
 
     .task-wizard {
@@ -3737,6 +3737,52 @@ form[name='compose'] {
 
                     .avatar.avatar-icon {
                         font-size: 55px !important;
+                    }
+                }
+            }
+        }
+    }
+
+    &.lander {
+        header {
+            background-image: url('../images/showcase/ourstory.jpg');
+            min-height: 100%;
+        }
+
+        .pitch {
+            color: @active-white;
+
+            .details {
+                .font-size(1.8);
+
+                .fa {
+                    color: #ee1f54;
+                    .font-size(1.0);
+                    display: inline-block;
+                    margin: 0 5px 3px;
+                }
+            }
+        }
+
+        .task-wizard {
+            padding: 20px;
+
+            h2 {
+                margin: 0 0 25px;
+            }
+
+            .btn-choices.choice-fork {
+                .choice {
+
+                    .btn {
+                        padding: 20px;
+
+                        .fa, .icon {
+                            color: @primary;
+                            .font-size(4);
+                            min-width: 40px;
+                            min-height: 40px;
+                        }
                     }
                 }
             }

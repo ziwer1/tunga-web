@@ -111,6 +111,12 @@
 
     .navbar {
 
+        .navbar-brand {
+            img {
+                height: 51px;
+            }
+        }
+
         .dropdown {
             .account-actions-toggle {
                 .avatar-wrapper {
@@ -304,6 +310,12 @@
                     }
                 }
             }
+
+            &.lander {
+                .pitch {
+                    padding-top: 60px;
+                }
+            }
         }
     }
 
@@ -428,26 +440,37 @@
                 max-width: 1000px;
             }
         }
-    }
 
-    .showcase.landing-page {
-        header {
+        &.landing-page {
+            header {
 
-        }
-        #how-it-works {
-            #demo-mbp {
-                img {
-                    padding-top: 60px;
-                    max-width: 130%;
+            }
+            #how-it-works {
+                #demo-mbp {
+                    img {
+                        padding-top: 60px;
+                        max-width: 130%;
+                    }
+                }
+
+                .how-it-works-btn {
+                    margin-top: -40px;
                 }
             }
-
-            .how-it-works-btn {
-                margin-top: -40px;
+            #contact-us {
+                background-image: url("../images/footerx@{screen-lg-bp}.jpg");
             }
         }
-        #contact-us {
-            background-image: url("../images/footerx@{screen-lg-bp}.jpg");
+
+        &.task-wizard-page {
+            &.lander {
+                .content {
+                    .container {
+                        max-width: 100%;
+                        padding-top: 80px;
+                    }
+                }
+            }
         }
     }
 

@@ -95,6 +95,7 @@ import QuoteForm from 'components/QuoteForm';
 import QuoteDetail from 'components/QuoteDetail';
 import TaskWizard from 'routes/TaskWizard';
 import StoryPage from 'routes/StoryPage';
+import TaskWizardLander from 'routes/TaskWizardLander';
 
 ReactDOM.render(
     <Provider store={store}>
@@ -108,6 +109,12 @@ ReactDOM.render(
                         <Route path="finish/:taskId" component={TaskWizard}/>
                         <Route path="finish/:taskId/*" component={TaskWizard}/>
                         <Route path ="*" component={TaskWizard}/>
+                    </Route>
+                    <Route path="welcome">
+                        <IndexRoute component={TaskWizardLander}/>
+                        <Route path="finish/:taskId" component={TaskWizardLander}/>
+                        <Route path="finish/:taskId/*" component={TaskWizardLander}/>
+                        <Route path ="*" component={TaskWizardLander}/>
                     </Route>
                     <Route path="call" component={LandingPage} showCallWidget={true}/>
                     <Route path="our-story" component={StoryPage}/>

@@ -68,7 +68,7 @@ export default class TaskForm extends ComponentWithModal {
     componentDidUpdate(prevProps, prevState) {
 
         const task = this.props.task || {};
-        const { project } = this.props;
+        const { project, urlPrefix } = this.props;
         const { router } = this.context;
 
         var new_state = {};
@@ -130,7 +130,7 @@ export default class TaskForm extends ComponentWithModal {
 
             if(!isAuthenticated()) {
                 if(this.state.autoSave) {
-                    router.replace(`/start/finish/${Task.detail.task.id}`);
+                    router.replace(`/${urlPrefix}/finish/${Task.detail.task.id}`);
                 } else {
                     if(this.props.onStepChange) {
                         this.props.onStepChange({
@@ -206,7 +206,7 @@ export default class TaskForm extends ComponentWithModal {
 
     getStepUrl(complete=false, start=false, virtual=true) {
 
-        const {task, taskId, editToken} = this.props;
+        const {task, taskId, editToken, urlPrefix} = this.props;
 
         var suffix = '';
         if(!start) {
@@ -240,7 +240,7 @@ export default class TaskForm extends ComponentWithModal {
             }
         }
 
-        let path = (isAuthenticated()?'/work/new':`/start${taskId?(`${virtual?'-':'/'}finish/${taskId}`):''}`) + suffix;
+        let path = (isAuthenticated()?'/work/new':`/${urlPrefix}${taskId?(`${virtual?'-':'/'}finish/${taskId}`):''}`) + suffix;
         if (virtual) {
             return window.location.protocol + '//' + window.location.hostname + (window.location.port?`:${window.location.port}`:'') + `/track/${this.state.analytics_id}` + path;
         }
@@ -572,7 +572,7 @@ export default class TaskForm extends ComponentWithModal {
         const { Task, project, enabledWidgets, options, showSectionHeader } = this.props;
         const task = this.props.task || {};
 
-        if(!isAuthenticated() && Task.detail.isSaved && !this.state.autoSave || /\/start\/finish\/.*\/complete$/.test(window.location.href)) {
+        if(!isAuthenticated() && Task.detail.isSaved && !this.state.autoSave || /\/(start|welcome)\/finish\/.*\/complete$/.test(window.location.href)) {
             return (
                 <div className="thank-you">
                     One of our project hackers will reach out to you ASAP!<br/>
@@ -1781,7 +1781,8 @@ TaskForm.propTypes = {
     project: React.PropTypes.object,
     enabledWidgets: React.PropTypes.array,
     options: React.PropTypes.object,
-    showSectionHeader: React.PropTypes.bool
+    showSectionHeader: React.PropTypes.bool,
+    urlPrefix: React.PropTypes.string
 };
 
 TaskForm.defaultProps = {
@@ -1790,7 +1791,8 @@ TaskForm.defaultProps = {
     project: null,
     enabledWidgets: [],
     options: null,
-    showSectionHeader: true
+    showSectionHeader: true,
+    urlPrefix: 'start'
 };
 
 TaskForm.contextTypes = {
