@@ -44,23 +44,12 @@
 @media (min-width: 448px) {
     .showcase {
         &.landing-page {
-            header {
 
-                #head-desc {
-                    h1 {
-                        .font-size(3.2);
-                        line-height: 36px;
-                    }
-
-                    .details {
-                        .font-size(1.4)
-                    }
-                }
-            }
             #watch-our-video {
                 background-image: url("../images/videox@{screen-sm-bp}.jpg");
                 min-height: 450px;
             }
+
             #contact-us {
                 background-image: url("../images/footerx@{screen-sm-bp}.jpg");
             }
@@ -248,11 +237,20 @@
 
         &.landing-page {
             header {
-                h1 {
-                    .font-size(6.4);
-                    line-height: 50px;
-                }
+                .head-desc {
+                    h1 {
+                        .font-size(6.4);
+                        line-height: 50px;
+                    }
 
+                    .details {
+                        text-align: center;
+
+                        > div {
+                            display: inline-block;
+                        }
+                    }
+                }
             }
             #press {
                 .press-links {

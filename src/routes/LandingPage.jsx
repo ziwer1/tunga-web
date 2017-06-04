@@ -131,11 +131,9 @@ export default class LandingPage extends ComponentWithModal {
                         flexible access to top African {this.getDLPTag() || 'software'} {dlp_desc?dlp_desc.toLowerCase():'developers'}.
                     </h3>*/}
                     <p className="details">
-                        <span>Verified skills matching</span>
-                        <span className="fa fa-circle"/>
-                        <span>Transcultural quality & communications system</span>
-                        <span className="fa fa-circle"/>
-                        <span>Impact sourcing</span>
+                        <div><i className="fa fa-circle"/> Verified skills matching</div>
+                        <div><i className="fa fa-circle"/> Transcultural quality & communications system</div>
+                        <div><i className="fa fa-circle"/> Impact sourcing</div>
                     </p>
                     <div>
                         <Link to="/start/"
