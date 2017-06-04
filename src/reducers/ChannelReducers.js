@@ -3,6 +3,7 @@ import * as ChannelActions from '../actions/ChannelActions';
 import * as MessageActions from '../actions/MessageActions';
 import { PATH_CHANGE } from '../actions/NavActions';
 import { GET_NOTIFICATIONS_SUCCESS } from '../actions/NotificationActions';
+import { LOGIN_SUCCESS, LOGOUT_SUCCESS, VERIFY_SUCCESS } from '../actions/AuthActions';
 
 import Activity from './ActivityReducers';
 
@@ -28,6 +29,9 @@ function channel(state = {}, action) {
         case ChannelActions.CREATE_DEVELOPER_CHANNEL_FAILED:
         case ChannelActions.CREATE_TASK_CHANNEL_START:
         case ChannelActions.CREATE_TASK_CHANNEL_FAILED:
+        case LOGIN_SUCCESS:
+        case LOGOUT_SUCCESS:
+        case VERIFY_SUCCESS:
             return {};
         case MessageActions.LIST_MESSAGES_SUCCESS:
             if(action.filter && action.filter.channel == state.id) {

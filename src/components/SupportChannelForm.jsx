@@ -64,7 +64,7 @@ export default class ChannelForm extends React.Component {
                         </div>
                     ):(
                         <div>
-                            <h3 className="title"><i className="fa fa-comments"/> Start a chat</h3>
+                            <h3 className="title"><i className="fa fa-comments"/> Chat with us!</h3>
 
                             {(Channel.detail.error.create && Channel.detail.error.create.name)?
                                 (<FieldError message={Channel.detail.error.create.name}/>):null}
