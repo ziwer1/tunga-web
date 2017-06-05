@@ -176,7 +176,7 @@ export default class IntegrationList extends ComponentWithModal {
 
         return (
             <div className="form-wrapper">
-                <div className="clearfix">
+                {/*<div className="clearfix">
                     <ul className="integration-options">
                         <li>
                             <Link to={`/work/${task.id}/integrations/${SOCIAL_PROVIDERS.github}`}
@@ -195,7 +195,7 @@ export default class IntegrationList extends ComponentWithModal {
                             </Link>
                         </li>
                     </ul>
-                </div>
+                </div>*/}
                 {Task.detail.isRetrieving || Task.detail.integrations.isRetrieving ||
                 github.repos.isFetching || github.issues.isFetching || slack.isRetrieving?
                     (<Progress/>)
@@ -324,7 +324,7 @@ export default class IntegrationList extends ComponentWithModal {
                                         return (
                                             <div key={event.id} className="checkbox">
                                                 <label className="control-label">
-                                                    <input type="checkbox" value={event.id} onChange={this.onEventChange.bind(this)} checked={this.state.events.indexOf(event.id) > -1 || !integration.id}/>
+                                                    <input type="checkbox" value={event.id} onChange={this.onEventChange.bind(this)} checked={this.state.events.indexOf(event.id) > -1}/>
                                                     {event.name}
                                                 </label>
                                             </div>
@@ -334,6 +334,19 @@ export default class IntegrationList extends ComponentWithModal {
 
                                 <div className="text-center">
                                     <button type="submit" className="btn" disabled={Task.detail.integrations.isSaving}>Save Integration</button>
+                                    {provider == SOCIAL_PROVIDERS.slack?(
+                                        <a href={SOCIAL_LOGIN_URLS.slack + `?action=connect&task=${task.id}&next=${window.location.protocol}//${window.location.host}/work/${task.id}/integrations/slack`}
+                                           className="btn slack-connect-button" title="Connect with Slack">
+                                            <i className="fa fa-slack fa-lg"/> Re-connect with Slack
+                                        </a>
+                                    ):null}
+
+                                    {provider == SOCIAL_PROVIDERS.github?(
+                                        <a href={SOCIAL_LOGIN_URLS.github + `?action=connect&task=${task.id}&next=${window.location.protocol}//${window.location.host}/work/${task.id}/integrations/${SOCIAL_PROVIDERS.github}`}
+                                           className="btn github-connect-button" title="Connect with GitHub">
+                                            <i className="fa fa-github-square fa-lg"/> Re-connect with GitHub
+                                        </a>
+                                    ):null}
                                 </div>
                             </form>
                         ):null}
