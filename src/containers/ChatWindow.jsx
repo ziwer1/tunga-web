@@ -97,7 +97,7 @@ class ChatWindow extends React.Component {
     }
 
     saveChannel(channel) {
-        if (!isAuthenticated() && typeof(Storage) !== "undefined" && !channel.created_by) {
+        if (!isAuthenticated() && typeof(Storage) !== "undefined" && channel && !channel.created_by) {
             try {
                 window.localStorage.channel = JSON.stringify(channel);
             } catch (e) {
