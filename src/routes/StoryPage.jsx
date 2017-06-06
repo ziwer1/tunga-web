@@ -1,7 +1,7 @@
 import React from 'react';
-import Helmet from 'react-helmet';
 
 import ShowcaseContainer from '../containers/ShowcaseContainer';
+import MetaTags from "../components/MetaTags";
 
 export default class StoryPage extends React.Component {
 
@@ -17,19 +17,12 @@ export default class StoryPage extends React.Component {
     }
 
     render() {
-        let meta_title = "Tunga | Quality";
+        let meta_title = "Tunga | Our Story";
         let meta_description = "Our quality assurance program";
 
         return (
             <ShowcaseContainer className="our-story-page" headerContent={this.renderHeaderContent()}>
-                <Helmet
-                    title={meta_title}
-                    meta={[
-                        {name: "description",content: meta_description},
-                        {name: "twitter:title", content: meta_title},
-                        {property: "og:title", content: meta_title}
-                    ]}
-                />
+                <MetaTags title={meta_title} description={meta_description}/>
 
                 <div className="content">
                     <section>

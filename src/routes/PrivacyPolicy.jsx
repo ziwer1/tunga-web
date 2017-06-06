@@ -1,8 +1,8 @@
 import React from 'react';
-import Helmet from 'react-helmet';
 
 import ShowcaseContainer from '../containers/ShowcaseContainer';
 import ShowCaseFooter from '../containers/ShowCaseFooter';
+import MetaTags from "../components/MetaTags";
 
 export default class PrivacyPolicy extends React.Component {
 
@@ -152,19 +152,12 @@ export default class PrivacyPolicy extends React.Component {
 
     render() {
         let meta_title = "Tunga | Privacy Policy";
-        let meta_description = "Tunga privacy policy";
+        let meta_description = "This privacy policy is applicable to all our services and the use of our website (https://tunga.io) and all associated products and services available on our website. This policy summarizes Tunga data collection policies and practices on the Tunga Account and our website. This policy does not apply to the practices of companies that Tunga does not own or control, or to people that Tunga does not employ or manage.";
 
         return (
             <ShowcaseContainer className="agreement-page" headerContent={this.renderHeaderContent()}>
-                <Helmet
-                    title={meta_title}
-                    meta={[
-                        {name: "description",content: meta_description},
-                        {name: "twitter:title", content: meta_title},
-                        {property: "og:title", content: meta_title}
-                    ]}
-                />
-                
+                <MetaTags title={meta_title} description={meta_description}/>
+
                 <ShowCaseFooter />
             </ShowcaseContainer>
         );

@@ -1,15 +1,15 @@
 import React from 'react';
 import {Link} from 'react-router';
 import YouTube from 'react-youtube';
-import Helmet from 'react-helmet';
 import Slider from 'react-slick';
 import Reveal from 'react-reveal';
 
 import ShowcaseContainer from '../containers/ShowcaseContainer';
 import ShowCaseFooter from '../containers/ShowCaseFooter';
 import ComponentWithModal from '../components/ComponentWithModal';
+import MetaTags from "../components/MetaTags";
 
-import { showWizard, showCallWidget, openCalendlyWidget } from '../utils/router';
+import { showCallWidget, openCalendlyWidget } from '../utils/router';
 import { TESTIMONIALS } from '../constants/data';
 
 import { sendGAEvent, GA_EVENT_CATEGORIES, GA_EVENT_ACTIONS, GA_EVENT_LABELS } from '../utils/tracking';
@@ -128,7 +128,7 @@ export default class LandingPage extends ComponentWithModal {
                         Software outsourcing done right.
                     </h1>
                     {/*<h3>
-                        flexible access to top African {this.getDLPTag() || 'software'} {dlp_desc?dlp_desc.toLowerCase():'developers'}.
+                        Flexible access to top African {this.getDLPTag() || 'software'} {dlp_desc?dlp_desc.toLowerCase():'developers'}.
                     </h3>*/}
                     <p className="details">
                         <span>Verified skills matching</span>
@@ -160,12 +160,16 @@ export default class LandingPage extends ComponentWithModal {
             ]
         };
 
+        let meta_title = "Tunga | Unlocking Africa's Tech talent potential.";
+        let meta_description = "Software outsourcing done right. Flexible access to top African software developers.";
+
         return (
             <ShowcaseContainer className="landing-page"
                                headerContent={this.renderHeaderContent()}
                                headerVideo={true}
                                chatId={this.props.params?this.props.params.chatId:null}>
-                <Helmet title="Tunga | Unlocking Africa's Tech talent potential."/>
+
+                <MetaTags title={meta_title} description={meta_description}/>
 
                 <section id="how-it-works">
                     <div className="container">

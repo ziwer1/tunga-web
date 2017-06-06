@@ -1,25 +1,23 @@
 import React from 'react';
-import Helmet from 'react-helmet';
 
 import ShowcaseContainer from '../containers/ShowcaseContainer';
+import MetaTags from "../components/MetaTags";
 
 const STEP_DETAILS = [
     {
         title: "1. Soft skills",
         description: "We assess our developers on several \"soft skills\". Such as communication skills, management of expectations, work ethics, stress mangement and Time management. At Tunga we believe that soft skills are as much or more important than development skills",
-        icon: 'tunga-icon-soft-skills',
-        image: require('../images/icons/softskills.png')
+        icon: 'tunga-icon-soft-skills'
     },
     {
         title: "2. Coding skills",
-        description: "When the developer passed our soft skills assesment we thoroughly test their coding skills. We do this in several ways: Checking recent projects, coding tests and Skype interviews. We only select the best developers to go to the next stage of our program.",
+        description: "When the developer has passed our soft skills assessment we thoroughly test their coding skills. We do this in several ways: Checking recent projects, coding tests and Skype interviews. We only select the best developers to go to the next stage of our program.",
         icon: 'tunga-icon-coding-skills'
     },
     {
         title: "3. Learning on the job",
-        description: "When a developer passed all our assessments he or she gets to work on a first project on Tunga. For the first couple of projects the developers work work under the guidance of a senior Tunga developer to ensure great collobaration between you and the developer(s).",
-        //icon: 'tunga-icon-teamwork',
-        image: require('../images/icons/teamwork.png')
+        description: "When a developer passed all our assessments he or she gets to work on a first project on Tunga. For the first couple of projects the developers work under the guidance of a senior Tunga developer to ensure great collaboration between you and the developer(s).",
+        icon: 'tunga-icon-teamwork'
     }
 ];
 
@@ -42,14 +40,7 @@ export default class QualityPage extends React.Component {
 
         return (
             <ShowcaseContainer className="how-it-works-page" headerContent={this.renderHeaderContent()}>
-                <Helmet
-                    title={meta_title}
-                    meta={[
-                        {name: "description",content: meta_description},
-                        {name: "twitter:title", content: meta_title},
-                        {property: "og:title", content: meta_title}
-                    ]}
-                />
+                <MetaTags title={meta_title} description={meta_description}/>
 
                 <section>
                     <div className="container">

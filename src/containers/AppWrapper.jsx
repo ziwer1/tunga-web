@@ -1,10 +1,10 @@
 import React from 'react';
-import Helmet from "react-helmet";
 import Joyride from 'react-joyride';
 
 import NavBar from '../components/NavBar';
 import SideBar from './SideBar';
 import ChatWindow from '../containers/ChatWindow';
+import MetaTags from "../components/MetaTags";
 
 import { isAdmin, isProjectManager, isProjectOwner } from '../utils/auth';
 
@@ -105,18 +105,12 @@ export default class AppWrapper extends React.Component {
             ]
         }
 
+        let meta_title = "Tunga";
+        let meta_description = "Tunga is a market network that allows you to build a flexible team of skilled African software programmers, that you can mobilize on-demand.";
+
         return (
             <div className="app-wrapper dashboard" onClick={this.handleAppClick.bind(this)}>
-                <Helmet
-                    title="Tunga"
-                    meta={[
-                                {
-                                "name": "description",
-                                "content": "Tunga is a market network that allows you to build a flexible team " +
-                                 "of skilled African software programmers, that you can mobilize on-demand."
-                                 }
-                              ]}
-                />
+                <MetaTags title={meta_title} description={meta_description}/>
 
                 <Joyride ref="joyride"
                          steps={steps}

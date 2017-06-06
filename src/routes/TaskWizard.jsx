@@ -1,5 +1,4 @@
 import React from 'react';
-import Helmet from 'react-helmet';
 
 import ShowcaseContainer from '../containers/ShowcaseContainer';
 
@@ -7,6 +6,7 @@ import TaskContainer from '../containers/TaskContainer';
 import TaskDetailContainer from '../containers/TaskDetailContainer';
 import TaskForm from '../components/TaskForm';
 import Avatar from '../components/Avatar';
+import MetaTags from "../components/MetaTags";
 
 import {getClientTestimonials} from '../constants/data';
 import {getEditToken} from '../utils/tasks';
@@ -83,16 +83,11 @@ export default class TaskWizard extends React.Component {
 
     render() {
         let meta_title = "Tunga | Get Started";
+        let meta_description = "Hire top African developers from Tunga!";
 
         return (
             <ShowcaseContainer className="task-wizard-page" headerContent={this.renderHeaderContent()}>
-                <Helmet
-                    title={meta_title}
-                    meta={[
-                        {name: "twitter:title", content: meta_title},
-                        {property: "og:title", content: meta_title}
-                    ]}
-                />
+                <MetaTags title={meta_title} description={meta_description}/>
             </ShowcaseContainer>
         );
     }
