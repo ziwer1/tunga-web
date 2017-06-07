@@ -1714,6 +1714,11 @@ export default class TaskForm extends ComponentWithModal {
                         <Progress/>
                     ):(
                         <div>
+                            {(Task.detail.error.create && Task.detail.error.create.non_field_errors)?
+                                (<FieldError message={Task.detail.error.create.non_field_errors}/>):null}
+                            {(Task.detail.error.update && Task.detail.error.update.non_field_errors)?
+                                (<FieldError message={Task.detail.error.update.non_field_errors}/>):null}
+                            
                             {sections.map((section, idx) => {
                                 if(section.forks && this.state.step == idx+1) {
                                     section.forks.forEach(function (fork) {
