@@ -125,7 +125,7 @@ export default class LandingPage extends ComponentWithModal {
             <div>
                 <div className="head-desc">
                     <h1>
-                        Software outsourcing done right.
+                        Software outsourcing<br/> done right.
                     </h1>
                     {/*<h3>
                         Flexible access to top African {this.getDLPTag() || 'software'} {dlp_desc?dlp_desc.toLowerCase():'developers'}.
