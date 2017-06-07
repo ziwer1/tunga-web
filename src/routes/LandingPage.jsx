@@ -161,7 +161,7 @@ export default class LandingPage extends ComponentWithModal {
         };
 
         let meta_title = "Tunga | Unlocking Africa's Tech talent potential.";
-        let meta_description = "Software outsourcing done right. Flexible access to top African software developers.";
+        let meta_description = "Software outsourcing done right. Flexible access to top African software developers. Verified skills matching. Transcultural quality & communications system. Impact sourcing.";
 
         return (
             <ShowcaseContainer className="landing-page"
