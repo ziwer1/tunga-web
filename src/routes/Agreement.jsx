@@ -1,8 +1,8 @@
 import React from 'react';
-import Helmet from 'react-helmet';
 
 import ShowcaseContainer from '../containers/ShowcaseContainer';
 import ShowCaseFooter from '../containers/ShowCaseFooter';
+import MetaTags from "../components/MetaTags";
 
 export default class Agreement extends React.Component {
 
@@ -188,19 +188,12 @@ export default class Agreement extends React.Component {
 
     render() {
         let meta_title = "Tunga | Terms and Conditions";
-        let meta_description = "Tunga user agreement";
+        let meta_description = "This User Agreement contains the terms & conditions that apply to the usage of the Tunga Website and Services.";
 
         return (
           <ShowcaseContainer className="agreement-page" headerContent={this.renderHeaderContent()}>
 
-              <Helmet
-                  title={meta_title}
-                  meta={[
-                        {name: "description",content: meta_description},
-                        {name: "twitter:title", content: meta_title},
-                        {property: "og:title", content: meta_title}
-                    ]}
-              />
+              <MetaTags title={meta_title} description={meta_description}/>
 
               <ShowCaseFooter />
           </ShowcaseContainer>

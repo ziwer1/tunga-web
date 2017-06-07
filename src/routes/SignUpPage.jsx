@@ -1,5 +1,4 @@
 import React from 'react';
-import Helmet from 'react-helmet';
 
 import connect from '../utils/connectors/AuthConnector';
 
@@ -9,6 +8,7 @@ import Success from '../components/status/Success';
 import FieldError from '../components/status/FieldError';
 import SocialSignIn from '../components/SocialSignIn';
 import ShowcaseContainer from '../containers/ShowcaseContainer';
+import MetaTags from "../components/MetaTags";
 
 import { USER_TYPE_DEVELOPER, USER_TYPE_PROJECT_OWNER } from '../constants/Api';
 
@@ -83,8 +83,6 @@ class SignUp extends React.Component {
 
         return (
             <div>
-                <Helmet title="Tunga | Sign Up" />
-
                 <h2 className="crt-acc-heading">Create your Tunga account{is_applying_developer?' as a developer':''}</h2>
 
                 <div className="auth-form-wrapper">
@@ -193,8 +191,13 @@ class SignUp extends React.Component {
 
     render() {
 
+        let meta_title = "Tunga | Sign Up";
+        let meta_description = "Sign Up to hire skilled African developers ready work on your software project.";
+
         return (
-            <ShowcaseContainer className="auth-page" headerContent={this.renderHeaderContent()}/>
+            <ShowcaseContainer className="auth-page" headerContent={this.renderHeaderContent()}>
+                <MetaTags title={meta_title} description={meta_description}/>
+            </ShowcaseContainer>
         );
     }
 }

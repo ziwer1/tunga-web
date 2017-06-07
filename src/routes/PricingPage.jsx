@@ -2,7 +2,6 @@ import React from 'react';
 import {Link} from 'react-router';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import Helmet from 'react-helmet';
 
 import * as UtilityActions from '../actions/UtilityActions';
 import Success from '../components/status/Success';
@@ -11,6 +10,7 @@ import ShowcaseContainer from '../containers/ShowcaseContainer';
 
 import ComponentWithModal from '../components/ComponentWithModal';
 import LargeModal from '../components/LargeModal';
+import MetaTags from "../components/MetaTags";
 
 import { OFFER_REQUEST_ITEMS, TASK_SCOPE_TASK, TASK_SCOPE_PROJECT } from '../constants/Api';
 import { openCalendlyWidget } from '../utils/router';
@@ -191,17 +191,13 @@ class PricingPage extends ComponentWithModal {
 
     render() {
         let meta_title = "Tunga | Pricing";
-        let meta_description = "Tunga privacy policy";
+        let meta_description = "Tunga offers flexible and affordable pricing. Choose from 3 different plans.";
 
         return (
             <ShowcaseContainer className="pricing-page" headerContent={this.renderHeaderContent()}>
-                <Helmet
-                    title={meta_title}
-                    meta={[
-                        {name: "description",content: meta_description},
-                        {name: "twitter:title", content: meta_title},
-                        {property: "og:title", content: meta_title}
-                    ]}/>
+
+                <MetaTags title={meta_title} description={meta_description}/>
+
                 {this.renderModalContent()}
 
                 <section className="pricing-options">
