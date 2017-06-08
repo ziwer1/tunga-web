@@ -1,22 +1,18 @@
 import React from 'react';
-import Helmet from 'react-helmet';
-
-import ShowcaseContainer from '../containers/ShowcaseContainer';
 
 import TaskContainer from '../containers/TaskContainer';
 import TaskDetailContainer from '../containers/TaskDetailContainer';
 import TaskForm from '../components/TaskForm';
-import Avatar from '../components/Avatar';
+import LandingPage from '../routes/LandingPage';
 
-import {getClientTestimonials} from '../constants/data';
 import {getEditToken} from '../utils/tasks';
 
-export default class TaskWizard extends React.Component {
+export default class TaskWizard extends LandingPage {
 
     constructor(props) {
         super(props);
         this.state = {
-            title: 'Hire the best today!', subtitle: null, step: 1
+            title: 'Hire the best today!', subtitle: null, step: 1, pageClass: 'task-wizard-page lander'
         };
     }
 
@@ -71,7 +67,8 @@ export default class TaskWizard extends React.Component {
                 <div className="col-sm-6 col-md-8">
                     <div className="pitch">
                         <h1>
-                            Software outsourcing done right.
+                            Software outsourcing<br/>
+                            done right.
                         </h1>
                         <h3>
                             Flexible access to top African {this.getDLPTag() || 'software'} {dlp_desc?dlp_desc.toLowerCase():'developers'}.
@@ -103,7 +100,7 @@ export default class TaskWizard extends React.Component {
         );
     }
 
-    render() {
+    /*render() {
         let meta_title = "Tunga | Get Started";
 
         return (
@@ -117,5 +114,5 @@ export default class TaskWizard extends React.Component {
                 />
             </ShowcaseContainer>
         );
-    }
+    }*/
 }

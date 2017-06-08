@@ -38,9 +38,10 @@ const STEP_DETAILS = [
 ];
 
 export default class LandingPage extends ComponentWithModal {
+
     constructor(props) {
         super(props);
-        this.state = {player: null, play: false, step: 0};
+        this.state = {player: null, play: false, step: 0, pageClass: ''};
     }
 
     componentDidMount() {
@@ -162,7 +163,7 @@ export default class LandingPage extends ComponentWithModal {
         let meta_description = "Software outsourcing done right. Flexible access to top African software developers. Verified skills matching. Transcultural quality & communications system. Impact sourcing.";
 
         return (
-            <ShowcaseContainer className="landing-page"
+            <ShowcaseContainer className={`landing-page ${this.state.pageClass}`}
                                headerContent={this.renderHeaderContent()}
                                headerVideo={true}
                                chatId={this.props.params?this.props.params.chatId:null}>
@@ -225,10 +226,9 @@ export default class LandingPage extends ComponentWithModal {
                             <div className="col-md-7">
                                 <YouTube
                                     videoId="RVVtyapBmuo"
-                                    opts={{width: '100%'}}
+                                    opts={{height: '360px'}}
                                     onReady={this.onVideoReady.bind(this)}
-                                    onPause={this.onPauseVideo.bind(this)}
-                                />
+                                    onPause={this.onPauseVideo.bind(this)} />
                             </div>
                         </div>
                     </div>

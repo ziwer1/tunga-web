@@ -44,7 +44,7 @@ class Home extends React.Component {
     render() {
         const {Notification} = this.props;
 
-        var imageNumber = (parseInt(moment().format('E') + moment().format('w')) % 5) + 1;
+        var imageNumber = (parseInt(moment().format('E') + moment().format('w')) % 3) + 1;
 
         let all_steps = [
             {

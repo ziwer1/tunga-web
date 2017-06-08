@@ -62,7 +62,8 @@ export const GA_EVENT_LABELS = {
     CLIENT: 'Client',
     ADMIN: 'Admin',
     ANONYMOUS: 'Anonymous',
-    INTRO_VIDEO: 'Intro Video'
+    INTRO_VIDEO: 'Intro Video',
+    INTRO_VIDEO_STORY: 'Intro Video: Story'
 };
 
 export function getUserTypeTwitter(type) {
