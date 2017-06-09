@@ -27,7 +27,7 @@ export default class ShowcaseContainer extends React.Component {
                                     <span className="sr-only">Toggle navigation</span>
                                     <i className="fa fa-ellipsis-v fa-lg"/>
                                 </button>
-                                <Link className="navbar-brand" to="/"><img src={require('../images/header-logo.png')} /></Link>
+                                <Link className="navbar-brand" to="/"><img src={require('../images/logo.png')} /></Link>
                             </div>
 
                             <div id="navbar" className="collapse navbar-collapse">
