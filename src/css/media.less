@@ -25,17 +25,14 @@
     }
     .showcase.landing-page {
         header {
-            background-image: url("../images/header-bgx@{screen-xs-bp}.jpg");
+            background-image: url("../images/header.jpg?max-width=448");
 
             video {
                 display: none;
             }
         }
-        #watch-our-video {
-            background-image: url("../images/videox@{screen-xs-bp}.jpg");
-        }
         #contact-us {
-            background-image: url("../images/footerx@{screen-xs-bp}.jpg");
+            background-image: url("../images/footer.jpg?max-width=448");
         }
     }
 }
@@ -43,15 +40,14 @@
 /*XTRA SMALL*/
 @media (min-width: 448px) {
     .showcase {
+        header {
+            background-image: url("../images/header.jpg?max-width=768");
+        }
+
         &.landing-page {
 
-            #watch-our-video {
-                background-image: url("../images/videox@{screen-sm-bp}.jpg");
-                min-height: 450px;
-            }
-
             #contact-us {
-                background-image: url("../images/footerx@{screen-sm-bp}.jpg");
+                background-image: url("../images/footer.jpg?max-width=768");
             }
         }
     }
@@ -177,6 +173,8 @@
     .showcase {
 
         header {
+            background-image: url("../images/header.jpg?max-width=992");
+
             .navbar,
             .navbar.navbar-fixed-top {
                 .nav-main {
@@ -270,15 +268,13 @@
                     }
                 }
             }
-            #watch-our-video {
-                background-image: url("../images/videox@{screen-md-bp}.jpg");
-            }
+
             #contact-us {
-                background-image: url("../images/footerx@{screen-md-bp}.jpg");
+                background-image: url("../images/footer.jpg?max-width=992");
             }
         }
 
-        &.how-it-works-page,
+        &.quality-page,
         &.pricing-page {
             .step-slider {
                 ul {
@@ -415,6 +411,8 @@
     .showcase {
 
         header {
+            background-image: url("../images/header.jpg?max-width=1200");
+
             .container {
                 max-width: 670px;
             }
@@ -469,7 +467,7 @@
                 }
             }
             #contact-us {
-                background-image: url("../images/footerx@{screen-lg-bp}.jpg");
+                background-image: url("../images/footer.jpg?max-width=1200");
             }
         }
 
@@ -562,6 +560,8 @@
     .showcase {
 
         header {
+            background-image: url("../images/header.jpg?max-width=1600");
+
             .navbar {
                 .container {
                     max-width: 870px;
@@ -570,6 +570,12 @@
 
             .container {
                 max-width: 870px;
+            }
+        }
+
+        &.landing-page {
+            #contact-us {
+                background-image: url("../images/footer.jpg?max-width=1600");
             }
         }
     }

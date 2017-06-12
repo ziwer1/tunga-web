@@ -38,7 +38,7 @@ export default class QualityPage extends React.Component {
         let meta_description = "Our quality assurance program";
 
         return (
-            <ShowcaseContainer className="how-it-works-page" headerContent={this.renderHeaderContent()}>
+            <ShowcaseContainer className="quality-page" headerContent={this.renderHeaderContent()}>
                 <MetaTags title={meta_title} description={meta_description}/>
 
                 <section>
