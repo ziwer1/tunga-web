@@ -17,7 +17,7 @@ momentLocalizer(moment);
 let defaultState = {
     status: null, accomplished: '', todo: '', obstacles: '', remarks: '',
     last_deadline_met: null, deadline_report: '', next_deadline: null, team_appraisal: '',
-    attachments: [], started_at: null, next_deadline_meet: null, today_to_dos: '',
+    attachments: [], started_at: null, next_deadline_meet: null,
     deadline_miss_communicated: null, deliverable_satisfaction: null,
     pm_communication: null, stuck_details: '', next_deadline_fail_reason:''
 };
@@ -117,7 +117,6 @@ export default class ProgressReportForm extends FormComponent {
         var team_appraisal = this.state.team_appraisal;
         var started_at = this.state.started_at;
         var next_deadline_meet = this.state.next_deadline_meet;
-        var today_to_dos = this.state.today_to_dos;
         var deadline_miss_communicated = this.state.deadline_miss_communicated;
         var deliverable_satisfaction = this.state.deliverable_satisfaction;
         var rate_deliverables = this.state.rate_deliverables;
@@ -134,7 +133,7 @@ export default class ProgressReportForm extends FormComponent {
         const progress_report_info = {
             event: milestone.id, status, percentage, accomplished, todo, obstacles, remarks,
             last_deadline_met, deadline_report, next_deadline, team_appraisal, started_at, next_deadline_meet,
-            today_to_dos, deadline_miss_communicated, deliverable_satisfaction,
+            deadline_miss_communicated, deliverable_satisfaction,
             pm_communication, stuck_details, next_deadline_fail_reason, stuck_reason,
             rate_deliverables
         };

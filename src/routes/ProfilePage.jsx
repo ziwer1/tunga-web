@@ -20,7 +20,8 @@ export default class ProfilePage extends React.Component {
                             [
                                 <li role="presentation"><Link to="/profile/stack" activeClassName="active">Experience</Link></li>,
                                 <li role="presentation"><Link to="/profile/id-document" activeClassName="active">ID Document</Link></li>,
-                                <li role="presentation"><Link to="/profile/payment" activeClassName="active">Payment</Link></li>
+                                <li role="presentation"><Link to="/profile/payment" activeClassName="active">Payment</Link></li>,
+                                <li role="presentation"><Link to="/profile/tax" activeClassName="active">Tax</Link></li>
                             ]
                         ):(
                             <li role="presentation"><Link to="/profile/company" activeClassName="active">Company Profile</Link></li>
