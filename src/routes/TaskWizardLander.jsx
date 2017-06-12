@@ -75,8 +75,9 @@ export default class TaskWizard extends LandingPage {
                         </h3>
                         <p className="details">
                             <div><i className="fa fa-circle"/> Verified skills matching</div>
-                            <div><i className="fa fa-circle"/> Transcultural quality & communications system</div>
+                            <div><i className="fa fa-circle"/> Easy communication</div>
                             <div><i className="fa fa-circle"/> Impact sourcing</div>
+                            <div><i className="fa fa-circle"/> Quality monitoring</div>
                         </p>
                     </div>
                 </div>
@@ -99,20 +100,4 @@ export default class TaskWizard extends LandingPage {
             </div>
         );
     }
-
-    /*render() {
-        let meta_title = "Tunga | Get Started";
-
-        return (
-            <ShowcaseContainer className="task-wizard-page lander" headerContent={this.renderHeaderContent()}>
-                <Helmet
-                    title={meta_title}
-                    meta={[
-                        {name: "twitter:title", content: meta_title},
-                        {property: "og:title", content: meta_title}
-                    ]}
-                />
-            </ShowcaseContainer>
-        );
-    }*/
 }

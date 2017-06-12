@@ -133,8 +133,9 @@ export default class LandingPage extends ComponentWithModal {
                     </h3>*/}
                     <p className="details">
                         <div><i className="fa fa-circle"/> Verified skills matching</div>
-                        <div><i className="fa fa-circle"/> Transcultural quality & communications system</div>
+                        <div><i className="fa fa-circle"/> Easy communication</div>
                         <div><i className="fa fa-circle"/> Impact sourcing</div>
+                        <div><i className="fa fa-circle"/> Quality monitoring</div>
                     </p>
                     <div>
                         <Link to="/start/"
@@ -159,8 +160,8 @@ export default class LandingPage extends ComponentWithModal {
             ]
         };
 
-        let meta_title = "Tunga | Unlocking Africa's Tech talent potential.";
-        let meta_description = "Software outsourcing done right. Flexible access to top African software developers. Verified skills matching. Transcultural quality & communications system. Impact sourcing.";
+        let meta_title = "Tunga | Software outsourcing done right";
+        let meta_description = "Software outsourcing done right. Flexible access to top African software developers. Verified skills matching. Easy communication. Impact sourcing. Quality monitoring.";
 
         return (
             <ShowcaseContainer className={`landing-page ${this.state.pageClass}`}
@@ -217,7 +218,7 @@ export default class LandingPage extends ComponentWithModal {
 
                                     <div className="step">
                                         <Reveal effect="animated fadeIn" onReveal={this.onRevealNumber.bind(this, "platform-code")}>
-                                            <div className="highlight" id="platform-code">349281</div>
+                                            <div className="highlight" id="platform-code">698562</div>
                                             <div>lines of code written</div>
                                         </Reveal>
                                     </div>

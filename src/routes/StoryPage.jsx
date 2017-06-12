@@ -137,7 +137,7 @@ export default class StoryPage extends React.Component {
 
                     <section>
                         <div className="container">
-                            <div className="section-heading text-center">Our Solution: Link African Software Developers to International Teams and Projects</div>
+                            <div className="section-heading text-center">Our Solution: Link African Software Developers<br/> to International Teams and Projects</div>
                             <p>
                                 We believe in the power of business to transform society.
                                 And probably the most attractive area for creating high skilled jobs and skills development for disadvantaged youths is software development.

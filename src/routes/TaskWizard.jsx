@@ -16,13 +16,13 @@ export default class TaskWizard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            title: 'Hire top African developers from Tunga!', subtitle: null, step: 1
+            title: 'Hire top African developers!', subtitle: null, step: 1
         };
     }
 
     onStepChange(step, idx, all_steps) {
         this.setState({
-            title: step && step.title?step.title:'Hire top African developers from Tunga!',
+            title: step && step.title?step.title:'Hire top African developers!',
             subtitle: step && step.subtitle?step.subtitle:null,
             step: idx?idx+1:-1
         });
@@ -83,7 +83,7 @@ export default class TaskWizard extends React.Component {
 
     render() {
         let meta_title = "Tunga | Get Started";
-        let meta_description = "Hire top African developers from Tunga!";
+        let meta_description = "Hire top African developers!";
 
         return (
             <ShowcaseContainer className="task-wizard-page" headerContent={this.renderHeaderContent()}>

@@ -1663,7 +1663,7 @@ export default class TaskForm extends ComponentWithModal {
 
             sections = [
                 {
-                    title: "Hire top African developers from Tunga!",
+                    title: "Hire top African developers!",
                     items: [personalComp, emailComp, skypeComp],
                     requires: ['first_name', 'last_name', 'email'],
                     action: 'Get started'
@@ -1718,7 +1718,7 @@ export default class TaskForm extends ComponentWithModal {
                                 (<FieldError message={Task.detail.error.create.non_field_errors}/>):null}
                             {(Task.detail.error.update && Task.detail.error.update.non_field_errors)?
                                 (<FieldError message={Task.detail.error.update.non_field_errors}/>):null}
-                            
+
                             {sections.map((section, idx) => {
                                 if(section.forks && this.state.step == idx+1) {
                                     section.forks.forEach(function (fork) {

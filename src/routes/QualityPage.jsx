@@ -27,8 +27,7 @@ export default class QualityPage extends React.Component {
         return (
             <div>
                 <h1>
-                    Our quality assurance<br/>
-                    program
+                    Our quality assurance program
                 </h1>
             </div>
         );

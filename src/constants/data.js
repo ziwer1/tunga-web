@@ -5,13 +5,13 @@ export const TESTIMONIALS = [
         image: require("../images/testimonials/luuk.jpg"),
         message: "Within a minimum amount of time, we arranged that our platform - customized to the company's needs - could be build within a month. Outsourcing development has never been this easy."
     },
-    {
+    /*{
         name: 'Angella',
         company: 'Ugandan Developer',
         image: require("../images/testimonials/angella.jpg"),
         message: "As a developer, Tunga allows me to work on interesting projects from around the globe, and build great working relationships with clients using tools like Slack",
         is_developer: true
-    },
+    },*/
     {
         name: 'Michiel',
         company: 'Gaspedaal',

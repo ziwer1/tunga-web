@@ -182,9 +182,8 @@ class PricingPage extends ComponentWithModal {
         return (
             <div>
                 <h1>
-                    Flexible and affordable.
+                    Flexible and affordable
                 </h1>
-                <h2>Choose from 3 different plans.</h2>
             </div>
         );
     }
