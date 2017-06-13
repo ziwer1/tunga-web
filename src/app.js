@@ -74,6 +74,7 @@ import Profile from 'components/Profile';
 import Stack from 'components/Stack';
 import CompanyProfile from 'components/CompanyProfile';
 import PaymentMethod from 'components/PaymentMethod';
+import TaxInfo from 'components/TaxInfo';
 import Account from 'components/Account';
 import IDDocument from 'components/IDDocument';
 import ProfilePicture from 'components/ProfilePicture';
@@ -153,6 +154,7 @@ ReactDOM.render(
                             <Route path="company" component={CompanyProfile} />
                             <Route path="payment" component={PaymentMethod} />
                             <Route path="payment/:provider" component={PaymentMethod} />
+                            <Route path="tax" component={TaxInfo} />
                             <Route path="account" component={Account} />
                             <Route path="id-document" component={IDDocument} />
                             <Route path="photo" component={ProfilePicture} />
