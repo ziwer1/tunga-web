@@ -285,7 +285,7 @@ export default class TaskWorflow extends ComponentWithModal {
         let is_confirmed_assignee = task.assignee && task.assignee.status == STATUS_ACCEPTED && task.assignee.user.id == getUser().id;
 
         let workflow_link = `/work/${task.id}/?nr=true`;
-        let can_pay = task.is_payable && is_admin_or_owner && task.closed && !task.paid;
+        let can_pay = is_admin_or_owner && task.closed && !task.paid;
         let can_rate = is_admin_or_owner && task.closed && task.paid;
         let can_edit_shares = isAdmin() || is_confirmed_assignee && task.details && task.details.participation_shares.length > 1;
         let work_type = task.is_project?'project':'task';

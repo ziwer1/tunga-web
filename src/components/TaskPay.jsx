@@ -8,14 +8,14 @@ import Error from './status/Error';
 
 import { TASK_PAYMENT_METHOD_CHOICES, TASK_PAYMENT_METHOD_BITONIC, TASK_PAYMENT_METHOD_BITCOIN, TASK_PAYMENT_METHOD_BANK, TASK_PAYMENT_METHOD_STRIPE, ENDPOINT_TASK } from '../constants/Api';
 import { objectToQueryString } from '../utils/html';
-import { getUser } from '../utils/auth';
+import { getUser, isAdmin } from '../utils/auth';
 import { parseNumber } from '../utils/helpers';
 
 export default class TaskPay extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {pay_method: null, pay_details: null, showForm: true};
+        this.state = {pay_method: null, pay_details: null, showForm: true, withhold_tunga_fee: false};
     }
 
     componentDidMount() {
@@ -70,7 +70,7 @@ export default class TaskPay extends React.Component {
         let stripe_options = {
             token: token.id,
             email: token.email,
-            amount: parseInt(this.getTotalAmount()*100),
+            amount: parseInt(this.getActualAmount()*100),
             description: task.summary,
             task_id: task.id,
             invoice_id: invoice.id,
@@ -79,14 +79,19 @@ export default class TaskPay extends React.Component {
         TaskActions.makeTaskPayment(task.id, 'stripe', stripe_options);
     }
 
+    onWithHoldFeeChange() {
+        this.setState({withhold_tunga_fee: !this.state.withhold_tunga_fee});
+    }
+
     handleSubmit(e) {
         e.preventDefault();
         var fee = this.refs.fee.value.trim();
         var payment_method = this.state.pay_method;
+        var withhold_tunga_fee = this.state.withhold_tunga_fee;
 
         const { Task, TaskActions } = this.props;
         const { task } =  Task.detail;
-        TaskActions.createTaskInvoice(task.id, {fee, payment_method});
+        TaskActions.createTaskInvoice(task.id, {fee, payment_method, withhold_tunga_fee});
     }
 
     getBitonicPaymentUrl() {
@@ -116,6 +121,18 @@ export default class TaskPay extends React.Component {
         }
     }
 
+    getActualAmount() {
+        const {task, Task, TaskActions} = this.props;
+        const { invoice } =  Task.detail.Invoice;
+
+        let amount = this.getTotalAmount();
+
+        if (task.withhold_tunga_fee) {
+            return amount*(1 - task.tunga_ratio_dev);
+        }
+        return amount;
+    }
+
     render() {
         const { task, Task } = this.props;
         const { invoice } =  Task.detail.Invoice;
@@ -123,7 +140,7 @@ export default class TaskPay extends React.Component {
         var btc_amount = null;
         var btc_address = null;
         if(invoice) {
-            btc_amount = parseFloat(invoice.fee/invoice.btc_price).toFixed(6);
+            btc_amount = parseFloat(this.getActualAmount()/invoice.btc_price).toFixed(6);
             btc_address = `bitcoin:${invoice.btc_address}?amount=${btc_amount}&message=${encodeURIComponent(task.summary)}`;
         }
 
@@ -152,6 +169,23 @@ export default class TaskPay extends React.Component {
                                                 placeholder="Fee in €"
                                                 defaultValue={parseNumber(task.pay, false)}/></div>
                                 </div>
+
+                                {(Task.detail.Invoice.error.create && Task.detail.Invoice.error.create.withhold_tunga_fee)?
+                                    (<FieldError message={Task.detail.Invoice.error.create.withhold_tunga_fee}/>):null}
+
+                                {isAdmin()?(
+                                    <div className="form-group">
+                                        <div className="checkbox">
+                                            <label className="control-label">
+                                                <input type="checkbox" ref="withhold_tunga_fee"
+                                                       checked={this.state.withhold_tunga_fee}
+                                                       onChange={this.onWithHoldFeeChange.bind(this)}/>
+                                                Withhold Tunga fee/ Only pay participant fees.
+                                            </label>
+                                        </div>
+                                        <div className="alert alert-info">Use the full {task.is_task?'task':'project'} fee even when this option is enabled.</div>
+                                    </div>
+                                ):null}
 
                                 {(Task.detail.Invoice.error.create && Task.detail.Invoice.error.create.payment_method)?
                                     (<FieldError message={Task.detail.Invoice.error.create.payment_method}/>):null}
@@ -218,12 +252,13 @@ export default class TaskPay extends React.Component {
                                             <tr>
                                                 <th>Total: </th><th>&euro; {parseNumber(this.getTotalAmount())}</th>
                                             </tr>
+                                            {task.withhold_tunga_fee && isAdmin()?(
+                                                <tr>
+                                                    <th>Actual Payment (Minus Tunga Fee): </th><th>&euro; {parseNumber(this.getActualAmount())}</th>
+                                                </tr>
+                                            ):null}
                                             </tbody>
                                         </table>
-                                        <h4> </h4>
-                                        <h4> </h4>
-                                        <h4> </h4>
-                                        <h4> </h4>
 
 
                                         {invoice.payment_method == TASK_PAYMENT_METHOD_BITCOIN?(
@@ -262,7 +297,7 @@ export default class TaskPay extends React.Component {
                                                 image="https://tunga.io/icons/tunga_square.png"
                                                 ComponentClass="span"
                                                 panelLabel="Make Payment"
-                                                amount={this.getTotalAmount()*100}
+                                                amount={this.getActualAmount()*100}
                                                 currency="EUR"
                                                 stripeKey={__STRIPE_KEY__}
                                                 locale="en"
