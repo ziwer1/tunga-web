@@ -148,7 +148,7 @@ class PricingPage extends ComponentWithModal {
                                         <div>
                                             <p>Browse and connect with developers</p>
                                             <p>Hourly fee</p>
-                                            <p>Response Time</p>
+                                            <p>Response time</p>
                                             <p>Workload</p>
                                             <p>Verified skills guarantee</p>
                                             <p>Progress tracking</p>
