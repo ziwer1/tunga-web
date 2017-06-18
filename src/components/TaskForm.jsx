@@ -55,7 +55,8 @@ export default class TaskForm extends ComponentWithModal {
             has_requirements: null, pm_required: null, billing_method: null, stack_description: '', deliverables: '',
             skype_id: '', contact_required: null, has_more_info: null, overrideErrors: false, pm: null,
             schedule_call: {day: null, from: null, to: null}, ...props.options, autoSave: false,
-            lastFunnelUrl: null, lastAcquisitionUrl: null, analytics_id: props.analyticsId || randomstring.generate()
+            lastFunnelUrl: null, lastAcquisitionUrl: null, analytics_id: props.analyticsId || randomstring.generate(),
+            call_required: null
         };
     }
 
@@ -68,16 +69,20 @@ export default class TaskForm extends ComponentWithModal {
     componentDidUpdate(prevProps, prevState) {
 
         const task = this.props.task || {};
-        const { project, urlPrefix } = this.props;
+        const { project, urlPrefix, phase } = this.props;
         const { router } = this.context;
 
         var new_state = {};
 
-        if(!isAuthenticated() && this.props.taskId && !prevProps.taskId) {
+        if(this.props.phase != prevProps.phase && ['schedule', 'speed-up'].indexOf(this.props.phase) > -1) {
+            new_state.step = 1;
+        }
+
+        if(!isAuthenticated() && (this.props.taskId && !prevProps.taskId)) {
             this.reportFunnelUrl(this.getStepUrl(false, true));
-            if(this.state.step < 1) {
-                new_state.step = 3;
-            }
+            /*if(this.state.step < 1) {
+                new_state.step = 1;
+            }*/
         }
 
         if(task.id && (!prevProps.task || task.id != prevProps.task.id)) {
@@ -97,10 +102,10 @@ export default class TaskForm extends ComponentWithModal {
                 user = {first_name: task.user.first_name, last_name: task.user.last_name, email: task.user.email};
             }
 
-            let step = this.state.step;
-            if(this.props.editToken) {
-                step = 3;
-            }
+            //let step = 1; // this.state.step;
+            /*if(this.props.editToken) {
+                step = 1;
+            }*/
 
             new_state = {
                 ...new_state,
@@ -112,8 +117,8 @@ export default class TaskForm extends ComponentWithModal {
                     return skill.name;
                 }):[],
                 milestones: task.progress_events,
-                ...user,
-                step
+                ...user//,
+                //step
             };
         }
 
@@ -130,7 +135,7 @@ export default class TaskForm extends ComponentWithModal {
 
             if(!isAuthenticated()) {
                 if(this.state.autoSave) {
-                    router.replace(`/${urlPrefix}/finish/${Task.detail.task.id}`);
+                    router.replace(`/${urlPrefix}/schedule/${Task.detail.task.id}`);
                 } else {
                     if(this.props.onStepChange) {
                         this.props.onStepChange({
@@ -169,7 +174,12 @@ export default class TaskForm extends ComponentWithModal {
             this.saveTask();
         }
 
-        var path_change = ['step', 'type', 'scope', 'contact_required', 'pm_required', 'has_more_info'].map((key) => {
+        if(this.state.call_required != prevState.call_required && typeof this.state.call_required === 'boolean' && !this.state.call_required) {
+            console.log('Got here');
+            this.saveTask();
+        }
+
+        var path_change = ['step', 'type', 'scope', 'contact_required', 'pm_required', 'has_more_info'/*, 'call_required'*/].map((key) => {
             return this.state[key] != prevState[key];
         });
 
@@ -206,7 +216,7 @@ export default class TaskForm extends ComponentWithModal {
 
     getStepUrl(complete=false, start=false, virtual=true) {
 
-        const {task, taskId, editToken, urlPrefix} = this.props;
+        const {task, taskId, editToken, urlPrefix, phase} = this.props;
 
         var suffix = '';
         if(!start) {
@@ -229,6 +239,10 @@ export default class TaskForm extends ComponentWithModal {
                 suffix = '/pm/' + (this.state.pm_required?'yes':'no') + suffix;
             }
 
+            if(typeof this.state.call_required == 'boolean' && this.canShowFork('call_required', complete)) {
+                suffix = '/call/' + (this.state.call_required?'yes':'no') + suffix;
+            }
+
             const scope_url = getScopeUrl(this.state.scope);
             if(scope_url && this.canShowFork('scope', complete)) {
                 suffix = '/scope/' + scope_url + suffix;
@@ -240,7 +254,7 @@ export default class TaskForm extends ComponentWithModal {
             }
         }
 
-        let path = (isAuthenticated()?'/work/new':`/${urlPrefix}${taskId?(`${virtual?'-':'/'}finish/${taskId}`):''}`) + suffix;
+        let path = (isAuthenticated()?'/work/new':`/${urlPrefix}${taskId?(`${virtual?'-':'/'}${phase?`${phase}/`:''}${taskId}`):''}`) + suffix;
         if (virtual) {
             return window.location.protocol + '//' + window.location.hostname + (window.location.port?`:${window.location.port}`:'') + `/track/${this.state.analytics_id}` + path;
         }
@@ -449,6 +463,15 @@ export default class TaskForm extends ComponentWithModal {
             shouldChangeStep = true;
         }
 
+        if(key == 'call_required') {
+            if(value) {
+                shouldChangeStep = true;
+            } else {
+                new_state.autoSave = false;
+                shouldChangeStep = false;
+            }
+        }
+
         if(shouldChangeStep) {
             this.changeStep();
         }
@@ -569,14 +592,22 @@ export default class TaskForm extends ComponentWithModal {
     }
 
     render() {
-        const { Task, project, enabledWidgets, options, showSectionHeader } = this.props;
+        const { Task, project, enabledWidgets, options, showSectionHeader, urlPrefix, phase } = this.props;
         const task = this.props.task || {};
 
-        if(!isAuthenticated() && Task.detail.isSaved && !this.state.autoSave || /\/(start|welcome)\/finish\/.*\/complete$/.test(window.location.href)) {
+        if(!isAuthenticated() && Task.detail.isSaved && !this.state.autoSave || /\/(start|welcome)\/(finish|schedule|speed-up)\/.*\/complete$/.test(window.location.href)) {
             return (
-                <div className="thank-you">
-                    One of our project hackers will reach out to you ASAP!<br/>
-                    <i className="fa fa-check-circle"/>
+                <div>
+                    <div className="thank-you">
+                        We will reach out to you shortly!<br/>
+                        <i className="fa fa-check-circle"/>
+                        {phase != 'speed-up'?(
+                            <div className="next-action">
+                                <span>Do you want to speed up the process by providing more details about your project? </span>
+                                <Link to={`/${urlPrefix}/speed-up/${Task.detail.task.id}`} className="btn">Speed up process</Link>
+                            </div>
+                        ):null}
+                    </div>
                 </div>
             );
         }
@@ -1165,13 +1196,13 @@ export default class TaskForm extends ComponentWithModal {
                 {(Task.detail.error.update && Task.detail.error.update.skype_id)?
                     (<FieldError message={Task.detail.error.update.skype_id}/>):null}
                 <div className="form-group">
-                    <label className="control-label">Skype ID</label>
+                    <label className="control-label">Skype ID {phase == 'schedule'?' or Call URL':''}</label>
                     <div className="row">
                         <div className="col-md-12">
                             <div>
                                 <input type="text"
                                        className="form-control"
-                                       ref="skype_id" placeholder="Your Skype ID"
+                                       ref="skype_id" placeholder={`Your Skype ID ${phase == 'schedule'?' or Call URL':''}`}
                                        value={this.state.skype_id}
                                        onChange={this.onInputChange.bind(this, 'skype_id')}/>
                             </div>
@@ -1247,50 +1278,53 @@ export default class TaskForm extends ComponentWithModal {
             </div>
         );
 
-        if(!isAuthenticated()) {
-            hasMoreInfoComp = (
-                <div>
-                    {(Task.detail.error.create && Task.detail.error.create.has_more_info)?
-                        (<FieldError message={Task.detail.error.create.has_more_info}/>):null}
-                    {(Task.detail.error.update && Task.detail.error.update.has_more_info)?
-                        (<FieldError message={Task.detail.error.update.has_more_info}/>):null}
-                    <div className="form-group">
-                        <div className="call-highlight">
-                            <div className="text-center">
-                                <i className="icon tunga-icon-headphone"/><br/>
-                                <div>
-                                    {skypeComp}
-                                </div>
-                            </div>
-                        </div>
-                        {/*<div className="text-center">
-                            In a hurry? Schedule a call<br/>
-                            Have some time? Provide more info to speed up the process!
-                        </div>*/}
-                        <div>
-                            <div className="btn-choices choice-fork medium" role="group">
+        let emailOrScheduleComp = (
+            <div>
+                {(Task.detail.error.create && Task.detail.error.create.call_required)?
+                    (<FieldError message={Task.detail.error.create.call_required}/>):null}
+                {(Task.detail.error.update && Task.detail.error.update.call_required)?
+                    (<FieldError message={Task.detail.error.update.call_required}/>):null}
+                <div className="form-group">
+                    <div className="text-center">Please select your preference</div>
+                    <div>
+                        <div className="task-complete-choices" role="group">
+                            <div className="wrapper">
                                 {[
-                                    {id: false, name: 'Schedule call', icon: 'tunga-icon-schedule', helpText: 'In a hurry?'},
-                                    {id: true, name: 'Speed up process', icon: 'tunga-icon-rocket', helpText: 'Have some time?'}
+                                    {id: false, name: `Reach out to me on ${this.state.email}`, icon: 'fa fa-envelope-o'},
+                                    {id: true, name: 'Schedule a call with us', icon: 'fa fa-phone'}
                                 ].map(info_options => {
                                     return (
-                                    <div className="choice">
-                                        <div className="help-text">{info_options.helpText}</div>
-                                        <button key={info_options.id} type="button" style={{ minWidth: '0px'}}
+                                        <button key={info_options.id} type="button"
                                                 className={"btn" + (this.state.has_more_info == info_options.id?' active':'')}
-                                                onClick={this.onStateValueChange.bind(this, 'has_more_info', info_options.id)}>
-                                            <i className={`icon ${info_options.icon}`}/>
+                                                onClick={this.onStateValueChange.bind(this, 'call_required', info_options.id)}>
+                                            <i className={`icon ${info_options.icon}`}/> { info_options.name }
                                         </button>
-                                        <div dangerouslySetInnerHTML={{__html: info_options.name}}/>
-                                    </div>
                                     )
                                 })}
                             </div>
                         </div>
                     </div>
                 </div>
-            );
-        }
+            </div>
+        );
+
+        let scheduleCallMethodComp = (
+            <div>
+                {(Task.detail.error.create && Task.detail.error.create.skype_id)?
+                    (<FieldError message={Task.detail.error.create.skype_id}/>):null}
+                {(Task.detail.error.update && Task.detail.error.update.skype_id)?
+                    (<FieldError message={Task.detail.error.update.skype_id}/>):null}
+                <div className="form-group">
+                    <div className="call-highlight">
+                        <div className="text-center">
+                            <i className="icon tunga-icon-headphone"/>
+
+                            {skypeComp}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
 
         let scheduleCallComp = (
             <div>
@@ -1601,20 +1635,36 @@ export default class TaskForm extends ComponentWithModal {
         } else {
             sections = [];
 
-            if(!canShowAll) {
-                sections = [
-                    ...sections,
-                    {
-                        title: "Let's launch your project",
-                        subtitle: "One of our project hackers will reach out to you soon",
-                        items: [hasMoreInfoComp],
-                        required: true,
-                        forks: ['has_more_info']
-                    }
-                ];
-            }
+            if(phase == 'schedule') {
+                if(!canShowAll) {
+                    sections = [
+                        ...sections,
+                        {
+                            title: "Let's launch your project",
+                            subtitle: "One of our project hackers will reach out to you soon",
+                            items: [emailOrScheduleComp],
+                            required: true,
+                            forks: ['call_required']
+                        }
+                    ];
+                }
 
-            if(this.state.has_more_info) {
+                if(this.state.call_required) {
+                    sections = [
+                        ...sections,
+                        {
+                            title: 'Schedule a call with us',
+                            items: [scheduleCallMethodComp],
+                            requires: ['skype_id']
+                        },
+                        {
+                            title: 'Schedule Call',
+                            items: [scheduleCallComp],
+                            required: true
+                        }
+                    ];
+                }
+            } else if(phase == 'speed-up') {
                 sections = [
                     ...sections,
                     {
@@ -1634,49 +1684,40 @@ export default class TaskForm extends ComponentWithModal {
                         items:  [feeComp, deadlineComp]
                     }
                 ];
-            }
+            } else {
+                if(!canShowAll) {
 
-            sections = [
-                ...sections,
-                {
-                    title: 'Schedule Call',
-                    items: [scheduleCallComp],
-                    required: true
+                    if(!options || !options.type) {
+                        sections = [
+                            {
+                                title: 'What kind of work do you have?',
+                                items: [taskTypeComp],
+                                required: true,
+                                forks: ['type'],
+                                save: true
+                            },
+                            ...sections
+                        ];
+                    }
                 }
-            ];
 
-            if(!canShowAll) {
-
-                if(!options || !options.type) {
-                    sections = [
-                        {
-                            title: 'What kind of work do you have?',
-                            items: [taskTypeComp],
-                            required: true,
-                            forks: ['type'],
-                            save: true
-                        },
-                        ...sections
-                    ];
-                }
+                sections = [
+                    {
+                        title: "Hire top African developers!",
+                        items: [personalComp, emailComp, skypeComp],
+                        requires: ['first_name', 'last_name', 'email'],
+                        action: 'Get started'
+                    },
+                    ...sections
+                ];
             }
-
-            sections = [
-                {
-                    title: "Hire top African developers!",
-                    items: [personalComp, emailComp, skypeComp],
-                    requires: ['first_name', 'last_name', 'email'],
-                    action: 'Get started'
-                },
-                ...sections
-            ];
         }
 
         let current_section = sections[this.state.step-1];
 
         let showPrev = this.state.step > 1 && !canShowAll;
         let showNext = this.state.step < sections.length && (current_section && !current_section.required && !canShowAll);
-        let showSubmit = this.state.step == sections.length || canShowAll;
+        let showSubmit = (this.state.step == sections.length && (isAuthenticated() || (phase == 'speed-up') || this.state.call_required)) || canShowAll;
 
         return (
             <div className="form-wrapper task-form">
@@ -1688,7 +1729,7 @@ export default class TaskForm extends ComponentWithModal {
                 {showSectionHeader && current_section && current_section.title && !canShowAll?(
                     <div className="section-title clearfix">
                         <h4 className="pull-left"
-                            id={`task-wizard-title-step-${this.canShowFork('type')?getTaskTypeUrl(this.state.type):''}-${this.canShowFork('scope')?getScopeUrl(this.state.scope):''}-${typeof this.state.pm_required == 'boolean' && this.canShowFork('pm_required')?(this.state.pm_required?'pm':'nopm'):''}-${this.state.step}`}>{current_section.title}</h4>
+                            id={`task-wizard-title-step-${this.canShowFork('type')?getTaskTypeUrl(this.state.type):''}-${this.canShowFork('scope')?getScopeUrl(this.state.scope):''}-${typeof this.state.pm_required == 'boolean' && this.canShowFork('call_required')?(this.state.call_required?'call':'nocall'):''}-${typeof this.state.pm_required == 'boolean' && this.canShowFork('pm_required')?(this.state.pm_required?'pm':'nopm'):''}-${this.state.step}`}>{current_section.title}</h4>
                         <div className="slider pull-right">
                             {sections.map((section, idx) => {
                                 return (
@@ -1787,7 +1828,8 @@ TaskForm.propTypes = {
     enabledWidgets: React.PropTypes.array,
     options: React.PropTypes.object,
     showSectionHeader: React.PropTypes.bool,
-    urlPrefix: React.PropTypes.string
+    urlPrefix: React.PropTypes.string,
+    phase: React.PropTypes.string
 };
 
 TaskForm.defaultProps = {
@@ -1797,7 +1839,8 @@ TaskForm.defaultProps = {
     enabledWidgets: [],
     options: null,
     showSectionHeader: true,
-    urlPrefix: 'start'
+    urlPrefix: 'start',
+    phase: ''
 };
 
 TaskForm.contextTypes = {

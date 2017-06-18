@@ -29,8 +29,15 @@ export default class TaskWizard extends React.Component {
     }
 
     getTaskId() {
-        if(this.props.params) {
+        if(this.props.params && ['schedule', 'speed-up'].indexOf(this.getPhase()) > -1) {
             return this.props.params.taskId;
+        }
+        return null;
+    }
+
+    getPhase() {
+        if(this.props.params) {
+            return this.props.params.phase;
         }
         return null;
     }
@@ -39,8 +46,13 @@ export default class TaskWizard extends React.Component {
         var testimonials = getClientTestimonials(2);
         const {options} = this.props;
 
+        let phase = this.getPhase();
+        if(['schedule', 'speed-up'].indexOf(phase) == -1) {
+            phase = '';
+        }
+
         return (
-            <div className={`task-wizard ${this.state.step == 1?'show-trust':''}`}>
+            <div className={`task-wizard ${this.state.step == 1 && !this.getTaskId()?'show-trust':''}`}>
                 <div className="title-bar">
                     <i className="icon tunga-icon-post-task"/>
                     <div className="heading-3 text-center">{this.state.title}</div>
@@ -49,7 +61,7 @@ export default class TaskWizard extends React.Component {
                 <div className="task-section">
                     <TaskContainer>
                         <TaskDetailContainer taskId={this.getTaskId()} editToken={getEditToken()}>
-                            <TaskForm showSectionHeader={false} options={options} onStepChange={this.onStepChange.bind(this)}/>
+                            <TaskForm showSectionHeader={false} options={options} onStepChange={this.onStepChange.bind(this)} phase={phase}/>
                         </TaskDetailContainer>
                     </TaskContainer>
                 </div>

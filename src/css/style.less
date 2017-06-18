@@ -1673,6 +1673,44 @@ form[name='compose'] {
     }
 }
 
+.task-complete-choices {
+    text-align: center;
+    margin-top: 10px;
+
+    .wrapper {
+        display: inline-block;
+
+        .btn {
+            display: block;
+            color: @primary-text;
+            background: @inactive-grey none;
+            border-color: @inactive-grey;
+            outline-width: 0;
+            text-align: left;
+            text-shadow: none;
+            padding: 10px 20px;
+            width: 100%;
+            margin: 5px;
+
+            .icon {
+                padding-top: 5px;
+                margin-right: 20px;
+                width: 25px;
+                text-align: center;
+            }
+        }
+
+        .btn:hover {
+            border-color: @primary;
+        }
+
+        .btn.active {
+            border-color: @primary;
+            outline-width: 0;
+        }
+    }
+}
+
 .message {
     margin: 5px 0;
     width: 75%;
@@ -3594,6 +3632,11 @@ form[name='compose'] {
     .fa {
         color: @green;
         .font-size(9);
+        padding-top: 30px;
+    }
+
+    .next-action {
+        margin-top: 50px;
     }
 }
 
@@ -3703,6 +3746,8 @@ form[name='compose'] {
 
             .form-group {
                 display: inline-block;
+                min-width: 300px;
+                margin: 0 auto;
             }
         }
 

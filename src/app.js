@@ -106,14 +106,14 @@ ReactDOM.render(
                     {/* No Auth Pages */}
                     <Route path="start">
                         <IndexRoute component={TaskWizard}/>
-                        <Route path="finish/:taskId" component={TaskWizard}/>
-                        <Route path="finish/:taskId/*" component={TaskWizard}/>
+                        <Route path=":phase/:taskId" component={TaskWizard}/>
+                        <Route path=":phase/:taskId/*" component={TaskWizard}/>
                         <Route path ="*" component={TaskWizard}/>
                     </Route>
                     <Route path="welcome">
                         <IndexRoute component={TaskWizardLander}/>
-                        <Route path="finish/:taskId" component={TaskWizardLander}/>
-                        <Route path="finish/:taskId/*" component={TaskWizardLander}/>
+                        <Route path=":phase/:taskId" component={TaskWizardLander}/>
+                        <Route path=":phase/:taskId/*" component={TaskWizardLander}/>
                         <Route path ="*" component={TaskWizardLander}/>
                     </Route>
                     <Route path="call" component={LandingPage} showCallWidget={true}/>
