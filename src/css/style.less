@@ -3059,9 +3059,16 @@ form[name='compose'] {
                 }
             }
         }
-    }
 
-    .step-slider {
+        &.four, &.four-xs {
+            ul {
+                li {
+                    float: left;
+                    width: 25%;
+                }
+            }
+        }
+
         &.five, &.five-xs {
             ul {
                 li {
@@ -3901,82 +3908,53 @@ form[name='compose'] {
 
     header {
         min-height: 50%;
+        height: 400px;
         background-image: url('../images/showcase/pricing.jpg');
     }
 
-    .pricing-cards {
-        .card {
-            text-align: center;
-            padding: 30px 20px;
+    .pricing-table {
+        position: relative;
+        top: -220px;
+        margin-bottom: -220px;
 
-            h3 {
-                font-size: 20px;
-                margin-top: 0;
-            }
+        .table-key {
+            margin-top: 220px;
+            text-align: left;
 
-            .icon {
-                height: 80px;
-            }
-
-            .description {
-                margin: 25px 0 40px 0;
-            }
-
-            .btn {
-                display: block;
-                width: 100%;
-                color: @pricing-blue;
-                background-color: transparent;
-                border-color: @pricing-blue;
-                outline-color: @pricing-blue;
-                padding: 5px 10px;
-                justify-content: flex-end;
+            p {
+                padding: 8px 10px;
+                height: 38px;
             }
         }
 
-        .card.callout {
-            color: @primary;
+        .slide {
+            padding: 20px 0;
 
-            .btn {
-                color: @primary;
-                border-color: @primary;
-                outline-color: @primary;
+            > * {
+                padding: 0 5px;
             }
-        }
-    }
 
-    .pricing-details {
-
-        .btn {
-            color: @pricing-blue;
-            background-color: transparent;
-            border-color: @pricing-blue;
-            padding: 5px 10px;
-            margin-top: 20px;
-            min-width: 200px;
-        }
-
-        .callout {
             h2 {
+                margin: 0 0 15px 0;
+                padding: 0 0 20px 0;
+                border-bottom: 1px @inactive-grey solid;
+            }
+
+            .perks {
+                margin-top: 35px;
                 color: @primary;
-            }
+                font-weight: 400;
+                .font-size(1.6);
 
-            .btn {
-                color: @primary;
-                border-color: @primary;
-            }
-        }
+                p {
+                    padding: 8px 10px;
+                    height: 38px;
+                }
 
-        .media {
-            .media-object {
-                height: 200px;
-                border-radius: 50%;
-                margin: 10px 20px;
+                .fa-times {
+                    color: @primary-text;
+                }
             }
-        }
-
-        .media:nth-child(even) {
-            background-color: @inactive-grey;
         }
     }
 
@@ -3989,8 +3967,9 @@ form[name='compose'] {
 
         li {
             .description {
+                min-height: 100px;
+
                 p {
-                    min-height: 100px;
                 }
             }
         }
