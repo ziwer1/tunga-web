@@ -140,7 +140,7 @@ export default class LandingPage extends ComponentWithModal {
                     <div>
                         <Link to="/start/"
                               className="btn btn-callout btn-main-cta">
-                            <i className="fa fa-rocket fa-lg"/> {dlp_phrase?`Start hiring ${dlp_phrase}`:'Launch your project'}
+                            <i className="tunga-icon-rocket fa-lg"/> {dlp_phrase?`Start hiring ${dlp_phrase}`:'Launch your project'}
                         </Link>
                     </div>
                 </div>

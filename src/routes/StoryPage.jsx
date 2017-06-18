@@ -203,7 +203,7 @@ export default class StoryPage extends React.Component {
                             <p className="text-center">
                                 <Link to="/start/"
                                       className="btn btn-callout btn-main-cta">
-                                    <i className="fa fa-rocket fa-lg"/> Launch your project now
+                                    <i className="tunga-icon-rocket fa-lg"/> Launch your project now
                                 </Link>
                             </p>
                         </div>

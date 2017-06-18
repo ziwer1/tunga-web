@@ -33,7 +33,7 @@ export default class ShowcaseContainer extends React.Component {
                             <div id="navbar" className="collapse navbar-collapse">
                                 <ul className="nav navbar-nav navbar-right nav-actions">
                                     <li className="schedule"><a className="primary" onClick={() => {openCalendlyWidget()}}>Schedule call</a></li>
-                                    <li className="launch"><Link className="primary" to="/start/"><i className="fa fa-rocket fa-lg"/> Launch your project</Link></li>
+                                    <li className="launch"><Link className="primary" to="/start/"><i className="tunga-icon-rocket fa-lg"/> Launch your project</Link></li>
                                     <li><Link to="/signin" activeClassName="active">Login</Link></li>
                                 </ul>
                                 <ul className="nav navbar-nav navbar-left nav-main">
