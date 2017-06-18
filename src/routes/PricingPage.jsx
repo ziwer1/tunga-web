@@ -59,7 +59,7 @@ const OFFER_DETAILS = [
         sub: 'Post your project on Tunga',
         description: (
             <div>
-                <p>Discuss your project with project hackers</p>
+                <p>Discuss your project with project engineers</p>
                 <p>Get an estimate within 48 hrs</p>
                 <p>Experienced project managers on demand</p>
             </div>

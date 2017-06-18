@@ -1641,7 +1641,7 @@ export default class TaskForm extends ComponentWithModal {
                         ...sections,
                         {
                             title: "Let's launch your project",
-                            subtitle: "One of our project hackers will reach out to you soon",
+                            subtitle: "One of our project engineers will reach out to you soon",
                             items: [emailOrScheduleComp],
                             required: true,
                             forks: ['call_required']
