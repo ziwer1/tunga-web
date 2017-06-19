@@ -78,13 +78,13 @@ class SideBar extends React.Component {
                                 <i className="menu-icon tunga-icon-wallet"/> <span>Payments</span>
                             </Link>
                         </li>
-                        {/*
-                         <li id="sidebar-estimate">
-                         <Link to="/estimate/new" activeClassName="active">
-                         <i className="menu-icon tunga-icon-wallet"/> <span>New Estimate</span>
-                         </Link>
-                         </li>
-                        */}
+                        {isProjectManager() || isAdmin()?(
+                            <li id="sidebar-estimate">
+                                <Link to="/estimate" activeClassName="active">
+                                    <i className="menu-icon fa fa-pie-chart"/> <span>Estimates</span>
+                                </Link>
+                            </li>
+                        ):null}
 
                         {Support.Section.list.sections.length && false?(
                             <li className={this.getActiveClass(['/support'], false)} id="sidebar-support">

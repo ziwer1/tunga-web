@@ -89,6 +89,7 @@ import EstimateContainer from 'containers/EstimateContainer';
 import EstimateDetailContainer from 'containers/EstimateDetailContainer';
 import EstimateForm from 'components/EstimateForm';
 import EstimateDetail from 'components/EstimateDetail';
+import EstimateList from 'components/EstimateList';
 import QuoteContainer from 'containers/QuoteContainer';
 import QuoteDetailContainer from 'containers/QuoteDetailContainer';
 import QuoteForm from 'components/QuoteForm';
@@ -162,7 +163,12 @@ ReactDOM.render(
                             <Redirect path="*" to="personal" />
                         </Route>
                         <Route path="estimate" component={EstimateContainer}>
+                            <IndexRoute component={EstimateList}/>
                             <Route path="new" component={EstimateForm} />
+                            <Route path=":estimateId" component={EstimateDetailContainer}>
+                                <IndexRoute component={EstimateDetail}/>
+                                <Route path="edit" component={EstimateForm}/>
+                            </Route>
                         </Route>
                         <Route path="settings" component={SettingsPage} />
                         <Route path="work" component={TaskContainer}>

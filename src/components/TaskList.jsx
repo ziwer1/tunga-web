@@ -71,8 +71,7 @@ export default class TaskList extends GenericListContainer {
                         {isProjectManager() || isAdmin()?(
                             [
                                 <li role="presentation" key="new-projects"><Link to="/work/filter/new-projects" activeClassName="active"><i className="tunga-icon-project"/> New Projects</Link></li>,
-                                <li role="presentation" key="estimates"><Link to="/work/filter/estimates" activeClassName="active"><i className="tunga-icon-project"/> Estimates</Link></li>,
-                                <li role="presentation" key="quotes"><Link to="/work/filter/quotes" activeClassName="active"><i className="tunga-icon-project"/> Quotes</Link></li>
+                                <li role="presentation" key="estimates"><Link to="/work/filter/estimates" activeClassName="active"><i className="tunga-icon-project"/> Estimates</Link></li>
                             ]
                         ):null}
                         <li role="presentation"><Link to="/work/filter/running" activeClassName="active"><i className="tunga-icon-running-tasks"/> Running</Link></li>

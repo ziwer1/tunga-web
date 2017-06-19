@@ -17,7 +17,7 @@ import MilestoneContainer from '../containers/MilestoneContainer';
 import Milestone from './Milestone';
 import TagList from './TagList';
 
-import {parse_task_status, canAddEstimate, canEditEstimate, canViewEstimate, canAddQuote, canEditQuote, canViewQuote, getAcquisitionUrl, hasStarted} from '../utils/tasks';
+import {parse_task_status, canAddEstimate, canEditEstimate, canViewEstimate, getAcquisitionUrl, hasStarted} from '../utils/tasks';
 import {render_summary} from '../utils/html';
 import {getTaskKey} from '../utils/reducers';
 import confirm from '../utils/confirm';
@@ -426,24 +426,6 @@ export default class TaskWorflow extends ComponentWithModal {
                                         <Link to={`/work/${task.id}/estimate/${task.estimate.id}`}
                                               className="btn">
                                             View Estimate
-                                        </Link>
-                                    ):null
-                                )
-                            )}
-
-                            {canAddQuote(task)?(
-                                <Link to={`/work/${task.id}/quote/new`} className="btn">Add Quote</Link>
-                            ):(
-                                canEditQuote(task)?(
-                                    <Link to={`/work/${task.id}/quote/${task.quote.id}/edit`}
-                                          className="btn">
-                                        Edit Quote
-                                    </Link>
-                                ):(
-                                    canViewQuote(task)?(
-                                        <Link to={`/work/${task.id}/quote/${task.quote.id}`}
-                                              className="btn">
-                                            View Quote
                                         </Link>
                                     ):null
                                 )

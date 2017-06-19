@@ -6,7 +6,7 @@ import { Table } from 'react-bootstrap';
 
 import FormStatus from './status/FormStatus';
 
-import {DEVELOPER_FEE, STATUS_SUBMITTED, STATUS_APPROVED, STATUS_DECLINED, STATUS_ACCEPTED, STATUS_REJECTED, ENDPOINT_TASK} from '../constants/Api';
+import {DEVELOPER_FEE, STATUS_SUBMITTED, STATUS_APPROVED, STATUS_DECLINED, STATUS_ACCEPTED, STATUS_REJECTED, ENDPOINT_TASK, ENDPOINT_ESTIMATE} from '../constants/Api';
 import {getPayDetails, canEditEstimate, canModerateEstimate, canReviewEstimate} from '../utils/tasks';
 import {getUser, isAdminOrProjectOwner} from '../utils/auth';
 import confirm from '../utils/confirm';
@@ -57,7 +57,18 @@ export default class EstimateDetail extends React.Component {
                             error={Estimate.detail.error.create}/>
 
                 <div className="pull-right">
-                    <a href={`${ENDPOINT_TASK}${estimate.task}/download/estimate?format=pdf`} className="btn btn-primary" target="_blank"><i className="fa fa-file-pdf-o"/> Download Pdf</a>
+                    <a href={`${estimate.task && false?`${ENDPOINT_TASK}${estimate.task}/download/estimate`:`${ENDPOINT_ESTIMATE}${estimate.id}/download`}?format=pdf`} className="btn btn-primary" target="_blank"><i className="fa fa-file-pdf-o"/> Download Pdf</a>
+                </div>
+
+                <div className="form-group">
+                    <h4>Title:</h4>
+                    <div>
+                        {estimate.task?(
+                            estimate.details.task.summary
+                        ):(
+                            estimate.title
+                        )}
+                    </div>
                 </div>
 
                 <div className="form-group">

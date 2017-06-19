@@ -60,39 +60,43 @@ export function createEstimateFailed(error) {
     }
 }
 
-export function listEstimates(filter) {
+export function listEstimates(filter, selection, prev_selection) {
     return dispatch => {
-        dispatch(listEstimatesStart(filter));
+        dispatch(listEstimatesStart(filter, selection, prev_selection));
         axios.get(ENDPOINT_ESTIMATE, {params: filter})
             .then(function(response) {
-                dispatch(listEstimatesSuccess(response.data))
+                dispatch(listEstimatesSuccess(response.data, selection))
             }).catch(function(error) {
-                dispatch(listEstimatesFailed(error.response?error.response.data:null))
+                dispatch(listEstimatesFailed(error.response?error.response.data:null, selection))
             });
     }
 }
 
-export function listEstimatesStart(filter) {
+export function listEstimatesStart(filter, selection, prev_selection) {
     return {
         type: LIST_ESTIMATES_START,
-        filter
+        filter,
+        selection,
+        prev_selection
     }
 }
 
-export function listEstimatesSuccess(response) {
+export function listEstimatesSuccess(response, selection) {
     return {
         type: LIST_ESTIMATES_SUCCESS,
         items: response.results,
         previous: response.previous,
         next: response.next,
-        count: response.count
+        count: response.count,
+        selection
     }
 }
 
-export function listEstimatesFailed(error) {
+export function listEstimatesFailed(error, selection) {
     return {
         type: LIST_ESTIMATES_FAILED,
-        error
+        error,
+        selection
     }
 }
 

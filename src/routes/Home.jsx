@@ -81,13 +81,6 @@ class Home extends React.Component {
                 selector: '#inner-estimates',
                 position: 'top',
                 condition: Notification.notifications.estimates
-            },
-            {
-                title: 'Quotes',
-                text: 'Manage your task quotes',
-                selector: '#inner-quotes',
-                position: 'top',
-                condition: Notification.notifications.quotes
             }
 
         ];
@@ -167,29 +160,15 @@ class Home extends React.Component {
                                     </Link>
                                 </li>
                             ):null}
-                            {isAdmin() || isProjectManager()?(
-                                [
-                                    Notification.notifications.estimates?(
-                                        <li id="inner-estimates">
-                                            <Link to="/work/filter/estimates">
+                            {(isAdmin() || isProjectManager()) && Notification.notifications.estimates?(
+                                <li id="inner-estimates">
+                                    <Link to="/work/filter/estimates">
                                             <span className="icon">
                                                 <i className="tunga-icon-project"/> <span className="badge">{Notification.notifications.estimates}</span>
                                             </span><br/>
-                                                Estimates
-                                            </Link>
-                                        </li>
-                                    ):null,
-                                    Notification.notifications.quotes?(
-                                        <li id="inner-quotes">
-                                            <Link to="/work/filter/quotes">
-                                            <span className="icon">
-                                                <i className="tunga-icon-project"/> <span className="badge">{Notification.notifications.quotes}</span>
-                                            </span><br/>
-                                                Quotes
-                                            </Link>
-                                        </li>
-                                    ):null
-                                ]
+                                        Estimates
+                                    </Link>
+                                </li>
                             ):null}
                         </ul>
                     </div>
