@@ -41,7 +41,7 @@ export default class LandingPage extends ComponentWithModal {
 
     constructor(props) {
         super(props);
-        this.state = {player: null, play: false, step: 0, pageClass: ''};
+        this.state = {player: null, play: false, step: 0, pageClass: '', showVideo: true};
     }
 
     componentDidMount() {
@@ -166,7 +166,7 @@ export default class LandingPage extends ComponentWithModal {
         return (
             <ShowcaseContainer className={`landing-page ${this.state.pageClass}`}
                                headerContent={this.renderHeaderContent()}
-                               headerVideo={true}
+                               headerVideo={this.state.showVideo}
                                chatId={this.props.params?this.props.params.chatId:null}>
 
                 <MetaTags title={meta_title} description={meta_description}/>

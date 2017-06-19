@@ -3834,6 +3834,7 @@ form[name='compose'] {
         header {
             text-shadow: none;
             min-height: 100%;
+            background-image: url('../images/showcase/welcome.jpg');
         }
 
         .pitch {
@@ -3875,6 +3876,46 @@ form[name='compose'] {
                             min-height: 40px;
                         }
                     }
+                }
+            }
+
+            .cta-action.btn {
+                padding: 15px 20px;
+                .font-size(2.0);
+            }
+        }
+
+        .task-complete-choices {
+
+            .wrapper {
+
+                .btn {
+                    display: block;
+                    color: @primary-text;
+                    background: @inactive-grey none;
+                    border-color: @inactive-grey;
+                    outline-width: 0;
+                    text-align: left;
+                    text-shadow: none;
+                    padding: 10px;
+                    width: 100%;
+                    margin: 5px 0;
+
+                    .icon {
+                        padding-top: 5px;
+                        margin-right: 5px;
+                        width: 20px;
+                        text-align: center;
+                    }
+                }
+
+                .btn:hover {
+                    border-color: @primary;
+                }
+
+                .btn.active {
+                    border-color: @primary;
+                    outline-width: 0;
                 }
             }
         }

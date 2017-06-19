@@ -592,7 +592,7 @@ export default class TaskForm extends ComponentWithModal {
     }
 
     render() {
-        const { Task, project, enabledWidgets, options, showSectionHeader, urlPrefix, phase } = this.props;
+        const { Task, project, enabledWidgets, options, showSectionHeader, urlPrefix, phase, ctaTxt, ctaIcon } = this.props;
         const task = this.props.task || {};
 
         if(!isAuthenticated() && Task.detail.isSaved && !this.state.autoSave || /\/(start|welcome)\/(finish|schedule|speed-up)\/.*\/complete$/.test(window.location.href)) {
@@ -1706,7 +1706,8 @@ export default class TaskForm extends ComponentWithModal {
                         title: "Hire top African developers!",
                         items: [personalComp, emailComp, skypeComp],
                         requires: ['first_name', 'last_name', 'email'],
-                        action: 'Get started'
+                        action: ctaTxt || 'Get started',
+                        actionIcon: ctaIcon || ''
                     },
                     ...sections
                 ];
@@ -1787,8 +1788,11 @@ export default class TaskForm extends ComponentWithModal {
                                     {showNext?(
                                         <div className={current_section.action?'text-center':'pull-right'}>
                                             <button type="button"
-                                                    className={`btn ${current_section.action?'':'btn-borderless nav-btn next-btn'}`}
+                                                    className={`btn ${current_section.action?(current_section.actionIcon?'cta-action':''):'btn-borderless nav-btn next-btn'}`}
                                                     onClick={this.changeStep.bind(this, true)} disabled={!this.canSkip(current_section.required, current_section.requires)}>
+                                                {current_section.actionIcon?(
+                                                    <span><i className={current_section.actionIcon}/> </span>
+                                                ):null}
                                                 {current_section.action?current_section.action:(
                                                     <span>{current_section && this.canSkip(current_section.required, current_section.requires)?'':''} <i className="fa fa-chevron-right"/></span>
                                                 )}
@@ -1829,7 +1833,9 @@ TaskForm.propTypes = {
     options: React.PropTypes.object,
     showSectionHeader: React.PropTypes.bool,
     urlPrefix: React.PropTypes.string,
-    phase: React.PropTypes.string
+    phase: React.PropTypes.string,
+    ctaTxt: React.PropTypes.string,
+    ctaIcon: React.PropTypes.string
 };
 
 TaskForm.defaultProps = {
@@ -1840,7 +1846,9 @@ TaskForm.defaultProps = {
     options: null,
     showSectionHeader: true,
     urlPrefix: 'start',
-    phase: ''
+    phase: '',
+    ctaTxt: 'Get started',
+    ctaIcon: ''
 };
 
 TaskForm.contextTypes = {

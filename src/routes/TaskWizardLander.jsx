@@ -7,12 +7,18 @@ import LandingPage from '../routes/LandingPage';
 
 import {getEditToken} from '../utils/tasks';
 
-export default class TaskWizard extends LandingPage {
+export default class TaskWizardLander extends LandingPage {
 
     constructor(props) {
         super(props);
         this.state = {
-            title: 'Hire the best today!', subtitle: null, step: 1, pageClass: 'task-wizard-page lander'
+            title: (
+                <span>
+                    Discuss your project within<br/>
+                    24 hours!
+                </span>
+            ), subtitle: null, step: 1,
+            pageClass: 'task-wizard-page lander', showVideo: false
         };
     }
 
@@ -27,6 +33,13 @@ export default class TaskWizard extends LandingPage {
     getTaskId() {
         if(this.props.params) {
             return this.props.params.taskId;
+        }
+        return null;
+    }
+
+    getPhase() {
+        if(this.props.params) {
+            return this.props.params.phase;
         }
         return null;
     }
@@ -62,6 +75,11 @@ export default class TaskWizard extends LandingPage {
         const dlp_tag = this.getDLPTag();
         const dlp_desc = this.getDLPDesc();
 
+        let phase = this.getPhase();
+        if(['schedule', 'speed-up'].indexOf(phase) == -1) {
+            phase = '';
+        }
+
         return (
             <div className="row">
                 <div className="col-sm-6 col-md-8">
@@ -71,26 +89,31 @@ export default class TaskWizard extends LandingPage {
                             done right.
                         </h1>
                         <h3>
-                            Flexible access to top African {this.getDLPTag() || 'software'} {dlp_desc?dlp_desc.toLowerCase():'developers'}.
+                            Work with verified developers with total<br/>
+                            control over progress and workflow.
                         </h3>
-                        <p className="details">
-                            <div><i className="fa fa-circle"/> Verified skills matching</div>
-                            <div><i className="fa fa-circle"/> Easy communication</div>
-                            <div><i className="fa fa-circle"/> Impact sourcing</div>
-                            <div><i className="fa fa-circle"/> Quality monitoring</div>
-                        </p>
                     </div>
                 </div>
                 <div className="col-sm-6 col-md-4">
                     <div className="task-wizard">
                         <div className="task-section">
-                            <h2 className="title">Hire the best today!</h2>
+                            {this.state.step == 1 && !this.getTaskId()?(
+                                <h2 className="">
+                                    Discuss your project within<br/>
+                                    24 hours!
+                                </h2>
+                            ):(
+                                <div className="heading-3 text-center">{this.state.title}</div>
+                            )}
                             <TaskContainer>
                                 <TaskDetailContainer taskId={this.getTaskId()} editToken={getEditToken()}>
                                     <TaskForm showSectionHeader={false}
                                               options={options}
                                               onStepChange={this.onStepChange.bind(this)}
-                                              urlPrefix="welcome"/>
+                                              urlPrefix="welcome"
+                                              ctaTxt="Get me started!"
+                                              ctaIcon="tunga-icon-rocket fa-lg"
+                                              phase={phase}/>
                                 </TaskDetailContainer>
                             </TaskContainer>
                         </div>
