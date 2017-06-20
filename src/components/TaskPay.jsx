@@ -225,7 +225,6 @@ export default class TaskPay extends React.Component {
                                             We received your payment. Thank you!<br/>
                                             <i className="fa fa-check-circle"/>
                                             <div className="next-action">
-                                                <span>Do you want to speed up the process by providing more details about your project? </span>
                                                 <Link to={`/work/${task.id}/rate`} className="btn">Rate Developers</Link>
                                             </div>
                                         </div>
