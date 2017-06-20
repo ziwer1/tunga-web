@@ -202,6 +202,7 @@ ReactDOM.render(
                                 </Route>
                                 <Route path="board" component={ProjectBoard} crumb="Project Board"/>
                                 <Route path="task/new" component={ProjectTaskForm} crumb="Add task"/>
+                                <Route path="task/new/*" component={ProjectTaskForm} crumb="Add task"/>
                                 <Route path="integrations" crumb="Integrations">
                                     <IndexRedirect to="github" component={IntegrationList} />
                                     <Route path="trello" component={TaskForm} crumb="Trello"/>
