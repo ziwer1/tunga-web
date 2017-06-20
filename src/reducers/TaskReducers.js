@@ -325,6 +325,19 @@ export function running(state = [], action) {
     }
 }
 
+function isPaying(state = false, action) {
+    switch (action.type) {
+        case TaskActions.MAKE_TASK_PAYMENT_START:
+            return true;
+        case TaskActions.MAKE_TASK_PAYMENT_SUCCESS:
+        case TaskActions.MAKE_TASK_PAYMENT_FAILED:
+        case CLEAR_VALIDATIONS:
+            return false;
+        default:
+            return state;
+    }
+}
+
 const detail = combineReducers({
     task,
     isRetrieving,
@@ -336,6 +349,7 @@ const detail = combineReducers({
     activity: Activity,
     integrations: Integration,
     Invoice: Invoice,
+    isPaying,
     error
 });
 

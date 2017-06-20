@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router';
 import StripeCheckout from 'react-stripe-checkout';
 
 import Progress from './status/Progress';
@@ -146,8 +147,8 @@ export default class TaskPay extends React.Component {
 
         return (
             <div className="form-wrapper">
-                {Task.detail.isRetrieving || Task.detail.Invoice.isRetrieving?
-                    (<Progress/>)
+                {Task.detail.isRetrieving || Task.detail.Invoice.isRetrieving || Task.detail.isPaying?
+                    (<Progress message={Task.detail.isPaying?'Processing payment ...':'Loading ...'}/>)
                     :
                     (<div>
                         {this.state.showForm || !invoice.id?(
@@ -221,8 +222,12 @@ export default class TaskPay extends React.Component {
                                 {task.paid?(
                                     <div>
                                         <div className="thank-you">
-                                            We received your payment.Thank you!<br/>
+                                            We received your payment. Thank you!<br/>
                                             <i className="fa fa-check-circle"/>
+                                            <div className="next-action">
+                                                <span>Do you want to speed up the process by providing more details about your project? </span>
+                                                <Link to={`/work/${task.id}/rate`} className="btn">Rate Developers</Link>
+                                            </div>
                                         </div>
                                     </div>
                                 ):(

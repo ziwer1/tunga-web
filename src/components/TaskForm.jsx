@@ -64,6 +64,50 @@ export default class TaskForm extends ComponentWithModal {
         if(this.state.step == 1) {
             this.reportFunnelUrl(this.getStepUrl());
         }
+        if(this.props.task) {
+            this.setState(this.getStateFromTask());
+        }
+    }
+
+    getStateFromTask() {
+        const {project} = this.props;
+        const task = this.props.task || {};
+        var new_state = {};
+
+        const assignee = task.assignee && task.assignee.user?task.assignee.user.id:null;
+        const description = task.description || '';
+        const remarks = task.remarks || '';
+        var participants = [];
+        if(task.details) {
+            task.details.participation.forEach((participant) => {
+                if(participant.user.id != assignee) {
+                    participants.push(participant.user.id);
+                }
+            });
+        }
+        var user = {};
+        if(!isAuthenticated() && task.user && this.props.editToken) {
+            user = {first_name: task.user.first_name, last_name: task.user.last_name, email: task.user.email};
+        }
+
+        var project_state = {};
+        if(project && project.id) {
+            project_state = {type: project.type || TASK_TYPE_OTHER, scope: TASK_SCOPE_TASK};
+        }
+
+        return {
+            ...task,
+            assignee, participants, description, remarks,
+            fee: task.pay,
+            schedule: this.getScheduleId(), type: task.type,
+            skills: task.details && task.details.skills?task.details.skills.map((skill) => {
+                return skill.name;
+            }):[],
+            milestones: task.progress_events,
+            ...user,
+            ...project_state
+        };
+
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -80,45 +124,12 @@ export default class TaskForm extends ComponentWithModal {
 
         if(!isAuthenticated() && (this.props.taskId && !prevProps.taskId)) {
             this.reportFunnelUrl(this.getStepUrl(false, true));
-            /*if(this.state.step < 1) {
-                new_state.step = 1;
-            }*/
         }
 
         if(task.id && (!prevProps.task || task.id != prevProps.task.id)) {
-            const assignee = task.assignee && task.assignee.user?task.assignee.user.id:null;
-            const description = task.description || '';
-            const remarks = task.remarks || '';
-            var participants = [];
-            if(task.details) {
-                task.details.participation.forEach((participant) => {
-                    if(participant.user.id != assignee) {
-                        participants.push(participant.user.id);
-                    }
-                });
-            }
-            var user = {};
-            if(!isAuthenticated() && task.user && this.props.editToken) {
-                user = {first_name: task.user.first_name, last_name: task.user.last_name, email: task.user.email};
-            }
-
-            //let step = 1; // this.state.step;
-            /*if(this.props.editToken) {
-                step = 1;
-            }*/
-
             new_state = {
                 ...new_state,
-                ...task,
-                assignee, participants, description, remarks,
-                fee: task.pay,
-                schedule: this.getScheduleId(), type: task.type,
-                skills: task.details && task.details.skills?task.details.skills.map((skill) => {
-                    return skill.name;
-                }):[],
-                milestones: task.progress_events,
-                ...user//,
-                //step
+                ...this.getStateFromTask()
             };
         }
 
@@ -175,7 +186,6 @@ export default class TaskForm extends ComponentWithModal {
         }
 
         if(this.state.call_required != prevState.call_required && typeof this.state.call_required === 'boolean' && !this.state.call_required) {
-            console.log('Got here');
             this.saveTask();
         }
 
@@ -183,7 +193,7 @@ export default class TaskForm extends ComponentWithModal {
             return this.state[key] != prevState[key];
         });
 
-        if(path_change.indexOf(true) > -1 && !this.props.Task.detail.isSaved) {
+        if(path_change.indexOf(true) > -1 && !this.props.Task.detail.isSaved && !(isAuthenticated() && task.id)) {
             this.reportFunnelUrl(this.getStepUrl());
             router.replace(this.getStepUrl(false, false, false));
         }
@@ -216,7 +226,7 @@ export default class TaskForm extends ComponentWithModal {
 
     getStepUrl(complete=false, start=false, virtual=true) {
 
-        const {task, taskId, editToken, urlPrefix, phase} = this.props;
+        const {project, task, taskId, editToken, urlPrefix, phase} = this.props;
 
         var suffix = '';
         if(!start) {
@@ -254,7 +264,7 @@ export default class TaskForm extends ComponentWithModal {
             }
         }
 
-        let path = (isAuthenticated()?'/work/new':`/${urlPrefix}${taskId?(`${virtual?'-':'/'}${phase?`${phase}/`:''}${taskId}`):''}`) + suffix;
+        let path = (isAuthenticated()?`/work/${project?`${project.id}/task/`:''}new`:`/${urlPrefix}${taskId?(`${virtual?'-':'/'}${phase?`${phase}/`:''}${taskId}`):''}`) + suffix;
         if (virtual) {
             return window.location.protocol + '//' + window.location.hostname + (window.location.port?`:${window.location.port}`:'') + `/track/${this.state.analytics_id}` + path;
         }
@@ -487,6 +497,8 @@ export default class TaskForm extends ComponentWithModal {
         const { TaskActions, project, editToken } = this.props;
         const task = this.props.task || {};
 
+        let is_project_task = (project && project.id) || (task && task.parent);
+
 
         var req_data = {};
         req_data.title = this.refs.title?this.refs.title.value.trim():null;
@@ -494,8 +506,8 @@ export default class TaskForm extends ComponentWithModal {
         req_data.stack_description = this.refs.stack_description?this.refs.stack_description.value.trim():null;
         req_data.deliverables = this.refs.deliverables?this.refs.deliverables.value.trim():null;
 
-        req_data.type = this.state.type;
-        req_data.scope = (!isAuthenticated() && !this.state.scope)?TASK_SCOPE_PROJECT:this.state.scope;
+        req_data.type = this.state.type || (is_project_task?(project?project.type:TASK_TYPE_OTHER):null);
+        req_data.scope = (!isAuthenticated() && !this.state.scope)?TASK_SCOPE_PROJECT:(is_project_task?TASK_SCOPE_TASK:this.state.scope);
 
         req_data.has_requirements = this.state.has_requirements;
         req_data.pm_required = this.state.pm_required;
@@ -864,7 +876,7 @@ export default class TaskForm extends ComponentWithModal {
                 {(Task.detail.error.update && Task.detail.error.update.fee)?
                     (<FieldError message={Task.detail.error.update.fee}/>):null}
                 <div className="form-group">
-                    <label className="control-label">What is your estimated budget for this {work_type}? - (optional)</label>
+                    <label className="control-label">What is your estimated budget for this {work_type}?{!is_project_task && isAuthenticated()?'':' - (optional)'}</label>
                     <div><input type="number" className="form-control" ref="fee" required={!is_project_task && isAuthenticated()}
                                 placeholder="Amount in Euros"
                                 onChange={this.onInputChange.bind(this, 'fee')}
