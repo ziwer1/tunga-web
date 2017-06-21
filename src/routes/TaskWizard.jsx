@@ -7,6 +7,7 @@ import TaskDetailContainer from '../containers/TaskDetailContainer';
 import TaskForm from '../components/TaskForm';
 import Avatar from '../components/Avatar';
 import MetaTags from "../components/MetaTags";
+import Slider from 'react-slick';
 
 import {getClientTestimonials} from '../constants/data';
 import {getEditToken} from '../utils/tasks';
@@ -42,6 +43,29 @@ export default class TaskWizard extends React.Component {
         return null;
     }
 
+    getUser() {
+        let user = {};
+        if(this.props.location && this.props.location.query) {
+            if(this.props.location.query.first_name) {
+                user.first_name = this.props.location.query.first_name;
+            }
+            if(this.props.location.query.last_name) {
+                user.last_name = this.props.location.query.last_name;
+            }
+            if(this.props.location.query.email) {
+                user.email = this.props.location.query.email;
+            }
+        }
+        return user;
+    }
+
+    getUrlPrefix() {
+        if(/\/(start-welcome)\/?/.test(window.location.href)) {
+            return 'start-welcome';
+        }
+        return 'start';
+    }
+
     renderHeaderContent() {
         var testimonials = getClientTestimonials(2);
         const {options} = this.props;
@@ -51,41 +75,107 @@ export default class TaskWizard extends React.Component {
             phase = '';
         }
 
+        let slider_settings = {
+            dots: true,arrows: true, infinite: true, slidesToShow: 1, slidesToScroll: 1,
+            autoplay: true,
+            autoplaySpeed: 3000//,
+            /*responsive: [
+                { breakpoint: 320, settings: { slidesToShow: 1 } },
+                { breakpoint: 768, settings: { slidesToShow: 2 } },
+                { breakpoint: 1024, settings: { slidesToShow: 3 } }
+            ]*/
+        };
+
         return (
             <div className={`task-wizard ${this.state.step == 1 && !this.getTaskId()?'show-trust':''}`}>
                 <div className="title-bar">
                     <i className="icon tunga-icon-post-task"/>
-                    <div className="heading-3 text-center">{this.state.title}</div>
+                    <div className="heading-3 bold text-center">{this.state.title}</div>
                     <div className="heading-1">{this.state.subtitle}</div>
                 </div>
                 <div className="task-section">
                     <TaskContainer>
                         <TaskDetailContainer taskId={this.getTaskId()} editToken={getEditToken()}>
-                            <TaskForm showSectionHeader={false} options={options} onStepChange={this.onStepChange.bind(this)} phase={phase}/>
+                            <TaskForm showSectionHeader={false}
+                                      options={{...options, ...this.getUser()}}
+                                      onStepChange={this.onStepChange.bind(this)}
+                                      phase={phase} urlPrefix={this.getUrlPrefix()}/>
                         </TaskDetailContainer>
                     </TaskContainer>
                 </div>
                 <div className="dev-section">
-                    <div className="dev-list">
-                        {testimonials.map(testimonial => {
-                            return (
-                                <div className="card">
-                                    <div className="media">
-                                        <div className="media-left">
-                                            <Avatar src={testimonial.image} size="medium"/>
-                                        </div>
-                                        <div className="media-body">
-                                            <div className="media-heading"><strong>{testimonial.name} from {testimonial.company}</strong></div>
-                                            <div>
-                                                <i className="fa fa-quote-left pull-left"/>
-                                                <span dangerouslySetInnerHTML={{__html: testimonial.message}}/>
-                                                <i className="fa fa-quote-right pull-right"/>
+                    <div className="dev-list ">
+                        <Slider className="text-center" {...slider_settings}>
+                            <div>
+                                {testimonials.map(testimonial => {
+                                    return (
+                                        <div className="card">
+                                            <div className="media">
+                                                <div className="media-left">
+                                                    <Avatar src={testimonial.image} size="medium"/>
+                                                </div>
+                                                <div className="media-body">
+                                                    <div className="media-heading"><strong>{testimonial.name} from {testimonial.company}</strong></div>
+                                                    <div>
+                                                        <i className="fa fa-quote-left pull-left"/>
+                                                        <span dangerouslySetInnerHTML={{__html: testimonial.message}}/>
+                                                        <i className="fa fa-quote-right pull-right"/>
+                                                    </div>
+                                                </div>
                                             </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                            <div>
+                                <ul className="press-links">
+                                    <li>
+                                        <a href="http://www.bbc.co.uk/news/world-africa-38294998"
+                                           target="_blank">
+                                            <img src={require("../images/press/bbc.png")}/>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="http://trendwatching.com/blog/featured-innovator-tunga/" target="_blank">
+                                            <img src={require("../images/press/trend-watching.png")}/>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://soundcloud.com/african-tech-round-up/a-chat-with-ernesto-spruyt-of-tungaio?in=african-tech-round-up/sets/quick-chats"
+                                           target="_blank">
+                                            <img src={require("../images/press/African-Tech-Round-Up.png")}/>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div id="what-we-can-do">
+                                <h3>Expertise:</h3>
+                                <div className="row">
+                                    <div className="col-md-6">
+                                        <div id="mobile-app">
+                                            <span/>
+                                            <p>
+                                                Excellent native app development<br/>
+                                                Specialized iOS and Android teams<br/>
+                                                App maintenance and improvements<br/>
+                                                From idea to application
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-6">
+                                        <div id="building-websites">
+                                            <span/>
+                                            <p>
+                                                Full stack capacity for web<br/>
+                                                API development<br/>
+                                                All popular JS frameworks capacity<br/>
+                                                Backend development
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
-                            );
-                        })}
+                            </div>
+                        </Slider>
                     </div>
                 </div>
                 <div className="clearfix"></div>

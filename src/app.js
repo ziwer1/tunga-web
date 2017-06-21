@@ -104,17 +104,20 @@ ReactDOM.render(
                 <IndexRoute component={LandingPage} unauthedOnly={true}/>
                 <Route unauthedOnly={true}>
                     {/* No Auth Pages */}
+                    <Route path="welcome">
+                        <IndexRoute component={TaskWizardLander}/>
+                    </Route>
                     <Route path="start">
                         <IndexRoute component={TaskWizard}/>
                         <Route path=":phase/:taskId" component={TaskWizard}/>
                         <Route path=":phase/:taskId/*" component={TaskWizard}/>
                         <Route path ="*" component={TaskWizard}/>
                     </Route>
-                    <Route path="welcome">
-                        <IndexRoute component={TaskWizardLander}/>
-                        <Route path=":phase/:taskId" component={TaskWizardLander}/>
-                        <Route path=":phase/:taskId/*" component={TaskWizardLander}/>
-                        <Route path ="*" component={TaskWizardLander}/>
+                    <Route path="start-welcome">
+                        <IndexRoute component={TaskWizard}/>
+                        <Route path=":phase/:taskId" component={TaskWizard}/>
+                        <Route path=":phase/:taskId/*" component={TaskWizard}/>
+                        <Route path ="*" component={TaskWizard}/>
                     </Route>
                     <Route path="call" component={LandingPage} showCallWidget={true}/>
                     <Route path="our-story" component={StoryPage}/>

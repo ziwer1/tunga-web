@@ -70,7 +70,7 @@ export default class TaskForm extends ComponentWithModal {
     }
 
     getStateFromTask() {
-        const {project} = this.props;
+        const {project, options} = this.props;
         const task = this.props.task || {};
         var new_state = {};
 
@@ -105,7 +105,8 @@ export default class TaskForm extends ComponentWithModal {
             }):[],
             milestones: task.progress_events,
             ...user,
-            ...project_state
+            ...project_state,
+            ...options
         };
 
     }
@@ -607,7 +608,7 @@ export default class TaskForm extends ComponentWithModal {
         const { Task, project, enabledWidgets, options, showSectionHeader, urlPrefix, phase, ctaTxt, ctaIcon } = this.props;
         const task = this.props.task || {};
 
-        if(!isAuthenticated() && Task.detail.isSaved && !this.state.autoSave || /\/(start|welcome)\/(finish|schedule|speed-up)\/.*\/complete$/.test(window.location.href)) {
+        if(!isAuthenticated() && Task.detail.isSaved && !this.state.autoSave || /\/(start|start-welcome|welcome)\/(finish|schedule|speed-up)\/.*\/complete$/.test(window.location.href)) {
             return (
                 <div>
                     <div className="thank-you">

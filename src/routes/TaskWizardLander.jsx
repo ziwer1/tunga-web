@@ -96,26 +96,41 @@ export default class TaskWizardLander extends LandingPage {
                 </div>
                 <div className="col-sm-6 col-md-4">
                     <div className="task-wizard">
-                        <div className="task-section">
+                        <div>
                             {this.state.step == 1 && !this.getTaskId()?(
-                                <h2 className="">
+                                <h3 className="">
                                     Discuss your project within<br/>
                                     24 hours!
-                                </h2>
+                                </h3>
                             ):(
                                 <div className="heading-3 text-center">{this.state.title}</div>
                             )}
-                            <TaskContainer>
-                                <TaskDetailContainer taskId={this.getTaskId()} editToken={getEditToken()}>
-                                    <TaskForm showSectionHeader={false}
-                                              options={options}
-                                              onStepChange={this.onStepChange.bind(this)}
-                                              urlPrefix="welcome"
-                                              ctaTxt="Get me started!"
-                                              ctaIcon="tunga-icon-rocket fa-lg"
-                                              phase={phase}/>
-                                </TaskDetailContainer>
-                            </TaskContainer>
+                            <div>
+                                <form name="task" role="form" ref="task_form" action="/start-welcome/">
+                                    <div className="form-group">
+                                        <div className="row">
+                                            <div className="col-xs-5">
+                                                <input type="text" name="first_name" className="form-control"
+                                                       ref="first_name" required placeholder="First Name"/>
+                                            </div>
+                                            <div className="col-xs-7">
+                                                <input type="text" name="last_name" className="form-control"
+                                                       ref="last_name" required placeholder="Last Name"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="form-group">
+                                        <div>
+                                            <input type="email" name="email"
+                                                   className="form-control" ref="email"
+                                                   required placeholder="Email"/>
+                                        </div>
+                                    </div>
+                                    <button type="submit" className="btn cta-action">
+                                        <span><i className="tunga-icon-rocket fa-lg"/> </span>Get me started!
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                         <div className="clearfix"></div>
                     </div>

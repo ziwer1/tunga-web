@@ -2826,6 +2826,7 @@ form[name='compose'] {
         background-position: center;
         background-size: cover;
         padding-top: 70px;
+        position: relative;
 
         h1 {
             .font-size(5.2);
@@ -3167,17 +3168,29 @@ form[name='compose'] {
             }
         }
     }
+
+    &.lander {
+        .nav-actions {
+            .schedule {
+                display: none;
+            }
+
+            .launch {
+                display: none;
+            }
+        }
+    }
 }
 
 .showcase.landing-page {
     header {
         background-color: #777;
-        background-image: none;
-        min-height: 85%;
+        background-image: url('../images/showcase/welcome.jpg');
+        min-height: 100%;
 
         display: flex;
         flex-direction: column;
-        text-shadow: 1px 1px #666;
+        text-shadow: none;// 1px 1px #666;
 
         .content {
             flex-grow: 1;
@@ -3197,8 +3210,8 @@ form[name='compose'] {
             }
 
             h3 {
-                .font-size(3.8);
-                line-height: 34px;
+                .font-size(2.4);
+                line-height: 20px;
             }
 
             text-align: center;
@@ -3221,11 +3234,6 @@ form[name='compose'] {
                     text-shadow: none;
                 }
             }
-
-            /*.btn-callout {
-                .font-size(1.8);
-                padding: 8px 25px;
-            }*/
         }
 
         .video-overlay {
@@ -3235,6 +3243,38 @@ form[name='compose'] {
             width: 100%;
             height: 100%;
             background-color: fade(@primary-text, 30%);
+        }
+
+        .arrow-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+
+            .pointer {
+                position: absolute;
+                bottom: 10px;
+                width: 100%;
+                color: @active-white;
+                box-shadow: none;
+            }
+
+            .ribbon {
+                position: absolute;
+                bottom: 0;
+                border-color: #fff;
+                border-top-color: rgba(0, 0, 0, 0) !important;
+                border-width: 60px 675px 0 675px;
+                border-style: solid;
+                width: 100%;
+                height: 0;
+                line-height: 0;
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box;
+                font-size: 0;
+            }
         }
 
         .light {
@@ -3831,6 +3871,7 @@ form[name='compose'] {
     }
 
     &.lander {
+
         header {
             text-shadow: none;
             min-height: 100%;
@@ -3841,7 +3882,7 @@ form[name='compose'] {
             color: @active-white;
 
             h1 {
-                text-shadow: 1px 1px #999;
+                text-shadow: none; //1px 1px #999;
             }
 
             .details {
@@ -3857,10 +3898,10 @@ form[name='compose'] {
         }
 
         .task-wizard {
-            padding: 20px;
+            padding: 25px;
 
-            h2 {
-                margin: 0 0 25px;
+            h2, h3 {
+                margin: 0 0 20px;
             }
 
             .btn-choices.choice-fork {
@@ -3879,9 +3920,18 @@ form[name='compose'] {
                 }
             }
 
+            .form-control {
+                height: 40px;
+            }
+
             .cta-action.btn {
-                padding: 15px 20px;
+                padding: 20px;
                 .font-size(2.0);
+                width: 100%;
+
+                .tunga-icon-rocket {
+                    margin-right: 10px;
+                }
             }
         }
 
@@ -3916,6 +3966,84 @@ form[name='compose'] {
                 .btn.active {
                     border-color: @primary;
                     outline-width: 0;
+                }
+            }
+        }
+    }
+
+    .dev-list {
+        #what-we-can-do {
+            .font-size(1.2);
+            padding: 0 10px;
+
+            div span {
+                display: block;
+                margin: auto;
+                width: 75px;
+                height: 75px;
+                background-size: contain;
+                background-repeat: no-repeat;
+            }
+
+            #building-websites span {
+                background-image: url("../images/icons/build-websites.png");
+            }
+            #solving-issues span {
+                background-image: url("../images/icons/solving-issues.png");
+            }
+            #full-stack span {
+                background-image: url("../images/icons/full-stack.png");
+            }
+            #mobile-app span {
+                background-image: url("../images/icons/mobile-app.png");
+            }
+            #html-slicing span {
+                background-image: url("../images/icons/slicing.png");
+            }
+            #php span {
+                background-image: url("../images/icons/build-websites.png");
+            }
+        }
+
+        .press-links {
+            list-style-type: none;
+            padding-left: 0;
+            text-align: center;
+            margin-top: 115px;
+            display: flex;
+            align-items: center;
+
+            li {
+                display: inline-block;
+                max-width: 33%;
+                padding: 0 10px;
+
+                a {
+                    width: 100%;
+                    display: inline-block;
+                    text-align: center;
+
+                    img {
+                        max-width: 100%;
+                        max-height: 80px;
+                        vertical-align: middle;
+                    }
+                }
+            }
+        }
+
+        .slick-dots {
+
+            button:before {
+                font-family: 'FontAwesome';
+                content: "\f10c";
+                color: @primary;
+                .font-size(1.0);
+            }
+
+            .slick-active {
+                button:before {
+                    content: "\f111";
                 }
             }
         }

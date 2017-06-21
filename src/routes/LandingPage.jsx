@@ -48,6 +48,14 @@ export default class LandingPage extends ComponentWithModal {
         if(showCallWidget(this.props.routes)) {
             openCalendlyWidget();
         }
+
+        let updateBg = function () {
+            let width = $(window).innerWidth()/2;
+            $('.ribbon').css('borderWidth', `60px ${width}px 0`);
+        };
+
+        $(document).ready(updateBg);
+        $(window).resize(updateBg);
     }
 
     onScheduleCall() {
@@ -128,19 +136,20 @@ export default class LandingPage extends ComponentWithModal {
                     <h1>
                         Software outsourcing<br/> done right.
                     </h1>
-                    {/*<h3>
-                        Flexible access to top African {this.getDLPTag() || 'software'} {dlp_desc?dlp_desc.toLowerCase():'developers'}.
-                    </h3>*/}
+                    <h3>
+                        Work with verified developers with total<br/>
+                        control over progress and workflow.
+                    </h3>
                     <p className="details">
-                        <div><i className="fa fa-circle"/> Verified skills matching</div>
+                        {/*<div><i className="fa fa-circle"/> Verified skills matching</div>
                         <div><i className="fa fa-circle"/> Easy communication</div>
                         <div><i className="fa fa-circle"/> Impact sourcing</div>
-                        <div><i className="fa fa-circle"/> Quality monitoring</div>
+                        <div><i className="fa fa-circle"/> Quality monitoring</div>*/}
                     </p>
                     <div>
                         <Link to="/start/"
                               className="btn btn-callout btn-main-cta">
-                            <i className="tunga-icon-rocket fa-lg"/> {dlp_phrase?`Start hiring ${dlp_phrase}`:'Launch your project'}
+                            <i className="tunga-icon-rocket fa-lg"/> {dlp_phrase?`Start hiring ${dlp_phrase}`:'Get me started!'}
                         </Link>
                     </div>
                 </div>
@@ -166,7 +175,8 @@ export default class LandingPage extends ComponentWithModal {
         return (
             <ShowcaseContainer className={`landing-page ${this.state.pageClass}`}
                                headerContent={this.renderHeaderContent()}
-                               headerVideo={this.state.showVideo}
+                               headerVideo={false && this.state.showVideo}
+                               hasArrow={true}
                                chatId={this.props.params?this.props.params.chatId:null}>
 
                 <MetaTags title={meta_title} description={meta_description}/>
