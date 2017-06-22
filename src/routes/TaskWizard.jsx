@@ -106,7 +106,7 @@ export default class TaskWizard extends React.Component {
                 <div className="dev-section">
                     <div className="dev-list ">
                         <Slider className="text-center" {...slider_settings}>
-                            <div>
+                            <div className="testimonial">
                                 {testimonials.map(testimonial => {
                                     return (
                                         <div className="card">
@@ -115,11 +115,9 @@ export default class TaskWizard extends React.Component {
                                                     <Avatar src={testimonial.image} size="medium"/>
                                                 </div>
                                                 <div className="media-body">
-                                                    <div className="media-heading"><strong>{testimonial.name} from {testimonial.company}</strong></div>
+                                                    <div className="media-heading"><strong>{testimonial.name}</strong>, {testimonial.position} at {testimonial.company}</div>
                                                     <div>
-                                                        <i className="fa fa-quote-left pull-left"/>
                                                         <span dangerouslySetInnerHTML={{__html: testimonial.message}}/>
-                                                        <i className="fa fa-quote-right pull-right"/>
                                                     </div>
                                                 </div>
                                             </div>

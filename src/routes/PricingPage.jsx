@@ -162,8 +162,7 @@ class PricingPage extends ComponentWithModal {
                                     {OFFER_DETAILS.map((offer, idx) => {
                                         return (
                                             <li key={offer.key}>
-                                                <div className="slide animated slideInRight"
-                                                     style={{animationDelay: `${idx}s`}}>
+                                                <div className="slide">
                                                     <h2>{offer.title}</h2>
                                                     <div className="description">
                                                         {offer.description}

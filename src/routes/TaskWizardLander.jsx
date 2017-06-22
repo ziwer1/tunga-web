@@ -88,10 +88,10 @@ export default class TaskWizardLander extends LandingPage {
                             Software outsourcing<br/>
                             done right.
                         </h1>
-                        <h3>
-                            Work with verified developers with total<br/>
-                            control over progress and workflow.
-                        </h3>
+                        <div className="details">
+                            Work with verified developers<br/>
+                            while in control of costs, progress and quality.
+                        </div>
                     </div>
                 </div>
                 <div className="col-sm-6 col-md-4">

@@ -136,20 +136,14 @@ export default class LandingPage extends ComponentWithModal {
                     <h1>
                         Software outsourcing<br/> done right.
                     </h1>
-                    <h3>
-                        Work with verified developers with total<br/>
-                        control over progress and workflow.
-                    </h3>
-                    <p className="details">
-                        {/*<div><i className="fa fa-circle"/> Verified skills matching</div>
-                        <div><i className="fa fa-circle"/> Easy communication</div>
-                        <div><i className="fa fa-circle"/> Impact sourcing</div>
-                        <div><i className="fa fa-circle"/> Quality monitoring</div>*/}
-                    </p>
+                    <div className="details">
+                        Work with verified developers while in control of <br/>
+                        costs, progress and quality.
+                    </div>
                     <div>
                         <Link to="/start/"
                               className="btn btn-callout btn-main-cta">
-                            <i className="tunga-icon-rocket fa-lg"/> {dlp_phrase?`Start hiring ${dlp_phrase}`:'Get me started!'}
+                            <i className="tunga-icon-rocket"/> {dlp_phrase?`Start hiring ${dlp_phrase}`:'Start your project'}
                         </Link>
                     </div>
                 </div>
