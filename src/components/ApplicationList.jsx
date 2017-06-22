@@ -161,7 +161,9 @@ export default class ApplicationList extends ComponentWithModal {
                             ):(
                                 <button type="button" className="btn " onClick={this.handleOpenApplications.bind(this)}>Open applications</button>
                             )}
-
+                            <Link to={`/work/${task.id}/edit/complete-task`} className="btn">
+                                Edit {work_type}
+                            </Link>
                             <Link to={`/work/${task.id}/edit/developers`} className="btn">
                                 Add another developer to this {work_type}
                             </Link>

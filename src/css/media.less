@@ -25,7 +25,7 @@
     }
     .showcase.landing-page {
         header {
-            background-image: url("../images/header.jpg?max-width=448");
+            background-image: url("../images/showcase/welcome.jpg?max-width=448");
 
             video {
                 display: none;
@@ -45,6 +45,10 @@
         }
 
         &.landing-page {
+
+            header {
+                background-image: url("../images/showcase/welcome.jpg?max-width=768");
+            }
 
             #contact-us {
                 background-image: url("../images/footer.jpg?max-width=768");
@@ -211,24 +215,60 @@
 
         .btn-callout.btn-main-cta,
         .btn-main-cta {
-            padding: 20px 30px;
+            padding: 10px 30px 20px;
             margin: 20px 2px;
+            line-height: 50px;
+
+            .fa.fa-rocket,
+            .tunga-icon-rocket {
+                position: relative;
+                top: 16px;
+                .font-size(4.8)
+            }
         }
 
-        .step-slider.three-sm {
-            ul {
-                li {
-                    float: left;
-                    width: 33.3%;
+        .step-slider {
+            &.three-sm {
+                ul {
+                    li {
+                        float: left;
+                        width: 33.3%;
+                    }
+                }
+            }
+
+            &.four-sm {
+                ul {
+                    li {
+                        float: left;
+                        width: 25%;
+                    }
+                }
+            }
+
+            &.five-sm {
+                ul {
+                    li {
+                        float: left;
+                        width: 20%;
+                    }
                 }
             }
         }
 
-        .step-slider.five-sm {
-            ul {
-                li {
-                    float: left;
-                    width: 20%;
+        .pricing-table {
+            .step-slider {
+                &.four-sm {
+                    ul {
+                        li {
+                            float: left;
+                            width: 28%;
+                        }
+
+                        li:first-child {
+                            width: 16%;
+                        }
+                    }
                 }
             }
         }
@@ -236,10 +276,12 @@
         &.landing-page {
             header {
 
+                background-image: url("../images/showcase/welcome.jpg?max-width=992");
+
                 .head-desc {
                     h1 {
                         .font-size(7.8);
-                        line-height: 60px;
+                        line-height: 70px;
                     }
 
                     .details {
@@ -452,7 +494,7 @@
 
         &.landing-page {
             header {
-
+                background-image: url("../images/showcase/welcome.jpg?max-width=1200");
             }
             #how-it-works {
                 #demo-mbp {
@@ -574,6 +616,10 @@
         }
 
         &.landing-page {
+            header {
+                background-image: url("../images/showcase/welcome.jpg?max-width=1600");
+            }
+
             #contact-us {
                 background-image: url("../images/footer.jpg?max-width=1600");
             }

@@ -105,17 +105,20 @@ ReactDOM.render(
                 <IndexRoute component={LandingPage} unauthedOnly={true}/>
                 <Route unauthedOnly={true}>
                     {/* No Auth Pages */}
-                    <Route path="start">
-                        <IndexRoute component={TaskWizard}/>
-                        <Route path="finish/:taskId" component={TaskWizard}/>
-                        <Route path="finish/:taskId/*" component={TaskWizard}/>
-                        <Route path ="*" component={TaskWizard}/>
-                    </Route>
                     <Route path="welcome">
                         <IndexRoute component={TaskWizardLander}/>
-                        <Route path="finish/:taskId" component={TaskWizardLander}/>
-                        <Route path="finish/:taskId/*" component={TaskWizardLander}/>
-                        <Route path ="*" component={TaskWizardLander}/>
+                    </Route>
+                    <Route path="start">
+                        <IndexRoute component={TaskWizard}/>
+                        <Route path=":phase/:taskId" component={TaskWizard}/>
+                        <Route path=":phase/:taskId/*" component={TaskWizard}/>
+                        <Route path ="*" component={TaskWizard}/>
+                    </Route>
+                    <Route path="start-welcome">
+                        <IndexRoute component={TaskWizard}/>
+                        <Route path=":phase/:taskId" component={TaskWizard}/>
+                        <Route path=":phase/:taskId/*" component={TaskWizard}/>
+                        <Route path ="*" component={TaskWizard}/>
                     </Route>
                     <Route path="call" component={LandingPage} showCallWidget={true}/>
                     <Route path="our-story" component={StoryPage}/>
@@ -204,6 +207,7 @@ ReactDOM.render(
                                 </Route>
                                 <Route path="board" component={ProjectBoard} crumb="Project Board"/>
                                 <Route path="task/new" component={ProjectTaskForm} crumb="Add task"/>
+                                <Route path="task/new/*" component={ProjectTaskForm} crumb="Add task"/>
                                 <Route path="integrations" crumb="Integrations">
                                     <IndexRedirect to="github" component={IntegrationList} />
                                     <Route path="trello" component={TaskForm} crumb="Trello"/>

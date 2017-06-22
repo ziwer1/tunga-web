@@ -41,13 +41,21 @@ export default class LandingPage extends ComponentWithModal {
 
     constructor(props) {
         super(props);
-        this.state = {player: null, play: false, step: 0, pageClass: ''};
+        this.state = {player: null, play: false, step: 0, pageClass: '', showVideo: true};
     }
 
     componentDidMount() {
         if(showCallWidget(this.props.routes)) {
             openCalendlyWidget();
         }
+
+        let updateBg = function () {
+            let width = $(window).innerWidth()/2;
+            $('.ribbon').css('borderWidth', `60px ${width}px 0`);
+        };
+
+        $(document).ready(updateBg);
+        $(window).resize(updateBg);
     }
 
     onScheduleCall() {
@@ -128,19 +136,14 @@ export default class LandingPage extends ComponentWithModal {
                     <h1>
                         Software outsourcing<br/> done right.
                     </h1>
-                    {/*<h3>
-                        Flexible access to top African {this.getDLPTag() || 'software'} {dlp_desc?dlp_desc.toLowerCase():'developers'}.
-                    </h3>*/}
-                    <p className="details">
-                        <div><i className="fa fa-circle"/> Verified skills matching</div>
-                        <div><i className="fa fa-circle"/> Easy communication</div>
-                        <div><i className="fa fa-circle"/> Impact sourcing</div>
-                        <div><i className="fa fa-circle"/> Quality monitoring</div>
-                    </p>
+                    <div className="details">
+                        Work with verified developers while in control of <br/>
+                        costs, progress and quality.
+                    </div>
                     <div>
                         <Link to="/start/"
                               className="btn btn-callout btn-main-cta">
-                            <i className="fa fa-rocket fa-lg"/> {dlp_phrase?`Start hiring ${dlp_phrase}`:'Launch your project'}
+                            <i className="tunga-icon-rocket"/> {dlp_phrase?`Start hiring ${dlp_phrase}`:'Start your project'}
                         </Link>
                     </div>
                 </div>
@@ -166,7 +169,8 @@ export default class LandingPage extends ComponentWithModal {
         return (
             <ShowcaseContainer className={`landing-page ${this.state.pageClass}`}
                                headerContent={this.renderHeaderContent()}
-                               headerVideo={true}
+                               headerVideo={false && this.state.showVideo}
+                               hasArrow={true}
                                chatId={this.props.params?this.props.params.chatId:null}>
 
                 <MetaTags title={meta_title} description={meta_description}/>

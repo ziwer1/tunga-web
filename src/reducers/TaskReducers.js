@@ -56,10 +56,15 @@ function task(state = {}, action) {
             return state;
         case TaskActions.CREATE_TASK_INVOICE_SUCCESS:
         case TaskActions.RETRIEVE_TASK_INVOICE_SUCCESS:
-            if(state.id == action.invoice.id) {
+            if(state.id == action.invoice.task) {
                 let invoice = action.invoice;
                 var fee = (action.type == TaskActions.CREATE_TASK_INVOICE_SUCCESS)?invoice.fee:state.fee;
-                return {...state, fee, payment_method: invoice.payment_method, btc_address: invoice.btc_address};
+                return {
+                    ...state, fee,
+                    payment_method: invoice.payment_method,
+                    btc_address: invoice.btc_address,
+                    withhold_tunga_fee: invoice.withhold_tunga_fee
+                };
             }
             return state;
         case TaskActions.MAKE_TASK_PAYMENT_SUCCESS:
@@ -320,6 +325,19 @@ export function running(state = [], action) {
     }
 }
 
+function isPaying(state = false, action) {
+    switch (action.type) {
+        case TaskActions.MAKE_TASK_PAYMENT_START:
+            return true;
+        case TaskActions.MAKE_TASK_PAYMENT_SUCCESS:
+        case TaskActions.MAKE_TASK_PAYMENT_FAILED:
+        case CLEAR_VALIDATIONS:
+            return false;
+        default:
+            return state;
+    }
+}
+
 const detail = combineReducers({
     task,
     isRetrieving,
@@ -331,6 +349,7 @@ const detail = combineReducers({
     activity: Activity,
     integrations: Integration,
     Invoice: Invoice,
+    isPaying,
     error
 });
 

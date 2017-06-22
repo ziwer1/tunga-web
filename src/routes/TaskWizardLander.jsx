@@ -7,12 +7,18 @@ import LandingPage from '../routes/LandingPage';
 
 import {getEditToken} from '../utils/tasks';
 
-export default class TaskWizard extends LandingPage {
+export default class TaskWizardLander extends LandingPage {
 
     constructor(props) {
         super(props);
         this.state = {
-            title: 'Hire the best today!', subtitle: null, step: 1, pageClass: 'task-wizard-page lander'
+            title: (
+                <span>
+                    Discuss your project within<br/>
+                    24 hours!
+                </span>
+            ), subtitle: null, step: 1,
+            pageClass: 'task-wizard-page lander', showVideo: false
         };
     }
 
@@ -27,6 +33,13 @@ export default class TaskWizard extends LandingPage {
     getTaskId() {
         if(this.props.params) {
             return this.props.params.taskId;
+        }
+        return null;
+    }
+
+    getPhase() {
+        if(this.props.params) {
+            return this.props.params.phase;
         }
         return null;
     }
@@ -62,6 +75,11 @@ export default class TaskWizard extends LandingPage {
         const dlp_tag = this.getDLPTag();
         const dlp_desc = this.getDLPDesc();
 
+        let phase = this.getPhase();
+        if(['schedule', 'speed-up'].indexOf(phase) == -1) {
+            phase = '';
+        }
+
         return (
             <div className="row">
                 <div className="col-sm-6 col-md-8">
@@ -70,29 +88,49 @@ export default class TaskWizard extends LandingPage {
                             Software outsourcing<br/>
                             done right.
                         </h1>
-                        <h3>
-                            Flexible access to top African {this.getDLPTag() || 'software'} {dlp_desc?dlp_desc.toLowerCase():'developers'}.
-                        </h3>
-                        <p className="details">
-                            <div><i className="fa fa-circle"/> Verified skills matching</div>
-                            <div><i className="fa fa-circle"/> Easy communication</div>
-                            <div><i className="fa fa-circle"/> Impact sourcing</div>
-                            <div><i className="fa fa-circle"/> Quality monitoring</div>
-                        </p>
+                        <div className="details">
+                            Work with verified developers<br/>
+                            while in control of costs, progress and quality.
+                        </div>
                     </div>
                 </div>
                 <div className="col-sm-6 col-md-4">
                     <div className="task-wizard">
-                        <div className="task-section">
-                            <h2 className="title">Hire the best today!</h2>
-                            <TaskContainer>
-                                <TaskDetailContainer taskId={this.getTaskId()} editToken={getEditToken()}>
-                                    <TaskForm showSectionHeader={false}
-                                              options={options}
-                                              onStepChange={this.onStepChange.bind(this)}
-                                              urlPrefix="welcome"/>
-                                </TaskDetailContainer>
-                            </TaskContainer>
+                        <div>
+                            {this.state.step == 1 && !this.getTaskId()?(
+                                <h3 className="">
+                                    Discuss your project within<br/>
+                                    24 hours!
+                                </h3>
+                            ):(
+                                <div className="heading-3 text-center">{this.state.title}</div>
+                            )}
+                            <div>
+                                <form name="task" role="form" ref="task_form" action="/start-welcome/">
+                                    <div className="form-group">
+                                        <div className="row">
+                                            <div className="col-xs-5">
+                                                <input type="text" name="first_name" className="form-control"
+                                                       ref="first_name" required placeholder="First Name"/>
+                                            </div>
+                                            <div className="col-xs-7">
+                                                <input type="text" name="last_name" className="form-control"
+                                                       ref="last_name" required placeholder="Last Name"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="form-group">
+                                        <div>
+                                            <input type="email" name="email"
+                                                   className="form-control" ref="email"
+                                                   required placeholder="Email"/>
+                                        </div>
+                                    </div>
+                                    <button type="submit" className="btn cta-action">
+                                        <span><i className="tunga-icon-rocket fa-lg"/> </span>Get me started!
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                         <div className="clearfix"></div>
                     </div>

@@ -20,6 +20,12 @@ export default class ShowcaseContainer extends React.Component {
                     {this.props.headerVideo?(
                         <div className="video-overlay"/>
                     ):null}
+                    {this.props.hasArrow?(
+                        <div className="arrow-overlay">
+                            <div className="ribbon"/>
+                            <div className="pointer text-center" onClick={(e) => {$('body').animate({scrollTop: '+=300'});}}>show me how it works</div>
+                        </div>
+                    ):null}
                     <Affix affixClassName="navbar-fixed-top" offsetTop={60}>
                         <nav className="navbar navbar-fixed-top">
                             <div className="navbar-header">
@@ -33,7 +39,7 @@ export default class ShowcaseContainer extends React.Component {
                             <div id="navbar" className="collapse navbar-collapse">
                                 <ul className="nav navbar-nav navbar-right nav-actions">
                                     <li className="schedule"><a className="primary" onClick={() => {openCalendlyWidget()}}>Schedule call</a></li>
-                                    <li className="launch"><Link className="primary" to="/start/"><i className="fa fa-rocket fa-lg"/> Launch your project</Link></li>
+                                    <li className="launch"><Link className="primary" to="/start/"><i className="tunga-icon-rocket fa-lg"/> Start your project</Link></li>
                                     <li><Link to="/signin" activeClassName="active">Login</Link></li>
                                 </ul>
                                 <ul className="nav navbar-nav navbar-left nav-main">
