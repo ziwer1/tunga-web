@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, IndexLink } from 'react-router';
 import moment from 'moment';
-import Linkify from 'react-linkify';
+import Linkify from './Linkify';
 
 import Progress from './status/Progress';
 import LoadMore from './status/LoadMore';

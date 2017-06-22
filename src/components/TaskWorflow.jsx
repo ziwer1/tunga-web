@@ -1,9 +1,10 @@
 import React from 'react';
+import { renderToString } from 'react-dom/server'
 import {Link} from 'react-router';
 import moment from 'moment';
 import TimeAgo from 'react-timeago';
 import {OverlayTrigger, Popover} from 'react-bootstrap';
-import Linkify from 'react-linkify';
+import Linkify from './Linkify';
 import Joyride from 'react-joyride';
 
 import CommentSection from '../containers/CommentSection';
@@ -18,7 +19,7 @@ import Milestone from './Milestone';
 import TagList from './TagList';
 
 import {parse_task_status, canAddEstimate, canEditEstimate, canViewEstimate, canAddQuote, canEditQuote, canViewQuote, getAcquisitionUrl, hasStarted} from '../utils/tasks';
-import {render_summary} from '../utils/html';
+import {render_summary, nl_to_br} from '../utils/html';
 import {getTaskKey} from '../utils/reducers';
 import confirm from '../utils/confirm';
 
@@ -738,131 +739,133 @@ export default class TaskWorflow extends ComponentWithModal {
                                     ) : null}
                                 </Timeline>
 
-                                {task.description ? (
-                                    <div>
-                                        <strong>Description</strong>
-                                        <div className="description">
-                                            <Linkify properties={{target: '_blank'}}>{task.description}</Linkify>
-                                        </div>
-                                    </div>
-                                ) : null}
-
-                                {task.owner && task.details && task.details.owner?(
-                                    <div>
-                                        <strong>Project Owner</strong>
+                                <div className="task-info">
+                                    {task.description ? (
                                         <div>
-                                            <Avatar src={task.details.owner.avatar_url}/> <Link
-                                            to={`/people/${task.details.owner.username}/`}>{task.details.owner.display_name}</Link>
+                                            <strong>Description</strong>
+                                            <div className="description">
+                                                <div dangerouslySetInnerHTML={{__html: nl_to_br(renderToString(<Linkify properties={{target: '_blank'}}>{task.description}</Linkify>))}}/>
+                                            </div>
                                         </div>
-                                    </div>
-                                ):null}
+                                    ) : null}
 
-                                <strong>Posted by</strong>
-                                <div>
-                                    <Avatar src={task.user.avatar_url}/> <Link
-                                    to={`/people/${task.user.username}/`}>{task.user.display_name}</Link>
-                                </div>
-
-                                {task.pm && task.details && task.details.pm?(
-                                    <div>
-                                        <strong>Project Manager</strong>
+                                    {task.owner && task.details && task.details.owner?(
                                         <div>
-                                            <Avatar src={task.details.pm.avatar_url}/> <Link
-                                            to={`/people/${task.details.pm.username}/`}>{task.details.pm.display_name}</Link>
+                                            <strong>Project Owner</strong>
+                                            <div>
+                                                <Avatar src={task.details.owner.avatar_url}/> <Link
+                                                to={`/people/${task.details.owner.username}/`}>{task.details.owner.display_name}</Link>
+                                            </div>
                                         </div>
-                                    </div>
-                                ):null}
+                                    ):null}
 
-                                {task.assignee ? (
+                                    <strong>Posted by</strong>
                                     <div>
-                                        <strong>Assignee</strong>
-                                        <div className="collaborator">
-                                            <Avatar src={task.assignee.user.avatar_url}/>
-                                            <Link
-                                                to={`/people/${task.assignee.user.username}/`}>{task.assignee.user.display_name}</Link>
+                                        <Avatar src={task.user.avatar_url}/> <Link
+                                        to={`/people/${task.user.username}/`}>{task.user.display_name}</Link>
+                                    </div>
+
+                                    {task.pm && task.details && task.details.pm?(
+                                        <div>
+                                            <strong>Project Manager</strong>
+                                            <div>
+                                                <Avatar src={task.details.pm.avatar_url}/> <Link
+                                                to={`/people/${task.details.pm.username}/`}>{task.details.pm.display_name}</Link>
+                                            </div>
+                                        </div>
+                                    ):null}
+
+                                    {task.assignee ? (
+                                        <div>
+                                            <strong>Assignee</strong>
+                                            <div className="collaborator">
+                                                <Avatar src={task.assignee.user.avatar_url}/>
+                                                <Link
+                                                    to={`/people/${task.assignee.user.username}/`}>{task.assignee.user.display_name}</Link>
                                             <span className="status">{task.assignee.status == STATUS_ACCEPTED ?
                                                 <i className="fa fa-check-circle accepted"/> : '[Invited]'}</span>
+                                            </div>
                                         </div>
-                                    </div>
-                                ) : null}
+                                    ) : null}
 
-                                {task.details && task.details.participation && task.details.participation.length > (task.assignee ? 1 : 0) ? (
-                                    <div>
-                                        <strong>Developers</strong>
-                                        {task.details.participation.map((participation) => {
-                                            const participant = participation.user;
-                                            return (
-                                                (!task.assignee || participant.id != task.assignee.user.id) && (participation.status != STATUS_REJECTED) ? (
-                                                    <div className="collaborator" key={participant.id}>
-                                                        <Avatar src={participant.avatar_url}/>
-                                                        <Link
-                                                            to={`/people/${participant.username}/`}>{participant.display_name}</Link>
+                                    {task.details && task.details.participation && task.details.participation.length > (task.assignee ? 1 : 0) ? (
+                                        <div>
+                                            <strong>Developers</strong>
+                                            {task.details.participation.map((participation) => {
+                                                const participant = participation.user;
+                                                return (
+                                                    (!task.assignee || participant.id != task.assignee.user.id) && (participation.status != STATUS_REJECTED) ? (
+                                                        <div className="collaborator" key={participant.id}>
+                                                            <Avatar src={participant.avatar_url}/>
+                                                            <Link
+                                                                to={`/people/${participant.username}/`}>{participant.display_name}</Link>
                                                         <span className="status">{participation.status == STATUS_ACCEPTED ?
                                                             <i className="fa fa-check-circle accepted"/> : '[Invited]'}</span>
-                                                    </div>
-                                                ) : null
-                                            )
-                                        })}
-                                    </div>
-                                ) : null}
+                                                        </div>
+                                                    ) : null
+                                                )
+                                            })}
+                                        </div>
+                                    ) : null}
 
-                                {task.url ? (
-                                    <div>
-                                        <strong><i className="fa fa-globe"/> Code Location</strong>
-                                        <p><a href={task.url} target="_blank">{task.url}</a></p>
-                                    </div>
-                                ) : null}
-                                {task.details && task.details.skills.length?(
-                                    <div>
-                                        <strong>Skills/ Products</strong>
-                                        <TagList tags={task.details.skills} max={3} linkPrefix="/work/skill/" moreLink={`/work/${task.id}/`}/>
-                                    </div>
-                                ):null}
-                                {task.trello_board_url ? (
-                                    <div>
-                                        <strong><i className="fa fa-trello trello"/> Trello board</strong>
-                                        <p><a href={task.trello_board_url} target="_blank">{task.trello_board_url}</a></p>
-                                    </div>
-                                ) : null}
-                                {task.google_drive_url ? (
-                                    <div>
-                                        <strong><i className="tunga-icon-google-drive google"/> Google Drive</strong>
-                                        <p><a href={task.google_drive_url} target="_blank">{task.google_drive_url}</a></p>
-                                    </div>
-                                ) : null}
-                                {task.milestones.length ? (
-                                    <div>
-                                        <strong>Milestones</strong>
-                                        {task.milestones.map(milestone => {
-                                            return (
-                                                <div key={milestone.id}>
-                                                    <Link to={`/work/${task.id}/event/${milestone.id}`}>
-                                                        <i className={"fa fa-flag"+((milestone.type==4)?'-checkered':'-o')}/> {milestone.title}
+                                    {task.url ? (
+                                        <div>
+                                            <strong><i className="fa fa-globe"/> Code Location</strong>
+                                            <p><a href={task.url} target="_blank">{task.url}</a></p>
+                                        </div>
+                                    ) : null}
+                                    {task.details && task.details.skills.length?(
+                                        <div>
+                                            <strong>Skills/ Products</strong>
+                                            <TagList tags={task.details.skills} max={3} linkPrefix="/work/skill/" moreLink={`/work/${task.id}/`}/>
+                                        </div>
+                                    ):null}
+                                    {task.trello_board_url ? (
+                                        <div>
+                                            <strong><i className="fa fa-trello trello"/> Trello board</strong>
+                                            <p><a href={task.trello_board_url} target="_blank">{task.trello_board_url}</a></p>
+                                        </div>
+                                    ) : null}
+                                    {task.google_drive_url ? (
+                                        <div>
+                                            <strong><i className="tunga-icon-google-drive google"/> Google Drive</strong>
+                                            <p><a href={task.google_drive_url} target="_blank">{task.google_drive_url}</a></p>
+                                        </div>
+                                    ) : null}
+                                    {task.milestones.length ? (
+                                        <div>
+                                            <strong>Milestones</strong>
+                                            {task.milestones.map(milestone => {
+                                                return (
+                                                    <div key={milestone.id}>
+                                                        <Link to={`/work/${task.id}/event/${milestone.id}`}>
+                                                            <i className={"fa fa-flag"+((milestone.type==4)?'-checkered':'-o')}/> {milestone.title}
                                                         <span
                                                             style={{marginLeft: '5px'}}>{moment.utc(milestone.due_at).local().format('Do, MMMM YYYY')}</span>
-                                                    </Link>
-                                                </div>
-                                            );
-                                        })}
-                                    </div>
-                                ) : null}
+                                                        </Link>
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                    ) : null}
 
-                                {[
-                                    {key: 'deliverables', title: 'Deliverables'},
-                                    {key: 'stack_description', title: 'Technology Stack'}
-                                ].map(item => {
-                                    if(task[item.key]) {
-                                        return (
-                                            <div>
-                                                <strong>{item.title}</strong>
+                                    {[
+                                        {key: 'deliverables', title: 'Deliverables'},
+                                        {key: 'stack_description', title: 'Technology Stack'}
+                                    ].map(item => {
+                                        if(task[item.key]) {
+                                            return (
                                                 <div>
-                                                    <Linkify properties={{target: '_blank'}}>{task[item.key]}</Linkify>
+                                                    <strong>{item.title}</strong>
+                                                    <div>
+                                                        <Linkify properties={{target: '_blank'}}>{task[item.key]}</Linkify>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        )
-                                    }
-                                    return null;
-                                })}
+                                            )
+                                        }
+                                        return null;
+                                    })}
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 import moment from 'moment';
-import Linkify from 'react-linkify';
+import Linkify from './Linkify';
 
 import Progress from './status/Progress';
 import UserCardProfile from './UserCardProfile';

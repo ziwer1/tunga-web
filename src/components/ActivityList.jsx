@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import moment from 'moment';
 import TimeAgo from 'react-timeago';
 import { ProgressBar } from 'react-bootstrap';
-import Linkify from 'react-linkify';
+import Linkify from './Linkify';
 import randomstring from 'randomstring';
 
 import Progress from './status/Progress';

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
 import TimeAgo from 'react-timeago';
-import Linkify from 'react-linkify';
+import Linkify from './Linkify';
 
 import Progress from './status/Progress';
 import TagList from './TagList';
