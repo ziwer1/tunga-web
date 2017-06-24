@@ -322,7 +322,7 @@ export default class LandingPage extends ComponentWithModal {
                                 <div className="row">
                                     <div className="col-sm-4" id="building-websites">
                                         <Reveal effect="animated rollIn">
-                                            <span/>
+                                            <i className="icon tunga-icon-do-web"/>
                                         </Reveal>
                                         <p>
                                             Full stack capacity for web<br/>
@@ -333,7 +333,7 @@ export default class LandingPage extends ComponentWithModal {
                                     </div>
                                     <div className="col-sm-4" id="solving-issues">
                                         <Reveal effect="animated rollIn">
-                                            <span/>
+                                            <i className="icon tunga-icon-do-workflow"/>
                                         </Reveal>
                                         <p>
                                             Integrations with your current workflow<br/>
@@ -344,7 +344,7 @@ export default class LandingPage extends ComponentWithModal {
                                     </div>
                                     <div className="col-sm-4" id="full-stack">
                                         <Reveal effect="animated rollIn">
-                                            <span/>
+                                            <i className="icon tunga-icon-do-pm"/>
                                         </Reveal>
                                         <p>
                                             Excellent Project manager available<br/>
@@ -357,7 +357,7 @@ export default class LandingPage extends ComponentWithModal {
                                 <div className="row">
                                     <div className="col-sm-offset-1 col-sm-5" id="mobile-app">
                                         <Reveal effect="animated rollIn">
-                                            <span/>
+                                            <i className="icon tunga-icon-do-app"/>
                                         </Reveal>
                                         <p>
                                             Excellent native app development<br/>
@@ -368,7 +368,7 @@ export default class LandingPage extends ComponentWithModal {
                                     </div>
                                     <div className="col-sm-5" id="html-slicing">
                                         <Reveal effect="animated rollIn">
-                                            <span/>
+                                            <i className="icon tunga-icon-do-slice"/>
                                         </Reveal>
                                         <p>
                                             Slicing experts on demand<br/>
@@ -400,6 +400,16 @@ export default class LandingPage extends ComponentWithModal {
                         />
                     </div>
                 </section>
+
+                <Reveal effect="outsource-widget open">
+                    <div>Ready to outsource the right way?</div>
+                    <form name="task" role="form" ref="task_form" action="/start-outsource/">
+                        <input type="email" name="email"
+                               className="form-control" ref="email"
+                               required placeholder="Your email address"/>
+                        <button className="btn">Go</button>
+                    </form>
+                </Reveal>
 
                 <ShowCaseFooter/>
             </ShowcaseContainer>

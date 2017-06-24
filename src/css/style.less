@@ -3150,6 +3150,45 @@ form[name='compose'] {
             overflow: hidden;
         }
     }
+
+    .outsource-widget {
+        display: none;
+        width: 620px;
+        position: fixed !important;
+        right: 0 !important;
+        bottom: 253px !important;
+        .font-size(1.8);
+        color: @active-white;
+        background-color: @primary;
+        padding: 20px 30px;
+        z-index: 5;
+        border-radius: 8px 0 0 8px;
+        box-shadow: 0 0 5px #777;
+
+        &.open {
+            display: block;
+        }
+
+        form {
+            margin-top: 10px;
+        }
+
+        .form-control {
+            display: inline-block;
+            width: 220px;
+            height: 40px;
+            margin-right: 5px;
+            border-radius: 8px;
+        }
+
+        .btn {
+            height: 42px;
+            padding: 5px 20px;
+            color: @primary-text;
+            background-color: #f4b6c5;
+            border-radius: 8px;
+        }
+    }
 }
 
 .showcase {
@@ -3587,6 +3626,13 @@ form[name='compose'] {
             }
         }
 
+        .icon {
+            display: inline-block;
+            .font-size(5.5);
+            color: @blue;
+            margin: 10px 0;
+        }
+
         #building-websites span {
             background-image: url("../images/icons/build-websites.png");
         }
@@ -4008,6 +4054,13 @@ form[name='compose'] {
         #what-we-can-do {
             .font-size(1.2);
             padding: 0 10px;
+
+            .icon {
+                display: inline-block;
+                .font-size(5.5);
+                color: @blue;
+                margin: 10px 0;
+            }
 
             div span {
                 display: block;
