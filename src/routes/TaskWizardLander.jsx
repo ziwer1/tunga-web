@@ -50,7 +50,7 @@ export default class TaskWizardLander extends LandingPage {
                             done right.
                         </h1>
                         <div className="details">
-                            Work with verified {this.getDLPDesc()}<br/>
+                            Work with verified {this.getDLPDesc() || 'developers'}<br/>
                             while in control of costs, progress and quality.
                         </div>
                     </div>
