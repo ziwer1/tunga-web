@@ -18,7 +18,7 @@ PLEASE HELP US PROCESS GITHUB ISSUES FASTER BY PROVIDING THE FOLLOWING INFORMATI
 <!-- Describe what the desired behavior would be. -->
 
 
-## Minimal reproduction of the problem with instructions
+## Minimal instructions for reproducing the problem (optional for feature requests)
 <!--
 For bug reports please provide the *STEPS TO REPRODUCE* and if possible a *MINIMAL DEMO* of the problem via
 https://plnkr.co or similar.
@@ -28,7 +28,7 @@ https://plnkr.co or similar.
 <!-- Describe the motivation or the concrete use case. -->
 
 
-## Please tell us about your environment
+## Please tell us about your environment (optional for feature requests)
 
 <pre><code>
 
@@ -41,16 +41,16 @@ Browser:
 - [ ] Safari (iOS) version XX
 - [ ] IE version XX
 - [ ] Edge version XX
-- [ ] <!-- Add other name here --> version XX
+- [ ] Other version XX <!-- Replace Other with name of browser -->
 
-Operating Systen:
+Operating System:
 - [ ] macOS version XX
 - [ ] Windows version XX
 - [ ] Linux <!-- Add flavor name here --> XX
 - [ ] Android version XX
 - [ ] iOS version XX
 - [ ] Windows Phone version XX
-- [ ] <!-- Add other name here --> version XX
+- [ ] Other version XX <!-- Replace Other with name of OS -->
 
 Environment/ Server:
 - [ ] Production
