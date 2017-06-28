@@ -11,40 +11,44 @@ export const LIST_MORE_USERS_START = 'LIST_MORE_USERS_START';
 export const LIST_MORE_USERS_SUCCESS = 'LIST_MORE_USERS_SUCCESS';
 export const LIST_MORE_USERS_FAILED = 'LIST_MORE_USERS_FAILED';
 
-export function listUsers(filter) {
+export function listUsers(filter, selection, prev_selection) {
     return dispatch => {
-        dispatch(listUsersStart(filter));
+        dispatch(listUsersStart(filter, selection, prev_selection));
         axios.get(ENDPOINT_USER, {params: filter})
             .then(function(response) {
-                dispatch(listUsersSuccess(response.data, filter))
+                dispatch(listUsersSuccess(response.data, filter, selection))
             }).catch(function(error) {
                 dispatch(listUsersFailed(error.response?error.response.data:null))
             });
     }
 }
 
-export function listUsersStart(filter) {
+export function listUsersStart(filter, selection, prev_selection) {
     return {
         type: LIST_USERS_START,
-        filter
+        filter,
+        selection,
+        prev_selection
     }
 }
 
-export function listUsersSuccess(response, filter) {
+export function listUsersSuccess(response, filter, selection) {
     return {
         type: LIST_USERS_SUCCESS,
         items: response.results,
         previous: response.previous,
         next: response.next,
         count: response.count,
-        filter
+        filter,
+        selection
     }
 }
 
-export function listUsersFailed(error) {
+export function listUsersFailed(error, selection) {
     return {
         type: LIST_USERS_FAILED,
-        error
+        error,
+        selection
     }
 }
 
@@ -81,32 +85,34 @@ export function retrieveUserFailed(error) {
     }
 }
 
-export function listMoreUsers(url) {
+export function listMoreUsers(url, selection) {
     return dispatch => {
-        dispatch(listMoreUsersStart(url));
+        dispatch(listMoreUsersStart(url, selection));
         axios.get(url)
             .then(function(response) {
-                dispatch(listMoreUsersSuccess(response.data))
+                dispatch(listMoreUsersSuccess(response.data, selection))
             }).catch(function(error) {
-                dispatch(listMoreUsersFailed(error.response?error.response.data:null))
+                dispatch(listMoreUsersFailed(error.response?error.response.data:null, selection))
             });
     }
 }
 
-export function listMoreUsersStart(url) {
+export function listMoreUsersStart(url, selection) {
     return {
         type: LIST_MORE_USERS_START,
-        url
+        url,
+        selection
     }
 }
 
-export function listMoreUsersSuccess(response) {
+export function listMoreUsersSuccess(response, selection) {
     return {
         type: LIST_MORE_USERS_SUCCESS,
         items: response.results,
         previous: response.previous,
         next: response.next,
-        count: response.count
+        count: response.count,
+        selection
     }
 }
 

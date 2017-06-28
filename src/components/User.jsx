@@ -1,11 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router';
-import TagList from './TagList';
 import Rating from 'react-rating';
+import Linkify from './Linkify';
 
+import TagList from './TagList';
 import UserCardProfile from './UserCardProfile';
-import { RATING_CRITERIA_CHOICES } from '../constants/Api';
-import { isAuthenticated, isAdmin, isDeveloper, isProjectOwner, getUser } from '../utils/auth';
+import { RATING_CRITERIA_CHOICES , ENDPOINT_USER} from '../constants/Api';
+import { isProjectOwner } from '../utils/auth';
+
+import { STATUS_ACCEPTED, STATUS_REJECTED } from '../constants/Api';
 
 export default class User extends React.Component {
 
@@ -49,7 +52,7 @@ export default class User extends React.Component {
     handleConnectResponse(accepted=false) {
         const { User, UserActions } = this.props;
         const { user } = User.detail;
-        UserActions.updateConnection(user.request, {accepted, responded: true});
+        UserActions.updateConnection(user.request, {accepted, status: accepted?STATUS_ACCEPTED:STATUS_REJECTED});
     }
 
     handleDeleteConnection() {
@@ -95,10 +98,11 @@ export default class User extends React.Component {
                                             onClick={this.handleConnectResponse.bind(this, false)}>Decline Request</button>
                                 ]
                             ):null)}
-                        {user.connection && user.connection.accepted?(
+                        {user.connection && user.connection.status == STATUS_ACCEPTED?(
                             <button type="button" className="btn"
                                     onClick={this.handleDeleteConnection.bind(this)}>{remove_msg}</button>
                         ):null}
+                        <a href={`${ENDPOINT_USER}${user.id}/download/profile?format=pdf`} className="btn btn-primary" target="_blank"><i className="fa fa-file-pdf-o"/> Download Pdf</a>
                     </div>
                     <div>
                         {user.profile?(
@@ -122,7 +126,7 @@ export default class User extends React.Component {
                                 <div className="media-left"><i className="tunga-icon-profile fa-2x"/></div>
                                 <div className="media-body">
                                     <div className="card">
-                                        <div dangerouslySetInnerHTML={{__html: user.profile.bio}}/>
+                                        <Linkify properties={{target: '_blank'}}>{user.profile.bio}</Linkify>
                                     </div>
                                 </div>
                             </div>
@@ -186,7 +190,9 @@ export default class User extends React.Component {
                                             <div>
                                                 {item.start_month_display}/{item.start_year} - {item.end_year?`${item.end_month_display}/${item.end_year}`:'Present'}
                                             </div>
-                                            <div dangerouslySetInnerHTML={{__html: item.details}} style={{margin: '5px 0'}}/>
+                                            <div style={{margin: '5px 0'}}>
+                                                <Linkify properties={{target: '_blank'}}>{item.details}</Linkify>
+                                            </div>
                                         </div>
                                             )
                                         })}
@@ -205,7 +211,9 @@ export default class User extends React.Component {
                                             <div>
                                                 {item.start_month_display}/{item.start_year} - {item.end_year?`${item.end_month_display}/${item.end_year}`:'Present'}
                                             </div>
-                                            <div dangerouslySetInnerHTML={{__html: item.details}} style={{margin: '5px 0'}}/>
+                                            <div style={{margin: '5px 0'}}>
+                                                <Linkify properties={{target: '_blank'}}>{item.details}</Linkify>
+                                            </div>
                                         </div>
                                             )
                                         })}

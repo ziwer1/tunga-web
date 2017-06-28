@@ -45,7 +45,7 @@ class PasswordResetConfirm extends React.Component {
 
         return (
             <form onSubmit={this.handleSubmit} name="reset-confirm" role="form" ref="reset_confirm_form">
-                <h2>{is_new?'Create':'Reset'} Password</h2>
+                <div className="heading-3">{is_new?'Create':'Reset'} Password</div>
 
                 {(Auth.error.reset_confirm && Auth.error.reset_confirm.token)?(
                     <Error message="Invalid token"/>

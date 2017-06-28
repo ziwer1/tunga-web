@@ -53,7 +53,8 @@ export const GA_EVENT_ACTIONS = {
     RATE: 'Rate',
     SCHEDULE_CALL: 'Schedule Call',
     REQUEST_OFFER: 'Request Offer',
-    SEND: 'Send'
+    SEND: 'Send',
+    PAY: 'Pay'
 };
 
 export const GA_EVENT_LABELS = {
@@ -61,7 +62,8 @@ export const GA_EVENT_LABELS = {
     CLIENT: 'Client',
     ADMIN: 'Admin',
     ANONYMOUS: 'Anonymous',
-    INTRO_VIDEO: 'Intro Video'
+    INTRO_VIDEO: 'Intro Video',
+    INTRO_VIDEO_STORY: 'Intro Video: Story'
 };
 
 export function getUserTypeTwitter(type) {

@@ -2,8 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import { Affix } from 'react-overlays';
 
-import { openTaskWizard } from '../utils/tasks';
-import { showWizard, showCallWidget, openCalendlyWidget } from '../utils/router';
+import { openCalendlyWidget } from '../utils/router';
 
 import ChatWindow from '../containers/ChatWindow';
 
@@ -12,24 +11,40 @@ export default class ShowcaseContainer extends React.Component {
     render() {
         return (
             <div className={"showcase "+this.props.className}>
-                <header>
+                <header style={this.props.headerVideo?{overflow: 'hidden', position: 'relative'}:null}>
+                    {this.props.headerVideo?(
+                        <video autoPlay loop style={{position: 'absolute', top: '0', left: 0, width: '100%', minHeight: '100%'}} muted>
+                            <source src={require("../video/homepagetunga.mp4")} type="video/mp4"/>
+                        </video>
+                    ):null}
+                    {this.props.headerVideo?(
+                        <div className="video-overlay"/>
+                    ):null}
+                    {this.props.hasArrow?(
+                        <div className="arrow-overlay">
+                            <div className="ribbon"/>
+                            <div className="pointer text-center" onClick={(e) => {$('body').animate({scrollTop: '+=300'});}}>show me how it works</div>
+                        </div>
+                    ):null}
                     <Affix affixClassName="navbar-fixed-top" offsetTop={60}>
-                        <nav className="navbar">
+                        <nav className="navbar navbar-fixed-top">
                             <div className="navbar-header">
                                 <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                                     <span className="sr-only">Toggle navigation</span>
                                     <i className="fa fa-ellipsis-v fa-lg"/>
                                 </button>
-                                <Link className="navbar-brand" to="/"><img src={require('../images/header-logo.png')} /></Link>
+                                <Link className="navbar-brand" to="/"><img src={require('../images/logo.png')} /></Link>
                             </div>
 
                             <div id="navbar" className="collapse navbar-collapse">
                                 <ul className="nav navbar-nav navbar-right nav-actions">
-                                    <li><a className="primary" onClick={() => {openCalendlyWidget()}}>Talk with us</a></li>
-                                    <li><Link to="/signin">Login</Link></li>
+                                    <li className="schedule"><a className="primary" onClick={() => {openCalendlyWidget()}}>Schedule call</a></li>
+                                    <li className="launch"><Link className="primary" to="/start/"><i className="tunga-icon-rocket fa-lg"/> Start your project</Link></li>
+                                    <li><Link to="/signin" activeClassName="active">Login</Link></li>
                                 </ul>
-                                <ul className="nav navbar-nav navbar-right">
-                                    <li><Link to="/how-it-works" activeClassName="active">How it works</Link></li>
+                                <ul className="nav navbar-nav navbar-left nav-main">
+                                    <li><Link to="/our-story" activeClassName="active">Our Story</Link></li>
+                                    <li><Link to="/quality" activeClassName="active">Quality</Link></li>
                                     <li><Link to="/pricing" activeClassName="active">Pricing</Link></li>
                                     <li><a href="https://blog.tunga.io" target="_blank">Blog</a></li>
                                 </ul>

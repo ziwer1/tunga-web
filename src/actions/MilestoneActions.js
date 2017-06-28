@@ -26,7 +26,7 @@ export function createMilestone(milestone, attachments) {
         if(attachments.length) {
             var data = new FormData();
             Object.keys(milestone).map((key, idx) => {
-                if(!Array.isArray(milestone[key]) || milestone[key].length) {
+                if((Array.isArray(milestone[key]) && milestone[key].length) || (!Array.isArray(milestone[key]) && milestone[key] != null)) {
                     data.append(key, milestone[key]);
                 }
             });

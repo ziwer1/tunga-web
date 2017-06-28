@@ -19,7 +19,7 @@ class SideBar extends React.Component {
         $(window).resize(resizeSideBar);
         if(isAuthenticated()) {
             this.props.NotificationActions.getNotifications();
-            //setInterval(this.props.NotificationActions.getNotifications, 15000);
+            setInterval(this.props.NotificationActions.getNotifications, 15000);
         }
 
         const { SupportActions } = this.props;
@@ -47,40 +47,47 @@ class SideBar extends React.Component {
             <div id="sidebar" className="sidebar collapse">
                 <div className="wrapper" onClick={resizeSideBar()}>
                     <ul className="nav nav-sidebar">
-                        <li>
+                        <li id="sidebar-home">
                             <Link to="/home" activeClassName="active">
                                 <i className="menu-icon tunga-icon-home"/> <span>Home</span>
                             </Link>
                         </li>
-                        <li>
+                        <li id="sidebar-work">
                             <Link to="/work" activeClassName={/\/work\/new\/?/.test(this.props.location.pathname)?"":"active"}>
                                 <i className="menu-icon tunga-icon-search"/> <span>Find work</span>
                             </Link>
                         </li>
                         {isProjectOwner() || isProjectManager() || isAdmin()?(
-                            <li>
+                            <li id="sidebar-post-work">
                                 <Link to="/work/new" activeClassName="active">
                                     <i className="menu-icon tunga-icon-task"/> <span>Post work</span>
                                 </Link>
                             </li>):null}
-                        <li>
+                        <li id="sidebar-messages">
                             <Link to="/conversation" activeClassName="active">
                                 <i className="menu-icon tunga-icon-message"/> <span>Messages</span> {messages?<span className="badge">{messages}</span>:null}
                             </Link>
                         </li>
-                        <li>
+                        <li id="sidebar-tribe">
                             <Link to="/people/filter/developers" activeClassName="active">
                                 <i className="menu-icon tunga-icon-tribe"/> <span>Tribe</span> {requests?<span className="badge">{requests}</span>:null}
                             </Link>
                         </li>
-                        <li>
+                        <li id="sidebar-payments">
                             <Link to="/payments" activeClassName="active">
                                 <i className="menu-icon tunga-icon-wallet"/> <span>Payments</span>
                             </Link>
                         </li>
+                        {/*
+                         <li id="sidebar-estimate">
+                         <Link to="/estimate/new" activeClassName="active">
+                         <i className="menu-icon tunga-icon-wallet"/> <span>New Estimate</span>
+                         </Link>
+                         </li>
+                        */}
 
-                        {Support.Section.list.sections.length?(
-                            <li className={this.getActiveClass(['/support'], false)}>
+                        {Support.Section.list.sections.length && false?(
+                            <li className={this.getActiveClass(['/support'], false)} id="sidebar-support">
                                 <a href="#"
                                    data-toggle="collapse"
                                    data-target="#support-menu"

@@ -3,14 +3,16 @@ import { Link } from 'react-router';
 import moment from 'moment';
 import TimeAgo from 'react-timeago';
 import { ProgressBar } from 'react-bootstrap';
+import Linkify from './Linkify';
+import randomstring from 'randomstring';
+
 import Progress from './status/Progress';
 import LoadMore from './status/LoadMore';
 import Avatar from './Avatar';
 import Attachments from './Attachments';
-import randomstring from 'randomstring';
 
-import { PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT } from '../constants/Api';
-import { isAuthenticated, getUser, isAdmin, isProjectOwner, isAdminOrProjectOwner } from '../utils/auth';
+import { PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT, PROGRESS_EVENT_TYPE_COMPLETE, PROGRESS_EVENT_TYPE_PM, PROGRESS_EVENT_TYPE_CLIENT } from '../constants/Api';
+import { isAuthenticated, getUser, isAdmin, isProjectOwner, isAdminOrProjectOwner, isDeveloper, isProjectManager } from '../utils/auth';
 import {getPayDetails} from '../utils/tasks';
 
 export function scrollList (listId) {
@@ -52,7 +54,7 @@ export default class ActivityList extends React.Component {
                 if(item.action == 'send' && showMessages) {
                     creator = object.sender || object.user;
                     created_at = object.created_at;
-                    body = (<div dangerouslySetInnerHTML={{__html: object.html_body || object.body}}/>);
+                    body = (<Linkify properties={{target: '_blank'}}>{object.body}</Linkify>);
                     uploads = object.attachments;
                 }
                 break;
@@ -60,7 +62,7 @@ export default class ActivityList extends React.Component {
                 if(showMessages) {
                     creator = object.user;
                     created_at = object.created_at;
-                    body = (<div dangerouslySetInnerHTML={{__html: object.html_body}}/>);
+                    body = (<Linkify properties={{target: '_blank'}}>{object.body}</Linkify>);
                     uploads = object.uploads;
                 }
                 break;
@@ -153,6 +155,15 @@ export default class ActivityList extends React.Component {
                 }
                 break;
             case 'progress_event':
+                if(isDeveloper() && [PROGRESS_EVENT_TYPE_PM, PROGRESS_EVENT_TYPE_CLIENT].indexOf(object.type) > -1) {
+                    break;
+                }
+                if(isProjectManager() && object.type == PROGRESS_EVENT_TYPE_CLIENT) {
+                    break;
+                }
+                if(isProjectOwner() && !isAdmin() && object.type == PROGRESS_EVENT_TYPE_PM) {
+                    break;
+                }
                 if(showNotifications && item.action == 'create') {
                     creator = object.created_by || {
                             id: 'tunga',
@@ -163,11 +174,11 @@ export default class ActivityList extends React.Component {
                     created_at = object.created_at;
                     body = (
                         <div>
-                            {[PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT].indexOf(object.type) > -1?(
+                            {[PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT, PROGRESS_EVENT_TYPE_COMPLETE].indexOf(object.type) > -1?(
                                 <div><i className={"fa fa-flag"+((object.type==4)?'-checkered':'-o')}/> Created a milestone:</div>
                             ):null}
                             <Link to={`/work/${object.task}/event/${object.id}/`}>
-                                {object.title || (<span><i className="fa fa-flag-o"/> Scheduled an update</span>)}
+                                {object.title || (<span><i className="fa fa-flag-o"/> Scheduled {object.type == PROGRESS_EVENT_TYPE_CLIENT?'a weekly survey':'an update'}</span>)}
                             </Link>
                             <div>Due: {moment.utc(object.due_at).local().format('Do, MMMM YYYY')}</div>
                         </div>
@@ -175,6 +186,15 @@ export default class ActivityList extends React.Component {
                 }
                 break;
             case 'progress_report':
+                if(isDeveloper() && [PROGRESS_EVENT_TYPE_PM, PROGRESS_EVENT_TYPE_CLIENT].indexOf(object.details.event.type) > -1) {
+                    break;
+                }
+                if(isProjectManager() && object.details.event.type == PROGRESS_EVENT_TYPE_CLIENT) {
+                    break;
+                }
+                if(isProjectOwner() && !isAdmin() && object.details.event.type == PROGRESS_EVENT_TYPE_PM) {
+                    break;
+                }
                 if(showNotifications && item.action == 'report') {
                     creator = object.user;
                     created_at = object.created_at;
@@ -186,17 +206,21 @@ export default class ActivityList extends React.Component {
                     let progress = object.percentage || 0;
                     body = (
                         <div>
-                            <p><i className="fa fa-newspaper-o"/> Progress report: </p>
+                            <p><i className="fa fa-newspaper-o"/> {object.details.event.type == PROGRESS_EVENT_TYPE_CLIENT?'Weekly survey':'Progress report'}: </p>
                             <Link to={`/work/${object.details.event.task}/event/${object.event}/`}>
-                                {object.details.event.title || 'Scheduled Update'}
+                                {object.details.event.type == PROGRESS_EVENT_TYPE_CLIENT?'Weekly survey':(object.details.event.title || 'Scheduled Update')}
                             </Link>
-                            <div>Status: {object.status_display}</div>
-                            <div>
-                                <ProgressBar bsStyle="success" now={progress} label={`${progress}% Completed`} />
-                            </div>
-                            {object.accomplished?(
-                                <div dangerouslySetInnerHTML={{__html: object.accomplished}}/>
-                            ):null}
+                            {object.details.event.type == PROGRESS_EVENT_TYPE_CLIENT?null:(
+                                <div>
+                                    <div>Status: {object.status_display}</div>
+                                    <div>
+                                        <ProgressBar bsStyle="success" now={progress} label={`${progress}% Completed`} />
+                                    </div>
+                                    {object.accomplished?(
+                                        <Linkify properties={{target: '_blank'}}>{object.accomplished}</Linkify>
+                                    ):null}
+                                </div>
+                            )}
                         </div>
                     );
                 }
@@ -239,7 +263,7 @@ export default class ActivityList extends React.Component {
         var last_sent_day = '';
         let today = moment.utc().local().format(day_format);
 
-        let is_current_user = (activity.user.id == getUser().id) || (!isAuthenticated() && activity.user.inquirer);
+        let is_current_user = (isAuthenticated() && activity.user.id == getUser().id) || (!isAuthenticated() && activity.user.inquirer);
         let display_name = is_current_user?'Me':activity.user.display_name;
 
         let avatar_div = (
@@ -266,7 +290,9 @@ export default class ActivityList extends React.Component {
                             )}
                             {activity.summary?(<span> {activity.summary}</span>):null}
 
-                            <TimeAgo date={moment.utc(activity.created_at).local().format()} className="pull-right"/>
+                            {activity.created_at?(
+                                <TimeAgo date={moment.utc(activity.created_at).local().format()} className="pull-right"/>
+                            ):null}
                         </p>
                         <div>{activity.body}</div>
                         {activity.uploads && activity.uploads.length?(

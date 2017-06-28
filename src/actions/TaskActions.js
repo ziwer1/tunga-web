@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { ENDPOINT_TASK } from '../constants/Api';
 import { sendGAEvent, GA_EVENT_CATEGORIES, GA_EVENT_ACTIONS, getGAUserType } from '../utils/tracking';
-import {getUser} from 'utils/auth';
+import {getUser} from '../utils/auth';
+import {setEditToken} from '../utils/tasks';
 
 export const CREATE_TASK_START = 'CREATE_TASK_START';
 export const CREATE_TASK_SUCCESS = 'CREATE_TASK_SUCCESS';
@@ -52,6 +53,9 @@ export const UPDATE_TASK_CLAIM_FAILED = 'UPDATE_TASK_CLAIM_FAILED';
 export const UPDATE_TASK_RETURN_START = 'UPDATE_TASK_RETURN_START';
 export const UPDATE_TASK_RETURN_SUCCESS = 'UPDATE_TASK_RETURN_SUCCESS';
 export const UPDATE_TASK_RETURN_FAILED = 'UPDATE_TASK_RETURN_FAILED';
+export const MAKE_TASK_PAYMENT_START = 'MAKE_TASK_PAYMENT_START';
+export const MAKE_TASK_PAYMENT_SUCCESS = 'MAKE_TASK_PAYMENT_SUCCESS';
+export const MAKE_TASK_PAYMENT_FAILED = 'MAKE_TASK_PAYMENT_FAILED';
 
 
 export function createTask(task, attachments) {
@@ -102,6 +106,8 @@ export function createTaskStart(task) {
 export function createTaskSuccess(task) {
     sendGAEvent(GA_EVENT_CATEGORIES.TASK, GA_EVENT_ACTIONS.CREATE, getGAUserType(getUser()));
 
+    setEditToken(task.edit_token);
+
     return {
         type: CREATE_TASK_SUCCESS,
         task
@@ -115,83 +121,90 @@ export function createTaskFailed(error) {
     }
 }
 
-export function listTasks(filter) {
+export function listTasks(filter, selection, prev_selection) {
     return dispatch => {
-        dispatch(listTasksStart(filter));
+        dispatch(listTasksStart(filter, selection, prev_selection));
         axios.get(ENDPOINT_TASK, {params: filter})
             .then(function(response) {
-                dispatch(listTasksSuccess(response.data, filter))
+                dispatch(listTasksSuccess(response.data, filter, selection))
             }).catch(function(error) {
-                dispatch(listTasksFailed(error.response?error.response.data:null))
+                dispatch(listTasksFailed(error.response?error.response.data:null, selection))
             });
     }
 }
 
-export function listTasksStart(filter) {
+export function listTasksStart(filter, selection, prev_selection) {
     return {
         type: LIST_TASKS_START,
-        filter
+        filter,
+        selection,
+        prev_selection
     }
 }
 
-export function listTasksSuccess(response, filter) {
+export function listTasksSuccess(response, filter, selection) {
     return {
         type: LIST_TASKS_SUCCESS,
         items: response.results,
         previous: response.previous,
         next: response.next,
         count: response.count,
-        filter
+        filter,
+        selection
     }
 }
 
-export function listTasksFailed(error) {
+export function listTasksFailed(error, selection) {
     return {
         type: LIST_TASKS_FAILED,
-        error
+        error,
+        selection
     }
 }
 
-export function listMoreTasks(url) {
+export function listMoreTasks(url, selection) {
     return dispatch => {
-        dispatch(listMoreTasksStart(url));
+        dispatch(listMoreTasksStart(url, selection));
         axios.get(url)
             .then(function(response) {
-                dispatch(listMoreTasksSuccess(response.data))
+                dispatch(listMoreTasksSuccess(response.data, selection))
             }).catch(function(error) {
-            dispatch(listMoreTasksFailed(error.response?error.response.data:null))
+            dispatch(listMoreTasksFailed(error.response?error.response.data:null, selection))
         });
     }
 }
 
-export function listMoreTasksStart(url) {
+export function listMoreTasksStart(url, selection) {
     return {
         type: LIST_MORE_TASKS_START,
-        url
+        url,
+        selection
     }
 }
 
-export function listMoreTasksSuccess(response) {
+export function listMoreTasksSuccess(response, selection) {
     return {
         type: LIST_MORE_TASKS_SUCCESS,
         items: response.results,
         previous: response.previous,
         next: response.next,
-        count: response.count
+        count: response.count,
+        selection
     }
 }
 
-export function listMoreTasksFailed(error) {
+export function listMoreTasksFailed(error, selection) {
     return {
         type: LIST_MORE_TASKS_FAILED,
-        error
+        error,
+        selection
     }
 }
 
-export function retrieveTask(id) {
+export function retrieveTask(id, editToken) {
     return dispatch => {
         dispatch(retrieveTaskStart(id));
-        axios.get(ENDPOINT_TASK + id + '/')
+        axios.get(ENDPOINT_TASK + id + '/', {headers: {'X-EDIT-TOKEN': editToken}})
             .then(function(response) {
                 dispatch(retrieveTaskSuccess(response.data))
             }).catch(function(error) {
@@ -221,7 +234,7 @@ export function retrieveTaskFailed(error) {
     }
 }
 
-export function updateTask(id, data, uploads) {
+export function updateTask(id, data, uploads, editToken) {
     return dispatch => {
         dispatch(updateTaskStart(id));
 
@@ -244,7 +257,8 @@ export function updateTask(id, data, uploads) {
                 type: "PATCH",
                 data: form_data,
                 processData: false,
-                contentType: false
+                contentType: false,
+                headers: {'X-EDIT-TOKEN': editToken}
             }).then(function (response) {
                 dispatch(updateTaskSuccess(response, data));
                 if(!data) {
@@ -254,7 +268,7 @@ export function updateTask(id, data, uploads) {
                 dispatch(updateTaskFailed(response));
             });
         } else {
-            axios.patch(ENDPOINT_TASK + id + '/', data)
+            axios.patch(ENDPOINT_TASK + id + '/', data, {headers: {'X-EDIT-TOKEN': editToken}})
                 .then(function(response) {
                     dispatch(updateTaskSuccess(response.data, data));
                 }).catch(function(error) {
@@ -430,6 +444,33 @@ export function createTaskIntegration(id, provider, data) {
     }
 }
 
+export function createTaskIntegrationStart(id, provider) {
+    return {
+        type: CREATE_TASK_INTEGRATION_START,
+        id,
+        provider
+    }
+}
+
+export function createTaskIntegrationSuccess(response, provider) {
+    sendGAEvent(GA_EVENT_CATEGORIES.TASK, GA_EVENT_ACTIONS.INTEGRATE, provider);
+
+    return {
+        type: CREATE_TASK_INTEGRATION_SUCCESS,
+        task: response.task,
+        provider,
+        integration: response
+    }
+}
+
+export function createTaskIntegrationFailed(error, provider) {
+    return {
+        type: CREATE_TASK_INTEGRATION_FAILED,
+        error,
+        provider
+    }
+}
+
 export function updateTaskRead(id, data) {
     return dispatch => {
         dispatch(updateTaskReadStart(id));
@@ -460,33 +501,6 @@ export function updateTaskReadFailed(error) {
     return {
         type: UPDATE_TASK_READ_FAILED,
         error
-    }
-}
-
-export function createTaskIntegrationStart(id, provider) {
-    return {
-        type: CREATE_TASK_INTEGRATION_START,
-        id,
-        provider
-    }
-}
-
-export function createTaskIntegrationSuccess(response, provider) {
-    sendGAEvent(GA_EVENT_CATEGORIES.TASK, GA_EVENT_ACTIONS.INTEGRATE, provider);
-
-    return {
-        type: CREATE_TASK_INTEGRATION_SUCCESS,
-        task: response.task,
-        provider,
-        integration: response
-    }
-}
-
-export function createTaskIntegrationFailed(error, provider) {
-    return {
-        type: CREATE_TASK_INTEGRATION_FAILED,
-        error,
-        provider
     }
 }
 
@@ -659,5 +673,46 @@ export function returnTaskFailed(error) {
     return {
         type: UPDATE_TASK_RETURN_FAILED,
         error
+    }
+}
+
+
+export function makeTaskPayment(id, provider, data) {
+    return dispatch => {
+        dispatch(makeTaskPaymentStart(id));
+        axios.post(ENDPOINT_TASK + id + '/pay/' + provider + '/', data)
+            .then(function(response) {
+                dispatch(makeTaskPaymentSuccess(response.data, provider))
+            }).catch(function(error) {
+            dispatch(makeTaskPaymentFailed(error.response?error.response.data:null, provider))
+        });
+    }
+}
+
+export function makeTaskPaymentStart(id, provider) {
+    return {
+        type: MAKE_TASK_PAYMENT_START,
+        id,
+        provider
+    }
+}
+
+export function makeTaskPaymentSuccess(response, provider) {
+    sendGAEvent(GA_EVENT_CATEGORIES.TASK, GA_EVENT_ACTIONS.PAY, provider);
+
+    return {
+        type: MAKE_TASK_PAYMENT_SUCCESS,
+        task: response.task,
+        payment: response.payment,
+        provider,
+        integration: response
+    }
+}
+
+export function makeTaskPaymentFailed(error, provider) {
+    return {
+        type: MAKE_TASK_PAYMENT_FAILED,
+        error,
+        provider
     }
 }

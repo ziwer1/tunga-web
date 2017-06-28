@@ -1,16 +1,17 @@
-import React from 'react';
-
-import UserPage from '../containers/UserPage';
-import UserList from '../components/UserList';
-
-import TaskContainer from '../containers/TaskContainer';
-import TaskForm from '../components/TaskForm';
-
-import createModal from '../components/Modal';
-import {DEVELOPER_FEE, PM_FEE, TUNGA_PERCENTAGE_DEVELOPER, SOCIAL_PROVIDERS, STATUS_SUBMITTED, STATUS_APPROVED, STATUS_ACCEPTED} from '../constants/Api';
+import * as Cookies from "js-cookie";
+import {DEVELOPER_FEE, PM_FEE, TUNGA_PERCENTAGE_DEVELOPER, STATUS_SUBMITTED, STATUS_APPROVED, STATUS_ACCEPTED, TASK_TYPE_WEB, TASK_TYPE_MOBILE, TASK_TYPE_OTHER} from '../constants/Api';
 
 import {isAdmin, getUser} from '../utils/auth';
 import {parseNumber} from '../utils/helpers';
+import {getTaskTypeUrl, getScopeUrl} from '../utils/tracking';
+
+export function setEditToken (token) {
+    Cookies.set('taskEditToken', token);
+}
+
+export function getEditToken () {
+    return Cookies.get('taskEditToken');
+}
 
 export function parse_task_status(task) {
     let work_type = task.is_project?'project':'task';
@@ -28,28 +29,57 @@ export function parse_task_status(task) {
     return task_status;
 }
 
-export function openTaskWizard(options={}) {
-    return createModal(
-        <div className="task-wizard">
-            <div className="task-section">
-                <div className="title-bar">
-                    <h2 className="title text-center">Hire top African coders!</h2>
-                </div>
-                <TaskContainer>
-                    <TaskForm options={options}/>
-                </TaskContainer>
-            </div>
-            <div className="dev-section">
-                <h3 className="text-center">Our developers</h3>
-                <div className="dev-list">
-                    <UserPage>
-                        <UserList hide_header={true} bsClass="col-xs-12" filters={{ filter: 'developers'}} max={5} profileLink={false} tagLinks={false}/>
-                    </UserPage>
-                </div>
-            </div>
-            <div className="clearfix"></div>
-        </div>, null, null, {className: "task-form-dialog", bsStyle: 'lg'}
-    );
+
+export const DLP_WEB_TAGS = [
+    'php', 'wordpress', 'jquery', 'node.js', 'bootstrap',
+    'react.js', 'angularjs', 'rails', 'django', 'express.js', 'ruby on rails',
+    'html', 'css', 'css3', 'html5', 'javascript', 'flask'
+];
+export const DLP_MOBILE_TAGS = [
+    'android', 'ios', 'windows mobile',
+    'ionic', 'react native', 'apache cordova', 'cordova'
+];
+
+export function getDLPTaskType(tag) {
+    if(tag) {
+        tag = tag.toLowerCase();
+        if(DLP_WEB_TAGS.indexOf(tag) > -1) {
+            return TASK_TYPE_WEB;
+        } else if(DLP_MOBILE_TAGS.indexOf(tag) > -1) {
+            return TASK_TYPE_MOBILE;
+        }
+    }
+    return null;
+}
+
+export function getAcquisitionUrl(task, completed=false) {
+    if(task.id) {
+        var suffix = '';
+        const scope_url = getScopeUrl(task.scope);
+        if(scope_url) {
+            suffix = '/scope/' + scope_url + suffix;
+        }
+
+        const type_url = getTaskTypeUrl(task.type);
+        if(type_url) {
+            suffix = '/type/' + type_url + suffix;
+        }
+        return window.location.protocol + '//' + window.location.hostname+ (window.location.port?`:${window.location.port}`:'')  + `/track/${task.analytics_id || 'no_id'}/acquisition` + (task.source == 2?'/new':'/member') + `/${task.id}/${completed?'complete':'start'}` + suffix;
+    }
+    return null;
+}
+
+export function hasStarted(task) {
+    var started = false;
+
+    if(task.participation) {
+        task.participation.forEach(item => {
+            if(item.status == STATUS_ACCEPTED) {
+                started = true;
+            }
+        });
+    }
+    return started;
 }
 
 export function getDevFee(hours) {
@@ -110,7 +140,7 @@ export function isTaskOwner(task) {
 }
 
 export function isTaskPM(task) {
-    return (task.pm && task.pm.id == getUser().id);
+    return (task.pm == getUser().id);
 }
 
 export function canAddEstimate(task) {

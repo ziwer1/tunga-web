@@ -2,9 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import momentLocalizer from 'react-widgets/lib/localizers/moment';
 import DateTimePicker from 'react-widgets/lib/DateTimePicker';
-import TinyMCE  from 'react-tinymce';
 import FieldError from './status/FieldError';
-import {TINY_MCE_CONFIG } from '../constants/settings';
 
 momentLocalizer(moment);
 

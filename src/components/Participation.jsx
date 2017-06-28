@@ -2,7 +2,8 @@ import React from 'react';
 import { Link } from 'react-router';
 import Progress from './status/Progress';
 import FormStatus from './status/FormStatus';
-import Error from './status/Error';
+
+import {parseNumber} from '../utils/helpers';
 
 export default class Participation extends React.Component {
 
@@ -65,17 +66,12 @@ export default class Participation extends React.Component {
                     (<Progress/>)
                     :
                     (<div style={{marginTop: '20px'}}>
-                        {/*<h4 className="title">Participation shares</h4>*/}
-
                         <form onSubmit={this.handleSubmit.bind(this)} name="participation" role="form" ref="participation_form">
 
                             <FormStatus loading={Task.detail.isSaving}
                                         success={Task.detail.isSaved}
                                         message={'Participation details saved successfully'}
                                         error={Task.detail.error.update}/>
-
-                            {(total_shares != 100)?
-                                (<Error message={`Shares don't add up to 100 (${total_shares})`}/>):null}
 
                             {task.details && task.details.participation_shares.length?(
                                 <div>
@@ -87,7 +83,7 @@ export default class Participation extends React.Component {
                                                 </div>
                                                 <div className="col-md-6">
                                                     <input type="text" className="form-control" required placeholder="Share"
-                                                           defaultValue={item.percentage}
+                                                           defaultValue={parseNumber(item.percentage, false)}
                                                            onChange={this.onShareChange.bind(this, item.participant.user.id)}/>
                                                 </div>
                                             </div>
@@ -98,8 +94,8 @@ export default class Participation extends React.Component {
 
                             <div className="text-center">
                                 <button type="submit"
-                                        className="btn  "
-                                        disabled={Task.detail.isSaving || total_shares != 100}>Save</button>
+                                        className="btn"
+                                        disabled={Task.detail.isSaving}>Save</button>
                             </div>
                         </form>
 

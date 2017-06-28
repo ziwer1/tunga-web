@@ -6,7 +6,7 @@ import { Table } from 'react-bootstrap';
 
 import FormStatus from './status/FormStatus';
 
-import {DEVELOPER_FEE, STATUS_SUBMITTED, STATUS_APPROVED, STATUS_DECLINED, STATUS_ACCEPTED, STATUS_REJECTED} from '../constants/Api';
+import {DEVELOPER_FEE, STATUS_SUBMITTED, STATUS_APPROVED, STATUS_DECLINED, STATUS_ACCEPTED, STATUS_REJECTED, ENDPOINT_TASK} from '../constants/Api';
 import {getPayDetails, canEditEstimate, canModerateEstimate, canReviewEstimate} from '../utils/tasks';
 import {getUser, isAdminOrProjectOwner} from '../utils/auth';
 import confirm from '../utils/confirm';
@@ -55,6 +55,10 @@ export default class EstimateDetail extends React.Component {
                             success={Estimate.detail.isSaved}
                             message={'Estimate saved successfully'}
                             error={Estimate.detail.error.create}/>
+
+                <div className="pull-right">
+                    <a href={`${ENDPOINT_TASK}${estimate.task}/download/estimate?format=pdf`} className="btn btn-primary" target="_blank"><i className="fa fa-file-pdf-o"/> Download Pdf</a>
+                </div>
 
                 <div className="form-group">
                     <h4>Introduction:</h4>

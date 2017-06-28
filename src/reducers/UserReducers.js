@@ -3,6 +3,8 @@ import * as UserActions from '../actions/UserActions';
 import * as ConnectionActions from '../actions/ConnectionActions';
 import { getIds } from '../utils/reducers';
 
+import { STATUS_INITIAL } from '../constants/Api';
+
 function user(state = {}, action) {
     switch (action.type) {
         case UserActions.RETRIEVE_USER_SUCCESS:
@@ -20,7 +22,7 @@ function user(state = {}, action) {
                 var new_user = {...state};
                 new_user.can_connect = false;
                 new_user.connection =  action.connection;
-                if(action.connection.responded) {
+                if(action.connection.status != STATUS_INITIAL) {
                     new_user.request = null;
                 }
                 return new_user;
@@ -67,7 +69,7 @@ function users(state = {}, action) {
             if(user) {
                 user.can_connect = false;
                 user.connection =  action.connection;
-                if(action.connection.responded) {
+                if(action.connection.status != STATUS_INITIAL) {
                     user.request = null;
                 }
                 new_ref = {};
@@ -93,15 +95,24 @@ function users(state = {}, action) {
     }
 }
 
-function ids(state = [], action) {
+function ids(state = {}, action) {
+    var selection_key = action.selection || 'default';
+    var new_state = {};
     switch (action.type) {
         case UserActions.LIST_USERS_SUCCESS:
-            return getIds(action.items);
+            new_state[selection_key] = getIds(action.items);
+            return {...state, ...new_state};
         case UserActions.LIST_MORE_USERS_SUCCESS:
-            return [...state, ...getIds(action.items)];
+            new_state[selection_key] = [...state[selection_key], ...getIds(action.items)];
+            return {...state, ...new_state};
         case UserActions.LIST_USERS_START:
+            if(action.prev_selection && state[action.prev_selection]) {
+                new_state[selection_key] = state[action.prev_selection];
+                return {...state, ...new_state};
+            }
+            return state;
         case UserActions.LIST_USERS_FAILED:
-            return [];
+            return state;
         case ConnectionActions.DELETE_CONNECTION_SUCCESS:
             if(action.user && action.hide) {
                 var idx = state.indexOf(action.user.id);

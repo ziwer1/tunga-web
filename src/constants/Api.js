@@ -1,4 +1,5 @@
 import axios from 'axios';
+import * as Cookies from "js-cookie";
 
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
@@ -39,7 +40,9 @@ export const SOCIAL_PROVIDERS = {
     linkedin: 'linkedin',
     github: 'github',
     coinbase: 'coinbase',
-    slack: 'slack'
+    slack: 'slack',
+    trello: 'trello',
+    'google-drive': 'google-drive'
 };
 
 export const SOCIAL_LOGIN_URLS = {
@@ -92,6 +95,7 @@ export const ENDPOINT_COUNTRIES = getEndpointUrl('countries/');
 export const ENDPOINT_CONTACT_REQUEST = getEndpointUrl('contact-request/');
 export const ENDPOINT_SUPPORT_SECTION = getEndpointUrl('support/section/');
 export const ENDPOINT_SUPPORT_PAGE = getEndpointUrl('support/page/');
+export const ENDPOINT_MEDIUM = getEndpointUrl('medium/');
 
 export const USER_TYPE_DEVELOPER = 1;
 export const USER_TYPE_PROJECT_OWNER = 2;
@@ -139,7 +143,7 @@ export const TASK_TYPE_OTHER = 3;
 export const TASK_TYPE_CHOICES = [
     {id: TASK_TYPE_WEB, name: 'Web', icon: 'fa fa-globe'},
     {id: TASK_TYPE_MOBILE, name: 'Mobile', icon: 'fa fa-mobile'},
-    {id: TASK_TYPE_OTHER, name: 'Other', icon: 'fa fa-question-circle'}
+    {id: TASK_TYPE_OTHER, name: 'Other', icon: 'fa fa-tasks'}
 ];
 
 export function suggestTaskTypeSkills(type) {
@@ -248,15 +252,21 @@ export const PROGRESS_EVENT_TYPE_DEFAULT = 1;
 export const PROGRESS_EVENT_TYPE_PERIODIC = 2;
 export const PROGRESS_EVENT_TYPE_MILESTONE = 3;
 export const PROGRESS_EVENT_TYPE_SUBMIT = 4;
+export const PROGRESS_EVENT_TYPE_COMPLETE = 5;
+export const PROGRESS_EVENT_TYPE_PM = 6;
+export const PROGRESS_EVENT_TYPE_CLIENT = 7;
 
 export const PROGRESS_REPORT_STATUS_ON_SCHEDULE = 1;
 export const PROGRESS_REPORT_STATUS_BEHIND = 2;
 export const PROGRESS_REPORT_STATUS_STUCK = 3;
 
+export const PROGRESS_REPORT_STATUS_BEHIND_BUT_PROGRESSING = 4;
+export const PROGRESS_REPORT_STATUS_BEHIND_AND_STUCK = 5;
+
 export const PROGRESS_REPORT_STATUS_CHOICES = [
     {id: PROGRESS_REPORT_STATUS_ON_SCHEDULE, name: 'On schedule'},
-    {id: PROGRESS_REPORT_STATUS_BEHIND, name: 'Behind'},
-    {id: PROGRESS_REPORT_STATUS_STUCK, name: 'Stuck'}
+    {id: PROGRESS_REPORT_STATUS_BEHIND_AND_STUCK, name: 'Behind and Stuck'},
+    {id: PROGRESS_REPORT_STATUS_BEHIND_BUT_PROGRESSING, name: 'Behind but Progressing'}
 ];
 
 export const INTEGRATION_TYPE_REPO = 1;
@@ -303,28 +313,36 @@ export const CHAT_INTEGRATION_EVENT_CHOICES = [
 export const TASK_PAYMENT_METHOD_BITONIC = 'bitonic';
 export const TASK_PAYMENT_METHOD_BITCOIN = 'bitcoin';
 export const TASK_PAYMENT_METHOD_BANK = 'bank';
+export const TASK_PAYMENT_METHOD_STRIPE = 'stripe';
 
 export const TASK_PAYMENT_METHOD_CHOICES = [
+    {
+        id: TASK_PAYMENT_METHOD_STRIPE,
+        name: 'Pay with Card',
+        meta: '2.9% payment fee + €0.25',
+        icon_class: 'fa fa-cc-stripe',
+        details: "Click continue to pay with your credit/debit card on Stripe."
+    },
     {
         id: TASK_PAYMENT_METHOD_BITONIC,
         name: 'Pay with iDeal (NL)',
         meta: '3% payment fee',
         icon_class: 'tunga-icon-iDeal',
-        details: "Our payment partner Bitonic makes it possible to send bitcoins to our developers in Africa. Tunga uses Bitcoins because it is the easiest and fastest way of sending money to Africa. Our developers in Africa can very conveniently convert the received Bitcoins to local currency. if you continue with paying with iDeal you will be directed to the website of Bitonic where you can complete the payment. Note: When it is your first time paying via Bitonic you need to verify your bank account. This process will take less than a minute. "
+        details: "Our payment partner Bitonic makes it possible to send bitcoins to our developers in Africa. Tunga uses Bitcoin because it is the easiest and fastest way of sending money to Africa. Our developers in Africa can very conveniently convert the received Bitcoin to local currency. if you continue with paying with iDeal you will be directed to the website of Bitonic where you can complete the payment. Note: When it is your first time paying via Bitonic you need to verify your bank account. This process will take less than a minute. "
     },
     {
         id: TASK_PAYMENT_METHOD_BITCOIN,
-        name: 'Pay with bitcoin',
+        name: 'Pay with BitCoin',
         meta: 'No payment fee',
         icon_class: 'fa fa-bitcoin',
-        details: "Click on continue to view the BTC address the payment needs to be send to or scan our QR code."
+        details: "Click continue to view the BTC address the payment needs to be sent to or scan our QR code."
     },
     {
         id: TASK_PAYMENT_METHOD_BANK,
         name: 'Pay by bank transfer via invoice',
         meta: '5% payment fee',
         icon_class: 'fa fa-bank',
-        details: "Click on continue to be able to download the invoice. Please make the payment within a week. To be able to perform a bank transfer you need to fill in VAT number on your profile."
+        details: "Click continue to be able to download the invoice. Please make the payment within a week. To be able to perform a bank transfer you need to fill in VAT number on your profile."
     }
 ];
 

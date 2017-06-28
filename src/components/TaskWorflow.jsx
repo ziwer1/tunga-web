@@ -1,8 +1,11 @@
 import React from 'react';
+import { renderToString } from 'react-dom/server'
 import {Link} from 'react-router';
 import moment from 'moment';
 import TimeAgo from 'react-timeago';
 import {OverlayTrigger, Popover} from 'react-bootstrap';
+import Linkify from './Linkify';
+import Joyride from 'react-joyride';
 
 import CommentSection from '../containers/CommentSection';
 import Avatar from './Avatar';
@@ -15,13 +18,16 @@ import MilestoneContainer from '../containers/MilestoneContainer';
 import Milestone from './Milestone';
 import TagList from './TagList';
 
-import {parse_task_status, canAddEstimate, canEditEstimate, canViewEstimate, canAddQuote, canEditQuote, canViewQuote} from '../utils/tasks';
-import {render_summary} from '../utils/html';
+import {parse_task_status, canAddEstimate, canEditEstimate, canViewEstimate, canAddQuote, canEditQuote, canViewQuote, getAcquisitionUrl, hasStarted} from '../utils/tasks';
+import {render_summary, nl_to_br} from '../utils/html';
 import {getTaskKey} from '../utils/reducers';
 import confirm from '../utils/confirm';
 
 import { SOCIAL_PROVIDERS } from '../constants/Api';
 import { isAdmin, getUser } from '../utils/auth';
+import { sendGAPageView } from '../utils/tracking';
+
+import { STATUS_REJECTED, STATUS_ACCEPTED, STATUS_INITIAL } from '../constants/Api';
 
 export function resizeOverviewBox() {
     var w_h = $(window).height();
@@ -74,6 +80,17 @@ export default class TaskWorflow extends ComponentWithModal {
 
         if (nextProps.Task.detail.task.closed != this.props.Task.detail.task.closed) {
             this.redirectToNextStep(nextProps);
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if(prevProps.task && this.props.task) {
+            const had_started = hasStarted(prevProps.task);
+            const has_started = hasStarted(this.props.task);
+
+            if(!had_started && has_started) {
+                sendGAPageView(getAcquisitionUrl(this.props.task, true));
+            }
         }
     }
 
@@ -185,7 +202,7 @@ export default class TaskWorflow extends ComponentWithModal {
         TaskActions.updateTask(
             Task.detail.task.id,
             {
-                participation: [{user: getUser().id, accepted: true, responded: true}]
+                participation: [{user: getUser().id, status: STATUS_ACCEPTED}]
             }
         );
     }
@@ -197,7 +214,7 @@ export default class TaskWorflow extends ComponentWithModal {
                 TaskActions.updateTask(
                     Task.detail.task.id,
                     {
-                        participation: [{user: getUser().id, accepted: false, responded: true}]
+                        participation: [{user: getUser().id, status: STATUS_REJECTED}]
                     }
                 );
             }
@@ -250,7 +267,7 @@ export default class TaskWorflow extends ComponentWithModal {
         const {task, Task, TaskActions} = this.props;
         var new_applications = [];
         task.details.applications.map(application => {
-            if(!application.responded) {
+            if(application.status == STATUS_INITIAL) {
                 new_applications.push(application);
             }
         });
@@ -262,18 +279,20 @@ export default class TaskWorflow extends ComponentWithModal {
         const {uploads} = Task.detail;
         var task_status = parse_task_status(task);
 
-        let is_owner = getUser().id == task.user.id;
+        let is_owner = [task.user.id, task.owner].indexOf(getUser().id) > -1;
         let is_admin_or_owner = is_owner || isAdmin();
 
-        let is_pm = (task.pm && task.pm.id == getUser().id);
-        let is_confirmed_assignee = task.assignee && task.assignee.accepted && task.assignee.user.id == getUser().id;
+        let is_pm = (task.pm == getUser().id);
+        let is_confirmed_assignee = task.assignee && task.assignee.status == STATUS_ACCEPTED && task.assignee.user.id == getUser().id;
 
         let workflow_link = `/work/${task.id}/?nr=true`;
-        let can_pay = task.is_payable && is_admin_or_owner && task.closed && !task.paid;
+        let can_pay = is_admin_or_owner && task.closed && !task.paid;
         let can_rate = is_admin_or_owner && task.closed && task.paid;
         let can_edit_shares = isAdmin() || is_confirmed_assignee && task.details && task.details.participation_shares.length > 1;
         let work_type = task.is_project?'project':'task';
         let new_applications = this.getNewApplications();
+
+        let is_project_task = task && task.parent;
 
         const pay_popover = (
             <Popover id="popover">
@@ -287,9 +306,96 @@ export default class TaskWorflow extends ComponentWithModal {
             </Popover>
         );
 
+        let steps = [
+            ...steps,
+            {
+                title: 'View Applications',
+                text: 'View Task Applications from developers',
+                selector: '#view-applications-btn',
+                position: 'bottom'
+            },
+            {
+                title: 'Project Board',
+                text: 'View Project Board',
+                selector: '#project-board-btn',
+                position: 'bottom'
+            },
+            {
+                title: 'Make Payment',
+                text: 'Make payments to developers',
+                selector: '#make-payment-btn',
+                position: 'bottom'
+            },
+            {
+                title: 'Rate Developers',
+                text: 'Rate Project Developers',
+                selector: '#rate-developers-btn',
+                position: 'bottom'
+            },
+            {
+                title: 'Participation Shares',
+                text: 'Participation shares',
+                selector: '#participation-shares-btn',
+                position: 'bottom'
+            },
+            {
+                title: 'Configure updates',
+                text: 'Manage updates',
+                selector: '#configure-updates-btn',
+                position: 'bottom'
+            },
+            {
+                title: 'Settings',
+                text: 'Manage Settings',
+                selector: '#menu-btn',
+                position: 'bottom'
+            },
+            {
+                title: 'Github Repo',
+                text: 'View project or task on github',
+                selector: '#github-btn',
+                position: 'left'
+            },
+            {
+                title: 'Slack team',
+                text: 'Go to project or task slack team',
+                selector: '#slack-btn',
+                position: 'left'
+            },
+            {
+                title: 'Comment Area',
+                text: 'View activity about your task or project',
+                selector: '#comment-box',
+                position: 'top'
+            },
+            {
+                title: 'Comment Widget',
+                text: 'Share messages and upload files',
+                selector: '#comment-widget',
+                position: 'top'
+            },
+            {
+                title: 'Sidebar Bar',
+                text: 'View your task or project details',
+                selector: '#sidebox',
+                position: 'left'
+            }
+
+        ];
+
         return (
             <div>
                 {this.renderModalContent()}
+
+                <Joyride ref="joyride_workflow"
+                         steps={steps}
+                         run={!__PRODUCTION__ || __PRERELEASE__}
+                         debug={!__PRODUCTION__ || __PRERELEASE__}
+                         autoStart={!__PRODUCTION__ || __PRERELEASE__}
+                         type="continuous"
+                         showStepsProgress={true}
+                         showSkipButton={true}/>
+
                 <div className="workflow-head clearfix">
                     <div className="" style={{marginBottom: '10px'}}>
                         <div className="title">
@@ -353,27 +459,27 @@ export default class TaskWorflow extends ComponentWithModal {
                         </div>
                     ):null}
 
-                    {task.is_developer_ready && (is_admin_or_owner || task.is_admin || task.is_participant) ? (
+                    {/*task.is_developer_ready &&*/ (is_admin_or_owner || task.is_admin || task.is_participant) ? (
                         <div className="nav-top-filter">
                             {is_admin_or_owner || can_edit_shares ? (
                                 <div className="pull-left">
-                                    {is_admin_or_owner?(
+                                    {task.is_developer_ready && is_admin_or_owner?(
                                         <Link to={`/work/${task.id}/applications/`}
-                                              className="btn">
+                                              className="btn" id="view-applications-btn">
                                             View applications {new_applications?(
                                             <span className="badge">{new_applications}</span>
                                         ):null}
                                         </Link>
                                     ):null}
-                                    {is_admin_or_owner && task.is_project?(
+                                    {task.is_developer_ready && is_admin_or_owner && task.is_project?(
                                         <Link to={`/work/${task.id}/board/`}
-                                              className="btn">
+                                              className="btn" id="project-board-btn">
                                             Project Board
                                         </Link>
                                     ):null}
                                     {can_pay?(
                                         <Link to={`/work/${task.id}/pay/`}
-                                              className="btn">
+                                              className="btn" id="make-payment-btn">
                                             {can_pay ? 'Make payment' : (
                                                 <OverlayTrigger placement="top" overlay={pay_popover}>
                                                     <div>Make payment</div>
@@ -383,7 +489,7 @@ export default class TaskWorflow extends ComponentWithModal {
                                     ):null}
                                     {can_rate?(
                                         <Link to={can_rate?`/work/${task.id}/rate/`:workflow_link}
-                                              className="btn">
+                                              className="btn" id="rate-developers-btn">
                                             {can_rate ? 'Rate Developers' : (
                                                 <OverlayTrigger placement="top" overlay={rate_dev_popover}>
                                                     <div>Rate Developers</div>
@@ -391,10 +497,17 @@ export default class TaskWorflow extends ComponentWithModal {
                                             )}
                                         </Link>
                                     ):null}
-                                    {can_edit_shares && task.details && task.details.participation && task.details.participation.length?(
+                                    {task.is_developer_ready && can_edit_shares && task.details && task.details.participation && task.details.participation.length?(
                                         <Link to={`/work/${task.id}/participation/`}
-                                              className="btn">
+                                              className="btn" id="participation-shares-btn">
                                             Participation shares
+                                        </Link>
+                                    ):null}
+
+                                    {task.is_developer_ready && !is_project_task && is_admin_or_owner?(
+                                        <Link to={`/work/${task.id}/edit/updates/`}
+                                              className="btn" id="configure-updates-btn">
+                                            Configure updates
                                         </Link>
                                     ):null}
 
@@ -406,7 +519,7 @@ export default class TaskWorflow extends ComponentWithModal {
                                                     data-toggle="dropdown"
                                                     aria-haspopup="true"
                                                     aria-expanded="true">
-                                                Task actions <i className="fa fa-ellipsis-v"/>
+                                                {work_type} actions <i className="fa fa-ellipsis-v" id="menu-btn"/>
                                             </button>
                                             <ul className="dropdown-menu dropdown-menu-right" aria-labelledby="chat-overflow">
                                                 {is_admin_or_owner?(
@@ -421,7 +534,7 @@ export default class TaskWorflow extends ComponentWithModal {
                                                                 Edit {work_type} description
                                                             </Link>
                                                         </li>,
-                                                        task.pay?(
+                                                        task.is_developer_ready && task.pay?(
                                                             <li>
                                                                 <Link to={`/work/${task.id}/edit/fee`} className="btn">
                                                                     Edit the fee for the {work_type}
@@ -433,19 +546,33 @@ export default class TaskWorflow extends ComponentWithModal {
                                                                 Add skills
                                                             </Link>
                                                         </li>,
-                                                        <li>
+                                                        isAdmin() && !task.owner?(
+                                                            <li>
+                                                                <Link to={`/work/${task.id}/edit/owner`} className="btn">
+                                                                    Add Project Owner
+                                                                </Link>
+                                                            </li>
+                                                        ):null,
+                                                        task.is_project && !task.pm?(
+                                                            <li>
+                                                                <Link to={`/work/${task.id}/edit/pm`} className="btn">
+                                                                    Assign a PM to this {work_type}
+                                                                </Link>
+                                                            </li>
+                                                        ):null,
+                                                        task.is_developer_ready?(<li>
                                                             <Link to={`/work/${task.id}/edit/developers`} className="btn">
                                                                 Add another developer to this {work_type}
                                                             </Link>
-                                                        </li>,
-                                                        task.parent?null:(
+                                                        </li>):null,
+                                                        task.is_developer_ready && !task.parent?(
                                                             <li>
                                                                 <Link to={`/work/${task.id}/edit/milestone`} className="btn">
                                                                     Add a milestone
                                                                 </Link>
                                                             </li>
-                                                        ),
-                                                        task.closed?null:(
+                                                        ):null,
+                                                        task.is_developer_ready && !task.closed?(
                                                             <li>
                                                                 {task.apply?(
                                                                     <button type="button" className="btn " onClick={this.handleCloseApplications.bind(this)}>Close applications</button>
@@ -453,8 +580,8 @@ export default class TaskWorflow extends ComponentWithModal {
                                                                     <button type="button" className="btn " onClick={this.handleOpenApplications.bind(this)}>Open applications</button>
                                                                 )}
                                                             </li>
-                                                        ),
-                                                        <li>
+                                                        ):null,
+                                                        task.is_developer_ready?(<li>
                                                             {task.closed ? (
                                                                 task.paid ? (
                                                                     null
@@ -462,18 +589,18 @@ export default class TaskWorflow extends ComponentWithModal {
                                                                     <button type="button"
                                                                             className="btn"
                                                                             onClick={this.handleOpenTask.bind(this)}>
-                                                                        Open task
+                                                                        Open {work_type}
                                                                     </button>
                                                                 )
                                                             ) : (
                                                                 <button type="button"
                                                                         className="btn"
                                                                         onClick={this.handleCloseTask.bind(this)}>
-                                                                    Close task
+                                                                    Close {work_type}
                                                                 </button>
                                                             )}
-                                                        </li>,
-                                                        task.closed && !task.paid && isAdmin() ? (
+                                                        </li>):null,
+                                                        task.is_developer_ready && task.closed && !task.paid && isAdmin() ? (
                                                             <li>
                                                                 <button type="button"
                                                                         className="btn"
@@ -495,7 +622,7 @@ export default class TaskWorflow extends ComponentWithModal {
                                     ):null}
                                 </div>
                             ) : null}
-                            {task.is_developer_ready && !task.closed && task.is_participant && task.my_participation && !task.my_participation.responded ? (
+                            {task.is_developer_ready && !task.closed && task.is_participant && task.my_participation && task.my_participation.status == STATUS_INITIAL ? (
                                 <div className="pull-right">
                                     <button type="button"
                                             className="btn"
@@ -516,18 +643,32 @@ export default class TaskWorflow extends ComponentWithModal {
                     <div className="pull-right" style={{width: '30%'}}>
                         {task.is_developer_ready && is_admin_or_owner && !task.parent ? (
                             <ul className="integration-options pull-right">
-                                <li>
+                                <li id="github-btn">
                                     <Link to={`/work/${task.id}/integrations/${SOCIAL_PROVIDERS.github}`}
                                           activeClassName="active"
                                           title="GitHub">
                                         <i className="fa fa-github"/>
                                     </Link>
                                 </li>
-                                <li>
+                                <li id="slack-btn">
                                     <Link to={`/work/${task.id}/integrations/${SOCIAL_PROVIDERS.slack}`}
                                           activeClassName="active"
                                           title="Slack">
                                         <i className="fa fa-slack"/>
+                                    </Link>
+                                </li>
+                                <li id="trello-btn">
+                                    <Link to={`/work/${task.id}/edit/${SOCIAL_PROVIDERS.trello}`}
+                                          activeClassName="active"
+                                          title="Trello">
+                                        <i className="fa fa-trello"/>
+                                    </Link>
+                                </li>
+                                <li id="google-drive-btn">
+                                    <Link to={`/work/${task.id}/edit/${SOCIAL_PROVIDERS['google-drive']}`}
+                                          activeClassName="active"
+                                          title="Google Drive">
+                                        <i className="tunga-icon-google-drive"/>
                                     </Link>
                                 </li>
                             </ul>
@@ -569,17 +710,17 @@ export default class TaskWorflow extends ComponentWithModal {
                             </div>
                         ) : null}
                         {task.details ? (
-                            <CommentSection className="comment-box">
+                            <CommentSection className="comment-box" id="comment-box">
                                 <CommentForm
                                     object_details={{content_type: task.content_type, object_id: task.id}}
                                     uploadCallback={this.onUpload.bind(this)}
                                     uploadSaved={Task.detail.isSaved}
-                                    isSaving={Task.detail.isSaving}/>
+                                    isSaving={Task.detail.isSaving} id="comment-widget"/>
                             </CommentSection>
                         ) : null}
                     </div>
 
-                    <div className="sidebox">
+                    <div className="sidebox" id="sidebox">
                         <div className="overview-details">
                             <div className="wrapper">
                                 <Timeline task={task}
@@ -598,96 +739,133 @@ export default class TaskWorflow extends ComponentWithModal {
                                     ) : null}
                                 </Timeline>
 
-                                {task.description ? (
-                                    <div>
-                                        <strong>Description</strong>
-                                        <div className="description"
-                                             dangerouslySetInnerHTML={{__html: task.description}}/>
-                                    </div>
-                                ) : null}
-
-                                <strong>Posted by</strong>
-                                <div>
-                                    <Avatar src={task.user.avatar_url}/> <Link
-                                    to={`/people/${task.user.username}/`}>{task.user.display_name}</Link>
-                                </div>
-
-                                {task.assignee ? (
-                                    <div>
-                                        <strong>Assignee</strong>
-                                        <div className="collaborator">
-                                            <Avatar src={task.assignee.user.avatar_url}/>
-                                            <Link
-                                                to={`/people/${task.assignee.user.username}/`}>{task.assignee.user.display_name}</Link>
-                                            <span className="status">{task.assignee.accepted ?
-                                                <i className="fa fa-check-circle accepted"/> : '[Invited]'}</span>
+                                <div className="task-info">
+                                    {task.description ? (
+                                        <div>
+                                            <strong>Description</strong>
+                                            <div className="description">
+                                                <div dangerouslySetInnerHTML={{__html: nl_to_br(renderToString(<Linkify properties={{target: '_blank'}}>{task.description}</Linkify>))}}/>
+                                            </div>
                                         </div>
-                                    </div>
-                                ) : null}
+                                    ) : null}
 
-                                {task.details && task.details.participation && task.details.participation.length > (task.assignee ? 1 : 0) ? (
+                                    {task.owner && task.details && task.details.owner?(
+                                        <div>
+                                            <strong>Project Owner</strong>
+                                            <div>
+                                                <Avatar src={task.details.owner.avatar_url}/> <Link
+                                                to={`/people/${task.details.owner.username}/`}>{task.details.owner.display_name}</Link>
+                                            </div>
+                                        </div>
+                                    ):null}
+
+                                    <strong>Posted by</strong>
                                     <div>
-                                        <strong>Developers</strong>
-                                        {task.details.participation.map((participation) => {
-                                            const participant = participation.user;
-                                            return (
-                                                (!task.assignee || participant.id != task.assignee.user.id) && (participation.accepted || !participation.responded) ? (
-                                                    <div className="collaborator" key={participant.id}>
-                                                        <Avatar src={participant.avatar_url}/>
-                                                        <Link
-                                                            to={`/people/${participant.username}/`}>{participant.display_name}</Link>
-                                                        <span className="status">{participation.accepted ?
+                                        <Avatar src={task.user.avatar_url}/> <Link
+                                        to={`/people/${task.user.username}/`}>{task.user.display_name}</Link>
+                                    </div>
+
+                                    {task.pm && task.details && task.details.pm?(
+                                        <div>
+                                            <strong>Project Manager</strong>
+                                            <div>
+                                                <Avatar src={task.details.pm.avatar_url}/> <Link
+                                                to={`/people/${task.details.pm.username}/`}>{task.details.pm.display_name}</Link>
+                                            </div>
+                                        </div>
+                                    ):null}
+
+                                    {task.assignee ? (
+                                        <div>
+                                            <strong>Assignee</strong>
+                                            <div className="collaborator">
+                                                <Avatar src={task.assignee.user.avatar_url}/>
+                                                <Link
+                                                    to={`/people/${task.assignee.user.username}/`}>{task.assignee.user.display_name}</Link>
+                                            <span className="status">{task.assignee.status == STATUS_ACCEPTED ?
+                                                <i className="fa fa-check-circle accepted"/> : '[Invited]'}</span>
+                                            </div>
+                                        </div>
+                                    ) : null}
+
+                                    {task.details && task.details.participation && task.details.participation.length > (task.assignee ? 1 : 0) ? (
+                                        <div>
+                                            <strong>Developers</strong>
+                                            {task.details.participation.map((participation) => {
+                                                const participant = participation.user;
+                                                return (
+                                                    (!task.assignee || participant.id != task.assignee.user.id) && (participation.status != STATUS_REJECTED) ? (
+                                                        <div className="collaborator" key={participant.id}>
+                                                            <Avatar src={participant.avatar_url}/>
+                                                            <Link
+                                                                to={`/people/${participant.username}/`}>{participant.display_name}</Link>
+                                                        <span className="status">{participation.status == STATUS_ACCEPTED ?
                                                             <i className="fa fa-check-circle accepted"/> : '[Invited]'}</span>
-                                                    </div>
-                                                ) : null
-                                            )
-                                        })}
-                                    </div>
-                                ) : null}
+                                                        </div>
+                                                    ) : null
+                                                )
+                                            })}
+                                        </div>
+                                    ) : null}
 
-                                {task.url ? (
-                                    <div>
-                                        <strong>Code Location</strong>
-                                        <p><a href={task.url}>{task.url}</a></p>
-                                    </div>
-                                ) : null}
-                                {task.details && task.details.skills.length?(
-                                    <div>
-                                        <strong>Skills/ Products</strong>
-                                        <TagList tags={task.details.skills} max={3} linkPrefix="/work/skill/" moreLink={`/work/${task.id}/`}/>
-                                    </div>
-                                ):null}
-                                {task.milestones.length ? (
-                                    <div>
-                                        <strong>Milestones</strong>
-                                        {task.milestones.map(milestone => {
-                                            return (
-                                                <div key={milestone.id}>
-                                                    <Link to={`/work/${task.id}/event/${milestone.id}`}>
-                                                        <i className={"fa fa-flag"+((milestone.type==4)?'-checkered':'-o')}/> {milestone.title}
+                                    {task.url ? (
+                                        <div>
+                                            <strong><i className="fa fa-globe"/> Code Location</strong>
+                                            <p><a href={task.url} target="_blank">{task.url}</a></p>
+                                        </div>
+                                    ) : null}
+                                    {task.details && task.details.skills.length?(
+                                        <div>
+                                            <strong>Skills/ Products</strong>
+                                            <TagList tags={task.details.skills} max={3} linkPrefix="/work/skill/" moreLink={`/work/${task.id}/`}/>
+                                        </div>
+                                    ):null}
+                                    {task.trello_board_url ? (
+                                        <div>
+                                            <strong><i className="fa fa-trello trello"/> Trello board</strong>
+                                            <p><a href={task.trello_board_url} target="_blank">{task.trello_board_url}</a></p>
+                                        </div>
+                                    ) : null}
+                                    {task.google_drive_url ? (
+                                        <div>
+                                            <strong><i className="tunga-icon-google-drive google"/> Google Drive</strong>
+                                            <p><a href={task.google_drive_url} target="_blank">{task.google_drive_url}</a></p>
+                                        </div>
+                                    ) : null}
+                                    {task.milestones.length ? (
+                                        <div>
+                                            <strong>Milestones</strong>
+                                            {task.milestones.map(milestone => {
+                                                return (
+                                                    <div key={milestone.id}>
+                                                        <Link to={`/work/${task.id}/event/${milestone.id}`}>
+                                                            <i className={"fa fa-flag"+((milestone.type==4)?'-checkered':'-o')}/> {milestone.title}
                                                         <span
                                                             style={{marginLeft: '5px'}}>{moment.utc(milestone.due_at).local().format('Do, MMMM YYYY')}</span>
-                                                    </Link>
-                                                </div>
-                                            );
-                                        })}
-                                    </div>
-                                ) : null}
+                                                        </Link>
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                    ) : null}
 
-                                {[
-                                    {key: 'deliverables', title: 'Deliverables'},
-                                    {key: 'stack_description', title: 'Technology Stack'}
-                                ].map(item => {
-                                    if(task[item.key]) {
-                                        return (
-                                            <div>
-                                                <strong>{item.title}</strong>
-                                                <div dangerouslySetInnerHTML={{__html: task[item.key]}}/>
-                                            </div>
-                                        )
-                                    }
-                                    return null;
-                                })}
+                                    {[
+                                        {key: 'deliverables', title: 'Deliverables'},
+                                        {key: 'stack_description', title: 'Technology Stack'}
+                                    ].map(item => {
+                                        if(task[item.key]) {
+                                            return (
+                                                <div>
+                                                    <strong>{item.title}</strong>
+                                                    <div>
+                                                        <Linkify properties={{target: '_blank'}}>{task[item.key]}</Linkify>
+                                                    </div>
+                                                </div>
+                                            )
+                                        }
+                                        return null;
+                                    })}
+                                </div>
                             </div>
                         </div>
                     </div>

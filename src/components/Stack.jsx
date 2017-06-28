@@ -1,5 +1,6 @@
 import React from 'react';
-import TinyMCE  from 'react-tinymce';
+import Linkify from './Linkify';
+
 import Progress from './status/Progress';
 import FormStatus from './status/FormStatus';
 import FieldError from './status/FieldError';
@@ -7,7 +8,7 @@ import SkillSelector from '../containers/SkillSelector';
 import LargeModal from './LargeModal';
 import WorkForm from './WorkForm';
 import EducationForm from './EducationForm';
-import {TINY_MCE_CONFIG } from '../constants/settings';
+
 
 export default class Stack extends React.Component {
     constructor(props) {
@@ -30,15 +31,17 @@ export default class Stack extends React.Component {
         }
     }
 
+    onInputChange(key, e) {
+        var new_state = {};
+        new_state[key] = e.target.value;
+        this.setState(new_state);
+    }
+
     addSkillsToState() {
         const { Profile } = this.props;
         this.setState({skills: Profile.profile.skills?Profile.profile.skills.map((skill) => {
             return skill.name;
         }):[]});
-    }
-
-    onBioChange(e) {
-        this.setState({bio: e.target.getContent()});
     }
 
     onSkillChange(skills) {
@@ -90,7 +93,7 @@ export default class Stack extends React.Component {
 
     render() {
         const { Profile, Auth } = this.props;
-        const bio = Profile.profile.bio?Profile.profile.bio:'';
+        const { profile } = Profile;
 
         return (
             <div>
@@ -107,10 +110,11 @@ export default class Stack extends React.Component {
                         (<FieldError message={Profile.error.profile.bio}/>):null}
                     <div className="form-group">
                         <label className="control-label">Bio</label>
-                        <TinyMCE
-                            content={bio}
-                            config={TINY_MCE_CONFIG}
-                            onChange={this.onBioChange.bind(this)}/>
+                        <textarea className="form-control"
+                                  onChange={this.onInputChange.bind(this, 'bio')}
+                                  defaultValue={profile.bio}
+                                  ref="bio"
+                                  placeholder="Bio"/>
                     </div>
 
                     {(Auth.user.is_project_owner && Profile.error.profile && Profile.error.profile.website)?
@@ -149,7 +153,9 @@ export default class Stack extends React.Component {
                                             <div>
                                                 Period: {item.start_month_display}/{item.start_year} - {item.end_year?`${item.end_month_display}/${item.end_year}`:'Present'}
                                             </div>
-                                            <div className="short-description" dangerouslySetInnerHTML={{__html: item.details}}/>
+                                            <div className="short-description">
+                                                <Linkify properties={{target: '_blank'}}>{item.details}</Linkify>
+                                            </div>
                                             <button type="button" className="btn" onClick={this.handleAddWork.bind(this, item)}><i className="fa fa-pencil"/> Edit</button>
                                         </div>
                                         )
@@ -173,7 +179,9 @@ export default class Stack extends React.Component {
                                         <div>
                                             Period: {item.start_month_display}/{item.start_year} - {item.end_year?`${item.end_month_display}/${item.end_year}`:'Present'}
                                         </div>
-                                        <div className="short-description" dangerouslySetInnerHTML={{__html: item.details}}/>
+                                        <div className="short-description">
+                                            <Linkify properties={{target: '_blank'}}>{item.details}</Linkify>
+                                        </div>
                                         <button type="button" className="btn" onClick={this.handleAddEducation.bind(this, item)}><i className="fa fa-pencil"/> Edit</button>
                                     </div>
                                         )

@@ -3,7 +3,14 @@ import striptags from 'striptags'
 
 export function nl_to_br(str) {
     if(str) {
-        return str.replace(/\n/g, "<br />");
+        return str.replace(/\n/ig, "<br />");
+    }
+    return str;
+}
+
+export function br_to_nl(str) {
+    if(str) {
+        return str.replace(/<br\s*\/>/ig, "\n");
     }
     return str;
 }

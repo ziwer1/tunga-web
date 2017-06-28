@@ -1,18 +1,22 @@
 import React from 'react';
+import {Link} from 'react-router';
+import StripeCheckout from 'react-stripe-checkout';
+
 import Progress from './status/Progress';
 import FormStatus from './status/FormStatus';
 import FieldError from './status/FieldError';
+import Error from './status/Error';
 
-import { TASK_PAYMENT_METHOD_CHOICES, TASK_PAYMENT_METHOD_BITONIC, TASK_PAYMENT_METHOD_BITCOIN, TASK_PAYMENT_METHOD_BANK, ENDPOINT_TASK } from '../constants/Api';
+import { TASK_PAYMENT_METHOD_CHOICES, TASK_PAYMENT_METHOD_BITONIC, TASK_PAYMENT_METHOD_BITCOIN, TASK_PAYMENT_METHOD_BANK, TASK_PAYMENT_METHOD_STRIPE, ENDPOINT_TASK } from '../constants/Api';
 import { objectToQueryString } from '../utils/html';
-import { getUser } from '../utils/auth';
+import { getUser, isAdmin } from '../utils/auth';
 import { parseNumber } from '../utils/helpers';
 
 export default class TaskPay extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {pay_method: null, pay_details: null, showForm: true};
+        this.state = {pay_method: null, pay_details: null, showForm: true, withhold_tunga_fee: false};
     }
 
     componentDidMount() {
@@ -37,6 +41,15 @@ export default class TaskPay extends React.Component {
 
             this.setState({showForm: false});
 
+            if(Invoice.invoice.payment_method == TASK_PAYMENT_METHOD_STRIPE) {
+                let tp = this;
+                setTimeout(function () {
+                    if(tp.refs.pay_stripe) {
+                        tp.refs.pay_stripe.click();
+                    }
+                }, 500);
+            }
+
             if(Invoice.invoice.payment_method == TASK_PAYMENT_METHOD_BITONIC) {
                 window.location.href = `${ENDPOINT_TASK}${task.id}/pay/bitonic/`;
             }
@@ -51,19 +64,39 @@ export default class TaskPay extends React.Component {
         this.setState({pay_method: pay_method.id, pay_details: pay_method.details});
     }
 
+    onStripeToken(token) {
+        const {task, Task, TaskActions} = this.props;
+        const { invoice } =  Task.detail.Invoice;
+
+        let stripe_options = {
+            token: token.id,
+            email: token.email,
+            amount: parseInt(this.getActualAmount()*100),
+            description: task.summary,
+            task_id: task.id,
+            invoice_id: invoice.id,
+            currency: 'EUR'
+        };
+        TaskActions.makeTaskPayment(task.id, 'stripe', stripe_options);
+    }
+
+    onWithHoldFeeChange() {
+        this.setState({withhold_tunga_fee: !this.state.withhold_tunga_fee});
+    }
+
     handleSubmit(e) {
         e.preventDefault();
         var fee = this.refs.fee.value.trim();
         var payment_method = this.state.pay_method;
+        var withhold_tunga_fee = this.state.withhold_tunga_fee;
 
         const { Task, TaskActions } = this.props;
         const { task } =  Task.detail;
-        TaskActions.createTaskInvoice(task.id, {fee, payment_method});
+        TaskActions.createTaskInvoice(task.id, {fee, payment_method, withhold_tunga_fee});
     }
 
     getBitonicPaymentUrl() {
-        const { Task } = this.props;
-        const { task } =  Task.detail;
+        const { task } = this.props;
 
         return 'https://bitonic.nl/partner/263?'+ objectToQueryString({
                 bitcoinaddress: encodeURIComponent(task.btc_address),
@@ -73,6 +106,33 @@ export default class TaskPay extends React.Component {
             });
     }
 
+    getTotalAmount() {
+        const {task, Task, TaskActions} = this.props;
+        const { invoice } =  Task.detail.Invoice;
+
+        switch (invoice.payment_method) {
+            case TASK_PAYMENT_METHOD_STRIPE:
+                return (invoice.fee*1.029) + 0.25; // 2.9% + 25c charge
+            case TASK_PAYMENT_METHOD_BITONIC:
+                return (invoice.fee*1.03); // 3%
+            case TASK_PAYMENT_METHOD_BANK:
+                return (invoice.fee*1.055); // 5.5%
+            default:
+                return invoice.fee;
+        }
+    }
+
+    getActualAmount() {
+        const {task, Task, TaskActions} = this.props;
+        const { invoice } =  Task.detail.Invoice;
+
+        let amount = this.getTotalAmount();
+
+        if (task.withhold_tunga_fee) {
+            return amount*(1 - task.tunga_ratio_dev);
+        }
+        return amount;
+    }
 
     render() {
         const { task, Task } = this.props;
@@ -81,20 +141,20 @@ export default class TaskPay extends React.Component {
         var btc_amount = null;
         var btc_address = null;
         if(invoice) {
-            btc_amount = parseFloat(invoice.fee/invoice.btc_price).toFixed(6);
-            btc_address = `bitcoin:${invoice.btc_address}?amount=${btc_amount}&message=${invoice.summary}`;
+            btc_amount = parseFloat(this.getActualAmount()/invoice.btc_price).toFixed(6);
+            btc_address = `bitcoin:${invoice.btc_address}?amount=${btc_amount}&message=${encodeURIComponent(task.summary)}`;
         }
 
         return (
             <div className="form-wrapper">
-                {Task.detail.isRetrieving || Task.detail.Invoice.isRetrieving?
-                    (<Progress/>)
+                {Task.detail.isRetrieving || Task.detail.Invoice.isRetrieving || Task.detail.isPaying?
+                    (<Progress message={Task.detail.isPaying?'Processing payment ...':'Loading ...'}/>)
                     :
                     (<div>
-                        <h4 className="title">Make Payment</h4>
-
                         {this.state.showForm || !invoice.id?(
                             <form onSubmit={this.handleSubmit.bind(this)} name="invoice" role="form" ref="invoice_form">
+
+                                <h4 className="title">Make Payment</h4>
 
                                 <FormStatus loading={Task.detail.Invoice.isSaving}
                                             success={Task.detail.Invoice.isSaved}
@@ -105,9 +165,28 @@ export default class TaskPay extends React.Component {
                                     (<FieldError message={Task.detail.Invoice.error.create.fee}/>):null}
                                 <div className="form-group">
                                     <label className="control-label">Fee (in Euro) *</label>
-                                    <div><input type="text" className="form-control" ref="fee" required placeholder="Fee in €" defaultValue={parseNumber(task.pay)}/></div>
-                                    {/*<div style={{marginTop: '10px'}}>13% of fee goes to Tunga</div>*/}
+                                    <div><input type="text" className="form-control" ref="fee"
+                                                required
+                                                placeholder="Fee in €"
+                                                defaultValue={parseNumber(task.pay, false)}/></div>
                                 </div>
+
+                                {(Task.detail.Invoice.error.create && Task.detail.Invoice.error.create.withhold_tunga_fee)?
+                                    (<FieldError message={Task.detail.Invoice.error.create.withhold_tunga_fee}/>):null}
+
+                                {isAdmin()?(
+                                    <div className="form-group">
+                                        <div className="checkbox">
+                                            <label className="control-label">
+                                                <input type="checkbox" ref="withhold_tunga_fee"
+                                                       checked={this.state.withhold_tunga_fee}
+                                                       onChange={this.onWithHoldFeeChange.bind(this)}/>
+                                                Withhold Tunga fee/ Only pay participant fees.
+                                            </label>
+                                        </div>
+                                        <div className="alert alert-info">Use the full {task.is_task?'task':'project'} fee even when this option is enabled.</div>
+                                    </div>
+                                ):null}
 
                                 {(Task.detail.Invoice.error.create && Task.detail.Invoice.error.create.payment_method)?
                                     (<FieldError message={Task.detail.Invoice.error.create.payment_method}/>):null}
@@ -125,7 +204,7 @@ export default class TaskPay extends React.Component {
                                                             <i className={payment_method.icon_class + " fa-lg pull-left"}/>{payment_method.name}
                                                         </button>
                                                     </div>
-                                                    <div className="col-md-6">{payment_method.meta}</div>
+                                                    <div className="col-md-6" dangerouslySetInnerHTML={{__html: payment_method.meta}} style={{paddingTop: '10px'}}/>
                                                 </div>
                                             );
                                         })}
@@ -140,42 +219,107 @@ export default class TaskPay extends React.Component {
                             </form>
                         ):(
                             <div>
-                                <h4>Fee: <i className="fa fa-euro"/> {parseNumber(invoice.fee)}</h4>
-
-                                {invoice.payment_method == TASK_PAYMENT_METHOD_BITCOIN?(
+                                {task.paid?(
                                     <div>
-                                        <h4>Bitcoin: <i className="fa fa-btc"/> {btc_amount}</h4>
-
-                                        Send exactly BTC <strong>{btc_amount}</strong> to <a href={btc_address}><strong>{invoice.btc_address}</strong></a>
-
-                                        <div>
-                                            <img src={`https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=${btc_address}`}/>
+                                        <div className="thank-you">
+                                            We received your payment. Thank you!<br/>
+                                            <i className="fa fa-check-circle"/>
+                                            <div className="next-action">
+                                                <Link to={`/work/${task.id}/rate`} className="btn">Rate Developers</Link>
+                                            </div>
                                         </div>
                                     </div>
-                                ):null}
-
-                                {invoice.payment_method == TASK_PAYMENT_METHOD_BANK?(
+                                ):(
                                     <div>
-                                        <a href={`${ENDPOINT_TASK}${task.id}/download/invoice/?format=pdf`} target="_blank" className="btn "><i className="fa fa-download"/> Download Invoice</a>
-                                    </div>
-                                ):null}
+                                        {(Task.detail.error.pay && Task.detail.error.pay.message)?
+                                            (<Error message={Task.detail.error.pay.message}/>):null}
 
-                                {invoice.payment_method == TASK_PAYMENT_METHOD_BITONIC?(
-                                    <div>
-                                        <div>
-                                            {/*<iframe src={this.getBitonicPaymentUrl()}
-                                                    style={{border: "none"}}
-                                                    width="400px" height="413px" sandbox/>*/}
+                                        <table className="table table-striped">
+                                            <thead>
+                                            <tr>
+                                                <th colSpan="2">Payment Details</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td>Task fee:</td><td>&euro; {parseNumber(invoice.fee)}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Payment costs:</td><td>&euro; {parseNumber(this.getTotalAmount()-invoice.fee)}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Subtotal:</th><th>&euro; {parseNumber(this.getTotalAmount())}</th>
+                                            </tr>
+                                            <tr>
+                                                <td>VAT 0%:</td><td>&euro; 0</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Total: </th><th>&euro; {parseNumber(this.getTotalAmount())}</th>
+                                            </tr>
+                                            {task.withhold_tunga_fee && isAdmin()?(
+                                                <tr>
+                                                    <th>Actual Payment (Minus Tunga Fee): </th><th>&euro; {parseNumber(this.getActualAmount())}</th>
+                                                </tr>
+                                            ):null}
+                                            </tbody>
+                                        </table>
+
+
+                                        {invoice.payment_method == TASK_PAYMENT_METHOD_BITCOIN?(
+                                            <div>
+                                                <h4>Bitcoin: <i className="fa fa-btc"/> {btc_amount}</h4>
+
+                                                Send exactly BTC <strong>{btc_amount}</strong> to <a href={btc_address}><strong>{invoice.btc_address}</strong></a>
+
+                                                <div>
+                                                    <img src={`https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=${btc_address}`}/>
+                                                </div>
+                                            </div>
+                                        ):null}
+
+                                        {invoice.payment_method == TASK_PAYMENT_METHOD_BANK?(
+                                            <div>
+                                                <a href={`${ENDPOINT_TASK}${task.id}/download/invoice/?format=pdf`} target="_blank" className="btn "><i className="fa fa-download"/> Download Invoice</a>
+                                            </div>
+                                        ):null}
+
+                                        {invoice.payment_method == TASK_PAYMENT_METHOD_BITONIC?(
+                                            <div>
+                                                <div>
+                                                    {/*<iframe src={this.getBitonicPaymentUrl()}
+                                                     style={{border: "none"}}
+                                                     width="400px" height="413px" sandbox/>*/}
+                                                </div>
+                                                <a href={`${ENDPOINT_TASK}${task.id}/pay/bitonic/`} className="btn "><i className="fa fa-money"/> Pay with iDeal</a>
+                                            </div>
+                                        ):null}
+
+                                        {invoice.payment_method == TASK_PAYMENT_METHOD_STRIPE?(
+                                            <StripeCheckout
+                                                name="Tunga"
+                                                description={task.summary}
+                                                image="https://tunga.io/icons/tunga_square.png"
+                                                ComponentClass="span"
+                                                panelLabel="Make Payment"
+                                                amount={this.getActualAmount()*100}
+                                                currency="EUR"
+                                                stripeKey={__STRIPE_KEY__}
+                                                locale="en"
+                                                //bitcoin={true}
+                                                email={getUser().email}
+                                                token={this.onStripeToken.bind(this)}
+                                                reconfigureOnUpdate={false}
+                                                triggerEvent="onClick">
+
+                                                <button type="button" className="btn btn-success" ref="pay_stripe">Pay with Card</button>
+                                            </StripeCheckout>
+                                        ):null}
+
+                                        <div style={{marginTop: '20px'}}>
+                                            <button className="btn btn-alt" onClick={this.changePayMethod.bind(this)}><i className="fa fa-pencil"/> Change Payment Method</button>
                                         </div>
-                                        <a href={`${ENDPOINT_TASK}${task.id}/pay/bitonic/`} className="btn "><i className="fa fa-money"/> Pay with iDeal</a>
                                     </div>
-                                ):null}
-
-                                {!task.paid?(
-                                    <div style={{marginTop: '20px'}}>
-                                        <button className="btn" onClick={this.changePayMethod.bind(this)}><i className="fa fa-pencil"/> Change Payment Method</button>
-                                    </div>
-                                ):null}
+                                )}
                             </div>
                         )}
 

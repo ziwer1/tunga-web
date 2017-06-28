@@ -90,7 +90,7 @@ class SkillSelector extends React.Component {
             <div className="skill-selector tag-selector" onClick={this.handleComponentClick.bind(this)}>
                 <div className="selections">
                     {showTitle && this.state.suggested && this.state.suggested.length?(
-                        <p>Skills or products</p>
+                        <label className="control-label">Skills or products</label>
                     ):null}
                     {this.state.skills && this.state.skills.length?(
                         <div>
@@ -112,7 +112,7 @@ class SkillSelector extends React.Component {
                 </div>
                 {this.state.suggested && this.state.suggested.length?(
                     <div className="selections">
-                        <p>Quick Suggestions</p>
+                        <label className="control-label">Quick Suggestions</label>
                         {this.state.suggested.map((skill) => {
                             if(this.state.skills.indexOf(skill) > -1) {
                                 return null;

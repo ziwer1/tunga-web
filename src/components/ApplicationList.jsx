@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 import moment from 'moment';
+import Linkify from './Linkify';
 
 import Progress from './status/Progress';
 import UserCardProfile from './UserCardProfile';
@@ -8,8 +9,11 @@ import ComponentWithModal from './ComponentWithModal';
 import LargeModal from './LargeModal';
 
 import confirm from '../utils/confirm';
-import { getTotalFee } from '../utils/tasks';
+import { getTotalFee, getAcquisitionUrl, hasStarted } from '../utils/tasks';
+import { sendGAPageView } from '../utils/tracking';
 import { truncateWords } from '../utils/helpers';
+
+import { STATUS_REJECTED, STATUS_INITIAL, STATUS_ACCEPTED } from '../constants/Api';
 
 export default class ApplicationList extends ComponentWithModal {
 
@@ -20,7 +24,7 @@ export default class ApplicationList extends ComponentWithModal {
 
     componentDidMount() {
         const { TaskActions, Task } = this.props;
-        TaskActions.listApplications({task: Task.detail.task.id, responded: 'False'});
+        TaskActions.listApplications({task: Task.detail.task.id, status: STATUS_INITIAL});
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -31,6 +35,21 @@ export default class ApplicationList extends ComponentWithModal {
                     application: Task.detail.applications.items[this.state.application.id],
                     modalStep: 'confirm'
                 });
+            }
+
+            if(hasStarted(prevProps.task)) {
+                this.props.TaskActions.retrieveTask(this.props.task.id);
+            }
+        }
+
+        if(prevProps.task && this.props.task) {
+            const had_started = hasStarted(prevProps.task);
+            const has_started = hasStarted(this.props.task);
+
+            if(!had_started && has_started) {
+                sendGAPageView(getAcquisitionUrl(this.props.task, true));
+
+                this.props.TaskActions.retrieveTask(this.props.task.id);
             }
         }
     }
@@ -59,15 +78,23 @@ export default class ApplicationList extends ComponentWithModal {
         var assignee = !task.assignee;
         this.setState({close_applications});
         const application = this.state.application;
-        TaskActions.updateApplication(application.id, {accepted: true, responded: true});
-        TaskActions.updateTask(application.task, {apply: !close_applications, participation: [{user: application.user.id, assignee, accepted: true, responded: true}]});
+        TaskActions.updateApplication(application.id, {status: STATUS_ACCEPTED});
+        TaskActions.updateTask(
+            application.task,
+            {
+                apply: !close_applications,
+                participation: [
+                    {user: application.user.id, assignee, status: STATUS_ACCEPTED}
+                ]
+            }
+        );
     }
 
     handleRejectApplication(application) {
         const { TaskActions } = this.props;
         confirm(`Decline ${application.user.display_name}'s application`).then(
             function () {
-                TaskActions.updateApplication(application.id, {accepted: false, responded: true});
+                TaskActions.updateApplication(application.id, {status: STATUS_REJECTED});
             }
         );
     }
@@ -134,6 +161,12 @@ export default class ApplicationList extends ComponentWithModal {
                             ):(
                                 <button type="button" className="btn " onClick={this.handleOpenApplications.bind(this)}>Open applications</button>
                             )}
+                            <Link to={`/work/${task.id}/edit/complete-task`} className="btn">
+                                Edit {work_type}
+                            </Link>
+                            <Link to={`/work/${task.id}/edit/developers`} className="btn">
+                                Add another developer to this {work_type}
+                            </Link>
                         </div>
                         <div className="row flex-row">
                             {applications.ids.map((id) => {
@@ -141,7 +174,7 @@ export default class ApplicationList extends ComponentWithModal {
                                 const { user } =  application.details;
                                 return(
                                 <div className="col-sm-6 col-md-4" key={id}>
-                                    <div className={"card application-card" + ((application.responded && !application.accepted)?' rejected':'')}>
+                                    <div className={"card application-card" + ((application.status == STATUS_REJECTED)?' rejected':'')}>
                                         <UserCardProfile user={user}/>
                                         {user.profile && user.profile.skills.length?(
                                         <div>
@@ -155,7 +188,9 @@ export default class ApplicationList extends ComponentWithModal {
                                             {application.pitch?(
                                             <div>
                                                 <p className="title">Motivation</p>
-                                                <div className="description" dangerouslySetInnerHTML={{__html: truncateWords(application.pitch, 12)}}/>
+                                                <div className="description">
+                                                    <Linkify properties={{target: '_blank'}}>{truncateWords(application.pitch, 12)}</Linkify>
+                                                </div>
                                             </div>
                                                 ):null}
                                             {application.hours_needed?(
@@ -183,7 +218,7 @@ export default class ApplicationList extends ComponentWithModal {
                                             </div>
                                                 ):null}
                                         </div>
-                                        {task.closed || application.responded?null:(
+                                        {task.closed || application.status != STATUS_INITIAL?null:(
                                             <div className="actions">
                                                 <div>
                                                     <Link to={`/work/${application.task}/applications/${application.id}`}

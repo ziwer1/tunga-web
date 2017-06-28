@@ -1,30 +1,36 @@
 import React from 'react';
 import {Link} from 'react-router';
+
 import Progress from './status/Progress';
 import LoadMore from './status/LoadMore';
 import UserCard from './UserCard';
 import SearchBox from './SearchBox';
 
+import GenericListContainer from '../containers/GenericListContainer';
+
 import { isAuthenticated, isAdmin, isDeveloper, isProjectOwner } from '../utils/auth';
 
-export default class UserList extends React.Component {
 
-    componentDidMount() {
+export default class UserList extends GenericListContainer {
+
+    componentDidUpdate(prevProps, prevState) {
+        super.componentDidUpdate(prevProps, prevState);
+
+        if (prevProps.location && this.props.location && prevProps.location.pathname != this.props.location.pathname) {
+            this.getList();
+        }
+
+        if(prevProps.search != this.props.search) {
+            this.setState({selection_key: this.state.selection_key + (this.props.search || ''), prev_key: this.state.selection_key})
+        }
+    }
+
+    getList(filters) {
         this.props.UserActions.listUsers({
             filter: this.getFilter(),
             skill: this.getSkill(), ...this.props.filters,
             search: this.props.search
-        });
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        if (prevProps.location && this.props.location && prevProps.location.pathname != this.props.location.pathname || prevProps.search != this.props.search) {
-            this.props.UserActions.listUsers({
-                filter: this.getFilter(),
-                skill: this.getSkill(), ...this.props.filters,
-                search: this.props.search
-            });
-        }
+        }, this.state.selection_key, this.state.prev_key);
     }
 
     getFilter() {
@@ -42,13 +48,13 @@ export default class UserList extends React.Component {
     }
 
     render() {
-        const {User, Notification, UserActions, bsClass, max, profileLink, tagLinks} = this.props;
+        const {User, Notification, UserActions, bsClass, max, profileLink, tagLinks, filters} = this.props;
         const requests = Notification && Notification.notifications ? Notification.notifications.requests : 0;
 
         let filter = this.getFilter();
         let skill = this.getSkill();
 
-        var all_users = User.list.ids;
+        var all_users = User.list.ids[this.state.selection_key] || [];
         if(max > 0) {
             all_users = all_users.slice(0, max);
         }
@@ -104,6 +110,9 @@ export default class UserList extends React.Component {
                         <div className="row flex-row">
                             {all_users.map((id) => {
                                 const user = User.list.users[id];
+                                if(filters && filters.has_photo && !user.avatar_url) {
+                                    return;
+                                }
                                 return (
                                     <div className={bsClass || "col-sm-6 col-md-4"} key={id}>
                                         <UserCard user={user} UserActions={UserActions}
@@ -114,11 +123,11 @@ export default class UserList extends React.Component {
                                 );
                             })}
                         </div>
-                        {all_users.length < max?(
-                            <LoadMore url={User.list.next} callback={UserActions.listMoreUsers}
+                        {(max && all_users.length < max) || (!max && User.list.next)?(
+                            <LoadMore url={User.list.next} callback={(x) => { UserActions.listMoreUsers(x, this.state.selection_key)}}
                                       loading={User.list.isFetchingMore}/>
                         ):null}
-                        {User.list.ids.length ? null : (
+                        {all_users.length ? null : (
                             <div className="alert alert-info">No users match your query</div>
                         )}
                     </div>)

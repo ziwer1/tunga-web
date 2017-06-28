@@ -1,9 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router';
+import Linkify from './Linkify';
+
 import UserCardProfile from './UserCardProfile';
 import TagList from './TagList';
 
 import { isProjectOwner } from '../utils/auth';
+
+import { STATUS_ACCEPTED, STATUS_REJECTED } from '../constants/Api';
 
 export default class UserCard extends React.Component {
 
@@ -14,7 +18,7 @@ export default class UserCard extends React.Component {
 
     handleConnectResponse(accepted=false) {
         const { UserActions, user } = this.props;
-        UserActions.updateConnection(user.request, {accepted, responded: true});
+        UserActions.updateConnection(user.request, {accepted, status: accepted?STATUS_ACCEPTED:STATUS_REJECTED});
     }
 
     handleDeleteConnection() {
@@ -58,7 +62,7 @@ export default class UserCard extends React.Component {
 
                 <div className="short-description">
                     {user.profile?(
-                        <div dangerouslySetInnerHTML={{__html: user.profile.bio}}/>
+                        <Linkify properties={{target: '_blank'}}>{user.profile.bio}</Linkify>
                     ):null}
                 </div>
                 <div className="actions">
@@ -88,7 +92,7 @@ export default class UserCard extends React.Component {
                             </div>
                         </div>
                             ):null)}
-                    {user.connection && user.connection.accepted?(
+                    {user.connection && user.connection.status == STATUS_ACCEPTED?(
                     <div className="row">
                         <div className="col-sm-12">
                             <button type="button" className="btn btn-block "

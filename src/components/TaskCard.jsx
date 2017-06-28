@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
 import TimeAgo from 'react-timeago';
+import Linkify from './Linkify';
+
 import TagList from './TagList';
 import Avatar from './Avatar';
 import ComponentWithModal from './ComponentWithModal';
@@ -10,6 +12,7 @@ import { render_excerpt } from '../utils/html';
 import { parse_task_status } from '../utils/tasks';
 import { isDeveloper, isProjectManager, isAdmin } from '../utils/auth';
 import confirm from '../utils/confirm';
+import { truncateWords } from '../utils/helpers';
 
 export default class TaskCard extends ComponentWithModal {
 
@@ -106,7 +109,9 @@ export default class TaskCard extends ComponentWithModal {
                         )}
                 </div>
                 <div className="bottom">
-                    <div className="short-description" dangerouslySetInnerHTML={{__html: render_excerpt(task.excerpt)}}/>
+                    <div className="short-description">
+                        <Linkify properties={{target: '_blank'}}>{truncateWords(task.description, 20)}</Linkify>
+                    </div>
                     <div className="actions">
                         {isDeveloper()?(
                         <div className="row">

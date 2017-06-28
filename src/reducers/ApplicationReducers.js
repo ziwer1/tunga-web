@@ -2,6 +2,8 @@ import { combineReducers } from 'redux';
 import * as ApplicationActions from '../actions/ApplicationActions';
 import { PATH_CHANGE } from '../actions/NavActions';
 
+import { STATUS_REJECTED } from '../constants/Api';
+
 function applications(state = {}, action) {
     switch (action.type) {
         case ApplicationActions.LIST_APPLICATIONS_SUCCESS:
@@ -30,7 +32,7 @@ function ids(state = [], action) {
                 return application.id;
             });
         case ApplicationActions.UPDATE_APPLICATION_SUCCESS:
-            if(action.application.responded && !action.application.accepted) {
+            if(action.application.status == STATUS_REJECTED) {
                 var idx = state.indexOf(action.application.id);
                 if(idx > -1) {
                     return [...state.slice(0, idx), ...state.slice(idx+1), action.application.id];

@@ -56,10 +56,20 @@ function task(state = {}, action) {
             return state;
         case TaskActions.CREATE_TASK_INVOICE_SUCCESS:
         case TaskActions.RETRIEVE_TASK_INVOICE_SUCCESS:
-            if(state.id == action.invoice.id) {
+            if(state.id == action.invoice.task) {
                 let invoice = action.invoice;
                 var fee = (action.type == TaskActions.CREATE_TASK_INVOICE_SUCCESS)?invoice.fee:state.fee;
-                return {...state, fee, payment_method: invoice.payment_method, btc_address: invoice.btc_address};
+                return {
+                    ...state, fee,
+                    payment_method: invoice.payment_method,
+                    btc_address: invoice.btc_address,
+                    withhold_tunga_fee: invoice.withhold_tunga_fee
+                };
+            }
+            return state;
+        case TaskActions.MAKE_TASK_PAYMENT_SUCCESS:
+            if(state.id == action.task.id) {
+                return {...state, ...action.task, paid: true};
             }
             return state;
         default:
@@ -95,7 +105,7 @@ function tasks(state = {}, action) {
                 all_tasks[task.id] = task;
             });
             return {...state, ...all_tasks};
-        case TaskActions.LIST_TASKS_START:
+        //case TaskActions.LIST_TASKS_START:
         case TaskActions.LIST_TASKS_FAILED:
             return {};
         case TaskActions.UPDATE_TASK_SUCCESS:
@@ -127,15 +137,24 @@ function tasks(state = {}, action) {
     }
 }
 
-function ids(state = [], action) {
+function ids(state = {}, action) {
+    var selection_key = action.selection || 'default';
+    var new_state = {};
     switch (action.type) {
         case TaskActions.LIST_TASKS_SUCCESS:
-            return getIds(action.items);
+            new_state[selection_key] = getIds(action.items);
+            return {...state, ...new_state};
         case TaskActions.LIST_MORE_TASKS_SUCCESS:
-            return [...state, ...getIds(action.items)];
+            new_state[selection_key] = [...state[selection_key], ...getIds(action.items)];
+            return {...state, ...new_state};
         case TaskActions.LIST_TASKS_START:
+            if(action.prev_selection && state[action.prev_selection]) {
+                new_state[selection_key] = state[action.prev_selection];
+                return {...state, ...new_state};
+            }
+            return state;
         case TaskActions.LIST_TASKS_FAILED:
-            return [];
+            return state;
         default:
             return state;
     }
@@ -281,6 +300,11 @@ function error(state = {}, action) {
         case TaskActions.UPDATE_TASK_START:
         case TaskActions.UPDATE_TASK_SUCCESS:
             return {...state, update: null};
+        case TaskActions.MAKE_TASK_PAYMENT_FAILED:
+            return {...state, pay: action.error};
+        case TaskActions.MAKE_TASK_PAYMENT_START:
+        case TaskActions.MAKE_TASK_PAYMENT_SUCCESS:
+            return {...state, pay: null};
         case CLEAR_VALIDATIONS:
             return {};
         default:
@@ -301,6 +325,19 @@ export function running(state = [], action) {
     }
 }
 
+function isPaying(state = false, action) {
+    switch (action.type) {
+        case TaskActions.MAKE_TASK_PAYMENT_START:
+            return true;
+        case TaskActions.MAKE_TASK_PAYMENT_SUCCESS:
+        case TaskActions.MAKE_TASK_PAYMENT_FAILED:
+        case CLEAR_VALIDATIONS:
+            return false;
+        default:
+            return state;
+    }
+}
+
 const detail = combineReducers({
     task,
     isRetrieving,
@@ -312,6 +349,7 @@ const detail = combineReducers({
     activity: Activity,
     integrations: Integration,
     Invoice: Invoice,
+    isPaying,
     error
 });
 

@@ -6,6 +6,7 @@ import ActivityList from './ActivityList';
 
 import { getChannelKey } from '../utils/reducers';
 import { isAuthenticated } from '../utils/auth';
+import { CHANNEL_TYPES } from '../constants/Api';
 
 
 export default class ChatBox extends React.Component {
@@ -32,6 +33,24 @@ export default class ChatBox extends React.Component {
         const { attachments } = channel;
         let view = this.getView();
         var activities = Channel.detail.activity.items[getChannelKey(channel.id)] || [];
+        if(channel.type == CHANNEL_TYPES.support) {
+            activities = [
+                {
+                    action: 'send',
+                    activity_type: 'message',
+                    activity: {
+                        sender: {
+                            username: 'tunga',
+                            short_name: 'Tunga',
+                            display_name: 'Tunga',
+                            avatar_url: 'https://tunga.io/icons/Tunga_squarex150.png'
+                        },
+                        body: "How can we help? We're here for you!"
+                    }
+                },
+                ...activities
+            ];
+        }
 
         return (
             <div className="list-box">
