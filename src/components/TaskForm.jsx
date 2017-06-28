@@ -608,7 +608,7 @@ export default class TaskForm extends ComponentWithModal {
         const { Task, project, enabledWidgets, options, showSectionHeader, urlPrefix, phase, ctaTxt, ctaIcon } = this.props;
         const task = this.props.task || {};
 
-        if(!isAuthenticated() && Task.detail.isSaved && !this.state.autoSave || /\/(start|start-welcome|welcome)\/(finish|schedule|speed-up)\/.*\/complete$/.test(window.location.href)) {
+        if(!isAuthenticated() && Task.detail.isSaved && !this.state.autoSave || /\/(start|start-welcome|start-outsource|welcome)\/(finish|schedule|speed-up)\/.*\/complete$/.test(window.location.href)) {
             return (
                 <div>
                     <div className="thank-you">

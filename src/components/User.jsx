@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import Rating from 'react-rating';
-import Linkify from 'react-linkify';
+import Linkify from './Linkify';
 
 import TagList from './TagList';
 import UserCardProfile from './UserCardProfile';

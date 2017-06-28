@@ -1,5 +1,5 @@
 import React from 'react';
-import Linkify from 'react-linkify';
+import Linkify from './Linkify';
 
 import Progress from './status/Progress';
 import FormStatus from './status/FormStatus';

@@ -62,6 +62,8 @@ export default class TaskWizard extends React.Component {
     getUrlPrefix() {
         if(/\/(start-welcome)\/?/.test(window.location.href)) {
             return 'start-welcome';
+        } else if(/\/(start-outsource)\/?/.test(window.location.href)) {
+            return 'start-outsource';
         }
         return 'start';
     }
@@ -151,7 +153,7 @@ export default class TaskWizard extends React.Component {
                                 <div className="row">
                                     <div className="col-md-6">
                                         <div id="mobile-app">
-                                            <span/>
+                                            <i className="icon tunga-icon-do-app"/>
                                             <p>
                                                 Excellent native app development<br/>
                                                 Specialized iOS and Android teams<br/>
@@ -162,7 +164,7 @@ export default class TaskWizard extends React.Component {
                                     </div>
                                     <div className="col-md-6">
                                         <div id="building-websites">
-                                            <span/>
+                                            <i className="icon tunga-icon-do-web"/>
                                             <p>
                                                 Full stack capacity for web<br/>
                                                 API development<br/>

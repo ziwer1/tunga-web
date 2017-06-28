@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import { ProgressBar } from 'react-bootstrap';
 import moment from 'moment';
-import Linkify from 'react-linkify';
+import Linkify from './Linkify';
 
 import Avatar from './Avatar';
 import Progress from './status/Progress';

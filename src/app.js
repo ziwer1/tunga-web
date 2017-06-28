@@ -120,6 +120,12 @@ ReactDOM.render(
                         <Route path=":phase/:taskId/*" component={TaskWizard}/>
                         <Route path ="*" component={TaskWizard}/>
                     </Route>
+                    <Route path="start-outsource">
+                        <IndexRoute component={TaskWizard}/>
+                        <Route path=":phase/:taskId" component={TaskWizard}/>
+                        <Route path=":phase/:taskId/*" component={TaskWizard}/>
+                        <Route path ="*" component={TaskWizard}/>
+                    </Route>
                     <Route path="call" component={LandingPage} showCallWidget={true}/>
                     <Route path="our-story" component={StoryPage}/>
                     <Route path="quality" component={QualityPage}/>
