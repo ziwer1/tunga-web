@@ -97,7 +97,7 @@ export default class LandingPage extends ComponentWithModal {
         if(location && location.query.dlp_tag) {
             return location.query.dlp_tag;
         }
-        return 'software';
+        return null;
     }
 
     getDLPDesc() {
@@ -105,7 +105,7 @@ export default class LandingPage extends ComponentWithModal {
         if(location && location.query.dlp_desc && ['developers', 'coders', 'programmers'].indexOf(location.query.dlp_desc) > -1) {
             return location.query.dlp_desc;
         }
-        return 'developers';
+        return null;
     }
 
     getDLPPhrase() {
@@ -135,7 +135,7 @@ export default class LandingPage extends ComponentWithModal {
                         Software outsourcing<br/> done right.
                     </h1>
                     <div className="details">
-                        Work with verified {this.getDLPDesc()} while in control of <br/>
+                        Work with verified {this.getDLPDesc() || 'developers'} while in control of <br/>
                         costs, progress and quality.
                     </div>
                     <div>
@@ -162,7 +162,7 @@ export default class LandingPage extends ComponentWithModal {
         };
 
         let meta_title = "Tunga | Software outsourcing done right";
-        let meta_description = `Software outsourcing done right. Work with verified ${this.getDLPDesc()} while in control of costs, progress and quality.. Impact sourcing. Quality monitoring.`;
+        let meta_description = `Software outsourcing done right. Work with verified ${this.getDLPDesc() || 'developers'} while in control of costs, progress and quality.. Impact sourcing. Quality monitoring.`;
 
         return (
             <ShowcaseContainer className={`landing-page ${this.state.pageClass}`}
