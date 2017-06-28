@@ -97,22 +97,22 @@ export default class LandingPage extends ComponentWithModal {
         if(location && location.query.dlp_tag) {
             return location.query.dlp_tag;
         }
-        return null;
+        return 'software';
     }
 
     getDLPDesc() {
         const { location } = this.props;
-        if(location && location.query.dlp_desc) {
+        if(location && location.query.dlp_desc && ['developers', 'coders', 'programmers'].indexOf(location.query.dlp_desc) > -1) {
             return location.query.dlp_desc;
         }
-        return null;
+        return 'developers';
     }
 
     getDLPPhrase() {
         const tag = this.getDLPTag();
         const desc = this.getDLPDesc();
         if(tag || desc) {
-            return `${this.getDLPTag() || 'software'} ${this.getDLPDesc() || 'developers'}`;
+            return `${this.getDLPTag()} ${this.getDLPDesc()}`;
         }
         return null;
     }
@@ -127,8 +127,6 @@ export default class LandingPage extends ComponentWithModal {
     renderHeaderContent() {
 
         const dlp_phrase = this.getDLPPhrase();
-        const dlp_tag = this.getDLPTag();
-        const dlp_desc = this.getDLPDesc();
 
         return (
             <div>
@@ -137,7 +135,7 @@ export default class LandingPage extends ComponentWithModal {
                         Software outsourcing<br/> done right.
                     </h1>
                     <div className="details">
-                        Work with verified developers while in control of <br/>
+                        Work with verified {this.getDLPDesc()} while in control of <br/>
                         costs, progress and quality.
                     </div>
                     <div>
@@ -164,7 +162,7 @@ export default class LandingPage extends ComponentWithModal {
         };
 
         let meta_title = "Tunga | Software outsourcing done right";
-        let meta_description = "Software outsourcing done right. Flexible access to top African software developers. Verified skills matching. Easy communication. Impact sourcing. Quality monitoring.";
+        let meta_description = `Software outsourcing done right. Work with verified ${this.getDLPDesc()} while in control of costs, progress and quality.. Impact sourcing. Quality monitoring.`;
 
         return (
             <ShowcaseContainer className={`landing-page ${this.state.pageClass}`}
@@ -401,7 +399,7 @@ export default class LandingPage extends ComponentWithModal {
                     </div>
                 </section>
 
-                <Reveal effect="outsource-widget open">
+                {/*<Reveal effect="outsource-widget open">
                     <div>Ready to outsource the right way?</div>
                     <form name="task" role="form" ref="task_form" action="/start-outsource/">
                         <input type="email" name="email"
@@ -409,7 +407,7 @@ export default class LandingPage extends ComponentWithModal {
                                required placeholder="Your email address"/>
                         <button className="btn">Go</button>
                     </form>
-                </Reveal>
+                </Reveal>*/}
 
                 <ShowCaseFooter/>
             </ShowcaseContainer>

@@ -37,48 +37,9 @@ export default class TaskWizardLander extends LandingPage {
         return null;
     }
 
-    getPhase() {
-        if(this.props.params) {
-            return this.props.params.phase;
-        }
-        return null;
-    }
-
-    getDLPTag() {
-        const { location } = this.props;
-        if(location && location.query.dlp_tag) {
-            return location.query.dlp_tag;
-        }
-        return null;
-    }
-
-    getDLPDesc() {
-        const { location } = this.props;
-        if(location && location.query.dlp_desc) {
-            return location.query.dlp_desc;
-        }
-        return null;
-    }
-
-    getDLPPhrase() {
-        const tag = this.getDLPTag();
-        const desc = this.getDLPDesc();
-        if(tag || desc) {
-            return `${this.getDLPTag() || 'software'} ${this.getDLPDesc() || 'developers'}`;
-        }
-        return null;
-    }
-
     renderHeaderContent() {
-        const {options} = this.props;
-        const dlp_phrase = this.getDLPPhrase();
-        const dlp_tag = this.getDLPTag();
-        const dlp_desc = this.getDLPDesc();
 
-        let phase = this.getPhase();
-        if(['schedule', 'speed-up'].indexOf(phase) == -1) {
-            phase = '';
-        }
+        const dlp_phrase = this.getDLPPhrase();
 
         return (
             <div className="row">
@@ -89,7 +50,7 @@ export default class TaskWizardLander extends LandingPage {
                             done right.
                         </h1>
                         <div className="details">
-                            Work with verified developers<br/>
+                            Work with verified {this.getDLPDesc()}<br/>
                             while in control of costs, progress and quality.
                         </div>
                     </div>
@@ -127,7 +88,7 @@ export default class TaskWizardLander extends LandingPage {
                                         </div>
                                     </div>
                                     <button type="submit" className="btn cta-action">
-                                        <span><i className="tunga-icon-rocket fa-lg"/> </span>Get me started!
+                                        <span><i className="tunga-icon-rocket fa-lg"/> </span>{dlp_phrase?`Start hiring ${dlp_phrase}`:'Get me started'}!
                                     </button>
                                 </form>
                             </div>
