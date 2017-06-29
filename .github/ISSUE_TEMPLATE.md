@@ -57,7 +57,7 @@ Environment/ Server:
 - [ ] Staging
 - [ ] Test
 - [ ] Development
-<!-- Check whether this is still an issue on the test server first -->
+<!-- If possible, check whether this is still an issue on the test server first -->
 
 For Developer issues:
 - Node version: XX <!-- use `node --version` -->
