@@ -73,7 +73,7 @@
     "globals-loader": "0.0.3",
     "html-loader": "^0.4.3",
     "html-webpack-plugin": "^2.26.0",
-    "image-maxsize-webpack-loader": "^0.2.0",
+    "x": "^0.2.0",
     "less": "^2.5.3",
     "less-loader": "^2.2.1",
     "node-sass": "^4.5.2",

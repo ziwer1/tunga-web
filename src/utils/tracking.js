@@ -104,7 +104,7 @@ export function sendGAEvent(category, action, label) {
 }
 
 export function sendGAPageView(url) {
-    if(__PRODUCTION__) {
+    if(__PRODUCTION__ && window.ga) {
         window.ga('send', 'pageview', url);
     } else {
         console.log('GA Page View', url);
@@ -112,7 +112,7 @@ export function sendGAPageView(url) {
 }
 
 export function sendTwitterSignUpEvent(data) {
-    if(__PRODUCTION__) {
+    if(__PRODUCTION__ && window.twttr) {
         window.twttr.conversion.trackPid(TWITTER_SIGNUP_EVENT_CODE, data);
     }
 }
