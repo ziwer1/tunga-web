@@ -6,7 +6,7 @@
 
 
 /*XTRA-XTRA SMALL*/
-@media (max-width: 448px) {
+@media (max-width: 480px) {
     .showcase {
         section {
             .media {
@@ -25,14 +25,42 @@
     }
     .showcase.landing-page {
         header {
-            background-image: url("../images/showcase/welcome.jpg?max-width=448");
+            background-image: url("../images/showcase/welcome.jpg?max-width=480");
 
             video {
                 display: none;
             }
         }
+        #clients-testmonial {
+            display: block;
+        }
         #contact-us {
-            background-image: url("../images/footer.jpg?max-width=448");
+            background-image: url("../images/footer.jpg?max-width=480");
+        }
+
+        #platform-info {
+            .workflow {
+                margin-bottom: 20px;
+            }
+        }
+
+        iframe {
+            max-width: 100%;
+        }
+
+        &.lander {
+            header {
+                padding-bottom: 60px;
+
+                .pitch, .task-wizard {
+                    max-width: 90%;
+                    margin: 0 auto;
+                }
+
+                .pitch {
+                    margin-bottom: 10px;
+                }
+            }
         }
     }
 }

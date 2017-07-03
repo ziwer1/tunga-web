@@ -41,7 +41,7 @@ export default class LandingPage extends ComponentWithModal {
 
     constructor(props) {
         super(props);
-        this.state = {player: null, play: false, step: 0, pageClass: '', showVideo: true};
+        this.state = {player: null, play: false, step: 0, pageClass: '', showVideo: true, youtubeOpts: {height: '360px'}};
     }
 
     componentDidMount() {
@@ -49,9 +49,20 @@ export default class LandingPage extends ComponentWithModal {
             openCalendlyWidget();
         }
 
+        let lp = this;
+
         let updateBg = function () {
-            let width = $(window).innerWidth()/2;
-            $('.ribbon').css('borderWidth', `60px ${width}px 0`);
+            let windowWidth = $(window).innerWidth();
+            let width = windowWidth/2;
+            let height = 60;
+            if(windowWidth <= 360) {
+                height = 30;
+                lp.setState({youtubeOpts: {width: `${windowWidth}px`}});
+            } else {
+                lp.setState({youtubeOpts: {height: '360px'}});
+            }
+            $('.ribbon').css('borderWidth', `${height}px ${width}px 0`);
+
         };
 
         $(document).ready(updateBg);
@@ -155,9 +166,9 @@ export default class LandingPage extends ComponentWithModal {
             autoplay: true,
             autoplaySpeed: 5000,
             responsive: [
-                { breakpoint: 320, settings: { slidesToShow: 1 } },
-                { breakpoint: 768, settings: { slidesToShow: 2 } },
-                { breakpoint: 1024, settings: { slidesToShow: 3 } }
+                { breakpoint: 481, settings: { slidesToShow: 1 } },
+                { breakpoint: 769, settings: { slidesToShow: 2 } },
+                { breakpoint: 1025, settings: { slidesToShow: 3 } }
             ]
         };
 
@@ -229,7 +240,7 @@ export default class LandingPage extends ComponentWithModal {
                             <div className="col-md-7">
                                 <YouTube
                                     videoId="RVVtyapBmuo"
-                                    opts={{height: '360px'}}
+                                    opts={this.state.youtubeOpts}
                                     onReady={this.onVideoReady.bind(this)}
                                     onPause={this.onPauseVideo.bind(this)} />
                             </div>
