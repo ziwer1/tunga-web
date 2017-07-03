@@ -10,8 +10,8 @@ module.exports = {
     target: 'web',
     cache: true,
     entry: {
-        app: path.join(srcPath, 'app.js'),
-        vendor: ['react', 'react-router', 'redux', 'react-redux']
+        vendor: ['babel-polyfill', 'react', 'react-dom', 'react-router', 'redux', 'react-redux'],
+        app: path.join(srcPath, 'app.js')
     },
     output: {
         path: path.join(__dirname, 'build'),
