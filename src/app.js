@@ -15,11 +15,18 @@ import history from './history';
 
 
 history.listen(location => {
+    var full_path = location.pathname + location.search;
+
     if(__PRODUCTION__) {
+        window.ga('set', 'page', full_path);
         window.ga('send', 'pageview');
         window.twq('track', 'PageView');
     }
-    console.log('Page View sent', location.pathname);
+
+    console.log('Page View sent', full_path);
+
+    window.optimizely = window.optimizely || [];
+    window.optimizely.push({type: 'activate'});
 });
 
 

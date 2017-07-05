@@ -96,7 +96,7 @@ export function getGAUserType(user) {
 }
 
 export function sendGAEvent(category, action, label) {
-    if(__PRODUCTION__) {
+    if(window.ga) {
         window.ga(GA_COMMANDS.SEND, GA_HIT.EVENT, category || null, action || null, label || null);
     } else {
         console.log('GA Page View', GA_COMMANDS.SEND, GA_HIT.EVENT, category || null, action || null, label || null);
@@ -104,7 +104,7 @@ export function sendGAEvent(category, action, label) {
 }
 
 export function sendGAPageView(url) {
-    if(__PRODUCTION__ && window.ga) {
+    if(window.ga) {
         window.ga('send', 'pageview', url);
     } else {
         console.log('GA Page View', url);
@@ -112,7 +112,7 @@ export function sendGAPageView(url) {
 }
 
 export function sendTwitterSignUpEvent(data) {
-    if(__PRODUCTION__ && window.twttr) {
+    if(window.twttr) {
         window.twttr.conversion.trackPid(TWITTER_SIGNUP_EVENT_CODE, data);
     }
 }
