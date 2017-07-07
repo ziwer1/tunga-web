@@ -59,10 +59,8 @@ export default class TaskWizardLander extends LandingPage {
                     <div className="task-wizard">
                         <div>
                             {this.state.step == 1 && !this.getTaskId()?(
-                                <h3 className="">
-                                    Discuss your project within<br/>
-                                    24 hours!
-                                </h3>
+                                <h3 className=""
+                                    dangerouslySetInnerHTML={{__html: dlp_phrase?`Start hiring ${dlp_phrase}`:'Discuss your project within<br/>24 hours!'}}/>
                             ):(
                                 <div className="heading-3 text-center">{this.state.title}</div>
                             )}
@@ -88,7 +86,7 @@ export default class TaskWizardLander extends LandingPage {
                                         </div>
                                     </div>
                                     <button type="submit" className="btn cta-action">
-                                        <span><i className="tunga-icon-rocket fa-lg"/> </span>{dlp_phrase?`Start hiring ${dlp_phrase}`:'Get me started'}!
+                                        <span><i className="tunga-icon-rocket fa-lg"/> </span>Get me started!
                                     </button>
                                 </form>
                             </div>
