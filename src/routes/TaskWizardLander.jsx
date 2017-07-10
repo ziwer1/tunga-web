@@ -46,12 +46,10 @@ export default class TaskWizardLander extends LandingPage {
                 <div className="col-sm-6 col-md-8">
                     <div className="pitch">
                         <h1>
-                            Software outsourcing<br/>
-                            done right.
+                            Getting software projects done is hard. We make it easy.
                         </h1>
                         <div className="details">
-                            Work with verified {this.getDLPDesc() || 'developers'}<br/>
-                            while in control of costs, progress and quality.
+                            Tunga enables you to have super-bright {this.getDLPDesc() || 'developers'} from Africa work on your software project in a productive, friendly and worthwhile way.
                         </div>
                     </div>
                 </div>
@@ -60,7 +58,7 @@ export default class TaskWizardLander extends LandingPage {
                         <div>
                             {this.state.step == 1 && !this.getTaskId()?(
                                 <h3 className=""
-                                    dangerouslySetInnerHTML={{__html: dlp_phrase?`Start hiring ${dlp_phrase}`:'Discuss your project within<br/>24 hours!'}}/>
+                                    dangerouslySetInnerHTML={{__html: dlp_phrase?`Start hiring ${dlp_phrase}`:'Discuss your project!'}}/>
                             ):(
                                 <div className="heading-3 text-center">{this.state.title}</div>
                             )}

@@ -164,11 +164,10 @@ export default class LandingPage extends ComponentWithModal {
             <div>
                 <div className="head-desc">
                     <h1>
-                        Software outsourcing<br/> done right.
+                        Getting software projects done is hard. We make it easy.
                     </h1>
                     <div className="details">
-                        Work with verified {this.getDLPDesc() || 'developers'} while in control of <br/>
-                        costs, progress and quality.
+                        Tunga enables you to have super-bright {this.getDLPDesc() || 'developers'} from Africa work on your software project in a productive, friendly and worthwhile way.
                     </div>
                     <div>
                         <Link to="/start/"
