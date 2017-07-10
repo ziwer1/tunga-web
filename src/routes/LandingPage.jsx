@@ -63,6 +63,27 @@ export default class LandingPage extends ComponentWithModal {
             }
             $('.ribbon').css('borderWidth', `${height}px ${width}px 0`);
 
+            $(this).scroll(function(){
+                var currentPos = $(this).scrollTop();
+                var ctaPos = $('header .btn-callout.btn-main-cta').offset().top;
+                var navActions = $('.nav.nav-actions');
+                var outsourceWidget = $('.outsource-widget');
+                var outWidgetPos = $('footer').offset().top;
+
+                if(currentPos >= ctaPos+50) {
+                    navActions.addClass('show-launch');
+                } else {
+                    navActions.removeClass('show-launch');
+                }
+
+                if(currentPos >= outWidgetPos-500) {
+                    outsourceWidget.addClass('open animated slideInRight');
+                } else if (currentPos <= outWidgetPos-1000){
+                    outsourceWidget.removeClass('open animated slideInRight');
+                }
+                console.log('scrollTop: ', currentPos, ctaPos, outWidgetPos-500);
+            });
+
         };
 
         $(document).ready(updateBg);
@@ -410,7 +431,7 @@ export default class LandingPage extends ComponentWithModal {
                     </div>
                 </section>
 
-                {/*<Reveal effect="outsource-widget open">
+                <div className="outsource-widget">
                     <div>Ready to outsource the right way?</div>
                     <form name="task" role="form" ref="task_form" action="/start-outsource/">
                         <input type="email" name="email"
@@ -418,7 +439,7 @@ export default class LandingPage extends ComponentWithModal {
                                required placeholder="Your email address"/>
                         <button className="btn">Go</button>
                     </form>
-                </Reveal>*/}
+                </div>
 
                 <ShowCaseFooter/>
             </ShowcaseContainer>
