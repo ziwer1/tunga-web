@@ -4,12 +4,9 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import * as UtilityActions from '../actions/UtilityActions';
-import Success from '../components/status/Success';
-import Error from '../components/status/Error';
 import ShowcaseContainer from '../containers/ShowcaseContainer';
 
 import ComponentWithModal from '../components/ComponentWithModal';
-import LargeModal from '../components/LargeModal';
 import MetaTags from "../components/MetaTags";
 
 import { OFFER_REQUEST_ITEMS, TASK_SCOPE_TASK, TASK_SCOPE_PROJECT } from '../constants/Api';
@@ -30,7 +27,7 @@ const OFFER_DETAILS = [
         description: (
             <div>
                 <p>Instant access to developers</p>
-                <p>Clean up your features backlog</p>
+                <p>Clean up your issue/features backlog</p>
                 <p>Get bugs squashed on the fly</p>
             </div>
         ),
@@ -45,12 +42,14 @@ const OFFER_DETAILS = [
             '€19/hr',
             '< 8 hours',
             '< 21 hours',
-            checkMark,
-            checkMark,
-            checkMark,
+            crossMark,
+            crossMark,
             checkMark,
             checkMark,
             crossMark,
+            crossMark,
+            checkMark,
+            checkMark,
             crossMark
         ]
     },
@@ -74,14 +73,16 @@ const OFFER_DETAILS = [
             'FREE',
             '€19/hr',
             '< 48 hours',
-            '> 21 hours',
+            '> 3 months',
             checkMark,
             checkMark,
             checkMark,
             checkMark,
             checkMark,
+            '€39/hr (optional)',
             checkMark,
-            '€39/hr (optional)'
+            checkMark,
+            checkMark
         ]
     },
     {
@@ -105,15 +106,17 @@ const OFFER_DETAILS = [
         perks: [
             'FREE',
             '€19/hr',
-            '< 72 hours',
-            '> 40 hours',
+            '< 5 days',
+            'Unlimited',
             checkMark,
             checkMark,
             checkMark,
             checkMark,
             checkMark,
+            '€39/hr (optional)',
             checkMark,
-            '€39/hr (optional)'
+            checkMark,
+            checkMark
         ]
     }
 ];
@@ -146,17 +149,19 @@ class PricingPage extends ComponentWithModal {
                                 <ul>
                                     <li className="table-key">
                                         <div>
-                                            <p>Browse and connect with developers</p>
+                                            <p>Browse & Connect with developers</p>
                                             <p>Hourly fee</p>
-                                            <p>Response time</p>
-                                            <p>Workload</p>
+                                            <p>Availability</p>
+                                            <p>Duration</p>
                                             <p>Verified skills guarantee</p>
                                             <p>Progress tracking</p>
                                             <p>Quality tracking</p>
-                                            <p>Access to custom integrations</p>
                                             <p>Daily progress reports</p>
                                             <p>Weekly progress reports</p>
-                                            <p>Dedicated project manager (optional)</p>
+                                            <p>Dedicated Project Manager (optional)</p>
+                                            <p>Custom integrations (GitHub, Trello, Slack, GDrive)</p>
+                                            <p>Hassle free invoicing & payment</p>
+                                            <p>Agree on project sum beforehand</p>
                                         </div>
                                     </li>
                                     {OFFER_DETAILS.map((offer, idx) => {
