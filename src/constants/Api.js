@@ -180,14 +180,14 @@ export const TASK_SCOPE_PROJECT = 3;
 
 export const TASK_SCOPE_CHOICES = [
     {id: TASK_SCOPE_TASK, name: 'I have a task<br/>&lt; 50 hours', icon: 'tunga-icon-task'},
-    {id: TASK_SCOPE_PROJECT, name: 'I have a project<br/>&gt; than 50 hours', icon: 'tunga-icon-project'},
+    {id: TASK_SCOPE_PROJECT, name: 'I have a project<br/>&gt; 50 hours', icon: 'tunga-icon-project'},
     {id: TASK_SCOPE_ONGOING, name: 'I have an ongoing project', icon: 'tunga-icon-running-tasks'}
 ];
 
 export const TASK_SCOPE_CHOICES_NEW_USER = [
-    {id: TASK_SCOPE_TASK, name: 'I have a task', icon: 'tunga-icon-task'},
-    {id: TASK_SCOPE_PROJECT, name: 'I have a project', icon: 'tunga-icon-project'},
-    {id: TASK_SCOPE_ONGOING, name: 'I have an ongoing project', icon: 'tunga-icon-running-tasks'}
+    {id: TASK_SCOPE_TASK, name: 'Task<br/>&lt; 12 hours', icon: 'tunga-icon-task'},
+    {id: TASK_SCOPE_PROJECT, name: 'Project<br/>&gt; 50 hours', icon: 'tunga-icon-project'},
+    {id: TASK_SCOPE_ONGOING, name: 'Ongoing project<br/>unlimited', icon: 'tunga-icon-running-tasks'}
 ];
 
 export const TASK_BILLING_METHOD_FIXED = 1;

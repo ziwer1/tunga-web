@@ -1681,6 +1681,12 @@ export default class TaskForm extends ComponentWithModal {
                 sections = [
                     ...sections,
                     {
+                        title: 'Scope of your work',
+                        items: [taskScopeComp],
+                        required: true,
+                        forks: ['scope']
+                    },
+                    {
                         title: `Tag skills or products that are relevant to this ${work_type}`,
                         items: [skillsComp]
                     },
