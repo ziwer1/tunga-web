@@ -58,9 +58,9 @@ const OFFER_DETAILS = [
         sub: 'Post your project on Tunga',
         description: (
             <div>
-                <p>Discuss your project with project engineers</p>
-                <p>Get an estimate within 48 hrs</p>
-                <p>Experienced project managers on demand</p>
+                <p>Have your app, website or service built</p>
+                <p>Get started quickly</p>
+                <p>No hefty fees</p>
             </div>
         ),
         icon: 'tunga-icon-intensive-guildance',
@@ -90,9 +90,9 @@ const OFFER_DETAILS = [
         sub: 'Hire developers for your ongoing software need',
         description: (
             <div>
-                <p>Find a great match</p>
-                <p>On-board developers to your workflow</p>
-                <p>No long-term commitments</p>
+                <p>Integrate remote worker(s) in your team</p>
+                <p>Or build an entire remote team</p>
+                <p>Optional: let a Project manager coordinate</p>
             </div>
         ),
         icon: 'tunga-icon-dedicated-monitor',
