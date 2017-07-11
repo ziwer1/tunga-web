@@ -37,7 +37,7 @@ module.exports = {
     resolve: {
         root: srcPath,
         extensions: ['', '.js', '.jsx', '.json', '.coffee', '.less', '.css', '.png', '.jpg', '.gif'],
-        modulesDirectories: ['node_modules', 'src'],
+        modulesDirectories: ['node_modules', 'src']
     },
     plugins: [
         common_config.plugins.chunkVendorPlugin,
