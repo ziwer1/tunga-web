@@ -46,7 +46,8 @@ export default class TaskWizardLander extends LandingPage {
                 <div className="col-sm-6 col-md-8">
                     <div className="pitch">
                         <h1>
-                            Getting software projects done is hard. We make it easy.
+                            Getting software projects done is hard.<br/>
+                            We make it easy.
                         </h1>
                         <div className="details">
                             Tunga enables you to have super-bright {this.getDLPDesc() || 'developers'} from Africa work on your software project in a productive, friendly and worthwhile way.

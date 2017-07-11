@@ -77,9 +77,15 @@ export default class LandingPage extends ComponentWithModal {
                 }
 
                 if(currentPos >= outWidgetPos-500) {
+                    if(outsourceWidget.hasClass('slideOutRight')) {
+                        outsourceWidget.removeClass('open animated slideOutRight');
+                    }
                     outsourceWidget.addClass('open animated slideInRight');
                 } else if (currentPos <= outWidgetPos-1000){
-                    outsourceWidget.removeClass('open animated slideInRight');
+                    if(outsourceWidget.hasClass('slideInRight')){
+                        outsourceWidget.removeClass('slideInRight');
+                        outsourceWidget.addClass('animated slideOutRight');
+                    }
                 }
                 console.log('scrollTop: ', currentPos, ctaPos, outWidgetPos-500);
             });
@@ -164,7 +170,8 @@ export default class LandingPage extends ComponentWithModal {
             <div>
                 <div className="head-desc">
                     <h1>
-                        Getting software projects done is hard. We make it easy.
+                        Getting software projects done is hard.<br/>
+                        We make it easy.
                     </h1>
                     <div className="details">
                         Tunga enables you to have super-bright {this.getDLPDesc() || 'developers'} from Africa work on your software project in a productive, friendly and worthwhile way.
@@ -193,7 +200,7 @@ export default class LandingPage extends ComponentWithModal {
         };
 
         let meta_title = "Tunga | Software outsourcing done right";
-        let meta_description = `Software outsourcing done right. Work with verified ${this.getDLPDesc() || 'developers'} while in control of costs, progress and quality.. Impact sourcing. Quality monitoring.`;
+        let meta_description = `Getting software projects done is hard. We make it easy.`;
 
         return (
             <ShowcaseContainer className={`landing-page ${this.state.pageClass}`}
