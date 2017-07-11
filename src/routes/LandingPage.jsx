@@ -65,17 +65,24 @@ export default class LandingPage extends ComponentWithModal {
 
             $(this).scroll(function(){
                 var currentPos = $(this).scrollTop();
-                var ctaPos = $('header .btn-callout.btn-main-cta').offset().top;
-                var navActions = $('.nav.nav-actions');
-                var outsourceWidget = $('.outsource-widget');
-                var outWidgetPos = $('footer').offset().top;
-
-                if(currentPos >= ctaPos+50) {
-                    navActions.addClass('show-launch');
-                } else {
-                    navActions.removeClass('show-launch');
+                var cta = $('header .btn-callout.btn-main-cta');
+                if(!cta.size()) {
+                    cta = $('.lander .task-wizard .btn.cta-action');
                 }
 
+                if(cta.size()) {
+                    var ctaPos = cta.offset().top;
+                    var navActions = $('.nav.nav-actions');
+
+                    if(currentPos >= ctaPos+50) {
+                        navActions.addClass('show-launch');
+                    } else {
+                        navActions.removeClass('show-launch');
+                    }
+                }
+
+                var outsourceWidget = $('.outsource-widget');
+                var outWidgetPos = $('footer').offset().top;
                 if(currentPos >= outWidgetPos-500) {
                     if(outsourceWidget.hasClass('slideOutRight')) {
                         outsourceWidget.removeClass('open animated slideOutRight');
@@ -87,7 +94,6 @@ export default class LandingPage extends ComponentWithModal {
                         outsourceWidget.addClass('animated slideOutRight');
                     }
                 }
-                console.log('scrollTop: ', currentPos, ctaPos, outWidgetPos-500);
             });
 
         };
