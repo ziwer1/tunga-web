@@ -1,4 +1,4 @@
-<% if (htmlWebpackPlugin.options.env == 'production') { %>
+<% if (htmlWebpackPlugin.options.site.enable_tracking) { %>
 <!-- Google Tag Manager -->
 <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-PDS4Q4"
                   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -23,7 +23,7 @@
 
 <% } %>
 
-<% if (htmlWebpackPlugin.options.env == 'production') { %>
+<% if (htmlWebpackPlugin.options.site.enable_tracking) { %>
 
 <!-- Twitter universal website tag code -->
 <script>
@@ -88,6 +88,10 @@
 <!-- Hotjar Tracking Code -->
 <% } %>
 
+<% if (htmlWebpackPlugin.options.site.optimizely_id) { %>
+
 <!-- Optimizely -->
 <script src="https://cdn.optimizely.com/js/<%= htmlWebpackPlugin.options.site.optimizely_id %>.js"></script>
 <!-- End of Optimizely -->
+
+<% } %>
