@@ -8,7 +8,7 @@ import GenericListContainer from '../containers/GenericListContainer';
 
 import { ENDPOINT_TASK } from '../constants/Api';
 
-import { isAdmin, isDeveloper, isProjectManager } from '../utils/auth';
+import { isAdmin, isDeveloper, isProjectManager, isProjectOwner } from '../utils/auth';
 
 export default class PaymentList extends GenericListContainer {
 
@@ -115,7 +115,7 @@ export default class PaymentList extends GenericListContainer {
                                                     <div>Contact <a href="mailto:hello@tunga.io">hello@tunga.io</a></div>
                                                 )}
                                             </td>
-                                            <td>{task.payment_status}</td>
+                                            <td>{isProjectOwner() && !isAdmin() && task.payment_status == 'Processing'?'Paid':task.payment_status}</td>
                                             {/*<td>{(task.payment_status == "Pending" && (isDeveloper() || isAdmin())) &&
                                                     <input type="checkbox" className="tasks_to_pay" value={task.id}/>
                                                 }
