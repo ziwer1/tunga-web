@@ -1,5 +1,5 @@
-import React from "react";
-import connect from "../utils/connectors/TaskConnector";
+import React from 'react';
+import connect from '../utils/connectors/TaskConnector';
 
 class TaskContainer extends React.Component {
   renderChildren() {
@@ -10,10 +10,8 @@ class TaskContainer extends React.Component {
           Task: this.props.Task,
           Application: this.props.Application,
           TaskActions: this.props.TaskActions,
-          MultiTasksPaymentActions: this.props.MultiTasksPaymentActions,
-          MultiTasksPayment: this.props.MultiTasksPayment
         });
-      }.bind(this)
+      }.bind(this),
     );
   }
 

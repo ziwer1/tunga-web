@@ -1,20 +1,20 @@
-import React from "react";
-import Helmet from "react-helmet";
+import React from 'react';
+import Helmet from 'react-helmet';
 
-import BreadCrumb from "../containers/BreadCrumb";
-import TaskDetail from "../components/TaskDetail";
-import Progress from "../components/status/Progress";
-import Success from "../components/status/Success";
+import BreadCrumb from '../containers/BreadCrumb';
+import TaskDetail from '../components/TaskDetail';
+import Progress from '../components/status/Progress';
+import Success from '../components/status/Success';
 
-import { getRouteCrumb } from "../utils/router";
-import { render_excerpt } from "../utils/html";
+import {getRouteCrumb} from '../utils/router';
+import {render_excerpt} from '../utils/html';
 import {
   isAdmin,
   isDeveloper,
   isProjectManager,
   getUser,
-  isAuthenticated
-} from "../utils/auth";
+  isAuthenticated,
+} from '../utils/auth';
 
 export default class TaskDetailPage extends React.Component {
   componentDidMount() {
@@ -32,13 +32,13 @@ export default class TaskDetailPage extends React.Component {
       !prevProps.Task.detail.isSaved &&
       this.props.Task.detail.task.id != this.props.params.taskId
     ) {
-      const { router } = this.context;
+      const {router} = this.context;
       router.replace(`/work/${this.props.Task.detail.task.id}`);
     }
   }
 
   getLastRoute() {
-    const { routes } = this.props;
+    const {routes} = this.props;
     if (routes && routes.length) {
       return routes[routes.length - 1];
     }
@@ -92,17 +92,17 @@ export default class TaskDetailPage extends React.Component {
           Task: this.props.Task,
           task: this.props.Task.detail.task,
           TaskActions: this.props.TaskActions,
-          location: this.props.location
+          location: this.props.location,
         });
-      }.bind(this)
+      }.bind(this),
     );
   }
 
   render() {
-    const { Task, TaskActions, params, routes } = this.props;
-    const { task } = Task.detail;
+    const {Task, TaskActions, params, routes} = this.props;
+    const {task} = Task.detail;
     let lastRoute = this.getLastRoute();
-    let meta_title = "Tunga | " + task.summary;
+    let meta_title = 'Tunga | ' + task.summary;
     let meta_description = render_excerpt(task.description) || task.summary;
 
     var crumb_parents = [];
@@ -117,17 +117,17 @@ export default class TaskDetailPage extends React.Component {
       if (task.parent) {
         crumb_parents.push({
           name: task.details.parent.summary,
-          link: `/work/${task.parent}${can_prevent_redirect ? "?nr=true" : ""}`
+          link: `/work/${task.parent}${can_prevent_redirect ? '?nr=true' : ''}`,
         });
       }
       crumb_parents.push({
         name: task.summary,
-        link: `/work/${task.id}${can_prevent_redirect ? "?nr=true" : ""}`
+        link: `/work/${task.id}${can_prevent_redirect ? '?nr=true' : ''}`,
       });
       if (application_id) {
         crumb_parents.push({
-          name: "Applications",
-          link: `/work/${task.id}/applications/`
+          name: 'Applications',
+          link: `/work/${task.id}/applications/`,
         });
       }
     }
@@ -139,11 +139,11 @@ export default class TaskDetailPage extends React.Component {
             <Helmet
               title={meta_title}
               meta={[
-                { name: "twitter:title", content: meta_title },
-                { property: "og:title", content: meta_title },
-                { name: "description", content: meta_description },
-                { name: "twitter:description", content: meta_description },
-                { property: "og:description", content: meta_description }
+                {name: 'twitter:title', content: meta_title},
+                {property: 'og:title', content: meta_title},
+                {name: 'description', content: meta_description},
+                {name: 'twitter:description', content: meta_description},
+                {property: 'og:description', content: meta_description},
               ]}
             />
 
@@ -156,7 +156,7 @@ export default class TaskDetailPage extends React.Component {
             task.is_participant ||
             task.pm == getUser().id ||
             isAdmin() ||
-            (lastRoute && lastRoute.path == "apply" && task.can_apply)
+            (lastRoute && lastRoute.path == 'apply' && task.can_apply)
               ? <div>
                   <BreadCrumb
                     section={
@@ -183,5 +183,5 @@ export default class TaskDetailPage extends React.Component {
 }
 
 TaskDetailPage.contextTypes = {
-  router: React.PropTypes.object.isRequired
+  router: React.PropTypes.object.isRequired,
 };

@@ -1,5 +1,5 @@
-import { combineReducers } from "redux";
-import * as NotificationActions from "../actions/NotificationActions";
+import {combineReducers} from 'redux';
+import * as NotificationActions from '../actions/NotificationActions';
 
 function notifications(state = {}, action) {
   switch (action.type) {
@@ -26,7 +26,7 @@ function isRetrieving(state = false, action) {
 
 const Notification = combineReducers({
   notifications,
-  isRetrieving
+  isRetrieving,
 });
 
 export default Notification;

@@ -1,18 +1,18 @@
-import React from "react";
-import { Link } from "react-router";
-import Progress from "./status/Progress";
-import FormStatus from "./status/FormStatus";
+import React from 'react';
+import {Link} from 'react-router';
+import Progress from './status/Progress';
+import FormStatus from './status/FormStatus';
 
-import { parseNumber } from "../utils/helpers";
+import {parseNumber} from '../utils/helpers';
 
 export default class Participation extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { users: {} };
+    this.state = {users: {}};
   }
 
   componentDidMount() {
-    const { task } = this.props;
+    const {task} = this.props;
     if (task.details && task.details.participation_shares.length) {
       this.parseUsers(task.details.participation_shares);
     }
@@ -23,7 +23,7 @@ export default class Participation extends React.Component {
     participation_shares.forEach(item => {
       users[item.participant.user.id] = item.percentage;
     });
-    this.setState({ users });
+    this.setState({users});
   }
 
   getTotalShares() {
@@ -39,7 +39,7 @@ export default class Participation extends React.Component {
     Object.keys(this.state.users).forEach(key => {
       participation.push({
         user: key,
-        share: parseFloat(this.state.users[key]).toFixed(2) || 0
+        share: parseFloat(this.state.users[key]).toFixed(2) || 0,
       });
     });
     return participation;
@@ -48,35 +48,34 @@ export default class Participation extends React.Component {
   onShareChange(user, e) {
     var new_user = {};
     new_user[user] = e.target.value;
-    this.setState({ users: { ...this.state.users, ...new_user } });
+    this.setState({users: {...this.state.users, ...new_user}});
   }
 
   handleSubmit(e) {
     e.preventDefault();
 
-    const { task, TaskActions } = this.props;
-    TaskActions.updateTask(task.id, { participation: this.getParticipation() });
+    const {task, TaskActions} = this.props;
+    TaskActions.updateTask(task.id, {participation: this.getParticipation()});
   }
 
   render() {
-    const { task, Task } = this.props;
+    const {task, Task} = this.props;
     let total_shares = this.getTotalShares();
 
     return (
       <div>
         {Task.detail.isRetrieving
           ? <Progress />
-          : <div style={{ marginTop: "20px" }}>
+          : <div style={{marginTop: '20px'}}>
               <form
                 onSubmit={this.handleSubmit.bind(this)}
                 name="participation"
                 role="form"
-                ref="participation_form"
-              >
+                ref="participation_form">
                 <FormStatus
                   loading={Task.detail.isSaving}
                   success={Task.detail.isSaved}
-                  message={"Participation details saved successfully"}
+                  message={'Participation details saved successfully'}
                   error={Task.detail.error.update}
                 />
 
@@ -86,14 +85,12 @@ export default class Participation extends React.Component {
                         return (
                           <div
                             key={item.participant.id}
-                            className="row form-group"
-                          >
+                            className="row form-group">
                             <div className="col-md-6">
                               <label className="control-label">
                                 <Link
                                   to={`/people/${item.participant.user
-                                    .username}`}
-                                >
+                                    .username}`}>
                                   {item.participant.user.display_name}
                                 </Link>
                               </label>
@@ -106,11 +103,11 @@ export default class Participation extends React.Component {
                                 placeholder="Share"
                                 defaultValue={parseNumber(
                                   item.percentage,
-                                  false
+                                  false,
                                 )}
                                 onChange={this.onShareChange.bind(
                                   this,
-                                  item.participant.user.id
+                                  item.participant.user.id,
                                 )}
                               />
                             </div>
@@ -124,8 +121,7 @@ export default class Participation extends React.Component {
                   <button
                     type="submit"
                     className="btn"
-                    disabled={Task.detail.isSaving}
-                  >
+                    disabled={Task.detail.isSaving}>
                     Save
                   </button>
                 </div>
@@ -137,9 +133,9 @@ export default class Participation extends React.Component {
 }
 
 Participation.propTypes = {
-  task: React.PropTypes.object.isRequired
+  task: React.PropTypes.object.isRequired,
 };
 
 Participation.defaultProps = {
-  task: {}
+  task: {},
 };

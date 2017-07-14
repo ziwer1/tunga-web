@@ -1,14 +1,14 @@
-import React from "react";
-import { Link } from "react-router";
-import Rating from "react-rating";
+import React from 'react';
+import {Link} from 'react-router';
+import Rating from 'react-rating';
 
-import { RATING_CRITERIA_CHOICES } from "../constants/Api";
-import { getUser } from "../utils/auth";
+import {RATING_CRITERIA_CHOICES} from '../constants/Api';
+import {getUser} from '../utils/auth';
 
 export default class RateDevelopers extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { ratings_map: null };
+    this.state = {ratings_map: null};
   }
 
   componentWillMount() {
@@ -22,8 +22,8 @@ export default class RateDevelopers extends React.Component {
   }
 
   mapUserRatings(props) {
-    const { Task } = props;
-    const { task } = Task.detail;
+    const {Task} = props;
+    const {task} = Task.detail;
     if (task && task.ratings && task.ratings.length) {
       var ratings_map = {};
       task.ratings.forEach(rating => {
@@ -31,14 +31,14 @@ export default class RateDevelopers extends React.Component {
           ratings_map[rating.criteria] = rating.score;
         }
       });
-      this.setState({ ratings_map });
+      this.setState({ratings_map});
     }
   }
 
   onRatingChange(criteria, rating) {
-    const { TaskActions, Task } = this.props;
+    const {TaskActions, Task} = this.props;
     TaskActions.updateTask(Task.detail.task.id, {
-      ratings: [{ criteria, score: rating }]
+      ratings: [{criteria, score: rating}],
     });
   }
 
@@ -49,8 +49,8 @@ export default class RateDevelopers extends React.Component {
   }
 
   render() {
-    const { Task } = this.props;
-    const { task } = Task.detail;
+    const {Task} = this.props;
+    const {task} = Task.detail;
 
     return (
       <div className="form-wrapper">
@@ -58,14 +58,13 @@ export default class RateDevelopers extends React.Component {
           onSubmit={this.handleSubmit.bind(this)}
           name="rate"
           role="form"
-          ref="rate_form"
-        >
+          ref="rate_form">
           <h4 className="title">
             Rate Developer{task.details &&
             task.details.participation &&
             task.details.participation.length == 1
-              ? ""
-              : "s"}
+              ? ''
+              : 's'}
           </h4>
 
           <div className="card">
@@ -75,7 +74,7 @@ export default class RateDevelopers extends React.Component {
           </div>
           {RATING_CRITERIA_CHOICES.map(criteria => {
             return (
-              <div key={criteria.id} style={{ margin: "15px 0" }}>
+              <div key={criteria.id} style={{margin: '15px 0'}}>
                 <h5>
                   {criteria.name}
                 </h5>
@@ -90,8 +89,8 @@ export default class RateDevelopers extends React.Component {
                         ? this.state.ratings_map[criteria.id]
                         : 0
                     }
-                    empty={"fa fa-star-o"}
-                    full={"fa fa-star"}
+                    empty={'fa fa-star-o'}
+                    full={'fa fa-star'}
                     onChange={this.onRatingChange.bind(this, criteria.id)}
                   />
                 </div>

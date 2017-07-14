@@ -1,24 +1,24 @@
-import React from "react";
-import moment from "moment";
-import _ from "lodash";
-import momentLocalizer from "react-widgets/lib/localizers/moment";
-import { Table } from "react-bootstrap";
+import React from 'react';
+import moment from 'moment';
+import _ from 'lodash';
+import momentLocalizer from 'react-widgets/lib/localizers/moment';
+import {Table} from 'react-bootstrap';
 
-import FormStatus from "./status/FormStatus";
-import FieldError from "./status/FieldError";
-import ComponentWithModal from "./ComponentWithModal";
-import LargeModal from "./LargeModal";
-import ActivityForm from "./ActivityForm";
-import PlanForm from "./PlanForm";
+import FormStatus from './status/FormStatus';
+import FieldError from './status/FieldError';
+import ComponentWithModal from './ComponentWithModal';
+import LargeModal from './LargeModal';
+import ActivityForm from './ActivityForm';
+import PlanForm from './PlanForm';
 
 import {
   DEVELOPER_FEE,
   STATUS_SUBMITTED,
-  STATUS_ACCEPTED
-} from "../constants/Api";
-import { getPayDetails, canAddQuote, canEditQuote } from "../utils/tasks";
-import { getUser, isAdminOrProjectOwner } from "../utils/auth";
-import { parseNumber } from "../utils/helpers";
+  STATUS_ACCEPTED,
+} from '../constants/Api';
+import {getPayDetails, canAddQuote, canEditQuote} from '../utils/tasks';
+import {getUser, isAdminOrProjectOwner} from '../utils/auth';
+import {parseNumber} from '../utils/helpers';
 
 momentLocalizer(moment);
 
@@ -26,13 +26,13 @@ export default class QuoteForm extends ComponentWithModal {
   constructor(props) {
     super(props);
     this.state = {
-      introduction: "",
+      introduction: '',
       activities: [],
       plan: [],
       modalActivity: null,
       modalContent: null,
-      modalTitle: "",
-      submitted: false
+      modalTitle: '',
+      submitted: false,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -44,19 +44,19 @@ export default class QuoteForm extends ComponentWithModal {
       const task = this.props.task || {};
       estimate = task.estimate;
     }
-    this.setState({ ...estimate, ...quote });
+    this.setState({...estimate, ...quote});
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { Quote } = this.props;
+    const {Quote} = this.props;
 
     const quote = this.props.quote || {};
 
     if (this.props.Quote.detail.isSaved && !prevProps.Quote.detail.isSaved) {
       if (!this.props.quote) {
-        const { router } = this.context;
+        const {router} = this.context;
         router.replace(
-          `/work/${Quote.detail.quote.task}/quote/${Quote.detail.quote.id}`
+          `/work/${Quote.detail.quote.task}/quote/${Quote.detail.quote.id}`,
         );
       }
 
@@ -64,16 +64,16 @@ export default class QuoteForm extends ComponentWithModal {
         this.props.quote.id != Quote.detail.quote.id ||
         Quote.detail.quote.status == STATUS_ACCEPTED
       ) {
-        const { router } = this.context;
+        const {router} = this.context;
         window.location.href = `/work/${Quote.detail.quote.task}/quote/${Quote
           .detail.quote.id}`;
       }
 
-      this.setState({ ...Quote.detail.quote, submitted: false });
+      this.setState({...Quote.detail.quote, submitted: false});
     }
 
     if (this.props.Quote.detail.quote.id && !prevProps.Quote.detail.quote.id) {
-      this.setState({ ...this.props.Quote.detail.quote });
+      this.setState({...this.props.Quote.detail.quote});
     }
   }
 
@@ -92,8 +92,8 @@ export default class QuoteForm extends ComponentWithModal {
   onComposeActivity(activity) {
     this.setState({
       modalActivity: activity,
-      modalContent: "activity",
-      modalTitle: "Add activity"
+      modalContent: 'activity',
+      modalTitle: 'Add activity',
     });
     this.open();
   }
@@ -101,8 +101,8 @@ export default class QuoteForm extends ComponentWithModal {
   onComposePlan(milestone) {
     this.setState({
       modalActivity: milestone,
-      modalContent: "plan",
-      modalTitle: "Add milestone"
+      modalContent: 'plan',
+      modalTitle: 'Add milestone',
     });
     this.open();
   }
@@ -114,7 +114,7 @@ export default class QuoteForm extends ComponentWithModal {
     } else {
       new_activities = [...new_activities, activity];
     }
-    this.setState({ activities: new_activities });
+    this.setState({activities: new_activities});
   }
 
   onAddMilestone(milestone) {
@@ -124,7 +124,7 @@ export default class QuoteForm extends ComponentWithModal {
     } else {
       new_plans = [...new_plans, milestone];
     }
-    this.setState({ plan: new_plans });
+    this.setState({plan: new_plans});
   }
 
   onDelete(idx) {
@@ -132,10 +132,10 @@ export default class QuoteForm extends ComponentWithModal {
       let activities = Array.from(
         new Set([
           ...this.state.activities.slice(0, idx),
-          ...this.state.activities.slice(idx + 1)
-        ])
+          ...this.state.activities.slice(idx + 1),
+        ]),
       );
-      this.setState({ activities });
+      this.setState({activities});
     }
   }
 
@@ -144,10 +144,10 @@ export default class QuoteForm extends ComponentWithModal {
       let plan = Array.from(
         new Set([
           ...this.state.plan.slice(0, idx),
-          ...this.state.plan.slice(idx + 1)
-        ])
+          ...this.state.plan.slice(idx + 1),
+        ]),
       );
-      this.setState({ plan });
+      this.setState({plan});
     }
   }
 
@@ -165,7 +165,7 @@ export default class QuoteForm extends ComponentWithModal {
     var activities = this.state.activities;
     var plan = this.state.plan;
 
-    const { QuoteActions } = this.props;
+    const {QuoteActions} = this.props;
     const quote = this.props.quote || {};
     const task = this.props.task || {};
 
@@ -180,7 +180,7 @@ export default class QuoteForm extends ComponentWithModal {
       technology,
       process,
       reporting,
-      plan
+      plan,
     };
 
     if (!quote.id) {
@@ -205,16 +205,15 @@ export default class QuoteForm extends ComponentWithModal {
         <LargeModal
           title={this.state.modalTitle}
           show={this.state.showModal}
-          onHide={this.close.bind(this)}
-        >
-          {this.state.modalContent == "activity"
+          onHide={this.close.bind(this)}>
+          {this.state.modalContent == 'activity'
             ? <ActivityForm
                 activity={this.state.modalActivity}
                 onSave={this.onAddActivity.bind(this)}
                 close={this.close.bind(this)}
               />
             : null}
-          {this.state.modalContent == "plan"
+          {this.state.modalContent == 'plan'
             ? <PlanForm
                 activity={this.state.modalActivity}
                 onSave={this.onAddMilestone.bind(this)}
@@ -227,7 +226,7 @@ export default class QuoteForm extends ComponentWithModal {
   }
 
   render() {
-    const { Quote } = this.props;
+    const {Quote} = this.props;
     const task = this.props.task || {};
     const quote = this.props.quote || {};
 
@@ -240,14 +239,13 @@ export default class QuoteForm extends ComponentWithModal {
           onSubmit={this.handleSubmit}
           name="quote-form"
           role="form"
-          ref="quote_form"
-        >
+          ref="quote_form">
           <FormStatus
             loading={Quote.detail.isSaving}
             success={Quote.detail.isSaved}
             message={`Quote ${quote.status == STATUS_SUBMITTED
-              ? "submitted"
-              : "saved"} successfully`}
+              ? 'submitted'
+              : 'saved'} successfully`}
             error={Quote.detail.error.create}
           />
 
@@ -268,7 +266,7 @@ export default class QuoteForm extends ComponentWithModal {
             <label className="control-label">Introduction *</label>
             <textarea
               className="form-control"
-              onChange={this.onInputChange.bind(this, "introduction")}
+              onChange={this.onInputChange.bind(this, 'introduction')}
               value={this.state.introduction}
               ref="introduction"
               placeholder="Introduction"
@@ -287,7 +285,7 @@ export default class QuoteForm extends ComponentWithModal {
             <label className="control-label">In scope *</label>
             <textarea
               className="form-control"
-              onChange={this.onInputChange.bind(this, "in_scope")}
+              onChange={this.onInputChange.bind(this, 'in_scope')}
               value={this.state.in_scope}
               ref="introduction"
               placeholder="In scope"
@@ -304,7 +302,7 @@ export default class QuoteForm extends ComponentWithModal {
             <label className="control-label">Out of scope *</label>
             <textarea
               className="form-control"
-              onChange={this.onInputChange.bind(this, "out_scope")}
+              onChange={this.onInputChange.bind(this, 'out_scope')}
               value={this.state.out_scope}
               ref="out_scope"
               placeholder="Out of scope"
@@ -321,7 +319,7 @@ export default class QuoteForm extends ComponentWithModal {
             <label className="control-label">Assumptions *</label>
             <textarea
               className="form-control"
-              onChange={this.onInputChange.bind(this, "assumptions")}
+              onChange={this.onInputChange.bind(this, 'assumptions')}
               value={this.state.assumptions}
               ref="out_scope"
               placeholder="Assumptions"
@@ -338,7 +336,7 @@ export default class QuoteForm extends ComponentWithModal {
             <label className="control-label">Deliverables *</label>
             <textarea
               className="form-control"
-              onChange={this.onInputChange.bind(this, "deliverables")}
+              onChange={this.onInputChange.bind(this, 'deliverables')}
               value={this.state.deliverables}
               ref="out_scope"
               placeholder="Deliverables"
@@ -357,7 +355,7 @@ export default class QuoteForm extends ComponentWithModal {
             <label className="control-label">Architecture *</label>
             <textarea
               className="form-control"
-              onChange={this.onInputChange.bind(this, "architecture")}
+              onChange={this.onInputChange.bind(this, 'architecture')}
               value={this.state.architecture}
               ref="out_scope"
               placeholder="Architecture"
@@ -374,7 +372,7 @@ export default class QuoteForm extends ComponentWithModal {
             <label className="control-label">Technologies *</label>
             <textarea
               className="form-control"
-              onChange={this.onInputChange.bind(this, "technology")}
+              onChange={this.onInputChange.bind(this, 'technology')}
               value={this.state.technology}
               ref="out_scope"
               placeholder="Technologies"
@@ -393,7 +391,7 @@ export default class QuoteForm extends ComponentWithModal {
             <label className="control-label">Process *</label>
             <textarea
               className="form-control"
-              onChange={this.onInputChange.bind(this, "process")}
+              onChange={this.onInputChange.bind(this, 'process')}
               value={this.state.process}
               ref="out_scope"
               placeholder="Process"
@@ -410,7 +408,7 @@ export default class QuoteForm extends ComponentWithModal {
             <label className="control-label">Reporting *</label>
             <textarea
               className="form-control"
-              onChange={this.onInputChange.bind(this, "reporting")}
+              onChange={this.onInputChange.bind(this, 'reporting')}
               value={this.state.reporting}
               ref="out_scope"
               placeholder="Reporting"
@@ -429,8 +427,7 @@ export default class QuoteForm extends ComponentWithModal {
             <button
               type="button"
               className="btn"
-              onClick={this.onComposeActivity.bind(this, null)}
-            >
+              onClick={this.onComposeActivity.bind(this, null)}>
               Add
             </button>
 
@@ -454,10 +451,9 @@ export default class QuoteForm extends ComponentWithModal {
                               href="#"
                               onClick={this.onComposeActivity.bind(this, {
                                 ...activity,
-                                idx
-                              })}
-                            >
-                              {_.truncate(activity.title, { length: 25 })}
+                                idx,
+                              })}>
+                              {_.truncate(activity.title, {length: 25})}
                             </a>
                           </td>
                           <td>
@@ -474,8 +470,7 @@ export default class QuoteForm extends ComponentWithModal {
                           <td>
                             <button
                               className="btn"
-                              onClick={this.onDelete.bind(this, idx)}
-                            >
+                              onClick={this.onDelete.bind(this, idx)}>
                               <i className="fa fa-trash-o" />
                             </button>
                           </td>
@@ -543,8 +538,7 @@ export default class QuoteForm extends ComponentWithModal {
             <button
               type="button"
               className="btn"
-              onClick={this.onComposePlan.bind(this, null)}
-            >
+              onClick={this.onComposePlan.bind(this, null)}>
               Add
             </button>
 
@@ -568,23 +562,22 @@ export default class QuoteForm extends ComponentWithModal {
                               href="#"
                               onClick={this.onComposePlan.bind(this, {
                                 ...milestone,
-                                idx
-                              })}
-                            >
-                              {_.truncate(milestone.title, { length: 25 })}
+                                idx,
+                              })}>
+                              {_.truncate(milestone.title, {length: 25})}
                             </a>
                           </td>
                           <td>
                             {moment
                               .utc(milestone.start_date)
                               .local()
-                              .format("Do, MMMM YYYY")}
+                              .format('Do, MMMM YYYY')}
                           </td>
                           <td>
                             {moment
                               .utc(milestone.end_date)
                               .local()
-                              .format("Do, MMMM YYYY")}
+                              .format('Do, MMMM YYYY')}
                           </td>
                           <td>
                             {milestone.description}
@@ -592,8 +585,7 @@ export default class QuoteForm extends ComponentWithModal {
                           <td>
                             <button
                               className="btn"
-                              onClick={this.onDeletePlan.bind(this, idx)}
-                            >
+                              onClick={this.onDeletePlan.bind(this, idx)}>
                               <i className="fa fa-trash-o" />
                             </button>
                           </td>
@@ -610,8 +602,7 @@ export default class QuoteForm extends ComponentWithModal {
                 <button
                   type="submit"
                   className="btn"
-                  disabled={Quote.detail.isSaving}
-                >
+                  disabled={Quote.detail.isSaving}>
                   Save
                 </button>
                 {!quote.user || quote.user.id == getUser().id
@@ -620,11 +611,10 @@ export default class QuoteForm extends ComponentWithModal {
                       value={STATUS_SUBMITTED}
                       className="btn"
                       onClick={e => {
-                        this.setState({ submitted: true });
+                        this.setState({submitted: true});
                         return true;
                       }}
-                      disabled={Quote.detail.isSaving}
-                    >
+                      disabled={Quote.detail.isSaving}>
                       Submit for Review
                     </button>
                   : null}
@@ -638,14 +628,14 @@ export default class QuoteForm extends ComponentWithModal {
 
 QuoteForm.propTypes = {
   quote: React.PropTypes.object,
-  task: React.PropTypes.object
+  task: React.PropTypes.object,
 };
 
 QuoteForm.defaultProps = {
   quote: null,
-  task: null
+  task: null,
 };
 
 QuoteForm.contextTypes = {
-  router: React.PropTypes.object.isRequired
+  router: React.PropTypes.object.isRequired,
 };

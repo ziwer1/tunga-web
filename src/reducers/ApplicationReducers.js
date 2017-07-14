@@ -1,8 +1,8 @@
-import { combineReducers } from "redux";
-import * as ApplicationActions from "../actions/ApplicationActions";
-import { PATH_CHANGE } from "../actions/NavActions";
+import {combineReducers} from 'redux';
+import * as ApplicationActions from '../actions/ApplicationActions';
+import {PATH_CHANGE} from '../actions/NavActions';
 
-import { STATUS_REJECTED } from "../constants/Api";
+import {STATUS_REJECTED} from '../constants/Api';
 
 function applications(state = {}, action) {
   switch (action.type) {
@@ -19,7 +19,7 @@ function applications(state = {}, action) {
       var application = state[action.application.id];
       var new_ref = action.application;
       new_ref[application.id] = action.application;
-      return { ...state, ...new_ref };
+      return {...state, ...new_ref};
     default:
       return state;
   }
@@ -38,7 +38,7 @@ function ids(state = [], action) {
           return [
             ...state.slice(0, idx),
             ...state.slice(idx + 1),
-            action.application.id
+            action.application.id,
           ];
         }
         var application = state[action.application.id];
@@ -101,15 +101,15 @@ function isSaved(state = false, action) {
 function error(state = {}, action) {
   switch (action.type) {
     case ApplicationActions.CREATE_APPLICATION_FAILED:
-      return { ...state, create: action.error };
+      return {...state, create: action.error};
     case ApplicationActions.CREATE_APPLICATION_START:
     case ApplicationActions.CREATE_APPLICATION_SUCCESS:
-      return { ...state, create: null };
+      return {...state, create: null};
     case ApplicationActions.UPDATE_APPLICATION_FAILED:
-      return { ...state, update: action.error };
+      return {...state, update: action.error};
     case ApplicationActions.UPDATE_APPLICATION_START:
     case ApplicationActions.UPDATE_APPLICATION_SUCCESS:
-      return { ...state, update: null };
+      return {...state, update: null};
     default:
       return state;
   }
@@ -121,7 +121,7 @@ const Application = combineReducers({
   isRetrieving,
   isSaving,
   isSaved,
-  error
+  error,
 });
 
 export default Application;

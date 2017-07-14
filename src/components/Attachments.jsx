@@ -1,9 +1,9 @@
-import React from "react";
-import { Link } from "react-router";
+import React from 'react';
+import {Link} from 'react-router';
 
 export default class Attachments extends React.Component {
   render() {
-    const { attachments } = this.props;
+    const {attachments} = this.props;
 
     return (
       <div className="attachments">
@@ -11,7 +11,7 @@ export default class Attachments extends React.Component {
           return (
             <div key={attachment.id} className="file">
               <a href={attachment.url} target="_blank">
-                <i className="fa fa-download" /> {attachment.name}{" "}
+                <i className="fa fa-download" /> {attachment.name}{' '}
                 <strong>[{attachment.display_size}]</strong>
               </a>
             </div>

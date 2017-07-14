@@ -1,8 +1,8 @@
-import React from "react";
-import _ from "lodash";
-import randomstring from "randomstring";
-import connect from "../utils/connectors/UserSelectionConnector";
-import Avatar from "../components/Avatar";
+import React from 'react';
+import _ from 'lodash';
+import randomstring from 'randomstring';
+import connect from '../utils/connectors/UserSelectionConnector';
+import Avatar from '../components/Avatar';
 
 const KEY_DOWN = 38;
 const KEY_UP = 40;
@@ -10,12 +10,12 @@ const KEY_UP = 40;
 class UserSelector extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { user_name: "", selection_key: randomstring.generate() };
+    this.state = {user_name: '', selection_key: randomstring.generate()};
     this.handleGetSuggestions = _.debounce(this.handleGetSuggestions, 250);
   }
 
   componentDidMount() {
-    const { UserSelectionActions, selected, deselected } = this.props;
+    const {UserSelectionActions, selected, deselected} = this.props;
     UserSelectionActions.invalidateUserSuggestions();
     UserSelectionActions.clearUserSelections(this.state.selection_key);
 
@@ -38,7 +38,7 @@ class UserSelector extends React.Component {
       UserSelectionActions,
       onChange,
       selected,
-      deselected
+      deselected,
     } = this.props;
     const selections =
       UserSelection.selected.ids[this.state.selection_key] || [];
@@ -79,14 +79,14 @@ class UserSelector extends React.Component {
   }
 
   onQueryChange(e) {
-    const { UserSelectionActions, filter } = this.props;
+    const {UserSelectionActions, filter} = this.props;
     var user_name = e.target.value;
 
     if (user_name == this.state.user_name) {
       return;
     }
 
-    this.setState({ user_name: user_name });
+    this.setState({user_name: user_name});
     if (!user_name) {
       UserSelectionActions.invalidateUserSuggestions(this.state.selection_key);
       return;
@@ -96,22 +96,22 @@ class UserSelector extends React.Component {
   }
 
   handleGetSuggestions() {
-    const { UserSelectionActions, filter } = this.props;
+    const {UserSelectionActions, filter} = this.props;
     UserSelectionActions.getUserSuggestions(
-      { search: this.state.user_name, ...filter },
-      this.state.selection_key
+      {search: this.state.user_name, ...filter},
+      this.state.selection_key,
     );
   }
 
   onUserSelect(user) {
-    const { UserSelectionActions } = this.props;
+    const {UserSelectionActions} = this.props;
     UserSelectionActions.addUserSelection(user, this.state.selection_key);
     UserSelectionActions.invalidateUserSuggestions(this.state.selection_key);
-    this.setState({ user_name: "" });
+    this.setState({user_name: ''});
   }
 
   onUserRemove(user) {
-    const { UserSelectionActions } = this.props;
+    const {UserSelectionActions} = this.props;
     UserSelectionActions.removeUserSelection(user.id, this.state.selection_key);
   }
 
@@ -130,7 +130,7 @@ class UserSelector extends React.Component {
   }
 
   render() {
-    const { UserSelection, max, canRemove, unremovable } = this.props;
+    const {UserSelection, max, canRemove, unremovable} = this.props;
     const selections =
       UserSelection.selected.ids[this.state.selection_key] || [];
     const selection_users =
@@ -151,8 +151,7 @@ class UserSelector extends React.Component {
                 (!unremovable || unremovable.indexOf(user.id) == -1)
                   ? <a
                       onClick={this.onUserRemove.bind(this, user)}
-                      className="close"
-                    >
+                      className="close">
                       <i className="fa fa-remove" />
                     </a>
                   : null}
@@ -165,8 +164,7 @@ class UserSelector extends React.Component {
           ? null
           : <div
               className="input-group"
-              onClick={this.handleComponentClick.bind(this)}
-            >
+              onClick={this.handleComponentClick.bind(this)}>
               <span className="input-group-addon">
                 <span className="glyphicon glyphicon-user" />
               </span>
@@ -188,8 +186,7 @@ class UserSelector extends React.Component {
                   <a
                     key={user.id}
                     className="list-group-item"
-                    onClick={this.onUserSelect.bind(this, user)}
-                  >
+                    onClick={this.onUserSelect.bind(this, user)}>
                     <div className="media">
                       <div className="media-left">
                         <Avatar src={user.avatar_url} size="small" />
@@ -219,11 +216,11 @@ UserSelector.propTypes = {
   selected: React.PropTypes.array,
   canRemove: React.PropTypes.bool,
   deselected: React.PropTypes.array,
-  unremovable: React.PropTypes.array
+  unremovable: React.PropTypes.array,
 };
 
 UserSelector.defaultProps = {
-  canRemove: true
+  canRemove: true,
 };
 
 export default connect(UserSelector);

@@ -1,14 +1,14 @@
-import React from "react";
-import moment from "moment";
-import momentLocalizer from "react-widgets/lib/localizers/moment";
-import FieldError from "./status/FieldError";
+import React from 'react';
+import moment from 'moment';
+import momentLocalizer from 'react-widgets/lib/localizers/moment';
+import FieldError from './status/FieldError';
 
 momentLocalizer(moment);
 
 export default class ActivityForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { description: "" };
+    this.state = {description: ''};
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -35,7 +35,7 @@ export default class ActivityForm extends React.Component {
     var description = this.refs.description.value.trim();
 
     if (this.props.onSave) {
-      this.props.onSave({ ...this.props.activity, title, hours, description });
+      this.props.onSave({...this.props.activity, title, hours, description});
     }
     if (this.props.close) {
       this.props.close();
@@ -51,8 +51,7 @@ export default class ActivityForm extends React.Component {
           onSubmit={this.handleSubmit}
           name="activity"
           role="form"
-          ref="activity_form"
-        >
+          ref="activity_form">
           {this.state.error && this.state.error.title
             ? <FieldError message={this.state.error.title} />
             : null}
@@ -95,7 +94,7 @@ export default class ActivityForm extends React.Component {
             <label className="control-label">Description</label>
             <textarea
               className="form-control"
-              onChange={this.onInputChange.bind(this, "description")}
+              onChange={this.onInputChange.bind(this, 'description')}
               defaultValue={activity.description}
               ref="description"
               placeholder="Introduction"
@@ -104,7 +103,7 @@ export default class ActivityForm extends React.Component {
 
           <div className="text-center">
             <button type="submit" className="btn  ">
-              {activity.idx > -1 ? "Update" : "Add"} activity
+              {activity.idx > -1 ? 'Update' : 'Add'} activity
             </button>
           </div>
         </form>

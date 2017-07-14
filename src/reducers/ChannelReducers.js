@@ -1,15 +1,15 @@
-import { combineReducers } from "redux";
-import * as ChannelActions from "../actions/ChannelActions";
-import * as MessageActions from "../actions/MessageActions";
-import { PATH_CHANGE } from "../actions/NavActions";
-import { GET_NOTIFICATIONS_SUCCESS } from "../actions/NotificationActions";
+import {combineReducers} from 'redux';
+import * as ChannelActions from '../actions/ChannelActions';
+import * as MessageActions from '../actions/MessageActions';
+import {PATH_CHANGE} from '../actions/NavActions';
+import {GET_NOTIFICATIONS_SUCCESS} from '../actions/NotificationActions';
 import {
   LOGIN_SUCCESS,
   LOGOUT_SUCCESS,
-  VERIFY_SUCCESS
-} from "../actions/AuthActions";
+  VERIFY_SUCCESS,
+} from '../actions/AuthActions';
 
-import Activity from "./ActivityReducers";
+import Activity from './ActivityReducers';
 
 function channel(state = {}, action) {
   switch (action.type) {
@@ -39,7 +39,7 @@ function channel(state = {}, action) {
       return {};
     case MessageActions.LIST_MESSAGES_SUCCESS:
       if (action.filter && action.filter.channel == state.id) {
-        return { ...state, new: 0 };
+        return {...state, new: 0};
       }
       return state;
     default:
@@ -55,7 +55,7 @@ function channels(state = {}, action) {
       action.items.forEach(channel => {
         all_channels[channel.id] = channel;
       });
-      return { ...state, ...all_channels };
+      return {...state, ...all_channels};
     case ChannelActions.LIST_CHANNELS_START:
     case ChannelActions.LIST_CHANNELS_FAILED:
       return {};
@@ -73,26 +73,26 @@ function channels(state = {}, action) {
         previous_last_read:
           action.type == ChannelActions.UPDATE_CHANNEL_READ_SUCCESS
             ? state[channel_id].last_read
-            : action.channel.last_read
+            : action.channel.last_read,
       };
-      return { ...state, ...new_channel };
+      return {...state, ...new_channel};
     case ChannelActions.DELETE_CHANNEL_SUCCESS:
-      var new_state = { ...state };
+      var new_state = {...state};
       delete new_state[action.id];
       return new_state;
     case MessageActions.CREATE_MESSAGE_SUCCESS:
-      new_state = { ...state };
+      new_state = {...state};
       channel_id = action.message.channel;
       if (state[channel_id]) {
         new_state[channel_id] = {
           ...new_state[channel_id],
           attachments: [
             ...action.message.attachments,
-            ...state[channel_id].attachments
+            ...state[channel_id].attachments,
           ],
-          previous_last_read: state[channel_id].last_read
+          previous_last_read: state[channel_id].last_read,
         };
-        new_state = { ...state };
+        new_state = {...state};
         return new_state;
       }
       return state;
@@ -100,9 +100,9 @@ function channels(state = {}, action) {
       if (action.notifications && action.notifications.channels) {
         all_channels = {};
         action.notifications.channels.forEach(channel => {
-          all_channels[channel.id] = { ...state[channel.id], new: channel.new };
+          all_channels[channel.id] = {...state[channel.id], new: channel.new};
         });
-        return { ...state, ...all_channels };
+        return {...state, ...all_channels};
       }
       return state;
     default:
@@ -275,7 +275,7 @@ function error(state = {}, action) {
     case ChannelActions.CREATE_SUPPORT_CHANNEL_FAILED:
     case ChannelActions.CREATE_DEVELOPER_CHANNEL_FAILED:
     case ChannelActions.CREATE_TASK_CHANNEL_FAILED:
-      return { ...state, create: action.error };
+      return {...state, create: action.error};
     case ChannelActions.CREATE_CHANNEL_START:
     case ChannelActions.CREATE_CHANNEL_SUCCESS:
     case ChannelActions.CREATE_SUPPORT_CHANNEL_START:
@@ -284,17 +284,17 @@ function error(state = {}, action) {
     case ChannelActions.CREATE_DEVELOPER_CHANNEL_SUCCESS:
     case ChannelActions.CREATE_TASK_CHANNEL_START:
     case ChannelActions.CREATE_TASK_CHANNEL_SUCCESS:
-      return { ...state, create: null };
+      return {...state, create: null};
     default:
       return state;
   }
 }
 
-function support(state = { new: 0 }, action) {
+function support(state = {new: 0}, action) {
   switch (action.type) {
     case ChannelActions.LIST_NEW_CHANNEL_ACTIVITY_SUCCESS:
       if (action.update_new) {
-        return { ...state, new: action.count };
+        return {...state, new: action.count};
       }
       return state;
     default:
@@ -310,7 +310,7 @@ const detail = combineReducers({
   isDeleting,
   activity: Activity,
   error,
-  support
+  support,
 });
 
 const list = combineReducers({
@@ -320,12 +320,12 @@ const list = combineReducers({
   isFetchingMore,
   next,
   previous,
-  count
+  count,
 });
 
 const Channel = combineReducers({
   detail,
-  list
+  list,
 });
 
 export default Channel;

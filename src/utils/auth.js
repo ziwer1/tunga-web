@@ -1,10 +1,10 @@
-import React from "react";
-import store from "../store";
+import React from 'react';
+import store from '../store';
 
-import ProfileContainer from "../containers/ProfileContainer";
-import ProfileForm from "../components/ProfileForm";
+import ProfileContainer from '../containers/ProfileContainer';
+import ProfileForm from '../components/ProfileForm';
 
-import createModal from "../components/Modal";
+import createModal from '../components/Modal';
 
 export function getAuth() {
   return store.getState().Auth;
@@ -58,6 +58,6 @@ export function openProfileWizard(options = {}) {
     </div>,
     null,
     null,
-    { className: "profile-form-dialog", bsStyle: "lg" }
+    {className: 'profile-form-dialog', bsStyle: 'lg'},
   );
 }

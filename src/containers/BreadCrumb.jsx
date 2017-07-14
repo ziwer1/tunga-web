@@ -1,12 +1,12 @@
-import React from "react";
-import { Link } from "react-router";
-import { Breadcrumb } from "react-bootstrap";
+import React from 'react';
+import {Link} from 'react-router';
+import {Breadcrumb} from 'react-bootstrap';
 
-import { render_summary } from "../utils/html";
+import {render_summary} from '../utils/html';
 
 export default class BreadCrumb extends React.Component {
   render() {
-    const { section, parents } = this.props;
+    const {section, parents} = this.props;
 
     return section
       ? <Breadcrumb>
@@ -29,5 +29,5 @@ export default class BreadCrumb extends React.Component {
 
 BreadCrumb.propTypes = {
   parents: React.PropTypes.array,
-  section: React.PropTypes.string
+  section: React.PropTypes.string,
 };

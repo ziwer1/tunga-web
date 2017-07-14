@@ -1,6 +1,6 @@
-import React from "react";
-import Progress from "./Progress";
-import Waypoint from "react-waypoint";
+import React from 'react';
+import Progress from './Progress';
+import Waypoint from 'react-waypoint';
 
 export default class LoadMore extends React.Component {
   constructor(props) {
@@ -15,7 +15,7 @@ export default class LoadMore extends React.Component {
 
   render() {
     return (
-      <div style={{ position: "relative" }}>
+      <div style={{position: 'relative'}}>
         {this.props.url
           ? <div className="load-more">
               {this.props.loading
@@ -23,15 +23,14 @@ export default class LoadMore extends React.Component {
                 : <button
                     type="button"
                     className="btn btn-alt btn-sm"
-                    onClick={this.handleLoadMore.bind(this)}
-                  >
+                    onClick={this.handleLoadMore.bind(this)}>
                     <span
                       className={
-                        "fa fa-angle-" +
-                        (this.props.direction == "up" ? "up" : "down")
+                        'fa fa-angle-' +
+                        (this.props.direction == 'up' ? 'up' : 'down')
                       }
-                    />{" "}
-                    {this.props.text || "Load More"}
+                    />{' '}
+                    {this.props.text || 'Load More'}
                   </button>}
               {/*this.props.loading?null:(
                             <Waypoint onEnter={this.handleLoadMore.bind(this)} threshold={0.2}/>

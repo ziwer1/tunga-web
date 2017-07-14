@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react';
 
-import ShowcaseContainer from "../containers/ShowcaseContainer";
-import ShowCaseFooter from "../containers/ShowCaseFooter";
-import MetaTags from "../components/MetaTags";
+import ShowcaseContainer from '../containers/ShowcaseContainer';
+import ShowCaseFooter from '../containers/ShowCaseFooter';
+import MetaTags from '../components/MetaTags';
 
 export default class PrivacyPolicy extends React.Component {
   renderHeaderContent() {
@@ -303,7 +303,7 @@ export default class PrivacyPolicy extends React.Component {
         <h3>Contact Us</h3>
 
         <p>
-          If you have any questions about this policy, please contact us at{" "}
+          If you have any questions about this policy, please contact us at{' '}
           <a href="mailto:admin@tunga.com">admin@tunga.com</a>
         </p>
       </div>
@@ -311,15 +311,14 @@ export default class PrivacyPolicy extends React.Component {
   }
 
   render() {
-    let meta_title = "Tunga | Privacy Policy";
+    let meta_title = 'Tunga | Privacy Policy';
     let meta_description =
-      "This privacy policy is applicable to all our services and the use of our website (https://tunga.io) and all associated products and services available on our website. This policy summarizes Tunga data collection policies and practices on the Tunga Account and our website. This policy does not apply to the practices of companies that Tunga does not own or control, or to people that Tunga does not employ or manage.";
+      'This privacy policy is applicable to all our services and the use of our website (https://tunga.io) and all associated products and services available on our website. This policy summarizes Tunga data collection policies and practices on the Tunga Account and our website. This policy does not apply to the practices of companies that Tunga does not own or control, or to people that Tunga does not employ or manage.';
 
     return (
       <ShowcaseContainer
         className="agreement-page"
-        headerContent={this.renderHeaderContent()}
-      >
+        headerContent={this.renderHeaderContent()}>
         <MetaTags title={meta_title} description={meta_description} />
 
         <ShowCaseFooter />

@@ -1,9 +1,9 @@
-import { combineReducers } from "redux";
-import * as UserActions from "../actions/UserActions";
-import * as ConnectionActions from "../actions/ConnectionActions";
-import { getIds } from "../utils/reducers";
+import {combineReducers} from 'redux';
+import * as UserActions from '../actions/UserActions';
+import * as ConnectionActions from '../actions/ConnectionActions';
+import {getIds} from '../utils/reducers';
 
-import { STATUS_INITIAL } from "../constants/Api";
+import {STATUS_INITIAL} from '../constants/Api';
 
 function user(state = {}, action) {
   switch (action.type) {
@@ -14,12 +14,12 @@ function user(state = {}, action) {
       return {};
     case ConnectionActions.CREATE_CONNECTION_SUCCESS:
       if (action.connection.to_user == state.id) {
-        return { ...state, can_connect: false };
+        return {...state, can_connect: false};
       }
       return state;
     case ConnectionActions.UPDATE_CONNECTION_SUCCESS:
       if (action.connection.from_user == state.id) {
-        var new_user = { ...state };
+        var new_user = {...state};
         new_user.can_connect = false;
         new_user.connection = action.connection;
         if (action.connection.status != STATUS_INITIAL) {
@@ -30,7 +30,7 @@ function user(state = {}, action) {
       return state;
     case ConnectionActions.DELETE_CONNECTION_SUCCESS:
       if (action.user && action.user.id == state.id) {
-        new_user = { ...state };
+        new_user = {...state};
         new_user.can_connect = true;
         new_user.request = null;
         new_user.connection = null;
@@ -50,7 +50,7 @@ function users(state = {}, action) {
       action.items.forEach(user => {
         all_users[user.id] = user;
       });
-      return { ...state, ...all_users };
+      return {...state, ...all_users};
     case UserActions.LIST_USERS_START:
     case UserActions.LIST_USERS_FAILED:
       return {};
@@ -61,7 +61,7 @@ function users(state = {}, action) {
         user.connection = action.connection;
         var new_ref = {};
         new_ref[user.id] = user;
-        return { ...state, ...new_ref };
+        return {...state, ...new_ref};
       }
       return state;
     case ConnectionActions.UPDATE_CONNECTION_SUCCESS:
@@ -74,7 +74,7 @@ function users(state = {}, action) {
         }
         new_ref = {};
         new_ref[user.id] = user;
-        return { ...state, ...new_ref };
+        return {...state, ...new_ref};
       }
       return state;
     case ConnectionActions.DELETE_CONNECTION_SUCCESS:
@@ -86,7 +86,7 @@ function users(state = {}, action) {
           user.connection = null;
           new_ref = {};
           new_ref[user.id] = user;
-          return { ...state, ...new_ref };
+          return {...state, ...new_ref};
         }
       }
       return state;
@@ -96,22 +96,22 @@ function users(state = {}, action) {
 }
 
 function ids(state = {}, action) {
-  var selection_key = action.selection || "default";
+  var selection_key = action.selection || 'default';
   var new_state = {};
   switch (action.type) {
     case UserActions.LIST_USERS_SUCCESS:
       new_state[selection_key] = getIds(action.items);
-      return { ...state, ...new_state };
+      return {...state, ...new_state};
     case UserActions.LIST_MORE_USERS_SUCCESS:
       new_state[selection_key] = [
         ...state[selection_key],
-        ...getIds(action.items)
+        ...getIds(action.items),
       ];
-      return { ...state, ...new_state };
+      return {...state, ...new_state};
     case UserActions.LIST_USERS_START:
       if (action.prev_selection && state[action.prev_selection]) {
         new_state[selection_key] = state[action.prev_selection];
-        return { ...state, ...new_state };
+        return {...state, ...new_state};
       }
       return state;
     case UserActions.LIST_USERS_FAILED:
@@ -199,7 +199,7 @@ function isRetrieving(state = false, action) {
 
 const detail = combineReducers({
   user,
-  isRetrieving
+  isRetrieving,
 });
 
 const list = combineReducers({
@@ -209,12 +209,12 @@ const list = combineReducers({
   isFetchingMore,
   next,
   previous,
-  count
+  count,
 });
 
 const User = combineReducers({
   detail,
-  list
+  list,
 });
 
 export default User;

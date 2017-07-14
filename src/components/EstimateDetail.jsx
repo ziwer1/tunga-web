@@ -1,10 +1,10 @@
-import React from "react";
-import { Link } from "react-router";
-import moment from "moment";
-import momentLocalizer from "react-widgets/lib/localizers/moment";
-import { Table } from "react-bootstrap";
+import React from 'react';
+import {Link} from 'react-router';
+import moment from 'moment';
+import momentLocalizer from 'react-widgets/lib/localizers/moment';
+import {Table} from 'react-bootstrap';
 
-import FormStatus from "./status/FormStatus";
+import FormStatus from './status/FormStatus';
 
 import {
   DEVELOPER_FEE,
@@ -13,30 +13,30 @@ import {
   STATUS_DECLINED,
   STATUS_ACCEPTED,
   STATUS_REJECTED,
-  ENDPOINT_TASK
-} from "../constants/Api";
+  ENDPOINT_TASK,
+} from '../constants/Api';
 import {
   getPayDetails,
   canEditEstimate,
   canModerateEstimate,
-  canReviewEstimate
-} from "../utils/tasks";
-import { getUser, isAdminOrProjectOwner } from "../utils/auth";
-import confirm from "../utils/confirm";
-import { parseNumber } from "../utils/helpers";
+  canReviewEstimate,
+} from '../utils/tasks';
+import {getUser, isAdminOrProjectOwner} from '../utils/auth';
+import confirm from '../utils/confirm';
+import {parseNumber} from '../utils/helpers';
 
 momentLocalizer(moment);
 
 export default class EstimateDetail extends React.Component {
   onChangeStatus(status) {
-    const { EstimateActions } = this.props;
+    const {EstimateActions} = this.props;
     const estimate = this.props.estimate || {};
 
     if ([STATUS_DECLINED, STATUS_REJECTED].indexOf(status) > -1) {
-      confirm("Are you sure?", true, { placeholder: "Reason" }).then(function(
-        response
+      confirm('Are you sure?', true, {placeholder: 'Reason'}).then(function(
+        response,
       ) {
-        var estimate_info = { status };
+        var estimate_info = {status};
         if (status == STATUS_DECLINED) {
           estimate_info.moderator_comment = response;
         } else {
@@ -44,19 +44,19 @@ export default class EstimateDetail extends React.Component {
         }
         EstimateActions.updateEstimate(estimate.id, {
           status,
-          moderator_comment: response
+          moderator_comment: response,
         });
       });
     } else {
-      confirm("Are you sure?").then(function() {
-        EstimateActions.updateEstimate(estimate.id, { status });
+      confirm('Are you sure?').then(function() {
+        EstimateActions.updateEstimate(estimate.id, {status});
       });
     }
     return;
   }
 
   render() {
-    const { Estimate } = this.props;
+    const {Estimate} = this.props;
     const task = this.props.task || {};
     const estimate = this.props.estimate || {};
 
@@ -67,7 +67,7 @@ export default class EstimateDetail extends React.Component {
         <FormStatus
           loading={Estimate.detail.isSaving}
           success={Estimate.detail.isSaved}
-          message={"Estimate saved successfully"}
+          message={'Estimate saved successfully'}
           error={Estimate.detail.error.create}
         />
 
@@ -75,8 +75,7 @@ export default class EstimateDetail extends React.Component {
           <a
             href={`${ENDPOINT_TASK}${estimate.task}/download/estimate?format=pdf`}
             className="btn btn-primary"
-            target="_blank"
-          >
+            target="_blank">
             <i className="fa fa-file-pdf-o" /> Download Pdf
           </a>
         </div>
@@ -172,11 +171,11 @@ export default class EstimateDetail extends React.Component {
           <div className="row">
             <div className="col-md-6">
               <h5>Start Date</h5>
-              {moment.utc(estimate.start_date).local().format("Do, MMMM YYYY")}
+              {moment.utc(estimate.start_date).local().format('Do, MMMM YYYY')}
             </div>
             <div className="col-md-6">
               <h5>End Date</h5>
-              {moment.utc(estimate.end_date).local().format("Do, MMMM YYYY")}
+              {moment.utc(estimate.end_date).local().format('Do, MMMM YYYY')}
             </div>
           </div>
         </div>
@@ -186,8 +185,7 @@ export default class EstimateDetail extends React.Component {
             ? <div>
                 <Link
                   to={`/work/${estimate.task}/estimate/${estimate.id}/edit`}
-                  className="btn"
-                >
+                  className="btn">
                   Edit Estimate
                 </Link>
                 {estimate.user && estimate.user.id == getUser().id
@@ -195,8 +193,10 @@ export default class EstimateDetail extends React.Component {
                       type="submit"
                       className="btn"
                       disabled={Estimate.detail.isSaving}
-                      onClick={this.onChangeStatus.bind(this, STATUS_SUBMITTED)}
-                    >
+                      onClick={this.onChangeStatus.bind(
+                        this,
+                        STATUS_SUBMITTED,
+                      )}>
                       Submit for Review
                     </button>
                   : null}
@@ -207,16 +207,14 @@ export default class EstimateDetail extends React.Component {
                     type="submit"
                     className="btn"
                     disabled={Estimate.detail.isSaving}
-                    onClick={this.onChangeStatus.bind(this, STATUS_APPROVED)}
-                  >
+                    onClick={this.onChangeStatus.bind(this, STATUS_APPROVED)}>
                     Approve
                   </button>
                   <button
                     type="submit"
                     className="btn"
                     disabled={Estimate.detail.isSaving}
-                    onClick={this.onChangeStatus.bind(this, STATUS_DECLINED)}
-                  >
+                    onClick={this.onChangeStatus.bind(this, STATUS_DECLINED)}>
                     Decline
                   </button>
                 </div>
@@ -226,16 +224,14 @@ export default class EstimateDetail extends React.Component {
                       type="submit"
                       className="btn"
                       isabled={Estimate.detail.isSaving}
-                      onClick={this.onChangeStatus.bind(this, STATUS_ACCEPTED)}
-                    >
+                      onClick={this.onChangeStatus.bind(this, STATUS_ACCEPTED)}>
                       Accept
                     </button>
                     <button
                       type="submit"
                       className="btn"
                       disabled={Estimate.detail.isSaving}
-                      onClick={this.onChangeStatus.bind(this, STATUS_REJECTED)}
-                    >
+                      onClick={this.onChangeStatus.bind(this, STATUS_REJECTED)}>
                       Reject
                     </button>
                   </div>

@@ -1,5 +1,5 @@
-import React from "react";
-import connect from "../utils/connectors/UserConnector";
+import React from 'react';
+import connect from '../utils/connectors/UserConnector';
 
 class UserContainer extends React.Component {
   renderChildren() {
@@ -8,9 +8,9 @@ class UserContainer extends React.Component {
       function(child) {
         return React.cloneElement(child, {
           User: this.props.User,
-          UserActions: this.props.UserActions
+          UserActions: this.props.UserActions,
         });
-      }.bind(this)
+      }.bind(this),
     );
   }
 

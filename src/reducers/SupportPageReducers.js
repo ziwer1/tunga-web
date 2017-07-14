@@ -1,6 +1,6 @@
-import { combineReducers } from "redux";
-import * as SupportPageActions from "../actions/SupportPageActions";
-import { PATH_CHANGE } from "../actions/NavActions";
+import {combineReducers} from 'redux';
+import * as SupportPageActions from '../actions/SupportPageActions';
+import {PATH_CHANGE} from '../actions/NavActions';
 
 function page(state = {}, action) {
   switch (action.type) {
@@ -131,10 +131,10 @@ function isDeleting(state = false, action) {
 function error(state = {}, action) {
   switch (action.type) {
     case SupportPageActions.CREATE_SUPPORT_PAGE_FAILED:
-      return { ...state, create: action.error };
+      return {...state, create: action.error};
     case SupportPageActions.CREATE_SUPPORT_PAGE_START:
     case SupportPageActions.CREATE_SUPPORT_PAGE_SUCCESS:
-      return { ...state, create: null };
+      return {...state, create: null};
     default:
       return state;
   }
@@ -146,7 +146,7 @@ const detail = combineReducers({
   isSaving,
   isSaved,
   isDeleting,
-  error
+  error,
 });
 
 const list = combineReducers({
@@ -154,12 +154,12 @@ const list = combineReducers({
   isFetching,
   isFetchingMore,
   next,
-  previous
+  previous,
 });
 
 const SupportPage = combineReducers({
   detail,
-  list
+  list,
 });
 
 export default SupportPage;

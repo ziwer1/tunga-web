@@ -1,6 +1,6 @@
-import { combineReducers } from "redux";
-import * as TaskActions from "../actions/TaskActions";
-import { PATH_CHANGE } from "../actions/NavActions";
+import {combineReducers} from 'redux';
+import * as TaskActions from '../actions/TaskActions';
+import {PATH_CHANGE} from '../actions/NavActions';
 
 function integration(state = {}, action) {
   switch (action.type) {
@@ -56,10 +56,10 @@ function isRetrieving(state = false, action) {
 function error(state = {}, action) {
   switch (action.type) {
     case TaskActions.CREATE_TASK_INTEGRATION_FAILED:
-      return { ...state, create: action.error };
+      return {...state, create: action.error};
     case TaskActions.CREATE_TASK_INTEGRATION_START:
     case TaskActions.CREATE_TASK_INTEGRATION_SUCCESS:
-      return { ...state, create: null };
+      return {...state, create: null};
     case PATH_CHANGE:
       return {};
     default:
@@ -72,7 +72,7 @@ const Integration = combineReducers({
   isRetrieving,
   isSaving,
   isSaved,
-  error
+  error,
 });
 
 export default Integration;

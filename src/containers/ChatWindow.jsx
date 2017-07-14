@@ -1,35 +1,35 @@
-import React from "react";
-import { Button, OverlayTrigger, Tooltip } from "react-bootstrap";
+import React from 'react';
+import {Button, OverlayTrigger, Tooltip} from 'react-bootstrap';
 
-import ChannelView from "../components/Channel";
-import SupportChannelForm from "../components/SupportChannelForm";
-import ChatBox from "../components/ChatBox";
+import ChannelView from '../components/Channel';
+import SupportChannelForm from '../components/SupportChannelForm';
+import ChatBox from '../components/ChatBox';
 
-import connect from "../utils/connectors/ChannelConnector";
-import { CHANNEL_TYPES } from "../constants/Api";
+import connect from '../utils/connectors/ChannelConnector';
+import {CHANNEL_TYPES} from '../constants/Api';
 import {
   isAuthenticated,
   isAdmin,
   isDeveloper,
   isProjectOwner,
-  getUser
-} from "../utils/auth";
+  getUser,
+} from '../utils/auth';
 
 export function resizeOverviewBox() {
   var w_h = $(window).height();
-  var nav_h = $("nav.navbar").height();
-  var wf_h = $(".chat-head").height();
+  var nav_h = $('nav.navbar').height();
+  var wf_h = $('.chat-head').height();
   var t_h = nav_h + wf_h + 120;
 
   if (w_h > t_h) {
-    $(".chat-overview").css("height", w_h - t_h + "px");
+    $('.chat-overview').css('height', w_h - t_h + 'px');
   }
 }
 
 class ChatWindow extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { channel: null, new: 0, open: false };
+    this.state = {channel: null, new: 0, open: false};
   }
 
   componentWillMount() {
@@ -38,16 +38,16 @@ class ChatWindow extends React.Component {
     var channel = null;
     var open = false;
     if (this.props.channelId) {
-      channel = { id: this.props.channelId };
+      channel = {id: this.props.channelId};
       open = true;
-    } else if (!isAuthenticated() && typeof Storage !== "undefined") {
+    } else if (!isAuthenticated() && typeof Storage !== 'undefined') {
       try {
         channel = JSON.parse(window.localStorage.channel);
       } catch (e) {
         channel = null;
       }
     }
-    this.setState({ channel, open });
+    this.setState({channel, open});
   }
 
   componentDidMount() {
@@ -56,7 +56,7 @@ class ChatWindow extends React.Component {
 
     this.setInterval(this.getNewMessages.bind(this), 10000);
 
-    const { ChannelActions } = this.props;
+    const {ChannelActions} = this.props;
 
     if (isAuthenticated()) {
       ChannelActions.createSupportChannel();
@@ -66,7 +66,7 @@ class ChatWindow extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.Channel.detail.channel.id) {
       var currentChannel = this.getCurrentChannel();
-      const { channel } = nextProps.Channel.detail;
+      const {channel} = nextProps.Channel.detail;
 
       if (
         nextProps.Channel.detail.channel.type == CHANNEL_TYPES.support &&
@@ -75,13 +75,13 @@ class ChatWindow extends React.Component {
           (currentChannel &&
             nextProps.Channel.detail.channel.id == currentChannel.id))
       ) {
-        this.setState({ channel });
+        this.setState({channel});
         this.saveChannel(channel);
       }
     }
 
     if (nextProps.Channel.detail.support.new != this.state.new) {
-      this.setState({ new: nextProps.Channel.detail.support.new });
+      this.setState({new: nextProps.Channel.detail.support.new});
     }
   }
 
@@ -99,13 +99,13 @@ class ChatWindow extends React.Component {
   }
 
   getCurrentChannel() {
-    return typeof this.state.channel === "object" ? this.state.channel : null;
+    return typeof this.state.channel === 'object' ? this.state.channel : null;
   }
 
   saveChannel(channel) {
     if (
       !isAuthenticated() &&
-      typeof Storage !== "undefined" &&
+      typeof Storage !== 'undefined' &&
       channel &&
       !channel.created_by
     ) {
@@ -118,33 +118,33 @@ class ChatWindow extends React.Component {
   }
 
   startChannel() {
-    const { ChannelActions } = this.props;
+    const {ChannelActions} = this.props;
     if (isAuthenticated() && !this.state.channel) {
       ChannelActions.createSupportChannel();
     }
-    this.setState({ open: true });
+    this.setState({open: true});
   }
 
   minimizeWindow() {
-    this.setState({ open: false });
+    this.setState({open: false});
   }
 
   closeWindow() {
-    this.setState({ open: false });
+    this.setState({open: false});
   }
 
   getNewMessages() {
-    const { ChannelActions } = this.props;
+    const {ChannelActions} = this.props;
     const channel = this.state.channel;
     if (!this.state.open && channel) {
       var since = channel.last_read || 0;
-      ChannelActions.listChannelActivity(channel.id, { since }, false);
+      ChannelActions.listChannelActivity(channel.id, {since}, false);
     }
   }
 
   render() {
-    const { Channel, Message, ChannelActions, MessageActions } = this.props;
-    const { channel } = this.state;
+    const {Channel, Message, ChannelActions, MessageActions} = this.props;
+    const {channel} = this.state;
     let tooltip = <Tooltip id="tooltip">Chat with us!</Tooltip>;
 
     return (
@@ -160,8 +160,7 @@ class ChatWindow extends React.Component {
                         Channel={Channel}
                         Message={Message}
                         ChannelActions={ChannelActions}
-                        MessageActions={MessageActions}
-                      >
+                        MessageActions={MessageActions}>
                         <ChatBox />
                       </ChannelView>
                     : isAuthenticated()
@@ -181,16 +180,14 @@ class ChatWindow extends React.Component {
           {this.state.open
             ? <button
                 className="btn chat-btn"
-                onClick={this.closeWindow.bind(this)}
-              >
+                onClick={this.closeWindow.bind(this)}>
                 <i className="fa fa-times fa-lg" />
               </button>
             : <OverlayTrigger placement="top" overlay={tooltip}>
                 <button
                   id="support-chat"
                   className="btn chat-btn"
-                  onClick={this.startChannel.bind(this)}
-                >
+                  onClick={this.startChannel.bind(this)}>
                   <i className="fa fa-comments fa-lg" />
                   {this.state.new
                     ? <span className="badge">

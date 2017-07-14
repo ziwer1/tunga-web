@@ -1,18 +1,18 @@
-import React from "react";
-import Linkify from "./Linkify";
+import React from 'react';
+import Linkify from './Linkify';
 
-import Progress from "./status/Progress";
-import FormStatus from "./status/FormStatus";
-import FieldError from "./status/FieldError";
-import SkillSelector from "../containers/SkillSelector";
-import LargeModal from "./LargeModal";
-import WorkForm from "./WorkForm";
-import EducationForm from "./EducationForm";
+import Progress from './status/Progress';
+import FormStatus from './status/FormStatus';
+import FieldError from './status/FieldError';
+import SkillSelector from '../containers/SkillSelector';
+import LargeModal from './LargeModal';
+import WorkForm from './WorkForm';
+import EducationForm from './EducationForm';
 
 export default class Stack extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { bio: "", skills: [], editWork: null, editEducation: null };
+    this.state = {bio: '', skills: [], editWork: null, editEducation: null};
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -37,66 +37,65 @@ export default class Stack extends React.Component {
   }
 
   addSkillsToState() {
-    const { Profile } = this.props;
+    const {Profile} = this.props;
     this.setState({
       skills: Profile.profile.skills
         ? Profile.profile.skills.map(skill => {
             return skill.name;
           })
-        : []
+        : [],
     });
   }
 
   onSkillChange(skills) {
-    this.setState({ skills: skills });
+    this.setState({skills: skills});
   }
 
   handleSubmit(e) {
     e.preventDefault();
     var website = this.refs.website ? this.refs.website.value.trim() : null;
     var bio = this.state.bio;
-    const { Profile, ProfileActions } = this.props;
+    const {Profile, ProfileActions} = this.props;
     const selected_skills = this.state.skills;
-    const skills = selected_skills.join(",") || null;
-    ProfileActions.updateProfile(Profile.profile.id, { website, bio, skills });
+    const skills = selected_skills.join(',') || null;
+    ProfileActions.updateProfile(Profile.profile.id, {website, bio, skills});
     return;
   }
 
   handleAddWork(work = null) {
     this.setState({
-      modalContent: "work",
-      modalTitle: "Work Experience",
-      editWork: work
+      modalContent: 'work',
+      modalTitle: 'Work Experience',
+      editWork: work,
     });
     this.open();
   }
 
   handleAddEducation(education = null) {
     this.setState({
-      modalContent: "education",
-      modalTitle: "Education",
-      editEducation: education
+      modalContent: 'education',
+      modalTitle: 'Education',
+      editEducation: education,
     });
     this.open();
   }
 
   close() {
-    this.setState({ showModal: false });
+    this.setState({showModal: false});
   }
 
   open() {
-    this.setState({ showModal: true });
+    this.setState({showModal: true});
   }
 
   renderModalContent() {
-    const { ProfileActions, Profile, Auth } = this.props;
+    const {ProfileActions, Profile, Auth} = this.props;
     return (
       <LargeModal
         title={this.state.modalTitle}
         show={this.state.showModal}
-        onHide={this.close.bind(this)}
-      >
-        {this.state.modalContent == "work"
+        onHide={this.close.bind(this)}>
+        {this.state.modalContent == 'work'
           ? <WorkForm
               Auth={Auth}
               Profile={Profile}
@@ -104,7 +103,7 @@ export default class Stack extends React.Component {
               work={this.state.editWork}
             />
           : null}
-        {this.state.modalContent == "education"
+        {this.state.modalContent == 'education'
           ? <EducationForm
               Auth={Auth}
               Profile={Profile}
@@ -117,8 +116,8 @@ export default class Stack extends React.Component {
   }
 
   render() {
-    const { Profile, Auth } = this.props;
-    const { profile } = Profile;
+    const {Profile, Auth} = this.props;
+    const {profile} = Profile;
 
     return (
       <div>
@@ -128,12 +127,11 @@ export default class Stack extends React.Component {
               onSubmit={this.handleSubmit}
               name="profile"
               role="form"
-              ref="profile_form"
-            >
+              ref="profile_form">
               <FormStatus
                 loading={Profile.isSaving.profile}
                 success={Profile.isSaved.profile}
-                message={"Profile Saved"}
+                message={'Profile Saved'}
                 error={Profile.error.profile}
               />
 
@@ -144,7 +142,7 @@ export default class Stack extends React.Component {
                 <label className="control-label">Bio</label>
                 <textarea
                   className="form-control"
-                  onChange={this.onInputChange.bind(this, "bio")}
+                  onChange={this.onInputChange.bind(this, 'bio')}
                   defaultValue={profile.bio}
                   ref="bio"
                   placeholder="Bio"
@@ -177,7 +175,7 @@ export default class Stack extends React.Component {
               <div className="form-group">
                 <label className="control-label">Skills</label>
                 <SkillSelector
-                  filter={{ filter: null }}
+                  filter={{filter: null}}
                   onChange={this.onSkillChange.bind(this)}
                   skills={this.state.skills ? this.state.skills : []}
                 />
@@ -191,8 +189,7 @@ export default class Stack extends React.Component {
                         <button
                           type="button"
                           className="btn"
-                          onClick={this.handleAddWork.bind(this)}
-                        >
+                          onClick={this.handleAddWork.bind(this)}>
                           <i className="fa fa-plus-circle" /> Add Entry
                         </button>
                       </div>
@@ -204,8 +201,7 @@ export default class Stack extends React.Component {
                             <div
                               key={item.id}
                               className="card"
-                              style={{ margin: "5px 0" }}
-                            >
+                              style={{margin: '5px 0'}}>
                               <div>
                                 <strong>
                                   Position: {item.position}
@@ -217,22 +213,21 @@ export default class Stack extends React.Component {
                                 </strong>
                               </div>
                               <div>
-                                Period: {item.start_month_display}/{item.start_year}{" "}
-                                -{" "}
+                                Period: {item.start_month_display}/{item.start_year}{' '}
+                                -{' '}
                                 {item.end_year
                                   ? `${item.end_month_display}/${item.end_year}`
-                                  : "Present"}
+                                  : 'Present'}
                               </div>
                               <div className="short-description">
-                                <Linkify properties={{ target: "_blank" }}>
+                                <Linkify properties={{target: '_blank'}}>
                                   {item.details}
                                 </Linkify>
                               </div>
                               <button
                                 type="button"
                                 className="btn"
-                                onClick={this.handleAddWork.bind(this, item)}
-                              >
+                                onClick={this.handleAddWork.bind(this, item)}>
                                 <i className="fa fa-pencil" /> Edit
                               </button>
                             </div>
@@ -247,8 +242,7 @@ export default class Stack extends React.Component {
                         <button
                           type="button"
                           className="btn"
-                          onClick={this.handleAddEducation.bind(this)}
-                        >
+                          onClick={this.handleAddEducation.bind(this)}>
                           <i className="fa fa-plus-circle" /> Add Entry
                         </button>
                       </div>
@@ -260,8 +254,7 @@ export default class Stack extends React.Component {
                             <div
                               key={item.id}
                               className="card"
-                              style={{ margin: "5px 0" }}
-                            >
+                              style={{margin: '5px 0'}}>
                               <div>
                                 <strong>
                                   Institution: {item.institution}
@@ -273,14 +266,14 @@ export default class Stack extends React.Component {
                                 </strong>
                               </div>
                               <div>
-                                Period: {item.start_month_display}/{item.start_year}{" "}
-                                -{" "}
+                                Period: {item.start_month_display}/{item.start_year}{' '}
+                                -{' '}
                                 {item.end_year
                                   ? `${item.end_month_display}/${item.end_year}`
-                                  : "Present"}
+                                  : 'Present'}
                               </div>
                               <div className="short-description">
-                                <Linkify properties={{ target: "_blank" }}>
+                                <Linkify properties={{target: '_blank'}}>
                                   {item.details}
                                 </Linkify>
                               </div>
@@ -289,9 +282,8 @@ export default class Stack extends React.Component {
                                 className="btn"
                                 onClick={this.handleAddEducation.bind(
                                   this,
-                                  item
-                                )}
-                              >
+                                  item,
+                                )}>
                                 <i className="fa fa-pencil" /> Edit
                               </button>
                             </div>
@@ -305,8 +297,7 @@ export default class Stack extends React.Component {
               <button
                 type="submit"
                 className="btn  pull-right"
-                disabled={Profile.isSaving.profile}
-              >
+                disabled={Profile.isSaving.profile}>
                 Save
               </button>
               <div className="clearfix" />

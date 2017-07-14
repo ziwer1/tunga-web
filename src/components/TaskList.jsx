@@ -1,13 +1,13 @@
-import React from "react";
-import { Link, IndexLink } from "react-router";
+import React from 'react';
+import {Link, IndexLink} from 'react-router';
 
-import Progress from "./status/Progress";
-import LoadMore from "./status/LoadMore";
-import TaskCard from "./TaskCard";
-import SearchBox from "./SearchBox";
-import GenericListContainer from "../containers/GenericListContainer";
+import Progress from './status/Progress';
+import LoadMore from './status/LoadMore';
+import TaskCard from './TaskCard';
+import SearchBox from './SearchBox';
+import GenericListContainer from '../containers/GenericListContainer';
 
-import { isAdmin, isDeveloper, isProjectManager } from "../utils/auth";
+import {isAdmin, isDeveloper, isProjectManager} from '../utils/auth';
 
 export default class TaskList extends GenericListContainer {
   componentDidUpdate(prevProps, prevState) {
@@ -23,8 +23,8 @@ export default class TaskList extends GenericListContainer {
 
     if (prevProps.search != this.props.search) {
       this.setState({
-        selection_key: this.state.selection_key + (this.props.search || ""),
-        prev_key: this.state.selection_key
+        selection_key: this.state.selection_key + (this.props.search || ''),
+        prev_key: this.state.selection_key,
       });
     }
   }
@@ -35,10 +35,10 @@ export default class TaskList extends GenericListContainer {
         filter: this.getFilter(),
         skill: this.getSkill(),
         ...this.props.filters,
-        search: this.props.search
+        search: this.props.search,
       },
       this.state.selection_key,
-      this.state.prev_key
+      this.state.prev_key,
     );
   }
 
@@ -57,7 +57,7 @@ export default class TaskList extends GenericListContainer {
   }
 
   render() {
-    const { Task, TaskActions, hide_header, emptyListText } = this.props;
+    const {Task, TaskActions, hide_header, emptyListText} = this.props;
     let filter = this.getFilter();
     let skill = this.getSkill();
 
@@ -70,18 +70,18 @@ export default class TaskList extends GenericListContainer {
           : <div>
               <div className="clearfix">
                 <h2 className="pull-left">
-                  {filter == "my-tasks" && !isDeveloper() ? "My " : ""}Work
+                  {filter == 'my-tasks' && !isDeveloper() ? 'My ' : ''}Work
                 </h2>
                 <div className="pull-right">
                   <SearchBox
                     placeholder="Search for tasks"
-                    filter={{ filter, skill, ...this.props.filters }}
+                    filter={{filter, skill, ...this.props.filters}}
                     onSearch={TaskActions.listTasks}
                     count={Task.list.count}
                   />
                 </div>
               </div>
-              {filter == "my-tasks" && !isDeveloper()
+              {filter == 'my-tasks' && !isDeveloper()
                 ? null
                 : <ul className="nav nav-pills nav-top-filter">
                     <li role="presentation">
@@ -94,27 +94,24 @@ export default class TaskList extends GenericListContainer {
                           <li role="presentation" key="new-projects">
                             <Link
                               to="/work/filter/new-projects"
-                              activeClassName="active"
-                            >
+                              activeClassName="active">
                               <i className="tunga-icon-project" /> New Projects
                             </Link>
                           </li>,
                           <li role="presentation" key="estimates">
                             <Link
                               to="/work/filter/estimates"
-                              activeClassName="active"
-                            >
+                              activeClassName="active">
                               <i className="tunga-icon-project" /> Estimates
                             </Link>
                           </li>,
                           <li role="presentation" key="quotes">
                             <Link
                               to="/work/filter/quotes"
-                              activeClassName="active"
-                            >
+                              activeClassName="active">
                               <i className="tunga-icon-project" /> Quotes
                             </Link>
-                          </li>
+                          </li>,
                         ]
                       : null}
                     <li role="presentation">
@@ -127,31 +124,27 @@ export default class TaskList extends GenericListContainer {
                           <li
                             role="presentation"
                             key="skills"
-                            style={{ marginLeft: "20px" }}
-                          >
+                            style={{marginLeft: '20px'}}>
                             <Link
                               to="/work/filter/skills"
-                              activeClassName="active"
-                            >
+                              activeClassName="active">
                               My Skills
                             </Link>
                           </li>,
                           <li role="presentation" key="clients">
                             <Link
                               to="/work/filter/project-owners"
-                              activeClassName="active"
-                            >
+                              activeClassName="active">
                               My Clients
                             </Link>
-                          </li>
+                          </li>,
                         ]
                       : null}
                     {skill
-                      ? <li role="presentation" style={{ marginLeft: "20px" }}>
+                      ? <li role="presentation" style={{marginLeft: '20px'}}>
                           <Link
                             to={`/work/skill/${skill}`}
-                            activeClassName="active"
-                          >
+                            activeClassName="active">
                             <i className="tunga-icon-tag" /> {skill}
                           </Link>
                         </li>
@@ -195,9 +188,9 @@ export default class TaskList extends GenericListContainer {
 }
 
 TaskList.propTypes = {
-  emptyListText: React.PropTypes.string
+  emptyListText: React.PropTypes.string,
 };
 
 TaskList.defaultProps = {
-  emptyListText: "No tasks match your query"
+  emptyListText: 'No tasks match your query',
 };

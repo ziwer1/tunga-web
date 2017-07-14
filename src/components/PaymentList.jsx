@@ -1,37 +1,21 @@
-import React from "react";
-import { Link, IndexLink } from "react-router";
-import { Table } from "react-bootstrap";
-import moment from "moment";
-import Progress from "./status/Progress";
-import LoadMore from "./status/LoadMore";
-import GenericListContainer from "../containers/GenericListContainer";
-import MultiTaskCheckItem from "./MultiTaskCheckItem";
-import { connect } from "react-redux";
+import React from 'react';
+import {Link, IndexLink} from 'react-router';
+import {Table} from 'react-bootstrap';
+import moment from 'moment';
+import Progress from './status/Progress';
+import LoadMore from './status/LoadMore';
+import GenericListContainer from '../containers/GenericListContainer';
 
-import { ENDPOINT_TASK } from "../constants/Api";
+import {ENDPOINT_TASK} from '../constants/Api';
 
-import { isAdmin, isDeveloper, isProjectManager } from "../utils/auth";
+import {
+  isAdmin,
+  isDeveloper,
+  isProjectManager,
+  isProjectOwner,
+} from '../utils/auth';
 
-import * as MultiTasksPaymentActions from "../actions/MultiTasksPaymentActions";
-
-const totalFeeStyle = {
-  marginRight: "5px",
-  marginTop: "10px",
-  color: "#EE1F54",
-  fontSize: "14px"
-}
 export default class PaymentList extends GenericListContainer {
-  componentWillReceiveProps(nextProps) {
-    const { MultiTasksPayment: { tasks, isFetching, data } } = nextProps;
-    if (data != null) {
-      /**
-       * redirect here
-       */
-      console.log("********");
-      console.log("redirect to payment page here");
-      console.log("*******");
-    }
-  }
   componentDidUpdate(prevProps, prevState) {
     super.componentDidUpdate(prevProps, prevState);
 
@@ -45,8 +29,8 @@ export default class PaymentList extends GenericListContainer {
 
     if (prevProps.search != this.props.search) {
       this.setState({
-        selection_key: this.state.selection_key + (this.props.search || ""),
-        prev_key: this.state.selection_key
+        selection_key: this.state.selection_key + (this.props.search || ''),
+        prev_key: this.state.selection_key,
       });
     }
   }
@@ -54,19 +38,14 @@ export default class PaymentList extends GenericListContainer {
   getList(filters) {
     var payment_status = this.props.params.filter || null;
     this.props.TaskActions.listTasks(
-      { payment_status, filter: "payments" },
+      {payment_status, filter: 'payments'},
       this.state.selection_key,
-      this.state.prev_key
+      this.state.prev_key,
     );
   }
 
   render() {
-    const {
-      Task,
-      TaskActions,
-      MultiTasksPaymentActions,
-      MultiTasksPayment
-    } = this.props;
+    const {Task, TaskActions} = this.props;
 
     const all_tasks = Task.list.ids[this.state.selection_key] || [];
 
@@ -96,16 +75,9 @@ export default class PaymentList extends GenericListContainer {
             </Link>
           </li>
         </ul>
-        {(isAdmin() || isProjectManager()) &&
-          this.canPaySelectedTasks() &&
-            <ul className="nav nav-pills nav-top-filter navbar-right">
-              <li style={totalFeeStyle}>
-                Total Fee: {this.getTotalFee(MultiTasksPayment.tasks)}
-              </li>
-              <li role="presentation">
-                <a onClick={this.createMultiTasksPayment}>Pay Selected Tasks</a>
-              </li>
-            </ul>}
+        {/*<ul className="nav nav-pills nav-top-filter navbar-right">
+                    <li role="presentation"><Link to="/payments/multi-task-payment">Pay Selected Tasks</Link></li>
+                </ul>*/}
         {Task.list.isFetching
           ? <Progress />
           : <div>
@@ -113,7 +85,6 @@ export default class PaymentList extends GenericListContainer {
                 ? <table className="table table-striped table-responsive">
                     <thead>
                       <tr>
-                        <th>Selected</th>
                         <th>Task</th>
                         <th>Date</th>
                         {isDeveloper()
@@ -121,11 +92,14 @@ export default class PaymentList extends GenericListContainer {
                               <th>Pledge</th>,
                               <th>Payment fee</th>,
                               <th>Tunga fee</th>,
-                              <th>To Receive</th>
+                              <th>To Receive</th>,
                             ]
                           : <th>Pledge</th>}
                         <th>Invoice</th>
                         <th>Status</th>
+                        {/*(isAdmin() || isProjectManager()) &&
+                                        <th>Select To Pay</th>
+                                    */}
                       </tr>
                     </thead>
                     <tbody>
@@ -134,27 +108,10 @@ export default class PaymentList extends GenericListContainer {
                         const invoice = task.invoice || {
                           amount: task.amount,
                           developer_amount: {},
-                          created_at: task.invoice_date
+                          created_at: task.invoice_date,
                         };
                         return (
                           <tr key={task.id}>
-                            <td>
-                              {task.payment_status == "Pending" &&
-                                (isDeveloper() || isAdmin()) &&
-                                <MultiTaskCheckItem
-                                  task={{
-                                    id: task.id,
-                                    fee: task.amount.pledge
-                                  }}
-                                  selectedTasks={MultiTasksPayment.tasks}
-                                  addTaskToMultiTasksPayment={
-                                    MultiTasksPaymentActions.addTaskToMultiTaskPayment
-                                  }
-                                  removeTaskFromMultiTasksPayment={
-                                    MultiTasksPaymentActions.removeTaskFromMultiTaskPayment
-                                  }
-                                />}
-                            </td>
                             <td>
                               <Link to={`/work/${task.id}/`}>
                                 {task.summary}
@@ -164,34 +121,34 @@ export default class PaymentList extends GenericListContainer {
                               {moment
                                 .utc(invoice.created_at || task.closed_at)
                                 .local()
-                                .format("D/MMM/YYYY")}
+                                .format('D/MMM/YYYY')}
                             </td>
                             {isDeveloper() && invoice.amount
                               ? [
                                   <td>
                                     {invoice.amount.currency}
                                     {parseFloat(invoice.amount.pledge).toFixed(
-                                      2
+                                      2,
                                     )}
                                   </td>,
                                   <td>
                                     {invoice.amount.currency}
                                     {parseFloat(
-                                      invoice.developer_amount.processing || 0
+                                      invoice.developer_amount.processing || 0,
                                     ).toFixed(2)}
                                   </td>,
                                   <td>
                                     {invoice.amount.currency}
                                     {parseFloat(
-                                      invoice.developer_amount.tunga || 0
+                                      invoice.developer_amount.tunga || 0,
                                     ).toFixed(2)}
                                   </td>,
                                   <td>
                                     {invoice.amount.currency}
                                     {parseFloat(
-                                      invoice.developer_amount.developer || 0
+                                      invoice.developer_amount.developer || 0,
                                     ).toFixed(2)}
-                                  </td>
+                                  </td>,
                                 ]
                               : <td>
                                   {task.display_fee}
@@ -201,15 +158,14 @@ export default class PaymentList extends GenericListContainer {
                                 ? <div>
                                     <a
                                       href={`${ENDPOINT_TASK}${task.id}/download/invoice/?format=pdf&type=client`}
-                                      target="_blank"
-                                    >
+                                      target="_blank">
                                       <span>
-                                        <i className="fa fa-download" />{" "}
+                                        <i className="fa fa-download" />{' '}
                                         {isDeveloper() ||
                                         isProjectManager() ||
                                         isAdmin()
-                                          ? "Client"
-                                          : "Download"}{" "}
+                                          ? 'Client'
+                                          : 'Download'}{' '}
                                         Invoice(s)
                                       </span>
                                     </a>
@@ -217,25 +173,32 @@ export default class PaymentList extends GenericListContainer {
                                     {isDeveloper() || isAdmin()
                                       ? <a
                                           href={`${ENDPOINT_TASK}${task.id}/download/invoice/?format=pdf&type=developer`}
-                                          target="_blank"
-                                        >
+                                          target="_blank">
                                           <span>
-                                            <i className="fa fa-download" />{" "}
+                                            <i className="fa fa-download" />{' '}
                                             Developer Invoice(s)
                                           </span>
                                         </a>
                                       : null}
                                   </div>
                                 : <div>
-                                    Contact{" "}
+                                    Contact{' '}
                                     <a href="mailto:hello@tunga.io">
                                       hello@tunga.io
                                     </a>
                                   </div>}
                             </td>
                             <td>
-                              {task.payment_status}
+                              {isProjectOwner() &&
+                              !isAdmin() &&
+                              task.payment_status == 'Processing'
+                                ? 'Paid'
+                                : task.payment_status}
                             </td>
+                            {/*<td>{(task.payment_status == "Pending" && (isDeveloper() || isAdmin())) &&
+                                                    <input type="checkbox" className="tasks_to_pay" value={task.id}/>
+                                                }
+                                            </td>*/}
                           </tr>
                         );
                       })}
@@ -257,33 +220,4 @@ export default class PaymentList extends GenericListContainer {
       </div>
     );
   }
-
-  getTotalFee(tasks) {
-    return tasks.reduce((sum, task) => {
-      return sum + task.fee;
-    }, 0);
-  }
-  createMultiTasksPayment = () => {
-    const {
-      MultiTasksPaymentActions,
-      MultiTasksPayment: { tasks, isFetching }
-    } = this.props;
-
-    if (!isFetching) {
-      const totalFee = this.getTotalFee(tasks);
-      console.log(totalFee);
-      MultiTasksPaymentActions.createMultiTasksPayment({
-        fee: totalFee,
-        tasks: tasks.map(content => content.id)
-      });
-    }
-  };
-
-  canPaySelectedTasks = () => {
-    const { MultiTasksPayment: { tasks, isFetching } } = this.props;
-    if (tasks.length > 0) {
-      return true;
-    }
-    return false;
-  };
 }

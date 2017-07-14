@@ -1,38 +1,38 @@
-import React from "react";
-import { Link } from "react-router";
-import moment from "moment";
-import Linkify from "./Linkify";
+import React from 'react';
+import {Link} from 'react-router';
+import moment from 'moment';
+import Linkify from './Linkify';
 
-import Progress from "./status/Progress";
-import UserCardProfile from "./UserCardProfile";
-import ComponentWithModal from "./ComponentWithModal";
-import LargeModal from "./LargeModal";
+import Progress from './status/Progress';
+import UserCardProfile from './UserCardProfile';
+import ComponentWithModal from './ComponentWithModal';
+import LargeModal from './LargeModal';
 
-import confirm from "../utils/confirm";
-import { getTotalFee, getAcquisitionUrl, hasStarted } from "../utils/tasks";
-import { sendGAPageView } from "../utils/tracking";
+import confirm from '../utils/confirm';
+import {getTotalFee, getAcquisitionUrl, hasStarted} from '../utils/tasks';
+import {sendGAPageView} from '../utils/tracking';
 
 import {
   STATUS_REJECTED,
   STATUS_INITIAL,
-  STATUS_ACCEPTED
-} from "../constants/Api";
+  STATUS_ACCEPTED,
+} from '../constants/Api';
 
 export default class ApplicationList extends ComponentWithModal {
   constructor(props) {
     super(props);
     this.state = {
       application: null,
-      modalStep: "select",
-      close_applications: false
+      modalStep: 'select',
+      close_applications: false,
     };
   }
 
   componentDidMount() {
-    const { TaskActions, Task } = this.props;
+    const {TaskActions, Task} = this.props;
     TaskActions.listApplications({
       task: Task.detail.task.id,
-      status: STATUS_INITIAL
+      status: STATUS_INITIAL,
     });
   }
 
@@ -41,12 +41,12 @@ export default class ApplicationList extends ComponentWithModal {
       this.props.Task.detail.applications.isSaved &&
       !prevProps.Task.detail.applications.isSaved
     ) {
-      const { Task } = this.props;
+      const {Task} = this.props;
       if (this.state.application) {
         this.setState({
           application:
             Task.detail.applications.items[this.state.application.id],
-          modalStep: "confirm"
+          modalStep: 'confirm',
         });
       }
 
@@ -68,54 +68,52 @@ export default class ApplicationList extends ComponentWithModal {
   }
 
   handleCloseApplications() {
-    const { TaskActions, Task } = this.props;
-    confirm("Confirm close applications").then(function() {
+    const {TaskActions, Task} = this.props;
+    confirm('Confirm close applications').then(function() {
       TaskActions.updateTask(Task.detail.task.id, {
         apply: false,
-        apply_closed_at: moment.utc().format()
+        apply_closed_at: moment.utc().format(),
       });
     });
   }
 
   handleOpenApplications() {
-    const { TaskActions, Task } = this.props;
+    const {TaskActions, Task} = this.props;
     TaskActions.updateTask(Task.detail.task.id, {
       apply: true,
-      apply_closed_at: null
+      apply_closed_at: null,
     });
   }
 
   handleSelectDeveloper(application, accepted = false) {
     this.setState({
       application,
-      modalStep: "select",
-      close_applications: false
+      modalStep: 'select',
+      close_applications: false,
     });
     this.open();
   }
 
   handleAcceptApplication(close_applications) {
-    const { TaskActions, task } = this.props;
+    const {TaskActions, task} = this.props;
     var assignee = !task.assignee;
-    this.setState({ close_applications });
+    this.setState({close_applications});
     const application = this.state.application;
-    TaskActions.updateApplication(application.id, { status: STATUS_ACCEPTED });
+    TaskActions.updateApplication(application.id, {status: STATUS_ACCEPTED});
     TaskActions.updateTask(application.task, {
       apply: !close_applications,
       participation: [
-        { user: application.user.id, assignee, status: STATUS_ACCEPTED }
-      ]
+        {user: application.user.id, assignee, status: STATUS_ACCEPTED},
+      ],
     });
   }
 
   handleRejectApplication(application) {
-    const { TaskActions } = this.props;
+    const {TaskActions} = this.props;
     confirm(
-      `Decline ${application.user.display_name}'s application`
+      `Decline ${application.user.display_name}'s application`,
     ).then(function() {
-      TaskActions.updateApplication(application.id, {
-        status: STATUS_REJECTED
-      });
+      TaskActions.updateApplication(application.id, {status: STATUS_REJECTED});
     });
   }
 
@@ -127,9 +125,9 @@ export default class ApplicationList extends ComponentWithModal {
   }
 
   renderModalContent() {
-    const { Task } = this.props;
-    const { task, applications } = Task.detail;
-    let work_type = task.is_task ? "task" : "project";
+    const {Task} = this.props;
+    const {task, applications} = Task.detail;
+    let work_type = task.is_task ? 'task' : 'project';
 
     return (
       <div>
@@ -138,11 +136,10 @@ export default class ApplicationList extends ComponentWithModal {
           bsStyle="md"
           show={this.state.showModal}
           onHide={this.close.bind(this)}
-          bsStyle="modal-md"
-        >
+          bsStyle="modal-md">
           {this.state.application
             ? <div>
-                {this.state.modalStep == "select"
+                {this.state.modalStep == 'select'
                   ? <div>
                       Would you like to work with one developer or create a team
                       for this task?
@@ -152,10 +149,9 @@ export default class ApplicationList extends ComponentWithModal {
                           className="btn"
                           onClick={this.handleAcceptApplication.bind(
                             this,
-                            true
-                          )}
-                        >
-                          Select{" "}
+                            true,
+                          )}>
+                          Select{' '}
                           {this.state.application.details.user.first_name} and
                           close applications
                         </button>
@@ -164,39 +160,36 @@ export default class ApplicationList extends ComponentWithModal {
                           className="btn"
                           onClick={this.handleAcceptApplication.bind(
                             this,
-                            false
-                          )}
-                        >
-                          Select{" "}
+                            false,
+                          )}>
+                          Select{' '}
                           {this.state.application.details.user.first_name} and
-                          add more developers to create a team for this{" "}
+                          add more developers to create a team for this{' '}
                           {work_type}
                         </button>
                       </div>
                     </div>
                   : null}
-                {this.state.modalStep == "confirm"
+                {this.state.modalStep == 'confirm'
                   ? <div>
-                      {this.state.application.details.user.display_name}{" "}
+                      {this.state.application.details.user.display_name}{' '}
                       {this.state.close_applications
                         ? `received a confirmation of your selection. ${this
                             .state.application.details.user
                             .first_name} now has access to the ${work_type} page and will contact you soon.`
-                        : "has been added to the team"}
+                        : 'has been added to the team'}
                       <div className="popup-actions">
                         {this.state.close_applications
                           ? <Link
                               to={`/work/${task.id}`}
                               className="btn"
-                              onClick={this.close.bind(this)}
-                            >
+                              onClick={this.close.bind(this)}>
                               Go to {work_type} page
                             </Link>
                           : <button
                               type="button"
                               className="btn"
-                              onClick={this.close.bind(this)}
-                            >
+                              onClick={this.close.bind(this)}>
                               Select more developers
                             </button>}
                       </div>
@@ -210,18 +203,18 @@ export default class ApplicationList extends ComponentWithModal {
   }
 
   render() {
-    const { Task } = this.props;
-    const { task, applications } = Task.detail;
+    const {Task} = this.props;
+    const {task, applications} = Task.detail;
 
-    var milestone_summary = "";
+    var milestone_summary = '';
     if (task.milestones) {
       milestone_summary = task.milestones
         .map(milestone => {
           return milestone.title;
         })
-        .join(", ");
+        .join(', ');
     }
-    let work_type = task.is_task ? "task" : "project";
+    let work_type = task.is_task ? 'task' : 'project';
 
     return (
       <div>
@@ -234,15 +227,13 @@ export default class ApplicationList extends ComponentWithModal {
                   ? <button
                       type="button"
                       className="btn "
-                      onClick={this.handleCloseApplications.bind(this)}
-                    >
+                      onClick={this.handleCloseApplications.bind(this)}>
                       Close applications
                     </button>
                   : <button
                       type="button"
                       className="btn "
-                      onClick={this.handleOpenApplications.bind(this)}
-                    >
+                      onClick={this.handleOpenApplications.bind(this)}>
                       Open applications
                     </button>}
               </div>
@@ -252,17 +243,16 @@ export default class ApplicationList extends ComponentWithModal {
                     return null;
                   }
                   const application = applications.items[id];
-                  const { user } = application.details;
+                  const {user} = application.details;
                   return (
                     <div className="col-xs-12" key={id}>
                       <div
                         className={
-                          "card application-card detail-card" +
+                          'card application-card detail-card' +
                           (application.status == STATUS_REJECTED
-                            ? " rejected"
-                            : "")
-                        }
-                      >
+                            ? ' rejected'
+                            : '')
+                        }>
                         {task.closed || application.status != STATUS_INITIAL
                           ? null
                           : <div className="actions pull-right">
@@ -273,9 +263,8 @@ export default class ApplicationList extends ComponentWithModal {
                                   onClick={this.handleSelectDeveloper.bind(
                                     this,
                                     application,
-                                    true
-                                  )}
-                                >
+                                    true,
+                                  )}>
                                   Select developer
                                 </button>
                               </div>
@@ -285,9 +274,8 @@ export default class ApplicationList extends ComponentWithModal {
                                   className="btn btn-block "
                                   onClick={this.handleRejectApplication.bind(
                                     this,
-                                    application
-                                  )}
-                                >
+                                    application,
+                                  )}>
                                   Decline application
                                 </button>
                               </div>
@@ -300,7 +288,7 @@ export default class ApplicationList extends ComponentWithModal {
                                 .map(skill => {
                                   return skill.name;
                                 })
-                                .join(", ")}
+                                .join(', ')}
                             </div>
                           : null}
                         <div>
@@ -308,7 +296,7 @@ export default class ApplicationList extends ComponentWithModal {
                             ? <div>
                                 <p className="title">Motivation</p>
                                 <div className="description">
-                                  <Linkify properties={{ target: "_blank" }}>
+                                  <Linkify properties={{target: '_blank'}}>
                                     {application.pitch}
                                   </Linkify>
                                 </div>
@@ -318,7 +306,7 @@ export default class ApplicationList extends ComponentWithModal {
                             ? <div>
                                 <p className="title">Workload</p>
                                 <div>
-                                  {application.details.user.first_name}{" "}
+                                  {application.details.user.first_name}{' '}
                                   estimates {application.hours_needed} hours for
                                   this {work_type}
                                 </div>
@@ -328,7 +316,7 @@ export default class ApplicationList extends ComponentWithModal {
                             ? <div>
                                 <p className="title">Fee</p>
                                 <div>
-                                  You will be charged{" "}
+                                  You will be charged{' '}
                                   <span className="bold">
                                     €{getTotalFee(application.hours_needed)}
                                   </span>
@@ -340,7 +328,7 @@ export default class ApplicationList extends ComponentWithModal {
                                 <p className="title">Availabilty</p>
                                 <div>
                                   {application.details.user.first_name} is
-                                  available for {application.days_available}{" "}
+                                  available for {application.days_available}{' '}
                                   days for this {work_type}
                                 </div>
                               </div>
@@ -351,24 +339,24 @@ export default class ApplicationList extends ComponentWithModal {
                                 {moment
                                   .utc(application.deliver_at)
                                   .local()
-                                  .format("dddd, Do MMMM, YYYY")}
+                                  .format('dddd, Do MMMM, YYYY')}
                               </div>
                             : null}
                           <div>
                             <p className="title">Agreements</p>
                             <div>
                               {application.details.user.first_name} has agreed
-                              to the deadline{" "}
+                              to the deadline{' '}
                               {task.update_interval || task.milestones.length
                                 ? (task.update_interval
                                     ? (task.milestones.length
-                                        ? ", "
-                                        : " and ") + "update preferences"
-                                    : "") +
+                                        ? ', '
+                                        : ' and ') + 'update preferences'
+                                    : '') +
                                   (task.milestones.length
                                     ? ` and milestones (${milestone_summary})`
-                                    : "")
-                                : null}{" "}
+                                    : '')
+                                : null}{' '}
                               you've set for this {work_type}
                             </div>
                           </div>

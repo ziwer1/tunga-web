@@ -1,18 +1,18 @@
-import React from "react";
-import Dropzone from "react-dropzone";
-import { DropdownList } from "react-widgets";
+import React from 'react';
+import Dropzone from 'react-dropzone';
+import {DropdownList} from 'react-widgets';
 
-import Progress from "./status/Progress";
-import FormStatus from "./status/FormStatus";
-import FieldError from "./status/FieldError";
+import Progress from './status/Progress';
+import FormStatus from './status/FormStatus';
+import FieldError from './status/FieldError';
 
 import {
   PAYMENT_METHOD_CHOICES,
   PAYMENT_METHOD_BTC_WALLET,
   PAYMENT_METHOD_MOBILE_MONEY,
   PAYMENT_METHOD_BTC_ADDRESS,
-  SOCIAL_LOGIN_URLS
-} from "../constants/Api";
+  SOCIAL_LOGIN_URLS,
+} from '../constants/Api';
 
 export default class ProfileForm extends React.Component {
   constructor(props) {
@@ -22,7 +22,7 @@ export default class ProfileForm extends React.Component {
       photo: null,
       payment_method: null,
       country_code: null,
-      overrideErrors: false
+      overrideErrors: false,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -42,7 +42,7 @@ export default class ProfileForm extends React.Component {
   }
 
   onDrop(files) {
-    this.setState({ photo: files[0] });
+    this.setState({photo: files[0]});
   }
 
   onClickOpen() {
@@ -50,17 +50,17 @@ export default class ProfileForm extends React.Component {
   }
 
   onPaymentMethodChange(payment_method) {
-    this.setState({ payment_method });
+    this.setState({payment_method});
   }
 
   onCountryCodeChange(country_code) {
-    this.setState({ country_code: country_code.id });
+    this.setState({country_code: country_code.id});
   }
 
   changeStep(direction = true, overrideErrors) {
     var next_step = this.state.step + (direction ? 1 : -1);
-    var new_state = { step: next_step };
-    if (typeof overrideErrors == "boolean") {
+    var new_state = {step: next_step};
+    if (typeof overrideErrors == 'boolean') {
       new_state.overrideErrors = overrideErrors;
     }
     this.setState(new_state);
@@ -87,14 +87,14 @@ export default class ProfileForm extends React.Component {
   showAll(e) {
     this.setState({
       showAll: !this.refs.profile_form.checkValidity(),
-      overrideErrors: false
+      overrideErrors: false,
     });
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    const { Profile, ProfileActions } = this.props;
-    const { profile } = Profile;
+    const {Profile, ProfileActions} = this.props;
+    const {profile} = Profile;
 
     var req_data = {};
     req_data.first_name = this.refs.first_name.value.trim();
@@ -134,7 +134,7 @@ export default class ProfileForm extends React.Component {
     var profile_info = {};
     Object.keys(req_data).forEach(function(key) {
       const data_value = req_data[key];
-      if (data_value || typeof data_value == "boolean") {
+      if (data_value || typeof data_value == 'boolean') {
         profile_info[key] = data_value;
       }
     });
@@ -144,17 +144,17 @@ export default class ProfileForm extends React.Component {
   }
 
   render() {
-    const { Auth, Profile } = this.props;
+    const {Auth, Profile} = this.props;
     let id_doc = this.state.photo
       ? this.state.photo.preview
       : Profile.profile.id_document;
-    const { profile } = Profile;
+    const {profile} = Profile;
 
     var country_codes = [
-      { id: null, name: "- Country Code -" },
-      { id: 234, name: "Nigeria (+234)" },
-      { id: 255, name: "Tanzania (+255)" },
-      { id: 256, name: "Uganda (+256)" }
+      {id: null, name: '- Country Code -'},
+      {id: 234, name: 'Nigeria (+234)'},
+      {id: 255, name: 'Tanzania (+255)'},
+      {id: 256, name: 'Uganda (+256)'},
     ];
 
     const has_error = Profile.error.profile;
@@ -210,8 +210,7 @@ export default class ProfileForm extends React.Component {
             className="form-control"
             ref="country"
             required
-            defaultValue={Profile.profile.country}
-          >
+            defaultValue={Profile.profile.country}>
             {Profile.countries.map(country => {
               return (
                 <option key={country.code} value={country.code}>
@@ -323,24 +322,22 @@ export default class ProfileForm extends React.Component {
             <div
               className="btn-group btn-choices"
               role="group"
-              aria-label="payment method"
-            >
+              aria-label="payment method">
               {PAYMENT_METHOD_CHOICES.map(payment_method => {
                 return (
                   <button
                     key={payment_method.id}
                     type="button"
                     className={
-                      "btn " +
+                      'btn ' +
                       (this.state.payment_method == payment_method.id
-                        ? " active"
-                        : "")
+                        ? ' active'
+                        : '')
                     }
                     onClick={this.onPaymentMethodChange.bind(
                       this,
-                      payment_method.id
-                    )}
-                  >
+                      payment_method.id,
+                    )}>
                     {payment_method.name}
                   </button>
                 );
@@ -353,7 +350,7 @@ export default class ProfileForm extends React.Component {
             ? <div>
                 {Profile.profile.payment_method == PAYMENT_METHOD_BTC_WALLET &&
                 Profile.profile.btc_wallet &&
-                Profile.profile.btc_wallet.provider == "coinbase"
+                Profile.profile.btc_wallet.provider == 'coinbase'
                   ? <div>
                       <div className="alert alert-success">
                         <i className="fa fa-check-square-o" /> Connected to
@@ -364,8 +361,7 @@ export default class ProfileForm extends React.Component {
                         Having any issue?
                         <div
                           className="btn coinbase-connect-button"
-                          style={{ marginLeft: "5px" }}
-                        >
+                          style={{marginLeft: '5px'}}>
                           <i className="tunga-icon-coinbase fa-lg" /> Re-connect
                           to Coinbase
                         </div>
@@ -378,8 +374,7 @@ export default class ProfileForm extends React.Component {
                       }
                       className="btn coinbase-connect-button"
                       title="Connect with Coinbase"
-                      target="_blank"
-                    >
+                      target="_blank">
                       <i className="tunga-icon-coinbase fa-lg" /> Connect with
                       Coinbase
                     </a>}
@@ -458,9 +453,9 @@ export default class ProfileForm extends React.Component {
           : null}
         <div className="form-group">
           <label className="control-label">
-            Company{" "}
+            Company{' '}
             {Auth.user.is_developer || Auth.user.is_project_manager
-              ? "(if applicable)"
+              ? '(if applicable)'
               : null}
           </label>
           <div>
@@ -516,15 +511,14 @@ export default class ProfileForm extends React.Component {
             ref="dropzone"
             className="dropzone"
             multiple={false}
-            accept={"image/*"}
-            onDrop={this.onDrop.bind(this)}
-          >
+            accept={'image/*'}
+            onDrop={this.onDrop.bind(this)}>
             <div className="msg">
               {id_doc
                 ? <div>
                     <img
                       src={id_doc}
-                      style={{ maxWidth: "100%", maxHeight: "300px" }}
+                      style={{maxWidth: '100%', maxHeight: '300px'}}
                     />
                     {this.state.photo
                       ? <p>
@@ -534,7 +528,7 @@ export default class ProfileForm extends React.Component {
                   </div>
                 : <i
                     className="fa fa-cloud-upload fa-2x"
-                    style={{ marginTop: "30px" }}
+                    style={{marginTop: '30px'}}
                   />}
               <div>
                 Drop an image here or click to select an image to upload.
@@ -549,23 +543,23 @@ export default class ProfileForm extends React.Component {
       {
         title: `Personal`,
         items: [personalComp],
-        requires: ["first_name", "last_name"]
+        requires: ['first_name', 'last_name'],
       },
       {
         title: `Address`,
         items: [addressComp],
-        requires: ["country", "city", "street"]
+        requires: ['country', 'city', 'street'],
       },
       {
         title: `Address`,
         items: [addressComp2],
-        requires: ["plot_number", "postal_code"]
+        requires: ['plot_number', 'postal_code'],
       },
       {
         title: `Company`,
         items: [companyComp],
-        requires: ["company", "last_name"]
-      }
+        requires: ['company', 'last_name'],
+      },
     ];
 
     if (Auth.user.is_developer || Auth.user.is_project_manager) {
@@ -574,13 +568,13 @@ export default class ProfileForm extends React.Component {
         {
           title: `Payment`,
           items: [paymentComp],
-          requires: ["first_name", "last_name"]
+          requires: ['first_name', 'last_name'],
         },
         {
           title: `ID Document`,
           items: [IDComp],
-          requires: ["first_name", "last_name"]
-        }
+          requires: ['first_name', 'last_name'],
+        },
       ];
     }
 
@@ -601,8 +595,8 @@ export default class ProfileForm extends React.Component {
                         return (
                           <i
                             className={`fa fa-circle${this.state.step == idx + 1
-                              ? ""
-                              : "-o"}`}
+                              ? ''
+                              : '-o'}`}
                           />
                         );
                       })}
@@ -615,12 +609,11 @@ export default class ProfileForm extends React.Component {
                 name="profile"
                 role="form"
                 ref="profile_form"
-                className={canShowAll ? "steps-all" : null}
-              >
+                className={canShowAll ? 'steps-all' : null}>
                 <FormStatus
                   loading={Profile.isSaving.profile}
                   success={Profile.isSaved.profile}
-                  message={"Profile saved"}
+                  message={'Profile saved'}
                   error={Profile.error.profile}
                 />
 
@@ -629,10 +622,9 @@ export default class ProfileForm extends React.Component {
                     <div
                       className={
                         this.state.step == idx + 1 || canShowAll
-                          ? "step"
-                          : "sr-only"
-                      }
-                    >
+                          ? 'step'
+                          : 'sr-only'
+                      }>
                       {section.items.map(item => {
                         return item;
                       })}
@@ -645,8 +637,7 @@ export default class ProfileForm extends React.Component {
                     ? <button
                         type="button"
                         className="btn btn-alt nav-btn prev-btn pull-left"
-                        onClick={this.changeStep.bind(this, false, true)}
-                      >
+                        onClick={this.changeStep.bind(this, false, true)}>
                         <i className="fa fa-chevron-left" /> Previous
                       </button>
                     : null}
@@ -655,15 +646,14 @@ export default class ProfileForm extends React.Component {
                     ? <button
                         type="button"
                         className="btn btn-alt nav-btn next-btn pull-right"
-                        onClick={this.changeStep.bind(this, true)}
-                      >
+                        onClick={this.changeStep.bind(this, true)}>
                         {current_section &&
                         this.canSkip(
                           current_section.required,
-                          current_section.requires
+                          current_section.requires,
                         )
-                          ? "Next"
-                          : "Skip"}{" "}
+                          ? 'Next'
+                          : 'Skip'}{' '}
                         <i className="fa fa-chevron-right" />
                       </button>
                     : null}
@@ -673,8 +663,7 @@ export default class ProfileForm extends React.Component {
                           type="submit"
                           onClick={this.showAll.bind(this)}
                           className="btn"
-                          disabled={Profile.isSaving.profile}
-                        >
+                          disabled={Profile.isSaving.profile}>
                           Save
                         </button>
                       </div>

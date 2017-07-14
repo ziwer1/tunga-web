@@ -1,7 +1,7 @@
-import React from "react";
-import { Link } from "react-router";
-import Progress from "./status/Progress";
-import LoadMore from "./status/LoadMore";
+import React from 'react';
+import {Link} from 'react-router';
+import Progress from './status/Progress';
+import LoadMore from './status/LoadMore';
 
 export default class SupportSectionList extends React.Component {
   componentDidMount() {
@@ -9,7 +9,7 @@ export default class SupportSectionList extends React.Component {
   }
 
   render() {
-    const { Support, SupportActions } = this.props;
+    const {Support, SupportActions} = this.props;
 
     return (
       <div>

@@ -1,18 +1,18 @@
-import React from "react";
-import { Link } from "react-router";
-import Rating from "react-rating";
-import Avatar from "./Avatar";
+import React from 'react';
+import {Link} from 'react-router';
+import Rating from 'react-rating';
+import Avatar from './Avatar';
 
-import { isAuthenticated, isAdmin } from "../utils/auth";
+import {isAuthenticated, isAdmin} from '../utils/auth';
 
 export default class UserCardProfile extends React.Component {
   render() {
-    const { user, avatarSize, profileLink } = this.props;
+    const {user, avatarSize, profileLink} = this.props;
 
     return (
       <div className="media">
         <div className="media-left">
-          <Avatar src={user.avatar_url} size={avatarSize || "large"} />
+          <Avatar src={user.avatar_url} size={avatarSize || 'large'} />
         </div>
         <div className="media-body">
           {profileLink
@@ -42,13 +42,13 @@ export default class UserCardProfile extends React.Component {
             : null}
           {!user.is_developer && user.tasks_created && isAuthenticated()
             ? <div>
-                {user.tasks_created} task{user.tasks_created == 1 ? "" : "s"}{" "}
+                {user.tasks_created} task{user.tasks_created == 1 ? '' : 's'}{' '}
                 created
               </div>
             : null}
           {user.is_developer && user.tasks_completed && isAuthenticated()
             ? <div>
-                {user.tasks_completed} task{user.tasks_completed == 1 ? "" : "s"}{" "}
+                {user.tasks_completed} task{user.tasks_completed == 1 ? '' : 's'}{' '}
                 completed
               </div>
             : null}
@@ -62,8 +62,8 @@ export default class UserCardProfile extends React.Component {
                       step={2}
                       fractions={2}
                       initialRate={user.ratings.avg}
-                      empty={"fa fa-star-o"}
-                      full={"fa fa-star"}
+                      empty={'fa fa-star-o'}
+                      full={'fa fa-star'}
                       readonly={true}
                     />
                   </div>
@@ -79,9 +79,9 @@ export default class UserCardProfile extends React.Component {
 UserCardProfile.propTypes = {
   user: React.PropTypes.object.isRequired,
   avatarSize: React.PropTypes.string,
-  profileLink: React.PropTypes.bool
+  profileLink: React.PropTypes.bool,
 };
 
 UserCardProfile.defaultProps = {
-  profileLink: true
+  profileLink: true,
 };

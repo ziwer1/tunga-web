@@ -3,15 +3,15 @@ export function getIds(items) {
     new Set(
       items.map(item => {
         return item.id;
-      })
-    )
+      }),
+    ),
   );
 }
 
 export function getTaskKey(id) {
-  return "task" + id;
+  return 'task' + id;
 }
 
 export function getChannelKey(id) {
-  return "channel" + id;
+  return 'channel' + id;
 }

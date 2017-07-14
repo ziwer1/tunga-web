@@ -1,16 +1,16 @@
-import React from "react";
+import React from 'react';
 
-import connect from "../utils/connectors/AuthConnector";
+import connect from '../utils/connectors/AuthConnector';
 
-import Progress from "../components/status/Progress";
-import Error from "../components/status/Error";
-import Success from "../components/status/Success";
-import FieldError from "../components/status/FieldError";
-import SocialSignIn from "../components/SocialSignIn";
-import ShowcaseContainer from "../containers/ShowcaseContainer";
-import MetaTags from "../components/MetaTags";
+import Progress from '../components/status/Progress';
+import Error from '../components/status/Error';
+import Success from '../components/status/Success';
+import FieldError from '../components/status/FieldError';
+import SocialSignIn from '../components/SocialSignIn';
+import ShowcaseContainer from '../containers/ShowcaseContainer';
+import MetaTags from '../components/MetaTags';
 
-import { USER_TYPE_DEVELOPER, USER_TYPE_PROJECT_OWNER } from "../constants/Api";
+import {USER_TYPE_DEVELOPER, USER_TYPE_PROJECT_OWNER} from '../constants/Api';
 
 class SignUp extends React.Component {
   componentDidMount() {
@@ -39,8 +39,8 @@ class SignUp extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const { Auth } = this.props;
-    const { application, invitation } = Auth;
+    const {Auth} = this.props;
+    const {application, invitation} = Auth;
 
     var confirmationKey = this.props.params.confirmationKey;
     var invitationKey = this.props.params.invitationKey;
@@ -79,14 +79,14 @@ class SignUp extends React.Component {
       last_name,
       type: user_type,
       key: confirmationKey,
-      invite_key: invitationKey
+      invite_key: invitationKey,
     });
     return;
   }
 
   renderHeaderContent() {
-    const { Auth } = this.props;
-    const { application, invitation } = Auth;
+    const {Auth} = this.props;
+    const {application, invitation} = Auth;
     let confirmationKey = this.props.params.confirmationKey;
     var invitationKey = this.props.params.invitationKey;
     let is_applying_developer = confirmationKey ? true : false;
@@ -97,8 +97,8 @@ class SignUp extends React.Component {
       <div>
         <h2 className="crt-acc-heading">
           Create your Tunga account{is_applying_developer
-            ? " as a developer"
-            : ""}
+            ? ' as a developer'
+            : ''}
         </h2>
 
         <div className="auth-form-wrapper">
@@ -113,8 +113,7 @@ class SignUp extends React.Component {
                   onSubmit={this.handleSubmit.bind(this)}
                   name="signup"
                   role="form"
-                  ref="signup_form"
-                >
+                  ref="signup_form">
                   {is_pre_approved
                     ? null
                     : <div>
@@ -133,8 +132,8 @@ class SignUp extends React.Component {
                   {Auth.isRegistered
                     ? <Success
                         message={`Your account has been created successfully. ${is_pre_approved
-                          ? ""
-                          : "Please check your e-mail for further instructions."}`}
+                          ? ''
+                          : 'Please check your e-mail for further instructions.'}`}
                       />
                     : null}
 
@@ -142,7 +141,7 @@ class SignUp extends React.Component {
                     ? <Error
                         message={
                           Auth.error.register.non_field_errors ||
-                          "Please correct the errors below"
+                          'Please correct the errors below'
                         }
                       />
                     : null}
@@ -156,7 +155,7 @@ class SignUp extends React.Component {
                           : null}
 
                         <p>
-                          Email:{" "}
+                          Email:{' '}
                           <strong>
                             {application.email || invitation.email}
                           </strong>
@@ -194,7 +193,7 @@ class SignUp extends React.Component {
                             ref="first_name"
                             required
                             placeholder="First name"
-                            defaultValue={invitation.first_name || ""}
+                            defaultValue={invitation.first_name || ''}
                           />
                         </div>
 
@@ -211,7 +210,7 @@ class SignUp extends React.Component {
                             ref="last_name"
                             required
                             placeholder="Last name"
-                            defaultValue={invitation.last_name || ""}
+                            defaultValue={invitation.last_name || ''}
                           />
                         </div>
 
@@ -264,8 +263,7 @@ class SignUp extends React.Component {
                     <button
                       type="submit"
                       className="btn"
-                      disabled={Auth.isRegistering}
-                    >
+                      disabled={Auth.isRegistering}>
                       Sign up
                     </button>
                   </div>
@@ -276,15 +274,14 @@ class SignUp extends React.Component {
   }
 
   render() {
-    let meta_title = "Tunga | Sign Up";
+    let meta_title = 'Tunga | Sign Up';
     let meta_description =
-      "Sign Up to hire skilled African developers ready work on your software project.";
+      'Sign Up to hire skilled African developers ready work on your software project.';
 
     return (
       <ShowcaseContainer
         className="auth-page"
-        headerContent={this.renderHeaderContent()}
-      >
+        headerContent={this.renderHeaderContent()}>
         <MetaTags title={meta_title} description={meta_description} />
       </ShowcaseContainer>
     );

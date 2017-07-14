@@ -1,5 +1,5 @@
-import React from "react";
-import connect from "../utils/connectors/EstimateConnector";
+import React from 'react';
+import connect from '../utils/connectors/EstimateConnector';
 
 class EstimateContainer extends React.Component {
   renderChildren() {
@@ -9,9 +9,9 @@ class EstimateContainer extends React.Component {
         return React.cloneElement(child, {
           Estimate: this.props.Estimate,
           EstimateActions: this.props.EstimateActions,
-          task: this.props.task
+          task: this.props.task,
         });
-      }.bind(this)
+      }.bind(this),
     );
   }
 

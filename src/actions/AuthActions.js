@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 import {
   ENDPOINT_LOGIN,
   ENDPOINT_LOGOUT,
@@ -11,9 +11,9 @@ import {
   ENDPOINT_TASK,
   ENDPOINT_EMAIL_VISITOR,
   ENDPOINT_INVITE,
-  SOCIAL_PROVIDERS
-} from "../constants/Api";
-import { listRunningProjects } from "./ProjectActions";
+  SOCIAL_PROVIDERS,
+} from '../constants/Api';
+import {listRunningProjects} from './ProjectActions';
 import {
   sendGAEvent,
   sendTwitterSignUpEvent,
@@ -22,62 +22,62 @@ import {
   GA_EVENT_LABELS,
   AUTH_METHODS,
   getGAUserType,
-  getUserTypeTwitter
-} from "../utils/tracking";
-import { getUser } from "utils/auth";
+  getUserTypeTwitter,
+} from '../utils/tracking';
+import {getUser} from 'utils/auth';
 
-export const LOGIN_START = "LOGIN_START";
-export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
-export const LOGIN_FAILED = "LOGIN_FAILED";
-export const VERIFY_START = "VERIFY_START";
-export const VERIFY_SUCCESS = "VERIFY_SUCCESS";
-export const VERIFY_FAILED = "VERIFY_FAILED";
-export const LOGOUT_START = "LOGOUT_START";
-export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
-export const LOGOUT_FAILED = "LOGOUT_FAILED";
-export const REGISTER_START = "REGISTER_START";
-export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
-export const REGISTER_FAILED = "REGISTER_FAILED";
-export const APPLY_START = "APPLY_START";
-export const APPLY_SUCCESS = "APPLY_SUCCESS";
-export const APPLY_FAILED = "APPLY_FAILED";
-export const RETRIEVE_APPLICATION_START = "RETRIEVE_APPLICATION_START";
-export const RETRIEVE_APPLICATION_SUCCESS = "RETRIEVE_APPLICATION_SUCCESS";
-export const RETRIEVE_APPLICATION_FAILED = "RETRIEVE_APPLICATION_FAILED";
-export const RESET_PASSWORD_START = "RESET_PASSWORD_START";
-export const RESET_PASSWORD_SUCCESS = "RESET_PASSWORD_SUCCESS";
-export const RESET_PASSWORD_FAILED = "RESET_PASSWORD_FAILED";
-export const RESET_PASSWORD_CONFIRM_START = "RESET_PASSWORD_CONFIRM_START";
-export const RESET_PASSWORD_CONFIRM_SUCCESS = "RESET_PASSWORD_CONFIRM_SUCCESS";
-export const RESET_PASSWORD_CONFIRM_FAILED = "RESET_PASSWORD_CONFIRM_FAILED";
-export const AUTH_REDIRECT = "AUTH_REDIRECT";
-export const LIST_RUNNING_TASKS_START = "LIST_RUNNING_TASKS_START";
-export const LIST_RUNNING_TASKS_SUCCESS = "LIST_RUNNING_TASKS_SUCCESS";
-export const LIST_RUNNING_TASKS_FAILED = "LIST_RUNNING_TASKS_FAILED";
-export const LIST_REPOS_START = "LIST_REPOS_START";
-export const LIST_REPOS_SUCCESS = "LIST_REPOS_SUCCESS";
-export const LIST_REPOS_FAILED = "LIST_REPOS_FAILED";
-export const LIST_ISSUES_START = "LIST_ISSUES_START";
-export const LIST_ISSUES_SUCCESS = "LIST_ISSUES_SUCCESS";
-export const LIST_ISSUES_FAILED = "LIST_ISSUES_FAILED";
-export const GET_SLACK_APP_START = "GET_SLACK_APP_START";
-export const GET_SLACK_APP_SUCCESS = "GET_SLACK_APP_SUCCESS";
-export const GET_SLACK_APP_FAILED = "GET_SLACK_APP_FAILED";
-export const LIST_SLACK_CHANNELS_START = "LIST_SLACK_CHANNELS_START";
-export const LIST_SLACK_CHANNELS_SUCCESS = "LIST_SLACK_CHANNELS_SUCCESS";
-export const LIST_SLACK_CHANNELS_FAILED = "LIST_SLACK_CHANNELS_FAILED";
-export const EMAIL_VISITOR_AUTH_START = "EMAIL_VISITOR_AUTH_START";
-export const EMAIL_VISITOR_AUTH_SUCCESS = "EMAIL_VISITOR_AUTH_SUCCESS";
-export const EMAIL_VISITOR_AUTH_FAILED = "EMAIL_VISITOR_AUTH_FAILED";
-export const EMAIL_VISITOR_VERIFY_START = "EMAIL_VISITOR_VERIFY_START";
-export const EMAIL_VISITOR_VERIFY_SUCCESS = "EMAIL_VISITOR_VERIFY_SUCCESS";
-export const EMAIL_VISITOR_VERIFY_FAILED = "EMAIL_VISITOR_VERIFY_FAILED";
-export const INVITE_START = "INVITE_START";
-export const INVITE_SUCCESS = "INVITE_SUCCESS";
-export const INVITE_FAILED = "INVITE_FAILED";
-export const RETRIEVE_INVITE_START = "RETRIEVE_INVITE_START";
-export const RETRIEVE_INVITE_SUCCESS = "RETRIEVE_INVITE_SUCCESS";
-export const RETRIEVE_INVITE_FAILED = "RETRIEVE_INVITE_FAILED";
+export const LOGIN_START = 'LOGIN_START';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_FAILED = 'LOGIN_FAILED';
+export const VERIFY_START = 'VERIFY_START';
+export const VERIFY_SUCCESS = 'VERIFY_SUCCESS';
+export const VERIFY_FAILED = 'VERIFY_FAILED';
+export const LOGOUT_START = 'LOGOUT_START';
+export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
+export const LOGOUT_FAILED = 'LOGOUT_FAILED';
+export const REGISTER_START = 'REGISTER_START';
+export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
+export const REGISTER_FAILED = 'REGISTER_FAILED';
+export const APPLY_START = 'APPLY_START';
+export const APPLY_SUCCESS = 'APPLY_SUCCESS';
+export const APPLY_FAILED = 'APPLY_FAILED';
+export const RETRIEVE_APPLICATION_START = 'RETRIEVE_APPLICATION_START';
+export const RETRIEVE_APPLICATION_SUCCESS = 'RETRIEVE_APPLICATION_SUCCESS';
+export const RETRIEVE_APPLICATION_FAILED = 'RETRIEVE_APPLICATION_FAILED';
+export const RESET_PASSWORD_START = 'RESET_PASSWORD_START';
+export const RESET_PASSWORD_SUCCESS = 'RESET_PASSWORD_SUCCESS';
+export const RESET_PASSWORD_FAILED = 'RESET_PASSWORD_FAILED';
+export const RESET_PASSWORD_CONFIRM_START = 'RESET_PASSWORD_CONFIRM_START';
+export const RESET_PASSWORD_CONFIRM_SUCCESS = 'RESET_PASSWORD_CONFIRM_SUCCESS';
+export const RESET_PASSWORD_CONFIRM_FAILED = 'RESET_PASSWORD_CONFIRM_FAILED';
+export const AUTH_REDIRECT = 'AUTH_REDIRECT';
+export const LIST_RUNNING_TASKS_START = 'LIST_RUNNING_TASKS_START';
+export const LIST_RUNNING_TASKS_SUCCESS = 'LIST_RUNNING_TASKS_SUCCESS';
+export const LIST_RUNNING_TASKS_FAILED = 'LIST_RUNNING_TASKS_FAILED';
+export const LIST_REPOS_START = 'LIST_REPOS_START';
+export const LIST_REPOS_SUCCESS = 'LIST_REPOS_SUCCESS';
+export const LIST_REPOS_FAILED = 'LIST_REPOS_FAILED';
+export const LIST_ISSUES_START = 'LIST_ISSUES_START';
+export const LIST_ISSUES_SUCCESS = 'LIST_ISSUES_SUCCESS';
+export const LIST_ISSUES_FAILED = 'LIST_ISSUES_FAILED';
+export const GET_SLACK_APP_START = 'GET_SLACK_APP_START';
+export const GET_SLACK_APP_SUCCESS = 'GET_SLACK_APP_SUCCESS';
+export const GET_SLACK_APP_FAILED = 'GET_SLACK_APP_FAILED';
+export const LIST_SLACK_CHANNELS_START = 'LIST_SLACK_CHANNELS_START';
+export const LIST_SLACK_CHANNELS_SUCCESS = 'LIST_SLACK_CHANNELS_SUCCESS';
+export const LIST_SLACK_CHANNELS_FAILED = 'LIST_SLACK_CHANNELS_FAILED';
+export const EMAIL_VISITOR_AUTH_START = 'EMAIL_VISITOR_AUTH_START';
+export const EMAIL_VISITOR_AUTH_SUCCESS = 'EMAIL_VISITOR_AUTH_SUCCESS';
+export const EMAIL_VISITOR_AUTH_FAILED = 'EMAIL_VISITOR_AUTH_FAILED';
+export const EMAIL_VISITOR_VERIFY_START = 'EMAIL_VISITOR_VERIFY_START';
+export const EMAIL_VISITOR_VERIFY_SUCCESS = 'EMAIL_VISITOR_VERIFY_SUCCESS';
+export const EMAIL_VISITOR_VERIFY_FAILED = 'EMAIL_VISITOR_VERIFY_FAILED';
+export const INVITE_START = 'INVITE_START';
+export const INVITE_SUCCESS = 'INVITE_SUCCESS';
+export const INVITE_FAILED = 'INVITE_FAILED';
+export const RETRIEVE_INVITE_START = 'RETRIEVE_INVITE_START';
+export const RETRIEVE_INVITE_SUCCESS = 'RETRIEVE_INVITE_SUCCESS';
+export const RETRIEVE_INVITE_FAILED = 'RETRIEVE_INVITE_FAILED';
 
 export function authenticate(credentials) {
   return dispatch => {
@@ -96,7 +96,7 @@ export function authenticate(credentials) {
 export function authStart(credentials) {
   return {
     type: LOGIN_START,
-    credentials
+    credentials,
   };
 }
 
@@ -105,18 +105,18 @@ export function authSuccess(data) {
   sendGAEvent(
     GA_EVENT_CATEGORIES.AUTH,
     GA_EVENT_ACTIONS.SIGN_IN,
-    getGAUserType(user)
+    getGAUserType(user),
   );
   return {
     type: LOGIN_SUCCESS,
-    user
+    user,
   };
 }
 
 export function authFailed(error) {
   return {
     type: LOGIN_FAILED,
-    error
+    error,
   };
 }
 
@@ -130,7 +130,7 @@ export function authenticateEmailVisitor(credentials) {
       })
       .catch(function(error) {
         dispatch(
-          authEmailVisitorFailed(error.response ? error.response.data : null)
+          authEmailVisitorFailed(error.response ? error.response.data : null),
         );
       });
   };
@@ -139,7 +139,7 @@ export function authenticateEmailVisitor(credentials) {
 export function authEmailVisitorStart(credentials) {
   return {
     type: EMAIL_VISITOR_AUTH_START,
-    credentials
+    credentials,
   };
 }
 
@@ -147,14 +147,14 @@ export function authEmailVisitorSuccess(visitor) {
   sendGAEvent(GA_EVENT_CATEGORIES.AUTH, GA_EVENT_ACTIONS.BROWSE_DEVS);
   return {
     type: EMAIL_VISITOR_AUTH_SUCCESS,
-    visitor
+    visitor,
   };
 }
 
 export function authEmailVisitorFailed(error) {
   return {
     type: EMAIL_VISITOR_AUTH_FAILED,
-    error
+    error,
   };
 }
 
@@ -175,21 +175,21 @@ export function verify() {
 
 export function verifyStart() {
   return {
-    type: VERIFY_START
+    type: VERIFY_START,
   };
 }
 
 export function verifySuccess(user) {
   return {
     type: VERIFY_SUCCESS,
-    user
+    user,
   };
 }
 
 export function verifyFailed(error) {
   return {
     type: VERIFY_FAILED,
-    error
+    error,
   };
 }
 
@@ -203,7 +203,7 @@ export function verifyEmailVisitor() {
       })
       .catch(function(error) {
         dispatch(
-          verifyEmailVisitorFailed(error.response ? error.response.data : null)
+          verifyEmailVisitorFailed(error.response ? error.response.data : null),
         );
       });
   };
@@ -211,21 +211,21 @@ export function verifyEmailVisitor() {
 
 export function verifyEmailVisitorStart() {
   return {
-    type: EMAIL_VISITOR_VERIFY_START
+    type: EMAIL_VISITOR_VERIFY_START,
   };
 }
 
 export function verifyEmailVisitorSuccess(visitor) {
   return {
     type: EMAIL_VISITOR_VERIFY_SUCCESS,
-    visitor
+    visitor,
   };
 }
 
 export function verifyEmailVisitorFailed(error) {
   return {
     type: EMAIL_VISITOR_VERIFY_FAILED,
-    error
+    error,
   };
 }
 
@@ -245,7 +245,7 @@ export function logout() {
 
 export function logoutStart() {
   return {
-    type: LOGOUT_START
+    type: LOGOUT_START,
   };
 }
 
@@ -253,17 +253,17 @@ export function logoutSuccess() {
   sendGAEvent(
     GA_EVENT_CATEGORIES.AUTH,
     GA_EVENT_ACTIONS.LOG_OUT,
-    getGAUserType(getUser())
+    getGAUserType(getUser()),
   );
   return {
-    type: LOGOUT_SUCCESS
+    type: LOGOUT_SUCCESS,
   };
 }
 
 export function logoutFailed(error) {
   return {
     type: LOGOUT_FAILED,
-    error
+    error,
   };
 }
 
@@ -277,7 +277,7 @@ export function register(details) {
 
         var user_type = getUserTypeTwitter(details.type);
         var method = AUTH_METHODS.EMAIL;
-        sendTwitterSignUpEvent({ user_type, method });
+        sendTwitterSignUpEvent({user_type, method});
       })
       .catch(function(error) {
         dispatch(registerFailed(error.response ? error.response.data : null));
@@ -288,7 +288,7 @@ export function register(details) {
 export function registerStart(details) {
   return {
     type: REGISTER_START,
-    details
+    details,
   };
 }
 
@@ -297,19 +297,19 @@ export function registerSuccess(data) {
   sendGAEvent(
     GA_EVENT_CATEGORIES.REGISTRATION,
     GA_EVENT_ACTIONS.SIGN_UP,
-    getGAUserType(user)
+    getGAUserType(user),
   );
 
   return {
     type: REGISTER_SUCCESS,
-    user
+    user,
   };
 }
 
 export function registerFailed(error) {
   return {
     type: REGISTER_FAILED,
-    error
+    error,
   };
 }
 
@@ -330,7 +330,7 @@ export function apply(details) {
 export function applyStart(details) {
   return {
     type: APPLY_START,
-    details
+    details,
   };
 }
 
@@ -338,18 +338,18 @@ export function applySuccess(application) {
   sendGAEvent(
     GA_EVENT_CATEGORIES.AUTH,
     GA_EVENT_ACTIONS.DEV_APPLY,
-    GA_EVENT_LABELS.DEVELOPER
+    GA_EVENT_LABELS.DEVELOPER,
   );
   return {
     type: APPLY_SUCCESS,
-    application
+    application,
   };
 }
 
 export function applyFailed(error) {
   return {
     type: APPLY_FAILED,
-    error
+    error,
   };
 }
 
@@ -357,13 +357,15 @@ export function retrieveApplication(key) {
   return dispatch => {
     dispatch(retrieveApplicationStart(key));
     axios
-      .get(ENDPOINT_APPLY + "key/" + key + "/")
+      .get(ENDPOINT_APPLY + 'key/' + key + '/')
       .then(function(response) {
         dispatch(retrieveApplicationSuccess(response.data));
       })
       .catch(function(error) {
         dispatch(
-          retrieveApplicationFailed(error.response ? error.response.data : null)
+          retrieveApplicationFailed(
+            error.response ? error.response.data : null,
+          ),
         );
       });
   };
@@ -372,21 +374,21 @@ export function retrieveApplication(key) {
 export function retrieveApplicationStart(key) {
   return {
     type: RETRIEVE_APPLICATION_START,
-    key
+    key,
   };
 }
 
 export function retrieveApplicationSuccess(application) {
   return {
     type: RETRIEVE_APPLICATION_SUCCESS,
-    application
+    application,
   };
 }
 
 export function retrieveApplicationFailed(error) {
   return {
     type: RETRIEVE_APPLICATION_FAILED,
-    error
+    error,
   };
 }
 
@@ -400,7 +402,7 @@ export function resetPassword(email) {
       })
       .catch(function(error) {
         dispatch(
-          resetPasswordFailed(error.response ? error.response.data : null)
+          resetPasswordFailed(error.response ? error.response.data : null),
         );
       });
   };
@@ -409,7 +411,7 @@ export function resetPassword(email) {
 export function resetPasswordStart(email) {
   return {
     type: RESET_PASSWORD_START,
-    email
+    email,
   };
 }
 
@@ -417,14 +419,14 @@ export function resetPasswordSuccess(response) {
   sendGAEvent(GA_EVENT_CATEGORIES.AUTH, GA_EVENT_ACTIONS.RECOVER_PASSWORD);
   return {
     type: RESET_PASSWORD_SUCCESS,
-    response
+    response,
   };
 }
 
 export function resetPasswordFailed(error) {
   return {
     type: RESET_PASSWORD_FAILED,
-    error
+    error,
   };
 }
 
@@ -439,8 +441,8 @@ export function resetPasswordConfirm(credentials) {
       .catch(function(error) {
         dispatch(
           resetPasswordConfirmFailed(
-            error.response ? error.response.data : null
-          )
+            error.response ? error.response.data : null,
+          ),
         );
       });
   };
@@ -449,48 +451,48 @@ export function resetPasswordConfirm(credentials) {
 export function resetPasswordConfirmStart(credentials) {
   return {
     type: RESET_PASSWORD_CONFIRM_START,
-    credentials
+    credentials,
   };
 }
 
 export function resetPasswordConfirmSuccess(response) {
   sendGAEvent(
     GA_EVENT_CATEGORIES.AUTH,
-    GA_EVENT_ACTIONS.RECOVER_PASSWORD_CONFIRM
+    GA_EVENT_ACTIONS.RECOVER_PASSWORD_CONFIRM,
   );
 
   return {
     type: RESET_PASSWORD_CONFIRM_SUCCESS,
-    response
+    response,
   };
 }
 
 export function resetPasswordConfirmFailed(error) {
   return {
     type: RESET_PASSWORD_CONFIRM_FAILED,
-    error
+    error,
   };
 }
 
 export function authRedirect(path) {
   return {
     type: AUTH_REDIRECT,
-    path
+    path,
   };
 }
 
 export function listRunningTasks() {
   return dispatch => {
-    var filter = { filter: "running" };
+    var filter = {filter: 'running'};
     dispatch(listRunningTasksStart(filter));
     axios
-      .get(ENDPOINT_TASK, { params: filter })
+      .get(ENDPOINT_TASK, {params: filter})
       .then(function(response) {
         dispatch(listRunningTasksSuccess(response.data));
       })
       .catch(function(error) {
         dispatch(
-          listRunningTasksFailed(error.response ? error.response.data : null)
+          listRunningTasksFailed(error.response ? error.response.data : null),
         );
       });
   };
@@ -499,7 +501,7 @@ export function listRunningTasks() {
 export function listRunningTasksStart(filter) {
   return {
     type: LIST_RUNNING_TASKS_START,
-    filter
+    filter,
   };
 }
 
@@ -509,14 +511,14 @@ export function listRunningTasksSuccess(response) {
     items: response.results,
     previous: response.previous,
     next: response.next,
-    count: response.count
+    count: response.count,
   };
 }
 
 export function listRunningTasksFailed(error) {
   return {
     type: LIST_RUNNING_TASKS_FAILED,
-    error
+    error,
   };
 }
 
@@ -524,7 +526,7 @@ export function listRepos(provider, task = null) {
   return dispatch => {
     dispatch(listReposStart(provider));
     axios
-      .get(ENDPOINT_MY_APPS + provider + "/repos/", { params: { task } })
+      .get(ENDPOINT_MY_APPS + provider + '/repos/', {params: {task}})
       .then(function(response) {
         dispatch(listReposSuccess(response.data, provider));
       })
@@ -533,8 +535,8 @@ export function listRepos(provider, task = null) {
           listReposFailed(
             error.response ? error.response.data : null,
             error.response ? error.response.status : null,
-            provider
-          )
+            provider,
+          ),
         );
       });
   };
@@ -543,7 +545,7 @@ export function listRepos(provider, task = null) {
 export function listReposStart(provider) {
   return {
     type: LIST_REPOS_START,
-    provider
+    provider,
   };
 }
 
@@ -551,7 +553,7 @@ export function listReposSuccess(repos, status_code, provider) {
   return {
     type: LIST_REPOS_SUCCESS,
     repos,
-    provider
+    provider,
   };
 }
 
@@ -560,7 +562,7 @@ export function listReposFailed(error, status_code, provider) {
     type: LIST_REPOS_FAILED,
     error,
     status_code,
-    provider
+    provider,
   };
 }
 
@@ -568,7 +570,7 @@ export function listIssues(provider, task = null) {
   return dispatch => {
     dispatch(listIssuesStart(provider));
     axios
-      .get(ENDPOINT_MY_APPS + provider + "/issues/", { params: { task } })
+      .get(ENDPOINT_MY_APPS + provider + '/issues/', {params: {task}})
       .then(function(response) {
         dispatch(listIssuesSuccess(response.data, provider));
       })
@@ -577,8 +579,8 @@ export function listIssues(provider, task = null) {
           listIssuesFailed(
             error.response ? error.response.data : null,
             error.response ? error.response.status : null,
-            provider
-          )
+            provider,
+          ),
         );
       });
   };
@@ -587,7 +589,7 @@ export function listIssues(provider, task = null) {
 export function listIssuesStart(provider) {
   return {
     type: LIST_ISSUES_START,
-    provider
+    provider,
   };
 }
 
@@ -595,7 +597,7 @@ export function listIssuesSuccess(issues, provider) {
   return {
     type: LIST_ISSUES_SUCCESS,
     issues,
-    provider
+    provider,
   };
 }
 
@@ -604,7 +606,7 @@ export function listIssuesFailed(error, status_code, provider) {
     type: LIST_ISSUES_FAILED,
     error,
     status_code,
-    provider
+    provider,
   };
 }
 
@@ -612,15 +614,13 @@ export function getSlackApp(task = null) {
   return dispatch => {
     dispatch(getSlackAppStart());
     axios
-      .get(ENDPOINT_MY_APPS + `${SOCIAL_PROVIDERS.slack}/`, {
-        params: { task }
-      })
+      .get(ENDPOINT_MY_APPS + `${SOCIAL_PROVIDERS.slack}/`, {params: {task}})
       .then(function(response) {
         dispatch(getSlackAppSuccess(response.data));
       })
       .catch(function(error) {
         dispatch(
-          getSlackAppFailed(error.response ? error.response.data : null)
+          getSlackAppFailed(error.response ? error.response.data : null),
         );
       });
   };
@@ -628,21 +628,21 @@ export function getSlackApp(task = null) {
 
 export function getSlackAppStart() {
   return {
-    type: GET_SLACK_APP_START
+    type: GET_SLACK_APP_START,
   };
 }
 
 export function getSlackAppSuccess(details) {
   return {
     type: GET_SLACK_APP_SUCCESS,
-    details
+    details,
   };
 }
 
 export function getSlackAppFailed(error) {
   return {
     type: GET_SLACK_APP_FAILED,
-    error
+    error,
   };
 }
 
@@ -650,8 +650,8 @@ export function listSlackChannels(task = null) {
   return dispatch => {
     dispatch(listSlackChannelsStart());
     axios
-      .get(ENDPOINT_MY_APPS + `${SOCIAL_PROVIDERS.slack}` + "/channels/", {
-        params: { task }
+      .get(ENDPOINT_MY_APPS + `${SOCIAL_PROVIDERS.slack}` + '/channels/', {
+        params: {task},
       })
       .then(function(response) {
         dispatch(listSlackChannelsSuccess(response.data));
@@ -660,8 +660,8 @@ export function listSlackChannels(task = null) {
         dispatch(
           listSlackChannelsFailed(
             error.response ? error.response.data : null,
-            error.response ? error.response.status : null
-          )
+            error.response ? error.response.status : null,
+          ),
         );
       });
   };
@@ -669,14 +669,14 @@ export function listSlackChannels(task = null) {
 
 export function listSlackChannelsStart() {
   return {
-    type: LIST_SLACK_CHANNELS_START
+    type: LIST_SLACK_CHANNELS_START,
   };
 }
 
 export function listSlackChannelsSuccess(channels) {
   return {
     type: LIST_SLACK_CHANNELS_SUCCESS,
-    channels
+    channels,
   };
 }
 
@@ -684,7 +684,7 @@ export function listSlackChannelsFailed(error, status_code) {
   return {
     type: LIST_SLACK_CHANNELS_FAILED,
     error,
-    status_code
+    status_code,
   };
 }
 
@@ -705,7 +705,7 @@ export function invite(details) {
 export function inviteStart(details) {
   return {
     type: INVITE_START,
-    details
+    details,
   };
 }
 
@@ -713,18 +713,18 @@ export function inviteSuccess(invite) {
   sendGAEvent(
     GA_EVENT_CATEGORIES.AUTH,
     GA_EVENT_ACTIONS.DEV_INVITE,
-    getGAUserType(getUser())
+    getGAUserType(getUser()),
   );
   return {
     type: INVITE_SUCCESS,
-    invite
+    invite,
   };
 }
 
 export function inviteFailed(error) {
   return {
     type: INVITE_FAILED,
-    error
+    error,
   };
 }
 
@@ -732,13 +732,13 @@ export function retrieveInvite(key) {
   return dispatch => {
     dispatch(retrieveInviteStart(key));
     axios
-      .get(ENDPOINT_INVITE + "key/" + key + "/")
+      .get(ENDPOINT_INVITE + 'key/' + key + '/')
       .then(function(response) {
         dispatch(retrieveInviteSuccess(response.data));
       })
       .catch(function(error) {
         dispatch(
-          retrieveInviteFailed(error.response ? error.response.data : null)
+          retrieveInviteFailed(error.response ? error.response.data : null),
         );
       });
   };
@@ -747,20 +747,20 @@ export function retrieveInvite(key) {
 export function retrieveInviteStart(key) {
   return {
     type: RETRIEVE_INVITE_START,
-    key
+    key,
   };
 }
 
 export function retrieveInviteSuccess(invite) {
   return {
     type: RETRIEVE_INVITE_SUCCESS,
-    invite
+    invite,
   };
 }
 
 export function retrieveInviteFailed(error) {
   return {
     type: RETRIEVE_INVITE_FAILED,
-    error
+    error,
   };
 }

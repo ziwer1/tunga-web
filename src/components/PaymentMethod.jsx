@@ -1,57 +1,57 @@
-import React from "react";
-import { DropdownList } from "react-widgets";
+import React from 'react';
+import {DropdownList} from 'react-widgets';
 
-import Progress from "./status/Progress";
-import FormStatus from "./status/FormStatus";
-import FieldError from "./status/FieldError";
+import Progress from './status/Progress';
+import FormStatus from './status/FormStatus';
+import FieldError from './status/FieldError';
 
 import {
   PAYMENT_METHOD_CHOICES,
   PAYMENT_METHOD_BTC_WALLET,
   PAYMENT_METHOD_MOBILE_MONEY,
   PAYMENT_METHOD_BTC_ADDRESS,
-  SOCIAL_LOGIN_URLS
-} from "../constants/Api";
+  SOCIAL_LOGIN_URLS,
+} from '../constants/Api';
 
 export default class PaymentMethod extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       payment_method: PAYMENT_METHOD_BTC_WALLET,
-      country_code: null
+      country_code: null,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
     this.props.ProfileActions.retrieveProfile();
-    const { Profile, ProfileActions } = this.props;
+    const {Profile, ProfileActions} = this.props;
     var payment_method = Profile.profile.payment_method || null;
-    this.setState({ payment_method });
+    this.setState({payment_method});
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.Profile.profile.id != prevProps.Profile.profile.id) {
-      const { Profile, ProfileActions } = this.props;
+      const {Profile, ProfileActions} = this.props;
       if (Profile.profile.id) {
-        this.setState({ payment_method: Profile.profile.payment_method });
+        this.setState({payment_method: Profile.profile.payment_method});
       }
     }
   }
 
   onPaymentMethodChange(payment_method) {
-    this.setState({ payment_method });
+    this.setState({payment_method});
   }
 
   onCountryCodeChange(country_code) {
-    this.setState({ country_code: country_code.id });
+    this.setState({country_code: country_code.id});
   }
 
   handleSubmit(e) {
     e.preventDefault();
 
-    const { Profile, ProfileActions } = this.props;
-    const { profile } = Profile;
+    const {Profile, ProfileActions} = this.props;
+    const {profile} = Profile;
 
     var payment_method = this.state.payment_method;
     var mobile_money_cc = this.state.country_code || profile.mobile_money_cc;
@@ -65,20 +65,20 @@ export default class PaymentMethod extends React.Component {
       payment_method,
       mobile_money_cc,
       mobile_money_number,
-      btc_address
+      btc_address,
     });
     return;
   }
 
   render() {
-    const { Profile } = this.props;
-    const { profile } = Profile;
+    const {Profile} = this.props;
+    const {profile} = Profile;
 
     var country_codes = [
-      { id: null, name: "- Country Code -" },
-      { id: 234, name: "Nigeria (+234)" },
-      { id: 255, name: "Tanzania (+255)" },
-      { id: 256, name: "Uganda (+256)" }
+      {id: null, name: '- Country Code -'},
+      {id: 234, name: 'Nigeria (+234)'},
+      {id: 255, name: 'Tanzania (+255)'},
+      {id: 256, name: 'Uganda (+256)'},
     ];
 
     return (
@@ -89,12 +89,11 @@ export default class PaymentMethod extends React.Component {
               onSubmit={this.handleSubmit}
               name="profile"
               role="form"
-              ref="profile_form"
-            >
+              ref="profile_form">
               <FormStatus
                 loading={Profile.isSaving.profile}
                 success={Profile.isSaved.profile}
-                message={"Payment details saved"}
+                message={'Payment details saved'}
                 error={Profile.error.profile}
               />
 
@@ -107,24 +106,22 @@ export default class PaymentMethod extends React.Component {
                   <div
                     className="btn-group btn-choices"
                     role="group"
-                    aria-label="payment method"
-                  >
+                    aria-label="payment method">
                     {PAYMENT_METHOD_CHOICES.map(payment_method => {
                       return (
                         <button
                           key={payment_method.id}
                           type="button"
                           className={
-                            "btn " +
+                            'btn ' +
                             (this.state.payment_method == payment_method.id
-                              ? " active"
-                              : "")
+                              ? ' active'
+                              : '')
                           }
                           onClick={this.onPaymentMethodChange.bind(
                             this,
-                            payment_method.id
-                          )}
-                        >
+                            payment_method.id,
+                          )}>
                           {payment_method.name}
                         </button>
                       );
@@ -138,7 +135,7 @@ export default class PaymentMethod extends React.Component {
                     {Profile.profile.payment_method ==
                       PAYMENT_METHOD_BTC_WALLET &&
                     Profile.profile.btc_wallet &&
-                    Profile.profile.btc_wallet.provider == "coinbase"
+                    Profile.profile.btc_wallet.provider == 'coinbase'
                       ? <div>
                           <div className="alert alert-success">
                             <i className="fa fa-check-square-o" /> Connected to
@@ -149,9 +146,8 @@ export default class PaymentMethod extends React.Component {
                             Having any issue?
                             <div
                               className="btn coinbase-connect-button"
-                              style={{ marginLeft: "5px" }}
-                            >
-                              <i className="tunga-icon-coinbase fa-lg" />{" "}
+                              style={{marginLeft: '5px'}}>
+                              <i className="tunga-icon-coinbase fa-lg" />{' '}
                               Re-connect to Coinbase
                             </div>
                           </div>
@@ -162,8 +158,7 @@ export default class PaymentMethod extends React.Component {
                             `?action=connect&next=/profile/payment/coinbase/`
                           }
                           className="btn coinbase-connect-button"
-                          title="Connect with Coinbase"
-                        >
+                          title="Connect with Coinbase">
                           <i className="tunga-icon-coinbase fa-lg" /> Connect
                           with Coinbase
                         </a>}
@@ -243,8 +238,7 @@ export default class PaymentMethod extends React.Component {
                 ? <button
                     type="submit"
                     className="btn  pull-right"
-                    disabled={Profile.isSaving.profile}
-                  >
+                    disabled={Profile.isSaving.profile}>
                     Save
                   </button>
                 : null}

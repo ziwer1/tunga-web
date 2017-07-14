@@ -1,8 +1,8 @@
-import React from "react";
-import { Link } from "react-router";
-import Progress from "./status/Progress";
-import FormStatus from "./status/FormStatus";
-import ComponentWithModal from "./ComponentWithModal";
+import React from 'react';
+import {Link} from 'react-router';
+import Progress from './status/Progress';
+import FormStatus from './status/FormStatus';
+import ComponentWithModal from './ComponentWithModal';
 
 import {
   SOCIAL_PROVIDERS,
@@ -12,10 +12,10 @@ import {
   INTEGRATION_TYPE_ISSUE,
   GIT_INTEGRATION_EVENT_CHOICES,
   CHAT_INTEGRATION_EVENT_CHOICES,
-  INTEGRATION_EVENT_ISSUE_COMMENT
-} from "../constants/Api";
+  INTEGRATION_EVENT_ISSUE_COMMENT,
+} from '../constants/Api';
 
-import { getAuth } from "../utils/auth";
+import {getAuth} from '../utils/auth';
 
 export default class IntegrationList extends ComponentWithModal {
   constructor(props) {
@@ -26,13 +26,13 @@ export default class IntegrationList extends ComponentWithModal {
       repo: null,
       issue: null,
       channel: null,
-      team: null
+      team: null,
     };
   }
 
   componentDidMount() {
-    const { Task } = this.props;
-    const { integrations } = Task.detail;
+    const {Task} = this.props;
+    const {integrations} = Task.detail;
 
     const provider = this.getProvider();
 
@@ -63,8 +63,8 @@ export default class IntegrationList extends ComponentWithModal {
   }
 
   initializeIntegrationInfo(provider) {
-    const { TaskActions, Task } = this.props;
-    const { task } = Task.detail;
+    const {TaskActions, Task} = this.props;
+    const {task} = Task.detail;
 
     TaskActions.retrieveTaskIntegration(task.id, provider);
 
@@ -83,8 +83,8 @@ export default class IntegrationList extends ComponentWithModal {
   }
 
   updateIntegrationInfo(props) {
-    const { Task } = props;
-    const { integration } = Task.detail.integrations;
+    const {Task} = props;
+    const {integration} = Task.detail.integrations;
     var events = [];
     var integration_type = null;
 
@@ -94,21 +94,21 @@ export default class IntegrationList extends ComponentWithModal {
     } else {
       integration_type = INTEGRATION_TYPE_REPO;
     }
-    this.setState({ integration_type, events });
+    this.setState({integration_type, events});
   }
 
   onIntegrationTypeChange(integration_type) {
-    this.setState({ integration_type });
+    this.setState({integration_type});
   }
 
   onRepoChange(e) {
     let id = e.target.value;
     var repo = null;
     if (id) {
-      const { github } = getAuth().connections;
+      const {github} = getAuth().connections;
       repo = github.repos.items[id];
     }
-    this.setState({ repo, issue: null });
+    this.setState({repo, issue: null});
   }
 
   onIssueChange(e) {
@@ -116,11 +116,11 @@ export default class IntegrationList extends ComponentWithModal {
     var issue = null;
     var repo = null;
     if (id) {
-      const { github } = getAuth().connections;
+      const {github} = getAuth().connections;
       issue = github.issues.items[id];
-      repo = issue["repository"];
+      repo = issue['repository'];
     }
-    this.setState({ repo, issue });
+    this.setState({repo, issue});
   }
 
   onEventChange(e) {
@@ -132,18 +132,18 @@ export default class IntegrationList extends ComponentWithModal {
     } else if (!e.target.checked && idx > -1) {
       new_events = [...new_events.slice(0, idx), ...new_events.slice(idx + 1)];
     }
-    this.setState({ events: new_events });
+    this.setState({events: new_events});
   }
 
   onChannelChange(e) {
     let id = e.target.value;
-    const { slack } = getAuth().connections;
+    const {slack} = getAuth().connections;
 
     var channel = null;
     if (id) {
       channel = slack.channels.items[id];
     }
-    this.setState({ channel, team: slack.details.team });
+    this.setState({channel, team: slack.details.team});
   }
 
   handleSubmit(e) {
@@ -154,17 +154,17 @@ export default class IntegrationList extends ComponentWithModal {
     var issue = this.state.issue;
     var channel = this.state.channel;
     var team = this.state.team;
-    const { Task, TaskActions } = this.props;
-    const { task } = Task.detail;
+    const {Task, TaskActions} = this.props;
+    const {task} = Task.detail;
     const provider = this.getProvider();
 
     var details = null;
     switch (provider) {
       case SOCIAL_PROVIDERS.github:
-        details = { type, events, repo, issue };
+        details = {type, events, repo, issue};
         break;
       case SOCIAL_PROVIDERS.slack:
-        details = { team, channel, events };
+        details = {team, channel, events};
         break;
       default:
         break;
@@ -174,10 +174,10 @@ export default class IntegrationList extends ComponentWithModal {
   }
 
   render() {
-    const { Task } = this.props;
-    const { task, integrations } = Task.detail;
-    const { integration } = integrations;
-    const { github, slack } = getAuth().connections;
+    const {Task} = this.props;
+    const {task, integrations} = Task.detail;
+    const {integration} = integrations;
+    const {github, slack} = getAuth().connections;
     const provider = this.getProvider();
 
     var event_choices = [];
@@ -229,7 +229,7 @@ export default class IntegrationList extends ComponentWithModal {
                             <br />
                             Channel: <strong>{integration.channel_name}</strong>
                           </div>
-                        : "Connect your task to your Slack team to send task activity to Slack."}
+                        : 'Connect your task to your Slack team to send task activity to Slack.'}
                     </div>
                     {!slack.isConnected
                       ? <a
@@ -240,8 +240,7 @@ export default class IntegrationList extends ComponentWithModal {
                               .host}/work/${task.id}/integrations/slack`
                           }
                           className="btn slack-connect-button"
-                          title="Connect with Slack"
-                        >
+                          title="Connect with Slack">
                           <i className="fa fa-slack fa-lg" /> Connect with Slack
                         </a>
                       : null}
@@ -264,8 +263,7 @@ export default class IntegrationList extends ComponentWithModal {
                               .host}/work/${task.id}/integrations/${SOCIAL_PROVIDERS.github}`
                           }
                           className="btn github-connect-button"
-                          title="Connect with GitHub"
-                        >
+                          title="Connect with GitHub">
                           <i className="fa fa-github-square fa-lg" /> Connect
                           with GitHub
                         </a>
@@ -279,12 +277,11 @@ export default class IntegrationList extends ComponentWithModal {
                     onSubmit={this.handleSubmit.bind(this)}
                     name="task"
                     role="form"
-                    ref="integration_form"
-                  >
+                    ref="integration_form">
                     <FormStatus
                       loading={Task.detail.integrations.isSaving}
                       success={Task.detail.integrations.isSaved}
-                      message={"Integration saved successfully"}
+                      message={'Integration saved successfully'}
                       error={Task.detail.integrations.error.create}
                     />
 
@@ -298,8 +295,7 @@ export default class IntegrationList extends ComponentWithModal {
                               <div
                                 className="btn-group btn-choices select"
                                 role="group"
-                                aria-label="integration type"
-                              >
+                                aria-label="integration type">
                                 {INTEGRATION_TYPE_CHOICES.map(
                                   integration_type => {
                                     return (
@@ -307,21 +303,20 @@ export default class IntegrationList extends ComponentWithModal {
                                         key={integration_type.id}
                                         type="button"
                                         className={
-                                          "btn " +
+                                          'btn ' +
                                           (this.state.integration_type ==
                                           integration_type.id
-                                            ? " active"
-                                            : "")
+                                            ? ' active'
+                                            : '')
                                         }
                                         onClick={this.onIntegrationTypeChange.bind(
                                           this,
-                                          integration_type.id
-                                        )}
-                                      >
+                                          integration_type.id,
+                                        )}>
                                         {integration_type.name}
                                       </button>
                                     );
-                                  }
+                                  },
                                 )}
                               </div>
                             </div>
@@ -338,8 +333,7 @@ export default class IntegrationList extends ComponentWithModal {
                                     className="form-control"
                                     ref="repo"
                                     onChange={this.onRepoChange.bind(this)}
-                                    defaultValue={integration.repo_id}
-                                  >
+                                    defaultValue={integration.repo_id}>
                                     <option value="">
                                       -- Select a repo --
                                     </option>
@@ -365,8 +359,7 @@ export default class IntegrationList extends ComponentWithModal {
                                     className="form-control"
                                     ref="issue"
                                     onChange={this.onIssueChange.bind(this)}
-                                    defaultValue={integration.issue_id}
-                                  >
+                                    defaultValue={integration.issue_id}>
                                     <option value="">
                                       -- Select an issue --
                                     </option>
@@ -394,8 +387,7 @@ export default class IntegrationList extends ComponentWithModal {
                               className="form-control"
                               ref="slack_channel"
                               onChange={this.onChannelChange.bind(this)}
-                              defaultValue={integration.channel_id}
-                            >
+                              defaultValue={integration.channel_id}>
                               <option value="">-- channel --</option>
                               {slack.channels.ids.map(id => {
                                 let channel = slack.channels.items[id];
@@ -442,8 +434,7 @@ export default class IntegrationList extends ComponentWithModal {
                       <button
                         type="submit"
                         className="btn"
-                        disabled={Task.detail.integrations.isSaving}
-                      >
+                        disabled={Task.detail.integrations.isSaving}>
                         Save Integration
                       </button>
                       {provider == SOCIAL_PROVIDERS.slack
@@ -455,8 +446,7 @@ export default class IntegrationList extends ComponentWithModal {
                                 .host}/work/${task.id}/integrations/slack`
                             }
                             className="btn slack-connect-button"
-                            title="Connect with Slack"
-                          >
+                            title="Connect with Slack">
                             <i className="fa fa-slack fa-lg" /> Re-connect with
                             Slack
                           </a>
@@ -471,9 +461,8 @@ export default class IntegrationList extends ComponentWithModal {
                                 .host}/work/${task.id}/integrations/${SOCIAL_PROVIDERS.github}`
                             }
                             className="btn github-connect-button"
-                            title="Connect with GitHub"
-                          >
-                            <i className="fa fa-github-square fa-lg" />{" "}
+                            title="Connect with GitHub">
+                            <i className="fa fa-github-square fa-lg" />{' '}
                             Re-connect with GitHub
                           </a>
                         : null}

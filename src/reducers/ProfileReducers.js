@@ -1,6 +1,6 @@
-import { combineReducers } from "redux";
-import * as ProfileActions from "../actions/ProfileActions";
-import { PATH_CHANGE } from "../actions/NavActions";
+import {combineReducers} from 'redux';
+import * as ProfileActions from '../actions/ProfileActions';
+import {PATH_CHANGE} from '../actions/NavActions';
 
 function profile(state = {}, action) {
   switch (action.type) {
@@ -25,14 +25,14 @@ function workItems(state = {}, action) {
       action.work.forEach(work => {
         all_work[work.id] = work;
       });
-      return { ...state, ...all_work };
+      return {...state, ...all_work};
     case ProfileActions.RETRIEVE_PROFILE_FAILED:
       return {};
     case ProfileActions.CREATE_WORK_SUCCESS:
     case ProfileActions.UPDATE_WORK_SUCCESS:
       var new_work = {};
       new_work[action.work.id] = action.work;
-      return { ...state, ...new_work };
+      return {...state, ...new_work};
     default:
       return state;
   }
@@ -60,14 +60,14 @@ function educationItems(state = {}, action) {
       action.education.forEach(education => {
         all_education[education.id] = education;
       });
-      return { ...state, ...all_education };
+      return {...state, ...all_education};
     case ProfileActions.RETRIEVE_PROFILE_FAILED:
       return {};
     case ProfileActions.CREATE_EDUCATION_SUCCESS:
     case ProfileActions.UPDATE_EDUCATION_SUCCESS:
       var new_education = {};
       new_education[action.education.id] = action.education;
-      return { ...state, ...new_education };
+      return {...state, ...new_education};
     default:
       return state;
   }
@@ -115,47 +115,47 @@ const defaultStatuses = {
   profile: false,
   user: false,
   account: false,
-  security: false
+  security: false,
 };
 
 function isSaving(state = defaultStatuses, action) {
   switch (action.type) {
     case ProfileActions.UPDATE_PROFILE_START:
-      return { ...state, profile: true };
+      return {...state, profile: true};
     case ProfileActions.UPDATE_PROFILE_SUCCESS:
     case ProfileActions.UPDATE_PROFILE_FAILED:
-      return { ...state, profile: false };
+      return {...state, profile: false};
     case ProfileActions.UPDATE_AUTH_USER_START:
-      return { ...state, user: true };
+      return {...state, user: true};
     case ProfileActions.UPDATE_AUTH_USER_SUCCESS:
     case ProfileActions.UPDATE_AUTH_USER_FAILED:
-      return { ...state, user: false };
+      return {...state, user: false};
     case ProfileActions.UPDATE_ACCOUNT_INFO_START:
-      return { ...state, account: true };
+      return {...state, account: true};
     case ProfileActions.UPDATE_ACCOUNT_INFO_SUCCESS:
     case ProfileActions.UPDATE_ACCOUNT_INFO_FAILED:
-      return { ...state, account: false };
+      return {...state, account: false};
     case ProfileActions.UPDATE_PASSWORD_START:
-      return { ...state, security: true };
+      return {...state, security: true};
     case ProfileActions.UPDATE_PASSWORD_SUCCESS:
     case ProfileActions.UPDATE_PASSWORD_FAILED:
-      return { ...state, security: false };
+      return {...state, security: false};
     case ProfileActions.CREATE_WORK_START:
     case ProfileActions.UPDATE_WORK_START:
-      return { ...state, work: true };
+      return {...state, work: true};
     case ProfileActions.CREATE_WORK_SUCCESS:
     case ProfileActions.CREATE_WORK_FAILED:
     case ProfileActions.UPDATE_WORK_SUCCESS:
     case ProfileActions.UPDATE_WORK_FAILED:
-      return { ...state, work: false };
+      return {...state, work: false};
     case ProfileActions.CREATE_EDUCATION_START:
     case ProfileActions.UPDATE_EDUCATION_START:
-      return { ...state, education: true };
+      return {...state, education: true};
     case ProfileActions.CREATE_EDUCATION_SUCCESS:
     case ProfileActions.CREATE_EDUCATION_FAILED:
     case ProfileActions.UPDATE_EDUCATION_SUCCESS:
     case ProfileActions.UPDATE_EDUCATION_FAILED:
-      return { ...state, education: false };
+      return {...state, education: false};
     default:
       return state;
   }
@@ -164,41 +164,41 @@ function isSaving(state = defaultStatuses, action) {
 function isSaved(state = defaultStatuses, action) {
   switch (action.type) {
     case ProfileActions.UPDATE_PROFILE_SUCCESS:
-      return { ...state, profile: true };
+      return {...state, profile: true};
     case ProfileActions.UPDATE_PROFILE_START:
     case ProfileActions.UPDATE_PROFILE_FAILED:
-      return { ...state, profile: false };
+      return {...state, profile: false};
     case ProfileActions.UPDATE_AUTH_USER_SUCCESS:
-      return { ...state, user: true };
+      return {...state, user: true};
     case ProfileActions.UPDATE_AUTH_USER_START:
     case ProfileActions.UPDATE_AUTH_USER_FAILED:
-      return { ...state, user: false };
+      return {...state, user: false};
     case ProfileActions.UPDATE_ACCOUNT_INFO_SUCCESS:
-      return { ...state, account: true };
+      return {...state, account: true};
     case ProfileActions.UPDATE_ACCOUNT_INFO_START:
     case ProfileActions.UPDATE_ACCOUNT_INFO_FAILED:
-      return { ...state, account: false };
+      return {...state, account: false};
     case ProfileActions.UPDATE_PASSWORD_SUCCESS:
-      return { ...state, security: true };
+      return {...state, security: true};
     case ProfileActions.UPDATE_PASSWORD_START:
     case ProfileActions.UPDATE_PASSWORD_FAILED:
-      return { ...state, security: false };
+      return {...state, security: false};
     case ProfileActions.CREATE_WORK_SUCCESS:
     case ProfileActions.UPDATE_WORK_SUCCESS:
-      return { ...state, work: true };
+      return {...state, work: true};
     case ProfileActions.CREATE_WORK_START:
     case ProfileActions.CREATE_WORK_FAILED:
     case ProfileActions.UPDATE_WORK_START:
     case ProfileActions.UPDATE_WORK_FAILED:
-      return { ...state, work: false };
+      return {...state, work: false};
     case ProfileActions.CREATE_EDUCATION_SUCCESS:
     case ProfileActions.UPDATE_EDUCATION_SUCCESS:
-      return { ...state, education: true };
+      return {...state, education: true};
     case ProfileActions.CREATE_EDUCATION_START:
     case ProfileActions.CREATE_EDUCATION_FAILED:
     case ProfileActions.UPDATE_EDUCATION_START:
     case ProfileActions.UPDATE_EDUCATION_FAILED:
-      return { ...state, education: false };
+      return {...state, education: false};
     case ProfileActions.RETRIEVE_PROFILE_START:
     case PATH_CHANGE:
       return defaultStatuses;
@@ -211,41 +211,41 @@ function error(state = {}, action) {
   switch (action.type) {
     case ProfileActions.UPDATE_PROFILE_FAILED:
       var error = action.error;
-      return { ...state, profile: error };
+      return {...state, profile: error};
     case ProfileActions.UPDATE_PROFILE_START:
     case ProfileActions.UPDATE_PROFILE_SUCCESS:
-      return { ...state, profile: null };
+      return {...state, profile: null};
     case ProfileActions.UPDATE_AUTH_USER_FAILED:
-      return { ...state, user: action.error };
+      return {...state, user: action.error};
     case ProfileActions.UPDATE_AUTH_USER_START:
     case ProfileActions.UPDATE_AUTH_USER_SUCCESS:
-      return { ...state, user: null };
+      return {...state, user: null};
     case ProfileActions.UPDATE_ACCOUNT_INFO_FAILED:
-      return { ...state, account: action.error };
+      return {...state, account: action.error};
     case ProfileActions.UPDATE_ACCOUNT_INFO_START:
     case ProfileActions.UPDATE_ACCOUNT_INFO_SUCCESS:
-      return { ...state, account: null };
+      return {...state, account: null};
     case ProfileActions.UPDATE_PASSWORD_FAILED:
-      return { ...state, security: action.error };
+      return {...state, security: action.error};
     case ProfileActions.UPDATE_PASSWORD_START:
     case ProfileActions.UPDATE_PASSWORD_SUCCESS:
-      return { ...state, security: null };
+      return {...state, security: null};
     case ProfileActions.CREATE_WORK_FAILED:
     case ProfileActions.UPDATE_WORK_FAILED:
-      return { ...state, work: action.error };
+      return {...state, work: action.error};
     case ProfileActions.CREATE_WORK_START:
     case ProfileActions.CREATE_WORK_SUCCESS:
     case ProfileActions.UPDATE_WORK_START:
     case ProfileActions.UPDATE_WORK_SUCCESS:
-      return { ...state, work: null };
+      return {...state, work: null};
     case ProfileActions.CREATE_EDUCATION_FAILED:
     case ProfileActions.UPDATE_EDUCATION_FAILED:
-      return { ...state, education: action.error };
+      return {...state, education: action.error};
     case ProfileActions.CREATE_EDUCATION_START:
     case ProfileActions.CREATE_EDUCATION_SUCCESS:
     case ProfileActions.UPDATE_EDUCATION_START:
     case ProfileActions.UPDATE_EDUCATION_SUCCESS:
-      return { ...state, education: null };
+      return {...state, education: null};
     default:
       return state;
   }
@@ -253,12 +253,12 @@ function error(state = {}, action) {
 
 const work = combineReducers({
   ids: workIds,
-  items: workItems
+  items: workItems,
 });
 
 const education = combineReducers({
   ids: educationIds,
-  items: educationItems
+  items: educationItems,
 });
 
 const Profile = combineReducers({
@@ -269,7 +269,7 @@ const Profile = combineReducers({
   isSaving,
   isSaved,
   error,
-  countries
+  countries,
 });
 
 export default Profile;

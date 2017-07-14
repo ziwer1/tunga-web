@@ -1,14 +1,14 @@
-import React from "react";
-import Dropzone from "react-dropzone";
-import FormStatus from "./status/FormStatus";
-import FieldError from "./status/FieldError";
-import { nl_to_br } from "../utils/html";
-import MessageWidget from "./MessageWidget";
+import React from 'react';
+import Dropzone from 'react-dropzone';
+import FormStatus from './status/FormStatus';
+import FieldError from './status/FieldError';
+import {nl_to_br} from '../utils/html';
+import MessageWidget from './MessageWidget';
 
 export default class MessageForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { body: "", attachments: [] };
+    this.state = {body: '', attachments: []};
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -17,12 +17,12 @@ export default class MessageForm extends React.Component {
       (this.props.uploadSaved && !prevProps.uploadSaved)
     ) {
       this.refs.message_form.reset();
-      this.setState({ body: "", attachments: [] });
+      this.setState({body: '', attachments: []});
     }
   }
 
   onBodyChange(body) {
-    this.setState({ body });
+    this.setState({body});
   }
 
   onDrop(attachments) {
@@ -51,15 +51,14 @@ export default class MessageForm extends React.Component {
   }
 
   render() {
-    const { Message } = this.props;
+    const {Message} = this.props;
     return (
       <div>
         <form
           onSubmit={this.handleSubmit.bind(this)}
           name="compose"
           role="form"
-          ref="message_form"
-        >
+          ref="message_form">
           <FormStatus
             loading={this.props.isSending}
             error={this.props.errors}
@@ -68,8 +67,7 @@ export default class MessageForm extends React.Component {
           <Dropzone
             ref="dropzone"
             onDrop={this.onDrop.bind(this)}
-            style={{ display: "none" }}
-          >
+            style={{display: 'none'}}>
             <div>
               Try dropping some files here, or click to select files to upload.
             </div>
@@ -111,10 +109,10 @@ MessageForm.propTypes = {
   isSending: React.PropTypes.bool,
   error: React.PropTypes.object,
   placeholder: React.PropTypes.string,
-  canUpload: React.PropTypes.bool
+  canUpload: React.PropTypes.bool,
 };
 
 MessageWidget.defaultProps = {
-  placeholder: "Write your message here",
-  canUpload: true
+  placeholder: 'Write your message here',
+  canUpload: true,
 };

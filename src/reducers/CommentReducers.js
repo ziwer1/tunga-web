@@ -1,6 +1,6 @@
-import { combineReducers } from "redux";
-import * as CommentActions from "../actions/CommentActions";
-import { PATH_CHANGE } from "../actions/NavActions";
+import {combineReducers} from 'redux';
+import * as CommentActions from '../actions/CommentActions';
+import {PATH_CHANGE} from '../actions/NavActions';
 
 function comment(state = {}, action) {
   switch (action.type) {
@@ -132,10 +132,10 @@ function isDeleting(state = false, action) {
 function error(state = {}, action) {
   switch (action.type) {
     case CommentActions.CREATE_COMMENT_FAILED:
-      return { ...state, create: action.error };
+      return {...state, create: action.error};
     case CommentActions.CREATE_COMMENT_START:
     case CommentActions.CREATE_COMMENT_SUCCESS:
-      return { ...state, create: null };
+      return {...state, create: null};
     default:
       return state;
   }
@@ -147,7 +147,7 @@ const detail = combineReducers({
   isSaving,
   isSaved,
   isDeleting,
-  error
+  error,
 });
 
 const list = combineReducers({
@@ -155,12 +155,12 @@ const list = combineReducers({
   isFetching,
   isFetchingMore,
   next,
-  previous
+  previous,
 });
 
 const Comment = combineReducers({
   detail,
-  list
+  list,
 });
 
 export default Comment;

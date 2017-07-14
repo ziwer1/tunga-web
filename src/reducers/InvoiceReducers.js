@@ -1,6 +1,6 @@
-import { combineReducers } from "redux";
-import * as TaskActions from "../actions/TaskActions";
-import { PATH_CHANGE } from "../actions/NavActions";
+import {combineReducers} from 'redux';
+import * as TaskActions from '../actions/TaskActions';
+import {PATH_CHANGE} from '../actions/NavActions';
 
 function invoice(state = {}, action) {
   switch (action.type) {
@@ -56,10 +56,10 @@ function isRetrieving(state = false, action) {
 function error(state = {}, action) {
   switch (action.type) {
     case TaskActions.CREATE_TASK_INVOICE_FAILED:
-      return { ...state, create: action.error };
+      return {...state, create: action.error};
     case TaskActions.CREATE_TASK_INVOICE_START:
     case TaskActions.CREATE_TASK_INVOICE_SUCCESS:
-      return { ...state, create: null };
+      return {...state, create: null};
     case PATH_CHANGE:
       return {};
     default:
@@ -72,7 +72,7 @@ const Invoice = combineReducers({
   isRetrieving,
   isSaving,
   isSaved,
-  error
+  error,
 });
 
 export default Invoice;

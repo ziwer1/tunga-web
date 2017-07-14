@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 export default class EstimateDetailContainer extends React.Component {
   componentDidMount() {
@@ -6,7 +6,7 @@ export default class EstimateDetailContainer extends React.Component {
   }
 
   getEstimateId() {
-    const { estimateId, params } = this.props;
+    const {estimateId, params} = this.props;
     if (estimateId) {
       return estimateId;
     }
@@ -17,7 +17,7 @@ export default class EstimateDetailContainer extends React.Component {
   }
 
   renderChildren() {
-    const { Estimate } = this.props;
+    const {Estimate} = this.props;
 
     return React.Children.map(
       this.props.children,
@@ -31,9 +31,9 @@ export default class EstimateDetailContainer extends React.Component {
           isSaving: Estimate.detail.isSaving,
           isSaved: Estimate.detail.isSaved,
           errors: Estimate.detail.error,
-          task: this.props.task
+          task: this.props.task,
         });
-      }.bind(this)
+      }.bind(this),
     );
   }
 
@@ -47,9 +47,9 @@ export default class EstimateDetailContainer extends React.Component {
 }
 
 EstimateDetailContainer.propTypes = {
-  estimateId: React.PropTypes.number
+  estimateId: React.PropTypes.number,
 };
 
 EstimateDetailContainer.defaultProps = {
-  estimateId: null
+  estimateId: null,
 };

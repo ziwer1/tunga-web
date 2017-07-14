@@ -1,39 +1,39 @@
-import axios from "axios";
-import { ENDPOINT_MESSAGE } from "../constants/Api";
-import { updateChannelRead } from "./ChannelActions";
+import axios from 'axios';
+import {ENDPOINT_MESSAGE} from '../constants/Api';
+import {updateChannelRead} from './ChannelActions';
 
 import {
   sendGAEvent,
   GA_EVENT_CATEGORIES,
   GA_EVENT_ACTIONS,
-  getGAUserType
-} from "../utils/tracking";
-import { getUser } from "utils/auth";
+  getGAUserType,
+} from '../utils/tracking';
+import {getUser} from 'utils/auth';
 
-export const CREATE_MESSAGE_START = "CREATE_MESSAGE_START";
-export const CREATE_MESSAGE_SUCCESS = "CREATE_MESSAGE_SUCCESS";
-export const CREATE_MESSAGE_FAILED = "CREATE_MESSAGE_FAILED";
-export const LIST_MESSAGES_START = "LIST_MESSAGES_START";
-export const LIST_MESSAGES_SUCCESS = "LIST_MESSAGES_SUCCESS";
-export const LIST_MESSAGES_FAILED = "LIST_MESSAGES_FAILED";
-export const RETRIEVE_MESSAGE_START = "RETRIEVE_MESSAGE_START";
-export const RETRIEVE_MESSAGE_SUCCESS = "RETRIEVE_MESSAGE_SUCCESS";
-export const RETRIEVE_MESSAGE_FAILED = "RETRIEVE_MESSAGE_FAILED";
-export const UPDATE_MESSAGE_START = "UPDATE_MESSAGE_START";
-export const UPDATE_MESSAGE_SUCCESS = "UPDATE_MESSAGE_SUCCESS";
-export const UPDATE_MESSAGE_FAILED = "UPDATE_MESSAGE_FAILED";
-export const DELETE_MESSAGE_START = "DELETE_MESSAGE_START";
-export const DELETE_MESSAGE_SUCCESS = "DELETE_MESSAGE_SUCCESS";
-export const DELETE_MESSAGE_FAILED = "DELETE_MESSAGE_FAILED";
-export const UPDATE_MESSAGE_READ_START = "UPDATE_MESSAGE_READ_START";
-export const UPDATE_MESSAGE_READ_SUCCESS = "UPDATE_MESSAGE_READ_SUCCESS";
-export const UPDATE_MESSAGE_READ_FAILED = "UPDATE_MESSAGE_READ_FAILED";
-export const LIST_MORE_MESSAGES_START = "LIST_MORE_MESSAGES_START";
-export const LIST_MORE_MESSAGES_SUCCESS = "LIST_MORE_MESSAGES_SUCCESS";
-export const LIST_MORE_MESSAGES_FAILED = "LIST_MORE_MESSAGES_FAILED";
-export const LIST_NEW_MESSAGES_START = "LIST_NEW_MESSAGES_START";
-export const LIST_NEW_MESSAGES_SUCCESS = "LIST_NEW_MESSAGES_SUCCESS";
-export const LIST_NEW_MESSAGES_FAILED = "LIST_NEW_MESSAGES_FAILED";
+export const CREATE_MESSAGE_START = 'CREATE_MESSAGE_START';
+export const CREATE_MESSAGE_SUCCESS = 'CREATE_MESSAGE_SUCCESS';
+export const CREATE_MESSAGE_FAILED = 'CREATE_MESSAGE_FAILED';
+export const LIST_MESSAGES_START = 'LIST_MESSAGES_START';
+export const LIST_MESSAGES_SUCCESS = 'LIST_MESSAGES_SUCCESS';
+export const LIST_MESSAGES_FAILED = 'LIST_MESSAGES_FAILED';
+export const RETRIEVE_MESSAGE_START = 'RETRIEVE_MESSAGE_START';
+export const RETRIEVE_MESSAGE_SUCCESS = 'RETRIEVE_MESSAGE_SUCCESS';
+export const RETRIEVE_MESSAGE_FAILED = 'RETRIEVE_MESSAGE_FAILED';
+export const UPDATE_MESSAGE_START = 'UPDATE_MESSAGE_START';
+export const UPDATE_MESSAGE_SUCCESS = 'UPDATE_MESSAGE_SUCCESS';
+export const UPDATE_MESSAGE_FAILED = 'UPDATE_MESSAGE_FAILED';
+export const DELETE_MESSAGE_START = 'DELETE_MESSAGE_START';
+export const DELETE_MESSAGE_SUCCESS = 'DELETE_MESSAGE_SUCCESS';
+export const DELETE_MESSAGE_FAILED = 'DELETE_MESSAGE_FAILED';
+export const UPDATE_MESSAGE_READ_START = 'UPDATE_MESSAGE_READ_START';
+export const UPDATE_MESSAGE_READ_SUCCESS = 'UPDATE_MESSAGE_READ_SUCCESS';
+export const UPDATE_MESSAGE_READ_FAILED = 'UPDATE_MESSAGE_READ_FAILED';
+export const LIST_MORE_MESSAGES_START = 'LIST_MORE_MESSAGES_START';
+export const LIST_MORE_MESSAGES_SUCCESS = 'LIST_MORE_MESSAGES_SUCCESS';
+export const LIST_MORE_MESSAGES_FAILED = 'LIST_MORE_MESSAGES_FAILED';
+export const LIST_NEW_MESSAGES_START = 'LIST_NEW_MESSAGES_START';
+export const LIST_NEW_MESSAGES_SUCCESS = 'LIST_NEW_MESSAGES_SUCCESS';
+export const LIST_NEW_MESSAGES_FAILED = 'LIST_NEW_MESSAGES_FAILED';
 
 export function createMessage(message, attachments) {
   return dispatch => {
@@ -47,22 +47,22 @@ export function createMessage(message, attachments) {
       });
 
       attachments.map((file, idx) => {
-        data.append("file" + idx, file);
+        data.append('file' + idx, file);
       });
 
       $.ajax({
         url: ENDPOINT_MESSAGE,
-        type: "POST",
+        type: 'POST',
         data: data,
         processData: false,
-        contentType: false
+        contentType: false,
       }).then(
         function(data) {
           dispatch(createMessageSuccess(data));
         },
         function(data) {
           dispatch(createMessageFailed(data));
-        }
+        },
       );
     } else {
       axios
@@ -72,7 +72,7 @@ export function createMessage(message, attachments) {
         })
         .catch(function(error) {
           dispatch(
-            createMessageFailed(error.response ? error.response.data : null)
+            createMessageFailed(error.response ? error.response.data : null),
           );
         });
     }
@@ -82,7 +82,7 @@ export function createMessage(message, attachments) {
 export function createMessageStart(message) {
   return {
     type: CREATE_MESSAGE_START,
-    message
+    message,
   };
 }
 
@@ -90,19 +90,19 @@ export function createMessageSuccess(message) {
   sendGAEvent(
     GA_EVENT_CATEGORIES.MESSAGE,
     GA_EVENT_ACTIONS.SEND,
-    getGAUserType(getUser())
+    getGAUserType(getUser()),
   );
 
   return {
     type: CREATE_MESSAGE_SUCCESS,
-    message
+    message,
   };
 }
 
 export function createMessageFailed(error) {
   return {
     type: CREATE_MESSAGE_FAILED,
-    error
+    error,
   };
 }
 
@@ -111,7 +111,7 @@ export function listMessages(filter) {
     let get_new = filter && filter.since > -1;
     dispatch(listMessagesStart(filter, get_new));
     axios
-      .get(ENDPOINT_MESSAGE, { params: filter })
+      .get(ENDPOINT_MESSAGE, {params: filter})
       .then(function(response) {
         if (
           filter &&
@@ -121,8 +121,8 @@ export function listMessages(filter) {
         ) {
           dispatch(
             updateChannelRead(filter.channel, {
-              last_read: response.data.results[0].id
-            })
+              last_read: response.data.results[0].id,
+            }),
           );
         }
         dispatch(listMessagesSuccess(response.data, filter, get_new));
@@ -132,8 +132,8 @@ export function listMessages(filter) {
           listMessagesFailed(
             error.response ? error.response.data : null,
             filter,
-            get_new
-          )
+            get_new,
+          ),
         );
       });
   };
@@ -142,7 +142,7 @@ export function listMessages(filter) {
 export function listMessagesStart(filter, new_only = false) {
   return {
     type: new_only ? LIST_NEW_MESSAGES_START : LIST_MESSAGES_START,
-    filter
+    filter,
   };
 }
 
@@ -153,7 +153,7 @@ export function listMessagesSuccess(response, filter, new_only = false) {
     previous: response.previous,
     next: response.next,
     count: response.count,
-    filter
+    filter,
   };
 }
 
@@ -161,7 +161,7 @@ export function listMessagesFailed(error, filter, new_only = false) {
   return {
     type: new_only ? LIST_NEW_MESSAGES_FAILED : LIST_MESSAGES_FAILED,
     error,
-    filter
+    filter,
   };
 }
 
@@ -169,13 +169,13 @@ export function retrieveMessage(id) {
   return dispatch => {
     dispatch(retrieveMessageStart(id));
     axios
-      .get(ENDPOINT_MESSAGE + id + "/")
+      .get(ENDPOINT_MESSAGE + id + '/')
       .then(function(response) {
         dispatch(retrieveMessageSuccess(response.data));
       })
       .catch(function(error) {
         dispatch(
-          retrieveMessageFailed(error.response ? error.response.data : null)
+          retrieveMessageFailed(error.response ? error.response.data : null),
         );
       });
   };
@@ -184,21 +184,21 @@ export function retrieveMessage(id) {
 export function retrieveMessageStart(id) {
   return {
     type: RETRIEVE_MESSAGE_START,
-    id
+    id,
   };
 }
 
 export function retrieveMessageSuccess(message) {
   return {
     type: RETRIEVE_MESSAGE_SUCCESS,
-    message
+    message,
   };
 }
 
 export function retrieveMessageFailed(error) {
   return {
     type: RETRIEVE_MESSAGE_FAILED,
-    error
+    error,
   };
 }
 
@@ -206,13 +206,13 @@ export function updateMessage(id, data) {
   return dispatch => {
     dispatch(updateMessageStart(id));
     axios
-      .patch(ENDPOINT_MESSAGE + id + "/", data)
+      .patch(ENDPOINT_MESSAGE + id + '/', data)
       .then(function(response) {
         dispatch(updateMessageSuccess(response.data));
       })
       .catch(function(error) {
         dispatch(
-          updateMessageFailed(error.response ? error.response.data : null)
+          updateMessageFailed(error.response ? error.response.data : null),
         );
       });
   };
@@ -221,21 +221,21 @@ export function updateMessage(id, data) {
 export function updateMessageStart(id) {
   return {
     type: UPDATE_MESSAGE_START,
-    id
+    id,
   };
 }
 
 export function updateMessageSuccess(message) {
   return {
     type: UPDATE_MESSAGE_SUCCESS,
-    message
+    message,
   };
 }
 
 export function updateMessageFailed(error) {
   return {
     type: UPDATE_MESSAGE_FAILED,
-    error
+    error,
   };
 }
 
@@ -243,13 +243,13 @@ export function deleteMessage(id) {
   return dispatch => {
     dispatch(deleteMessageStart(id));
     axios
-      .delete(ENDPOINT_MESSAGE + id + "/")
+      .delete(ENDPOINT_MESSAGE + id + '/')
       .then(function() {
         dispatch(deleteMessageSuccess(id));
       })
       .catch(function(error) {
         dispatch(
-          deleteMessageFailed(error.response ? error.response.data : null)
+          deleteMessageFailed(error.response ? error.response.data : null),
         );
       });
   };
@@ -258,21 +258,21 @@ export function deleteMessage(id) {
 export function deleteMessageStart(id) {
   return {
     type: DELETE_MESSAGE_START,
-    id
+    id,
   };
 }
 
 export function deleteMessageSuccess(id) {
   return {
     type: DELETE_MESSAGE_SUCCESS,
-    id
+    id,
   };
 }
 
 export function deleteMessageFailed(error) {
   return {
     type: DELETE_MESSAGE_FAILED,
-    error
+    error,
   };
 }
 
@@ -280,13 +280,13 @@ export function updateMessageRead(id) {
   return dispatch => {
     dispatch(updateMessageReadStart(id));
     axios
-      .post(ENDPOINT_MESSAGE + id + "/read/")
+      .post(ENDPOINT_MESSAGE + id + '/read/')
       .then(function(response) {
         dispatch(updateMessageReadSuccess(response.data));
       })
       .catch(function(error) {
         dispatch(
-          updateMessageReadFailed(error.response ? error.response.data : null)
+          updateMessageReadFailed(error.response ? error.response.data : null),
         );
       });
   };
@@ -295,21 +295,21 @@ export function updateMessageRead(id) {
 export function updateMessageReadStart(id) {
   return {
     type: UPDATE_MESSAGE_READ_START,
-    id
+    id,
   };
 }
 
 export function updateMessageReadSuccess(response) {
   return {
     type: UPDATE_MESSAGE_READ_SUCCESS,
-    message: response.message
+    message: response.message,
   };
 }
 
 export function updateMessageReadFailed(error) {
   return {
     type: UPDATE_MESSAGE_READ_FAILED,
-    error
+    error,
   };
 }
 
@@ -323,7 +323,7 @@ export function listMoreMessages(url) {
       })
       .catch(function(error) {
         dispatch(
-          listMoreMessagesFailed(error.response ? error.response.data : null)
+          listMoreMessagesFailed(error.response ? error.response.data : null),
         );
       });
   };
@@ -332,7 +332,7 @@ export function listMoreMessages(url) {
 export function listMoreMessagesStart(url) {
   return {
     type: LIST_MORE_MESSAGES_START,
-    url
+    url,
   };
 }
 
@@ -342,13 +342,13 @@ export function listMoreMessagesSuccess(response) {
     items: response.results,
     previous: response.previous,
     next: response.next,
-    count: response.count
+    count: response.count,
   };
 }
 
 export function listMoreMessagesFailed(error) {
   return {
     type: LIST_MORE_MESSAGES_FAILED,
-    error
+    error,
   };
 }

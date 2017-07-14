@@ -1,10 +1,10 @@
-import React from "react";
-import MessageForm from "./MessageForm";
+import React from 'react';
+import MessageForm from './MessageForm';
 
 export default class CommentForm extends React.Component {
   onComment(body, attachments) {
-    const { CommentActions, object_details } = this.props;
-    CommentActions.createComment({ ...object_details, body }, attachments);
+    const {CommentActions, object_details} = this.props;
+    CommentActions.createComment({...object_details, body}, attachments);
   }
 
   onUpload(files) {
@@ -14,7 +14,7 @@ export default class CommentForm extends React.Component {
   }
 
   render() {
-    const { Comment } = this.props;
+    const {Comment} = this.props;
     return (
       <MessageForm
         messageCallback={this.onComment.bind(this)}
@@ -31,5 +31,5 @@ export default class CommentForm extends React.Component {
 CommentForm.propTypes = {
   uploadCallback: React.PropTypes.func,
   uploadSaved: React.PropTypes.bool,
-  isSaving: React.PropTypes.bool
+  isSaving: React.PropTypes.bool,
 };

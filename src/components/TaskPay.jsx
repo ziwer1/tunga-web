@@ -1,11 +1,11 @@
-import React from "react";
-import { Link } from "react-router";
-import StripeCheckout from "react-stripe-checkout";
+import React from 'react';
+import {Link} from 'react-router';
+import StripeCheckout from 'react-stripe-checkout';
 
-import Progress from "./status/Progress";
-import FormStatus from "./status/FormStatus";
-import FieldError from "./status/FieldError";
-import Error from "./status/Error";
+import Progress from './status/Progress';
+import FormStatus from './status/FormStatus';
+import FieldError from './status/FieldError';
+import Error from './status/Error';
 
 import {
   TASK_PAYMENT_METHOD_CHOICES,
@@ -13,11 +13,11 @@ import {
   TASK_PAYMENT_METHOD_BITCOIN,
   TASK_PAYMENT_METHOD_BANK,
   TASK_PAYMENT_METHOD_STRIPE,
-  ENDPOINT_TASK
-} from "../constants/Api";
-import { objectToQueryString } from "../utils/html";
-import { getUser, isAdmin } from "../utils/auth";
-import { parseNumber } from "../utils/helpers";
+  ENDPOINT_TASK,
+} from '../constants/Api';
+import {objectToQueryString} from '../utils/html';
+import {getUser, isAdmin} from '../utils/auth';
+import {parseNumber} from '../utils/helpers';
 
 export default class TaskPay extends React.Component {
   constructor(props) {
@@ -26,21 +26,21 @@ export default class TaskPay extends React.Component {
       pay_method: null,
       pay_details: null,
       showForm: true,
-      withhold_tunga_fee: false
+      withhold_tunga_fee: false,
     };
   }
 
   componentDidMount() {
-    const { task, Task, TaskActions } = this.props;
+    const {task, Task, TaskActions} = this.props;
     if (task.id) {
       if (getUser().id == task.user.id && task.closed && task.paid) {
-        const { router } = this.context;
+        const {router} = this.context;
         router.replace(`/work/${Task.detail.task.id}/rate`);
       }
 
       if (task.payment_method) {
         TaskActions.retrieveTaskInvoice(task.id);
-        this.setState({ showForm: false });
+        this.setState({showForm: false});
       }
     }
   }
@@ -50,10 +50,10 @@ export default class TaskPay extends React.Component {
       this.props.Task.detail.Invoice.isSaved &&
       !prevProps.Task.detail.Invoice.isSaved
     ) {
-      const { Task } = this.props;
-      const { task, Invoice } = Task.detail;
+      const {Task} = this.props;
+      const {task, Invoice} = Task.detail;
 
-      this.setState({ showForm: false });
+      this.setState({showForm: false});
 
       if (Invoice.invoice.payment_method == TASK_PAYMENT_METHOD_STRIPE) {
         let tp = this;
@@ -71,19 +71,16 @@ export default class TaskPay extends React.Component {
   }
 
   changePayMethod() {
-    this.setState({ showForm: true });
+    this.setState({showForm: true});
   }
 
   onChangePayMethod(pay_method) {
-    this.setState({
-      pay_method: pay_method.id,
-      pay_details: pay_method.details
-    });
+    this.setState({pay_method: pay_method.id, pay_details: pay_method.details});
   }
 
   onStripeToken(token) {
-    const { task, Task, TaskActions } = this.props;
-    const { invoice } = Task.detail.Invoice;
+    const {task, Task, TaskActions} = this.props;
+    const {invoice} = Task.detail.Invoice;
 
     let stripe_options = {
       token: token.id,
@@ -92,13 +89,13 @@ export default class TaskPay extends React.Component {
       description: task.summary,
       task_id: task.id,
       invoice_id: invoice.id,
-      currency: "EUR"
+      currency: 'EUR',
     };
-    TaskActions.makeTaskPayment(task.id, "stripe", stripe_options);
+    TaskActions.makeTaskPayment(task.id, 'stripe', stripe_options);
   }
 
   onWithHoldFeeChange() {
-    this.setState({ withhold_tunga_fee: !this.state.withhold_tunga_fee });
+    this.setState({withhold_tunga_fee: !this.state.withhold_tunga_fee});
   }
 
   handleSubmit(e) {
@@ -107,32 +104,32 @@ export default class TaskPay extends React.Component {
     var payment_method = this.state.pay_method;
     var withhold_tunga_fee = this.state.withhold_tunga_fee;
 
-    const { Task, TaskActions } = this.props;
-    const { task } = Task.detail;
+    const {Task, TaskActions} = this.props;
+    const {task} = Task.detail;
     TaskActions.createTaskInvoice(task.id, {
       fee,
       payment_method,
-      withhold_tunga_fee
+      withhold_tunga_fee,
     });
   }
 
   getBitonicPaymentUrl() {
-    const { task } = this.props;
+    const {task} = this.props;
 
     return (
-      "https://bitonic.nl/partner/263?" +
+      'https://bitonic.nl/partner/263?' +
       objectToQueryString({
         bitcoinaddress: encodeURIComponent(task.btc_address),
         ext_data: encodeURIComponent(task.summary),
-        ordertype: "buy",
-        euros: encodeURIComponent(task.pay)
+        ordertype: 'buy',
+        euros: encodeURIComponent(task.pay),
       })
     );
   }
 
   getTotalAmount() {
-    const { task, Task, TaskActions } = this.props;
-    const { invoice } = Task.detail.Invoice;
+    const {task, Task, TaskActions} = this.props;
+    const {invoice} = Task.detail.Invoice;
 
     switch (invoice.payment_method) {
       case TASK_PAYMENT_METHOD_STRIPE:
@@ -147,8 +144,8 @@ export default class TaskPay extends React.Component {
   }
 
   getActualAmount() {
-    const { task, Task, TaskActions } = this.props;
-    const { invoice } = Task.detail.Invoice;
+    const {task, Task, TaskActions} = this.props;
+    const {invoice} = Task.detail.Invoice;
 
     let amount = this.getTotalAmount();
 
@@ -159,17 +156,17 @@ export default class TaskPay extends React.Component {
   }
 
   render() {
-    const { task, Task } = this.props;
-    const { invoice } = Task.detail.Invoice;
+    const {task, Task} = this.props;
+    const {invoice} = Task.detail.Invoice;
 
     var btc_amount = null;
     var btc_address = null;
     if (invoice) {
       btc_amount = parseFloat(
-        this.getActualAmount() / invoice.btc_price
+        this.getActualAmount() / invoice.btc_price,
       ).toFixed(6);
       btc_address = `bitcoin:${invoice.btc_address}?amount=${btc_amount}&message=${encodeURIComponent(
-        task.summary
+        task.summary,
       )}`;
     }
 
@@ -180,7 +177,7 @@ export default class TaskPay extends React.Component {
         Task.detail.isPaying
           ? <Progress
               message={
-                Task.detail.isPaying ? "Processing payment ..." : "Loading ..."
+                Task.detail.isPaying ? 'Processing payment ...' : 'Loading ...'
               }
             />
           : <div>
@@ -189,14 +186,13 @@ export default class TaskPay extends React.Component {
                     onSubmit={this.handleSubmit.bind(this)}
                     name="invoice"
                     role="form"
-                    ref="invoice_form"
-                  >
+                    ref="invoice_form">
                     <h4 className="title">Make Payment</h4>
 
                     <FormStatus
                       loading={Task.detail.Invoice.isSaving}
                       success={Task.detail.Invoice.isSaved}
-                      message={"Invoice saved successfully"}
+                      message={'Invoice saved successfully'}
                       error={Task.detail.Invoice.error.create}
                     />
 
@@ -243,7 +239,7 @@ export default class TaskPay extends React.Component {
                             </label>
                           </div>
                           <div className="alert alert-info">
-                            Use the full {task.is_task ? "task" : "project"} fee
+                            Use the full {task.is_task ? 'task' : 'project'} fee
                             even when this option is enabled.
                           </div>
                         </div>
@@ -259,7 +255,7 @@ export default class TaskPay extends React.Component {
                       : null}
                     <div className="form-group">
                       <label className="control-label">Payment method</label>
-                      <hr style={{ marginTop: "0" }} />
+                      <hr style={{marginTop: '0'}} />
                       <div className="pay-choices">
                         {TASK_PAYMENT_METHOD_CHOICES.map(payment_method => {
                           return (
@@ -268,20 +264,19 @@ export default class TaskPay extends React.Component {
                                 <button
                                   type="button"
                                   className={
-                                    "btn btn-block " +
+                                    'btn btn-block ' +
                                     (this.state.pay_method == payment_method.id
-                                      ? "active"
-                                      : "")
+                                      ? 'active'
+                                      : '')
                                   }
                                   onClick={this.onChangePayMethod.bind(
                                     this,
-                                    payment_method
-                                  )}
-                                >
+                                    payment_method,
+                                  )}>
                                   <i
                                     className={
                                       payment_method.icon_class +
-                                      " fa-lg pull-left"
+                                      ' fa-lg pull-left'
                                     }
                                   />
                                   {payment_method.name}
@@ -290,9 +285,9 @@ export default class TaskPay extends React.Component {
                               <div
                                 className="col-md-6"
                                 dangerouslySetInnerHTML={{
-                                  __html: payment_method.meta
+                                  __html: payment_method.meta,
                                 }}
-                                style={{ paddingTop: "10px" }}
+                                style={{paddingTop: '10px'}}
                               />
                             </div>
                           );
@@ -310,8 +305,7 @@ export default class TaskPay extends React.Component {
                       <button
                         type="submit"
                         className="btn"
-                        disabled={Task.detail.Invoice.isSaving}
-                      >
+                        disabled={Task.detail.Invoice.isSaving}>
                         Continue
                       </button>
                     </div>
@@ -325,8 +319,7 @@ export default class TaskPay extends React.Component {
                             <div className="next-action">
                               <Link
                                 to={`/work/${task.id}/rate`}
-                                className="btn"
-                              >
+                                className="btn">
                                 Rate Developers
                               </Link>
                             </div>
@@ -354,9 +347,9 @@ export default class TaskPay extends React.Component {
                               <tr>
                                 <td>Payment costs:</td>
                                 <td>
-                                  &euro;{" "}
+                                  &euro;{' '}
                                   {parseNumber(
-                                    this.getTotalAmount() - invoice.fee
+                                    this.getTotalAmount() - invoice.fee,
                                   )}
                                 </td>
                               </tr>
@@ -380,7 +373,7 @@ export default class TaskPay extends React.Component {
                                 ? <tr>
                                     <th>Actual Payment (Minus Tunga Fee): </th>
                                     <th>
-                                      &euro;{" "}
+                                      &euro;{' '}
                                       {parseNumber(this.getActualAmount())}
                                     </th>
                                   </tr>
@@ -391,11 +384,11 @@ export default class TaskPay extends React.Component {
                           {invoice.payment_method == TASK_PAYMENT_METHOD_BITCOIN
                             ? <div>
                                 <h4>
-                                  Bitcoin: <i className="fa fa-btc" />{" "}
+                                  Bitcoin: <i className="fa fa-btc" />{' '}
                                   {btc_amount}
                                 </h4>
-                                Send exactly BTC <strong>{btc_amount}</strong>{" "}
-                                to{" "}
+                                Send exactly BTC <strong>{btc_amount}</strong>{' '}
+                                to{' '}
                                 <a href={btc_address}>
                                   <strong>
                                     {invoice.btc_address}
@@ -414,8 +407,7 @@ export default class TaskPay extends React.Component {
                                 <a
                                   href={`${ENDPOINT_TASK}${task.id}/download/invoice/?format=pdf`}
                                   target="_blank"
-                                  className="btn "
-                                >
+                                  className="btn ">
                                   <i className="fa fa-download" /> Download
                                   Invoice
                                 </a>
@@ -431,8 +423,7 @@ export default class TaskPay extends React.Component {
                                 </div>
                                 <a
                                   href={`${ENDPOINT_TASK}${task.id}/pay/bitonic/`}
-                                  className="btn "
-                                >
+                                  className="btn ">
                                   <i className="fa fa-money" /> Pay with iDeal
                                 </a>
                               </div>
@@ -453,23 +444,20 @@ export default class TaskPay extends React.Component {
                                 email={getUser().email}
                                 token={this.onStripeToken.bind(this)}
                                 reconfigureOnUpdate={false}
-                                triggerEvent="onClick"
-                              >
+                                triggerEvent="onClick">
                                 <button
                                   type="button"
                                   className="btn btn-success"
-                                  ref="pay_stripe"
-                                >
+                                  ref="pay_stripe">
                                   Pay with Card
                                 </button>
                               </StripeCheckout>
                             : null}
 
-                          <div style={{ marginTop: "20px" }}>
+                          <div style={{marginTop: '20px'}}>
                             <button
                               className="btn btn-alt"
-                              onClick={this.changePayMethod.bind(this)}
-                            >
+                              onClick={this.changePayMethod.bind(this)}>
                               <i className="fa fa-pencil" /> Change Payment
                               Method
                             </button>
@@ -483,13 +471,13 @@ export default class TaskPay extends React.Component {
 }
 
 TaskPay.propTypes = {
-  task: React.PropTypes.object.isRequired
+  task: React.PropTypes.object.isRequired,
 };
 
 TaskPay.defaultProps = {
-  task: {}
+  task: {},
 };
 
 TaskPay.contextTypes = {
-  router: React.PropTypes.object.isRequired
+  router: React.PropTypes.object.isRequired,
 };

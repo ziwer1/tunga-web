@@ -1,21 +1,21 @@
-import axios from "axios";
-import { ENDPOINT_USER } from "../constants/Api";
+import axios from 'axios';
+import {ENDPOINT_USER} from '../constants/Api';
 
-export const LIST_USERS_START = "LIST_USERS_START";
-export const LIST_USERS_SUCCESS = "LIST_USERS_SUCCESS";
-export const LIST_USERS_FAILED = "LIST_USERS_FAILED";
-export const RETRIEVE_USER_START = "RETRIEVE_USER_START";
-export const RETRIEVE_USER_SUCCESS = "RETRIEVE_USER_SUCCESS";
-export const RETRIEVE_USER_FAILED = "RETRIEVE_USER_FAILED";
-export const LIST_MORE_USERS_START = "LIST_MORE_USERS_START";
-export const LIST_MORE_USERS_SUCCESS = "LIST_MORE_USERS_SUCCESS";
-export const LIST_MORE_USERS_FAILED = "LIST_MORE_USERS_FAILED";
+export const LIST_USERS_START = 'LIST_USERS_START';
+export const LIST_USERS_SUCCESS = 'LIST_USERS_SUCCESS';
+export const LIST_USERS_FAILED = 'LIST_USERS_FAILED';
+export const RETRIEVE_USER_START = 'RETRIEVE_USER_START';
+export const RETRIEVE_USER_SUCCESS = 'RETRIEVE_USER_SUCCESS';
+export const RETRIEVE_USER_FAILED = 'RETRIEVE_USER_FAILED';
+export const LIST_MORE_USERS_START = 'LIST_MORE_USERS_START';
+export const LIST_MORE_USERS_SUCCESS = 'LIST_MORE_USERS_SUCCESS';
+export const LIST_MORE_USERS_FAILED = 'LIST_MORE_USERS_FAILED';
 
 export function listUsers(filter, selection, prev_selection) {
   return dispatch => {
     dispatch(listUsersStart(filter, selection, prev_selection));
     axios
-      .get(ENDPOINT_USER, { params: filter })
+      .get(ENDPOINT_USER, {params: filter})
       .then(function(response) {
         dispatch(listUsersSuccess(response.data, filter, selection));
       })
@@ -30,7 +30,7 @@ export function listUsersStart(filter, selection, prev_selection) {
     type: LIST_USERS_START,
     filter,
     selection,
-    prev_selection
+    prev_selection,
   };
 }
 
@@ -42,7 +42,7 @@ export function listUsersSuccess(response, filter, selection) {
     next: response.next,
     count: response.count,
     filter,
-    selection
+    selection,
   };
 }
 
@@ -50,7 +50,7 @@ export function listUsersFailed(error, selection) {
   return {
     type: LIST_USERS_FAILED,
     error,
-    selection
+    selection,
   };
 }
 
@@ -58,13 +58,13 @@ export function retrieveUser(id) {
   return dispatch => {
     dispatch(retrieveUserStart(id));
     axios
-      .get(ENDPOINT_USER + id + "/")
+      .get(ENDPOINT_USER + id + '/')
       .then(function(response) {
         dispatch(retrieveUserSuccess(response.data));
       })
       .catch(function(error) {
         dispatch(
-          retrieveUserFailed(error.response ? error.response.data : null)
+          retrieveUserFailed(error.response ? error.response.data : null),
         );
       });
   };
@@ -73,21 +73,21 @@ export function retrieveUser(id) {
 export function retrieveUserStart(id) {
   return {
     type: RETRIEVE_USER_START,
-    id
+    id,
   };
 }
 
 export function retrieveUserSuccess(user) {
   return {
     type: RETRIEVE_USER_SUCCESS,
-    user
+    user,
   };
 }
 
 export function retrieveUserFailed(error) {
   return {
     type: RETRIEVE_USER_FAILED,
-    error
+    error,
   };
 }
 
@@ -103,8 +103,8 @@ export function listMoreUsers(url, selection) {
         dispatch(
           listMoreUsersFailed(
             error.response ? error.response.data : null,
-            selection
-          )
+            selection,
+          ),
         );
       });
   };
@@ -114,7 +114,7 @@ export function listMoreUsersStart(url, selection) {
   return {
     type: LIST_MORE_USERS_START,
     url,
-    selection
+    selection,
   };
 }
 
@@ -125,13 +125,13 @@ export function listMoreUsersSuccess(response, selection) {
     previous: response.previous,
     next: response.next,
     count: response.count,
-    selection
+    selection,
   };
 }
 
 export function listMoreUsersFailed(error) {
   return {
     type: LIST_MORE_USERS_FAILED,
-    error
+    error,
   };
 }

@@ -1,5 +1,5 @@
-import React from "react";
-import connect from "../utils/connectors/MilestoneConnector";
+import React from 'react';
+import connect from '../utils/connectors/MilestoneConnector';
 
 class MilestoneContainer extends React.Component {
   renderChildren() {
@@ -10,9 +10,9 @@ class MilestoneContainer extends React.Component {
           Milestone: this.props.Milestone,
           ProgressReport: this.props.ProgressReport,
           MilestoneActions: this.props.MilestoneActions,
-          ProgressReportActions: this.props.ProgressReportActions
+          ProgressReportActions: this.props.ProgressReportActions,
         });
-      }.bind(this)
+      }.bind(this),
     );
   }
 

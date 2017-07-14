@@ -1,6 +1,6 @@
-import { combineReducers } from "redux";
-import * as SkillSelectionActions from "../actions/SkillSelectionActions";
-import { CREATE_TASK_SUCCESS } from "../actions/TaskActions";
+import {combineReducers} from 'redux';
+import * as SkillSelectionActions from '../actions/SkillSelectionActions';
+import {CREATE_TASK_SUCCESS} from '../actions/TaskActions';
 
 function selected(state = [], action) {
   switch (action.type) {
@@ -61,7 +61,7 @@ const SkillSelection = combineReducers({
   selected,
   suggestions,
   isFetching,
-  isValid
+  isValid,
 });
 
 export default SkillSelection;

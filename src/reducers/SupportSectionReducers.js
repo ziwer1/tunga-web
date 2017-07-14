@@ -1,6 +1,6 @@
-import { combineReducers } from "redux";
-import * as SupportSectionActions from "../actions/SupportSectionActions";
-import { PATH_CHANGE } from "../actions/NavActions";
+import {combineReducers} from 'redux';
+import * as SupportSectionActions from '../actions/SupportSectionActions';
+import {PATH_CHANGE} from '../actions/NavActions';
 
 function section(state = {}, action) {
   switch (action.type) {
@@ -131,10 +131,10 @@ function isDeleting(state = false, action) {
 function error(state = {}, action) {
   switch (action.type) {
     case SupportSectionActions.CREATE_SUPPORT_SECTION_FAILED:
-      return { ...state, create: action.error };
+      return {...state, create: action.error};
     case SupportSectionActions.CREATE_SUPPORT_SECTION_START:
     case SupportSectionActions.CREATE_SUPPORT_SECTION_SUCCESS:
-      return { ...state, create: null };
+      return {...state, create: null};
     default:
       return state;
   }
@@ -146,7 +146,7 @@ const detail = combineReducers({
   isSaving,
   isSaved,
   isDeleting,
-  error
+  error,
 });
 
 const list = combineReducers({
@@ -154,12 +154,12 @@ const list = combineReducers({
   isFetching,
   isFetchingMore,
   next,
-  previous
+  previous,
 });
 
 const SupportSection = combineReducers({
   detail,
-  list
+  list,
 });
 
 export default SupportSection;

@@ -1,34 +1,34 @@
-import React from "react";
-import { Link } from "react-router";
-import Reveal from "react-reveal";
-import YouTube from "react-youtube";
+import React from 'react';
+import {Link} from 'react-router';
+import Reveal from 'react-reveal';
+import YouTube from 'react-youtube';
 
-import ShowcaseContainer from "../containers/ShowcaseContainer";
-import MetaTags from "../components/MetaTags";
+import ShowcaseContainer from '../containers/ShowcaseContainer';
+import MetaTags from '../components/MetaTags';
 
 import {
   sendGAEvent,
   GA_EVENT_CATEGORIES,
   GA_EVENT_ACTIONS,
-  GA_EVENT_LABELS
-} from "../utils/tracking";
+  GA_EVENT_LABELS,
+} from '../utils/tracking';
 
 export default class StoryPage extends React.Component {
   onVideoReady(e) {
     var player = e.target;
     if (player) {
-      this.setState({ player: e.target });
+      this.setState({player: e.target});
     }
   }
 
   onPlayVideo() {
-    this.setState({ play: true });
+    this.setState({play: true});
     if (this.state.player) {
       this.state.player.playVideo();
       sendGAEvent(
         GA_EVENT_CATEGORIES.VIDEO,
         GA_EVENT_ACTIONS.PLAY,
-        GA_EVENT_LABELS.INTRO_VIDEO_STORY
+        GA_EVENT_LABELS.INTRO_VIDEO_STORY,
       );
     }
   }
@@ -37,12 +37,12 @@ export default class StoryPage extends React.Component {
     sendGAEvent(
       GA_EVENT_CATEGORIES.VIDEO,
       GA_EVENT_ACTIONS.PAUSE,
-      GA_EVENT_LABELS.INTRO_VIDEO_STORY
+      GA_EVENT_LABELS.INTRO_VIDEO_STORY,
     );
   }
 
   onCloseVideo() {
-    this.setState({ play: false });
+    this.setState({play: false});
     if (this.state.player) {
       this.state.player.stopVideo();
     }
@@ -59,14 +59,13 @@ export default class StoryPage extends React.Component {
   }
 
   render() {
-    let meta_title = "Tunga | Our Story";
-    let meta_description = "Our journey to unleash Africa’s tech talent";
+    let meta_title = 'Tunga | Our Story';
+    let meta_description = 'Our journey to unleash Africa’s tech talent';
 
     return (
       <ShowcaseContainer
         className="our-story-page"
-        headerContent={this.renderHeaderContent()}
-      >
+        headerContent={this.renderHeaderContent()}>
         <MetaTags title={meta_title} description={meta_description} />
 
         <div className="content">
@@ -90,7 +89,7 @@ export default class StoryPage extends React.Component {
               </p>
 
               <div className="image-wrapper">
-                <img src={require("../images/story/uprise.jpg")} />
+                <img src={require('../images/story/uprise.jpg')} />
               </div>
             </div>
           </section>
@@ -105,17 +104,17 @@ export default class StoryPage extends React.Component {
                 opportunity you have to determine your own destiny is limited by
                 circumstances. By factors outside of your own control. In our
                 search for software developers, we ended up in the African
-                continent. And through the{" "}
+                continent. And through the{' '}
                 <a href="http://bitsacademy.org/" target="_blank">
                   Bits Academy school network
-                </a>{" "}
+                </a>{' '}
                 we met many young Africans that are as intelligent and skilled
                 as their western counterparts. But who have limited access to
                 interesting, intelligent and well-paying work. Just because of
                 where they were born.
               </p>
               <div className="image-wrapper">
-                <img src={require("../images/story/section2.jpg")} />
+                <img src={require('../images/story/section2.jpg')} />
               </div>
             </div>
           </section>
@@ -143,10 +142,9 @@ export default class StoryPage extends React.Component {
                       <a
                         href="https://www.dioraphte.nl/en/"
                         target="_blank"
-                        title="Dioraphte"
-                      >
+                        title="Dioraphte">
                         <img
-                          src={require("../images/partners/dioraphte.jpg")}
+                          src={require('../images/partners/dioraphte.jpg')}
                         />
                       </a>
                     </li>
@@ -154,37 +152,33 @@ export default class StoryPage extends React.Component {
                       <a
                         href="https://www.oxfam.org/"
                         target="_blank"
-                        title="Oxfam"
-                      >
-                        <img src={require("../images/partners/oxfam.png")} />
+                        title="Oxfam">
+                        <img src={require('../images/partners/oxfam.png')} />
                       </a>
                     </li>
                     <li>
                       <a
                         href="http://www.doen.nl/about-doen/general.htm"
                         target="_blank"
-                        title="the DOEN Foundation"
-                      >
-                        <img src={require("../images/partners/DOEN.gif")} />
+                        title="the DOEN Foundation">
+                        <img src={require('../images/partners/DOEN.gif')} />
                       </a>
                     </li>
                     <li>
                       <a
                         href="https://www.edukans.nl/"
                         target="_blank"
-                        title="Edukans"
-                      >
-                        <img src={require("../images/partners/edukans.jpg")} />
+                        title="Edukans">
+                        <img src={require('../images/partners/edukans.jpg')} />
                       </a>
                     </li>
                     <li>
                       <a
                         href="https://www.triodos.com/"
                         target="_blank"
-                        title="Triodos Bank"
-                      >
+                        title="Triodos Bank">
                         <img
-                          src={require("../images/partners/triodos-bank.png")}
+                          src={require('../images/partners/triodos-bank.png')}
                         />
                       </a>
                     </li>
@@ -216,7 +210,7 @@ export default class StoryPage extends React.Component {
               <div className="video-wrapper">
                 <YouTube
                   videoId="RVVtyapBmuo"
-                  opts={{ height: "360px" }}
+                  opts={{height: '360px'}}
                   onReady={this.onVideoReady.bind(this)}
                   onPause={this.onPauseVideo.bind(this)}
                 />
@@ -246,9 +240,8 @@ export default class StoryPage extends React.Component {
               <div className="image-wrapper">
                 <a
                   href="https://blog.tunga.io/tech-for-good-will-impact-sourcing-be-the-new-fair-trade-61e8c8d3dcce"
-                  target="_blank"
-                >
-                  <img src={require("../images/story/impact-sourcing.png")} />
+                  target="_blank">
+                  <img src={require('../images/story/impact-sourcing.png')} />
                 </a>
               </div>
             </div>
@@ -268,15 +261,14 @@ export default class StoryPage extends React.Component {
                 language. But also because we can make a huge impact there.<br />
                 <a
                   href="https://www.theguardian.com/global-development/2014/jan/16/uganda-unemployed-graduates-held-back-skills-gap"
-                  target="_blank"
-                >
+                  target="_blank">
                   According to the ADB
-                </a>{" "}
+                </a>{' '}
                 youth unemployment in Uganda is as high as 83%. With 78% of the
                 population being under 30 this is a huge problem.
               </p>
               <div className="image-wrapper">
-                <img src={require("../images/story/tunga-workshop.jpg")} />
+                <img src={require('../images/story/tunga-workshop.jpg')} />
               </div>
             </div>
           </section>

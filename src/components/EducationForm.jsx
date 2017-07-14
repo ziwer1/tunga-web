@@ -1,21 +1,21 @@
-import React from "react";
-import moment from "moment";
+import React from 'react';
+import moment from 'moment';
 
-import FormStatus from "./status/FormStatus";
-import FieldError from "./status/FieldError";
+import FormStatus from './status/FormStatus';
+import FieldError from './status/FieldError';
 
 export default class EducationForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { details: "" };
+    this.state = {details: ''};
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
     const education = this.props.education || {};
     if (education.id) {
-      const details = education.details || "";
-      this.setState({ details });
+      const details = education.details || '';
+      this.setState({details});
     }
   }
 
@@ -26,7 +26,7 @@ export default class EducationForm extends React.Component {
     ) {
       if (!this.props.education) {
         this.refs.education_form.reset();
-        this.setState({ details: "" });
+        this.setState({details: ''});
       }
     }
   }
@@ -47,7 +47,7 @@ export default class EducationForm extends React.Component {
     var end_month = this.refs.end_month.value.trim() || null;
     var details = this.state.details;
 
-    const { ProfileActions } = this.props;
+    const {ProfileActions} = this.props;
     const education = this.props.education || {};
     const education_info = {
       institution,
@@ -56,7 +56,7 @@ export default class EducationForm extends React.Component {
       start_year,
       start_month,
       end_year,
-      end_month
+      end_month,
     };
     if (education.id) {
       ProfileActions.updateEducation(education.id, education_info);
@@ -67,12 +67,12 @@ export default class EducationForm extends React.Component {
   }
 
   render() {
-    const { Profile } = this.props;
+    const {Profile} = this.props;
     const education = this.props.education || {};
     var count = 0;
     var months = [];
     while (count <= 12) {
-      months.push(moment().month(count++).format("MMM"));
+      months.push(moment().month(count++).format('MMM'));
     }
     var years = [];
     var loop_year = moment().year();
@@ -86,12 +86,11 @@ export default class EducationForm extends React.Component {
           onSubmit={this.handleSubmit}
           name="education"
           role="form"
-          ref="education_form"
-        >
+          ref="education_form">
           <FormStatus
             loading={Profile.isSaving.education}
             success={Profile.isSaved.education}
-            message={"Education details updated successfully"}
+            message={'Education details updated successfully'}
             error={Profile.error.education}
           />
 
@@ -110,8 +109,7 @@ export default class EducationForm extends React.Component {
                   className="form-control"
                   ref="start_month"
                   defaultValue={education.start_month}
-                  required
-                >
+                  required>
                   {months.map((month, idx) => {
                     return (
                       <option key={month} value={idx + 1}>
@@ -127,8 +125,7 @@ export default class EducationForm extends React.Component {
                   className="form-control"
                   ref="start_year"
                   defaultValue={education.start_year}
-                  required
-                >
+                  required>
                   {years.map(year => {
                     return (
                       <option key={year} value={year}>
@@ -155,8 +152,7 @@ export default class EducationForm extends React.Component {
                   type="text"
                   className="form-control"
                   ref="end_month"
-                  defaultValue={education.end_month}
-                >
+                  defaultValue={education.end_month}>
                   <option value="">-- month --</option>
                   {months.map((month, idx) => {
                     return (
@@ -172,8 +168,7 @@ export default class EducationForm extends React.Component {
                   type="text"
                   className="form-control"
                   ref="end_year"
-                  defaultValue={education.end_year}
-                >
+                  defaultValue={education.end_year}>
                   <option value="">-- year --</option>
                   {years.map(year => {
                     return (
@@ -228,7 +223,7 @@ export default class EducationForm extends React.Component {
             <label className="control-label">Details *</label>
             <textarea
               className="form-control"
-              onChange={this.onInputChange.bind(this, "details")}
+              onChange={this.onInputChange.bind(this, 'details')}
               defaultValue={education.details}
               ref="details"
               placeholder="Details"
@@ -239,9 +234,8 @@ export default class EducationForm extends React.Component {
           <button
             type="submit"
             className="btn  pull-right"
-            disabled={Profile.isSaving.education}
-          >
-            Save{education.id ? " Changes" : null}
+            disabled={Profile.isSaving.education}>
+            Save{education.id ? ' Changes' : null}
           </button>
           <div className="clearfix" />
         </form>

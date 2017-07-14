@@ -1,45 +1,46 @@
-import React from "react";
-import moment from "moment";
-import momentLocalizer from "react-widgets/lib/localizers/moment";
-import Dropzone from "react-dropzone";
-import DateTimePicker from "react-widgets/lib/DateTimePicker";
-import _ from "lodash";
+import React from 'react';
+import moment from 'moment';
+import momentLocalizer from 'react-widgets/lib/localizers/moment';
+import Dropzone from 'react-dropzone';
+import DateTimePicker from 'react-widgets/lib/DateTimePicker';
+import _ from 'lodash';
 
-import FormStatus from "./status/FormStatus";
-import FieldError from "./status/FieldError";
-import FormComponent from "./FormComponent";
+import FormStatus from './status/FormStatus';
+import FieldError from './status/FieldError';
+import FormComponent from './FormComponent';
 
 import {
   PROGRESS_REPORT_STATUS_CHOICES,
-  PROGRESS_REPORT_STATUS_BEHIND_AND_STUCK
-} from "../constants/Api";
+  PROGRESS_REPORT_STATUS_BEHIND_AND_STUCK,
+} from '../constants/Api';
 import {
   isDeveloper,
   getUser,
   isProjectManager,
-  isProjectOwner
-} from "../utils/auth";
+  isProjectOwner,
+} from '../utils/auth';
 
 momentLocalizer(moment);
 
 let defaultState = {
   status: null,
-  accomplished: "",
-  todo: "",
-  obstacles: "",
-  remarks: "",
+  accomplished: '',
+  todo: '',
+  obstacles: '',
+  remarks: '',
   last_deadline_met: null,
-  deadline_report: "",
+  deadline_report: '',
   next_deadline: null,
-  team_appraisal: "",
+  team_appraisal: '',
   attachments: [],
   started_at: null,
   next_deadline_meet: null,
+  today_to_dos: '',
   deadline_miss_communicated: null,
   deliverable_satisfaction: null,
   pm_communication: null,
-  stuck_details: "",
-  next_deadline_fail_reason: ""
+  stuck_details: '',
+  next_deadline_fail_reason: '',
 };
 
 export default class ProgressReportForm extends FormComponent {
@@ -52,7 +53,7 @@ export default class ProgressReportForm extends FormComponent {
   componentDidMount() {
     const progress_report = this.props.progress_report || {};
     if (progress_report.id) {
-      this.setState({ ...progress_report });
+      this.setState({...progress_report});
     }
   }
 
@@ -77,20 +78,20 @@ export default class ProgressReportForm extends FormComponent {
   }
 
   onProgressStatusChange(status) {
-    this.setState({ status });
+    this.setState({status});
   }
 
   onLastDeadlineStatusChange(last_deadline_met) {
-    this.setState({ last_deadline_met });
+    this.setState({last_deadline_met});
   }
 
   onNextDeadlineChange(date) {
-    this.setState({ next_deadline: moment(date).utc().format() });
+    this.setState({next_deadline: moment(date).utc().format()});
   }
 
   onDrop(attachments) {
     var current = this.state.attachments;
-    this.setState({ attachments: current.concat(attachments) });
+    this.setState({attachments: current.concat(attachments)});
   }
 
   onAddAttachment() {
@@ -98,19 +99,19 @@ export default class ProgressReportForm extends FormComponent {
   }
 
   onTaskStartChange(date) {
-    this.setState({ started_at: moment(date).utc().format() });
+    this.setState({started_at: moment(date).utc().format()});
   }
 
   onNextDeadlineMeetChange(next_deadline_meet) {
-    this.setState({ next_deadline_meet });
+    this.setState({next_deadline_meet});
   }
 
   onDeliverableSatisfactionChange(deliverable_satisfaction) {
-    this.setState({ deliverable_satisfaction });
+    this.setState({deliverable_satisfaction});
   }
 
   onPmCommunicationChange(pm_communication) {
-    this.setState({ pm_communication });
+    this.setState({pm_communication});
   }
 
   onStateValueChange(key, value) {
@@ -121,7 +122,7 @@ export default class ProgressReportForm extends FormComponent {
 
   getRatingsMap(to) {
     return _.range(1, to).map(x => {
-      return { id: x, name: x };
+      return {id: x, name: x};
     });
   }
 
@@ -142,6 +143,7 @@ export default class ProgressReportForm extends FormComponent {
     var team_appraisal = this.state.team_appraisal;
     var started_at = this.state.started_at;
     var next_deadline_meet = this.state.next_deadline_meet;
+    var today_to_dos = this.state.today_to_dos;
     var deadline_miss_communicated = this.state.deadline_miss_communicated;
     var deliverable_satisfaction = this.state.deliverable_satisfaction;
     var rate_deliverables = this.state.rate_deliverables;
@@ -150,7 +152,7 @@ export default class ProgressReportForm extends FormComponent {
     var stuck_details = this.state.stuck_details;
     var next_deadline_fail_reason = this.state.next_deadline_fail_reason;
 
-    const { ProgressReportActions } = this.props;
+    const {ProgressReportActions} = this.props;
     const progress_report = this.props.progress_report || {};
     const milestone = this.props.milestone || {};
 
@@ -168,39 +170,40 @@ export default class ProgressReportForm extends FormComponent {
       team_appraisal,
       started_at,
       next_deadline_meet,
+      today_to_dos,
       deadline_miss_communicated,
       deliverable_satisfaction,
       pm_communication,
       stuck_details,
       next_deadline_fail_reason,
       stuck_reason,
-      rate_deliverables
+      rate_deliverables,
     };
     if (progress_report.id) {
       ProgressReportActions.updateProgressReport(
         progress_report.id,
-        progress_report_info
+        progress_report_info,
       );
     } else {
       ProgressReportActions.createProgressReport(
         progress_report_info,
-        attachments
+        attachments,
       );
     }
     return;
   }
 
   render() {
-    const { ProgressReport } = this.props;
+    const {ProgressReport} = this.props;
     const progress_report = this.props.progress_report || {};
 
     if (ProgressReport.detail.isSaved) {
       return (
         <div className="thank-you">
-          Thank you for{" "}
+          Thank you for{' '}
           {isProjectOwner()
-            ? "filling in your progress report!"
-            : "responding to the survey!"}
+            ? 'filling in your progress report!'
+            : 'responding to the survey!'}
           <br />
           <i className="fa fa-check-circle" />
         </div>
@@ -213,17 +216,16 @@ export default class ProgressReportForm extends FormComponent {
           onSubmit={this.handleSubmit}
           name="progress_report"
           role="form"
-          ref="progress_report_form"
-        >
+          ref="progress_report_form">
           <h4>
-            {isProjectOwner() ? "Weekly Survey" : "Progress Report"}
+            {isProjectOwner() ? 'Weekly Survey' : 'Progress Report'}
           </h4>
           <FormStatus
             loading={ProgressReport.detail.isSaving}
             success={ProgressReport.detail.isSaved}
             message={`${isProjectOwner()
-              ? "Weekly Survey"
-              : "Progress Report"} saved successfully`}
+              ? 'Weekly Survey'
+              : 'Progress Report'} saved successfully`}
             error={
               ProgressReport.detail.error.create ||
               ProgressReport.detail.error.update
@@ -250,22 +252,20 @@ export default class ProgressReportForm extends FormComponent {
                     <div
                       className="btn-group btn-choices select"
                       role="group"
-                      aria-label="task ststus"
-                    >
+                      aria-label="task ststus">
                       {PROGRESS_REPORT_STATUS_CHOICES.map(status => {
                         return (
                           <button
                             key={status.id}
                             type="button"
                             className={
-                              "btn " +
-                              (this.state.status == status.id ? " active" : "")
+                              'btn ' +
+                              (this.state.status == status.id ? ' active' : '')
                             }
                             onClick={this.onProgressStatusChange.bind(
                               this,
-                              status.id
-                            )}
-                          >
+                              status.id,
+                            )}>
                             {status.name}
                           </button>
                         );
@@ -300,8 +300,7 @@ export default class ProgressReportForm extends FormComponent {
                   <select
                     className="form-control"
                     value={this.state.stuck_reason}
-                    onChange={this.onInputChange.bind(this, "stuck_reason")}
-                  >
+                    onChange={this.onInputChange.bind(this, 'stuck_reason')}>
                     <option value="1">Resolving an Error</option>
                     <option value="2">Poor Documenatation</option>
                     <option value="3">Hardware problem</option>
@@ -331,9 +330,8 @@ export default class ProgressReportForm extends FormComponent {
                     placeholder="More details"
                     className="form-control"
                     ref="stuck_details"
-                    onChange={this.onInputChange.bind(this, "stuck_details")}
-                    value={this.state.stuck_details}
-                  >
+                    onChange={this.onInputChange.bind(this, 'stuck_details')}
+                    value={this.state.stuck_details}>
                     {this.state.stuck_details}
                   </textarea>
                 </div>
@@ -388,29 +386,27 @@ export default class ProgressReportForm extends FormComponent {
                     <div
                       className="btn-group btn-choices select"
                       role="group"
-                      aria-label="task ststus"
-                    >
+                      aria-label="task ststus">
                       {[
-                        { id: true, name: "Yes" },
-                        { id: false, name: "No" }
+                        {id: true, name: 'Yes'},
+                        {id: false, name: 'No'},
                       ].map(status => {
                         return (
                           <button
                             key={status.id}
                             type="button"
                             className={
-                              "btn " +
+                              'btn ' +
                               (typeof this.state.last_deadline_met ==
-                                "boolean" &&
+                                'boolean' &&
                               this.state.last_deadline_met == status.id
-                                ? " active"
-                                : "")
+                                ? ' active'
+                                : '')
                             }
                             onClick={this.onLastDeadlineStatusChange.bind(
                               this,
-                              status.id
-                            )}
-                          >
+                              status.id,
+                            )}>
                             {status.name}
                           </button>
                         );
@@ -419,7 +415,7 @@ export default class ProgressReportForm extends FormComponent {
                   </div>
                 </div>
 
-                {typeof this.state.last_deadline_met == "boolean" &&
+                {typeof this.state.last_deadline_met == 'boolean' &&
                 !this.state.last_deadline_met
                   ? <div>
                       {ProgressReport.detail.error.create &&
@@ -449,18 +445,17 @@ export default class ProgressReportForm extends FormComponent {
                           ref="deadline_report"
                           onChange={this.onInputChange.bind(
                             this,
-                            "deadline_report"
+                            'deadline_report',
                           )}
                           value={this.state.deadline_report}
-                          required
-                        >
+                          required>
                           {this.state.deadline_report}
                         </textarea>
                       </div>
                     </div>
                   : null}
 
-                {typeof this.state.last_deadline_met == "boolean" &&
+                {typeof this.state.last_deadline_met == 'boolean' &&
                 !this.state.last_deadline_met
                   ? <div>
                       {ProgressReport.detail.error.create &&
@@ -492,32 +487,30 @@ export default class ProgressReportForm extends FormComponent {
                           <div
                             className="btn-group btn-choices select"
                             role="group"
-                            aria-label="PM deadline info"
-                          >
+                            aria-label="PM deadline info">
                             {[
-                              { id: true, name: "Yes" },
-                              { id: false, name: "No" }
+                              {id: true, name: 'Yes'},
+                              {id: false, name: 'No'},
                             ].map(status => {
                               return (
                                 <button
                                   key={status.id}
                                   type="button"
                                   className={
-                                    "btn " +
+                                    'btn ' +
                                     (typeof this.state
                                       .deadline_miss_communicated ==
-                                      "boolean" &&
+                                      'boolean' &&
                                     this.state.deadline_miss_communicated ==
                                       status.id
-                                      ? " active"
-                                      : "")
+                                      ? ' active'
+                                      : '')
                                   }
                                   onClick={this.onStateValueChange.bind(
                                     this,
-                                    "deadline_miss_communicated",
-                                    status.id
-                                  )}
-                                >
+                                    'deadline_miss_communicated',
+                                    status.id,
+                                  )}>
                                   {status.name}
                                 </button>
                               );
@@ -584,10 +577,9 @@ export default class ProgressReportForm extends FormComponent {
                     placeholder="What has been accomplished since the last update?"
                     className="form-control"
                     ref="accomplished"
-                    onChange={this.onInputChange.bind(this, "accomplished")}
+                    onChange={this.onInputChange.bind(this, 'accomplished')}
                     value={this.state.accomplished}
-                    required
-                  >
+                    required>
                     {this.state.accomplished}
                   </textarea>
                 </div>
@@ -598,8 +590,7 @@ export default class ProgressReportForm extends FormComponent {
                     <Dropzone
                       ref="dropzone"
                       onDrop={this.onDrop.bind(this)}
-                      style={{ display: "none" }}
-                    >
+                      style={{display: 'none'}}>
                       <div>
                         Try dropping some files here, or click to select files
                         to upload.
@@ -619,9 +610,8 @@ export default class ProgressReportForm extends FormComponent {
                     <button
                       type="button"
                       className="btn "
-                      style={{ marginRight: "5px" }}
-                      onClick={this.onAddAttachment.bind(this)}
-                    >
+                      style={{marginRight: '5px'}}
+                      onClick={this.onAddAttachment.bind(this)}>
                       <i className="fa fa-upload" /> Upload files
                     </button>
                   </div>
@@ -654,25 +644,23 @@ export default class ProgressReportForm extends FormComponent {
                         <div>
                           <div
                             className="btn-group btn-choices select"
-                            role="group"
-                          >
+                            role="group">
                             {this.getRatingsMap(6).map(status => {
                               return (
                                 <button
                                   key={status.id}
                                   type="button"
                                   className={
-                                    "btn " +
+                                    'btn ' +
                                     (this.state.rate_deliverables == status.id
-                                      ? " active"
-                                      : "")
+                                      ? ' active'
+                                      : '')
                                   }
                                   onClick={this.onStateValueChange.bind(
                                     this,
-                                    "rate_deliverables",
-                                    status.id
-                                  )}
-                                >
+                                    'rate_deliverables',
+                                    status.id,
+                                  )}>
                                   {status.name}
                                 </button>
                               );
@@ -698,22 +686,21 @@ export default class ProgressReportForm extends FormComponent {
                 <div className="form-group">
                   <label className="control-label">
                     {isDeveloper()
-                      ? "What do you intend to achieve/complete today?"
-                      : "What are the next steps?"}{" "}
+                      ? 'What do you intend to achieve/complete today?'
+                      : 'What are the next steps?'}{' '}
                     *
                   </label>
                   <textarea
                     placeholder={
                       isDeveloper()
-                        ? "What do you intend to achieve/complete today?"
-                        : "What are the next steps?"
+                        ? 'What do you intend to achieve/complete today?'
+                        : 'What are the next steps?'
                     }
                     className="form-control"
                     ref="todo"
-                    onChange={this.onInputChange.bind(this, "todo")}
+                    onChange={this.onInputChange.bind(this, 'todo')}
                     value={this.state.todo}
-                    required
-                  >
+                    required>
                     {this.state.todo}
                   </textarea>
                 </div>
@@ -728,7 +715,7 @@ export default class ProgressReportForm extends FormComponent {
                     value={
                       this.state.next_deadline
                         ? new Date(
-                            moment.utc(this.state.next_deadline).format()
+                            moment.utc(this.state.next_deadline).format(),
                           )
                         : null
                     }
@@ -761,29 +748,27 @@ export default class ProgressReportForm extends FormComponent {
                       <div
                         className="btn-group btn-choices select"
                         role="group"
-                        aria-label="task deadline meet"
-                      >
+                        aria-label="task deadline meet">
                         {[
-                          { id: true, name: "Yes" },
-                          { id: false, name: "No" }
+                          {id: true, name: 'Yes'},
+                          {id: false, name: 'No'},
                         ].map(status => {
                           return (
                             <button
                               key={status.id}
                               type="button"
                               className={
-                                "btn " +
+                                'btn ' +
                                 (typeof this.state.next_deadline_meet ==
-                                  "boolean" &&
+                                  'boolean' &&
                                 this.state.next_deadline_meet == status.id
-                                  ? " active"
-                                  : "")
+                                  ? ' active'
+                                  : '')
                               }
                               onClick={this.onNextDeadlineMeetChange.bind(
                                 this,
-                                status.id
-                              )}
-                            >
+                                status.id,
+                              )}>
                               {status.name}
                             </button>
                           );
@@ -792,7 +777,7 @@ export default class ProgressReportForm extends FormComponent {
                     </div>
                   </div>
 
-                  {typeof this.state.next_deadline_meet == "boolean" &&
+                  {typeof this.state.next_deadline_meet == 'boolean' &&
                   !this.state.next_deadline_meet
                     ? <div>
                         {ProgressReport.detail.error.create &&
@@ -825,10 +810,9 @@ export default class ProgressReportForm extends FormComponent {
                             ref="next_deadline_fail_reason"
                             onChange={this.onInputChange.bind(
                               this,
-                              "next_deadline_fail_reason"
+                              'next_deadline_fail_reason',
                             )}
-                            value={this.state.next_deadline_fail_reason}
-                          >
+                            value={this.state.next_deadline_fail_reason}>
                             {this.state.next_deadline_fail_reason}
                           </textarea>
                         </div>
@@ -860,11 +844,10 @@ export default class ProgressReportForm extends FormComponent {
                             ref="obstacles"
                             onChange={this.onInputChange.bind(
                               this,
-                              "obstacles"
+                              'obstacles',
                             )}
                             value={this.state.obstacles}
-                            required
-                          >
+                            required>
                             {this.state.obstacles}
                           </textarea>
                         </div>
@@ -900,10 +883,9 @@ export default class ProgressReportForm extends FormComponent {
                     placeholder="Are you satisfied with the performance of the developers on this project, please give details?"
                     className="form-control"
                     ref="team_appraisal"
-                    onChange={this.onInputChange.bind(this, "team_appraisal")}
+                    onChange={this.onInputChange.bind(this, 'team_appraisal')}
                     value={this.state.team_appraisal}
-                    required
-                  >
+                    required>
                     {this.state.team_appraisal}
                   </textarea>
                 </div>
@@ -936,30 +918,28 @@ export default class ProgressReportForm extends FormComponent {
                     <div
                       className="btn-group btn-choices select"
                       role="group"
-                      aria-label="this week deadline met"
-                    >
+                      aria-label="this week deadline met">
                       {[
-                        { id: true, name: "Yes" },
-                        { id: false, name: "No" }
+                        {id: true, name: 'Yes'},
+                        {id: false, name: 'No'},
                       ].map(status => {
                         return (
                           <button
                             key={status.id}
                             type="button"
                             className={
-                              "btn " +
+                              'btn ' +
                               (typeof this.state.last_deadline_met ==
-                                "boolean" &&
+                                'boolean' &&
                               this.state.last_deadline_met == status.id
-                                ? " active"
-                                : "")
+                                ? ' active'
+                                : '')
                             }
                             onClick={this.onStateValueChange.bind(
                               this,
-                              "last_deadline_met",
-                              status.id
-                            )}
-                          >
+                              'last_deadline_met',
+                              status.id,
+                            )}>
                             {status.name}
                           </button>
                         );
@@ -968,7 +948,7 @@ export default class ProgressReportForm extends FormComponent {
                   </div>
                 </div>
 
-                {typeof this.state.last_deadline_met == "boolean" &&
+                {typeof this.state.last_deadline_met == 'boolean' &&
                 !this.state.last_deadline_met
                   ? <div>
                       {ProgressReport.detail.error.create &&
@@ -1000,32 +980,30 @@ export default class ProgressReportForm extends FormComponent {
                           <div
                             className="btn-group btn-choices select"
                             role="group"
-                            aria-label="PM deadline info"
-                          >
+                            aria-label="PM deadline info">
                             {[
-                              { id: true, name: "Yes" },
-                              { id: false, name: "No" }
+                              {id: true, name: 'Yes'},
+                              {id: false, name: 'No'},
                             ].map(status => {
                               return (
                                 <button
                                   key={status.id}
                                   type="button"
                                   className={
-                                    "btn " +
+                                    'btn ' +
                                     (typeof this.state
                                       .deadline_miss_communicated ==
-                                      "boolean" &&
+                                      'boolean' &&
                                     this.state.deadline_miss_communicated ==
                                       status.id
-                                      ? " active"
-                                      : "")
+                                      ? ' active'
+                                      : '')
                                   }
                                   onClick={this.onStateValueChange.bind(
                                     this,
-                                    "deadline_miss_communicated",
-                                    status.id
-                                  )}
-                                >
+                                    'deadline_miss_communicated',
+                                    status.id,
+                                  )}>
                                   {status.name}
                                 </button>
                               );
@@ -1062,29 +1040,27 @@ export default class ProgressReportForm extends FormComponent {
                     <div
                       className="btn-group btn-choices select"
                       role="group"
-                      aria-label="deliverable satisfaction"
-                    >
+                      aria-label="deliverable satisfaction">
                       {[
-                        { id: true, name: "Yes" },
-                        { id: false, name: "No" }
+                        {id: true, name: 'Yes'},
+                        {id: false, name: 'No'},
                       ].map(status => {
                         return (
                           <button
                             key={status.id}
                             type="button"
                             className={
-                              "btn " +
+                              'btn ' +
                               (typeof this.state.deliverable_satisfaction ==
-                                "boolean" &&
+                                'boolean' &&
                               this.state.deliverable_satisfaction == status.id
-                                ? " active"
-                                : "")
+                                ? ' active'
+                                : '')
                             }
                             onClick={this.onDeliverableSatisfactionChange.bind(
                               this,
-                              status.id
-                            )}
-                          >
+                              status.id,
+                            )}>
                             {status.name}
                           </button>
                         );
@@ -1122,17 +1098,16 @@ export default class ProgressReportForm extends FormComponent {
                             key={status.id}
                             type="button"
                             className={
-                              "btn " +
+                              'btn ' +
                               (this.state.rate_deliverables == status.id
-                                ? " active"
-                                : "")
+                                ? ' active'
+                                : '')
                             }
                             onClick={this.onStateValueChange.bind(
                               this,
-                              "rate_deliverables",
-                              status.id
-                            )}
-                          >
+                              'rate_deliverables',
+                              status.id,
+                            )}>
                             {status.name}
                           </button>
                         );
@@ -1166,29 +1141,27 @@ export default class ProgressReportForm extends FormComponent {
                     <div
                       className="btn-group btn-choices select"
                       role="group"
-                      aria-label="PM communication"
-                    >
+                      aria-label="PM communication">
                       {[
-                        { id: true, name: "Yes" },
-                        { id: false, name: "No" }
+                        {id: true, name: 'Yes'},
+                        {id: false, name: 'No'},
                       ].map(status => {
                         return (
                           <button
                             key={status.id}
                             type="button"
                             className={
-                              "btn " +
+                              'btn ' +
                               (typeof this.state.pm_communication ==
-                                "boolean" &&
+                                'boolean' &&
                               this.state.pm_communication == status.id
-                                ? " active"
-                                : "")
+                                ? ' active'
+                                : '')
                             }
                             onClick={this.onPmCommunicationChange.bind(
                               this,
-                              status.id
-                            )}
-                          >
+                              status.id,
+                            )}>
                             {status.name}
                           </button>
                         );
@@ -1220,9 +1193,8 @@ export default class ProgressReportForm extends FormComponent {
                 placeholder="Any other remarks or questions"
                 className="form-control"
                 ref="remarks"
-                onChange={this.onInputChange.bind(this, "remarks")}
-                value={this.state.remarks}
-              >
+                onChange={this.onInputChange.bind(this, 'remarks')}
+                value={this.state.remarks}>
                 {this.state.remarks}
               </textarea>
             </div>
@@ -1232,9 +1204,8 @@ export default class ProgressReportForm extends FormComponent {
             <button
               type="submit"
               className="btn  "
-              disabled={ProgressReport.detail.isSaving}
-            >
-              {progress_report.id ? "Update Report" : "Save Report"}
+              disabled={ProgressReport.detail.isSaving}>
+              {progress_report.id ? 'Update Report' : 'Save Report'}
             </button>
           </div>
           <div className="clearfix" />

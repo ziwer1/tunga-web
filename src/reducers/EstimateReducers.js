@@ -1,6 +1,6 @@
-import { combineReducers } from "redux";
-import * as EstimateActions from "../actions/EstimateActions";
-import { PATH_CHANGE } from "../actions/NavActions";
+import {combineReducers} from 'redux';
+import * as EstimateActions from '../actions/EstimateActions';
+import {PATH_CHANGE} from '../actions/NavActions';
 
 function estimate(state = {}, action) {
   switch (action.type) {
@@ -8,7 +8,7 @@ function estimate(state = {}, action) {
     case EstimateActions.RETRIEVE_ESTIMATE_SUCCESS:
       return action.estimate;
     case EstimateActions.UPDATE_ESTIMATE_SUCCESS:
-      return { ...state, ...action.estimate };
+      return {...state, ...action.estimate};
     case EstimateActions.DELETE_ESTIMATE_SUCCESS:
     case EstimateActions.CREATE_ESTIMATE_START:
     case EstimateActions.CREATE_ESTIMATE_FAILED:
@@ -28,7 +28,7 @@ function estimates(state = {}, action) {
       action.items.forEach(estimate => {
         all_estimates[estimate.id] = estimate;
       });
-      return { ...state, ...all_estimates };
+      return {...state, ...all_estimates};
     case EstimateActions.LIST_ESTIMATES_START:
     case EstimateActions.LIST_ESTIMATES_FAILED:
       return {};
@@ -159,15 +159,15 @@ function isDeleting(state = false, action) {
 function error(state = {}, action) {
   switch (action.type) {
     case EstimateActions.CREATE_ESTIMATE_FAILED:
-      return { ...state, create: action.error };
+      return {...state, create: action.error};
     case EstimateActions.CREATE_ESTIMATE_START:
     case EstimateActions.CREATE_ESTIMATE_SUCCESS:
-      return { ...state, create: null };
+      return {...state, create: null};
     case EstimateActions.UPDATE_ESTIMATE_FAILED:
-      return { ...state, update: action.error };
+      return {...state, update: action.error};
     case EstimateActions.UPDATE_ESTIMATE_START:
     case EstimateActions.UPDATE_ESTIMATE_SUCCESS:
-      return { ...state, update: null };
+      return {...state, update: null};
     default:
       return state;
   }
@@ -179,7 +179,7 @@ const detail = combineReducers({
   isSaving,
   isSaved,
   isDeleting,
-  error
+  error,
 });
 
 const list = combineReducers({
@@ -188,12 +188,12 @@ const list = combineReducers({
   isFetching,
   isFetchingMore,
   next,
-  previous
+  previous,
 });
 
 const Estimate = combineReducers({
   detail,
-  list
+  list,
 });
 
 export default Estimate;

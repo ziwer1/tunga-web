@@ -1,28 +1,28 @@
-import React from "react";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
+import React from 'react';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 
-import Progress from "../components/status/Progress";
+import Progress from '../components/status/Progress';
 
-import * as AuthActions from "../actions/AuthActions";
-import * as NavActions from "../actions/NavActions";
-import * as UserSelectionActions from "../actions/UserSelectionActions";
-import * as SkillSelectionActions from "../actions/SkillSelectionActions";
+import * as AuthActions from '../actions/AuthActions';
+import * as NavActions from '../actions/NavActions';
+import * as UserSelectionActions from '../actions/UserSelectionActions';
+import * as SkillSelectionActions from '../actions/SkillSelectionActions';
 
-import { PROFILE_COMPLETE_PATH } from "../constants/patterns";
+import {PROFILE_COMPLETE_PATH} from '../constants/patterns';
 
-import { initNavUIController } from "../utils/ui";
-import { runOptimizely } from "../utils/html";
+import {initNavUIController} from '../utils/ui';
+import {runOptimizely} from '../utils/html';
 import {
   requiresAuth,
   requiresNoAuth,
-  requiresAuthOrEmail
-} from "../utils/router";
+  requiresAuthOrEmail,
+} from '../utils/router';
 
 class App extends React.Component {
   getChildContext() {
-    const { router } = this.context;
-    return { router };
+    const {router} = this.context;
+    return {router};
   }
 
   componentDidMount() {
@@ -36,8 +36,8 @@ class App extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { router } = this.context;
-    const { Auth, location, NavActions, AuthActions, routes } = this.props;
+    const {router} = this.context;
+    const {Auth, location, NavActions, AuthActions, routes} = this.props;
     if (
       prevProps.location.pathname != location.pathname ||
       prevProps.Auth.isAuthenticated != Auth.isAuthenticated ||
@@ -46,7 +46,7 @@ class App extends React.Component {
       if (requiresNoAuth(routes) && Auth.isAuthenticated) {
         var next = Auth.next;
         if (!next) {
-          next = location.query.next || "/home";
+          next = location.query.next || '/home';
         }
         if (/^\/api\//i.test(next)) {
           window.location.href = next;
@@ -62,13 +62,13 @@ class App extends React.Component {
         !Auth.isEmailVisitor
       ) {
         AuthActions.authRedirect(location.pathname);
-        router.replace("/?next=" + location.pathname);
+        router.replace('/?next=' + location.pathname);
         return;
       }
 
       if (requiresAuth(routes) && !Auth.isAuthenticated) {
         AuthActions.authRedirect(location.pathname);
-        router.replace("/?next=" + location.pathname);
+        router.replace('/?next=' + location.pathname);
         return;
       }
     }
@@ -78,7 +78,7 @@ class App extends React.Component {
       !Auth.user.type &&
       !PROFILE_COMPLETE_PATH.test(location.pathname)
     ) {
-      router.replace("/profile/complete?next=" + location.pathname);
+      router.replace('/profile/complete?next=' + location.pathname);
       return;
     }
 
@@ -87,7 +87,7 @@ class App extends React.Component {
       Auth.user.type &&
       PROFILE_COMPLETE_PATH.test(location.pathname)
     ) {
-      router.replace("/home?next=" + location.pathname);
+      router.replace('/home?next=' + location.pathname);
       return;
     }
 
@@ -96,13 +96,13 @@ class App extends React.Component {
       !Auth.isAuthenticating &&
       Auth.isEmailVisitor
     ) {
-      router.replace("/people/");
+      router.replace('/people/');
     }
 
     if (prevProps.location.pathname != location.pathname) {
       NavActions.reportPathChange(
         prevProps.location.pathname,
-        location.pathname
+        location.pathname,
       );
     }
 
@@ -110,19 +110,19 @@ class App extends React.Component {
   }
 
   handleAppClick() {
-    const { UserSelectionActions, SkillSelectionActions } = this.props;
+    const {UserSelectionActions, SkillSelectionActions} = this.props;
     UserSelectionActions.invalidateUserSuggestions();
     SkillSelectionActions.invalidateSkillSuggestions();
   }
 
   onClosePopup() {
-    const { Auth, routes, location } = this.props;
-    const { router } = this.context;
+    const {Auth, routes, location} = this.props;
+    const {router} = this.context;
 
     this.close();
     if (requiresAuth(routes) && !Auth.isAuthenticated) {
       AuthActions.authRedirect(location.pathname);
-      router.replace("/?next=" + location.pathname);
+      router.replace('/?next=' + location.pathname);
     }
   }
 
@@ -134,30 +134,29 @@ class App extends React.Component {
           Auth: this.props.Auth,
           AuthActions: this.props.AuthActions,
           location: this.props.location,
-          onAppClick: this.handleAppClick.bind(this)
+          onAppClick: this.handleAppClick.bind(this),
         });
-      }.bind(this)
+      }.bind(this),
     );
   }
 
   render() {
-    const { Auth } = this.props;
+    const {Auth} = this.props;
     return (
-      <div style={{ height: "100%" }}>
+      <div style={{height: '100%'}}>
         {Auth.isVerifying
           ? <div className="app-loading">
               <div>
-                <img src={require("../images/logo.png")} height="50px" />
+                <img src={require('../images/logo.png')} height="50px" />
               </div>
               <Progress message="Initializing ..." />
             </div>
           : null}
         <div
           style={{
-            height: "100%",
-            display: Auth.isVerifying ? "none" : "block"
-          }}
-        >
+            height: '100%',
+            display: Auth.isVerifying ? 'none' : 'block',
+          }}>
           {this.renderChildren()}
         </div>
       </div>
@@ -166,7 +165,7 @@ class App extends React.Component {
 }
 
 function mapStateToProps(state) {
-  return { Auth: state.Auth };
+  return {Auth: state.Auth};
 }
 
 function mapDispatchToProps(dispatch) {
@@ -174,16 +173,16 @@ function mapDispatchToProps(dispatch) {
     AuthActions: bindActionCreators(AuthActions, dispatch),
     NavActions: bindActionCreators(NavActions, dispatch),
     UserSelectionActions: bindActionCreators(UserSelectionActions, dispatch),
-    SkillSelectionActions: bindActionCreators(SkillSelectionActions, dispatch)
+    SkillSelectionActions: bindActionCreators(SkillSelectionActions, dispatch),
   };
 }
 
 App.contextTypes = {
-  router: React.PropTypes.object.isRequired
+  router: React.PropTypes.object.isRequired,
 };
 
 App.childContextTypes = {
-  router: React.PropTypes.object
+  router: React.PropTypes.object,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

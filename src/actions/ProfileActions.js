@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 import {
   ENDPOINT_ACCOUNT_INFO,
   ENDPOINT_USER_INFO,
@@ -7,47 +7,47 @@ import {
   ENDPOINT_USER_EDUCATION,
   ENDPOINT_USER_WORK,
   ENDPOINT_NOTIFICATION,
-  ENDPOINT_COUNTRIES
-} from "../constants/Api";
+  ENDPOINT_COUNTRIES,
+} from '../constants/Api';
 
 import {
   sendGAEvent,
   getGAUserType,
   GA_EVENT_CATEGORIES,
-  GA_EVENT_ACTIONS
-} from "../utils/tracking";
-import { getUser } from "utils/auth";
+  GA_EVENT_ACTIONS,
+} from '../utils/tracking';
+import {getUser} from 'utils/auth';
 
-export const UPDATE_AUTH_USER_START = "UPDATE_AUTH_USER_START";
-export const UPDATE_AUTH_USER_SUCCESS = "UPDATE_AUTH_USER_SUCCESS";
-export const UPDATE_AUTH_USER_FAILED = "UPDATE_AUTH_USER_FAILED";
-export const UPDATE_ACCOUNT_INFO_START = "UPDATE_ACCOUNT_INFO_START";
-export const UPDATE_ACCOUNT_INFO_SUCCESS = "UPDATE_ACCOUNT_INFO_SUCCESS";
-export const UPDATE_ACCOUNT_INFO_FAILED = "UPDATE_ACCOUNT_INFO_FAILED";
-export const RETRIEVE_PROFILE_START = "RETRIEVE_PROFILE_START";
-export const RETRIEVE_PROFILE_SUCCESS = "RETRIEVE_PROFILE_SUCCESS";
-export const RETRIEVE_PROFILE_FAILED = "RETRIEVE_PROFILE_FAILED";
-export const UPDATE_PROFILE_START = "UPDATE_PROFILE_START";
-export const UPDATE_PROFILE_SUCCESS = "UPDATE_PROFILE_SUCCESS";
-export const UPDATE_PROFILE_FAILED = "UPDATE_PROFILE_FAILED";
-export const UPDATE_PASSWORD_START = "UPDATE_PASSWORD_START";
-export const UPDATE_PASSWORD_SUCCESS = "UPDATE_PASSWORD_SUCCESS";
-export const UPDATE_PASSWORD_FAILED = "UPDATE_PASSWORD_FAILED";
-export const CREATE_WORK_START = "CREATE_WORK_START";
-export const CREATE_WORK_SUCCESS = "CREATE_WORK_SUCCESS";
-export const CREATE_WORK_FAILED = "CREATE_WORK_FAILED";
-export const UPDATE_WORK_START = "UPDATE_WORK_START";
-export const UPDATE_WORK_SUCCESS = "UPDATE_WORK_SUCCESS";
-export const UPDATE_WORK_FAILED = "UPDATE_WORK_FAILED";
-export const CREATE_EDUCATION_START = "CREATE_EDUCATION_START";
-export const CREATE_EDUCATION_SUCCESS = "CREATE_EDUCATION_SUCCESS";
-export const CREATE_EDUCATION_FAILED = "CREATE_EDUCATION_FAILED";
-export const UPDATE_EDUCATION_START = "UPDATE_EDUCATION_START";
-export const UPDATE_EDUCATION_SUCCESS = "UPDATE_EDUCATION_SUCCESS";
-export const UPDATE_EDUCATION_FAILED = "UPDATE_EDUCATION_FAILED";
-export const GET_COUNTRIES_START = "GET_COUNTRIES_START";
-export const GET_COUNTRIES_SUCCESS = "GET_COUNTRIES_SUCCESS";
-export const GET_COUNTRIES_FAILED = "GET_COUNTRIES_FAILED";
+export const UPDATE_AUTH_USER_START = 'UPDATE_AUTH_USER_START';
+export const UPDATE_AUTH_USER_SUCCESS = 'UPDATE_AUTH_USER_SUCCESS';
+export const UPDATE_AUTH_USER_FAILED = 'UPDATE_AUTH_USER_FAILED';
+export const UPDATE_ACCOUNT_INFO_START = 'UPDATE_ACCOUNT_INFO_START';
+export const UPDATE_ACCOUNT_INFO_SUCCESS = 'UPDATE_ACCOUNT_INFO_SUCCESS';
+export const UPDATE_ACCOUNT_INFO_FAILED = 'UPDATE_ACCOUNT_INFO_FAILED';
+export const RETRIEVE_PROFILE_START = 'RETRIEVE_PROFILE_START';
+export const RETRIEVE_PROFILE_SUCCESS = 'RETRIEVE_PROFILE_SUCCESS';
+export const RETRIEVE_PROFILE_FAILED = 'RETRIEVE_PROFILE_FAILED';
+export const UPDATE_PROFILE_START = 'UPDATE_PROFILE_START';
+export const UPDATE_PROFILE_SUCCESS = 'UPDATE_PROFILE_SUCCESS';
+export const UPDATE_PROFILE_FAILED = 'UPDATE_PROFILE_FAILED';
+export const UPDATE_PASSWORD_START = 'UPDATE_PASSWORD_START';
+export const UPDATE_PASSWORD_SUCCESS = 'UPDATE_PASSWORD_SUCCESS';
+export const UPDATE_PASSWORD_FAILED = 'UPDATE_PASSWORD_FAILED';
+export const CREATE_WORK_START = 'CREATE_WORK_START';
+export const CREATE_WORK_SUCCESS = 'CREATE_WORK_SUCCESS';
+export const CREATE_WORK_FAILED = 'CREATE_WORK_FAILED';
+export const UPDATE_WORK_START = 'UPDATE_WORK_START';
+export const UPDATE_WORK_SUCCESS = 'UPDATE_WORK_SUCCESS';
+export const UPDATE_WORK_FAILED = 'UPDATE_WORK_FAILED';
+export const CREATE_EDUCATION_START = 'CREATE_EDUCATION_START';
+export const CREATE_EDUCATION_SUCCESS = 'CREATE_EDUCATION_SUCCESS';
+export const CREATE_EDUCATION_FAILED = 'CREATE_EDUCATION_FAILED';
+export const UPDATE_EDUCATION_START = 'UPDATE_EDUCATION_START';
+export const UPDATE_EDUCATION_SUCCESS = 'UPDATE_EDUCATION_SUCCESS';
+export const UPDATE_EDUCATION_FAILED = 'UPDATE_EDUCATION_FAILED';
+export const GET_COUNTRIES_START = 'GET_COUNTRIES_START';
+export const GET_COUNTRIES_SUCCESS = 'GET_COUNTRIES_SUCCESS';
+export const GET_COUNTRIES_FAILED = 'GET_COUNTRIES_FAILED';
 
 export function updateAuthUser(user) {
   return dispatch => {
@@ -60,17 +60,17 @@ export function updateAuthUser(user) {
 
       $.ajax({
         url: ENDPOINT_USER_INFO,
-        type: "PATCH",
+        type: 'PATCH',
         data: data,
         processData: false,
-        contentType: false
+        contentType: false,
       }).then(
         function(data) {
           dispatch(updateAuthUserSuccess(data));
         },
         function(data) {
           dispatch(updateAuthUserFailed(data.responseJSON));
-        }
+        },
       );
     } else {
       axios
@@ -80,7 +80,7 @@ export function updateAuthUser(user) {
         })
         .catch(function(error) {
           dispatch(
-            updateAuthUserFailed(error.response ? error.response.data : null)
+            updateAuthUserFailed(error.response ? error.response.data : null),
           );
         });
     }
@@ -89,7 +89,7 @@ export function updateAuthUser(user) {
 
 export function updateAuthUserStart() {
   return {
-    type: UPDATE_AUTH_USER_START
+    type: UPDATE_AUTH_USER_START,
   };
 }
 
@@ -100,19 +100,19 @@ export function updateAuthUserSuccess(user) {
     sendGAEvent(
       GA_EVENT_CATEGORIES.REGISTRATION,
       GA_EVENT_ACTIONS.SIGN_UP,
-      getGAUserType(user)
+      getGAUserType(user),
     );
   }
   return {
     type: UPDATE_AUTH_USER_SUCCESS,
-    user
+    user,
   };
 }
 
 export function updateAuthUserFailed(error) {
   return {
     type: UPDATE_AUTH_USER_FAILED,
-    error
+    error,
   };
 }
 
@@ -126,7 +126,7 @@ export function updateAccountInfo(user) {
       })
       .catch(function(error) {
         dispatch(
-          updateAccountInfoFailed(error.response ? error.response.data : null)
+          updateAccountInfoFailed(error.response ? error.response.data : null),
         );
       });
   };
@@ -134,7 +134,7 @@ export function updateAccountInfo(user) {
 
 export function updateAccountInfoStart() {
   return {
-    type: UPDATE_ACCOUNT_INFO_START
+    type: UPDATE_ACCOUNT_INFO_START,
   };
 }
 
@@ -142,19 +142,19 @@ export function updateAccountInfoSuccess(user) {
   sendGAEvent(
     GA_EVENT_CATEGORIES.PROFILE,
     GA_EVENT_ACTIONS.UPDATE,
-    getGAUserType(getUser())
+    getGAUserType(getUser()),
   );
 
   return {
     type: UPDATE_ACCOUNT_INFO_SUCCESS,
-    user
+    user,
   };
 }
 
 export function updateAccountInfoFailed(error) {
   return {
     type: UPDATE_ACCOUNT_INFO_FAILED,
-    error
+    error,
   };
 }
 
@@ -168,7 +168,7 @@ export function retrieveProfile() {
       })
       .catch(function(error) {
         dispatch(
-          retrieveProfileFailed(error.response ? error.response.data : null)
+          retrieveProfileFailed(error.response ? error.response.data : null),
         );
       });
   };
@@ -176,7 +176,7 @@ export function retrieveProfile() {
 
 export function retrieveProfileStart() {
   return {
-    type: RETRIEVE_PROFILE_START
+    type: RETRIEVE_PROFILE_START,
   };
 }
 
@@ -185,21 +185,21 @@ export function retrieveProfileSuccess(user) {
     type: RETRIEVE_PROFILE_SUCCESS,
     profile: user.profile,
     work: user.work,
-    education: user.education
+    education: user.education,
   };
 }
 
 export function retrieveProfileFailed(error) {
   return {
     type: RETRIEVE_PROFILE_FAILED,
-    error
+    error,
   };
 }
 
 export function updateProfile(id, profile) {
   return dispatch => {
     dispatch(updateProfileStart(id));
-    let request_method = id ? "patch" : "post";
+    let request_method = id ? 'patch' : 'post';
 
     if (profile && profile.id_document) {
       var data = new FormData();
@@ -212,28 +212,24 @@ export function updateProfile(id, profile) {
         type: request_method.toUpperCase(),
         data: data,
         processData: false,
-        contentType: false
+        contentType: false,
       }).then(
         function(data) {
           dispatch(updateProfileSuccess(data));
         },
         function(data) {
           dispatch(updateProfileFailed(data));
-        }
+        },
       );
     } else {
       axios
-        .request({
-          url: ENDPOINT_PROFILE,
-          method: request_method,
-          data: profile
-        })
+        .request({url: ENDPOINT_PROFILE, method: request_method, data: profile})
         .then(function(response) {
           dispatch(updateProfileSuccess(response.data));
         })
         .catch(function(error) {
           dispatch(
-            updateProfileFailed(error.response ? error.response.data : null)
+            updateProfileFailed(error.response ? error.response.data : null),
           );
         });
     }
@@ -243,7 +239,7 @@ export function updateProfile(id, profile) {
 export function updateProfileStart(id) {
   return {
     type: UPDATE_PROFILE_START,
-    id
+    id,
   };
 }
 
@@ -251,19 +247,19 @@ export function updateProfileSuccess(profile) {
   sendGAEvent(
     GA_EVENT_CATEGORIES.PROFILE,
     GA_EVENT_ACTIONS.UPDATE,
-    getGAUserType(getUser())
+    getGAUserType(getUser()),
   );
 
   return {
     type: UPDATE_PROFILE_SUCCESS,
-    profile
+    profile,
   };
 }
 
 export function updateProfileFailed(error) {
   return {
     type: UPDATE_PROFILE_FAILED,
-    error
+    error,
   };
 }
 
@@ -277,7 +273,7 @@ export function updatePassword(credentials) {
       })
       .catch(function(error) {
         dispatch(
-          updatePasswordFailed(error.response ? error.response.data : null)
+          updatePasswordFailed(error.response ? error.response.data : null),
         );
       });
   };
@@ -285,7 +281,7 @@ export function updatePassword(credentials) {
 
 export function updatePasswordStart() {
   return {
-    type: UPDATE_PASSWORD_START
+    type: UPDATE_PASSWORD_START,
   };
 }
 
@@ -293,17 +289,17 @@ export function updatePasswordSuccess() {
   sendGAEvent(
     GA_EVENT_CATEGORIES.AUTH,
     GA_EVENT_ACTIONS.CHANGE_PASSWORD,
-    getGAUserType(getUser())
+    getGAUserType(getUser()),
   );
   return {
-    type: UPDATE_PASSWORD_SUCCESS
+    type: UPDATE_PASSWORD_SUCCESS,
   };
 }
 
 export function updatePasswordFailed(error) {
   return {
     type: UPDATE_PASSWORD_FAILED,
-    error
+    error,
   };
 }
 
@@ -324,21 +320,21 @@ export function createWork(work) {
 export function createWorkStart(work) {
   return {
     type: CREATE_WORK_START,
-    work
+    work,
   };
 }
 
 export function createWorkSuccess(work) {
   return {
     type: CREATE_WORK_SUCCESS,
-    work
+    work,
   };
 }
 
 export function createWorkFailed(error) {
   return {
     type: CREATE_WORK_FAILED,
-    error
+    error,
   };
 }
 
@@ -346,7 +342,7 @@ export function updateWork(id, data) {
   return dispatch => {
     dispatch(updateWorkStart(id));
     axios
-      .patch(ENDPOINT_USER_WORK + id + "/", data)
+      .patch(ENDPOINT_USER_WORK + id + '/', data)
       .then(function(response) {
         dispatch(updateWorkSuccess(response.data));
       })
@@ -359,21 +355,21 @@ export function updateWork(id, data) {
 export function updateWorkStart(id) {
   return {
     type: UPDATE_WORK_START,
-    id
+    id,
   };
 }
 
 export function updateWorkSuccess(work) {
   return {
     type: UPDATE_WORK_SUCCESS,
-    work
+    work,
   };
 }
 
 export function updateWorkFailed(error) {
   return {
     type: UPDATE_WORK_FAILED,
-    error
+    error,
   };
 }
 
@@ -387,7 +383,7 @@ export function createEducation(education) {
       })
       .catch(function(error) {
         dispatch(
-          createEducationFailed(error.response ? error.response.data : null)
+          createEducationFailed(error.response ? error.response.data : null),
         );
       });
   };
@@ -396,21 +392,21 @@ export function createEducation(education) {
 export function createEducationStart(education) {
   return {
     type: CREATE_EDUCATION_START,
-    education
+    education,
   };
 }
 
 export function createEducationSuccess(education) {
   return {
     type: CREATE_EDUCATION_SUCCESS,
-    education
+    education,
   };
 }
 
 export function createEducationFailed(error) {
   return {
     type: CREATE_EDUCATION_FAILED,
-    error
+    error,
   };
 }
 
@@ -418,13 +414,13 @@ export function updateEducation(id, data) {
   return dispatch => {
     dispatch(updateEducationStart(id));
     axios
-      .patch(ENDPOINT_USER_EDUCATION + id + "/", data)
+      .patch(ENDPOINT_USER_EDUCATION + id + '/', data)
       .then(function(response) {
         dispatch(updateEducationSuccess(response.data));
       })
       .catch(function(error) {
         dispatch(
-          updateEducationFailed(error.response ? error.response.data : null)
+          updateEducationFailed(error.response ? error.response.data : null),
         );
       });
   };
@@ -433,21 +429,21 @@ export function updateEducation(id, data) {
 export function updateEducationStart(id) {
   return {
     type: UPDATE_EDUCATION_START,
-    id
+    id,
   };
 }
 
 export function updateEducationSuccess(education) {
   return {
     type: UPDATE_EDUCATION_SUCCESS,
-    education
+    education,
   };
 }
 
 export function updateEducationFailed(error) {
   return {
     type: UPDATE_EDUCATION_FAILED,
-    error
+    error,
   };
 }
 
@@ -461,7 +457,7 @@ export function getCountries() {
       })
       .catch(function(error) {
         dispatch(
-          getCountriesFailed(error.response ? error.response.data : null)
+          getCountriesFailed(error.response ? error.response.data : null),
         );
       });
   };
@@ -469,20 +465,20 @@ export function getCountries() {
 
 export function getCountriesStart() {
   return {
-    type: GET_COUNTRIES_START
+    type: GET_COUNTRIES_START,
   };
 }
 
 export function getCountriesSuccess(countries) {
   return {
     type: GET_COUNTRIES_SUCCESS,
-    countries
+    countries,
   };
 }
 
 export function getCountriesFailed(error) {
   return {
     type: GET_COUNTRIES_FAILED,
-    error
+    error,
   };
 }

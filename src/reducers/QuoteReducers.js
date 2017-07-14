@@ -1,6 +1,6 @@
-import { combineReducers } from "redux";
-import * as QuoteActions from "../actions/QuoteActions";
-import { PATH_CHANGE } from "../actions/NavActions";
+import {combineReducers} from 'redux';
+import * as QuoteActions from '../actions/QuoteActions';
+import {PATH_CHANGE} from '../actions/NavActions';
 
 function quote(state = {}, action) {
   switch (action.type) {
@@ -8,7 +8,7 @@ function quote(state = {}, action) {
     case QuoteActions.RETRIEVE_QUOTE_SUCCESS:
       return action.quote;
     case QuoteActions.UPDATE_QUOTE_SUCCESS:
-      return { ...state, ...action.quote };
+      return {...state, ...action.quote};
     case QuoteActions.DELETE_QUOTE_SUCCESS:
     case QuoteActions.CREATE_QUOTE_START:
     case QuoteActions.CREATE_QUOTE_FAILED:
@@ -28,7 +28,7 @@ function quotes(state = {}, action) {
       action.items.forEach(quote => {
         all_quotes[quote.id] = quote;
       });
-      return { ...state, ...all_quotes };
+      return {...state, ...all_quotes};
     case QuoteActions.LIST_QUOTES_START:
     case QuoteActions.LIST_QUOTES_FAILED:
       return {};
@@ -159,15 +159,15 @@ function isDeleting(state = false, action) {
 function error(state = {}, action) {
   switch (action.type) {
     case QuoteActions.CREATE_QUOTE_FAILED:
-      return { ...state, create: action.error };
+      return {...state, create: action.error};
     case QuoteActions.CREATE_QUOTE_START:
     case QuoteActions.CREATE_QUOTE_SUCCESS:
-      return { ...state, create: null };
+      return {...state, create: null};
     case QuoteActions.UPDATE_QUOTE_FAILED:
-      return { ...state, update: action.error };
+      return {...state, update: action.error};
     case QuoteActions.UPDATE_QUOTE_START:
     case QuoteActions.UPDATE_QUOTE_SUCCESS:
-      return { ...state, update: null };
+      return {...state, update: null};
     default:
       return state;
   }
@@ -179,7 +179,7 @@ const detail = combineReducers({
   isSaving,
   isSaved,
   isDeleting,
-  error
+  error,
 });
 
 const list = combineReducers({
@@ -188,12 +188,12 @@ const list = combineReducers({
   isFetching,
   isFetchingMore,
   next,
-  previous
+  previous,
 });
 
 const Quote = combineReducers({
   detail,
-  list
+  list,
 });
 
 export default Quote;

@@ -1,9 +1,9 @@
-import { combineReducers } from "redux";
-import * as AuthActions from "../actions/AuthActions";
-import * as ProfileActions from "../actions/ProfileActions";
-import { running as runningProjects } from "./ProjectReducers";
-import { running as runningTasks } from "./TaskReducers";
-import { PATH_CHANGE } from "../actions/NavActions";
+import {combineReducers} from 'redux';
+import * as AuthActions from '../actions/AuthActions';
+import * as ProfileActions from '../actions/ProfileActions';
+import {running as runningProjects} from './ProjectReducers';
+import {running as runningTasks} from './TaskReducers';
+import {PATH_CHANGE} from '../actions/NavActions';
 
 function user(state = {}, action) {
   switch (action.type) {
@@ -14,10 +14,10 @@ function user(state = {}, action) {
     case ProfileActions.UPDATE_AUTH_USER_SUCCESS:
     case ProfileActions.RETRIEVE_PROFILE_SUCCESS:
       var user = action.user;
-      return { ...state, ...user };
+      return {...state, ...user};
     case ProfileActions.UPDATE_PROFILE_SUCCESS:
       user = action.profile.details.user;
-      return { ...state, ...user };
+      return {...state, ...user};
     case AuthActions.LOGOUT_SUCCESS:
       return {};
     default:
@@ -426,39 +426,39 @@ function error(state = {}, action) {
       var error = action.error;
       if (
         error &&
-        error.non_field_errors == "Unable to log in with provided credentials."
+        error.non_field_errors == 'Unable to log in with provided credentials.'
       ) {
-        error.non_field_errors = "Wrong username or password";
+        error.non_field_errors = 'Wrong username or password';
       }
-      return { ...state, auth: error };
+      return {...state, auth: error};
     case AuthActions.LOGIN_START:
     case AuthActions.LOGIN_SUCCESS:
-      return { ...state, auth: null };
+      return {...state, auth: null};
     case AuthActions.REGISTER_FAILED:
-      return { ...state, register: action.error };
+      return {...state, register: action.error};
     case AuthActions.REGISTER_START:
     case AuthActions.REGISTER_SUCCESS:
-      return { ...state, register: null };
+      return {...state, register: null};
     case AuthActions.APPLY_FAILED:
-      return { ...state, apply: action.error };
+      return {...state, apply: action.error};
     case AuthActions.APPLY_START:
     case AuthActions.APPLY_SUCCESS:
-      return { ...state, apply: null };
+      return {...state, apply: null};
     case AuthActions.RESET_PASSWORD_FAILED:
-      return { ...state, reset: action.error };
+      return {...state, reset: action.error};
     case AuthActions.RESET_PASSWORD_START:
     case AuthActions.RESET_PASSWORD_SUCCESS:
-      return { ...state, reset: null };
+      return {...state, reset: null};
     case AuthActions.RESET_PASSWORD_CONFIRM_FAILED:
-      return { ...state, reset_confirm: action.error };
+      return {...state, reset_confirm: action.error};
     case AuthActions.RESET_PASSWORD_CONFIRM_START:
     case AuthActions.RESET_PASSWORD_CONFIRM_SUCCESS:
-      return { ...state, reset_confirm: null };
+      return {...state, reset_confirm: null};
     case AuthActions.INVITE_FAILED:
-      return { ...state, invite: action.error };
+      return {...state, invite: action.error};
     case AuthActions.INVITE_START:
     case AuthActions.INVITE_SUCCESS:
-      return { ...state, invite: null };
+      return {...state, invite: null};
     default:
       return state;
   }
@@ -477,43 +477,43 @@ function next(state = null, action) {
 
 const running = combineReducers({
   projects: runningProjects,
-  tasks: runningTasks
+  tasks: runningTasks,
 });
 
 const repos = combineReducers({
   ids: repoIds,
   items: repoItems,
-  isFetching: isFetchingRepos
+  isFetching: isFetchingRepos,
 });
 
 const issues = combineReducers({
   ids: issueIds,
   items: issueItems,
-  isFetching: isFetchingIssues
+  isFetching: isFetchingIssues,
 });
 
 const github = combineReducers({
   repos,
   issues,
-  isConnected: isGitHubConnected
+  isConnected: isGitHubConnected,
 });
 
 const slack_channels = combineReducers({
   ids: slackChannelIds,
   items: slackChannelItems,
-  isFetching: isFetchingSlackChannels
+  isFetching: isFetchingSlackChannels,
 });
 
 const slack = combineReducers({
   details: slackInfo,
   channels: slack_channels,
   isRetrieving: isRetrievingSlackInfo,
-  isConnected: isSlackConnected
+  isConnected: isSlackConnected,
 });
 
 const connections = combineReducers({
   github,
-  slack
+  slack,
 });
 
 const Auth = combineReducers({
@@ -538,7 +538,7 @@ const Auth = combineReducers({
   error,
   next,
   running,
-  connections
+  connections,
 });
 
 export default Auth;

@@ -1,16 +1,16 @@
-import React from "react";
-import moment from "moment";
-import { Link } from "react-router";
-import TimeAgo from "react-timeago";
-import { OverlayTrigger, Popover } from "react-bootstrap";
-import { resizeOverviewBox } from "./TaskWorflow";
-import Milestone from "./Milestone";
+import React from 'react';
+import moment from 'moment';
+import {Link} from 'react-router';
+import TimeAgo from 'react-timeago';
+import {OverlayTrigger, Popover} from 'react-bootstrap';
+import {resizeOverviewBox} from './TaskWorflow';
+import Milestone from './Milestone';
 
 import {
   PROGRESS_EVENT_TYPE_MILESTONE,
   PROGRESS_EVENT_TYPE_SUBMIT,
-  PROGRESS_EVENT_TYPE_COMPLETE
-} from "../constants/Api";
+  PROGRESS_EVENT_TYPE_COMPLETE,
+} from '../constants/Api';
 
 export default class Timeline extends React.Component {
   constructor(props) {
@@ -21,7 +21,7 @@ export default class Timeline extends React.Component {
       duration: 0,
       all_events: [],
       next_event: null,
-      now: moment.utc().unix()
+      now: moment.utc().unix(),
     };
   }
 
@@ -38,13 +38,13 @@ export default class Timeline extends React.Component {
   }
 
   parseTimeline() {
-    const { start, end, events } = this.props;
+    const {start, end, events} = this.props;
     var all_events = [];
     if (start) {
-      all_events.push({ title: "Task created", due_at: start });
+      all_events.push({title: 'Task created', due_at: start});
     }
     if (end) {
-      all_events.push({ title: "Deadline", due_at: end });
+      all_events.push({title: 'Deadline', due_at: end});
     }
     all_events = [...all_events, ...events];
     var next_event = null;
@@ -68,7 +68,7 @@ export default class Timeline extends React.Component {
       max = Math.max(...timestamps);
       duration = max - min;
     }
-    this.setState({ min, max, duration, all_events, next_event });
+    this.setState({min, max, duration, all_events, next_event});
   }
 
   openMilestone(event) {
@@ -82,7 +82,7 @@ export default class Timeline extends React.Component {
 
     return {
       x: centerX + radius * Math.cos(angleInRadians),
-      y: centerY + radius * Math.sin(angleInRadians)
+      y: centerY + radius * Math.sin(angleInRadians),
     };
   }
 
@@ -90,21 +90,21 @@ export default class Timeline extends React.Component {
     var start = this.polarToCartesian(x, y, radius, endAngle);
     var end = this.polarToCartesian(x, y, radius, startAngle);
 
-    var largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
+    var largeArcFlag = endAngle - startAngle <= 180 ? '0' : '1';
 
     var d = [
-      "M",
+      'M',
       start.x,
       start.y,
-      "A",
+      'A',
       radius,
       radius,
       0,
       largeArcFlag,
       0,
       end.x,
-      end.y
-    ].join(" ");
+      end.y,
+    ].join(' ');
 
     return d;
   }
@@ -120,25 +120,25 @@ export default class Timeline extends React.Component {
     let is_missed = timestamp + 24 * 60 * 60 < ts_now && event.type; // Developers have 24 hrs before a task update is missed
     var angle = (length / this.state.duration * 360 + 270) % 360;
 
-    const { task } = this.props;
+    const {task} = this.props;
 
     const popover = (
       <Popover id="popover">
         <div className="title">
-          {event.title || "Scheduled Update"}
+          {event.title || 'Scheduled Update'}
         </div>
         {event.is_now
           ? <div>
               {this.state.next_event.type
-                ? "Next " +
+                ? 'Next ' +
                   ([
                     PROGRESS_EVENT_TYPE_MILESTONE,
                     PROGRESS_EVENT_TYPE_SUBMIT,
-                    PROGRESS_EVENT_TYPE_COMPLETE
+                    PROGRESS_EVENT_TYPE_COMPLETE,
                   ].indexOf(event.type) > -1
-                    ? "Milestone"
-                    : "Update")
-                : "Deadline"}
+                    ? 'Milestone'
+                    : 'Update')
+                : 'Deadline'}
               <span> is </span>
               <TimeAgo
                 date={moment.utc(this.state.next_event.due_at).local().format()}
@@ -146,7 +146,7 @@ export default class Timeline extends React.Component {
             </div>
           : <div>
               {event.due_at
-                ? moment.utc(event.due_at).local().format("ddd Do, MMMM YYYY")
+                ? moment.utc(event.due_at).local().format('ddd Do, MMMM YYYY')
                 : null}
               {event.report
                 ? <div>
@@ -166,10 +166,10 @@ export default class Timeline extends React.Component {
                         {[
                           PROGRESS_EVENT_TYPE_MILESTONE,
                           PROGRESS_EVENT_TYPE_SUBMIT,
-                          PROGRESS_EVENT_TYPE_COMPLETE
+                          PROGRESS_EVENT_TYPE_COMPLETE,
                         ].indexOf(event.type) > -1
-                          ? "Milestone"
-                          : "Update"}{" "}
+                          ? 'Milestone'
+                          : 'Update'}{' '}
                         missed
                       </strong>
                     </div>
@@ -183,13 +183,12 @@ export default class Timeline extends React.Component {
           <div
             key={event.id}
             className={
-              "event" +
+              'event' +
               (moment.utc(event.due_at) < moment.utc() && !event.is_now
-                ? " past"
-                : "")
+                ? ' past'
+                : '')
             }
-            style={{ transform: `rotate(${angle}deg) translate(110px)` }}
-          >
+            style={{transform: `rotate(${angle}deg) translate(110px)`}}>
             <span>
               {event.is_now
                 ? <i className="fa fa-square" />
@@ -209,7 +208,7 @@ export default class Timeline extends React.Component {
     }
     return (
       <div className="timeline">
-        <div className={`line ${angle >= 360 ? "closed" : ""}`}>
+        <div className={`line ${angle >= 360 ? 'closed' : ''}`}>
           <div className="inner-line" />
           <div className="content">
             {this.props.children}

@@ -1,19 +1,19 @@
-import React from "react";
-import { Link } from "react-router";
-import Progress from "./status/Progress";
-import Avatar from "./Avatar";
-import SearchBox from "./SearchBox";
-import ChannelInfo from "./ChannelInfo";
+import React from 'react';
+import {Link} from 'react-router';
+import Progress from './status/Progress';
+import Avatar from './Avatar';
+import SearchBox from './SearchBox';
+import ChannelInfo from './ChannelInfo';
 
-import { CHANNEL_TYPES } from "../constants/Api";
-import { getChannelKey } from "../utils/reducers";
+import {CHANNEL_TYPES} from '../constants/Api';
+import {getChannelKey} from '../utils/reducers';
 
-import { isAuthenticated, isAdmin, isDeveloper } from "../utils/auth";
+import {isAuthenticated, isAdmin, isDeveloper} from '../utils/auth';
 
 export default class Channel extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { filters: null };
+    this.state = {filters: null};
   }
 
   componentWillMount() {
@@ -21,7 +21,7 @@ export default class Channel extends React.Component {
   }
 
   componentDidMount() {
-    const { channelId, ChannelActions } = this.props;
+    const {channelId, ChannelActions} = this.props;
 
     if (channelId) {
       ChannelActions.retrieveChannel(channelId);
@@ -33,7 +33,7 @@ export default class Channel extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.channelId != prevProps.channelId && this.props.channelId) {
-      const { ChannelActions } = this.props;
+      const {ChannelActions} = this.props;
       ChannelActions.retrieveChannel(this.props.channelId);
       ChannelActions.listChannelActivity(this.props.channelId);
     }
@@ -55,7 +55,7 @@ export default class Channel extends React.Component {
   }
 
   getNewMessages() {
-    const { channelId, Channel, ChannelActions, search, filters } = this.props;
+    const {channelId, Channel, ChannelActions, search, filters} = this.props;
     let channel_key = getChannelKey(channelId);
     if (channelId && !Channel.detail.activity.isFetching[channel_key]) {
       var since = 0;
@@ -75,33 +75,33 @@ export default class Channel extends React.Component {
         since,
         ...filters,
         search,
-        ...this.state.filters
+        ...this.state.filters,
       });
     }
   }
 
   onSendMessage(body, attachments) {
-    const { MessageActions, Channel } = this.props;
-    const { channel } = Channel.detail;
-    MessageActions.createMessage({ channel: channel.id, body }, attachments);
+    const {MessageActions, Channel} = this.props;
+    const {channel} = Channel.detail;
+    MessageActions.createMessage({channel: channel.id, body}, attachments);
   }
 
   onUpload(files) {
-    const { Channel, ChannelActions } = this.props;
-    const { channel } = Channel.detail;
+    const {Channel, ChannelActions} = this.props;
+    const {channel} = Channel.detail;
     ChannelActions.updateChannel(channel.id, null, files);
   }
 
   onSearch(filters) {
-    this.setState({ filters });
-    const { Channel, ChannelActions } = this.props;
-    const { channel } = Channel.detail;
+    this.setState({filters});
+    const {Channel, ChannelActions} = this.props;
+    const {channel} = Channel.detail;
     ChannelActions.listChannelActivity(channel.id, filters);
   }
 
   getCurrentChannel() {
-    const { channelId, Channel } = this.props;
-    const { channels } = Channel.list;
+    const {channelId, Channel} = this.props;
+    const {channels} = Channel.list;
     return channels[channelId] || {};
   }
 
@@ -115,14 +115,14 @@ export default class Channel extends React.Component {
           channel: this.getCurrentChannel(),
           channelView: this.props.channelView,
           ChannelActions: this.props.ChannelActions,
-          MessageActions: this.props.MessageActions
+          MessageActions: this.props.MessageActions,
         });
-      }.bind(this)
+      }.bind(this),
     );
   }
 
   render() {
-    const { channelId, Channel } = this.props;
+    const {channelId, Channel} = this.props;
     let channel = this.getCurrentChannel();
     let channel_key = getChannelKey(channelId);
 
@@ -134,70 +134,61 @@ export default class Channel extends React.Component {
               <div
                 className={`chat-actions ${!isAuthenticated() ||
                 (channel.type == CHANNEL_TYPES.support && !isAdmin())
-                  ? ""
-                  : "pull-right"}`}
-              >
+                  ? ''
+                  : 'pull-right'}`}>
                 {channel.type == CHANNEL_TYPES.support
                   ? null
                   : <div
                       className="btn-group btn-choices select pull-right"
-                      role="group"
-                    >
+                      role="group">
                       <Link
                         to={`/conversation/${channel.id}/messages`}
                         className="btn btn-borderless"
-                        activeClassName="active"
-                      >
+                        activeClassName="active">
                         <i className="fa fa-comments" />
                       </Link>
                       <Link
                         to={`/conversation/${channel.id}/files`}
                         className="btn btn-borderless"
-                        activeClassName="active"
-                      >
+                        activeClassName="active">
                         <i className="fa fa-paperclip" />
                       </Link>
                       {isDeveloper() && channel.type == CHANNEL_TYPES.developer
                         ? null
                         : <div
                             className="dropdown"
-                            style={{ display: "inline-block" }}
-                          >
+                            style={{display: 'inline-block'}}>
                             <button
                               className="btn btn-borderless dropdown-toggle"
                               type="button"
                               id="chat-overflow"
                               data-toggle="dropdown"
                               aria-haspopup="true"
-                              aria-expanded="true"
-                            >
+                              aria-expanded="true">
                               <i className="fa fa-ellipsis-v" />
                             </button>
                             <ul
                               className="dropdown-menu dropdown-menu-right"
-                              aria-labelledby="chat-overflow"
-                            >
+                              aria-labelledby="chat-overflow">
                               <li>
                                 <Link
                                   id="edit-channel"
-                                  to={`/conversation/${channel.id}/edit`}
-                                >
+                                  to={`/conversation/${channel.id}/edit`}>
                                   <i className="fa fa-pencil-square-o" /> Edit
                                 </Link>
                               </li>
                               <li>
                                 <Link
                                   id="channel-people"
-                                  to={`/conversation/${channel.id}/people`}
-                                >
-                                  <i className="glyphicon glyphicon-user" />{" "}
+                                  to={`/conversation/${channel.id}/people`}>
+                                  <i className="glyphicon glyphicon-user" />{' '}
                                   People
                                 </Link>
                               </li>
                             </ul>
                           </div>}
                     </div>}
-                {["messages", null].indexOf(this.getView() > -1)
+                {['messages', null].indexOf(this.getView() > -1)
                   ? <div className="pull-right">
                       <SearchBox
                         placeholder="Search messages"

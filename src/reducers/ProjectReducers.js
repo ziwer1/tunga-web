@@ -1,7 +1,7 @@
-import { combineReducers } from "redux";
-import * as ProjectActions from "../actions/ProjectActions";
-import { LOGOUT_SUCCESS } from "../actions/AuthActions";
-import { PATH_CHANGE } from "../actions/NavActions";
+import {combineReducers} from 'redux';
+import * as ProjectActions from '../actions/ProjectActions';
+import {LOGOUT_SUCCESS} from '../actions/AuthActions';
+import {PATH_CHANGE} from '../actions/NavActions';
 
 function project(state = {}, action) {
   switch (action.type) {
@@ -9,7 +9,7 @@ function project(state = {}, action) {
     case ProjectActions.RETRIEVE_PROJECT_SUCCESS:
       return action.project;
     case ProjectActions.UPDATE_PROJECT_SUCCESS:
-      return { ...state, ...action.project };
+      return {...state, ...action.project};
     case ProjectActions.DELETE_PROJECT_SUCCESS:
     case ProjectActions.CREATE_PROJECT_START:
     case ProjectActions.CREATE_PROJECT_FAILED:
@@ -29,7 +29,7 @@ function projects(state = {}, action) {
       action.items.forEach(project => {
         all_projects[project.id] = project;
       });
-      return { ...state, ...all_projects };
+      return {...state, ...all_projects};
     case ProjectActions.LIST_PROJECTS_START:
     case ProjectActions.LIST_PROJECTS_FAILED:
       return {};
@@ -157,15 +157,15 @@ function isDeleting(state = false, action) {
 function error(state = {}, action) {
   switch (action.type) {
     case ProjectActions.CREATE_PROJECT_FAILED:
-      return { ...state, create: action.error };
+      return {...state, create: action.error};
     case ProjectActions.CREATE_PROJECT_START:
     case ProjectActions.CREATE_PROJECT_SUCCESS:
-      return { ...state, create: null };
+      return {...state, create: null};
     case ProjectActions.UPDATE_PROJECT_FAILED:
-      return { ...state, update: action.error };
+      return {...state, update: action.error};
     case ProjectActions.UPDATE_PROJECT_START:
     case ProjectActions.UPDATE_PROJECT_SUCCESS:
-      return { ...state, update: null };
+      return {...state, update: null};
     default:
       return state;
   }
@@ -190,7 +190,7 @@ const detail = combineReducers({
   isSaving,
   isSaved,
   isDeleting,
-  error
+  error,
 });
 
 const list = combineReducers({
@@ -199,13 +199,13 @@ const list = combineReducers({
   isFetching,
   isFetchingMore,
   next,
-  previous
+  previous,
 });
 
 const Project = combineReducers({
   detail,
   list,
-  running
+  running,
 });
 
 export default Project;

@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 export default class GenericContainer extends React.Component {
   renderChildren() {
@@ -6,7 +6,7 @@ export default class GenericContainer extends React.Component {
       this.props.children,
       function(child) {
         return React.cloneElement(child, this.props);
-      }.bind(this)
+      }.bind(this),
     );
   }
 

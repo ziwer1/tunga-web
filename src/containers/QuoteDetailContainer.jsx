@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 export default class QuoteDetailContainer extends React.Component {
   componentDidMount() {
@@ -6,7 +6,7 @@ export default class QuoteDetailContainer extends React.Component {
   }
 
   getQuoteId() {
-    const { quoteId, params } = this.props;
+    const {quoteId, params} = this.props;
     if (quoteId) {
       return quoteId;
     }
@@ -17,7 +17,7 @@ export default class QuoteDetailContainer extends React.Component {
   }
 
   renderChildren() {
-    const { Quote } = this.props;
+    const {Quote} = this.props;
 
     return React.Children.map(
       this.props.children,
@@ -31,9 +31,9 @@ export default class QuoteDetailContainer extends React.Component {
           isSaving: Quote.detail.isSaving,
           isSaved: Quote.detail.isSaved,
           errors: Quote.detail.error,
-          task: this.props.task
+          task: this.props.task,
         });
-      }.bind(this)
+      }.bind(this),
     );
   }
 
@@ -47,9 +47,9 @@ export default class QuoteDetailContainer extends React.Component {
 }
 
 QuoteDetailContainer.propTypes = {
-  quoteId: React.PropTypes.number
+  quoteId: React.PropTypes.number,
 };
 
 QuoteDetailContainer.defaultProps = {
-  quoteId: null
+  quoteId: null,
 };

@@ -1,13 +1,13 @@
-import React from "react";
-import { Link } from "react-router";
+import React from 'react';
+import {Link} from 'react-router';
 
-import Progress from "../components/status/Progress";
-import Error from "../components/status/Error";
-import SocialSignIn from "../components/SocialSignIn";
-import connect from "../utils/connectors/AuthConnector";
+import Progress from '../components/status/Progress';
+import Error from '../components/status/Error';
+import SocialSignIn from '../components/SocialSignIn';
+import connect from '../utils/connectors/AuthConnector';
 
-import ShowcaseContainer from "../containers/ShowcaseContainer";
-import MetaTags from "../components/MetaTags";
+import ShowcaseContainer from '../containers/ShowcaseContainer';
+import MetaTags from '../components/MetaTags';
 
 class SignIn extends React.Component {
   constructor(props) {
@@ -25,13 +25,13 @@ class SignIn extends React.Component {
 
     this.props.AuthActions.authenticate({
       username,
-      password
+      password,
     });
     return;
   }
 
   renderHeaderContent() {
-    const { Auth } = this.props;
+    const {Auth} = this.props;
 
     return (
       <div>
@@ -42,7 +42,7 @@ class SignIn extends React.Component {
 
           <p className="text-center">or</p>
 
-          {Auth.isAuthenticating ? <Progress /> : ""}
+          {Auth.isAuthenticating ? <Progress /> : ''}
           {Auth.error.auth
             ? <Error
                 message={
@@ -50,7 +50,7 @@ class SignIn extends React.Component {
                   "Sorry, we couldn't log you in. Please try again."
                 }
               />
-            : ""}
+            : ''}
 
           <div className="form-group">
             <label className="control-label" htmlFor="username">
@@ -88,8 +88,7 @@ class SignIn extends React.Component {
             <button
               type="submit"
               className="btn pull-right"
-              disabled={Auth.isAuthenticating}
-            >
+              disabled={Auth.isAuthenticating}>
               Sign In
             </button>
           </div>
@@ -99,15 +98,14 @@ class SignIn extends React.Component {
   }
 
   render() {
-    let meta_title = "Tunga | Sign In";
+    let meta_title = 'Tunga | Sign In';
     let meta_description =
-      "Sign In to hire skilled African developers ready work on your software project.";
+      'Sign In to hire skilled African developers ready work on your software project.';
 
     return (
       <ShowcaseContainer
         className="auth-page"
-        headerContent={this.renderHeaderContent()}
-      >
+        headerContent={this.renderHeaderContent()}>
         <MetaTags title={meta_title} description={meta_description} />
       </ShowcaseContainer>
     );

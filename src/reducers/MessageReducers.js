@@ -1,7 +1,7 @@
-import { combineReducers } from "redux";
-import * as MessageActions from "../actions/MessageActions";
-import * as ChannelActions from "../actions/ChannelActions";
-import { PATH_CHANGE } from "../actions/NavActions";
+import {combineReducers} from 'redux';
+import * as MessageActions from '../actions/MessageActions';
+import * as ChannelActions from '../actions/ChannelActions';
+import {PATH_CHANGE} from '../actions/NavActions';
 
 function message(state = {}, action) {
   switch (action.type) {
@@ -160,10 +160,10 @@ function isDeleting(state = false, action) {
 function error(state = {}, action) {
   switch (action.type) {
     case MessageActions.CREATE_MESSAGE_FAILED:
-      return { ...state, create: action.error };
+      return {...state, create: action.error};
     case MessageActions.CREATE_MESSAGE_START:
     case MessageActions.CREATE_MESSAGE_SUCCESS:
-      return { ...state, create: null };
+      return {...state, create: null};
     default:
       return state;
   }
@@ -175,7 +175,7 @@ const detail = combineReducers({
   isSaving,
   isSaved,
   isDeleting,
-  error
+  error,
 });
 
 const list = combineReducers({
@@ -185,12 +185,12 @@ const list = combineReducers({
   isFetchingMore,
   next,
   previous,
-  count
+  count,
 });
 
 const Message = combineReducers({
   detail,
-  list
+  list,
 });
 
 export default Message;

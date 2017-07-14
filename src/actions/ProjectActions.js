@@ -1,27 +1,27 @@
-import axios from "axios";
-import { ENDPOINT_PROJECT } from "../constants/Api";
+import axios from 'axios';
+import {ENDPOINT_PROJECT} from '../constants/Api';
 
-export const CREATE_PROJECT_START = "CREATE_PROJECT_START";
-export const CREATE_PROJECT_SUCCESS = "CREATE_PROJECT_SUCCESS";
-export const CREATE_PROJECT_FAILED = "CREATE_PROJECT_FAILED";
-export const LIST_PROJECTS_START = "LIST_PROJECTS_START";
-export const LIST_PROJECTS_SUCCESS = "LIST_PROJECTS_SUCCESS";
-export const LIST_PROJECTS_FAILED = "LIST_PROJECTS_FAILED";
-export const RETRIEVE_PROJECT_START = "RETRIEVE_PROJECT_START";
-export const RETRIEVE_PROJECT_SUCCESS = "RETRIEVE_PROJECT_SUCCESS";
-export const RETRIEVE_PROJECT_FAILED = "RETRIEVE_PROJECT_FAILED";
-export const UPDATE_PROJECT_START = "UPDATE_PROJECT_START";
-export const UPDATE_PROJECT_SUCCESS = "UPDATE_PROJECT_SUCCESS";
-export const UPDATE_PROJECT_FAILED = "UPDATE_PROJECT_FAILED";
-export const DELETE_PROJECT_START = "DELETE_PROJECT_START";
-export const DELETE_PROJECT_SUCCESS = "DELETE_PROJECT_SUCCESS";
-export const DELETE_PROJECT_FAILED = "DELETE_PROJECT_FAILED";
-export const LIST_RUNNING_PROJECTS_START = "LIST_RUNNING_PROJECTS_START";
-export const LIST_RUNNING_PROJECTS_SUCCESS = "LIST_RUNNING_PROJECTS_SUCCESS";
-export const LIST_RUNNING_PROJECTS_FAILED = "LIST_RUNNING_PROJECTS_FAILED";
-export const LIST_MORE_PROJECTS_START = "LIST_MORE_PROJECTS_START";
-export const LIST_MORE_PROJECTS_SUCCESS = "LIST_MORE_PROJECTS_SUCCESS";
-export const LIST_MORE_PROJECTS_FAILED = "LIST_MORE_PROJECTS_FAILED";
+export const CREATE_PROJECT_START = 'CREATE_PROJECT_START';
+export const CREATE_PROJECT_SUCCESS = 'CREATE_PROJECT_SUCCESS';
+export const CREATE_PROJECT_FAILED = 'CREATE_PROJECT_FAILED';
+export const LIST_PROJECTS_START = 'LIST_PROJECTS_START';
+export const LIST_PROJECTS_SUCCESS = 'LIST_PROJECTS_SUCCESS';
+export const LIST_PROJECTS_FAILED = 'LIST_PROJECTS_FAILED';
+export const RETRIEVE_PROJECT_START = 'RETRIEVE_PROJECT_START';
+export const RETRIEVE_PROJECT_SUCCESS = 'RETRIEVE_PROJECT_SUCCESS';
+export const RETRIEVE_PROJECT_FAILED = 'RETRIEVE_PROJECT_FAILED';
+export const UPDATE_PROJECT_START = 'UPDATE_PROJECT_START';
+export const UPDATE_PROJECT_SUCCESS = 'UPDATE_PROJECT_SUCCESS';
+export const UPDATE_PROJECT_FAILED = 'UPDATE_PROJECT_FAILED';
+export const DELETE_PROJECT_START = 'DELETE_PROJECT_START';
+export const DELETE_PROJECT_SUCCESS = 'DELETE_PROJECT_SUCCESS';
+export const DELETE_PROJECT_FAILED = 'DELETE_PROJECT_FAILED';
+export const LIST_RUNNING_PROJECTS_START = 'LIST_RUNNING_PROJECTS_START';
+export const LIST_RUNNING_PROJECTS_SUCCESS = 'LIST_RUNNING_PROJECTS_SUCCESS';
+export const LIST_RUNNING_PROJECTS_FAILED = 'LIST_RUNNING_PROJECTS_FAILED';
+export const LIST_MORE_PROJECTS_START = 'LIST_MORE_PROJECTS_START';
+export const LIST_MORE_PROJECTS_SUCCESS = 'LIST_MORE_PROJECTS_SUCCESS';
+export const LIST_MORE_PROJECTS_FAILED = 'LIST_MORE_PROJECTS_FAILED';
 
 export function createProject(project, attachments) {
   return dispatch => {
@@ -39,22 +39,22 @@ export function createProject(project, attachments) {
       });
 
       attachments.map((file, idx) => {
-        data.append("file" + idx, file);
+        data.append('file' + idx, file);
       });
 
       $.ajax({
         url: ENDPOINT_PROJECT,
-        type: "POST",
+        type: 'POST',
         data: data,
         processData: false,
-        contentType: false
+        contentType: false,
       }).then(
         function(data) {
           dispatch(createProjectSuccess(data));
         },
         function(data) {
           dispatch(createProjectFailed(data.responseJSON));
-        }
+        },
       );
     } else {
       axios
@@ -64,7 +64,7 @@ export function createProject(project, attachments) {
         })
         .catch(function(error) {
           dispatch(
-            createProjectFailed(error.response ? error.response.data : null)
+            createProjectFailed(error.response ? error.response.data : null),
           );
         });
     }
@@ -74,21 +74,21 @@ export function createProject(project, attachments) {
 export function createProjectStart(project) {
   return {
     type: CREATE_PROJECT_START,
-    project
+    project,
   };
 }
 
 export function createProjectSuccess(project) {
   return {
     type: CREATE_PROJECT_SUCCESS,
-    project
+    project,
   };
 }
 
 export function createProjectFailed(error) {
   return {
     type: CREATE_PROJECT_FAILED,
-    error
+    error,
   };
 }
 
@@ -96,13 +96,13 @@ export function listProjects(filter) {
   return dispatch => {
     dispatch(listProjectsStart(filter));
     axios
-      .get(ENDPOINT_PROJECT, { params: filter })
+      .get(ENDPOINT_PROJECT, {params: filter})
       .then(function(response) {
         dispatch(listProjectsSuccess(response.data));
       })
       .catch(function(error) {
         dispatch(
-          listProjectsFailed(error.response ? error.response.data : null)
+          listProjectsFailed(error.response ? error.response.data : null),
         );
       });
   };
@@ -111,7 +111,7 @@ export function listProjects(filter) {
 export function listProjectsStart(filter) {
   return {
     type: LIST_PROJECTS_START,
-    filter
+    filter,
   };
 }
 
@@ -121,14 +121,14 @@ export function listProjectsSuccess(response) {
     items: response.results,
     previous: response.previous,
     next: response.next,
-    count: response.count
+    count: response.count,
   };
 }
 
 export function listProjectsFailed(error) {
   return {
     type: LIST_PROJECTS_FAILED,
-    error
+    error,
   };
 }
 
@@ -136,13 +136,13 @@ export function retrieveProject(id) {
   return dispatch => {
     dispatch(retrieveProjectStart(id));
     axios
-      .get(ENDPOINT_PROJECT + id + "/")
+      .get(ENDPOINT_PROJECT + id + '/')
       .then(function(response) {
         dispatch(retrieveProjectSuccess(response.data));
       })
       .catch(function(error) {
         dispatch(
-          retrieveProjectFailed(error.response ? error.response.data : null)
+          retrieveProjectFailed(error.response ? error.response.data : null),
         );
       });
   };
@@ -151,21 +151,21 @@ export function retrieveProject(id) {
 export function retrieveProjectStart(id) {
   return {
     type: RETRIEVE_PROJECT_START,
-    id
+    id,
   };
 }
 
 export function retrieveProjectSuccess(project) {
   return {
     type: RETRIEVE_PROJECT_SUCCESS,
-    project
+    project,
   };
 }
 
 export function retrieveProjectFailed(error) {
   return {
     type: RETRIEVE_PROJECT_FAILED,
-    error
+    error,
   };
 }
 
@@ -173,13 +173,13 @@ export function updateProject(id, data) {
   return dispatch => {
     dispatch(updateProjectStart(id));
     axios
-      .patch(ENDPOINT_PROJECT + id + "/", data)
+      .patch(ENDPOINT_PROJECT + id + '/', data)
       .then(function(response) {
         dispatch(updateProjectSuccess(response.data));
       })
       .catch(function(error) {
         dispatch(
-          updateProjectFailed(error.response ? error.response.data : null)
+          updateProjectFailed(error.response ? error.response.data : null),
         );
       });
   };
@@ -188,21 +188,21 @@ export function updateProject(id, data) {
 export function updateProjectStart(id) {
   return {
     type: UPDATE_PROJECT_START,
-    id
+    id,
   };
 }
 
 export function updateProjectSuccess(project) {
   return {
     type: UPDATE_PROJECT_SUCCESS,
-    project
+    project,
   };
 }
 
 export function updateProjectFailed(error) {
   return {
     type: UPDATE_PROJECT_FAILED,
-    error
+    error,
   };
 }
 
@@ -210,13 +210,13 @@ export function deleteProject(id) {
   return dispatch => {
     dispatch(deleteProjectStart(id));
     axios
-      .delete(ENDPOINT_PROJECT + id + "/")
+      .delete(ENDPOINT_PROJECT + id + '/')
       .then(function() {
         dispatch(deleteProjectSuccess(id));
       })
       .catch(function(error) {
         dispatch(
-          deleteProjectFailed(error.response ? error.response.data : null)
+          deleteProjectFailed(error.response ? error.response.data : null),
         );
       });
   };
@@ -225,36 +225,38 @@ export function deleteProject(id) {
 export function deleteProjectStart(id) {
   return {
     type: DELETE_PROJECT_START,
-    id
+    id,
   };
 }
 
 export function deleteProjectSuccess(id) {
   return {
     type: DELETE_PROJECT_SUCCESS,
-    id
+    id,
   };
 }
 
 export function deleteProjectFailed(error) {
   return {
     type: DELETE_PROJECT_FAILED,
-    error
+    error,
   };
 }
 
 export function listRunningProjects() {
   return dispatch => {
-    var filter = { filter: "running" };
+    var filter = {filter: 'running'};
     dispatch(listRunningProjectsStart(filter));
     axios
-      .get(ENDPOINT_PROJECT, { params: filter })
+      .get(ENDPOINT_PROJECT, {params: filter})
       .then(function(response) {
         dispatch(listRunningProjectsSuccess(response.data));
       })
       .catch(function(error) {
         dispatch(
-          listRunningProjectsFailed(error.response ? error.response.data : null)
+          listRunningProjectsFailed(
+            error.response ? error.response.data : null,
+          ),
         );
       });
   };
@@ -263,7 +265,7 @@ export function listRunningProjects() {
 export function listRunningProjectsStart(filter) {
   return {
     type: LIST_RUNNING_PROJECTS_START,
-    filter
+    filter,
   };
 }
 
@@ -273,14 +275,14 @@ export function listRunningProjectsSuccess(response) {
     items: response.results,
     previous: response.previous,
     next: response.next,
-    count: response.count
+    count: response.count,
   };
 }
 
 export function listRunningProjectsFailed(error) {
   return {
     type: LIST_RUNNING_PROJECTS_FAILED,
-    error
+    error,
   };
 }
 
@@ -294,7 +296,7 @@ export function listMoreProjects(url) {
       })
       .catch(function(error) {
         dispatch(
-          listMoreProjectsFailed(error.response ? error.response.data : null)
+          listMoreProjectsFailed(error.response ? error.response.data : null),
         );
       });
   };
@@ -303,7 +305,7 @@ export function listMoreProjects(url) {
 export function listMoreProjectsStart(url) {
   return {
     type: LIST_MORE_PROJECTS_START,
-    url
+    url,
   };
 }
 
@@ -313,13 +315,13 @@ export function listMoreProjectsSuccess(response) {
     items: response.results,
     previous: response.previous,
     next: response.next,
-    count: response.count
+    count: response.count,
   };
 }
 
 export function listMoreProjectsFailed(error) {
   return {
     type: LIST_MORE_PROJECTS_FAILED,
-    error
+    error,
   };
 }

@@ -1,37 +1,35 @@
-import React from "react";
-import { Link } from "react-router";
-import { Affix } from "react-overlays";
+import React from 'react';
+import {Link} from 'react-router';
+import {Affix} from 'react-overlays';
 
-import { openCalendlyWidget } from "../utils/router";
+import {openCalendlyWidget} from '../utils/router';
 
-import ChatWindow from "../containers/ChatWindow";
+import ChatWindow from '../containers/ChatWindow';
 
 export default class ShowcaseContainer extends React.Component {
   render() {
     return (
-      <div className={"showcase " + this.props.className}>
+      <div className={'showcase ' + this.props.className}>
         <header
           style={
             this.props.headerVideo
-              ? { overflow: "hidden", position: "relative" }
+              ? {overflow: 'hidden', position: 'relative'}
               : null
-          }
-        >
+          }>
           {this.props.headerVideo
             ? <video
                 autoPlay
                 loop
                 style={{
-                  position: "absolute",
-                  top: "0",
+                  position: 'absolute',
+                  top: '0',
                   left: 0,
-                  width: "100%",
-                  minHeight: "100%"
+                  width: '100%',
+                  minHeight: '100%',
                 }}
-                muted
-              >
+                muted>
                 <source
-                  src={require("../video/homepagetunga.mp4")}
+                  src={require('../video/homepagetunga.mp4')}
                   type="video/mp4"
                 />
               </video>
@@ -43,9 +41,8 @@ export default class ShowcaseContainer extends React.Component {
                 <div
                   className="pointer text-center"
                   onClick={e => {
-                    $("body").animate({ scrollTop: "+=300" });
-                  }}
-                >
+                    $('body').animate({scrollTop: '+=300'});
+                  }}>
                   show me how it works
                 </div>
               </div>
@@ -59,13 +56,12 @@ export default class ShowcaseContainer extends React.Component {
                   data-toggle="collapse"
                   data-target="#navbar"
                   aria-expanded="false"
-                  aria-controls="navbar"
-                >
+                  aria-controls="navbar">
                   <span className="sr-only">Toggle navigation</span>
                   <i className="fa fa-ellipsis-v fa-lg" />
                 </button>
                 <Link className="navbar-brand" to="/">
-                  <img src={require("../images/logo.png")} />
+                  <img src={require('../images/logo.png')} />
                 </Link>
               </div>
 
@@ -76,8 +72,7 @@ export default class ShowcaseContainer extends React.Component {
                       className="primary"
                       onClick={() => {
                         openCalendlyWidget();
-                      }}
-                    >
+                      }}>
                       Schedule call
                     </a>
                   </li>

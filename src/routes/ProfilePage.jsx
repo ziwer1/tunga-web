@@ -1,15 +1,15 @@
-import React from "react";
-import { Link } from "react-router";
+import React from 'react';
+import {Link} from 'react-router';
 
-import ProfileContainer from "../containers/ProfileContainer";
+import ProfileContainer from '../containers/ProfileContainer';
 
-import { PROFILE_COMPLETE_PATH } from "../constants/patterns";
+import {PROFILE_COMPLETE_PATH} from '../constants/patterns';
 import {
   isAdmin,
   isDeveloper,
   isProjectManager,
-  isProjectOwner
-} from "utils/auth";
+  isProjectOwner,
+} from 'utils/auth';
 
 export default class ProfilePage extends React.Component {
   render() {
@@ -35,8 +35,7 @@ export default class ProfilePage extends React.Component {
                       <li role="presentation">
                         <Link
                           to="/profile/id-document"
-                          activeClassName="active"
-                        >
+                          activeClassName="active">
                           ID Document
                         </Link>
                       </li>,
@@ -45,11 +44,6 @@ export default class ProfilePage extends React.Component {
                           Payment
                         </Link>
                       </li>,
-                      <li role="presentation">
-                        <Link to="/profile/tax" activeClassName="active">
-                          Tax
-                        </Link>
-                      </li>
                     ]
                   : <li role="presentation">
                       <Link to="/profile/company" activeClassName="active">

@@ -1,7 +1,7 @@
-import React from "react";
-import Progress from "./status/Progress";
-import FormStatus from "./status/FormStatus";
-import FieldError from "./status/FieldError";
+import React from 'react';
+import Progress from './status/Progress';
+import FormStatus from './status/FormStatus';
+import FieldError from './status/FieldError';
 
 export default class Profile extends React.Component {
   constructor(props) {
@@ -19,18 +19,13 @@ export default class Profile extends React.Component {
     var last_name = this.refs.last_name.value.trim();
     var email = this.refs.email.value.trim();
     var password = this.refs.password.value.trim();
-    const { ProfileActions } = this.props;
-    ProfileActions.updateAccountInfo({
-      first_name,
-      last_name,
-      email,
-      password
-    });
+    const {ProfileActions} = this.props;
+    ProfileActions.updateAccountInfo({first_name, last_name, email, password});
     return;
   }
 
   render() {
-    const { Auth, Profile } = this.props;
+    const {Auth, Profile} = this.props;
 
     return (
       <div>
@@ -40,18 +35,17 @@ export default class Profile extends React.Component {
               onSubmit={this.handleSubmit}
               name="profile"
               role="form"
-              ref="profile_form"
-            >
+              ref="profile_form">
               <FormStatus
                 loading={Profile.isSaving.account}
                 success={Profile.isSaved.account}
-                message={"Profile Saved"}
+                message={'Profile Saved'}
                 error={Profile.error.account}
               />
 
               {Profile.error.account && Profile.error.account.first_name
                 ? <FieldError message={Profile.error.account.first_name} />
-                : ""}
+                : ''}
               <div className="form-group">
                 <label className="control-label">First Name *</label>
                 <div>
@@ -68,7 +62,7 @@ export default class Profile extends React.Component {
 
               {Profile.error.account && Profile.error.account.last_name
                 ? <FieldError message={Profile.error.account.last_name} />
-                : ""}
+                : ''}
               <div className="form-group">
                 <label className="control-label">Last Name *</label>
                 <div>
@@ -85,7 +79,7 @@ export default class Profile extends React.Component {
 
               {Profile.error.account && Profile.error.account.email
                 ? <FieldError message={Profile.error.account.email} />
-                : ""}
+                : ''}
               <div className="form-group">
                 <label className="control-label">Email Address *</label>
                 <div>
@@ -102,7 +96,7 @@ export default class Profile extends React.Component {
 
               {Profile.error.account && Profile.error.account.password
                 ? <FieldError message={Profile.error.account.password} />
-                : ""}
+                : ''}
               <div className="form-group">
                 <label className="control-label">
                   Enter password to save changes
@@ -121,8 +115,7 @@ export default class Profile extends React.Component {
               <button
                 type="submit"
                 className="btn  pull-right"
-                disabled={Profile.isSaving.account}
-              >
+                disabled={Profile.isSaving.account}>
                 Save
               </button>
               <div className="clearfix" />

@@ -1,58 +1,58 @@
-import axios from "axios";
-import { ENDPOINT_CHANNEL, ENDPOINT_DIRECT_CHANNEL } from "../constants/Api";
+import axios from 'axios';
+import {ENDPOINT_CHANNEL, ENDPOINT_DIRECT_CHANNEL} from '../constants/Api';
 
-export const CREATE_CHANNEL_START = "CREATE_CHANNEL_START";
-export const CREATE_CHANNEL_SUCCESS = "CREATE_CHANNEL_SUCCESS";
-export const CREATE_CHANNEL_FAILED = "CREATE_CHANNEL_FAILED";
-export const LIST_CHANNELS_START = "LIST_CHANNELS_START";
-export const LIST_CHANNELS_SUCCESS = "LIST_CHANNELS_SUCCESS";
-export const LIST_CHANNELS_FAILED = "LIST_CHANNELS_FAILED";
-export const LIST_MORE_CHANNELS_START = "LIST_MORE_CHANNELS_START";
-export const LIST_MORE_CHANNELS_SUCCESS = "LIST_MORE_CHANNELS_SUCCESS";
-export const LIST_MORE_CHANNELS_FAILED = "LIST_MORE_CHANNELS_FAILED";
-export const RETRIEVE_CHANNEL_START = "RETRIEVE_CHANNEL_START";
-export const RETRIEVE_CHANNEL_SUCCESS = "RETRIEVE_CHANNEL_SUCCESS";
-export const RETRIEVE_CHANNEL_FAILED = "RETRIEVE_CHANNEL_FAILED";
-export const RETRIEVE_DIRECT_CHANNEL_START = "RETRIEVE_DIRECT_CHANNEL_START";
+export const CREATE_CHANNEL_START = 'CREATE_CHANNEL_START';
+export const CREATE_CHANNEL_SUCCESS = 'CREATE_CHANNEL_SUCCESS';
+export const CREATE_CHANNEL_FAILED = 'CREATE_CHANNEL_FAILED';
+export const LIST_CHANNELS_START = 'LIST_CHANNELS_START';
+export const LIST_CHANNELS_SUCCESS = 'LIST_CHANNELS_SUCCESS';
+export const LIST_CHANNELS_FAILED = 'LIST_CHANNELS_FAILED';
+export const LIST_MORE_CHANNELS_START = 'LIST_MORE_CHANNELS_START';
+export const LIST_MORE_CHANNELS_SUCCESS = 'LIST_MORE_CHANNELS_SUCCESS';
+export const LIST_MORE_CHANNELS_FAILED = 'LIST_MORE_CHANNELS_FAILED';
+export const RETRIEVE_CHANNEL_START = 'RETRIEVE_CHANNEL_START';
+export const RETRIEVE_CHANNEL_SUCCESS = 'RETRIEVE_CHANNEL_SUCCESS';
+export const RETRIEVE_CHANNEL_FAILED = 'RETRIEVE_CHANNEL_FAILED';
+export const RETRIEVE_DIRECT_CHANNEL_START = 'RETRIEVE_DIRECT_CHANNEL_START';
 export const RETRIEVE_DIRECT_CHANNEL_SUCCESS =
-  "RETRIEVE_DIRECT_CHANNEL_SUCCESS";
-export const RETRIEVE_DIRECT_CHANNEL_FAILED = "RETRIEVE_DIRECT_CHANNEL_FAILED";
-export const UPDATE_CHANNEL_START = "UPDATE_CHANNEL_START";
-export const UPDATE_CHANNEL_SUCCESS = "UPDATE_CHANNEL_SUCCESS";
-export const UPDATE_CHANNEL_FAILED = "UPDATE_CHANNEL_FAILED";
-export const DELETE_CHANNEL_START = "DELETE_CHANNEL_START";
-export const DELETE_CHANNEL_SUCCESS = "DELETE_CHANNEL_SUCCESS";
-export const DELETE_CHANNEL_FAILED = "DELETE_CHANNEL_FAILED";
-export const LIST_CHANNEL_ACTIVITY_START = "LIST_CHANNEL_ACTIVITY_START";
-export const LIST_CHANNEL_ACTIVITY_SUCCESS = "LIST_CHANNEL_ACTIVITY_SUCCESS";
-export const LIST_CHANNEL_ACTIVITY_FAILED = "LIST_CHANNEL_ACTIVITY_FAILED";
+  'RETRIEVE_DIRECT_CHANNEL_SUCCESS';
+export const RETRIEVE_DIRECT_CHANNEL_FAILED = 'RETRIEVE_DIRECT_CHANNEL_FAILED';
+export const UPDATE_CHANNEL_START = 'UPDATE_CHANNEL_START';
+export const UPDATE_CHANNEL_SUCCESS = 'UPDATE_CHANNEL_SUCCESS';
+export const UPDATE_CHANNEL_FAILED = 'UPDATE_CHANNEL_FAILED';
+export const DELETE_CHANNEL_START = 'DELETE_CHANNEL_START';
+export const DELETE_CHANNEL_SUCCESS = 'DELETE_CHANNEL_SUCCESS';
+export const DELETE_CHANNEL_FAILED = 'DELETE_CHANNEL_FAILED';
+export const LIST_CHANNEL_ACTIVITY_START = 'LIST_CHANNEL_ACTIVITY_START';
+export const LIST_CHANNEL_ACTIVITY_SUCCESS = 'LIST_CHANNEL_ACTIVITY_SUCCESS';
+export const LIST_CHANNEL_ACTIVITY_FAILED = 'LIST_CHANNEL_ACTIVITY_FAILED';
 export const LIST_MORE_CHANNEL_ACTIVITY_START =
-  "LIST_MORE_CHANNEL_ACTIVITY_START";
+  'LIST_MORE_CHANNEL_ACTIVITY_START';
 export const LIST_MORE_CHANNEL_ACTIVITY_SUCCESS =
-  "LIST_MORE_CHANNEL_ACTIVITY_SUCCESS";
+  'LIST_MORE_CHANNEL_ACTIVITY_SUCCESS';
 export const LIST_MORE_CHANNEL_ACTIVITY_FAILED =
-  "LIST_MORE_CHANNEL_ACTIVITY_FAILED";
+  'LIST_MORE_CHANNEL_ACTIVITY_FAILED';
 export const LIST_NEW_CHANNEL_ACTIVITY_START =
-  "LIST_NEW_CHANNEL_ACTIVITY_START";
+  'LIST_NEW_CHANNEL_ACTIVITY_START';
 export const LIST_NEW_CHANNEL_ACTIVITY_SUCCESS =
-  "LIST_NEW_CHANNEL_ACTIVITY_SUCCESS";
+  'LIST_NEW_CHANNEL_ACTIVITY_SUCCESS';
 export const LIST_NEW_CHANNEL_ACTIVITY_FAILED =
-  "LIST_NEW_CHANNEL_ACTIVITY_FAILED";
-export const SHARE_CHANNEL_UPLOAD_SUCCESS = "SHARE_CHANNEL_UPLOAD_SUCCESS";
-export const UPDATE_CHANNEL_READ_START = "UPDATE_CHANNEL_READ_START";
-export const UPDATE_CHANNEL_READ_SUCCESS = "UPDATE_CHANNEL_READ_SUCCESS";
-export const UPDATE_CHANNEL_READ_FAILED = "UPDATE_CHANNEL_READ_FAILED";
-export const CREATE_SUPPORT_CHANNEL_START = "CREATE_SUPPORT_CHANNEL_START";
-export const CREATE_SUPPORT_CHANNEL_SUCCESS = "CREATE_SUPPORT_CHANNEL_SUCCESS";
-export const CREATE_SUPPORT_CHANNEL_FAILED = "CREATE_SUPPORT_CHANNEL_FAILED";
-export const CREATE_DEVELOPER_CHANNEL_START = "CREATE_DEVELOPER_CHANNEL_START";
+  'LIST_NEW_CHANNEL_ACTIVITY_FAILED';
+export const SHARE_CHANNEL_UPLOAD_SUCCESS = 'SHARE_CHANNEL_UPLOAD_SUCCESS';
+export const UPDATE_CHANNEL_READ_START = 'UPDATE_CHANNEL_READ_START';
+export const UPDATE_CHANNEL_READ_SUCCESS = 'UPDATE_CHANNEL_READ_SUCCESS';
+export const UPDATE_CHANNEL_READ_FAILED = 'UPDATE_CHANNEL_READ_FAILED';
+export const CREATE_SUPPORT_CHANNEL_START = 'CREATE_SUPPORT_CHANNEL_START';
+export const CREATE_SUPPORT_CHANNEL_SUCCESS = 'CREATE_SUPPORT_CHANNEL_SUCCESS';
+export const CREATE_SUPPORT_CHANNEL_FAILED = 'CREATE_SUPPORT_CHANNEL_FAILED';
+export const CREATE_DEVELOPER_CHANNEL_START = 'CREATE_DEVELOPER_CHANNEL_START';
 export const CREATE_DEVELOPER_CHANNEL_SUCCESS =
-  "CREATE_DEVELOPER_CHANNEL_SUCCESS";
+  'CREATE_DEVELOPER_CHANNEL_SUCCESS';
 export const CREATE_DEVELOPER_CHANNEL_FAILED =
-  "CREATE_DEVELOPER_CHANNEL_FAILED";
-export const CREATE_TASK_CHANNEL_START = "CREATE_TASK_CHANNEL_START";
-export const CREATE_TASK_CHANNEL_SUCCESS = "CREATE_TASK_CHANNEL_SUCCESS";
-export const CREATE_TASK_CHANNEL_FAILED = "CREATE_TASK_CHANNEL_FAILED";
+  'CREATE_DEVELOPER_CHANNEL_FAILED';
+export const CREATE_TASK_CHANNEL_START = 'CREATE_TASK_CHANNEL_START';
+export const CREATE_TASK_CHANNEL_SUCCESS = 'CREATE_TASK_CHANNEL_SUCCESS';
+export const CREATE_TASK_CHANNEL_FAILED = 'CREATE_TASK_CHANNEL_FAILED';
 
 export function createChannel(channel) {
   return dispatch => {
@@ -64,7 +64,7 @@ export function createChannel(channel) {
       })
       .catch(function(error) {
         dispatch(
-          createChannelFailed(error.response ? error.response.data : null)
+          createChannelFailed(error.response ? error.response.data : null),
         );
       });
   };
@@ -73,21 +73,21 @@ export function createChannel(channel) {
 export function createChannelStart(channel) {
   return {
     type: CREATE_CHANNEL_START,
-    channel
+    channel,
   };
 }
 
 export function createChannelSuccess(channel) {
   return {
     type: CREATE_CHANNEL_SUCCESS,
-    channel
+    channel,
   };
 }
 
 export function createChannelFailed(error) {
   return {
     type: CREATE_CHANNEL_FAILED,
-    error
+    error,
   };
 }
 
@@ -95,13 +95,13 @@ export function listChannels(filter) {
   return dispatch => {
     dispatch(listChannelsStart(filter));
     axios
-      .get(ENDPOINT_CHANNEL, { params: filter })
+      .get(ENDPOINT_CHANNEL, {params: filter})
       .then(function(response) {
         dispatch(listChannelsSuccess(response.data));
       })
       .catch(function(error) {
         dispatch(
-          listChannelsFailed(error.response ? error.response.data : null)
+          listChannelsFailed(error.response ? error.response.data : null),
         );
       });
   };
@@ -110,7 +110,7 @@ export function listChannels(filter) {
 export function listChannelsStart(filter) {
   return {
     type: LIST_CHANNELS_START,
-    filter
+    filter,
   };
 }
 
@@ -120,14 +120,14 @@ export function listChannelsSuccess(response) {
     items: response.results,
     previous: response.previous,
     next: response.next,
-    count: response.count
+    count: response.count,
   };
 }
 
 export function listChannelsFailed(error) {
   return {
     type: LIST_CHANNELS_FAILED,
-    error
+    error,
   };
 }
 
@@ -135,13 +135,13 @@ export function retrieveChannel(id) {
   return dispatch => {
     dispatch(retrieveChannelStart(id));
     axios
-      .get(ENDPOINT_CHANNEL + id + "/")
+      .get(ENDPOINT_CHANNEL + id + '/')
       .then(function(response) {
         dispatch(retrieveChannelSuccess(response.data));
       })
       .catch(function(error) {
         dispatch(
-          retrieveChannelFailed(error.response ? error.response.data : null)
+          retrieveChannelFailed(error.response ? error.response.data : null),
         );
       });
   };
@@ -150,21 +150,21 @@ export function retrieveChannel(id) {
 export function retrieveChannelStart(id) {
   return {
     type: RETRIEVE_CHANNEL_START,
-    id
+    id,
   };
 }
 
 export function retrieveChannelSuccess(channel) {
   return {
     type: RETRIEVE_CHANNEL_SUCCESS,
-    channel
+    channel,
   };
 }
 
 export function retrieveChannelFailed(error) {
   return {
     type: RETRIEVE_CHANNEL_FAILED,
-    error
+    error,
   };
 }
 
@@ -179,8 +179,8 @@ export function retrieveDirectChannel(user_id) {
       .catch(function(error) {
         dispatch(
           retrieveDirectChannelFailed(
-            error.response ? error.response.data : null
-          )
+            error.response ? error.response.data : null,
+          ),
         );
       });
   };
@@ -189,21 +189,21 @@ export function retrieveDirectChannel(user_id) {
 export function retrieveDirectChannelStart(id) {
   return {
     type: RETRIEVE_DIRECT_CHANNEL_START,
-    id
+    id,
   };
 }
 
 export function retrieveDirectChannelSuccess(channel) {
   return {
     type: RETRIEVE_DIRECT_CHANNEL_SUCCESS,
-    channel
+    channel,
   };
 }
 
 export function retrieveDirectChannelFailed(error) {
   return {
     type: RETRIEVE_DIRECT_CHANNEL_FAILED,
-    error
+    error,
   };
 }
 
@@ -225,15 +225,15 @@ export function updateChannel(id, data, uploads) {
       }
 
       uploads.map((file, idx) => {
-        form_data.append("file" + idx, file);
+        form_data.append('file' + idx, file);
       });
 
       $.ajax({
-        url: ENDPOINT_CHANNEL + id + "/",
-        type: "PATCH",
+        url: ENDPOINT_CHANNEL + id + '/',
+        type: 'PATCH',
         data: form_data,
         processData: false,
-        contentType: false
+        contentType: false,
       }).then(
         function(response) {
           dispatch(updateChannelSuccess(response));
@@ -241,17 +241,17 @@ export function updateChannel(id, data, uploads) {
         },
         function(response) {
           dispatch(updateChannelFailed(response));
-        }
+        },
       );
     } else {
       axios
-        .patch(ENDPOINT_CHANNEL + id + "/", data)
+        .patch(ENDPOINT_CHANNEL + id + '/', data)
         .then(function(response) {
           dispatch(updateChannelSuccess(response.data));
         })
         .catch(function(error) {
           dispatch(
-            updateChannelFailed(error.response ? error.response.data : null)
+            updateChannelFailed(error.response ? error.response.data : null),
           );
         });
     }
@@ -261,21 +261,21 @@ export function updateChannel(id, data, uploads) {
 export function updateChannelStart(id) {
   return {
     type: UPDATE_CHANNEL_START,
-    id
+    id,
   };
 }
 
 export function updateChannelSuccess(channel) {
   return {
     type: UPDATE_CHANNEL_SUCCESS,
-    channel
+    channel,
   };
 }
 
 export function updateChannelFailed(error) {
   return {
     type: UPDATE_CHANNEL_FAILED,
-    error
+    error,
   };
 }
 
@@ -284,7 +284,7 @@ export function shareChannelUploadSuccess(channel, number) {
   return {
     type: SHARE_CHANNEL_UPLOAD_SUCCESS,
     channel,
-    uploads
+    uploads,
   };
 }
 
@@ -292,13 +292,13 @@ export function deleteChannel(id) {
   return dispatch => {
     dispatch(deleteChannelStart(id));
     axios
-      .delete(ENDPOINT_CHANNEL + id + "/")
+      .delete(ENDPOINT_CHANNEL + id + '/')
       .then(function() {
         dispatch(deleteChannelSuccess(id));
       })
       .catch(function(error) {
         dispatch(
-          deleteChannelFailed(error.response ? error.response.data : null)
+          deleteChannelFailed(error.response ? error.response.data : null),
         );
       });
   };
@@ -307,21 +307,21 @@ export function deleteChannel(id) {
 export function deleteChannelStart(id) {
   return {
     type: DELETE_CHANNEL_START,
-    id
+    id,
   };
 }
 
 export function deleteChannelSuccess(id) {
   return {
     type: DELETE_CHANNEL_SUCCESS,
-    id
+    id,
   };
 }
 
 export function deleteChannelFailed(error) {
   return {
     type: DELETE_CHANNEL_FAILED,
-    error
+    error,
   };
 }
 
@@ -329,15 +329,15 @@ export function createSupportChannel(data) {
   return dispatch => {
     dispatch(createSupportChannelStart());
     axios
-      .post(ENDPOINT_CHANNEL + "support/", data)
+      .post(ENDPOINT_CHANNEL + 'support/', data)
       .then(function(response) {
         dispatch(createSupportChannelSuccess(response.data));
       })
       .catch(function(error) {
         dispatch(
           createSupportChannelFailed(
-            error.response ? error.response.data : null
-          )
+            error.response ? error.response.data : null,
+          ),
         );
       });
   };
@@ -345,21 +345,21 @@ export function createSupportChannel(data) {
 
 export function createSupportChannelStart() {
   return {
-    type: CREATE_SUPPORT_CHANNEL_START
+    type: CREATE_SUPPORT_CHANNEL_START,
   };
 }
 
 export function createSupportChannelSuccess(channel) {
   return {
     type: CREATE_SUPPORT_CHANNEL_SUCCESS,
-    channel
+    channel,
   };
 }
 
 export function createSupportChannelFailed(error) {
   return {
     type: CREATE_SUPPORT_CHANNEL_FAILED,
-    error
+    error,
   };
 }
 
@@ -367,15 +367,15 @@ export function createDeveloperChannel(data) {
   return dispatch => {
     dispatch(createDeveloperChannelStart());
     axios
-      .post(ENDPOINT_CHANNEL + "developer/", data)
+      .post(ENDPOINT_CHANNEL + 'developer/', data)
       .then(function(response) {
         dispatch(createDeveloperChannelSuccess(response.data));
       })
       .catch(function(error) {
         dispatch(
           createDeveloperChannelFailed(
-            error.response ? error.response.data : null
-          )
+            error.response ? error.response.data : null,
+          ),
         );
       });
   };
@@ -383,21 +383,21 @@ export function createDeveloperChannel(data) {
 
 export function createDeveloperChannelStart() {
   return {
-    type: CREATE_DEVELOPER_CHANNEL_START
+    type: CREATE_DEVELOPER_CHANNEL_START,
   };
 }
 
 export function createDeveloperChannelSuccess(channel) {
   return {
     type: CREATE_DEVELOPER_CHANNEL_SUCCESS,
-    channel
+    channel,
   };
 }
 
 export function createDeveloperChannelFailed(error) {
   return {
     type: CREATE_DEVELOPER_CHANNEL_FAILED,
-    error
+    error,
   };
 }
 
@@ -411,7 +411,7 @@ export function createTaskChannel(task) {
       })
       .catch(function(error) {
         dispatch(
-          createTaskChannelFailed(error.response ? error.response.data : null)
+          createTaskChannelFailed(error.response ? error.response.data : null),
         );
       });
   };
@@ -419,21 +419,21 @@ export function createTaskChannel(task) {
 
 export function createTaskChannelStart() {
   return {
-    type: CREATE_TASK_CHANNEL_START
+    type: CREATE_TASK_CHANNEL_START,
   };
 }
 
 export function createTaskChannelSuccess(channel) {
   return {
     type: CREATE_TASK_CHANNEL_SUCCESS,
-    channel
+    channel,
   };
 }
 
 export function createTaskChannelFailed(error) {
   return {
     type: CREATE_TASK_CHANNEL_FAILED,
-    error
+    error,
   };
 }
 
@@ -441,13 +441,13 @@ export function updateChannelRead(id, data) {
   return dispatch => {
     dispatch(updateChannelReadStart(id));
     axios
-      .post(ENDPOINT_CHANNEL + id + "/read/", data)
+      .post(ENDPOINT_CHANNEL + id + '/read/', data)
       .then(function(response) {
         dispatch(updateChannelReadSuccess(response.data));
       })
       .catch(function(error) {
         dispatch(
-          updateChannelReadFailed(error.response ? error.response.data : null)
+          updateChannelReadFailed(error.response ? error.response.data : null),
         );
       });
   };
@@ -456,21 +456,21 @@ export function updateChannelRead(id, data) {
 export function updateChannelReadStart(id) {
   return {
     type: UPDATE_CHANNEL_READ_START,
-    id
+    id,
   };
 }
 
 export function updateChannelReadSuccess(response) {
   return {
     type: UPDATE_CHANNEL_READ_SUCCESS,
-    channel: response
+    channel: response,
   };
 }
 
 export function updateChannelReadFailed(error) {
   return {
     type: UPDATE_CHANNEL_READ_FAILED,
-    error
+    error,
   };
 }
 
@@ -484,7 +484,7 @@ export function listMoreChannels(url) {
       })
       .catch(function(error) {
         dispatch(
-          listMoreChannelsFailed(error.response ? error.response.data : null)
+          listMoreChannelsFailed(error.response ? error.response.data : null),
         );
       });
   };
@@ -493,7 +493,7 @@ export function listMoreChannels(url) {
 export function listMoreChannelsStart(url) {
   return {
     type: LIST_MORE_CHANNELS_START,
-    url
+    url,
   };
 }
 
@@ -503,14 +503,14 @@ export function listMoreChannelsSuccess(response) {
     items: response.results,
     previous: response.previous,
     next: response.next,
-    count: response.count
+    count: response.count,
   };
 }
 
 export function listMoreChannelsFailed(error) {
   return {
     type: LIST_MORE_CHANNELS_FAILED,
-    error
+    error,
   };
 }
 
@@ -519,7 +519,7 @@ export function listChannelActivity(id, filter, update_read = true) {
     let get_new = filter && filter.since > -1;
     dispatch(listChannelActivityStart(id, filter, get_new));
     axios
-      .get(ENDPOINT_CHANNEL + id + "/activity/", { params: filter })
+      .get(ENDPOINT_CHANNEL + id + '/activity/', {params: filter})
       .then(function(response) {
         if (
           update_read &&
@@ -527,7 +527,7 @@ export function listChannelActivity(id, filter, update_read = true) {
           response.data.results.length
         ) {
           dispatch(
-            updateChannelRead(id, { last_read: response.data.results[0].id })
+            updateChannelRead(id, {last_read: response.data.results[0].id}),
           );
         }
         dispatch(
@@ -536,8 +536,8 @@ export function listChannelActivity(id, filter, update_read = true) {
             id,
             filter,
             get_new,
-            !update_read
-          )
+            !update_read,
+          ),
         );
       })
       .catch(function(error) {
@@ -545,8 +545,8 @@ export function listChannelActivity(id, filter, update_read = true) {
           listChannelActivityFailed(
             error.response ? error.response.data : null,
             id,
-            get_new
-          )
+            get_new,
+          ),
         );
       });
   };
@@ -558,7 +558,7 @@ export function listChannelActivityStart(id, filter, new_only = false) {
       ? LIST_NEW_CHANNEL_ACTIVITY_START
       : LIST_CHANNEL_ACTIVITY_START,
     id,
-    filter
+    filter,
   };
 }
 
@@ -567,7 +567,7 @@ export function listChannelActivitySuccess(
   id,
   filter,
   new_only = false,
-  update_new = false
+  update_new = false,
 ) {
   return {
     type: new_only
@@ -579,7 +579,7 @@ export function listChannelActivitySuccess(
     count: response.count,
     id,
     filter,
-    update_new: new_only && update_new
+    update_new: new_only && update_new,
   };
 }
 
@@ -589,7 +589,7 @@ export function listChannelActivityFailed(error, id, new_only = false) {
       ? LIST_NEW_CHANNEL_ACTIVITY_FAILED
       : LIST_CHANNEL_ACTIVITY_FAILED,
     error,
-    id
+    id,
   };
 }
 
@@ -608,8 +608,8 @@ export function listMoreChannelActivity(url) {
         dispatch(
           listMoreChannelActivityFailed(
             error.response ? error.response.data : null,
-            id
-          )
+            id,
+          ),
         );
       });
   };
@@ -619,7 +619,7 @@ export function listMoreChannelActivityStart(url, id) {
   return {
     type: LIST_MORE_CHANNEL_ACTIVITY_START,
     url,
-    id
+    id,
   };
 }
 
@@ -630,7 +630,7 @@ export function listMoreChannelActivitySuccess(response, id) {
     previous: response.previous,
     next: response.next,
     count: response.count,
-    id
+    id,
   };
 }
 
@@ -638,6 +638,6 @@ export function listMoreChannelActivityFailed(error, id) {
   return {
     type: LIST_MORE_CHANNEL_ACTIVITY_FAILED,
     error,
-    id
+    id,
   };
 }

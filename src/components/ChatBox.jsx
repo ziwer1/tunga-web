@@ -1,12 +1,12 @@
-import React from "react";
-import { Link } from "react-router";
-import Avatar from "./Avatar";
-import MessageForm from "./MessageForm";
-import ActivityList from "./ActivityList";
+import React from 'react';
+import {Link} from 'react-router';
+import Avatar from './Avatar';
+import MessageForm from './MessageForm';
+import ActivityList from './ActivityList';
 
-import { getChannelKey } from "../utils/reducers";
-import { isAuthenticated } from "../utils/auth";
-import { CHANNEL_TYPES } from "../constants/Api";
+import {getChannelKey} from '../utils/reducers';
+import {isAuthenticated} from '../utils/auth';
+import {CHANNEL_TYPES} from '../constants/Api';
 
 export default class ChatBox extends React.Component {
   getView() {
@@ -17,43 +17,43 @@ export default class ChatBox extends React.Component {
   }
 
   onSendMessage(body, attachments) {
-    const { channel, MessageActions } = this.props;
-    MessageActions.createMessage({ channel: channel.id, body }, attachments);
+    const {channel, MessageActions} = this.props;
+    MessageActions.createMessage({channel: channel.id, body}, attachments);
   }
 
   onUpload(files) {
-    const { channel, ChannelActions } = this.props;
+    const {channel, ChannelActions} = this.props;
     ChannelActions.updateChannel(channel.id, null, files);
   }
 
   render() {
-    const { channel, Auth, Channel, ChannelActions, Message } = this.props;
-    const { attachments } = channel;
+    const {channel, Auth, Channel, ChannelActions, Message} = this.props;
+    const {attachments} = channel;
     let view = this.getView();
     var activities =
       Channel.detail.activity.items[getChannelKey(channel.id)] || [];
     if (channel.type == CHANNEL_TYPES.support) {
       activities = [
         {
-          action: "send",
-          activity_type: "message",
+          action: 'send',
+          activity_type: 'message',
           activity: {
             sender: {
-              username: "tunga",
-              short_name: "Tunga",
-              display_name: "Tunga",
-              avatar_url: "https://tunga.io/icons/Tunga_squarex150.png"
+              username: 'tunga',
+              short_name: 'Tunga',
+              display_name: 'Tunga',
+              avatar_url: 'https://tunga.io/icons/Tunga_squarex150.png',
             },
-            body: "How can we help? We're here for you!"
-          }
+            body: "How can we help? We're here for you!",
+          },
         },
-        ...activities
+        ...activities,
       ];
     }
 
     return (
       <div className="list-box">
-        {view == "files"
+        {view == 'files'
           ? <div className="attachment-list">
               {attachments
                 ? <div>
@@ -62,7 +62,7 @@ export default class ChatBox extends React.Component {
                       return (
                         <div key={upload.id} className="file">
                           <a href={upload.url}>
-                            <i className="fa fa-download" /> {upload.name}{" "}
+                            <i className="fa fa-download" /> {upload.name}{' '}
                             <strong>[{upload.display_size}]</strong>
                           </a>
                         </div>
@@ -73,7 +73,7 @@ export default class ChatBox extends React.Component {
             </div>
           : null}
 
-        {view == "people"
+        {view == 'people'
           ? <div className="people-list">
               <h4>People</h4>
               {channel.details && channel.details.participants
@@ -104,7 +104,7 @@ export default class ChatBox extends React.Component {
             </div>
           : null}
 
-        {["files", "people"].indexOf(view) == -1
+        {['files', 'people'].indexOf(view) == -1
           ? [
               <ActivityList
                 key="list"
@@ -136,7 +136,7 @@ export default class ChatBox extends React.Component {
                 uploadSaved={Channel.detail.isSaved}
                 isSending={Message.detail.isSaving || Channel.detail.isSaving}
                 canUpload={isAuthenticated()}
-              />
+              />,
             ]
           : null}
       </div>

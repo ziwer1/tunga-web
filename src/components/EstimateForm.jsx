@@ -1,20 +1,20 @@
-import React from "react";
-import moment from "moment";
-import _ from "lodash";
-import momentLocalizer from "react-widgets/lib/localizers/moment";
-import DateTimePicker from "react-widgets/lib/DateTimePicker";
-import { Table } from "react-bootstrap";
+import React from 'react';
+import moment from 'moment';
+import _ from 'lodash';
+import momentLocalizer from 'react-widgets/lib/localizers/moment';
+import DateTimePicker from 'react-widgets/lib/DateTimePicker';
+import {Table} from 'react-bootstrap';
 
-import FormStatus from "./status/FormStatus";
-import FieldError from "./status/FieldError";
-import ComponentWithModal from "./ComponentWithModal";
-import LargeModal from "./LargeModal";
-import ActivityForm from "./ActivityForm";
+import FormStatus from './status/FormStatus';
+import FieldError from './status/FieldError';
+import ComponentWithModal from './ComponentWithModal';
+import LargeModal from './LargeModal';
+import ActivityForm from './ActivityForm';
 
-import { DEVELOPER_FEE, STATUS_SUBMITTED } from "../constants/Api";
-import { getUser, isAdminOrProjectOwner } from "../utils/auth";
-import { getPayDetails, canEditEstimate, canAddEstimate } from "../utils/tasks";
-import { parseNumber } from "../utils/helpers";
+import {DEVELOPER_FEE, STATUS_SUBMITTED} from '../constants/Api';
+import {getUser, isAdminOrProjectOwner} from '../utils/auth';
+import {getPayDetails, canEditEstimate, canAddEstimate} from '../utils/tasks';
+import {parseNumber} from '../utils/helpers';
 
 momentLocalizer(moment);
 
@@ -22,25 +22,25 @@ export default class EstimateForm extends ComponentWithModal {
   constructor(props) {
     super(props);
     this.state = {
-      introduction: "",
+      introduction: '',
       activities: [],
       modalActivity: null,
       modalContent: null,
-      modalTitle: "",
+      modalTitle: '',
       submitted: false,
       start_date: null,
-      end_date: null
+      end_date: null,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
     const estimate = this.props.estimate || {};
-    this.setState({ ...estimate });
+    this.setState({...estimate});
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { Estimate } = this.props;
+    const {Estimate} = this.props;
     const estimate = this.props.estimate || {};
 
     if (
@@ -57,21 +57,21 @@ export default class EstimateForm extends ComponentWithModal {
         !this.props.estimate ||
         this.props.estimate != Estimate.detail.estimate.id
       ) {
-        const { router } = this.context;
+        const {router} = this.context;
         router.replace(
           `/work/${Estimate.detail.estimate.task}/estimate/${Estimate.detail
-            .estimate.id}`
+            .estimate.id}`,
         );
       }
 
-      this.setState({ ...Estimate.detail.estimate, submitted: false });
+      this.setState({...Estimate.detail.estimate, submitted: false});
     }
 
     if (
       this.props.Estimate.detail.estimate.id &&
       !prevProps.Estimate.detail.estimate.id
     ) {
-      this.setState({ ...this.props.Estimate.detail.estimate });
+      this.setState({...this.props.Estimate.detail.estimate});
     }
   }
 
@@ -88,18 +88,18 @@ export default class EstimateForm extends ComponentWithModal {
   }
 
   onStartDateChange(date) {
-    this.setState({ start_date: moment(date).utc().format() });
+    this.setState({start_date: moment(date).utc().format()});
   }
 
   onEndDateChange(date) {
-    this.setState({ end_date: moment(date).utc().format() });
+    this.setState({end_date: moment(date).utc().format()});
   }
 
   onComposeActivity(activity) {
     this.setState({
       modalActivity: activity,
-      modalContent: "activity",
-      modalTitle: "Add activity"
+      modalContent: 'activity',
+      modalTitle: 'Add activity',
     });
     this.open();
   }
@@ -111,7 +111,7 @@ export default class EstimateForm extends ComponentWithModal {
     } else {
       new_activities = [...new_activities, activity];
     }
-    this.setState({ activities: new_activities });
+    this.setState({activities: new_activities});
   }
 
   onDelete(idx) {
@@ -119,10 +119,10 @@ export default class EstimateForm extends ComponentWithModal {
       let activities = Array.from(
         new Set([
           ...this.state.activities.slice(0, idx),
-          ...this.state.activities.slice(idx + 1)
-        ])
+          ...this.state.activities.slice(idx + 1),
+        ]),
       );
-      this.setState({ activities });
+      this.setState({activities});
     }
   }
 
@@ -133,11 +133,11 @@ export default class EstimateForm extends ComponentWithModal {
     var start_date = this.state.start_date;
     var end_date = this.state.end_date;
 
-    const { EstimateActions } = this.props;
+    const {EstimateActions} = this.props;
     const estimate = this.props.estimate || {};
     const task = this.props.task || {};
 
-    let estimate_info = { task: estimate.task, introduction, activities };
+    let estimate_info = {task: estimate.task, introduction, activities};
 
     if (!estimate.id) {
       estimate_info.task = task.id;
@@ -169,9 +169,8 @@ export default class EstimateForm extends ComponentWithModal {
         <LargeModal
           title={this.state.modalTitle}
           show={this.state.showModal}
-          onHide={this.close.bind(this)}
-        >
-          {this.state.modalContent == "activity"
+          onHide={this.close.bind(this)}>
+          {this.state.modalContent == 'activity'
             ? <ActivityForm
                 activity={this.state.modalActivity}
                 onSave={this.onAddActivity.bind(this)}
@@ -184,7 +183,7 @@ export default class EstimateForm extends ComponentWithModal {
   }
 
   render() {
-    const { Estimate } = this.props;
+    const {Estimate} = this.props;
     const task = this.props.task || {};
     const estimate = this.props.estimate || {};
 
@@ -197,14 +196,13 @@ export default class EstimateForm extends ComponentWithModal {
           onSubmit={this.handleSubmit}
           name="estimate-form"
           role="form"
-          ref="estimate_form"
-        >
+          ref="estimate_form">
           <FormStatus
             loading={Estimate.detail.isSaving}
             success={Estimate.detail.isSaved}
             message={`Estimate ${estimate.status == STATUS_SUBMITTED
-              ? "submitted"
-              : "saved"} successfully`}
+              ? 'submitted'
+              : 'saved'} successfully`}
             error={Estimate.detail.error.create}
           />
 
@@ -228,7 +226,7 @@ export default class EstimateForm extends ComponentWithModal {
             {/*<label className="control-label">Introduction *</label>*/}
             <textarea
               className="form-control"
-              onChange={this.onInputChange.bind(this, "introduction")}
+              onChange={this.onInputChange.bind(this, 'introduction')}
               value={this.state.introduction}
               ref="introduction"
               placeholder="Introduction"
@@ -250,8 +248,7 @@ export default class EstimateForm extends ComponentWithModal {
             <button
               type="button"
               className="btn"
-              onClick={this.onComposeActivity.bind(this, null)}
-            >
+              onClick={this.onComposeActivity.bind(this, null)}>
               Add
             </button>
 
@@ -275,10 +272,9 @@ export default class EstimateForm extends ComponentWithModal {
                               href="#"
                               onClick={this.onComposeActivity.bind(this, {
                                 ...activity,
-                                idx
-                              })}
-                            >
-                              {_.truncate(activity.title, { length: 25 })}
+                                idx,
+                              })}>
+                              {_.truncate(activity.title, {length: 25})}
                             </a>
                           </td>
                           <td>
@@ -295,8 +291,7 @@ export default class EstimateForm extends ComponentWithModal {
                           <td>
                             <button
                               className="btn"
-                              onClick={this.onDelete.bind(this, idx)}
-                            >
+                              onClick={this.onDelete.bind(this, idx)}>
                               <i className="fa fa-trash-o" />
                             </button>
                           </td>
@@ -413,8 +408,7 @@ export default class EstimateForm extends ComponentWithModal {
                 <button
                   type="submit"
                   className="btn"
-                  disabled={Estimate.detail.isSaving}
-                >
+                  disabled={Estimate.detail.isSaving}>
                   Save
                 </button>
                 {!estimate.user || estimate.user.id == getUser().id
@@ -423,11 +417,10 @@ export default class EstimateForm extends ComponentWithModal {
                       value={STATUS_SUBMITTED}
                       className="btn"
                       onClick={e => {
-                        this.setState({ submitted: true });
+                        this.setState({submitted: true});
                         return true;
                       }}
-                      disabled={Estimate.detail.isSaving}
-                    >
+                      disabled={Estimate.detail.isSaving}>
                       Submit for Review
                     </button>
                   : null}
@@ -441,14 +434,14 @@ export default class EstimateForm extends ComponentWithModal {
 
 EstimateForm.propTypes = {
   estimate: React.PropTypes.object,
-  task: React.PropTypes.object
+  task: React.PropTypes.object,
 };
 
 EstimateForm.defaultProps = {
   estimate: null,
-  task: null
+  task: null,
 };
 
 EstimateForm.contextTypes = {
-  router: React.PropTypes.object.isRequired
+  router: React.PropTypes.object.isRequired,
 };

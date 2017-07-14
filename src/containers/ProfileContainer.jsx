@@ -1,5 +1,5 @@
-import React from "react";
-import connect from "../utils/connectors/ProfileConnector";
+import React from 'react';
+import connect from '../utils/connectors/ProfileConnector';
 
 class ProfileContainer extends React.Component {
   renderChildren() {
@@ -9,9 +9,9 @@ class ProfileContainer extends React.Component {
         return React.cloneElement(child, {
           Auth: this.props.Auth,
           Profile: this.props.Profile,
-          ProfileActions: this.props.ProfileActions
+          ProfileActions: this.props.ProfileActions,
         });
-      }.bind(this)
+      }.bind(this),
     );
   }
 

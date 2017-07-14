@@ -1,12 +1,12 @@
-import React from "react";
-import { Link, IndexLink } from "react-router";
-import { Panel, Accordion } from "react-bootstrap";
-import Progress from "./status/Progress";
-import LoadMore from "./status/LoadMore";
+import React from 'react';
+import {Link, IndexLink} from 'react-router';
+import {Panel, Accordion} from 'react-bootstrap';
+import Progress from './status/Progress';
+import LoadMore from './status/LoadMore';
 
 export default class SupportPageList extends React.Component {
   componentDidMount() {
-    const { search } = this.props;
+    const {search} = this.props;
     let section = this.getSectionSlug();
     if (section) {
       this.props.SupportActions.retrieveSupportSection(section);
@@ -14,7 +14,7 @@ export default class SupportPageList extends React.Component {
     this.props.SupportActions.listSupportPages({
       section,
       search,
-      tag: this.getFilterTag()
+      tag: this.getFilterTag(),
     });
   }
 
@@ -25,29 +25,29 @@ export default class SupportPageList extends React.Component {
         prevProps.params.section != this.props.params.section) ||
       (this.props.params && prevProps.params.tag != this.props.params.tag)
     ) {
-      const { search } = this.props;
+      const {search} = this.props;
       let section = this.getSectionSlug();
       this.props.SupportActions.listSupportPages({
         section,
         search,
-        tag: this.getFilterTag()
+        tag: this.getFilterTag(),
       });
     }
   }
 
   getSectionSlug() {
-    const { params } = this.props;
+    const {params} = this.props;
     return params ? params.section : null;
   }
 
   getFilterTag() {
-    const { params } = this.props;
+    const {params} = this.props;
     return params ? params.tag : null;
   }
 
   render() {
-    const { Support, SupportActions, hide_header } = this.props;
-    const { section } = Support.Section.detail;
+    const {Support, SupportActions, hide_header} = this.props;
+    const {section} = Support.Section.detail;
 
     return (
       <div>
@@ -67,8 +67,7 @@ export default class SupportPageList extends React.Component {
                     <li role="presentation">
                       <IndexLink
                         to={`/support/${this.getSectionSlug()}`}
-                        activeClassName="active"
-                      >
+                        activeClassName="active">
                         All
                       </IndexLink>
                     </li>
@@ -77,8 +76,7 @@ export default class SupportPageList extends React.Component {
                         <li role="presentation" key={tag.slug}>
                           <Link
                             to={`/support/${this.getSectionSlug()}/tag/${tag.slug}`}
-                            activeClassName="active"
-                          >
+                            activeClassName="active">
                             {tag.name}
                           </Link>
                         </li>
@@ -99,17 +97,15 @@ export default class SupportPageList extends React.Component {
                           href={`#${page.section.slug}_${page.slug}`}
                           className="title"
                           data-toggle="collapse"
-                          data-target={`#${page.section.slug}_${page.slug}`}
-                        >
+                          data-target={`#${page.section.slug}_${page.slug}`}>
                           <i className="fa fa-caret-right" /> {page.title}
                         </a>
                         <div
                           id={`${page.section.slug}_${page.slug}`}
-                          className="collapse"
-                        >
+                          className="collapse">
                           <div
                             className="details"
-                            dangerouslySetInnerHTML={{ __html: page.content }}
+                            dangerouslySetInnerHTML={{__html: page.content}}
                           />
                         </div>
                       </div>

@@ -1,25 +1,25 @@
-import axios from "axios";
-import { ENDPOINT_SUPPORT_PAGE } from "../constants/Api";
+import axios from 'axios';
+import {ENDPOINT_SUPPORT_PAGE} from '../constants/Api';
 
-export const CREATE_SUPPORT_PAGE_START = "CREATE_SUPPORT_PAGE_START";
-export const CREATE_SUPPORT_PAGE_SUCCESS = "CREATE_SUPPORT_PAGE_SUCCESS";
-export const CREATE_SUPPORT_PAGE_FAILED = "CREATE_SUPPORT_PAGE_FAILED";
-export const LIST_SUPPORT_PAGES_START = "LIST_SUPPORT_PAGES_START";
-export const LIST_SUPPORT_PAGES_SUCCESS = "LIST_SUPPORT_PAGES_SUCCESS";
-export const LIST_SUPPORT_PAGES_FAILED = "LIST_SUPPORT_PAGES_FAILED";
-export const RETRIEVE_SUPPORT_PAGE_START = "RETRIEVE_SUPPORT_PAGE_START";
-export const RETRIEVE_SUPPORT_PAGE_SUCCESS = "RETRIEVE_SUPPORT_PAGE_SUCCESS";
-export const RETRIEVE_SUPPORT_PAGE_FAILED = "RETRIEVE_SUPPORT_PAGE_FAILED";
-export const UPDATE_SUPPORT_PAGE_START = "UPDATE_SUPPORT_PAGE_START";
-export const UPDATE_SUPPORT_PAGE_SUCCESS = "UPDATE_SUPPORT_PAGE_SUCCESS";
-export const UPDATE_SUPPORT_PAGE_FAILED = "UPDATE_SUPPORT_PAGE_FAILED";
-export const DELETE_SUPPORT_PAGE_START = "DELETE_SUPPORT_PAGE_START";
-export const DELETE_SUPPORT_PAGE_SUCCESS = "DELETE_SUPPORT_PAGE_SUCCESS";
-export const DELETE_SUPPORT_PAGE_FAILED = "DELETE_SUPPORT_PAGE_FAILED";
-export const LIST_MORE_SUPPORT_PAGES_START = "LIST_MORE_SUPPORT_PAGES_START";
+export const CREATE_SUPPORT_PAGE_START = 'CREATE_SUPPORT_PAGE_START';
+export const CREATE_SUPPORT_PAGE_SUCCESS = 'CREATE_SUPPORT_PAGE_SUCCESS';
+export const CREATE_SUPPORT_PAGE_FAILED = 'CREATE_SUPPORT_PAGE_FAILED';
+export const LIST_SUPPORT_PAGES_START = 'LIST_SUPPORT_PAGES_START';
+export const LIST_SUPPORT_PAGES_SUCCESS = 'LIST_SUPPORT_PAGES_SUCCESS';
+export const LIST_SUPPORT_PAGES_FAILED = 'LIST_SUPPORT_PAGES_FAILED';
+export const RETRIEVE_SUPPORT_PAGE_START = 'RETRIEVE_SUPPORT_PAGE_START';
+export const RETRIEVE_SUPPORT_PAGE_SUCCESS = 'RETRIEVE_SUPPORT_PAGE_SUCCESS';
+export const RETRIEVE_SUPPORT_PAGE_FAILED = 'RETRIEVE_SUPPORT_PAGE_FAILED';
+export const UPDATE_SUPPORT_PAGE_START = 'UPDATE_SUPPORT_PAGE_START';
+export const UPDATE_SUPPORT_PAGE_SUCCESS = 'UPDATE_SUPPORT_PAGE_SUCCESS';
+export const UPDATE_SUPPORT_PAGE_FAILED = 'UPDATE_SUPPORT_PAGE_FAILED';
+export const DELETE_SUPPORT_PAGE_START = 'DELETE_SUPPORT_PAGE_START';
+export const DELETE_SUPPORT_PAGE_SUCCESS = 'DELETE_SUPPORT_PAGE_SUCCESS';
+export const DELETE_SUPPORT_PAGE_FAILED = 'DELETE_SUPPORT_PAGE_FAILED';
+export const LIST_MORE_SUPPORT_PAGES_START = 'LIST_MORE_SUPPORT_PAGES_START';
 export const LIST_MORE_SUPPORT_PAGES_SUCCESS =
-  "LIST_MORE_SUPPORT_PAGES_SUCCESS";
-export const LIST_MORE_SUPPORT_PAGES_FAILED = "LIST_MORE_SUPPORT_PAGES_FAILED";
+  'LIST_MORE_SUPPORT_PAGES_SUCCESS';
+export const LIST_MORE_SUPPORT_PAGES_FAILED = 'LIST_MORE_SUPPORT_PAGES_FAILED';
 
 export function createSupportPage(page, attachments) {
   return dispatch => {
@@ -32,7 +32,7 @@ export function createSupportPage(page, attachments) {
       })
       .catch(function(error) {
         dispatch(
-          createSupportPageFailed(error.response ? error.response.data : null)
+          createSupportPageFailed(error.response ? error.response.data : null),
         );
       });
   };
@@ -41,21 +41,21 @@ export function createSupportPage(page, attachments) {
 export function createSupportPageStart(page) {
   return {
     type: CREATE_SUPPORT_PAGE_START,
-    page
+    page,
   };
 }
 
 export function createSupportPageSuccess(page) {
   return {
     type: CREATE_SUPPORT_PAGE_SUCCESS,
-    page
+    page,
   };
 }
 
 export function createSupportPageFailed(error) {
   return {
     type: CREATE_SUPPORT_PAGE_FAILED,
-    error
+    error,
   };
 }
 
@@ -63,13 +63,13 @@ export function listSupportPages(filter) {
   return dispatch => {
     dispatch(listSupportPagesStart(filter));
     axios
-      .get(ENDPOINT_SUPPORT_PAGE, { params: filter })
+      .get(ENDPOINT_SUPPORT_PAGE, {params: filter})
       .then(function(response) {
         dispatch(listSupportPagesSuccess(response.data));
       })
       .catch(function(error) {
         dispatch(
-          listSupportPagesFailed(error.response ? error.response.data : null)
+          listSupportPagesFailed(error.response ? error.response.data : null),
         );
       });
   };
@@ -78,7 +78,7 @@ export function listSupportPages(filter) {
 export function listSupportPagesStart(filter) {
   return {
     type: LIST_SUPPORT_PAGES_START,
-    filter
+    filter,
   };
 }
 
@@ -88,14 +88,14 @@ export function listSupportPagesSuccess(response) {
     items: response.results,
     previous: response.previous,
     next: response.next,
-    count: response.count
+    count: response.count,
   };
 }
 
 export function listSupportPagesFailed(error) {
   return {
     type: LIST_SUPPORT_PAGES_FAILED,
-    error
+    error,
   };
 }
 
@@ -103,13 +103,15 @@ export function retrieveSupportPage(id) {
   return dispatch => {
     dispatch(retrieveSupportPageStart(id));
     axios
-      .get(ENDPOINT_SUPPORT_PAGE + id + "/")
+      .get(ENDPOINT_SUPPORT_PAGE + id + '/')
       .then(function(response) {
         dispatch(retrieveSupportPageSuccess(response.data));
       })
       .catch(function(error) {
         dispatch(
-          retrieveSupportPageFailed(error.response ? error.response.data : null)
+          retrieveSupportPageFailed(
+            error.response ? error.response.data : null,
+          ),
         );
       });
   };
@@ -118,21 +120,21 @@ export function retrieveSupportPage(id) {
 export function retrieveSupportPageStart(id) {
   return {
     type: RETRIEVE_SUPPORT_PAGE_START,
-    id
+    id,
   };
 }
 
 export function retrieveSupportPageSuccess(page) {
   return {
     type: RETRIEVE_SUPPORT_PAGE_SUCCESS,
-    page
+    page,
   };
 }
 
 export function retrieveSupportPageFailed(error) {
   return {
     type: RETRIEVE_SUPPORT_PAGE_FAILED,
-    error
+    error,
   };
 }
 
@@ -140,13 +142,13 @@ export function updateSupportPage(id, page) {
   return dispatch => {
     dispatch(updateSupportPageStart(id));
     axios
-      .patch(ENDPOINT_SUPPORT_PAGE + id + "/", page)
+      .patch(ENDPOINT_SUPPORT_PAGE + id + '/', page)
       .then(function(response) {
         dispatch(updateSupportPageSuccess(response.data));
       })
       .catch(function(error) {
         dispatch(
-          updateSupportPageFailed(error.response ? error.response.data : null)
+          updateSupportPageFailed(error.response ? error.response.data : null),
         );
       });
   };
@@ -155,21 +157,21 @@ export function updateSupportPage(id, page) {
 export function updateSupportPageStart(id) {
   return {
     type: UPDATE_SUPPORT_PAGE_START,
-    id
+    id,
   };
 }
 
 export function updateSupportPageSuccess(page) {
   return {
     type: UPDATE_SUPPORT_PAGE_SUCCESS,
-    page
+    page,
   };
 }
 
 export function updateSupportPageFailed(error) {
   return {
     type: UPDATE_SUPPORT_PAGE_FAILED,
-    error
+    error,
   };
 }
 
@@ -177,13 +179,13 @@ export function deleteSupportPage(id) {
   return dispatch => {
     dispatch(deleteSupportPageStart(id));
     axios
-      .delete(ENDPOINT_SUPPORT_PAGE + id + "/", {})
+      .delete(ENDPOINT_SUPPORT_PAGE + id + '/', {})
       .then(function() {
         dispatch(deleteSupportPageSuccess(id));
       })
       .catch(function(error) {
         dispatch(
-          deleteSupportPageFailed(error.response ? error.response.data : null)
+          deleteSupportPageFailed(error.response ? error.response.data : null),
         );
       });
   };
@@ -192,21 +194,21 @@ export function deleteSupportPage(id) {
 export function deleteSupportPageStart(id) {
   return {
     type: DELETE_SUPPORT_PAGE_START,
-    id
+    id,
   };
 }
 
 export function deleteSupportPageSuccess(id) {
   return {
     type: DELETE_SUPPORT_PAGE_SUCCESS,
-    id
+    id,
   };
 }
 
 export function deleteSupportPageFailed(error) {
   return {
     type: DELETE_SUPPORT_PAGE_FAILED,
-    error
+    error,
   };
 }
 
@@ -221,8 +223,8 @@ export function listMoreSupportPages(url) {
       .catch(function(error) {
         dispatch(
           listMoreSupportPagesFailed(
-            error.response ? error.response.data : null
-          )
+            error.response ? error.response.data : null,
+          ),
         );
       });
   };
@@ -231,7 +233,7 @@ export function listMoreSupportPages(url) {
 export function listMoreSupportPagesStart(url) {
   return {
     type: LIST_MORE_SUPPORT_PAGES_START,
-    url
+    url,
   };
 }
 
@@ -241,13 +243,13 @@ export function listMoreSupportPagesSuccess(response) {
     items: response.results,
     previous: response.previous,
     next: response.next,
-    count: response.count
+    count: response.count,
   };
 }
 
 export function listMoreSupportPagesFailed(error) {
   return {
     type: LIST_MORE_SUPPORT_PAGES_FAILED,
-    error
+    error,
   };
 }

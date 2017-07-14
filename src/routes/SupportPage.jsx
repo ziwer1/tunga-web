@@ -1,5 +1,5 @@
-import React from "react";
-import connect from "../utils/connectors/SupportConnector";
+import React from 'react';
+import connect from '../utils/connectors/SupportConnector';
 
 class SupportPage extends React.Component {
   renderChildren() {
@@ -8,9 +8,9 @@ class SupportPage extends React.Component {
       function(child) {
         return React.cloneElement(child, {
           Support: this.props.Support,
-          SupportActions: this.props.SupportActions
+          SupportActions: this.props.SupportActions,
         });
-      }.bind(this)
+      }.bind(this),
     );
   }
 

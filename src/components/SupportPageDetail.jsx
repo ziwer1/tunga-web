@@ -1,7 +1,7 @@
-import React from "react";
-import { Link, IndexLink } from "react-router";
-import Progress from "./status/Progress";
-import LoadMore from "./status/LoadMore";
+import React from 'react';
+import {Link, IndexLink} from 'react-router';
+import Progress from './status/Progress';
+import LoadMore from './status/LoadMore';
 
 export default class SupportPageList extends React.Component {
   componentDidMount() {
@@ -9,8 +9,8 @@ export default class SupportPageList extends React.Component {
   }
 
   render() {
-    const { Support } = this.props;
-    const { page } = Support.Page.detail;
+    const {Support} = this.props;
+    const {page} = Support.Page.detail;
 
     return (
       <div>
@@ -33,7 +33,7 @@ export default class SupportPageList extends React.Component {
                 </ol>
                 <div
                   className="support-page"
-                  dangerouslySetInnerHTML={{ __html: page.content }}
+                  dangerouslySetInnerHTML={{__html: page.content}}
                 />
               </div>
             : <div className="alert alert-danger">Support page not found</div>}

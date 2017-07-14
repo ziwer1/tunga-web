@@ -1,7 +1,7 @@
-import React from "react";
-import Progress from "./status/Progress";
-import FormStatus from "./status/FormStatus";
-import FieldError from "./status/FieldError";
+import React from 'react';
+import Progress from './status/Progress';
+import FormStatus from './status/FormStatus';
+import FieldError from './status/FieldError';
 
 export default class PasswordChangeForm extends React.Component {
   constructor(props) {
@@ -27,17 +27,13 @@ export default class PasswordChangeForm extends React.Component {
       return;
     }
 
-    const { ProfileActions } = this.props;
-    ProfileActions.updatePassword({
-      old_password,
-      new_password1,
-      new_password2
-    });
+    const {ProfileActions} = this.props;
+    ProfileActions.updatePassword({old_password, new_password1, new_password2});
     return;
   }
 
   render() {
-    const { Auth, Profile } = this.props;
+    const {Auth, Profile} = this.props;
 
     return (
       <div>
@@ -47,18 +43,17 @@ export default class PasswordChangeForm extends React.Component {
               onSubmit={this.handleSubmit}
               name="password"
               role="form"
-              ref="password_form"
-            >
+              ref="password_form">
               <FormStatus
                 loading={Profile.isSaving.security}
                 success={Profile.isSaved.security}
-                message={"Password changed"}
+                message={'Password changed'}
                 error={Profile.error.security}
               />
 
               {Profile.error.security && Profile.error.security.old_password
                 ? <FieldError message={Profile.error.security.old_password} />
-                : ""}
+                : ''}
               <div className="form-group">
                 <label className="control-label">Current Password</label>
                 <div>
@@ -74,7 +69,7 @@ export default class PasswordChangeForm extends React.Component {
 
               {Profile.error.security && Profile.error.security.new_password1
                 ? <FieldError message={Profile.error.security.new_password1} />
-                : ""}
+                : ''}
               <div className="form-group">
                 <label className="control-label">New Password</label>
                 <div>
@@ -90,7 +85,7 @@ export default class PasswordChangeForm extends React.Component {
 
               {Profile.error.security && Profile.error.security.new_password2
                 ? <FieldError message={Profile.error.security.new_password2} />
-                : ""}
+                : ''}
               <div className="form-group">
                 <label className="control-label">Confirm New Password</label>
                 <div>
@@ -107,8 +102,7 @@ export default class PasswordChangeForm extends React.Component {
               <button
                 type="submit"
                 className="btn  pull-right"
-                disabled={Profile.isSaving.security}
-              >
+                disabled={Profile.isSaving.security}>
                 Save
               </button>
               <div className="clearfix" />

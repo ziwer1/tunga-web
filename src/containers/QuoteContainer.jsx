@@ -1,5 +1,5 @@
-import React from "react";
-import connect from "../utils/connectors/QuoteConnector";
+import React from 'react';
+import connect from '../utils/connectors/QuoteConnector';
 
 class QuoteContainer extends React.Component {
   renderChildren() {
@@ -9,9 +9,9 @@ class QuoteContainer extends React.Component {
         return React.cloneElement(child, {
           Quote: this.props.Quote,
           QuoteActions: this.props.QuoteActions,
-          task: this.props.task
+          task: this.props.task,
         });
-      }.bind(this)
+      }.bind(this),
     );
   }
 

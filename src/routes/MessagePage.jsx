@@ -1,25 +1,25 @@
-import React from "react";
-import { Link } from "react-router";
+import React from 'react';
+import {Link} from 'react-router';
 
-import SearchBox from "../components/SearchBox";
-import Progress from "../components/status/Progress";
-import LoadMore from "../components/status/LoadMore";
-import Avatar from "../components/Avatar";
-import ChannelInfo from "../components/ChannelInfo";
+import SearchBox from '../components/SearchBox';
+import Progress from '../components/status/Progress';
+import LoadMore from '../components/status/LoadMore';
+import Avatar from '../components/Avatar';
+import ChannelInfo from '../components/ChannelInfo';
 
-import connect from "../utils/connectors/ChannelConnector";
+import connect from '../utils/connectors/ChannelConnector';
 
-import { CHANNEL_TYPES } from "../constants/Api";
-import { isAuthenticated, isAdmin } from "../utils/auth";
+import {CHANNEL_TYPES} from '../constants/Api';
+import {isAuthenticated, isAdmin} from '../utils/auth';
 
 export function resizeOverviewBox() {
   var w_h = $(window).height();
-  var nav_h = $("nav.navbar").height();
-  var wf_h = $(".chat-head").height();
+  var nav_h = $('nav.navbar').height();
+  var wf_h = $('.chat-head').height();
   var t_h = nav_h + wf_h + 90;
 
   if (w_h > t_h) {
-    $(".chat-overview").css("height", w_h - t_h + "px");
+    $('.chat-overview').css('height', w_h - t_h + 'px');
   }
 }
 
@@ -38,15 +38,15 @@ class MessagePage extends React.Component {
   }
 
   getChannels() {
-    const { ChannelActions } = this.props;
+    const {ChannelActions} = this.props;
     if (isAuthenticated()) {
-      ChannelActions.listChannels({ type: this.getChannelTypeFilter() });
+      ChannelActions.listChannels({type: this.getChannelTypeFilter()});
     }
   }
 
   getChannelTypeFilter() {
     switch (this.props.route.path) {
-      case "help":
+      case 'help':
         return CHANNEL_TYPES.support;
       default:
         return null;
@@ -61,14 +61,14 @@ class MessagePage extends React.Component {
           Channel: this.props.Channel,
           Message: this.props.Message,
           ChannelActions: this.props.ChannelActions,
-          MessageActions: this.props.MessageActions
+          MessageActions: this.props.MessageActions,
         });
-      }.bind(this)
+      }.bind(this),
     );
   }
 
   render() {
-    const { Channel, ChannelActions } = this.props;
+    const {Channel, ChannelActions} = this.props;
     const channel_type_filter = this.getChannelTypeFilter();
 
     return (
@@ -77,8 +77,8 @@ class MessagePage extends React.Component {
           ? <div className="chat-head">
               <h2>
                 {channel_type_filter == CHANNEL_TYPES.support
-                  ? "Help"
-                  : "Messages"}
+                  ? 'Help'
+                  : 'Messages'}
               </h2>
             </div>
           : null}
@@ -96,10 +96,10 @@ class MessagePage extends React.Component {
                   ? null
                   : <div>
                       <Link to="/conversation/start/">
-                        <i className="fa fa-plus" />{" "}
+                        <i className="fa fa-plus" />{' '}
                         {channel_type_filter == CHANNEL_TYPES.support
-                          ? "Create a new inquiry"
-                          : "Start a new conversation"}
+                          ? 'Create a new inquiry'
+                          : 'Start a new conversation'}
                       </Link>
                     </div>}
                 {Channel.list.isFetching
@@ -113,11 +113,10 @@ class MessagePage extends React.Component {
                               key={id}
                               to={`${channel_type_filter ==
                               CHANNEL_TYPES.support
-                                ? "/help"
-                                : "/conversation"}/${channel.id}/`}
+                                ? '/help'
+                                : '/conversation'}/${channel.id}/`}
                               className="media"
-                              activeClassName="active"
-                            >
+                              activeClassName="active">
                               <div className="media-left">
                                 <Avatar
                                   src={
@@ -126,7 +125,7 @@ class MessagePage extends React.Component {
                                       : null
                                   }
                                   icon={
-                                    channel.user ? null : "glypichon-comment"
+                                    channel.user ? null : 'glypichon-comment'
                                   }
                                   badge={channel.new || null}
                                 />

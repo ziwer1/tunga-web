@@ -1,51 +1,51 @@
-import React from "react";
-import { Link } from "react-router";
-import Linkify from "./Linkify";
+import React from 'react';
+import {Link} from 'react-router';
+import Linkify from './Linkify';
 
-import UserCardProfile from "./UserCardProfile";
-import TagList from "./TagList";
+import UserCardProfile from './UserCardProfile';
+import TagList from './TagList';
 
-import { isProjectOwner } from "../utils/auth";
+import {isProjectOwner} from '../utils/auth';
 
-import { STATUS_ACCEPTED, STATUS_REJECTED } from "../constants/Api";
+import {STATUS_ACCEPTED, STATUS_REJECTED} from '../constants/Api';
 
 export default class UserCard extends React.Component {
   handleConnectRequest() {
-    const { UserActions, user } = this.props;
-    UserActions.createConnection({ to_user: user.id });
+    const {UserActions, user} = this.props;
+    UserActions.createConnection({to_user: user.id});
   }
 
   handleConnectResponse(accepted = false) {
-    const { UserActions, user } = this.props;
+    const {UserActions, user} = this.props;
     UserActions.updateConnection(user.request, {
       accepted,
-      status: accepted ? STATUS_ACCEPTED : STATUS_REJECTED
+      status: accepted ? STATUS_ACCEPTED : STATUS_REJECTED,
     });
   }
 
   handleDeleteConnection() {
-    const { UserActions, user, hideOnDisconnect } = this.props;
+    const {UserActions, user, hideOnDisconnect} = this.props;
     if (user.connection) {
       UserActions.deleteConnection(user.connection.id, user, hideOnDisconnect);
     }
   }
 
   render() {
-    const { user, profileLink, tagLinks } = this.props;
-    var connection_msg = "Send friend request";
-    var remove_msg = "Remove friend";
+    const {user, profileLink, tagLinks} = this.props;
+    var connection_msg = 'Send friend request';
+    var remove_msg = 'Remove friend';
     if (isProjectOwner()) {
-      connection_msg = "Add to my team";
-      remove_msg = "Remove from my team";
+      connection_msg = 'Add to my team';
+      remove_msg = 'Remove from my team';
     } else if (user.is_project_owner) {
-      connection_msg = "Send request to join team";
-      remove_msg = "Leave team";
+      connection_msg = 'Send request to join team';
+      remove_msg = 'Leave team';
     }
 
     return (
       <div className="card user-card">
         <UserCardProfile user={user} profileLink={profileLink} />
-        <div className={`skills ${user.is_developer ? "" : "skills-needed"}`}>
+        <div className={`skills ${user.is_developer ? '' : 'skills-needed'}`}>
           {user.profile
             ? <div>
                 {!user.is_developer
@@ -66,7 +66,7 @@ export default class UserCard extends React.Component {
 
         <div className="short-description">
           {user.profile
-            ? <Linkify properties={{ target: "_blank" }}>
+            ? <Linkify properties={{target: '_blank'}}>
                 {user.profile.bio}
               </Linkify>
             : null}
@@ -86,8 +86,7 @@ export default class UserCard extends React.Component {
                   <button
                     type="button"
                     className="btn btn-block "
-                    onClick={this.handleConnectRequest.bind(this)}
-                  >
+                    onClick={this.handleConnectRequest.bind(this)}>
                     {connection_msg}
                   </button>
                 </div>
@@ -98,8 +97,7 @@ export default class UserCard extends React.Component {
                     <button
                       type="button"
                       className="btn btn-block "
-                      onClick={this.handleConnectResponse.bind(this, true)}
-                    >
+                      onClick={this.handleConnectResponse.bind(this, true)}>
                       Accept Request
                     </button>
                   </div>
@@ -107,8 +105,7 @@ export default class UserCard extends React.Component {
                     <button
                       type="button"
                       className="btn btn-block "
-                      onClick={this.handleConnectResponse.bind(this, false)}
-                    >
+                      onClick={this.handleConnectResponse.bind(this, false)}>
                       Decline Request
                     </button>
                   </div>
@@ -120,8 +117,7 @@ export default class UserCard extends React.Component {
                   <button
                     type="button"
                     className="btn btn-block "
-                    onClick={this.handleDeleteConnection.bind(this)}
-                  >
+                    onClick={this.handleDeleteConnection.bind(this)}>
                     {remove_msg}
                   </button>
                 </div>
@@ -136,11 +132,11 @@ export default class UserCard extends React.Component {
 UserCard.propTypes = {
   user: React.PropTypes.object.isRequired,
   profileLink: React.PropTypes.bool,
-  tagLinks: React.PropTypes.bool
+  tagLinks: React.PropTypes.bool,
 };
 
 UserCard.defaultProps = {
   user: {},
   profileLink: true,
-  tagLinks: true
+  tagLinks: true,
 };

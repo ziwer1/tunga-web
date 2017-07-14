@@ -1,14 +1,14 @@
-import React from "react";
+import React from 'react';
 
-import Progress from "./status/Progress";
-import FormStatus from "./status/FormStatus";
-import FieldError from "./status/FieldError";
-import SkillSelector from "../containers/SkillSelector";
+import Progress from './status/Progress';
+import FormStatus from './status/FormStatus';
+import FieldError from './status/FieldError';
+import SkillSelector from '../containers/SkillSelector';
 
 export default class CompanyProfile extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { bio: "", skills: [] };
+    this.state = {bio: '', skills: []};
   }
 
   componentWillMount() {
@@ -33,19 +33,19 @@ export default class CompanyProfile extends React.Component {
   }
 
   addSkillsToState() {
-    const { Profile } = this.props;
+    const {Profile} = this.props;
     this.setState({
       skills:
         Profile.profile && Profile.profile.skills
           ? Profile.profile.skills.map(skill => {
               return skill.name;
             })
-          : []
+          : [],
     });
   }
 
   onSkillChange(skills) {
-    this.setState({ skills });
+    this.setState({skills});
   }
 
   handleSubmit(e) {
@@ -58,23 +58,23 @@ export default class CompanyProfile extends React.Component {
     var company_reg_no = this.refs.company_reg_no.value.trim() || null;
 
     const selected_skills = this.state.skills;
-    const skills = selected_skills.join(",") || null;
+    const skills = selected_skills.join(',') || null;
 
-    const { Profile, ProfileActions } = this.props;
+    const {Profile, ProfileActions} = this.props;
     ProfileActions.updateProfile(Profile.profile.id, {
       company,
       bio,
       website,
       skills,
       vat_number,
-      company_reg_no
+      company_reg_no,
     });
     return;
   }
 
   render() {
-    const { Auth, Profile } = this.props;
-    const { profile } = Profile;
+    const {Auth, Profile} = this.props;
+    const {profile} = Profile;
 
     return (
       <div>
@@ -84,12 +84,11 @@ export default class CompanyProfile extends React.Component {
               onSubmit={this.handleSubmit.bind(this)}
               name="company_profile"
               role="form"
-              ref="profile_form"
-            >
+              ref="profile_form">
               <FormStatus
                 loading={Profile.isSaving.profile}
                 success={Profile.isSaved.profile}
-                message={"Company profile saved"}
+                message={'Company profile saved'}
                 error={Profile.error.profile}
               />
 
@@ -116,7 +115,7 @@ export default class CompanyProfile extends React.Component {
                 <label className="control-label">Company Bio</label>
                 <textarea
                   className="form-control"
-                  onChange={this.onInputChange.bind(this, "bio")}
+                  onChange={this.onInputChange.bind(this, 'bio')}
                   defaultValue={profile.bio}
                   ref="bio"
                   placeholder="Company Bio"
@@ -147,7 +146,7 @@ export default class CompanyProfile extends React.Component {
                   Tag skills and products *
                 </label>
                 <SkillSelector
-                  filter={{ filter: null }}
+                  filter={{filter: null}}
                   onChange={this.onSkillChange.bind(this)}
                   skills={this.state.skills ? this.state.skills : []}
                 />
@@ -190,8 +189,7 @@ export default class CompanyProfile extends React.Component {
               <button
                 type="submit"
                 className="btn  pull-right"
-                disabled={Profile.isSaving.profile}
-              >
+                disabled={Profile.isSaving.profile}>
                 Save
               </button>
               <div className="clearfix" />

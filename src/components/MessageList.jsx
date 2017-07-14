@@ -1,15 +1,15 @@
-import React from "react";
-import { Link } from "react-router";
-import moment from "moment";
-import TimeAgo from "react-timeago";
-import Linkify from "./Linkify";
+import React from 'react';
+import {Link} from 'react-router';
+import moment from 'moment';
+import TimeAgo from 'react-timeago';
+import Linkify from './Linkify';
 
-import Progress from "./status/Progress";
-import LoadMore from "./status/LoadMore";
-import Avatar from "./Avatar";
-import Attachments from "./Attachments";
+import Progress from './status/Progress';
+import LoadMore from './status/LoadMore';
+import Avatar from './Avatar';
+import Attachments from './Attachments';
 
-import { getUser } from "../utils/auth";
+import {getUser} from '../utils/auth';
 
 export default class MessageList extends React.Component {
   componentWillMount() {
@@ -17,8 +17,8 @@ export default class MessageList extends React.Component {
   }
 
   componentDidMount() {
-    const { MessageActions, filters, search, channel } = this.props;
-    MessageActions.listMessages({ ...filters, search });
+    const {MessageActions, filters, search, channel} = this.props;
+    MessageActions.listMessages({...filters, search});
 
     if (channel) {
       this.setInterval(this.getNewMessages.bind(this), 5000);
@@ -27,8 +27,8 @@ export default class MessageList extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.search != this.props.search) {
-      const { MessageActions, filters, search } = this.props;
-      MessageActions.listMessages({ ...filters, search });
+      const {MessageActions, filters, search} = this.props;
+      MessageActions.listMessages({...filters, search});
     }
   }
 
@@ -41,7 +41,7 @@ export default class MessageList extends React.Component {
   }
 
   getNewMessages() {
-    const { Message, MessageActions, search, filters, channel } = this.props;
+    const {Message, MessageActions, search, filters, channel} = this.props;
     if (channel && !Message.list.isFetching && Message.list.messages.length) {
       var since = 0;
       if (Message.list.messages.length) {
@@ -51,17 +51,17 @@ export default class MessageList extends React.Component {
         ...filters,
         search,
         channel: channel.id,
-        since
+        since,
       });
     }
   }
 
   renderThread(thread) {
-    const { Message, channel } = this.props;
+    const {Message, channel} = this.props;
     if (thread.first) {
       let message = thread.first;
-      let day_format = "d/MM/YYYY";
-      var last_sent_day = "";
+      let day_format = 'd/MM/YYYY';
+      var last_sent_day = '';
       let today = moment.utc().local().format(day_format);
 
       if (!message.user) {
@@ -71,16 +71,15 @@ export default class MessageList extends React.Component {
       return (
         <div
           key={message.id}
-          id={"message" + message.id}
+          id={'message' + message.id}
           className={
-            "message" +
+            'message' +
             (channel &&
             message.user.id != getUser().id &&
             Message.list.last_read < message.id
-              ? " new"
-              : "")
-          }
-        >
+              ? ' new'
+              : '')
+          }>
           <div className="media-left">
             <Avatar src={message.user.avatar_url} />
           </div>
@@ -92,8 +91,7 @@ export default class MessageList extends React.Component {
                     channel
                       ? `/people/${message.user.username}/`
                       : `/conversation/${message.channel}/#message${message.id}`
-                  }
-                >
+                  }>
                   {message.user.display_name}
                 </Link>
                 <TimeAgo
@@ -102,7 +100,7 @@ export default class MessageList extends React.Component {
                 />
               </p>
               <div>
-                <Linkify properties={{ target: "_blank" }}>
+                <Linkify properties={{target: '_blank'}}>
                   {message.body}
                 </Linkify>
               </div>
@@ -131,7 +129,7 @@ export default class MessageList extends React.Component {
                             />
                           </p>}
                       <div>
-                        <Linkify properties={{ target: "_blank" }}>
+                        <Linkify properties={{target: '_blank'}}>
                           {other_msg.body}
                         </Linkify>
                       </div>
@@ -153,7 +151,7 @@ export default class MessageList extends React.Component {
   }
 
   render() {
-    const { Message, MessageActions, channel } = this.props;
+    const {Message, MessageActions, channel} = this.props;
     var last_sender = null;
     var last_channel = null;
     var thread = {};
@@ -184,7 +182,7 @@ export default class MessageList extends React.Component {
               })}
 
               {Message.list.messages.length
-                ? ""
+                ? ''
                 : <div className="alert alert-info">No messages</div>}
 
               <LoadMore

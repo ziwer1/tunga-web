@@ -1,7 +1,7 @@
-import React from "react";
-import Progress from "./status/Progress";
-import FormStatus from "./status/FormStatus";
-import FieldError from "./status/FieldError";
+import React from 'react';
+import Progress from './status/Progress';
+import FormStatus from './status/FormStatus';
+import FieldError from './status/FieldError';
 
 export default class Profile extends React.Component {
   componentDidMount() {
@@ -10,16 +10,16 @@ export default class Profile extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    var status_msg = $(".alert");
+    var status_msg = $('.alert');
     if (status_msg.size()) {
-      $("html, body").animate({ scrollTop: status_msg.offset().top - 70 });
+      $('html, body').animate({scrollTop: status_msg.offset().top - 70});
     }
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    const { Profile, ProfileActions } = this.props;
-    const { profile } = Profile;
+    const {Profile, ProfileActions} = this.props;
+    const {profile} = Profile;
 
     var first_name = this.refs.first_name.value.trim();
     var last_name = this.refs.last_name.value.trim();
@@ -45,13 +45,13 @@ export default class Profile extends React.Component {
       postal_code,
       phone_number,
       company,
-      vat_number
+      vat_number,
     });
     return;
   }
 
   render() {
-    const { Auth, Profile } = this.props;
+    const {Auth, Profile} = this.props;
 
     return (
       <div>
@@ -61,12 +61,11 @@ export default class Profile extends React.Component {
               onSubmit={this.handleSubmit.bind(this)}
               name="profile"
               role="form"
-              ref="profile_form"
-            >
+              ref="profile_form">
               <FormStatus
                 loading={Profile.isSaving.profile}
                 success={Profile.isSaved.profile}
-                message={"Profile saved"}
+                message={'Profile saved'}
                 error={Profile.error.profile}
               />
 
@@ -109,7 +108,7 @@ export default class Profile extends React.Component {
                 : null}
               <div className="form-group">
                 <label className="control-label">
-                  Company {Auth.user.is_developer ? "(if applicable)" : null}
+                  Company {Auth.user.is_developer ? '(if applicable)' : null}
                 </label>
                 <div>
                   <input
@@ -153,8 +152,7 @@ export default class Profile extends React.Component {
                   className="form-control"
                   ref="country"
                   required
-                  defaultValue={Profile.profile.country}
-                >
+                  defaultValue={Profile.profile.country}>
                   {Profile.countries.map(country => {
                     return (
                       <option key={country.code} value={country.code}>
@@ -252,8 +250,7 @@ export default class Profile extends React.Component {
               <button
                 type="submit"
                 className="btn  pull-right"
-                disabled={Profile.isSaving.profile || Profile.isSaving.user}
-              >
+                disabled={Profile.isSaving.profile || Profile.isSaving.user}>
                 Save
               </button>
               <div className="clearfix" />

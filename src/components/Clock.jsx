@@ -1,11 +1,11 @@
-import React from "react";
-import moment from "moment";
+import React from 'react';
+import moment from 'moment';
 
 export default class Clock extends React.Component {
   constructor(props) {
     super(props);
     const output = this.renderTime();
-    this.state = { ...output };
+    this.state = {...output};
   }
 
   componentWillMount() {
@@ -31,24 +31,24 @@ export default class Clock extends React.Component {
     let s = currentTime.getSeconds();
 
     if (m < 10) {
-      m = "0" + m;
+      m = '0' + m;
     }
     if (s < 10) {
-      s = "0" + s;
+      s = '0' + s;
     }
 
     const currentMoment = moment(currentTime);
     return {
-      day: currentMoment.format("dddd Do, MMMM"),
-      hours: currentMoment.format("HH"),
-      minutes: currentMoment.format("mm"),
-      seconds: currentMoment.format("ss")
+      day: currentMoment.format('dddd Do, MMMM'),
+      hours: currentMoment.format('HH'),
+      minutes: currentMoment.format('mm'),
+      seconds: currentMoment.format('ss'),
     };
   }
 
   tick() {
     const output = this.renderTime();
-    this.setState({ ...output });
+    this.setState({...output});
   }
 
   render() {

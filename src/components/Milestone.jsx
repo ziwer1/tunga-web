@@ -1,32 +1,32 @@
-import React from "react";
-import { Link } from "react-router";
-import { ProgressBar } from "react-bootstrap";
-import moment from "moment";
-import Linkify from "./Linkify";
+import React from 'react';
+import {Link} from 'react-router';
+import {ProgressBar} from 'react-bootstrap';
+import moment from 'moment';
+import Linkify from './Linkify';
 
-import Avatar from "./Avatar";
-import Progress from "./status/Progress";
-import ProgressReportForm from "./ProgressReportForm";
-import BreadCrumb from "../containers/BreadCrumb";
+import Avatar from './Avatar';
+import Progress from './status/Progress';
+import ProgressReportForm from './ProgressReportForm';
+import BreadCrumb from '../containers/BreadCrumb';
 
 import {
   PROGRESS_EVENT_TYPE_MILESTONE,
   PROGRESS_EVENT_TYPE_SUBMIT,
   PROGRESS_EVENT_TYPE_COMPLETE,
-  PROGRESS_EVENT_TYPE_CLIENT
-} from "../constants/Api";
+  PROGRESS_EVENT_TYPE_CLIENT,
+} from '../constants/Api';
 import {
   isDeveloper,
   getUser,
   isAdmin,
   isAdminOrProjectOwner,
-  isProjectOwner
-} from "../utils/auth";
+  isProjectOwner,
+} from '../utils/auth';
 
 export default class Milestone extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { editReport: false };
+    this.state = {editReport: false};
   }
 
   componentDidMount() {
@@ -40,7 +40,7 @@ export default class Milestone extends React.Component {
   }
 
   onEditReport() {
-    this.setState({ editReport: true });
+    this.setState({editReport: true});
   }
 
   renderChildren() {
@@ -52,16 +52,16 @@ export default class Milestone extends React.Component {
           milestone: this.props.Milestone.detail,
           MilestoneActions: this.props.MilestoneActions,
           ProgressReport: this.props.ProgressReport,
-          ProgressReportActions: this.props.ProgressReportActions
+          ProgressReportActions: this.props.ProgressReportActions,
         });
-      }.bind(this)
+      }.bind(this),
     );
   }
 
   render() {
-    const { Milestone, ProgressReport, ProgressReportActions } = this.props;
-    const { milestone } = Milestone.detail;
-    const { reports, my_report } = milestone;
+    const {Milestone, ProgressReport, ProgressReportActions} = this.props;
+    const {milestone} = Milestone.detail;
+    const {reports, my_report} = milestone;
     const report = my_report;
 
     const timestamp = moment.utc(milestone.due_at).unix();
@@ -77,30 +77,30 @@ export default class Milestone extends React.Component {
       : milestone.id
         ? <div>
             <BreadCrumb
-              section={milestone.title || "Scheduled Update"}
+              section={milestone.title || 'Scheduled Update'}
               parents={
                 milestone.task
                   ? [
                       {
                         name: milestone.details
                           ? milestone.details.task.summary
-                          : "Task",
-                        link: `/work/${milestone.task}`
-                      }
+                          : 'Task',
+                        link: `/work/${milestone.task}`,
+                      },
                     ]
                   : []
               }
             />
 
             <div className="milestone-page form-wrapper">
-              <div style={{ marginBottom: "20px" }}>
+              <div style={{marginBottom: '20px'}}>
                 {milestone.due_at
                   ? <div>
-                      <strong>Due Date:</strong>{" "}
+                      <strong>Due Date:</strong>{' '}
                       {moment
                         .utc(milestone.due_at)
                         .local()
-                        .format("Do, MMMM YYYY")}
+                        .format('Do, MMMM YYYY')}
                     </div>
                   : null}
 
@@ -108,7 +108,7 @@ export default class Milestone extends React.Component {
                   ? <div>
                       <strong>Description</strong>
                       <div className="description">
-                        <Linkify properties={{ target: "_blank" }}>
+                        <Linkify properties={{target: '_blank'}}>
                           {milestone.description}
                         </Linkify>
                       </div>
@@ -127,10 +127,10 @@ export default class Milestone extends React.Component {
                 : reports && reports.length
                   ? <div>
                       <h4>
-                        <i className="fa fa-newspaper-o" />{" "}
+                        <i className="fa fa-newspaper-o" />{' '}
                         {milestone.type == PROGRESS_EVENT_TYPE_CLIENT
-                          ? "Weekly Survey"
-                          : "Progress Reports"}
+                          ? 'Weekly Survey'
+                          : 'Progress Reports'}
                       </h4>
 
                       {reports.map(report => {
@@ -147,7 +147,7 @@ export default class Milestone extends React.Component {
                           <div className="card">
                             {report.user
                               ? <div>
-                                  <Avatar src={report.user.avatar_url} />{" "}
+                                  <Avatar src={report.user.avatar_url} />{' '}
                                   <Link to={`/people/${report.user.username}/`}>
                                     {report.user.display_name}
                                   </Link>
@@ -177,7 +177,7 @@ export default class Milestone extends React.Component {
                                     Select reason why you are stuck
                                   </strong>
                                   <div>
-                                    <Linkify properties={{ target: "_blank" }}>
+                                    <Linkify properties={{target: '_blank'}}>
                                       {report.stuck_reason_display}
                                     </Linkify>
                                   </div>
@@ -190,7 +190,7 @@ export default class Milestone extends React.Component {
                                     should be done.
                                   </strong>
                                   <div>
-                                    <Linkify properties={{ target: "_blank" }}>
+                                    <Linkify properties={{target: '_blank'}}>
                                       {report.stuck_details}
                                     </Linkify>
                                   </div>
@@ -208,19 +208,19 @@ export default class Milestone extends React.Component {
                                     {moment
                                       .utc(report.started_at)
                                       .local()
-                                      .format("dddd, Do MMMM, YYYY")}
+                                      .format('dddd, Do MMMM, YYYY')}
                                   </div>
                                 </div>
                               : null}
 
-                            {typeof report.last_deadline_met == "boolean"
+                            {typeof report.last_deadline_met == 'boolean'
                               ? <div>
                                   <p>
                                     <strong>
-                                      Was the last deadline met?:{" "}
+                                      Was the last deadline met?:{' '}
                                     </strong>
                                     <span>
-                                      {report.last_deadline_met ? "Yes" : "No"}
+                                      {report.last_deadline_met ? 'Yes' : 'No'}
                                     </span>
                                   </p>
                                   {report.deadline_report
@@ -228,8 +228,7 @@ export default class Milestone extends React.Component {
                                         <strong>Deadline Report</strong>
                                         <div>
                                           <Linkify
-                                            properties={{ target: "_blank" }}
-                                          >
+                                            properties={{target: '_blank'}}>
                                             {report.deadline_report}
                                           </Linkify>
                                         </div>
@@ -239,24 +238,24 @@ export default class Milestone extends React.Component {
                               : null}
 
                             {typeof report.deadline_miss_communicated ==
-                            "boolean"
+                            'boolean'
                               ? <div>
                                   <strong>
                                     {report.user.is_project_owner
-                                      ? "Did the project manager/developer(s) inform you"
-                                      : "Did you inform the client"}{" "}
+                                      ? 'Did the project manager/developer(s) inform you'
+                                      : 'Did you inform the client'}{' '}
                                     promptly about not making the deadline?
                                   </strong>
                                   <div>
                                     <span>
                                       {report.deadline_miss_communicated
-                                        ? "Yes"
-                                        : "No"}
+                                        ? 'Yes'
+                                        : 'No'}
                                     </span>
                                   </div>
                                 </div>
                               : null}
-                            {typeof report.deliverable_satisfaction == "boolean"
+                            {typeof report.deliverable_satisfaction == 'boolean'
                               ? <div>
                                   <strong>
                                     Are you satisfied with the deliverables?
@@ -264,8 +263,8 @@ export default class Milestone extends React.Component {
                                   <div>
                                     <span>
                                       {report.deliverable_satisfaction
-                                        ? "Yes"
-                                        : "No"}
+                                        ? 'Yes'
+                                        : 'No'}
                                     </span>
                                   </div>
                                 </div>
@@ -277,7 +276,7 @@ export default class Milestone extends React.Component {
                                     update?
                                   </strong>
                                   <div>
-                                    <Linkify properties={{ target: "_blank" }}>
+                                    <Linkify properties={{target: '_blank'}}>
                                       {report.accomplished}
                                     </Linkify>
                                   </div>
@@ -298,8 +297,8 @@ export default class Milestone extends React.Component {
                                     return (
                                       <div key={upload.id} className="file">
                                         <a href={upload.url}>
-                                          <i className="fa fa-download" />{" "}
-                                          {upload.name}{" "}
+                                          <i className="fa fa-download" />{' '}
+                                          {upload.name}{' '}
                                           <strong>[{upload.display_size}]</strong>
                                         </a>
                                       </div>
@@ -313,11 +312,11 @@ export default class Milestone extends React.Component {
                               ? <div>
                                   <strong>
                                     {report.user.is_developer
-                                      ? "What do you intend to achieve/complete today?"
-                                      : "Next steps"}
+                                      ? 'What do you intend to achieve/complete today?'
+                                      : 'Next steps'}
                                   </strong>
                                   <div>
-                                    <Linkify properties={{ target: "_blank" }}>
+                                    <Linkify properties={{target: '_blank'}}>
                                       {report.todo}
                                     </Linkify>
                                   </div>
@@ -333,18 +332,18 @@ export default class Milestone extends React.Component {
                                     {moment
                                       .utc(report.next_deadline)
                                       .local()
-                                      .format("dddd, Do MMMM, YYYY")}
+                                      .format('dddd, Do MMMM, YYYY')}
                                   </div>
                                 </div>
                               : null}
-                            {typeof report.next_deadline_meet == "boolean"
+                            {typeof report.next_deadline_meet == 'boolean'
                               ? <div>
                                   <strong>
                                     Do you anticipate to meet this deadline?
                                   </strong>
                                   <div>
                                     <span>
-                                      {report.next_deadline_meet ? "Yes" : "No"}
+                                      {report.next_deadline_meet ? 'Yes' : 'No'}
                                     </span>
                                   </div>
                                 </div>
@@ -356,7 +355,7 @@ export default class Milestone extends React.Component {
                                     deadline?
                                   </strong>
                                   <div>
-                                    <Linkify properties={{ target: "_blank" }}>
+                                    <Linkify properties={{target: '_blank'}}>
                                       {report.next_deadline_fail_reason}
                                     </Linkify>
                                   </div>
@@ -366,7 +365,7 @@ export default class Milestone extends React.Component {
                               ? <div>
                                   <strong>Obstacles</strong>
                                   <div>
-                                    <Linkify properties={{ target: "_blank" }}>
+                                    <Linkify properties={{target: '_blank'}}>
                                       {report.obstacles}
                                     </Linkify>
                                   </div>
@@ -374,7 +373,7 @@ export default class Milestone extends React.Component {
                               : null}
 
                             {/* General */}
-                            {typeof report.pm_communication == "boolean"
+                            {typeof report.pm_communication == 'boolean'
                               ? <div>
                                   <strong>
                                     Is the communication between you and the
@@ -382,7 +381,7 @@ export default class Milestone extends React.Component {
                                   </strong>
                                   <div>
                                     <span>
-                                      {report.pm_communication ? "Yes" : "No"}
+                                      {report.pm_communication ? 'Yes' : 'No'}
                                     </span>
                                   </div>
                                 </div>
@@ -400,7 +399,7 @@ export default class Milestone extends React.Component {
                               ? <div>
                                   <strong>Team appraisal</strong>
                                   <div>
-                                    <Linkify properties={{ target: "_blank" }}>
+                                    <Linkify properties={{target: '_blank'}}>
                                       {report.team_appraisal}
                                     </Linkify>
                                   </div>
@@ -410,7 +409,7 @@ export default class Milestone extends React.Component {
                               ? <div>
                                   <strong>Remarks</strong>
                                   <div>
-                                    <Linkify properties={{ target: "_blank" }}>
+                                    <Linkify properties={{target: '_blank'}}>
                                       {report.remarks}
                                     </Linkify>
                                   </div>
@@ -419,8 +418,7 @@ export default class Milestone extends React.Component {
                             {!is_missed && report.user.id == getUser().id
                               ? <button
                                   className="btn "
-                                  onClick={this.onEditReport.bind(this)}
-                                >
+                                  onClick={this.onEditReport.bind(this)}>
                                   <i className="fa fa-pencil" /> Edit Report
                                 </button>
                               : null}
@@ -434,10 +432,10 @@ export default class Milestone extends React.Component {
                           {[
                             PROGRESS_EVENT_TYPE_MILESTONE,
                             PROGRESS_EVENT_TYPE_SUBMIT,
-                            PROGRESS_EVENT_TYPE_COMPLETE
+                            PROGRESS_EVENT_TYPE_COMPLETE,
                           ].indexOf(milestone.type) > -1
-                            ? "Milestone"
-                            : "Update"}{" "}
+                            ? 'Milestone'
+                            : 'Update'}{' '}
                           missed
                         </strong>
                       </div>

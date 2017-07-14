@@ -1,10 +1,10 @@
-import React from "react";
-import { Link } from "react-router";
-import moment from "moment";
-import momentLocalizer from "react-widgets/lib/localizers/moment";
-import { Table } from "react-bootstrap";
+import React from 'react';
+import {Link} from 'react-router';
+import moment from 'moment';
+import momentLocalizer from 'react-widgets/lib/localizers/moment';
+import {Table} from 'react-bootstrap';
 
-import FormStatus from "./status/FormStatus";
+import FormStatus from './status/FormStatus';
 
 import {
   DEVELOPER_FEE,
@@ -13,29 +13,29 @@ import {
   STATUS_DECLINED,
   STATUS_ACCEPTED,
   STATUS_REJECTED,
-  ENDPOINT_TASK
-} from "../constants/Api";
+  ENDPOINT_TASK,
+} from '../constants/Api';
 import {
   getPayDetails,
   canEditQuote,
   canModerateQuote,
-  canReviewQuote
-} from "../utils/tasks";
-import { getUser, isAdminOrProjectOwner } from "../utils/auth";
-import confirm from "../utils/confirm";
-import { parseNumber } from "../utils/helpers";
+  canReviewQuote,
+} from '../utils/tasks';
+import {getUser, isAdminOrProjectOwner} from '../utils/auth';
+import confirm from '../utils/confirm';
+import {parseNumber} from '../utils/helpers';
 
 momentLocalizer(moment);
 
 export default class QuoteDetail extends React.Component {
   componentDidUpdate(prevProps, prevState) {
-    const { Quote } = this.props;
+    const {Quote} = this.props;
 
     const quote = this.props.quote || {};
 
     if (this.props.Quote.detail.isSaved && !prevProps.Quote.detail.isSaved) {
       if (Quote.detail.quote.status == STATUS_ACCEPTED) {
-        const { router } = this.context;
+        const {router} = this.context;
         window.location.href = `/work/${Quote.detail.quote.task}/quote/${Quote
           .detail.quote.id}`;
       }
@@ -57,14 +57,14 @@ export default class QuoteDetail extends React.Component {
   }
 
   onChangeStatus(status) {
-    const { QuoteActions } = this.props;
+    const {QuoteActions} = this.props;
     const quote = this.props.quote || {};
 
     if ([STATUS_DECLINED, STATUS_REJECTED].indexOf(status) > -1) {
-      confirm("Are you sure?", true, { placeholder: "Reason" }).then(function(
-        response
+      confirm('Are you sure?', true, {placeholder: 'Reason'}).then(function(
+        response,
       ) {
-        var quote_info = { status };
+        var quote_info = {status};
         if (status == STATUS_DECLINED) {
           quote_info.moderator_comment = response;
         } else {
@@ -72,12 +72,12 @@ export default class QuoteDetail extends React.Component {
         }
         QuoteActions.updateQuote(quote.id, {
           status,
-          moderator_comment: response
+          moderator_comment: response,
         });
       });
     } else {
-      confirm("Are you sure?").then(function() {
-        QuoteActions.updateQuote(quote.id, { status });
+      confirm('Are you sure?').then(function() {
+        QuoteActions.updateQuote(quote.id, {status});
       });
     }
 
@@ -85,7 +85,7 @@ export default class QuoteDetail extends React.Component {
   }
 
   render() {
-    const { Quote } = this.props;
+    const {Quote} = this.props;
     const task = this.props.task || {};
     const quote = this.props.quote || {};
 
@@ -96,7 +96,7 @@ export default class QuoteDetail extends React.Component {
         <FormStatus
           loading={Quote.detail.isSaving}
           success={Quote.detail.isSaved}
-          message={"Quote saved successfully"}
+          message={'Quote saved successfully'}
           error={Quote.detail.error.create}
         />
 
@@ -104,8 +104,7 @@ export default class QuoteDetail extends React.Component {
           <a
             href={`${ENDPOINT_TASK}${quote.task}/download/estimate?format=pdf`}
             className="btn btn-primary"
-            target="_blank"
-          >
+            target="_blank">
             <i className="fa fa-file-pdf-o" /> Download Pdf
           </a>
         </div>
@@ -279,13 +278,13 @@ export default class QuoteDetail extends React.Component {
                           {moment
                             .utc(milestone.start_date)
                             .local()
-                            .format("Do, MMMM YYYY")}
+                            .format('Do, MMMM YYYY')}
                         </td>
                         <td>
                           {moment
                             .utc(milestone.end_date)
                             .local()
-                            .format("Do, MMMM YYYY")}
+                            .format('Do, MMMM YYYY')}
                         </td>
                         <td>
                           {milestone.description}
@@ -303,8 +302,7 @@ export default class QuoteDetail extends React.Component {
             ? <div>
                 <Link
                   to={`/work/${quote.task}/quote/${quote.id}/edit`}
-                  className="btn"
-                >
+                  className="btn">
                   Edit Quote
                 </Link>
                 {quote.user && quote.user.id == getUser().id
@@ -312,8 +310,10 @@ export default class QuoteDetail extends React.Component {
                       type="submit"
                       className="btn"
                       disabled={Quote.detail.isSaving}
-                      onClick={this.onChangeStatus.bind(this, STATUS_SUBMITTED)}
-                    >
+                      onClick={this.onChangeStatus.bind(
+                        this,
+                        STATUS_SUBMITTED,
+                      )}>
                       Submit for Review
                     </button>
                   : null}
@@ -324,16 +324,14 @@ export default class QuoteDetail extends React.Component {
                     type="submit"
                     className="btn"
                     disabled={Quote.detail.isSaving}
-                    onClick={this.onChangeStatus.bind(this, STATUS_APPROVED)}
-                  >
+                    onClick={this.onChangeStatus.bind(this, STATUS_APPROVED)}>
                     Approve
                   </button>
                   <button
                     type="submit"
                     className="btn"
                     disabled={Quote.detail.isSaving}
-                    onClick={this.onChangeStatus.bind(this, STATUS_DECLINED)}
-                  >
+                    onClick={this.onChangeStatus.bind(this, STATUS_DECLINED)}>
                     Decline
                   </button>
                 </div>
@@ -343,16 +341,14 @@ export default class QuoteDetail extends React.Component {
                       type="submit"
                       className="btn"
                       isabled={Quote.detail.isSaving}
-                      onClick={this.onChangeStatus.bind(this, STATUS_ACCEPTED)}
-                    >
+                      onClick={this.onChangeStatus.bind(this, STATUS_ACCEPTED)}>
                       Accept
                     </button>
                     <button
                       type="submit"
                       className="btn"
                       disabled={Quote.detail.isSaving}
-                      onClick={this.onChangeStatus.bind(this, STATUS_REJECTED)}
-                    >
+                      onClick={this.onChangeStatus.bind(this, STATUS_REJECTED)}>
                       Reject
                     </button>
                   </div>

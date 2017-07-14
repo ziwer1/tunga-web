@@ -1,7 +1,7 @@
-import React from "react";
-import FormStatus from "./status/FormStatus";
-import FieldError from "./status/FieldError";
-import { USER_TYPE_CHOICES } from "../constants/Api";
+import React from 'react';
+import FormStatus from './status/FormStatus';
+import FieldError from './status/FieldError';
+import {USER_TYPE_CHOICES} from '../constants/Api';
 
 export default class Profile extends React.Component {
   constructor(props) {
@@ -21,30 +21,29 @@ export default class Profile extends React.Component {
     if (!type || !last_name || !type) {
       return;
     }
-    const { ProfileActions } = this.props;
-    ProfileActions.updateAuthUser({ first_name, last_name, type });
+    const {ProfileActions} = this.props;
+    ProfileActions.updateAuthUser({first_name, last_name, type});
     return;
   }
 
   render() {
-    const { Auth, Profile } = this.props;
+    const {Auth, Profile} = this.props;
     return (
       <div className="auth-form-wrapper">
         {Profile.isRetrieving
-          ? ""
+          ? ''
           : <form
               onSubmit={this.handleSubmit}
               name="profile"
               role="form"
               ref="profile_form"
-              className="well"
-            >
+              className="well">
               <h3>Complete your profile</h3>
 
               <FormStatus
                 loading={Profile.isSaving.user}
                 success={Profile.isSaved.user}
-                message={"Profile Saved"}
+                message={'Profile Saved'}
                 error={Profile.error.user}
               />
 
@@ -90,8 +89,7 @@ export default class Profile extends React.Component {
                   className="form-control"
                   ref="user_type"
                   defaultValue={Auth.user.type}
-                  required
-                >
+                  required>
                   <option value=""> I am a ... </option>
                   {USER_TYPE_CHOICES.map(user_type => {
                     return (
@@ -106,8 +104,7 @@ export default class Profile extends React.Component {
               <button
                 type="submit"
                 className="btn  pull-right"
-                disabled={Profile.isSaving.user}
-              >
+                disabled={Profile.isSaving.user}>
                 Save
               </button>
               <div className="clearfix" />

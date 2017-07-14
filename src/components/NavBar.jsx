@@ -1,18 +1,18 @@
-import React, { PropTypes } from "react";
-import { Link } from "react-router";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
+import React, {PropTypes} from 'react';
+import {Link} from 'react-router';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 
-import Avatar from "./Avatar";
-import SearchBox from "./SearchBox";
+import Avatar from './Avatar';
+import SearchBox from './SearchBox';
 
-import * as AuthActions from "../actions/AuthActions";
-import * as SearchActions from "../actions/SearchActions";
+import * as AuthActions from '../actions/AuthActions';
+import * as SearchActions from '../actions/SearchActions';
 
-import { SEARCH_PATH } from "../constants/patterns";
-import { initSideBarToggle } from "../utils/ui";
+import {SEARCH_PATH} from '../constants/patterns';
+import {initSideBarToggle} from '../utils/ui';
 
-import { isAuthenticated, isAdmin, getUser } from "../utils/auth";
+import {isAuthenticated, isAdmin, getUser} from '../utils/auth';
 
 class NavBar extends React.Component {
   constructor(props) {
@@ -32,13 +32,13 @@ class NavBar extends React.Component {
   onSearch(query) {
     this.props.SearchActions.searchStart(query.search);
     if (!SEARCH_PATH.test(this.props.location.pathname)) {
-      const { router } = this.context;
-      router.replace("/search");
+      const {router} = this.context;
+      router.replace('/search');
     }
   }
 
   render() {
-    const { Auth } = this.props;
+    const {Auth} = this.props;
 
     return (
       <div className="navbar-wrapper">
@@ -51,8 +51,7 @@ class NavBar extends React.Component {
                   data-toggle="sidebar-collapse"
                   data-target="#sidebar"
                   aria-expanded="false"
-                  aria-controls="sidebar"
-                >
+                  aria-controls="sidebar">
                   <span className="sr-only">Toggle side bar</span>
                   <i className="fa fa-navicon fa-lg" />
                 </button>
@@ -63,13 +62,12 @@ class NavBar extends React.Component {
               data-toggle="collapse"
               data-target="#navbar"
               aria-expanded="false"
-              aria-controls="navbar"
-            >
+              aria-controls="navbar">
               <span className="sr-only">Toggle navigation</span>
               <i className="fa fa-ellipsis-v fa-lg" />
             </button>
             <Link to="/" className="navbar-brand">
-              <img src={require("../images/logo.png")} />
+              <img src={require('../images/logo.png')} />
             </Link>
           </div>
           <div id="navbar" className="navbar-collapse collapse">
@@ -90,18 +88,14 @@ class NavBar extends React.Component {
                       data-toggle="dropdown"
                       role="button"
                       aria-haspopup="true"
-                      aria-expanded="false"
-                    >
-                      <i className="nav-icon fa fa-cogs" /> Manage{" "}
-                      <span
-                        className="caret"
-                        style={{ marginLeft: 5 + "px" }}
-                      />
+                      aria-expanded="false">
+                      <i className="nav-icon fa fa-cogs" /> Manage{' '}
+                      <span className="caret" style={{marginLeft: 5 + 'px'}} />
                     </a>
                     <ul className="dropdown-menu">
                       <li>
                         <Link to="/help">
-                          <i className="nav-icon fa fa-question-circle fa-lg" />{" "}
+                          <i className="nav-icon fa fa-question-circle fa-lg" />{' '}
                           Help
                         </Link>
                       </li>
@@ -137,10 +131,9 @@ class NavBar extends React.Component {
                   data-toggle="dropdown"
                   role="button"
                   aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  {Auth.user.display_name}{" "}
-                  <span className="caret" style={{ marginLeft: "5px" }} />{" "}
+                  aria-expanded="false">
+                  {Auth.user.display_name}{' '}
+                  <span className="caret" style={{marginLeft: '5px'}} />{' '}
                   <Avatar src={Auth.user.avatar_url} />
                 </a>
                 <ul className="dropdown-menu">
@@ -171,17 +164,17 @@ class NavBar extends React.Component {
 }
 
 NavBar.contextTypes = {
-  router: React.PropTypes.object.isRequired
+  router: React.PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
-  return { Auth: state.Auth };
+  return {Auth: state.Auth};
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     AuthActions: bindActionCreators(AuthActions, dispatch),
-    SearchActions: bindActionCreators(SearchActions, dispatch)
+    SearchActions: bindActionCreators(SearchActions, dispatch),
   };
 }
 

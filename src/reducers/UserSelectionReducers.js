@@ -1,21 +1,21 @@
-import { combineReducers } from "redux";
-import * as UserSelectionActions from "../actions/UserSelectionActions";
-import { CREATE_MESSAGE_SUCCESS } from "../actions/MessageActions";
+import {combineReducers} from 'redux';
+import * as UserSelectionActions from '../actions/UserSelectionActions';
+import {CREATE_MESSAGE_SUCCESS} from '../actions/MessageActions';
 
-function users(state = { default: {} }, action) {
-  var selection_key = action.selection || "default";
+function users(state = {default: {}}, action) {
+  var selection_key = action.selection || 'default';
   switch (action.type) {
     case UserSelectionActions.ADD_USER_SELECTION:
       var user_id = action.user.id;
       var new_user = {};
       new_user[user_id] = action.user;
       var current_selection = state[selection_key] || {};
-      var new_selection = { ...current_selection, ...new_user };
-      var new_state = { ...state };
+      var new_selection = {...current_selection, ...new_user};
+      var new_state = {...state};
       new_state[selection_key] = new_selection;
       return new_state;
     case UserSelectionActions.CLEAR_USER_SELECTIONS:
-      new_state = { ...state };
+      new_state = {...state};
       new_state[selection_key] = {};
       return new_state;
     default:
@@ -24,13 +24,13 @@ function users(state = { default: {} }, action) {
 }
 
 function ids(state = {}, action) {
-  var selection_key = action.selection || "default";
+  var selection_key = action.selection || 'default';
   switch (action.type) {
     case UserSelectionActions.ADD_USER_SELECTION:
       var current_selection = state[selection_key] || [];
       if (current_selection.indexOf(action.user.id) == -1) {
         var new_selection = [...current_selection, action.user.id];
-        var new_state = { ...state };
+        var new_state = {...state};
         new_state[selection_key] = new_selection;
         return new_state;
       }
@@ -41,15 +41,15 @@ function ids(state = {}, action) {
       if (idx > -1) {
         new_selection = [
           ...current_selection.slice(0, idx),
-          ...current_selection.slice(idx + 1)
+          ...current_selection.slice(idx + 1),
         ];
-        new_state = { ...state };
+        new_state = {...state};
         new_state[selection_key] = new_selection;
         return new_state;
       }
       return state;
     case UserSelectionActions.CLEAR_USER_SELECTIONS:
-      new_state = { ...state };
+      new_state = {...state};
       new_state[selection_key] = [];
       return new_state;
     case CREATE_MESSAGE_SUCCESS:
@@ -59,15 +59,15 @@ function ids(state = {}, action) {
   }
 }
 
-function suggestions(state = { default: [] }, action) {
-  var selection_key = action.selection || "default";
+function suggestions(state = {default: []}, action) {
+  var selection_key = action.selection || 'default';
   switch (action.type) {
     case UserSelectionActions.GET_USER_SUGGESTIONS_SUCCESS:
-      var new_state = { ...state };
+      var new_state = {...state};
       new_state[selection_key] = action.items;
       return new_state;
     case UserSelectionActions.INVALIDATE_USER_SUGGESTIONS:
-      new_state = { ...state };
+      new_state = {...state};
       new_state[selection_key] = [];
       return new_state;
     default:
@@ -100,14 +100,14 @@ function isValid(state = true, action) {
 
 const selected = combineReducers({
   users,
-  ids
+  ids,
 });
 
 const UserSelection = combineReducers({
   selected,
   suggestions,
   isFetching,
-  isValid
+  isValid,
 });
 
 export default UserSelection;

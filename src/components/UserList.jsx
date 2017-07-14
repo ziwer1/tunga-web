@@ -1,19 +1,19 @@
-import React from "react";
-import { Link } from "react-router";
+import React from 'react';
+import {Link} from 'react-router';
 
-import Progress from "./status/Progress";
-import LoadMore from "./status/LoadMore";
-import UserCard from "./UserCard";
-import SearchBox from "./SearchBox";
+import Progress from './status/Progress';
+import LoadMore from './status/LoadMore';
+import UserCard from './UserCard';
+import SearchBox from './SearchBox';
 
-import GenericListContainer from "../containers/GenericListContainer";
+import GenericListContainer from '../containers/GenericListContainer';
 
 import {
   isAuthenticated,
   isAdmin,
   isDeveloper,
-  isProjectOwner
-} from "../utils/auth";
+  isProjectOwner,
+} from '../utils/auth';
 
 export default class UserList extends GenericListContainer {
   componentDidUpdate(prevProps, prevState) {
@@ -29,8 +29,8 @@ export default class UserList extends GenericListContainer {
 
     if (prevProps.search != this.props.search) {
       this.setState({
-        selection_key: this.state.selection_key + (this.props.search || ""),
-        prev_key: this.state.selection_key
+        selection_key: this.state.selection_key + (this.props.search || ''),
+        prev_key: this.state.selection_key,
       });
     }
   }
@@ -41,10 +41,10 @@ export default class UserList extends GenericListContainer {
         filter: this.getFilter(),
         skill: this.getSkill(),
         ...this.props.filters,
-        search: this.props.search
+        search: this.props.search,
       },
       this.state.selection_key,
-      this.state.prev_key
+      this.state.prev_key,
     );
   }
 
@@ -71,7 +71,7 @@ export default class UserList extends GenericListContainer {
       max,
       profileLink,
       tagLinks,
-      filters
+      filters,
     } = this.props;
     const requests =
       Notification && Notification.notifications
@@ -95,7 +95,7 @@ export default class UserList extends GenericListContainer {
                 <div className="pull-right">
                   <SearchBox
                     placeholder="Search by name or skills"
-                    filter={{ filter, skill }}
+                    filter={{filter, skill}}
                     onSearch={UserActions.listUsers}
                     count={User.list.count}
                   />
@@ -112,24 +112,21 @@ export default class UserList extends GenericListContainer {
                         ? <Link
                             to="/people/filter/clients"
                             key="clients"
-                            activeClassName="active"
-                          >
+                            activeClassName="active">
                             Clients
                           </Link>
                         : null,
                       <Link
                         to="/people/filter/team"
                         activeClassName="active"
-                        key="team"
-                      >
-                        {isDeveloper() ? "My friends" : "My team"}
+                        key="team">
+                        {isDeveloper() ? 'My friends' : 'My team'}
                       </Link>,
                       isDeveloper()
                         ? <Link
                             to="/people/filter/my-clients"
                             key="my-clients"
-                            activeClassName="active"
-                          >
+                            activeClassName="active">
                             My Clients
                           </Link>
                         : null,
@@ -137,9 +134,8 @@ export default class UserList extends GenericListContainer {
                         to="/people/filter/requests"
                         activeClassName="active"
                         key="requests"
-                        style={{ marginLeft: "20px" }}
-                      >
-                        Requests{" "}
+                        style={{marginLeft: '20px'}}>
+                        Requests{' '}
                         {requests
                           ? <span className="badge">
                               {requests}
@@ -150,19 +146,17 @@ export default class UserList extends GenericListContainer {
                         ? <Link
                             to="/people/filter/relevant"
                             key="relevant"
-                            activeClassName="active"
-                          >
+                            activeClassName="active">
                             Relevant to me
                           </Link>
-                        : null
+                        : null,
                     ]
                   : null}
                 {skill
                   ? <Link
                       to={`/people/skill/${skill}/`}
                       className="active"
-                      style={{ marginLeft: "20px" }}
-                    >
+                      style={{marginLeft: '20px'}}>
                       <i className="tunga-icon-tag" /> {skill}
                     </Link>
                   : null}
@@ -178,11 +172,11 @@ export default class UserList extends GenericListContainer {
                     return;
                   }
                   return (
-                    <div className={bsClass || "col-sm-6 col-md-4"} key={id}>
+                    <div className={bsClass || 'col-sm-6 col-md-4'} key={id}>
                       <UserCard
                         user={user}
                         UserActions={UserActions}
-                        hideOnDisconnect={filter == "team"}
+                        hideOnDisconnect={filter == 'team'}
                         profileLink={profileLink}
                         tagLinks={tagLinks}
                       />
@@ -215,13 +209,13 @@ UserList.propTypes = {
   bsClass: React.PropTypes.string,
   max: React.PropTypes.number,
   profileLink: React.PropTypes.bool,
-  tagLinks: React.PropTypes.bool
+  tagLinks: React.PropTypes.bool,
 };
 
 UserList.defaultProps = {
   hide_header: false,
-  bsClass: "col-sm-6 col-md-4",
+  bsClass: 'col-sm-6 col-md-4',
   max: 0,
   profileLink: true,
-  tagLinks: true
+  tagLinks: true,
 };

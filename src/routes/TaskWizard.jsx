@@ -1,39 +1,39 @@
-import React from "react";
+import React from 'react';
 
-import ShowcaseContainer from "../containers/ShowcaseContainer";
+import ShowcaseContainer from '../containers/ShowcaseContainer';
 
-import TaskContainer from "../containers/TaskContainer";
-import TaskDetailContainer from "../containers/TaskDetailContainer";
-import TaskForm from "../components/TaskForm";
-import Avatar from "../components/Avatar";
-import MetaTags from "../components/MetaTags";
-import Slider from "react-slick";
+import TaskContainer from '../containers/TaskContainer';
+import TaskDetailContainer from '../containers/TaskDetailContainer';
+import TaskForm from '../components/TaskForm';
+import Avatar from '../components/Avatar';
+import MetaTags from '../components/MetaTags';
+import Slider from 'react-slick';
 
-import { getClientTestimonials } from "../constants/data";
-import { getEditToken } from "../utils/tasks";
+import {getClientTestimonials} from '../constants/data';
+import {getEditToken} from '../utils/tasks';
 
 export default class TaskWizard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: "Hire top African developers!",
+      title: 'Hire top African developers!',
       subtitle: null,
-      step: 1
+      step: 1,
     };
   }
 
   onStepChange(step, idx, all_steps) {
     this.setState({
-      title: step && step.title ? step.title : "Hire top African developers!",
+      title: step && step.title ? step.title : 'Hire top African developers!',
       subtitle: step && step.subtitle ? step.subtitle : null,
-      step: idx ? idx + 1 : -1
+      step: idx ? idx + 1 : -1,
     });
   }
 
   getTaskId() {
     if (
       this.props.params &&
-      ["schedule", "speed-up"].indexOf(this.getPhase()) > -1
+      ['schedule', 'speed-up'].indexOf(this.getPhase()) > -1
     ) {
       return this.props.params.taskId;
     }
@@ -65,20 +65,20 @@ export default class TaskWizard extends React.Component {
 
   getUrlPrefix() {
     if (/\/(start-welcome)\/?/.test(window.location.href)) {
-      return "start-welcome";
+      return 'start-welcome';
     } else if (/\/(start-outsource)\/?/.test(window.location.href)) {
-      return "start-outsource";
+      return 'start-outsource';
     }
-    return "start";
+    return 'start';
   }
 
   renderHeaderContent() {
     var testimonials = getClientTestimonials(2);
-    const { options } = this.props;
+    const {options} = this.props;
 
     let phase = this.getPhase();
-    if (["schedule", "speed-up"].indexOf(phase) == -1) {
-      phase = "";
+    if (['schedule', 'speed-up'].indexOf(phase) == -1) {
+      phase = '';
     }
 
     let slider_settings = {
@@ -88,7 +88,7 @@ export default class TaskWizard extends React.Component {
       slidesToShow: 1,
       slidesToScroll: 1,
       autoplay: true,
-      autoplaySpeed: 3000 //,
+      autoplaySpeed: 3000, //,
       /*responsive: [
                 { breakpoint: 320, settings: { slidesToShow: 1 } },
                 { breakpoint: 768, settings: { slidesToShow: 2 } },
@@ -99,9 +99,8 @@ export default class TaskWizard extends React.Component {
     return (
       <div
         className={`task-wizard ${this.state.step == 1 && !this.getTaskId()
-          ? "show-trust"
-          : ""}`}
-      >
+          ? 'show-trust'
+          : ''}`}>
         <div className="title-bar">
           <i className="icon tunga-icon-post-task" />
           <div className="heading-3 bold text-center">
@@ -115,11 +114,10 @@ export default class TaskWizard extends React.Component {
           <TaskContainer>
             <TaskDetailContainer
               taskId={this.getTaskId()}
-              editToken={getEditToken()}
-            >
+              editToken={getEditToken()}>
               <TaskForm
                 showSectionHeader={false}
-                options={{ ...options, ...this.getUser() }}
+                options={{...options, ...this.getUser()}}
                 onStepChange={this.onStepChange.bind(this)}
                 phase={phase}
                 urlPrefix={this.getUrlPrefix()}
@@ -140,13 +138,13 @@ export default class TaskWizard extends React.Component {
                         </div>
                         <div className="media-body">
                           <div className="media-heading">
-                            <strong>{testimonial.name}</strong>,{" "}
+                            <strong>{testimonial.name}</strong>,{' '}
                             {testimonial.position} at {testimonial.company}
                           </div>
                           <div>
                             <span
                               dangerouslySetInnerHTML={{
-                                __html: testimonial.message
+                                __html: testimonial.message,
                               }}
                             />
                           </div>
@@ -161,28 +159,25 @@ export default class TaskWizard extends React.Component {
                   <li>
                     <a
                       href="http://www.bbc.co.uk/news/world-africa-38294998"
-                      target="_blank"
-                    >
-                      <img src={require("../images/press/bbc.png")} />
+                      target="_blank">
+                      <img src={require('../images/press/bbc.png')} />
                     </a>
                   </li>
                   <li>
                     <a
                       href="http://trendwatching.com/blog/featured-innovator-tunga/"
-                      target="_blank"
-                    >
+                      target="_blank">
                       <img
-                        src={require("../images/press/trend-watching.png")}
+                        src={require('../images/press/trend-watching.png')}
                       />
                     </a>
                   </li>
                   <li>
                     <a
                       href="https://soundcloud.com/african-tech-round-up/a-chat-with-ernesto-spruyt-of-tungaio?in=african-tech-round-up/sets/quick-chats"
-                      target="_blank"
-                    >
+                      target="_blank">
                       <img
-                        src={require("../images/press/African-Tech-Round-Up.png")}
+                        src={require('../images/press/African-Tech-Round-Up.png')}
                       />
                     </a>
                   </li>
@@ -224,14 +219,13 @@ export default class TaskWizard extends React.Component {
   }
 
   render() {
-    let meta_title = "Tunga | Get Started";
-    let meta_description = "Hire top African developers!";
+    let meta_title = 'Tunga | Get Started';
+    let meta_description = 'Hire top African developers!';
 
     return (
       <ShowcaseContainer
         className="task-wizard-page"
-        headerContent={this.renderHeaderContent()}
-      >
+        headerContent={this.renderHeaderContent()}>
         <MetaTags title={meta_title} description={meta_description} />
       </ShowcaseContainer>
     );

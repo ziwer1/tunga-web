@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 
-import FormStatus from "./status/FormStatus";
-import FieldError from "./status/FieldError";
+import FormStatus from './status/FormStatus';
+import FieldError from './status/FieldError';
 
-import { isAuthenticated, isAdmin } from "../utils/auth";
+import {isAuthenticated, isAdmin} from '../utils/auth';
 
 export default class ChannelForm extends React.Component {
   componentWillReceiveProps(nextProps) {
@@ -11,19 +11,19 @@ export default class ChannelForm extends React.Component {
       nextProps.Channel.detail.isSaved &&
       !this.props.Channel.detail.isSaved
     ) {
-      const { Channel } = nextProps;
+      const {Channel} = nextProps;
       this.refs.channel_form.reset();
-      this.setState({ participants: [] });
-      const { router } = this.context;
+      this.setState({participants: []});
+      const {router} = this.context;
       if (isAuthenticated()) {
-        router.replace("/channel/" + Channel.detail.channel.id);
+        router.replace('/channel/' + Channel.detail.channel.id);
       }
     }
   }
 
   saveChannel(name = null, email = null, subject = null) {
-    const { ChannelActions } = this.props;
-    ChannelActions.createSupportChannel({ name, email, subject });
+    const {ChannelActions} = this.props;
+    ChannelActions.createSupportChannel({name, email, subject});
   }
 
   handleSubmit(e) {
@@ -37,7 +37,7 @@ export default class ChannelForm extends React.Component {
   }
 
   render() {
-    const { Channel } = this.props;
+    const {Channel} = this.props;
     if (isAdmin()) {
       return null;
     }
@@ -48,12 +48,11 @@ export default class ChannelForm extends React.Component {
           onSubmit={this.handleSubmit.bind(this)}
           name="channel"
           role="form"
-          ref="channel_form"
-        >
+          ref="channel_form">
           <FormStatus
             loading={Channel.detail.isSaving}
             success={Channel.detail.isSaved}
-            message={"Channel created"}
+            message={'Channel created'}
             error={Channel.detail.error.create}
           />
 
@@ -67,7 +66,7 @@ export default class ChannelForm extends React.Component {
                   : null}
                 <div className="form-group">
                   <label className="control-label">
-                    Subject {isAuthenticated() ? "*" : null}
+                    Subject {isAuthenticated() ? '*' : null}
                   </label>
                   <div>
                     <input
@@ -123,8 +122,7 @@ export default class ChannelForm extends React.Component {
             <button
               type="submit"
               className="btn"
-              disabled={Channel.detail.isSaving}
-            >
+              disabled={Channel.detail.isSaving}>
               Start
             </button>
           </div>
@@ -136,5 +134,5 @@ export default class ChannelForm extends React.Component {
 }
 
 ChannelForm.contextTypes = {
-  router: React.PropTypes.object.isRequired
+  router: React.PropTypes.object.isRequired,
 };

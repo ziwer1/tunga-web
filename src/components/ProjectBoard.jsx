@@ -1,16 +1,16 @@
-import React from "react";
-import { Link } from "react-router";
-import Progress from "./status/Progress";
-import ComponentWithModal from "./ComponentWithModal";
-import TaskContainer from "../containers/TaskContainer";
-import TaskList from "./TaskList";
+import React from 'react';
+import {Link} from 'react-router';
+import Progress from './status/Progress';
+import ComponentWithModal from './ComponentWithModal';
+import TaskContainer from '../containers/TaskContainer';
+import TaskList from './TaskList';
 
-import { isAdmin, getUser } from "../utils/auth";
+import {isAdmin, getUser} from '../utils/auth';
 
 export default class ProjectBoard extends ComponentWithModal {
   render() {
-    const { Task } = this.props;
-    const { task } = Task.detail;
+    const {Task} = this.props;
+    const {task} = Task.detail;
     let is_admin_or_owner = getUser().id == task.user.id || isAdmin();
 
     return Task.detail.isRetrieving
@@ -23,12 +23,12 @@ export default class ProjectBoard extends ComponentWithModal {
                     Add task
                   </Link>
 
-                  <div style={{ marginTop: "10px" }}>
+                  <div style={{marginTop: '10px'}}>
                     <TaskContainer>
                       <TaskList
                         project={task}
                         hide_header={true}
-                        filters={{ parent: task.id }}
+                        filters={{parent: task.id}}
                       />
                     </TaskContainer>
                   </div>

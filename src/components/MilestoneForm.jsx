@@ -1,23 +1,23 @@
-import React from "react";
-import moment from "moment";
-import momentLocalizer from "react-widgets/lib/localizers/moment";
-import DateTimePicker from "react-widgets/lib/DateTimePicker";
+import React from 'react';
+import moment from 'moment';
+import momentLocalizer from 'react-widgets/lib/localizers/moment';
+import DateTimePicker from 'react-widgets/lib/DateTimePicker';
 
-import FieldError from "./status/FieldError";
+import FieldError from './status/FieldError';
 
 momentLocalizer(moment);
 
 export default class MilestoneForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { due_at: null, description: "" };
+    this.state = {due_at: null, description: ''};
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
     const milestone = this.props.milestone;
     if (milestone) {
-      this.setState({ due_at: milestone.due_at });
+      this.setState({due_at: milestone.due_at});
     }
   }
 
@@ -28,7 +28,7 @@ export default class MilestoneForm extends React.Component {
   }
 
   onDueAtChange(date) {
-    this.setState({ due_at: moment(date).utc().format() });
+    this.setState({due_at: moment(date).utc().format()});
   }
 
   handleSubmit(e) {
@@ -38,12 +38,7 @@ export default class MilestoneForm extends React.Component {
     var due_at = this.state.due_at;
 
     if (this.props.onSave) {
-      this.props.onSave({
-        ...this.props.milestone,
-        title,
-        description,
-        due_at
-      });
+      this.props.onSave({...this.props.milestone, title, description, due_at});
     }
     if (this.props.close) {
       this.props.close();
@@ -59,8 +54,7 @@ export default class MilestoneForm extends React.Component {
           onSubmit={this.handleSubmit}
           name="milestone"
           role="form"
-          ref="milestone_form"
-        >
+          ref="milestone_form">
           {this.state.error && this.state.error.title
             ? <FieldError message={this.state.error.title} />
             : null}
@@ -99,7 +93,7 @@ export default class MilestoneForm extends React.Component {
             <label className="control-label">Description</label>
             <textarea
               className="form-control"
-              onChange={this.onInputChange.bind(this, "description")}
+              onChange={this.onInputChange.bind(this, 'description')}
               defaultValue={milestone.description}
               ref="description"
               placeholder="Description"
@@ -108,7 +102,7 @@ export default class MilestoneForm extends React.Component {
 
           <div className="text-center">
             <button type="submit" className="btn  ">
-              {milestone.idx > -1 ? "Update" : "Add"} milestone
+              {milestone.idx > -1 ? 'Update' : 'Add'} milestone
             </button>
           </div>
         </form>

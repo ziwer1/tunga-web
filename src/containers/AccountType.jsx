@@ -1,8 +1,8 @@
-import React from "react";
-import { Link } from "react-router";
-import Helmet from "react-helmet";
+import React from 'react';
+import {Link} from 'react-router';
+import Helmet from 'react-helmet';
 
-import ShowcaseContainer from "./ShowcaseContainer";
+import ShowcaseContainer from './ShowcaseContainer';
 
 class AccountType extends React.Component {
   renderHeaderContent() {
@@ -24,8 +24,7 @@ class AccountType extends React.Component {
     return (
       <ShowcaseContainer
         className="auth-page"
-        headerContent={this.renderHeaderContent()}
-      >
+        headerContent={this.renderHeaderContent()}>
         <Helmet title="Tunga | Sign Up" />
       </ShowcaseContainer>
     );

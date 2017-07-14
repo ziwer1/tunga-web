@@ -1,27 +1,20 @@
-import React, { PropTypes } from "react";
-import { confirmable } from "react-confirm";
-import { Modal, Button } from "react-bootstrap";
+import React, {PropTypes} from 'react';
+import {confirmable} from 'react-confirm';
+import {Modal, Button} from 'react-bootstrap';
 
 @confirmable
 class ConfirmDialog extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { response: null };
+    this.state = {response: null};
   }
 
   onResponseChange(e) {
-    this.setState({ response: e.target.value });
+    this.setState({response: e.target.value});
   }
 
   render() {
-    const {
-      show,
-      proceed,
-      dismiss,
-      cancel,
-      confirmation,
-      options
-    } = this.props;
+    const {show, proceed, dismiss, cancel, confirmation, options} = this.props;
     let safe_options = options || {};
 
     return (
@@ -36,7 +29,7 @@ class ConfirmDialog extends React.Component {
                 <textarea
                   ref="response"
                   className="form-control"
-                  placeholder={safe_options.placeholder || ""}
+                  placeholder={safe_options.placeholder || ''}
                   onChange={this.onResponseChange.bind(this)}
                 />
               </div>
@@ -44,7 +37,7 @@ class ConfirmDialog extends React.Component {
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={() => cancel()} className="btn-alt">
-            {safe_options.cancel || "Cancel"}
+            {safe_options.cancel || 'Cancel'}
           </Button>
           <Button
             onClick={() => {
@@ -56,9 +49,8 @@ class ConfirmDialog extends React.Component {
                 proceed();
               }
             }}
-            disabled={safe_options.isPrompt && !this.state.response}
-          >
-            {safe_options.ok || "OK"}
+            disabled={safe_options.isPrompt && !this.state.response}>
+            {safe_options.ok || 'OK'}
           </Button>
         </Modal.Footer>
       </Modal>
@@ -72,7 +64,7 @@ ConfirmDialog.propTypes = {
   cancel: PropTypes.func,
   dismiss: PropTypes.func,
   confirmation: PropTypes.string,
-  options: PropTypes.object
+  options: PropTypes.object,
 };
 
 export default confirmable(ConfirmDialog);

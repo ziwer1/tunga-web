@@ -1,15 +1,15 @@
-import React from "react";
-import Dropzone from "react-dropzone";
-import Progress from "./status/Progress";
-import FormStatus from "./status/FormStatus";
-import Avatar from "./Avatar";
+import React from 'react';
+import Dropzone from 'react-dropzone';
+import Progress from './status/Progress';
+import FormStatus from './status/FormStatus';
+import Avatar from './Avatar';
 
-import { getUser } from "../utils/auth";
+import {getUser} from '../utils/auth';
 
 export default class ProfilePicture extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { photo: null };
+    this.state = {photo: null};
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -19,12 +19,12 @@ export default class ProfilePicture extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.Profile.isSaved.user && !prevProps.Profile.isSaved.user) {
-      this.setState({ photo: null });
+      this.setState({photo: null});
     }
   }
 
   onDrop(files) {
-    this.setState({ photo: files[0] });
+    this.setState({photo: files[0]});
   }
 
   onClickOpen() {
@@ -35,14 +35,14 @@ export default class ProfilePicture extends React.Component {
     e.preventDefault();
 
     const image = this.state.photo;
-    const { ProfileActions } = this.props;
+    const {ProfileActions} = this.props;
 
-    ProfileActions.updateAuthUser({ image });
+    ProfileActions.updateAuthUser({image});
     return;
   }
 
   render() {
-    const { Profile } = this.props;
+    const {Profile} = this.props;
     let prof_pic = this.state.photo
       ? this.state.photo.preview
       : getUser().avatar_url;
@@ -55,12 +55,11 @@ export default class ProfilePicture extends React.Component {
               onSubmit={this.handleSubmit}
               name="profile"
               role="form"
-              ref="profile_form"
-            >
+              ref="profile_form">
               <FormStatus
                 loading={Profile.isSaving.user}
                 success={Profile.isSaved.user}
-                message={"Profile picture saved"}
+                message={'Profile picture saved'}
                 error={Profile.error.user}
               />
 
@@ -72,9 +71,8 @@ export default class ProfilePicture extends React.Component {
                 ref="dropzone"
                 className="dropzone"
                 multiple={false}
-                accept={"image/*"}
-                onDrop={this.onDrop.bind(this)}
-              >
+                accept={'image/*'}
+                onDrop={this.onDrop.bind(this)}>
                 <div className="msg">
                   {prof_pic
                     ? <div>
@@ -87,7 +85,7 @@ export default class ProfilePicture extends React.Component {
                       </div>
                     : <i
                         className="fa fa-cloud-upload fa-2x"
-                        style={{ marginTop: "30px" }}
+                        style={{marginTop: '30px'}}
                       />}
                   <div>
                     Drop an image here or click to select an image to upload.
@@ -98,8 +96,7 @@ export default class ProfilePicture extends React.Component {
               <button
                 type="submit"
                 className="btn  pull-right"
-                disabled={Profile.isSaving.user || !this.state.photo}
-              >
+                disabled={Profile.isSaving.user || !this.state.photo}>
                 Upload
               </button>
               <div className="clearfix" />

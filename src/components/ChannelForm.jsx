@@ -1,21 +1,21 @@
-import React from "react";
-import FormStatus from "./status/FormStatus";
-import FieldError from "./status/FieldError";
-import UserSelector from "../containers/UserSelector";
-import { CHANNEL_TYPES } from "../constants/Api";
+import React from 'react';
+import FormStatus from './status/FormStatus';
+import FieldError from './status/FieldError';
+import UserSelector from '../containers/UserSelector';
+import {CHANNEL_TYPES} from '../constants/Api';
 
-import { isAdmin, getUser } from "../utils/auth";
+import {isAdmin, getUser} from '../utils/auth';
 
 export default class ChannelForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { participants: [], type: null };
+    this.state = {participants: [], type: null};
   }
 
   componentWillMount() {
     const channel = this.props.channel || {};
     if (channel.id && channel.details) {
-      this.setState({ participants: channel.details.participants });
+      this.setState({participants: channel.details.participants});
     }
 
     let recipientId = this.getRecipient();
@@ -32,11 +32,11 @@ export default class ChannelForm extends React.Component {
       nextProps.Channel.detail.isSaved &&
       !this.props.Channel.detail.isSaved
     ) {
-      const { Channel } = nextProps;
+      const {Channel} = nextProps;
       this.refs.channel_form.reset();
-      this.setState({ participants: [] });
-      const { router } = this.context;
-      router.replace("/conversation/" + Channel.detail.channel.id);
+      this.setState({participants: []});
+      const {router} = this.context;
+      router.replace('/conversation/' + Channel.detail.channel.id);
     }
   }
 
@@ -55,11 +55,11 @@ export default class ChannelForm extends React.Component {
   }
 
   onParticipantChange(participants) {
-    this.setState({ participants: participants });
+    this.setState({participants: participants});
   }
 
   getOtherParticipants() {
-    const { Channel } = this.props;
+    const {Channel} = this.props;
     let channel = this.props.channel || {};
 
     var participants = [];
@@ -74,17 +74,17 @@ export default class ChannelForm extends React.Component {
   }
 
   onTypeChange(type = null) {
-    this.setState({ type });
+    this.setState({type});
   }
 
   saveChannel(participants = [], subject = null, message = null, task = null) {
-    const { ChannelActions } = this.props;
+    const {ChannelActions} = this.props;
 
     let channel = this.props.channel || {};
     let channel_info =
       this.state.type == CHANNEL_TYPES.developer
-        ? { subject, message }
-        : { subject, participants };
+        ? {subject, message}
+        : {subject, participants};
     if (channel.id) {
       ChannelActions.updateChannel(channel.id, channel_info);
     } else if (this.state.type == CHANNEL_TYPES.developer) {
@@ -107,7 +107,7 @@ export default class ChannelForm extends React.Component {
   }
 
   render() {
-    const { Channel } = this.props;
+    const {Channel} = this.props;
     let channel = this.props.channel || {};
     return (
       <div className="new-channel">
@@ -115,12 +115,11 @@ export default class ChannelForm extends React.Component {
           onSubmit={this.handleSubmit.bind(this)}
           name="channel"
           role="form"
-          ref="channel_form"
-        >
+          ref="channel_form">
           <FormStatus
             loading={Channel.detail.isSaving}
             success={Channel.detail.isSaved}
-            message={"Channel created"}
+            message={'Channel created'}
             error={Channel.detail.error.create}
           />
 
@@ -135,33 +134,30 @@ export default class ChannelForm extends React.Component {
                 <div
                   className="btn-group btn-choices btn-switch"
                   role="group"
-                  aria-label="visibility"
-                >
+                  aria-label="visibility">
                   <button
                     type="button"
                     className={
-                      "btn " +
+                      'btn ' +
                       (this.state.type != CHANNEL_TYPES.developer
-                        ? " active"
-                        : "")
+                        ? ' active'
+                        : '')
                     }
-                    onClick={this.onTypeChange.bind(this, null)}
-                  >
+                    onClick={this.onTypeChange.bind(this, null)}>
                     Selected users
                   </button>
                   <button
                     type="button"
                     className={
-                      "btn " +
+                      'btn ' +
                       (this.state.type == CHANNEL_TYPES.developer
-                        ? " active"
-                        : "")
+                        ? ' active'
+                        : '')
                     }
                     onClick={this.onTypeChange.bind(
                       this,
-                      CHANNEL_TYPES.developer
-                    )}
-                  >
+                      CHANNEL_TYPES.developer,
+                    )}>
                     All Developers
                   </button>
                 </div>
@@ -182,7 +178,7 @@ export default class ChannelForm extends React.Component {
                 <label className="control-label">Select users</label>
                 <div>
                   <UserSelector
-                    filter={{ filter: null }}
+                    filter={{filter: null}}
                     onChange={this.onParticipantChange.bind(this)}
                     selected={this.getOtherParticipants()}
                     unremovable={this.getOtherParticipants().map(user => {
@@ -206,10 +202,9 @@ export default class ChannelForm extends React.Component {
                 this.state.participants.length > 1 ||
                 channel.subject ||
                 this.state.type == CHANNEL_TYPES.developer
-                  ? "block"
-                  : "none"
-            }}
-          >
+                  ? 'block'
+                  : 'none',
+            }}>
             <label className="control-label">Subject</label>
             <div>
               <input
@@ -217,7 +212,7 @@ export default class ChannelForm extends React.Component {
                 className="form-control"
                 ref="subject"
                 placeholder="Subject"
-                defaultValue={channel.subject || ""}
+                defaultValue={channel.subject || ''}
               />
             </div>
           </div>
@@ -240,7 +235,7 @@ export default class ChannelForm extends React.Component {
                     rows="3"
                   />
                 </div>
-                <div className="alert alert-info" style={{ marginTop: "20px" }}>
+                <div className="alert alert-info" style={{marginTop: '20px'}}>
                   This message will be sent to all developers via email
                 </div>
               </div>
@@ -250,9 +245,8 @@ export default class ChannelForm extends React.Component {
             <button
               type="submit"
               className="btn "
-              disabled={Channel.detail.isSaving}
-            >
-              {channel.id ? "Update" : "Start"}
+              disabled={Channel.detail.isSaving}>
+              {channel.id ? 'Update' : 'Start'}
             </button>
           </div>
           <div className="clearfix" />
@@ -263,5 +257,5 @@ export default class ChannelForm extends React.Component {
 }
 
 ChannelForm.contextTypes = {
-  router: React.PropTypes.object.isRequired
+  router: React.PropTypes.object.isRequired,
 };

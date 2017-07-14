@@ -1,19 +1,19 @@
-import React from "react";
-import { Link } from "react-router";
-import Rating from "react-rating";
-import Linkify from "./Linkify";
+import React from 'react';
+import {Link} from 'react-router';
+import Rating from 'react-rating';
+import Linkify from './Linkify';
 
-import TagList from "./TagList";
-import UserCardProfile from "./UserCardProfile";
-import { RATING_CRITERIA_CHOICES, ENDPOINT_USER } from "../constants/Api";
-import { isProjectOwner } from "../utils/auth";
+import TagList from './TagList';
+import UserCardProfile from './UserCardProfile';
+import {RATING_CRITERIA_CHOICES, ENDPOINT_USER} from '../constants/Api';
+import {isProjectOwner} from '../utils/auth';
 
-import { STATUS_ACCEPTED, STATUS_REJECTED } from "../constants/Api";
+import {STATUS_ACCEPTED, STATUS_REJECTED} from '../constants/Api';
 
 export default class User extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { ratings_map: null };
+    this.state = {ratings_map: null};
   }
 
   componentWillMount() {
@@ -33,8 +33,8 @@ export default class User extends React.Component {
   }
 
   mapUserRatings(props) {
-    const { User } = props;
-    const { user } = User.detail;
+    const {User} = props;
+    const {user} = User.detail;
     if (
       user &&
       user.ratings &&
@@ -45,45 +45,45 @@ export default class User extends React.Component {
       user.ratings.details.forEach(rating => {
         ratings_map[rating.criteria] = rating;
       });
-      this.setState({ ratings_map });
+      this.setState({ratings_map});
     }
   }
 
   handleConnectRequest() {
-    const { User, UserActions } = this.props;
-    const { user } = User.detail;
-    UserActions.createConnection({ to_user: user.id });
+    const {User, UserActions} = this.props;
+    const {user} = User.detail;
+    UserActions.createConnection({to_user: user.id});
   }
 
   handleConnectResponse(accepted = false) {
-    const { User, UserActions } = this.props;
-    const { user } = User.detail;
+    const {User, UserActions} = this.props;
+    const {user} = User.detail;
     UserActions.updateConnection(user.request, {
       accepted,
-      status: accepted ? STATUS_ACCEPTED : STATUS_REJECTED
+      status: accepted ? STATUS_ACCEPTED : STATUS_REJECTED,
     });
   }
 
   handleDeleteConnection() {
-    const { User, UserActions } = this.props;
-    const { user } = User.detail;
+    const {User, UserActions} = this.props;
+    const {user} = User.detail;
     if (user.connection) {
       UserActions.deleteConnection(user.connection.id, user, false);
     }
   }
 
   render() {
-    const { User } = this.props;
-    const { user } = User.detail;
+    const {User} = this.props;
+    const {user} = User.detail;
 
-    var connection_msg = "Send friend request";
-    var remove_msg = "Remove friend";
+    var connection_msg = 'Send friend request';
+    var remove_msg = 'Remove friend';
     if (isProjectOwner()) {
-      connection_msg = "Add to my team";
-      remove_msg = "Remove from my team";
+      connection_msg = 'Add to my team';
+      remove_msg = 'Remove from my team';
     } else if (user.is_project_owner) {
-      connection_msg = "Send request to join team";
-      remove_msg = "Leave team";
+      connection_msg = 'Send request to join team';
+      remove_msg = 'Leave team';
     }
 
     return (
@@ -104,8 +104,7 @@ export default class User extends React.Component {
                   ? <button
                       type="button"
                       className="btn"
-                      onClick={this.handleConnectRequest.bind(this)}
-                    >
+                      onClick={this.handleConnectRequest.bind(this)}>
                       {connection_msg}
                     </button>
                   : user.request
@@ -113,33 +112,32 @@ export default class User extends React.Component {
                         <button
                           type="button"
                           className="btn"
-                          onClick={this.handleConnectResponse.bind(this, true)}
-                        >
+                          onClick={this.handleConnectResponse.bind(this, true)}>
                           Accept Request
                         </button>,
                         <button
                           type="button"
                           className="btn"
-                          onClick={this.handleConnectResponse.bind(this, false)}
-                        >
+                          onClick={this.handleConnectResponse.bind(
+                            this,
+                            false,
+                          )}>
                           Decline Request
-                        </button>
+                        </button>,
                       ]
                     : null}
                 {user.connection && user.connection.status == STATUS_ACCEPTED
                   ? <button
                       type="button"
                       className="btn"
-                      onClick={this.handleDeleteConnection.bind(this)}
-                    >
+                      onClick={this.handleDeleteConnection.bind(this)}>
                       {remove_msg}
                     </button>
                   : null}
                 <a
                   href={`${ENDPOINT_USER}${user.id}/download/profile?format=pdf`}
                   className="btn btn-primary"
-                  target="_blank"
-                >
+                  target="_blank">
                   <i className="fa fa-file-pdf-o" /> Download Pdf
                 </a>
               </div>
@@ -159,7 +157,7 @@ export default class User extends React.Component {
                                   {user.profile.company}
                                 </div>
                                 <div>
-                                  {user.profile.plot_number}{" "}
+                                  {user.profile.plot_number}{' '}
                                   {user.profile.street}
                                 </div>
                                 <div>
@@ -180,7 +178,7 @@ export default class User extends React.Component {
                             </div>
                             <div className="media-body">
                               <div className="card">
-                                <Linkify properties={{ target: "_blank" }}>
+                                <Linkify properties={{target: '_blank'}}>
                                   {user.profile.bio}
                                 </Linkify>
                               </div>
@@ -230,8 +228,7 @@ export default class User extends React.Component {
                                   return (
                                     <div
                                       key={criteria.id}
-                                      style={{ margin: "5px 0" }}
-                                    >
+                                      style={{margin: '5px 0'}}>
                                       <div>
                                         {criteria.name}
                                       </div>
@@ -245,11 +242,11 @@ export default class User extends React.Component {
                                                 step={2}
                                                 fractions={2}
                                                 initialRate={rating.avg}
-                                                empty={"fa fa-star-o"}
-                                                full={"fa fa-star"}
+                                                empty={'fa fa-star-o'}
+                                                full={'fa fa-star'}
                                                 readonly={true}
                                               />
-                                            </div>{" "}
+                                            </div>{' '}
                                             ({rating.display_avg} rating)
                                           </div>
                                         : <div className="secondary">
@@ -278,16 +275,14 @@ export default class User extends React.Component {
                                       {item.company}
                                     </div>
                                     <div>
-                                      {item.start_month_display}/{item.start_year}{" "}
-                                      -{" "}
+                                      {item.start_month_display}/{item.start_year}{' '}
+                                      -{' '}
                                       {item.end_year
                                         ? `${item.end_month_display}/${item.end_year}`
-                                        : "Present"}
+                                        : 'Present'}
                                     </div>
-                                    <div style={{ margin: "5px 0" }}>
-                                      <Linkify
-                                        properties={{ target: "_blank" }}
-                                      >
+                                    <div style={{margin: '5px 0'}}>
+                                      <Linkify properties={{target: '_blank'}}>
                                         {item.details}
                                       </Linkify>
                                     </div>
@@ -313,16 +308,14 @@ export default class User extends React.Component {
                                       {item.award}
                                     </div>
                                     <div>
-                                      {item.start_month_display}/{item.start_year}{" "}
-                                      -{" "}
+                                      {item.start_month_display}/{item.start_year}{' '}
+                                      -{' '}
                                       {item.end_year
                                         ? `${item.end_month_display}/${item.end_year}`
-                                        : "Present"}
+                                        : 'Present'}
                                     </div>
-                                    <div style={{ margin: "5px 0" }}>
-                                      <Linkify
-                                        properties={{ target: "_blank" }}
-                                      >
+                                    <div style={{margin: '5px 0'}}>
+                                      <Linkify properties={{target: '_blank'}}>
                                         {item.details}
                                       </Linkify>
                                     </div>

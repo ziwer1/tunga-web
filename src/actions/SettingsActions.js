@@ -1,12 +1,12 @@
-import axios from "axios";
-import { ENDPOINT_ACCOUNT_SETTINGS } from "../constants/Api";
+import axios from 'axios';
+import {ENDPOINT_ACCOUNT_SETTINGS} from '../constants/Api';
 
-export const RETRIEVE_SETTINGS_START = "RETRIEVE_SETTINGS_START";
-export const RETRIEVE_SETTINGS_SUCCESS = "RETRIEVE_SETTINGS_SUCCESS";
-export const RETRIEVE_SETTINGS_FAILED = "RETRIEVE_SETTINGS_FAILED";
-export const UPDATE_SETTINGS_START = "UPDATE_SETTINGS_START";
-export const UPDATE_SETTINGS_SUCCESS = "UPDATE_SETTINGS_SUCCESS";
-export const UPDATE_SETTINGS_FAILED = "UPDATE_SETTINGS_FAILED";
+export const RETRIEVE_SETTINGS_START = 'RETRIEVE_SETTINGS_START';
+export const RETRIEVE_SETTINGS_SUCCESS = 'RETRIEVE_SETTINGS_SUCCESS';
+export const RETRIEVE_SETTINGS_FAILED = 'RETRIEVE_SETTINGS_FAILED';
+export const UPDATE_SETTINGS_START = 'UPDATE_SETTINGS_START';
+export const UPDATE_SETTINGS_SUCCESS = 'UPDATE_SETTINGS_SUCCESS';
+export const UPDATE_SETTINGS_FAILED = 'UPDATE_SETTINGS_FAILED';
 
 export function retrieveSettings() {
   return dispatch => {
@@ -18,7 +18,7 @@ export function retrieveSettings() {
       })
       .catch(function(error) {
         dispatch(
-          retrieveSettingsFailed(error.response ? error.response.data : null)
+          retrieveSettingsFailed(error.response ? error.response.data : null),
         );
       });
   };
@@ -26,21 +26,21 @@ export function retrieveSettings() {
 
 export function retrieveSettingsStart() {
   return {
-    type: RETRIEVE_SETTINGS_START
+    type: RETRIEVE_SETTINGS_START,
   };
 }
 
 export function retrieveSettingsSuccess(settings) {
   return {
     type: RETRIEVE_SETTINGS_SUCCESS,
-    settings
+    settings,
   };
 }
 
 export function retrieveSettingsFailed(error) {
   return {
     type: RETRIEVE_SETTINGS_FAILED,
-    error
+    error,
   };
 }
 
@@ -53,7 +53,7 @@ export function updateSettings(settings) {
       })
       .catch(function(error) {
         dispatch(
-          updateSettingsFailed(error.response ? error.response.data : null)
+          updateSettingsFailed(error.response ? error.response.data : null),
         );
       });
   };
@@ -62,20 +62,20 @@ export function updateSettings(settings) {
 export function updateSettingsStart(id) {
   return {
     type: UPDATE_SETTINGS_START,
-    id
+    id,
   };
 }
 
 export function updateSettingsSuccess(settings) {
   return {
     type: UPDATE_SETTINGS_SUCCESS,
-    settings
+    settings,
   };
 }
 
 export function updateSettingsFailed(error) {
   return {
     type: UPDATE_SETTINGS_FAILED,
-    error
+    error,
   };
 }

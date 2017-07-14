@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react';
 
-import ShowcaseContainer from "../containers/ShowcaseContainer";
-import ShowCaseFooter from "../containers/ShowCaseFooter";
-import MetaTags from "../components/MetaTags";
+import ShowcaseContainer from '../containers/ShowcaseContainer';
+import ShowCaseFooter from '../containers/ShowCaseFooter';
+import MetaTags from '../components/MetaTags';
 
 export default class Agreement extends React.Component {
   renderHeaderContent() {
@@ -76,10 +76,10 @@ export default class Agreement extends React.Component {
         <p>
           <strong>Service Contract:</strong> a formal agreement between Buyer
           and Seller that includes 1) this User Agreement, 2) the specific terms
-          of the Project or Task as agreed on the Website, 3) our{" "}
+          of the Project or Task as agreed on the Website, 3) our{' '}
           <a href="/code-of-conduct" target="_blank">
             Code of Conduct
-          </a>{" "}
+          </a>{' '}
           and 4) any additional agreement between Buyer and Seller that is
           uploaded to the Website and that is not conflicting with any of the
           terms laid out in this User Agreement.
@@ -387,7 +387,7 @@ export default class Agreement extends React.Component {
         </p>
 
         <p>
-          3.12 We use your information as described in the{" "}
+          3.12 We use your information as described in the{' '}
           <a href="/privacy" target="_blank">
             Tunga Privacy Policy
           </a>. If you object to your information being transferred or used in
@@ -523,7 +523,7 @@ export default class Agreement extends React.Component {
         </p>
 
         <p>
-          5.12 All legal notices should be sent via e-mail to{" "}
+          5.12 All legal notices should be sent via e-mail to{' '}
           <a href="mailto:admin@tunga.com">admin@tunga.com</a>. Also, if you
           have any questions about this User Agreement or if you wish to report
           breaches of this User Agreement, please contact us by e-mail us to
@@ -534,15 +534,14 @@ export default class Agreement extends React.Component {
   }
 
   render() {
-    let meta_title = "Tunga | Terms and Conditions";
+    let meta_title = 'Tunga | Terms and Conditions';
     let meta_description =
-      "This User Agreement contains the terms & conditions that apply to the usage of the Tunga Website and Services.";
+      'This User Agreement contains the terms & conditions that apply to the usage of the Tunga Website and Services.';
 
     return (
       <ShowcaseContainer
         className="agreement-page"
-        headerContent={this.renderHeaderContent()}
-      >
+        headerContent={this.renderHeaderContent()}>
         <MetaTags title={meta_title} description={meta_description} />
 
         <ShowCaseFooter />

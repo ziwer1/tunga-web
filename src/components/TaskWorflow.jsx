@@ -1,22 +1,22 @@
-import React from "react";
-import { renderToString } from "react-dom/server";
-import { Link } from "react-router";
-import moment from "moment";
-import TimeAgo from "react-timeago";
-import { OverlayTrigger, Popover } from "react-bootstrap";
-import Linkify from "./Linkify";
-import Joyride from "react-joyride";
+import React from 'react';
+import {renderToString} from 'react-dom/server';
+import {Link} from 'react-router';
+import moment from 'moment';
+import TimeAgo from 'react-timeago';
+import {OverlayTrigger, Popover} from 'react-bootstrap';
+import Linkify from './Linkify';
+import Joyride from 'react-joyride';
 
-import CommentSection from "../containers/CommentSection";
-import Avatar from "./Avatar";
-import CommentForm from "./CommentForm";
-import ActivityList from "./ActivityList";
-import LargeModal from "./LargeModal";
-import ComponentWithModal from "./ComponentWithModal";
-import Timeline from "./Timeline";
-import MilestoneContainer from "../containers/MilestoneContainer";
-import Milestone from "./Milestone";
-import TagList from "./TagList";
+import CommentSection from '../containers/CommentSection';
+import Avatar from './Avatar';
+import CommentForm from './CommentForm';
+import ActivityList from './ActivityList';
+import LargeModal from './LargeModal';
+import ComponentWithModal from './ComponentWithModal';
+import Timeline from './Timeline';
+import MilestoneContainer from '../containers/MilestoneContainer';
+import Milestone from './Milestone';
+import TagList from './TagList';
 
 import {
   parse_task_status,
@@ -27,29 +27,29 @@ import {
   canEditQuote,
   canViewQuote,
   getAcquisitionUrl,
-  hasStarted
-} from "../utils/tasks";
-import { render_summary, nl_to_br } from "../utils/html";
-import { getTaskKey } from "../utils/reducers";
-import confirm from "../utils/confirm";
+  hasStarted,
+} from '../utils/tasks';
+import {render_summary, nl_to_br} from '../utils/html';
+import {getTaskKey} from '../utils/reducers';
+import confirm from '../utils/confirm';
 
-import { SOCIAL_PROVIDERS } from "../constants/Api";
-import { isAdmin, getUser } from "../utils/auth";
-import { sendGAPageView } from "../utils/tracking";
+import {SOCIAL_PROVIDERS} from '../constants/Api';
+import {isAdmin, getUser} from '../utils/auth';
+import {sendGAPageView} from '../utils/tracking';
 
 import {
   STATUS_REJECTED,
   STATUS_ACCEPTED,
-  STATUS_INITIAL
-} from "../constants/Api";
+  STATUS_INITIAL,
+} from '../constants/Api';
 
 export function resizeOverviewBox() {
   var w_h = $(window).height();
-  var nav_h = $("nav.navbar").height();
-  var wf_h = $(".workflow-head").height();
+  var nav_h = $('nav.navbar').height();
+  var wf_h = $('.workflow-head').height();
   var t_h = nav_h + wf_h + 80;
   if (w_h > t_h) {
-    $(".workflow-overview").css("height", w_h - t_h + "px");
+    $('.workflow-overview').css('height', w_h - t_h + 'px');
   }
 }
 
@@ -62,7 +62,7 @@ export default class TaskWorflow extends ComponentWithModal {
       messages: true,
       notifications: true,
       files: true,
-      showFilter: false
+      showFilter: false,
     };
   }
 
@@ -76,8 +76,8 @@ export default class TaskWorflow extends ComponentWithModal {
   }
 
   componentDidMount() {
-    const { TaskActions, Task } = this.props;
-    const { task } = Task.detail;
+    const {TaskActions, Task} = this.props;
+    const {task} = Task.detail;
 
     TaskActions.listTaskActivity(task.id);
 
@@ -88,7 +88,7 @@ export default class TaskWorflow extends ComponentWithModal {
       this.setInterval(this.getNewActivity.bind(this), 5000);
     }
 
-    $(window).click({ ref: this }, function(e) {
+    $(window).click({ref: this}, function(e) {
       //e.data.ref.setState({showFilter: false});
     });
   }
@@ -128,7 +128,7 @@ export default class TaskWorflow extends ComponentWithModal {
   }
 
   redirectToNextStep(props) {
-    const { task } = props;
+    const {task} = props;
 
     if (
       getUser().id == task.user.id &&
@@ -140,7 +140,7 @@ export default class TaskWorflow extends ComponentWithModal {
       (!this.props.location.query || !this.props.location.query.nr) &&
       (!props.params || !props.params.eventId)
     ) {
-      const { router } = this.context;
+      const {router} = this.context;
       var next = null;
       if (!task.approved) {
         next = `/work/${task.id}/edit/complete-task`;
@@ -159,7 +159,7 @@ export default class TaskWorflow extends ComponentWithModal {
   }
 
   getNewActivity() {
-    const { Task, TaskActions, search, filters } = this.props;
+    const {Task, TaskActions, search, filters} = this.props;
     let taskId = this.props.params.taskId;
     let task_key = getTaskKey(taskId);
 
@@ -177,97 +177,97 @@ export default class TaskWorflow extends ComponentWithModal {
           });
         }
       }
-      TaskActions.listTaskActivity(taskId, { since, ...filters, search });
+      TaskActions.listTaskActivity(taskId, {since, ...filters, search});
     }
   }
 
   handleCloseApplications() {
-    const { TaskActions, Task } = this.props;
+    const {TaskActions, Task} = this.props;
 
-    confirm("Confirm close applications").then(function() {
+    confirm('Confirm close applications').then(function() {
       TaskActions.updateTask(Task.detail.task.id, {
         apply: false,
-        apply_closed_at: moment.utc().format()
+        apply_closed_at: moment.utc().format(),
       });
     });
   }
 
   handleOpenApplications() {
-    const { TaskActions, Task } = this.props;
+    const {TaskActions, Task} = this.props;
     TaskActions.updateTask(Task.detail.task.id, {
       apply: true,
-      apply_closed_at: null
+      apply_closed_at: null,
     });
   }
 
   handleCloseTask() {
-    const { TaskActions, Task } = this.props;
+    const {TaskActions, Task} = this.props;
 
-    confirm("Confirm close task").then(function() {
+    confirm('Confirm close task').then(function() {
       TaskActions.updateTask(Task.detail.task.id, {
         closed: true,
-        closed_at: moment.utc().format()
+        closed_at: moment.utc().format(),
       });
     });
   }
 
   handleOpenTask() {
-    const { TaskActions, Task } = this.props;
+    const {TaskActions, Task} = this.props;
     TaskActions.updateTask(Task.detail.task.id, {
       closed: false,
-      closed_at: null
+      closed_at: null,
     });
   }
 
   handleMarkPaid() {
-    const { TaskActions, Task } = this.props;
-    confirm("Confirm mark as paid").then(function() {
+    const {TaskActions, Task} = this.props;
+    confirm('Confirm mark as paid').then(function() {
       TaskActions.updateTask(Task.detail.task.id, {
         paid: true,
-        paid_at: moment.utc().format()
+        paid_at: moment.utc().format(),
       });
     });
   }
 
   handleDeleteTask() {
-    const { TaskActions, Task } = this.props;
-    confirm("Confirm delete Task").then(function() {
+    const {TaskActions, Task} = this.props;
+    confirm('Confirm delete Task').then(function() {
       TaskActions.deleteTask(Task.detail.task.id);
     });
   }
 
   handleAcceptTask() {
-    const { TaskActions, Task } = this.props;
+    const {TaskActions, Task} = this.props;
     TaskActions.updateTask(Task.detail.task.id, {
-      participation: [{ user: getUser().id, status: STATUS_ACCEPTED }]
+      participation: [{user: getUser().id, status: STATUS_ACCEPTED}],
     });
   }
 
   handleRejectTask() {
-    const { TaskActions, Task } = this.props;
-    confirm("Confirm reject task").then(function() {
+    const {TaskActions, Task} = this.props;
+    confirm('Confirm reject task').then(function() {
       TaskActions.updateTask(Task.detail.task.id, {
-        participation: [{ user: getUser().id, status: STATUS_REJECTED }]
+        participation: [{user: getUser().id, status: STATUS_REJECTED}],
       });
     });
   }
 
   onReturnProject() {
-    const { TaskActions, task } = this.props;
-    confirm("Confirm return project").then(function() {
+    const {TaskActions, task} = this.props;
+    confirm('Confirm return project').then(function() {
       TaskActions.returnTask(task.id);
     });
   }
 
   onUpload(files) {
-    const { Task, TaskActions } = this.props;
-    const { task } = Task.detail;
+    const {Task, TaskActions} = this.props;
+    const {task} = Task.detail;
     TaskActions.updateTask(task.id, null, files);
   }
 
   openMilestone(event) {
     if (event) {
-      this.setState({ modalEvent: { id: event } });
+      this.setState({modalEvent: {id: event}});
       this.open();
     }
   }
@@ -283,10 +283,9 @@ export default class TaskWorflow extends ComponentWithModal {
     return (
       <div>
         <LargeModal
-          title={this.state.modalEvent.title || "Task Update"}
+          title={this.state.modalEvent.title || 'Task Update'}
           show={this.state.showModal}
-          onHide={this.close.bind(this)}
-        >
+          onHide={this.close.bind(this)}>
           <MilestoneContainer>
             <Milestone milestone_id={this.state.modalEvent.id} />
           </MilestoneContainer>
@@ -296,7 +295,7 @@ export default class TaskWorflow extends ComponentWithModal {
   }
 
   getNewApplications() {
-    const { task, Task, TaskActions } = this.props;
+    const {task, Task, TaskActions} = this.props;
     var new_applications = [];
     task.details.applications.map(application => {
       if (application.status == STATUS_INITIAL) {
@@ -307,8 +306,8 @@ export default class TaskWorflow extends ComponentWithModal {
   }
 
   render() {
-    const { task, Task, TaskActions } = this.props;
-    const { uploads } = Task.detail;
+    const {task, Task, TaskActions} = this.props;
+    const {uploads} = Task.detail;
     var task_status = parse_task_status(task);
 
     let is_owner = [task.user.id, task.owner].indexOf(getUser().id) > -1;
@@ -328,7 +327,7 @@ export default class TaskWorflow extends ComponentWithModal {
       (is_confirmed_assignee &&
         task.details &&
         task.details.participation_shares.length > 1);
-    let work_type = task.is_project ? "project" : "task";
+    let work_type = task.is_project ? 'project' : 'task';
     let new_applications = this.getNewApplications();
 
     let is_project_task = task && task.parent;
@@ -337,8 +336,8 @@ export default class TaskWorflow extends ComponentWithModal {
       <Popover id="popover">
         <div>
           {task.paid
-            ? "Payment has been completed"
-            : "Close the task to move to this step"}
+            ? 'Payment has been completed'
+            : 'Close the task to move to this step'}
         </div>
       </Popover>
     );
@@ -352,77 +351,77 @@ export default class TaskWorflow extends ComponentWithModal {
     let steps = [
       ...steps,
       {
-        title: "View Applications",
-        text: "View Task Applications from developers",
-        selector: "#view-applications-btn",
-        position: "bottom"
+        title: 'View Applications',
+        text: 'View Task Applications from developers',
+        selector: '#view-applications-btn',
+        position: 'bottom',
       },
       {
-        title: "Project Board",
-        text: "View Project Board",
-        selector: "#project-board-btn",
-        position: "bottom"
+        title: 'Project Board',
+        text: 'View Project Board',
+        selector: '#project-board-btn',
+        position: 'bottom',
       },
       {
-        title: "Make Payment",
-        text: "Make payments to developers",
-        selector: "#make-payment-btn",
-        position: "bottom"
+        title: 'Make Payment',
+        text: 'Make payments to developers',
+        selector: '#make-payment-btn',
+        position: 'bottom',
       },
       {
-        title: "Rate Developers",
-        text: "Rate Project Developers",
-        selector: "#rate-developers-btn",
-        position: "bottom"
+        title: 'Rate Developers',
+        text: 'Rate Project Developers',
+        selector: '#rate-developers-btn',
+        position: 'bottom',
       },
       {
-        title: "Participation Shares",
-        text: "Participation shares",
-        selector: "#participation-shares-btn",
-        position: "bottom"
+        title: 'Participation Shares',
+        text: 'Participation shares',
+        selector: '#participation-shares-btn',
+        position: 'bottom',
       },
       {
-        title: "Configure updates",
-        text: "Manage updates",
-        selector: "#configure-updates-btn",
-        position: "bottom"
+        title: 'Configure updates',
+        text: 'Manage updates',
+        selector: '#configure-updates-btn',
+        position: 'bottom',
       },
       {
-        title: "Settings",
-        text: "Manage Settings",
-        selector: "#menu-btn",
-        position: "bottom"
+        title: 'Settings',
+        text: 'Manage Settings',
+        selector: '#menu-btn',
+        position: 'bottom',
       },
       {
-        title: "Github Repo",
-        text: "View project or task on github",
-        selector: "#github-btn",
-        position: "left"
+        title: 'Github Repo',
+        text: 'View project or task on github',
+        selector: '#github-btn',
+        position: 'left',
       },
       {
-        title: "Slack team",
-        text: "Go to project or task slack team",
-        selector: "#slack-btn",
-        position: "left"
+        title: 'Slack team',
+        text: 'Go to project or task slack team',
+        selector: '#slack-btn',
+        position: 'left',
       },
       {
-        title: "Comment Area",
-        text: "View activity about your task or project",
-        selector: "#comment-box",
-        position: "top"
+        title: 'Comment Area',
+        text: 'View activity about your task or project',
+        selector: '#comment-box',
+        position: 'top',
       },
       {
-        title: "Comment Widget",
-        text: "Share messages and upload files",
-        selector: "#comment-widget",
-        position: "top"
+        title: 'Comment Widget',
+        text: 'Share messages and upload files',
+        selector: '#comment-widget',
+        position: 'top',
       },
       {
-        title: "Sidebar Bar",
-        text: "View your task or project details",
-        selector: "#sidebox",
-        position: "left"
-      }
+        title: 'Sidebar Bar',
+        text: 'View your task or project details',
+        selector: '#sidebox',
+        position: 'left',
+      },
     ];
 
     return (
@@ -441,14 +440,14 @@ export default class TaskWorflow extends ComponentWithModal {
         />
 
         <div className="workflow-head clearfix">
-          <div className="" style={{ marginBottom: "10px" }}>
+          <div className="" style={{marginBottom: '10px'}}>
             <div className="title">
               {task.parent && task.details
                 ? <span>
                     <Link to={`/work/${task.parent}/`} className="small">
                       {render_summary(
                         task.details.parent.title || task.summary,
-                        30
+                        30,
                       )}
                     </Link>
                   </span>
@@ -461,12 +460,12 @@ export default class TaskWorflow extends ComponentWithModal {
             </div>
             {task.is_developer_ready
               ? <span className="task-status">
-                  <i className={"fa fa-circle " + task_status.css} />{" "}
-                  {task_status.message} |{" "}
+                  <i className={'fa fa-circle ' + task_status.css} />{' '}
+                  {task_status.message} |{' '}
                 </span>
               : null}
             <span className="time">
-              Posted{" "}
+              Posted{' '}
               <TimeAgo date={moment.utc(task.created_at).local().format()} />
             </span>
           </div>
@@ -481,15 +480,13 @@ export default class TaskWorflow extends ComponentWithModal {
                     ? <Link
                         to={`/work/${task.id}/estimate/${task.estimate
                           .id}/edit`}
-                        className="btn"
-                      >
+                        className="btn">
                         Edit Estimate
                       </Link>
                     : canViewEstimate(task)
                       ? <Link
                           to={`/work/${task.id}/estimate/${task.estimate.id}`}
-                          className="btn"
-                        >
+                          className="btn">
                           View Estimate
                         </Link>
                       : null}
@@ -501,15 +498,13 @@ export default class TaskWorflow extends ComponentWithModal {
                   : canEditQuote(task)
                     ? <Link
                         to={`/work/${task.id}/quote/${task.quote.id}/edit`}
-                        className="btn"
-                      >
+                        className="btn">
                         Edit Quote
                       </Link>
                     : canViewQuote(task)
                       ? <Link
                           to={`/work/${task.id}/quote/${task.quote.id}`}
-                          className="btn"
-                        >
+                          className="btn">
                           View Quote
                         </Link>
                       : null}
@@ -517,8 +512,7 @@ export default class TaskWorflow extends ComponentWithModal {
                 {task.can_return
                   ? <button
                       className="btn"
-                      onClick={this.onReturnProject.bind(this)}
-                    >
+                      onClick={this.onReturnProject.bind(this)}>
                       Return {work_type}
                     </button>
                   : null}
@@ -535,9 +529,8 @@ export default class TaskWorflow extends ComponentWithModal {
                         ? <Link
                             to={`/work/${task.id}/applications/`}
                             className="btn"
-                            id="view-applications-btn"
-                          >
-                            View applications{" "}
+                            id="view-applications-btn">
+                            View applications{' '}
                             {new_applications
                               ? <span className="badge">
                                   {new_applications}
@@ -551,8 +544,7 @@ export default class TaskWorflow extends ComponentWithModal {
                         ? <Link
                             to={`/work/${task.id}/board/`}
                             className="btn"
-                            id="project-board-btn"
-                          >
+                            id="project-board-btn">
                             Project Board
                           </Link>
                         : null}
@@ -560,14 +552,12 @@ export default class TaskWorflow extends ComponentWithModal {
                         ? <Link
                             to={`/work/${task.id}/pay/`}
                             className="btn"
-                            id="make-payment-btn"
-                          >
+                            id="make-payment-btn">
                             {can_pay
-                              ? "Make payment"
+                              ? 'Make payment'
                               : <OverlayTrigger
                                   placement="top"
-                                  overlay={pay_popover}
-                                >
+                                  overlay={pay_popover}>
                                   <div>Make payment</div>
                                 </OverlayTrigger>}
                           </Link>
@@ -580,14 +570,12 @@ export default class TaskWorflow extends ComponentWithModal {
                                 : workflow_link
                             }
                             className="btn"
-                            id="rate-developers-btn"
-                          >
+                            id="rate-developers-btn">
                             {can_rate
-                              ? "Rate Developers"
+                              ? 'Rate Developers'
                               : <OverlayTrigger
                                   placement="top"
-                                  overlay={rate_dev_popover}
-                                >
+                                  overlay={rate_dev_popover}>
                                   <div>Rate Developers</div>
                                 </OverlayTrigger>}
                           </Link>
@@ -600,8 +588,7 @@ export default class TaskWorflow extends ComponentWithModal {
                         ? <Link
                             to={`/work/${task.id}/participation/`}
                             className="btn"
-                            id="participation-shares-btn"
-                          >
+                            id="participation-shares-btn">
                             Participation shares
                           </Link>
                         : null}
@@ -612,8 +599,7 @@ export default class TaskWorflow extends ComponentWithModal {
                         ? <Link
                             to={`/work/${task.id}/edit/updates/`}
                             className="btn"
-                            id="configure-updates-btn"
-                          >
+                            id="configure-updates-btn">
                             Configure updates
                           </Link>
                         : null}
@@ -621,38 +607,33 @@ export default class TaskWorflow extends ComponentWithModal {
                       {is_admin_or_owner
                         ? <div
                             className="dropdown"
-                            style={{ display: "inline-block" }}
-                          >
+                            style={{display: 'inline-block'}}>
                             <button
                               className="btn"
                               type="button"
                               id="chat-overflow"
                               data-toggle="dropdown"
                               aria-haspopup="true"
-                              aria-expanded="true"
-                            >
-                              {work_type} actions{" "}
+                              aria-expanded="true">
+                              {work_type} actions{' '}
                               <i className="fa fa-ellipsis-v" id="menu-btn" />
                             </button>
                             <ul
                               className="dropdown-menu dropdown-menu-right"
-                              aria-labelledby="chat-overflow"
-                            >
+                              aria-labelledby="chat-overflow">
                               {is_admin_or_owner
                                 ? [
                                     <li>
                                       <Link
                                         to={`/work/${task.id}/edit/title`}
-                                        className="btn"
-                                      >
+                                        className="btn">
                                         Edit {work_type} title
                                       </Link>
                                     </li>,
                                     <li>
                                       <Link
                                         to={`/work/${task.id}/edit/description`}
-                                        className="btn"
-                                      >
+                                        className="btn">
                                         Edit {work_type} description
                                       </Link>
                                     </li>,
@@ -660,8 +641,7 @@ export default class TaskWorflow extends ComponentWithModal {
                                       ? <li>
                                           <Link
                                             to={`/work/${task.id}/edit/fee`}
-                                            className="btn"
-                                          >
+                                            className="btn">
                                             Edit the fee for the {work_type}
                                           </Link>
                                         </li>
@@ -669,8 +649,7 @@ export default class TaskWorflow extends ComponentWithModal {
                                     <li>
                                       <Link
                                         to={`/work/${task.id}/edit/skills`}
-                                        className="btn"
-                                      >
+                                        className="btn">
                                         Add skills
                                       </Link>
                                     </li>,
@@ -678,8 +657,7 @@ export default class TaskWorflow extends ComponentWithModal {
                                       ? <li>
                                           <Link
                                             to={`/work/${task.id}/edit/owner`}
-                                            className="btn"
-                                          >
+                                            className="btn">
                                             Add Project Owner
                                           </Link>
                                         </li>
@@ -688,8 +666,7 @@ export default class TaskWorflow extends ComponentWithModal {
                                       ? <li>
                                           <Link
                                             to={`/work/${task.id}/edit/pm`}
-                                            className="btn"
-                                          >
+                                            className="btn">
                                             Assign a PM to this {work_type}
                                           </Link>
                                         </li>
@@ -698,9 +675,8 @@ export default class TaskWorflow extends ComponentWithModal {
                                       ? <li>
                                           <Link
                                             to={`/work/${task.id}/edit/developers`}
-                                            className="btn"
-                                          >
-                                            Add another developer to this{" "}
+                                            className="btn">
+                                            Add another developer to this{' '}
                                             {work_type}
                                           </Link>
                                         </li>
@@ -709,8 +685,7 @@ export default class TaskWorflow extends ComponentWithModal {
                                       ? <li>
                                           <Link
                                             to={`/work/${task.id}/edit/milestone`}
-                                            className="btn"
-                                          >
+                                            className="btn">
                                             Add a milestone
                                           </Link>
                                         </li>
@@ -722,18 +697,16 @@ export default class TaskWorflow extends ComponentWithModal {
                                                 type="button"
                                                 className="btn "
                                                 onClick={this.handleCloseApplications.bind(
-                                                  this
-                                                )}
-                                              >
+                                                  this,
+                                                )}>
                                                 Close applications
                                               </button>
                                             : <button
                                                 type="button"
                                                 className="btn "
                                                 onClick={this.handleOpenApplications.bind(
-                                                  this
-                                                )}
-                                              >
+                                                  this,
+                                                )}>
                                                 Open applications
                                               </button>}
                                         </li>
@@ -747,18 +720,16 @@ export default class TaskWorflow extends ComponentWithModal {
                                                   type="button"
                                                   className="btn"
                                                   onClick={this.handleOpenTask.bind(
-                                                    this
-                                                  )}
-                                                >
+                                                    this,
+                                                  )}>
                                                   Open {work_type}
                                                 </button>
                                             : <button
                                                 type="button"
                                                 className="btn"
                                                 onClick={this.handleCloseTask.bind(
-                                                  this
-                                                )}
-                                              >
+                                                  this,
+                                                )}>
                                                 Close {work_type}
                                               </button>}
                                         </li>
@@ -772,9 +743,8 @@ export default class TaskWorflow extends ComponentWithModal {
                                             type="button"
                                             className="btn"
                                             onClick={this.handleMarkPaid.bind(
-                                              this
-                                            )}
-                                          >
+                                              this,
+                                            )}>
                                             Mark as paid
                                           </button>
                                         </li>
@@ -784,13 +754,12 @@ export default class TaskWorflow extends ComponentWithModal {
                                         type="button"
                                         className="btn"
                                         onClick={this.handleDeleteTask.bind(
-                                          this
-                                        )}
-                                      >
-                                        <i className="fa fa-trash-o" /> Delete{" "}
+                                          this,
+                                        )}>
+                                        <i className="fa fa-trash-o" /> Delete{' '}
                                         {work_type}
                                       </button>
-                                    </li>
+                                    </li>,
                                   ]
                                 : null}
                             </ul>
@@ -807,15 +776,13 @@ export default class TaskWorflow extends ComponentWithModal {
                       <button
                         type="button"
                         className="btn"
-                        onClick={this.handleAcceptTask.bind(this)}
-                      >
+                        onClick={this.handleAcceptTask.bind(this)}>
                         Accept task
                       </button>
                       <button
                         type="button"
                         className="btn"
-                        onClick={this.handleRejectTask.bind(this)}
-                      >
+                        onClick={this.handleRejectTask.bind(this)}>
                         Reject task
                       </button>
                     </div>
@@ -823,15 +790,14 @@ export default class TaskWorflow extends ComponentWithModal {
               </div>
             : null}
 
-          <div className="pull-right" style={{ width: "30%" }}>
+          <div className="pull-right" style={{width: '30%'}}>
             {task.is_developer_ready && is_admin_or_owner && !task.parent
               ? <ul className="integration-options pull-right">
                   <li id="github-btn">
                     <Link
                       to={`/work/${task.id}/integrations/${SOCIAL_PROVIDERS.github}`}
                       activeClassName="active"
-                      title="GitHub"
-                    >
+                      title="GitHub">
                       <i className="fa fa-github" />
                     </Link>
                   </li>
@@ -839,8 +805,7 @@ export default class TaskWorflow extends ComponentWithModal {
                     <Link
                       to={`/work/${task.id}/integrations/${SOCIAL_PROVIDERS.slack}`}
                       activeClassName="active"
-                      title="Slack"
-                    >
+                      title="Slack">
                       <i className="fa fa-slack" />
                     </Link>
                   </li>
@@ -848,19 +813,17 @@ export default class TaskWorflow extends ComponentWithModal {
                     <Link
                       to={`/work/${task.id}/edit/${SOCIAL_PROVIDERS.trello}`}
                       activeClassName="active"
-                      title="Trello"
-                    >
+                      title="Trello">
                       <i className="fa fa-trello" />
                     </Link>
                   </li>
                   <li id="google-drive-btn">
                     <Link
                       to={`/work/${task.id}/edit/${SOCIAL_PROVIDERS[
-                        "google-drive"
+                        'google-drive'
                       ]}`}
                       activeClassName="active"
-                      title="Google Drive"
-                    >
+                      title="Google Drive">
                       <i className="tunga-icon-google-drive" />
                     </Link>
                   </li>
@@ -871,41 +834,40 @@ export default class TaskWorflow extends ComponentWithModal {
           <div className="pull-right">
             <div
               className={`dropdown activity-filter ${this.state.showFilter
-                ? "open"
-                : ""}`}
+                ? 'open'
+                : ''}`}
               onClick={() => {
-                this.setState({ showFilter: !this.state.showFilter });
-              }}
-            >
+                this.setState({showFilter: !this.state.showFilter});
+              }}>
               <button className="btn filter-btn dropdown-toggle">
                 <i className="tunga-icon-filter" />
               </button>
               <div className="dropdown-menu">
                 <div>
-                  Messages{" "}
+                  Messages{' '}
                   <i
                     className={`switch fa fa-toggle-${this.state.messages
-                      ? "on"
-                      : "off"}`}
-                    onClick={this.onToggleFilter.bind(this, "messages")}
+                      ? 'on'
+                      : 'off'}`}
+                    onClick={this.onToggleFilter.bind(this, 'messages')}
                   />
                 </div>
                 <div>
-                  Notifications{" "}
+                  Notifications{' '}
                   <i
                     className={`switch fa fa-toggle-${this.state.notifications
-                      ? "on"
-                      : "off"}`}
-                    onClick={this.onToggleFilter.bind(this, "notifications")}
+                      ? 'on'
+                      : 'off'}`}
+                    onClick={this.onToggleFilter.bind(this, 'notifications')}
                   />
                 </div>
                 <div>
-                  Files{" "}
+                  Files{' '}
                   <i
                     className={`switch fa fa-toggle-${this.state.files
-                      ? "on"
-                      : "off"}`}
-                    onClick={this.onToggleFilter.bind(this, "files")}
+                      ? 'on'
+                      : 'off'}`}
+                    onClick={this.onToggleFilter.bind(this, 'files')}
                   />
                 </div>
               </div>
@@ -946,7 +908,7 @@ export default class TaskWorflow extends ComponentWithModal {
                   <CommentForm
                     object_details={{
                       content_type: task.content_type,
-                      object_id: task.id
+                      object_id: task.id,
                     }}
                     uploadCallback={this.onUpload.bind(this)}
                     uploadSaved={Task.detail.isSaved}
@@ -965,15 +927,14 @@ export default class TaskWorflow extends ComponentWithModal {
                   start={task.created_at}
                   end={task.deadline}
                   events={task.progress_events}
-                  openMilestone={this.openMilestone.bind(this)}
-                >
+                  openMilestone={this.openMilestone.bind(this)}>
                   <div className="pledge">
                     {task.display_fee}
                   </div>
 
                   {task.deadline
                     ? <div className="deadline">
-                        <i className="fa fa-clock-o fa-2x" />{" "}
+                        <i className="fa fa-clock-o fa-2x" />{' '}
                         <span className="bold">
                           {moment
                             .utc(task.deadline)
@@ -993,11 +954,11 @@ export default class TaskWorflow extends ComponentWithModal {
                             dangerouslySetInnerHTML={{
                               __html: nl_to_br(
                                 renderToString(
-                                  <Linkify properties={{ target: "_blank" }}>
+                                  <Linkify properties={{target: '_blank'}}>
                                     {task.description}
-                                  </Linkify>
-                                )
-                              )
+                                  </Linkify>,
+                                ),
+                              ),
                             }}
                           />
                         </div>
@@ -1008,7 +969,7 @@ export default class TaskWorflow extends ComponentWithModal {
                     ? <div>
                         <strong>Project Owner</strong>
                         <div>
-                          <Avatar src={task.details.owner.avatar_url} />{" "}
+                          <Avatar src={task.details.owner.avatar_url} />{' '}
                           <Link to={`/people/${task.details.owner.username}/`}>
                             {task.details.owner.display_name}
                           </Link>
@@ -1018,7 +979,7 @@ export default class TaskWorflow extends ComponentWithModal {
 
                   <strong>Posted by</strong>
                   <div>
-                    <Avatar src={task.user.avatar_url} />{" "}
+                    <Avatar src={task.user.avatar_url} />{' '}
                     <Link to={`/people/${task.user.username}/`}>
                       {task.user.display_name}
                     </Link>
@@ -1028,7 +989,7 @@ export default class TaskWorflow extends ComponentWithModal {
                     ? <div>
                         <strong>Project Manager</strong>
                         <div>
-                          <Avatar src={task.details.pm.avatar_url} />{" "}
+                          <Avatar src={task.details.pm.avatar_url} />{' '}
                           <Link to={`/people/${task.details.pm.username}/`}>
                             {task.details.pm.display_name}
                           </Link>
@@ -1047,7 +1008,7 @@ export default class TaskWorflow extends ComponentWithModal {
                           <span className="status">
                             {task.assignee.status == STATUS_ACCEPTED
                               ? <i className="fa fa-check-circle accepted" />
-                              : "[Invited]"}
+                              : '[Invited]'}
                           </span>
                         </div>
                       </div>
@@ -1065,8 +1026,7 @@ export default class TaskWorflow extends ComponentWithModal {
                           participation.status != STATUS_REJECTED
                             ? <div
                                 className="collaborator"
-                                key={participant.id}
-                              >
+                                key={participant.id}>
                                 <Avatar src={participant.avatar_url} />
                                 <Link to={`/people/${participant.username}/`}>
                                   {participant.display_name}
@@ -1074,7 +1034,7 @@ export default class TaskWorflow extends ComponentWithModal {
                                 <span className="status">
                                   {participation.status == STATUS_ACCEPTED
                                     ? <i className="fa fa-check-circle accepted" />
-                                    : "[Invited]"}
+                                    : '[Invited]'}
                                 </span>
                               </div>
                             : null;
@@ -1120,7 +1080,7 @@ export default class TaskWorflow extends ComponentWithModal {
                   {task.google_drive_url
                     ? <div>
                         <strong>
-                          <i className="tunga-icon-google-drive google" />{" "}
+                          <i className="tunga-icon-google-drive google" />{' '}
                           Google Drive
                         </strong>
                         <p>
@@ -1137,20 +1097,19 @@ export default class TaskWorflow extends ComponentWithModal {
                           return (
                             <div key={milestone.id}>
                               <Link
-                                to={`/work/${task.id}/event/${milestone.id}`}
-                              >
+                                to={`/work/${task.id}/event/${milestone.id}`}>
                                 <i
                                   className={
-                                    "fa fa-flag" +
-                                    (milestone.type == 4 ? "-checkered" : "-o")
+                                    'fa fa-flag' +
+                                    (milestone.type == 4 ? '-checkered' : '-o')
                                   }
-                                />{" "}
+                                />{' '}
                                 {milestone.title}
-                                <span style={{ marginLeft: "5px" }}>
+                                <span style={{marginLeft: '5px'}}>
                                   {moment
                                     .utc(milestone.due_at)
                                     .local()
-                                    .format("Do, MMMM YYYY")}
+                                    .format('Do, MMMM YYYY')}
                                 </span>
                               </Link>
                             </div>
@@ -1160,8 +1119,8 @@ export default class TaskWorflow extends ComponentWithModal {
                     : null}
 
                   {[
-                    { key: "deliverables", title: "Deliverables" },
-                    { key: "stack_description", title: "Technology Stack" }
+                    {key: 'deliverables', title: 'Deliverables'},
+                    {key: 'stack_description', title: 'Technology Stack'},
                   ].map(item => {
                     if (task[item.key]) {
                       return (
@@ -1170,7 +1129,7 @@ export default class TaskWorflow extends ComponentWithModal {
                             {item.title}
                           </strong>
                           <div>
-                            <Linkify properties={{ target: "_blank" }}>
+                            <Linkify properties={{target: '_blank'}}>
                               {task[item.key]}
                             </Linkify>
                           </div>
@@ -1190,5 +1149,5 @@ export default class TaskWorflow extends ComponentWithModal {
 }
 
 TaskWorflow.contextTypes = {
-  router: React.PropTypes.object.isRequired
+  router: React.PropTypes.object.isRequired,
 };

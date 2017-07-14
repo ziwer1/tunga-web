@@ -1,10 +1,10 @@
-import React from "react";
-import Progress from "../components/status/Progress";
-import Error from "../components/status/Error";
-import Success from "../components/status/Success";
-import ShowcaseContainer from "./ShowcaseContainer";
+import React from 'react';
+import Progress from '../components/status/Progress';
+import Error from '../components/status/Error';
+import Success from '../components/status/Success';
+import ShowcaseContainer from './ShowcaseContainer';
 
-import connect from "../utils/connectors/AuthConnector";
+import connect from '../utils/connectors/AuthConnector';
 
 class PasswordReset extends React.Component {
   constructor(props) {
@@ -25,20 +25,19 @@ class PasswordReset extends React.Component {
       return;
     }
 
-    this.props.AuthActions.resetPassword({ email });
+    this.props.AuthActions.resetPassword({email});
     return;
   }
 
   renderHeaderContent() {
-    const { Auth } = this.props;
+    const {Auth} = this.props;
 
     return (
       <form
         onSubmit={this.handleSubmit}
         name="reset-form"
         role="form"
-        ref="reset_form"
-      >
+        ref="reset_form">
         <div className="heading-3">Reset Password</div>
 
         {Auth.isResetting ? <Progress /> : null}
@@ -73,8 +72,7 @@ class PasswordReset extends React.Component {
           <button
             type="submit"
             className="btn pull-right"
-            disabled={Auth.isResetting}
-          >
+            disabled={Auth.isResetting}>
             Reset Password
           </button>
         </div>

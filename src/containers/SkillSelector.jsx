@@ -1,37 +1,37 @@
-import React from "react";
-import _ from "lodash";
-import connect from "../utils/connectors/SkillSelectionConnector";
+import React from 'react';
+import _ from 'lodash';
+import connect from '../utils/connectors/SkillSelectionConnector';
 
 class SkillSelector extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { skill: "", skills: [], suggested: [] };
+    this.state = {skill: '', skills: [], suggested: []};
     this.handleSkillChange = this.handleSkillChange.bind(this);
     this.handleGetSuggestions = _.debounce(this.handleGetSuggestions, 250);
   }
 
   componentDidMount() {
-    const { SkillSelectionActions, skills, suggested } = this.props;
+    const {SkillSelectionActions, skills, suggested} = this.props;
     SkillSelectionActions.invalidateSkillSuggestions();
     SkillSelectionActions.clearSkillSelections();
 
     if (skills && Array.isArray(skills)) {
       this.setState({
-        skills: Array.from(new Set([...this.state.skills, ...skills]))
+        skills: Array.from(new Set([...this.state.skills, ...skills])),
       });
     }
 
     if (suggested && Array.isArray(suggested)) {
-      this.setState({ suggested });
+      this.setState({suggested});
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { onChange } = this.props;
-    const { SkillSelectionActions, skills, suggested } = this.props;
+    const {onChange} = this.props;
+    const {SkillSelectionActions, skills, suggested} = this.props;
     if (prevProps.skills != skills && skills && Array.isArray(skills)) {
       this.setState({
-        skills: Array.from(new Set([...this.state.skills, ...skills]))
+        skills: Array.from(new Set([...this.state.skills, ...skills])),
       });
     }
 
@@ -40,15 +40,15 @@ class SkillSelector extends React.Component {
       suggested &&
       Array.isArray(suggested)
     ) {
-      this.setState({ suggested });
+      this.setState({suggested});
     }
   }
 
   handleSkillChange(e) {
-    const { SkillSelectionActions } = this.props;
+    const {SkillSelectionActions} = this.props;
     var skill = e.target.value;
-    this.setState({ skill: skill });
-    if (e.key === "Enter") {
+    this.setState({skill: skill});
+    if (e.key === 'Enter') {
       e.preventDefault();
       this.handleSelectSkill(skill);
     }
@@ -60,34 +60,34 @@ class SkillSelector extends React.Component {
   }
 
   handleGetSuggestions() {
-    const { SkillSelectionActions } = this.props;
-    SkillSelectionActions.getSkillSuggestions({ search: this.state.skill });
+    const {SkillSelectionActions} = this.props;
+    SkillSelectionActions.getSkillSuggestions({search: this.state.skill});
   }
 
   handleSelectSkill(skill) {
-    const { SkillSelectionActions, onChange } = this.props;
+    const {SkillSelectionActions, onChange} = this.props;
     SkillSelectionActions.invalidateSkillSuggestions();
     let new_skills = Array.from(new Set([...this.state.skills, skill]));
     if (onChange) {
       onChange(new_skills);
     }
-    this.setState({ skill: "", skills: new_skills });
+    this.setState({skill: '', skills: new_skills});
   }
 
   handleRemoveSkill(skill) {
     var idx = this.state.skills.indexOf(skill);
     if (idx > -1) {
-      const { onChange } = this.props;
+      const {onChange} = this.props;
       let new_skills = Array.from(
         new Set([
           ...this.state.skills.slice(0, idx),
-          ...this.state.skills.slice(idx + 1)
-        ])
+          ...this.state.skills.slice(idx + 1),
+        ]),
       );
       if (onChange) {
         onChange(new_skills);
       }
-      this.setState({ skills: new_skills });
+      this.setState({skills: new_skills});
     }
   }
 
@@ -96,13 +96,12 @@ class SkillSelector extends React.Component {
   }
 
   render() {
-    const { SkillSelection, showTitle } = this.props;
+    const {SkillSelection, showTitle} = this.props;
 
     return (
       <div
         className="skill-selector tag-selector"
-        onClick={this.handleComponentClick.bind(this)}
-      >
+        onClick={this.handleComponentClick.bind(this)}>
         <div className="selections">
           {showTitle && this.state.suggested && this.state.suggested.length
             ? <label className="control-label">Skills or products</label>
@@ -115,8 +114,7 @@ class SkillSelector extends React.Component {
                       {skill}
                       <a
                         onClick={this.handleRemoveSkill.bind(this, skill)}
-                        className="close"
-                      >
+                        className="close">
                         <i className="fa fa-remove" />
                       </a>
                     </div>
@@ -125,8 +123,8 @@ class SkillSelector extends React.Component {
               </div>
             : <div className="alert alert-info">
                 {this.state.suggested && this.state.suggested.length
-                  ? "Click on some suggestions or a"
-                  : "A"}dd some tags with the widget
+                  ? 'Click on some suggestions or a'
+                  : 'A'}dd some tags with the widget
               </div>}
         </div>
         {this.state.suggested && this.state.suggested.length
@@ -168,13 +166,12 @@ class SkillSelector extends React.Component {
                   <a
                     className="list-group-item"
                     key={skill.id}
-                    onClick={this.handleSelectSkill.bind(this, skill.name)}
-                  >
+                    onClick={this.handleSelectSkill.bind(this, skill.name)}>
                     {skill.name}
                   </a>
                 );
               })
-            : ""}
+            : ''}
         </div>
       </div>
     );
@@ -184,13 +181,13 @@ class SkillSelector extends React.Component {
 SkillSelector.propTypes = {
   skills: React.PropTypes.array,
   suggested: React.PropTypes.array,
-  showTitle: React.PropTypes.bool
+  showTitle: React.PropTypes.bool,
 };
 
 SkillSelector.defaultProps = {
   skills: [],
   suggested: [],
-  showTitle: true
+  showTitle: true,
 };
 
 export default connect(SkillSelector);

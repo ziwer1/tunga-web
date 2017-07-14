@@ -1,10 +1,10 @@
-import React from "react";
-import FormStatus from "../components/status/FormStatus";
-import Error from "../components/status/Error";
-import FieldError from "../components/status/FieldError";
-import ShowcaseContainer from "./ShowcaseContainer";
+import React from 'react';
+import FormStatus from '../components/status/FormStatus';
+import Error from '../components/status/Error';
+import FieldError from '../components/status/FieldError';
+import ShowcaseContainer from './ShowcaseContainer';
 
-import connect from "../utils/connectors/AuthConnector";
+import connect from '../utils/connectors/AuthConnector';
 
 class PasswordResetConfirm extends React.Component {
   constructor(props) {
@@ -16,8 +16,8 @@ class PasswordResetConfirm extends React.Component {
     if (this.props.Auth.isReset && !prevProps.Auth.isReset) {
       this.refs.reset_confirm_form.reset();
 
-      const { location } = this.props;
-      var next = "/";
+      const {location} = this.props;
+      var next = '/';
       if (location && location.query.next) {
         next = location.query.next;
       }
@@ -39,13 +39,13 @@ class PasswordResetConfirm extends React.Component {
       uid,
       token,
       new_password1,
-      new_password2
+      new_password2,
     });
     return;
   }
 
   renderHeaderContent() {
-    const { Auth } = this.props;
+    const {Auth} = this.props;
     let is_new = this.props.location && this.props.location.query.new_user;
 
     return (
@@ -53,10 +53,9 @@ class PasswordResetConfirm extends React.Component {
         onSubmit={this.handleSubmit}
         name="reset-confirm"
         role="form"
-        ref="reset_confirm_form"
-      >
+        ref="reset_confirm_form">
         <div className="heading-3">
-          {is_new ? "Create" : "Reset"} Password
+          {is_new ? 'Create' : 'Reset'} Password
         </div>
 
         {Auth.error.reset_confirm && Auth.error.reset_confirm.token
@@ -65,17 +64,17 @@ class PasswordResetConfirm extends React.Component {
               loading={Auth.isResetting}
               success={Auth.isReset}
               message={
-                is_new ? "Password set successfully" : "Password changed"
+                is_new ? 'Password set successfully' : 'Password changed'
               }
               error={Auth.error.reset_confirm}
             />}
 
         {Auth.error.reset_confirm && Auth.error.reset_confirm.new_password1
           ? <FieldError message={Auth.error.reset_confirm.new_password1} />
-          : ""}
+          : ''}
         <div className="form-group">
           <label className="control-label">
-            {is_new ? null : "New "}Password
+            {is_new ? null : 'New '}Password
           </label>
           <div>
             <input
@@ -83,17 +82,17 @@ class PasswordResetConfirm extends React.Component {
               className="form-control"
               ref="new_password1"
               required
-              placeholder={`${is_new ? "" : "New "}Password`}
+              placeholder={`${is_new ? '' : 'New '}Password`}
             />
           </div>
         </div>
 
         {Auth.error.reset_confirm && Auth.error.reset_confirm.new_password2
           ? <FieldError message={Auth.error.reset_confirm.new_password2} />
-          : ""}
+          : ''}
         <div className="form-group">
           <label className="control-label">
-            Confirm {is_new ? null : "New "}Password
+            Confirm {is_new ? null : 'New '}Password
           </label>
           <div>
             <input
@@ -101,14 +100,14 @@ class PasswordResetConfirm extends React.Component {
               className="form-control"
               ref="new_password2"
               required
-              placeholder={`Confirm ${is_new ? "" : "New "}Password`}
+              placeholder={`Confirm ${is_new ? '' : 'New '}Password`}
             />
           </div>
         </div>
 
         <div className="clearfix">
           <button type="submit" className="btn" disabled={Auth.isResetting}>
-            {is_new ? "Set" : "Change"} Password
+            {is_new ? 'Set' : 'Change'} Password
           </button>
         </div>
       </form>

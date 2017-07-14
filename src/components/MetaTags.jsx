@@ -1,9 +1,9 @@
-import React from "react";
-import Helmet from "react-helmet";
+import React from 'react';
+import Helmet from 'react-helmet';
 
 export default class Error extends React.Component {
   render() {
-    const { title, description } = this.props;
+    const {title, description} = this.props;
 
     return (
       <Helmet>

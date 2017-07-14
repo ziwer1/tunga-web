@@ -1,25 +1,25 @@
-import React from "react";
-import Helmet from "react-helmet";
+import React from 'react';
+import Helmet from 'react-helmet';
 
-import Progress from "../components/status/Progress";
-import Error from "../components/status/Error";
-import Success from "../components/status/Success";
-import FieldError from "../components/status/FieldError";
+import Progress from '../components/status/Progress';
+import Error from '../components/status/Error';
+import Success from '../components/status/Success';
+import FieldError from '../components/status/FieldError';
 
-import connect from "../utils/connectors/AuthConnector";
+import connect from '../utils/connectors/AuthConnector';
 
-import { USER_TYPE_CHOICES } from "../constants/Api";
+import {USER_TYPE_CHOICES} from '../constants/Api';
 
 class InviteDeveloper extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { resend: false };
+    this.state = {resend: false};
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.Auth.hasInvited && !prevProps.Auth.hasInvited) {
       this.refs.invite_form.reset();
-      this.setState({ resend: false });
+      this.setState({resend: false});
     }
   }
 
@@ -35,17 +35,17 @@ class InviteDeveloper extends React.Component {
       last_name,
       email,
       type,
-      resend: this.state.resend
+      resend: this.state.resend,
     });
     return;
   }
 
   onResendChange(e) {
-    this.setState({ resend: !this.state.resend });
+    this.setState({resend: !this.state.resend});
   }
 
   render() {
-    const { Auth, Profile } = this.props;
+    const {Auth, Profile} = this.props;
 
     return (
       <div>
@@ -56,8 +56,7 @@ class InviteDeveloper extends React.Component {
             onSubmit={this.handleSubmit.bind(this)}
             name="invite"
             role="form"
-            ref="invite_form"
-          >
+            ref="invite_form">
             <h2 className="title">Invite a user</h2>
 
             {Auth.isInviting ? <Progress /> : null}
@@ -70,7 +69,7 @@ class InviteDeveloper extends React.Component {
               ? <Error
                   message={
                     Auth.error.invite.non_field_errors ||
-                    "Please correct the errors below"
+                    'Please correct the errors below'
                   }
                 />
               : null}
@@ -139,7 +138,7 @@ class InviteDeveloper extends React.Component {
 
             {Auth.error.user && Auth.error.invite.resend
               ? <FieldError message={Auth.error.invite.resend} />
-              : ""}
+              : ''}
             <div className="form-group">
               <div className="checkbox">
                 <label className="control-label">

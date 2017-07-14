@@ -1,7 +1,7 @@
-import { combineReducers } from "redux";
-import * as MilestoneActions from "../actions/MilestoneActions";
-import * as ProgressReportActions from "../actions/ProgressReportActions";
-import { PATH_CHANGE } from "../actions/NavActions";
+import {combineReducers} from 'redux';
+import * as MilestoneActions from '../actions/MilestoneActions';
+import * as ProgressReportActions from '../actions/ProgressReportActions';
+import {PATH_CHANGE} from '../actions/NavActions';
 
 function milestone(state = {}, action) {
   switch (action.type) {
@@ -9,7 +9,7 @@ function milestone(state = {}, action) {
     case MilestoneActions.RETRIEVE_MILESTONE_SUCCESS:
       return action.milestone;
     case MilestoneActions.UPDATE_MILESTONE_SUCCESS:
-      return { ...state, ...action.milestone };
+      return {...state, ...action.milestone};
     case MilestoneActions.DELETE_MILESTONE_SUCCESS:
     case MilestoneActions.CREATE_MILESTONE_START:
     case MilestoneActions.CREATE_MILESTONE_FAILED:
@@ -24,8 +24,8 @@ function milestone(state = {}, action) {
           report: {
             ...state.report,
             ...action.progress_report,
-            user: action.progress_report.details.user
-          }
+            user: action.progress_report.details.user,
+          },
         };
       }
       return state;
@@ -42,7 +42,7 @@ function milestones(state = {}, action) {
       action.items.forEach(milestone => {
         all_milestones[milestone.id] = milestone;
       });
-      return { ...state, ...all_milestones };
+      return {...state, ...all_milestones};
     case MilestoneActions.LIST_MILESTONES_START:
     case MilestoneActions.LIST_MILESTONES_FAILED:
       return {};
@@ -173,15 +173,15 @@ function isDeleting(state = false, action) {
 function error(state = {}, action) {
   switch (action.type) {
     case MilestoneActions.CREATE_MILESTONE_FAILED:
-      return { ...state, create: action.error };
+      return {...state, create: action.error};
     case MilestoneActions.CREATE_MILESTONE_START:
     case MilestoneActions.CREATE_MILESTONE_SUCCESS:
-      return { ...state, create: null };
+      return {...state, create: null};
     case MilestoneActions.UPDATE_MILESTONE_FAILED:
-      return { ...state, update: action.error };
+      return {...state, update: action.error};
     case MilestoneActions.UPDATE_MILESTONE_START:
     case MilestoneActions.UPDATE_MILESTONE_SUCCESS:
-      return { ...state, update: null };
+      return {...state, update: null};
     default:
       return state;
   }
@@ -193,7 +193,7 @@ const detail = combineReducers({
   isSaving,
   isSaved,
   isDeleting,
-  error
+  error,
 });
 
 const list = combineReducers({
@@ -202,12 +202,12 @@ const list = combineReducers({
   isFetching,
   isFetchingMore,
   next,
-  previous
+  previous,
 });
 
 const Milestone = combineReducers({
   detail,
-  list
+  list,
 });
 
 export default Milestone;

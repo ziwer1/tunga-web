@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react';
 
-import ShowcaseContainer from "../containers/ShowcaseContainer";
-import ShowCaseFooter from "../containers/ShowCaseFooter";
-import MetaTags from "../components/MetaTags";
+import ShowcaseContainer from '../containers/ShowcaseContainer';
+import ShowCaseFooter from '../containers/ShowCaseFooter';
+import MetaTags from '../components/MetaTags';
 
 export default class CodeOfConduct extends React.Component {
   renderHeaderContent() {
@@ -84,15 +84,14 @@ export default class CodeOfConduct extends React.Component {
   }
 
   render() {
-    let meta_title = "Tunga | Code of Conduct";
+    let meta_title = 'Tunga | Code of Conduct';
     let meta_description =
-      "To promote optimal relations between the Users on our Website, Tunga has formulated a Code of Conduct. This serves as a guide to help all our Users to use the Tunga Website in a way to promotes and ensures trust, safety and respect. And which leads to successful cooperations!";
+      'To promote optimal relations between the Users on our Website, Tunga has formulated a Code of Conduct. This serves as a guide to help all our Users to use the Tunga Website in a way to promotes and ensures trust, safety and respect. And which leads to successful cooperations!';
 
     return (
       <ShowcaseContainer
         className="agreement-page"
-        headerContent={this.renderHeaderContent()}
-      >
+        headerContent={this.renderHeaderContent()}>
         <MetaTags title={meta_title} description={meta_description} />
 
         <ShowCaseFooter />

@@ -1,9 +1,9 @@
-import { combineReducers } from "redux";
-import * as SearchActions from "../actions/SearchActions";
-import * as UserActions from "../actions/UserActions";
-import * as TaskActions from "../actions/TaskActions";
-import * as MessageActions from "../actions/MessageActions";
-import * as SupportPageActions from "../actions/SupportPageActions";
+import {combineReducers} from 'redux';
+import * as SearchActions from '../actions/SearchActions';
+import * as UserActions from '../actions/UserActions';
+import * as TaskActions from '../actions/TaskActions';
+import * as MessageActions from '../actions/MessageActions';
+import * as SupportPageActions from '../actions/SupportPageActions';
 
 function query(state = null, action) {
   switch (action.type) {
@@ -15,7 +15,7 @@ function query(state = null, action) {
 }
 
 function count(state = {}, action) {
-  var selection_key = action.selection || "default";
+  var selection_key = action.selection || 'default';
   var new_state = {};
   switch (action.type) {
     case UserActions.LIST_USERS_SUCCESS:
@@ -23,7 +23,7 @@ function count(state = {}, action) {
     case MessageActions.LIST_MESSAGES_SUCCESS:
     case SupportPageActions.LIST_SUPPORT_PAGES_SUCCESS:
       new_state[selection_key] = action.count;
-      return { ...state, ...new_state };
+      return {...state, ...new_state};
     case UserActions.LIST_USERS_START:
     case UserActions.LIST_USERS_FAILED:
     case TaskActions.LIST_TASKS_START:
@@ -33,7 +33,7 @@ function count(state = {}, action) {
     case SupportPageActions.LIST_SUPPORT_PAGES_START:
     case SupportPageActions.LIST_SUPPORT_PAGES_FAILED:
       new_state[selection_key] = 0;
-      return { ...state, ...new_state };
+      return {...state, ...new_state};
     default:
       return state;
   }
@@ -41,7 +41,7 @@ function count(state = {}, action) {
 
 const Search = combineReducers({
   query,
-  count
+  count,
 });
 
 export default Search;

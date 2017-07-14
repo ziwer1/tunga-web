@@ -1,24 +1,24 @@
-import axios from "axios";
-import { ENDPOINT_MILESTONE } from "../constants/Api";
+import axios from 'axios';
+import {ENDPOINT_MILESTONE} from '../constants/Api';
 
-export const CREATE_MILESTONE_START = "CREATE_MILESTONE_START";
-export const CREATE_MILESTONE_SUCCESS = "CREATE_MILESTONE_SUCCESS";
-export const CREATE_MILESTONE_FAILED = "CREATE_MILESTONE_FAILED";
-export const LIST_MILESTONES_START = "LIST_MILESTONES_START";
-export const LIST_MILESTONES_SUCCESS = "LIST_MILESTONES_SUCCESS";
-export const LIST_MILESTONES_FAILED = "LIST_MILESTONES_FAILED";
-export const RETRIEVE_MILESTONE_START = "RETRIEVE_MILESTONE_START";
-export const RETRIEVE_MILESTONE_SUCCESS = "RETRIEVE_MILESTONE_SUCCESS";
-export const RETRIEVE_MILESTONE_FAILED = "RETRIEVE_MILESTONE_FAILED";
-export const UPDATE_MILESTONE_START = "UPDATE_MILESTONE_START";
-export const UPDATE_MILESTONE_SUCCESS = "UPDATE_MILESTONE_SUCCESS";
-export const UPDATE_MILESTONE_FAILED = "UPDATE_MILESTONE_FAILED";
-export const DELETE_MILESTONE_START = "DELETE_MILESTONE_START";
-export const DELETE_MILESTONE_SUCCESS = "DELETE_MILESTONE_SUCCESS";
-export const DELETE_MILESTONE_FAILED = "DELETE_MILESTONE_FAILED";
-export const LIST_MORE_MILESTONES_START = "LIST_MORE_MILESTONES_START";
-export const LIST_MORE_MILESTONES_SUCCESS = "LIST_MORE_MILESTONES_SUCCESS";
-export const LIST_MORE_MILESTONES_FAILED = "LIST_MORE_MILESTONES_FAILED";
+export const CREATE_MILESTONE_START = 'CREATE_MILESTONE_START';
+export const CREATE_MILESTONE_SUCCESS = 'CREATE_MILESTONE_SUCCESS';
+export const CREATE_MILESTONE_FAILED = 'CREATE_MILESTONE_FAILED';
+export const LIST_MILESTONES_START = 'LIST_MILESTONES_START';
+export const LIST_MILESTONES_SUCCESS = 'LIST_MILESTONES_SUCCESS';
+export const LIST_MILESTONES_FAILED = 'LIST_MILESTONES_FAILED';
+export const RETRIEVE_MILESTONE_START = 'RETRIEVE_MILESTONE_START';
+export const RETRIEVE_MILESTONE_SUCCESS = 'RETRIEVE_MILESTONE_SUCCESS';
+export const RETRIEVE_MILESTONE_FAILED = 'RETRIEVE_MILESTONE_FAILED';
+export const UPDATE_MILESTONE_START = 'UPDATE_MILESTONE_START';
+export const UPDATE_MILESTONE_SUCCESS = 'UPDATE_MILESTONE_SUCCESS';
+export const UPDATE_MILESTONE_FAILED = 'UPDATE_MILESTONE_FAILED';
+export const DELETE_MILESTONE_START = 'DELETE_MILESTONE_START';
+export const DELETE_MILESTONE_SUCCESS = 'DELETE_MILESTONE_SUCCESS';
+export const DELETE_MILESTONE_FAILED = 'DELETE_MILESTONE_FAILED';
+export const LIST_MORE_MILESTONES_START = 'LIST_MORE_MILESTONES_START';
+export const LIST_MORE_MILESTONES_SUCCESS = 'LIST_MORE_MILESTONES_SUCCESS';
+export const LIST_MORE_MILESTONES_FAILED = 'LIST_MORE_MILESTONES_FAILED';
 
 export function createMilestone(milestone, attachments) {
   return dispatch => {
@@ -35,22 +35,22 @@ export function createMilestone(milestone, attachments) {
       });
 
       attachments.map((file, idx) => {
-        data.append("file" + idx, file);
+        data.append('file' + idx, file);
       });
 
       $.ajax({
         url: ENDPOINT_MILESTONE,
-        type: "POST",
+        type: 'POST',
         data: data,
         processData: false,
-        contentType: false
+        contentType: false,
       }).then(
         function(data) {
           dispatch(createMilestoneSuccess(data));
         },
         function(data) {
           dispatch(createMilestoneFailed(data.responseJSON));
-        }
+        },
       );
     } else {
       axios
@@ -60,7 +60,7 @@ export function createMilestone(milestone, attachments) {
         })
         .catch(function(error) {
           dispatch(
-            createMilestoneFailed(error.response ? error.response.data : null)
+            createMilestoneFailed(error.response ? error.response.data : null),
           );
         });
     }
@@ -70,21 +70,21 @@ export function createMilestone(milestone, attachments) {
 export function createMilestoneStart(milestone) {
   return {
     type: CREATE_MILESTONE_START,
-    milestone
+    milestone,
   };
 }
 
 export function createMilestoneSuccess(milestone) {
   return {
     type: CREATE_MILESTONE_SUCCESS,
-    milestone
+    milestone,
   };
 }
 
 export function createMilestoneFailed(error) {
   return {
     type: CREATE_MILESTONE_FAILED,
-    error
+    error,
   };
 }
 
@@ -92,13 +92,13 @@ export function listMilestones(filter) {
   return dispatch => {
     dispatch(listMilestonesStart(filter));
     axios
-      .get(ENDPOINT_MILESTONE, { params: filter })
+      .get(ENDPOINT_MILESTONE, {params: filter})
       .then(function(response) {
         dispatch(listMilestonesSuccess(response.data));
       })
       .catch(function(error) {
         dispatch(
-          listMilestonesFailed(error.response ? error.response.data : null)
+          listMilestonesFailed(error.response ? error.response.data : null),
         );
       });
   };
@@ -107,7 +107,7 @@ export function listMilestones(filter) {
 export function listMilestonesStart(filter) {
   return {
     type: LIST_MILESTONES_START,
-    filter
+    filter,
   };
 }
 
@@ -117,14 +117,14 @@ export function listMilestonesSuccess(response) {
     items: response.results,
     previous: response.previous,
     next: response.next,
-    count: response.count
+    count: response.count,
   };
 }
 
 export function listMilestonesFailed(error) {
   return {
     type: LIST_MILESTONES_FAILED,
-    error
+    error,
   };
 }
 
@@ -132,13 +132,13 @@ export function retrieveMilestone(id) {
   return dispatch => {
     dispatch(retrieveMilestoneStart(id));
     axios
-      .get(ENDPOINT_MILESTONE + id + "/")
+      .get(ENDPOINT_MILESTONE + id + '/')
       .then(function(response) {
         dispatch(retrieveMilestoneSuccess(response.data));
       })
       .catch(function(error) {
         dispatch(
-          retrieveMilestoneFailed(error.response ? error.response.data : null)
+          retrieveMilestoneFailed(error.response ? error.response.data : null),
         );
       });
   };
@@ -147,21 +147,21 @@ export function retrieveMilestone(id) {
 export function retrieveMilestoneStart(id) {
   return {
     type: RETRIEVE_MILESTONE_START,
-    id
+    id,
   };
 }
 
 export function retrieveMilestoneSuccess(milestone) {
   return {
     type: RETRIEVE_MILESTONE_SUCCESS,
-    milestone
+    milestone,
   };
 }
 
 export function retrieveMilestoneFailed(error) {
   return {
     type: RETRIEVE_MILESTONE_FAILED,
-    error
+    error,
   };
 }
 
@@ -169,13 +169,13 @@ export function updateMilestone(id, data) {
   return dispatch => {
     dispatch(updateMilestoneStart(id));
     axios
-      .patch(ENDPOINT_MILESTONE + id + "/", data)
+      .patch(ENDPOINT_MILESTONE + id + '/', data)
       .then(function(response) {
         dispatch(updateMilestoneSuccess(response.data));
       })
       .catch(function(error) {
         dispatch(
-          updateMilestoneFailed(error.response ? error.response.data : null)
+          updateMilestoneFailed(error.response ? error.response.data : null),
         );
       });
   };
@@ -184,21 +184,21 @@ export function updateMilestone(id, data) {
 export function updateMilestoneStart(id) {
   return {
     type: UPDATE_MILESTONE_START,
-    id
+    id,
   };
 }
 
 export function updateMilestoneSuccess(milestone) {
   return {
     type: UPDATE_MILESTONE_SUCCESS,
-    milestone
+    milestone,
   };
 }
 
 export function updateMilestoneFailed(error) {
   return {
     type: UPDATE_MILESTONE_FAILED,
-    error
+    error,
   };
 }
 
@@ -206,13 +206,13 @@ export function deleteMilestone(id) {
   return dispatch => {
     dispatch(deleteMilestoneStart(id));
     axios
-      .delete(ENDPOINT_MILESTONE + id + "/")
+      .delete(ENDPOINT_MILESTONE + id + '/')
       .then(function() {
         dispatch(deleteMilestoneSuccess(id));
       })
       .catch(function(error) {
         dispatch(
-          deleteMilestoneFailed(error.response ? error.response.data : null)
+          deleteMilestoneFailed(error.response ? error.response.data : null),
         );
       });
   };
@@ -221,21 +221,21 @@ export function deleteMilestone(id) {
 export function deleteMilestoneStart(id) {
   return {
     type: DELETE_MILESTONE_START,
-    id
+    id,
   };
 }
 
 export function deleteMilestoneSuccess(id) {
   return {
     type: DELETE_MILESTONE_SUCCESS,
-    id
+    id,
   };
 }
 
 export function deleteMilestoneFailed(error) {
   return {
     type: DELETE_MILESTONE_FAILED,
-    error
+    error,
   };
 }
 
@@ -249,7 +249,7 @@ export function listMoreMilestones(url) {
       })
       .catch(function(error) {
         dispatch(
-          listMoreMilestonesFailed(error.response ? error.response.data : null)
+          listMoreMilestonesFailed(error.response ? error.response.data : null),
         );
       });
   };
@@ -258,7 +258,7 @@ export function listMoreMilestones(url) {
 export function listMoreMilestonesStart(url) {
   return {
     type: LIST_MORE_MILESTONES_START,
-    url
+    url,
   };
 }
 
@@ -268,13 +268,13 @@ export function listMoreMilestonesSuccess(response) {
     items: response.results,
     previous: response.previous,
     next: response.next,
-    count: response.count
+    count: response.count,
   };
 }
 
 export function listMoreMilestonesFailed(error) {
   return {
     type: LIST_MORE_MILESTONES_FAILED,
-    error
+    error,
   };
 }

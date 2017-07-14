@@ -1,17 +1,17 @@
-import React from "react";
+import React from 'react';
 
-import Progress from "../components/status/Progress";
+import Progress from '../components/status/Progress';
 
 export default class TaskDetailContainer extends React.Component {
   componentDidMount() {
-    const { taskId, editToken } = this.props;
+    const {taskId, editToken} = this.props;
     this.props.TaskActions.retrieveTask(taskId, editToken);
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { taskId, editToken } = this.props;
+    const {taskId, editToken} = this.props;
     if (taskId != prevProps.taskId) {
-      console.log("Re trigger: ", taskId, prevProps.taskId);
+      console.log('Re trigger: ', taskId, prevProps.taskId);
       this.props.TaskActions.retrieveTask(taskId, editToken);
     }
   }
@@ -27,12 +27,12 @@ export default class TaskDetailContainer extends React.Component {
           editToken:
             this.props.editToken == this.props.Task.detail.task.edit_token
               ? this.props.editToken
-              : "",
+              : '',
           analyticsId: this.props.Task.detail.task.analytics_id,
           TaskActions: this.props.TaskActions,
-          location: this.props.location
+          location: this.props.location,
         });
-      }.bind(this)
+      }.bind(this),
     );
   }
 
@@ -46,5 +46,5 @@ export default class TaskDetailContainer extends React.Component {
 }
 
 TaskDetailContainer.contextTypes = {
-  router: React.PropTypes.object.isRequired
+  router: React.PropTypes.object.isRequired,
 };

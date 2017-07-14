@@ -1,23 +1,23 @@
-import React from "react";
-import { Link } from "react-router";
-import moment from "moment";
-import TimeAgo from "react-timeago";
-import { ProgressBar } from "react-bootstrap";
-import Linkify from "./Linkify";
-import randomstring from "randomstring";
+import React from 'react';
+import {Link} from 'react-router';
+import moment from 'moment';
+import TimeAgo from 'react-timeago';
+import {ProgressBar} from 'react-bootstrap';
+import Linkify from './Linkify';
+import randomstring from 'randomstring';
 
-import Progress from "./status/Progress";
-import LoadMore from "./status/LoadMore";
-import Avatar from "./Avatar";
-import Attachments from "./Attachments";
+import Progress from './status/Progress';
+import LoadMore from './status/LoadMore';
+import Avatar from './Avatar';
+import Attachments from './Attachments';
 
 import {
   PROGRESS_EVENT_TYPE_MILESTONE,
   PROGRESS_EVENT_TYPE_SUBMIT,
   PROGRESS_EVENT_TYPE_COMPLETE,
   PROGRESS_EVENT_TYPE_PM,
-  PROGRESS_EVENT_TYPE_CLIENT
-} from "../constants/Api";
+  PROGRESS_EVENT_TYPE_CLIENT,
+} from '../constants/Api';
 import {
   isAuthenticated,
   getUser,
@@ -25,19 +25,19 @@ import {
   isProjectOwner,
   isAdminOrProjectOwner,
   isDeveloper,
-  isProjectManager
-} from "../utils/auth";
-import { getPayDetails } from "../utils/tasks";
+  isProjectManager,
+} from '../utils/auth';
+import {getPayDetails} from '../utils/tasks';
 
 export function scrollList(listId) {
   var activity_list = $(`#list${listId}.activity-list`);
-  activity_list.scrollTop(activity_list.find(".item-wrapper").height());
+  activity_list.scrollTop(activity_list.find('.item-wrapper').height());
 }
 
 export default class ActivityList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { listId: randomstring.generate() };
+    this.state = {listId: randomstring.generate()};
   }
 
   componentDidMount() {
@@ -64,42 +64,42 @@ export default class ActivityList extends React.Component {
     var uploads = null;
     var more = null;
 
-    const { showMessages, showNotifications, showFiles } = this.props;
+    const {showMessages, showNotifications, showFiles} = this.props;
 
     switch (activity_type) {
-      case "message":
-        if (item.action == "send" && showMessages) {
+      case 'message':
+        if (item.action == 'send' && showMessages) {
           creator = object.sender || object.user;
           created_at = object.created_at;
           body = (
-            <Linkify properties={{ target: "_blank" }}>
+            <Linkify properties={{target: '_blank'}}>
               {object.body}
             </Linkify>
           );
           uploads = object.attachments;
         }
         break;
-      case "comment":
+      case 'comment':
         if (showMessages) {
           creator = object.user;
           created_at = object.created_at;
           body = (
-            <Linkify properties={{ target: "_blank" }}>
+            <Linkify properties={{target: '_blank'}}>
               {object.body}
             </Linkify>
           );
           uploads = object.uploads;
         }
         break;
-      case "upload":
+      case 'upload':
         if (showFiles) {
           creator = object.user;
           created_at = object.created_at;
           uploads = [object];
         }
         break;
-      case "participation":
-        if (item.action == "add" && showNotifications) {
+      case 'participation':
+        if (item.action == 'add' && showNotifications) {
           creator = object.created_by;
           created_at = object.created_at;
           let participant = object.details.user;
@@ -114,54 +114,54 @@ export default class ActivityList extends React.Component {
           );
         }
         break;
-      case "estimate":
-      case "quote":
+      case 'estimate':
+      case 'quote':
         if (
           showNotifications &&
           [
-            "create",
-            "submit",
-            "approve",
-            "decline",
-            "accept",
-            "reject"
+            'create',
+            'submit',
+            'approve',
+            'decline',
+            'accept',
+            'reject',
           ].indexOf(item.action) > -1
         ) {
           creator = object.user;
 
           let verb_map = {
-            create: "Created",
-            submit: "Submitted",
-            approve: "Approved",
-            decline: "Declined",
-            accept: "Accepted",
-            reject: "Rejected"
+            create: 'Created',
+            submit: 'Submitted',
+            approve: 'Approved',
+            decline: 'Declined',
+            accept: 'Accepted',
+            reject: 'Rejected',
           };
 
-          object.icon = "fa-file-text";
+          object.icon = 'fa-file-text';
 
-          if (["approve", "decline"].indexOf(item.action) > -1) {
+          if (['approve', 'decline'].indexOf(item.action) > -1) {
             creator = object.moderated_by;
             created_at = object.moderated_at;
           }
 
-          if (["accept", "reject"].indexOf(item.action) > -1) {
+          if (['accept', 'reject'].indexOf(item.action) > -1) {
             creator = object.reviewed_by;
             created_at = object.reviewed_at;
           }
 
-          if (item.action == "submit") {
-            object.icon = "fa-send";
-          } else if (["approve", "accept"].indexOf(item.action) > -1) {
-            object.icon = "fa-check-square-o";
-          } else if (["decline", "reject"].indexOf(item.action) > -1) {
-            object.icon = "fa-times-circle";
+          if (item.action == 'submit') {
+            object.icon = 'fa-send';
+          } else if (['approve', 'accept'].indexOf(item.action) > -1) {
+            object.icon = 'fa-check-square-o';
+          } else if (['decline', 'reject'].indexOf(item.action) > -1) {
+            object.icon = 'fa-times-circle';
           }
 
           var comment_txt = null;
-          if (item.action == "decline") {
+          if (item.action == 'decline') {
             comment_txt = object.moderator_comment;
-          } else if (item.action == "reject") {
+          } else if (item.action == 'reject') {
             comment_txt = object.reviewer_comment;
           }
 
@@ -173,11 +173,11 @@ export default class ActivityList extends React.Component {
           body = (
             <div>
               <Link to={`/work/${object.task}/${activity_type}/${object.id}/`}>
-                <i className={`fa ${object.icon}`} /> {verb_map[item.action]} a{activity_type == "estimate" ? "n" : ""}{" "}
+                <i className={`fa ${object.icon}`} /> {verb_map[item.action]} a{activity_type == 'estimate' ? 'n' : ''}{' '}
                 {activity_type}
               </Link>
               {comment_txt
-                ? <div style={{ margin: "10px 0" }}>
+                ? <div style={{margin: '10px 0'}}>
                     {comment_txt}
                   </div>
                 : null}
@@ -191,8 +191,7 @@ export default class ActivityList extends React.Component {
                 : null}
               <div>
                 <Link
-                  to={`/work/${object.task}/${activity_type}/${object.id}/`}
-                >
+                  to={`/work/${object.task}/${activity_type}/${object.id}/`}>
                   View details
                 </Link>
               </div>
@@ -200,11 +199,11 @@ export default class ActivityList extends React.Component {
           );
         }
         break;
-      case "progress_event":
+      case 'progress_event':
         if (
           isDeveloper() &&
           [PROGRESS_EVENT_TYPE_PM, PROGRESS_EVENT_TYPE_CLIENT].indexOf(
-            object.type
+            object.type,
           ) > -1
         ) {
           break;
@@ -219,12 +218,12 @@ export default class ActivityList extends React.Component {
         ) {
           break;
         }
-        if (showNotifications && item.action == "create") {
+        if (showNotifications && item.action == 'create') {
           creator = object.created_by || {
-            id: "tunga",
+            id: 'tunga',
             username: null,
-            display_name: "Tunga Bot",
-            avatar_url: "https://tunga.io/icons/Tunga_squarex150.png"
+            display_name: 'Tunga Bot',
+            avatar_url: 'https://tunga.io/icons/Tunga_squarex150.png',
           };
           created_at = object.created_at;
           body = (
@@ -232,38 +231,38 @@ export default class ActivityList extends React.Component {
               {[
                 PROGRESS_EVENT_TYPE_MILESTONE,
                 PROGRESS_EVENT_TYPE_SUBMIT,
-                PROGRESS_EVENT_TYPE_COMPLETE
+                PROGRESS_EVENT_TYPE_COMPLETE,
               ].indexOf(object.type) > -1
                 ? <div>
                     <i
                       className={
-                        "fa fa-flag" + (object.type == 4 ? "-checkered" : "-o")
+                        'fa fa-flag' + (object.type == 4 ? '-checkered' : '-o')
                       }
-                    />{" "}
+                    />{' '}
                     Created a milestone:
                   </div>
                 : null}
               <Link to={`/work/${object.task}/event/${object.id}/`}>
                 {object.title ||
                   <span>
-                    <i className="fa fa-flag-o" /> Scheduled{" "}
+                    <i className="fa fa-flag-o" /> Scheduled{' '}
                     {object.type == PROGRESS_EVENT_TYPE_CLIENT
-                      ? "a weekly survey"
-                      : "an update"}
+                      ? 'a weekly survey'
+                      : 'an update'}
                   </span>}
               </Link>
               <div>
-                Due: {moment.utc(object.due_at).local().format("Do, MMMM YYYY")}
+                Due: {moment.utc(object.due_at).local().format('Do, MMMM YYYY')}
               </div>
             </div>
           );
         }
         break;
-      case "progress_report":
+      case 'progress_report':
         if (
           isDeveloper() &&
           [PROGRESS_EVENT_TYPE_PM, PROGRESS_EVENT_TYPE_CLIENT].indexOf(
-            object.details.event.type
+            object.details.event.type,
           ) > -1
         ) {
           break;
@@ -281,29 +280,29 @@ export default class ActivityList extends React.Component {
         ) {
           break;
         }
-        if (showNotifications && item.action == "report") {
+        if (showNotifications && item.action == 'report') {
           creator = object.user;
           created_at = object.created_at;
           uploads = object.uploads;
           more = {
             link: `/work/${object.details.event.task}/event/${object.event}/`,
-            text: "View full report"
+            text: 'View full report',
           };
           let progress = object.percentage || 0;
           body = (
             <div>
               <p>
-                <i className="fa fa-newspaper-o" />{" "}
+                <i className="fa fa-newspaper-o" />{' '}
                 {object.details.event.type == PROGRESS_EVENT_TYPE_CLIENT
-                  ? "Weekly survey"
-                  : "Progress report"}:{" "}
+                  ? 'Weekly survey'
+                  : 'Progress report'}:{' '}
               </p>
               <Link
-                to={`/work/${object.details.event.task}/event/${object.event}/`}
-              >
+                to={`/work/${object.details.event
+                  .task}/event/${object.event}/`}>
                 {object.details.event.type == PROGRESS_EVENT_TYPE_CLIENT
-                  ? "Weekly survey"
-                  : object.details.event.title || "Scheduled Update"}
+                  ? 'Weekly survey'
+                  : object.details.event.title || 'Scheduled Update'}
               </Link>
               {object.details.event.type == PROGRESS_EVENT_TYPE_CLIENT
                 ? null
@@ -319,7 +318,7 @@ export default class ActivityList extends React.Component {
                       />
                     </div>
                     {object.accomplished
-                      ? <Linkify properties={{ target: "_blank" }}>
+                      ? <Linkify properties={{target: '_blank'}}>
                           {object.accomplished}
                         </Linkify>
                       : null}
@@ -328,11 +327,11 @@ export default class ActivityList extends React.Component {
           );
         }
         break;
-      case "integration_activity":
-        if (showNotifications && item.action == "report") {
+      case 'integration_activity':
+        if (showNotifications && item.action == 'report') {
           creator = {
             display_name: object.user_display_name,
-            avatar_url: object.avatar_url
+            avatar_url: object.avatar_url,
           };
           created_at = object.created_at;
           body = (
@@ -366,7 +365,7 @@ export default class ActivityList extends React.Component {
         body,
         summary,
         uploads,
-        more
+        more,
       };
     }
     return null;
@@ -377,19 +376,19 @@ export default class ActivityList extends React.Component {
       return null;
     }
 
-    const { last_read } = this.props;
+    const {last_read} = this.props;
     let activity = thread.first;
-    let day_format = "d/MM/YYYY";
-    var last_sent_day = "";
+    let day_format = 'd/MM/YYYY';
+    var last_sent_day = '';
     let today = moment.utc().local().format(day_format);
 
     let is_current_user =
       (isAuthenticated() && activity.user.id == getUser().id) ||
       (!isAuthenticated() && activity.user.inquirer);
-    let display_name = is_current_user ? "Me" : activity.user.display_name;
+    let display_name = is_current_user ? 'Me' : activity.user.display_name;
 
     let avatar_div = (
-      <div className={is_current_user ? "media-right" : "media-left"}>
+      <div className={is_current_user ? 'media-right' : 'media-left'}>
         <Avatar src={activity.user.avatar_url} />
       </div>
     );
@@ -397,17 +396,16 @@ export default class ActivityList extends React.Component {
     return (
       <div
         key={activity.id}
-        id={"activity" + activity.id}
+        id={'activity' + activity.id}
         className={
-          "media message" +
+          'media message' +
           (last_read != null &&
           activity.user.id != getUser().id &&
           last_read < activity.id
-            ? " new"
-            : "") +
-          (is_current_user ? " pull-right clearfix" : "")
-        }
-      >
+            ? ' new'
+            : '') +
+          (is_current_user ? ' pull-right clearfix' : '')
+        }>
         {is_current_user ? null : avatar_div}
         <div className="media-body">
           <div className="body">
@@ -421,7 +419,7 @@ export default class ActivityList extends React.Component {
                   </span>}
               {activity.summary
                 ? <span>
-                    {" "}{activity.summary}
+                    {' '}{activity.summary}
                   </span>
                 : null}
 
@@ -441,7 +439,7 @@ export default class ActivityList extends React.Component {
             {activity.more
               ? <div className="clearfix">
                   <Link to={activity.more.link} className="pull-right">
-                    {activity.more.text || "Read more"}
+                    {activity.more.text || 'Read more'}
                   </Link>
                 </div>
               : null}
@@ -455,15 +453,14 @@ export default class ActivityList extends React.Component {
                   .format(day_format);
                 let msg = (
                   <div
-                    id={"activity" + other_msg.id}
-                    key={"activity" + other_msg.id}
+                    id={'activity' + other_msg.id}
+                    key={'activity' + other_msg.id}
                     className={
-                      ["message", "comment", "upload"].indexOf(other_msg.type) >
+                      ['message', 'comment', 'upload'].indexOf(other_msg.type) >
                       -1
-                        ? "sub-message"
-                        : "sub-thread"
-                    }
-                  >
+                        ? 'sub-message'
+                        : 'sub-thread'
+                    }>
                     {sent_day == last_sent_day ||
                     sent_day != today ||
                     activity.summary
@@ -471,7 +468,7 @@ export default class ActivityList extends React.Component {
                       : <p>
                           {activity.summary
                             ? <span>
-                                {" "}{activity.summary}
+                                {' '}{activity.summary}
                               </span>
                             : null}
                           <TimeAgo
@@ -491,7 +488,7 @@ export default class ActivityList extends React.Component {
                     {other_msg.more
                       ? <div className="clearfix">
                           <Link to={other_msg.more.link} className="pull-right">
-                            {other_msg.more.text || "Read more"}
+                            {other_msg.more.text || 'Read more'}
                           </Link>
                         </div>
                       : null}
@@ -515,7 +512,7 @@ export default class ActivityList extends React.Component {
       isLoadingMore,
       loadMoreUrl,
       loadMoreCallback,
-      loadMoreText
+      loadMoreText,
     } = this.props;
     var last_sender = null;
     var thread = {};
@@ -530,7 +527,7 @@ export default class ActivityList extends React.Component {
                 callback={loadMoreCallback}
                 loading={isLoadingMore}
                 direction="up"
-                text={loadMoreText || "Show older activity"}
+                text={loadMoreText || 'Show older activity'}
               />
             }
 
@@ -573,7 +570,7 @@ ActivityList.propTypes = {
   loadMoreText: React.PropTypes.string,
   showMessages: React.PropTypes.bool,
   showNotifications: React.PropTypes.bool,
-  showFiles: React.PropTypes.bool
+  showFiles: React.PropTypes.bool,
 };
 
 ActivityList.defaultProps = {
@@ -582,5 +579,5 @@ ActivityList.defaultProps = {
   isLoadingMore: false,
   showMessages: true,
   showNotifications: true,
-  showFiles: true
+  showFiles: true,
 };

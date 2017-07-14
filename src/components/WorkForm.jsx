@@ -1,21 +1,21 @@
-import React from "react";
-import moment from "moment";
+import React from 'react';
+import moment from 'moment';
 
-import FormStatus from "./status/FormStatus";
-import FieldError from "./status/FieldError";
+import FormStatus from './status/FormStatus';
+import FieldError from './status/FieldError';
 
 export default class WorkForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { details: "" };
+    this.state = {details: ''};
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
     const work = this.props.work || {};
     if (work.id) {
-      const details = work.details || "";
-      this.setState({ details });
+      const details = work.details || '';
+      this.setState({details});
     }
   }
 
@@ -23,7 +23,7 @@ export default class WorkForm extends React.Component {
     if (this.props.Profile.isSaved.work && !prevProps.Profile.isSaved.work) {
       if (!this.props.work) {
         this.refs.work_form.reset();
-        this.setState({ details: "" });
+        this.setState({details: ''});
       }
     }
   }
@@ -44,7 +44,7 @@ export default class WorkForm extends React.Component {
     var end_month = this.refs.end_month.value.trim() || null;
     var details = this.state.details;
 
-    const { ProfileActions } = this.props;
+    const {ProfileActions} = this.props;
     const work = this.props.work || {};
     const work_info = {
       company,
@@ -53,7 +53,7 @@ export default class WorkForm extends React.Component {
       start_year,
       start_month,
       end_year,
-      end_month
+      end_month,
     };
     if (work.id) {
       ProfileActions.updateWork(work.id, work_info);
@@ -64,12 +64,12 @@ export default class WorkForm extends React.Component {
   }
 
   render() {
-    const { Profile } = this.props;
+    const {Profile} = this.props;
     const work = this.props.work || {};
     var count = 0;
     var months = [];
     while (count <= 12) {
-      months.push(moment().month(count++).format("MMM"));
+      months.push(moment().month(count++).format('MMM'));
     }
     var years = [];
     var loop_year = moment().year();
@@ -83,12 +83,11 @@ export default class WorkForm extends React.Component {
           onSubmit={this.handleSubmit}
           name="work"
           role="form"
-          ref="work_form"
-        >
+          ref="work_form">
           <FormStatus
             loading={Profile.isSaving.work}
             success={Profile.isSaved.work}
-            message={"Work experience updated successfully"}
+            message={'Work experience updated successfully'}
             error={Profile.error.work}
           />
 
@@ -107,8 +106,7 @@ export default class WorkForm extends React.Component {
                   className="form-control"
                   ref="start_month"
                   defaultValue={work.start_month}
-                  required
-                >
+                  required>
                   {months.map((month, idx) => {
                     return (
                       <option key={month} value={idx + 1}>
@@ -124,8 +122,7 @@ export default class WorkForm extends React.Component {
                   className="form-control"
                   ref="start_year"
                   defaultValue={work.start_year}
-                  required
-                >
+                  required>
                   {years.map(year => {
                     return (
                       <option key={year} value={year}>
@@ -152,8 +149,7 @@ export default class WorkForm extends React.Component {
                   type="text"
                   className="form-control"
                   ref="end_month"
-                  defaultValue={work.end_month}
-                >
+                  defaultValue={work.end_month}>
                   <option value="">-- month --</option>
                   {months.map((month, idx) => {
                     return (
@@ -169,8 +165,7 @@ export default class WorkForm extends React.Component {
                   type="text"
                   className="form-control"
                   ref="end_year"
-                  defaultValue={work.end_year}
-                >
+                  defaultValue={work.end_year}>
                   <option value="">-- year --</option>
                   {years.map(year => {
                     return (
@@ -225,7 +220,7 @@ export default class WorkForm extends React.Component {
             <label className="control-label">Details *</label>
             <textarea
               className="form-control"
-              onChange={this.onInputChange.bind(this, "details")}
+              onChange={this.onInputChange.bind(this, 'details')}
               defaultValue={work.details}
               ref="details"
               placeholder="Details"
@@ -236,9 +231,8 @@ export default class WorkForm extends React.Component {
           <button
             type="submit"
             className="btn  pull-right"
-            disabled={Profile.isSaving.work}
-          >
-            Save{work.id ? " Changes" : null}
+            disabled={Profile.isSaving.work}>
+            Save{work.id ? ' Changes' : null}
           </button>
           <div className="clearfix" />
         </form>

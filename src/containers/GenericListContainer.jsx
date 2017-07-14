@@ -1,15 +1,15 @@
-import React from "react";
-import randomstring from "randomstring";
-import _ from "lodash";
+import React from 'react';
+import randomstring from 'randomstring';
+import _ from 'lodash';
 
-import GenericContainer from "./GenericContainer";
+import GenericContainer from './GenericContainer';
 
 export default class GenericListContainer extends GenericContainer {
   constructor(props) {
     super(props);
     this.state = {
       selection_key: props.selectionKey || randomstring.generate(),
-      prev_key: null
+      prev_key: null,
     };
   }
 
@@ -24,7 +24,7 @@ export default class GenericListContainer extends GenericContainer {
     ) {
       this.setState({
         selection_key: this.props.selectionKey,
-        prev_key: prevProps.selectionKey
+        prev_key: prevProps.selectionKey,
       });
     }
 
@@ -42,10 +42,10 @@ export default class GenericListContainer extends GenericContainer {
 
 GenericListContainer.propTypes = {
   filters: React.PropTypes.object,
-  selectionKey: React.PropTypes.string
+  selectionKey: React.PropTypes.string,
 };
 
 GenericListContainer.defaultProps = {
   filters: {},
-  selectionKey: null
+  selectionKey: null,
 };

@@ -1,6 +1,6 @@
-import { combineReducers } from "redux";
-import * as UtilityActions from "../actions/UtilityActions";
-import { PATH_CHANGE } from "../actions/NavActions";
+import {combineReducers} from 'redux';
+import * as UtilityActions from '../actions/UtilityActions';
+import {PATH_CHANGE} from '../actions/NavActions';
 
 function posts(state = [], action) {
   switch (action.type) {
@@ -54,12 +54,12 @@ function error(state = null, action) {
 const contact = combineReducers({
   isSending,
   isSent,
-  error
+  error,
 });
 
 const Utility = combineReducers({
   posts,
-  contact
+  contact,
 });
 
 export default Utility;

@@ -1,15 +1,15 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { Provider } from "react-redux";
-import { Modal } from "react-bootstrap";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import {Provider} from 'react-redux';
+import {Modal} from 'react-bootstrap';
 
-import store from "../store";
-import { runOptimizely } from "../utils/html";
+import store from '../store';
+import {runOptimizely} from '../utils/html';
 
 class ModalWrapper extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { showModal: true };
+    this.state = {showModal: true};
   }
 
   componentDidMount() {
@@ -21,13 +21,13 @@ class ModalWrapper extends React.Component {
   }
 
   open() {
-    this.setState({ showModal: true });
+    this.setState({showModal: true});
   }
 
   close() {
-    this.setState({ showModal: false });
+    this.setState({showModal: false});
 
-    const { dismiss } = this.props;
+    const {dismiss} = this.props;
     if (dismiss) {
       dismiss();
     }
@@ -38,22 +38,21 @@ class ModalWrapper extends React.Component {
       this.props.children,
       function(child) {
         return React.cloneElement(child, {
-          close: this.close.bind(this)
+          close: this.close.bind(this),
         });
-      }.bind(this)
+      }.bind(this),
     );
   }
 
   render() {
-    const { options } = this.props;
+    const {options} = this.props;
 
     return (
       <Modal
         show={this.state.showModal}
         onHide={this.close.bind(this)}
-        bsStyle={options && options.bsStyle ? options.bsStyle : "md"}
-        dialogClassName={options && options.className}
-      >
+        bsStyle={options && options.bsStyle ? options.bsStyle : 'md'}
+        dialogClassName={options && options.className}>
         <Modal.Header closeButton />
         <Modal.Body>
           {this.renderChildren()}
@@ -65,8 +64,8 @@ class ModalWrapper extends React.Component {
 
 const createModal = (Component, show, dismiss, options) => {
   const wrapper = document
-    .getElementById("content")
-    .appendChild(document.createElement("div"));
+    .getElementById('content')
+    .appendChild(document.createElement('div'));
 
   ReactDOM.render(
     <Provider store={store}>
@@ -74,7 +73,7 @@ const createModal = (Component, show, dismiss, options) => {
         {Component}
       </ModalWrapper>
     </Provider>,
-    wrapper
+    wrapper,
   );
 };
 

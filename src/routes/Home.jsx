@@ -1,12 +1,12 @@
-import React from "react";
-import { Link } from "react-router";
-import moment from "moment";
-import Joyride from "react-joyride";
+import React from 'react';
+import {Link} from 'react-router';
+import moment from 'moment';
+import Joyride from 'react-joyride';
 
-import connect from "../utils/connectors/NotificationConnector";
-import Clock from "../components/Clock";
+import connect from '../utils/connectors/NotificationConnector';
+import Clock from '../components/Clock';
 
-import { getUser, isAdmin, isProjectManager } from "../utils/auth";
+import {getUser, isAdmin, isProjectManager} from '../utils/auth';
 
 class Home extends React.Component {
   componentDidMount() {
@@ -31,74 +31,74 @@ class Home extends React.Component {
     let start_evening = 17;
 
     if (currentHour >= start_afternoon && currentHour < start_evening) {
-      greeting = "afternoon";
+      greeting = 'afternoon';
     } else if (currentHour >= start_evening) {
-      greeting = "evening";
+      greeting = 'evening';
     } else {
-      greeting = "morning";
+      greeting = 'morning';
     }
 
     return greeting;
   }
 
   render() {
-    const { Notification } = this.props;
+    const {Notification} = this.props;
 
     var imageNumber =
-      parseInt(moment().format("E") + moment().format("w")) % 3 + 1;
+      parseInt(moment().format('E') + moment().format('w')) % 3 + 1;
 
     let all_steps = [
       {
-        title: "My Profile",
-        text: "Manage your profile and settings",
-        selector: "#inner-my-profile",
-        position: "top",
+        title: 'My Profile',
+        text: 'Manage your profile and settings',
+        selector: '#inner-my-profile',
+        position: 'top',
         condition:
           Notification.notifications.profile &&
           Notification.notifications.profile.missing &&
-          Notification.notifications.profile.missing.length
+          Notification.notifications.profile.missing.length,
       },
       {
-        title: "Tribe",
-        text: "View your team of developers",
-        selector: "#inner-tribe",
-        position: "top",
-        condition: Notification.notifications.requests
+        title: 'Tribe',
+        text: 'View your team of developers',
+        selector: '#inner-tribe',
+        position: 'top',
+        condition: Notification.notifications.requests,
       },
       {
-        title: "Messages",
-        text: "Start conversations and check on your new messages",
-        selector: "#inner-messages",
-        position: "top",
-        condition: Notification.notifications.messages
+        title: 'Messages',
+        text: 'Start conversations and check on your new messages',
+        selector: '#inner-messages',
+        position: 'top',
+        condition: Notification.notifications.messages,
       },
       {
-        title: "Running Tasks",
-        text: "View your on-going tasks",
-        selector: "#inner-running-tasks",
-        position: "top",
-        condition: Notification.notifications.tasks
+        title: 'Running Tasks',
+        text: 'View your on-going tasks',
+        selector: '#inner-running-tasks',
+        position: 'top',
+        condition: Notification.notifications.tasks,
       },
       {
-        title: "Estimates",
-        text: "Manage your task estimates",
-        selector: "#inner-estimates",
-        position: "top",
-        condition: Notification.notifications.estimates
+        title: 'Estimates',
+        text: 'Manage your task estimates',
+        selector: '#inner-estimates',
+        position: 'top',
+        condition: Notification.notifications.estimates,
       },
       {
-        title: "Quotes",
-        text: "Manage your task quotes",
-        selector: "#inner-quotes",
-        position: "top",
-        condition: Notification.notifications.quotes
-      }
+        title: 'Quotes',
+        text: 'Manage your task quotes',
+        selector: '#inner-quotes',
+        position: 'top',
+        condition: Notification.notifications.quotes,
+      },
     ];
 
     var steps = [];
     all_steps.forEach(step => {
       if (step.condition) {
-        delete step["condition"];
+        delete step['condition'];
         return steps.push(step);
       }
     });
@@ -130,9 +130,8 @@ class Home extends React.Component {
 
           <div
             className={`notification-list ${isAdmin() || isProjectManager()
-              ? "large"
-              : ""}`}
-          >
+              ? 'large'
+              : ''}`}>
             <ul>
               {Notification.notifications.profile &&
               Notification.notifications.profile.missing &&
@@ -140,7 +139,7 @@ class Home extends React.Component {
                 ? <li id="inner-my-profile">
                     <Link to="/profile">
                       <span className="icon">
-                        <i className="tunga-icon-profile" />{" "}
+                        <i className="tunga-icon-profile" />{' '}
                         <span className="badge">
                           {Notification.notifications.profile.missing.length}
                         </span>
@@ -154,7 +153,7 @@ class Home extends React.Component {
                 ? <li id="inner-tribe">
                     <Link to="/people/filter/requests">
                       <span className="icon">
-                        <i className="tunga-icon-tribe" />{" "}
+                        <i className="tunga-icon-tribe" />{' '}
                         <span className="badge">
                           {Notification.notifications.requests}
                         </span>
@@ -168,7 +167,7 @@ class Home extends React.Component {
                 ? <li id="inner-my-messages">
                     <Link to="/conversation">
                       <span className="icon">
-                        <i className="tunga-icon-message" />{" "}
+                        <i className="tunga-icon-message" />{' '}
                         <span className="badge">
                           {Notification.notifications.messages}
                         </span>
@@ -182,7 +181,7 @@ class Home extends React.Component {
                 ? <li id="inner-running-tasks">
                     <Link to="/work/filter/running">
                       <span className="icon">
-                        <i className="tunga-icon-running-tasks" />{" "}
+                        <i className="tunga-icon-running-tasks" />{' '}
                         <span className="badge">
                           {Notification.notifications.tasks}
                         </span>
@@ -198,7 +197,7 @@ class Home extends React.Component {
                       ? <li id="inner-estimates">
                           <Link to="/work/filter/estimates">
                             <span className="icon">
-                              <i className="tunga-icon-project" />{" "}
+                              <i className="tunga-icon-project" />{' '}
                               <span className="badge">
                                 {Notification.notifications.estimates}
                               </span>
@@ -212,7 +211,7 @@ class Home extends React.Component {
                       ? <li id="inner-quotes">
                           <Link to="/work/filter/quotes">
                             <span className="icon">
-                              <i className="tunga-icon-project" />{" "}
+                              <i className="tunga-icon-project" />{' '}
                               <span className="badge">
                                 {Notification.notifications.quotes}
                               </span>
@@ -221,7 +220,7 @@ class Home extends React.Component {
                             Quotes
                           </Link>
                         </li>
-                      : null
+                      : null,
                   ]
                 : null}
             </ul>

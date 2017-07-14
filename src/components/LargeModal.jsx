@@ -1,19 +1,19 @@
-import React from "react";
-import { Modal } from "react-bootstrap";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
+import React from 'react';
+import {Modal} from 'react-bootstrap';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 
-import * as NavActions from "../actions/NavActions";
+import * as NavActions from '../actions/NavActions';
 
 class LargeModal extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { showModal: false, title: null };
+    this.state = {showModal: false, title: null};
   }
 
   componentDidMount() {
     this.toggle(this.props.show);
-    this.setState({ title: this.props.title });
+    this.setState({title: this.props.title});
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -22,7 +22,7 @@ class LargeModal extends React.Component {
     }
 
     if (prevProps.title != this.props.title) {
-      this.setState({ title: this.props.title });
+      this.setState({title: this.props.title});
     }
   }
 
@@ -35,29 +35,28 @@ class LargeModal extends React.Component {
   }
 
   close() {
-    this.setState({ showModal: false });
+    this.setState({showModal: false});
     if (this.props.onHide) {
       this.props.onHide();
     }
 
-    const { NavActions } = this.props;
+    const {NavActions} = this.props;
     NavActions.reportPathChange(null, null);
   }
 
   open() {
-    this.setState({ showModal: true });
+    this.setState({showModal: true});
   }
 
   render() {
-    const { modalSize, bsStyle, className } = this.props;
+    const {modalSize, bsStyle, className} = this.props;
     return (
       <Modal
         show={this.state.showModal}
         onHide={this.close.bind(this)}
         bsSize={modalSize}
         bsStyle={bsStyle}
-        dialogClassName={className}
-      >
+        dialogClassName={className}>
         <Modal.Header closeButton>
           {this.state.title
             ? <Modal.Title>
@@ -79,7 +78,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    NavActions: bindActionCreators(NavActions, dispatch)
+    NavActions: bindActionCreators(NavActions, dispatch),
   };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(LargeModal);

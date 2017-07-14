@@ -1,15 +1,14 @@
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 
-import * as TaskActions from "../../actions/TaskActions";
-import * as AuthActions from "../../actions/AuthActions";
-import * as ApplicationActions from "../../actions/ApplicationActions";
-import * as SavedTaskActions from "../../actions/SavedTaskActions";
-import * as CommentActions from "../../actions/CommentActions";
-import { clearValidations } from "../../actions/UtilityActions";
-import * as EstimateActions from "../../actions/EstimateActions";
-import * as QuoteActions from "../../actions/QuoteActions";
-import * as MultiTasksPaymentActions from "../../actions/MultiTasksPaymentActions";
+import * as TaskActions from '../../actions/TaskActions';
+import * as AuthActions from '../../actions/AuthActions';
+import * as ApplicationActions from '../../actions/ApplicationActions';
+import * as SavedTaskActions from '../../actions/SavedTaskActions';
+import * as CommentActions from '../../actions/CommentActions';
+import {clearValidations} from '../../actions/UtilityActions';
+import * as EstimateActions from '../../actions/EstimateActions';
+import * as QuoteActions from '../../actions/QuoteActions';
 
 function mapStateToProps(state) {
   return {
@@ -17,7 +16,6 @@ function mapStateToProps(state) {
     Task: state.Task,
     Estimate: state.Estimate,
     Quote: state.Quote,
-    MultiTasksPayment: state.MultiTasksPayment
   };
 }
 
@@ -31,21 +29,17 @@ function mapDispatchToProps(dispatch) {
           listIssues: AuthActions.listIssues,
           getSlackApp: AuthActions.getSlackApp,
           listSlackChannels: AuthActions.listSlackChannels,
-          clearValidations: clearValidations
+          clearValidations: clearValidations,
         },
-        dispatch
+        dispatch,
       ),
       ...bindActionCreators(TaskActions, dispatch),
       ...bindActionCreators(ApplicationActions, dispatch),
       ...bindActionCreators(SavedTaskActions, dispatch),
-      ...bindActionCreators(CommentActions, dispatch)
+      ...bindActionCreators(CommentActions, dispatch),
     },
     EstimateActions: bindActionCreators(EstimateActions, dispatch),
     QuoteActions: bindActionCreators(QuoteActions, dispatch),
-    MultiTasksPaymentActions: bindActionCreators(
-      MultiTasksPaymentActions,
-      dispatch
-    )
   };
 }
 

@@ -1,16 +1,16 @@
-import React from "react";
-import _ from "lodash";
+import React from 'react';
+import _ from 'lodash';
 
 export default class SearchBox extends React.Component {
   constructor(props) {
     super(props);
     this.onSearch = _.debounce(this.onSearch, 250);
-    this.state = { q: "" };
+    this.state = {q: ''};
   }
 
   componentWillMount() {
     if (this.props.query) {
-      this.setState({ q: this.props.query });
+      this.setState({q: this.props.query});
     }
   }
 
@@ -29,7 +29,7 @@ export default class SearchBox extends React.Component {
   onSearchChange(e) {
     e.preventDefault();
     var q = e.target.value;
-    this.setState({ q });
+    this.setState({q});
   }
 
   onSearch(e) {
@@ -41,12 +41,12 @@ export default class SearchBox extends React.Component {
   performSearch() {
     if (this.props.onSearch) {
       var filter = this.props.filter || {};
-      this.props.onSearch({ search: this.state.q, ...filter });
+      this.props.onSearch({search: this.state.q, ...filter});
     }
   }
 
   render() {
-    const { count } = this.props;
+    const {count} = this.props;
 
     return (
       <div className="search-box">
@@ -59,7 +59,7 @@ export default class SearchBox extends React.Component {
               type="text"
               name="q"
               className="form-control"
-              placeholder={this.props.placeholder || "Search"}
+              placeholder={this.props.placeholder || 'Search'}
               value={this.state.q}
               onChange={this.onSearchChange.bind(this)}
             />
@@ -67,7 +67,7 @@ export default class SearchBox extends React.Component {
         </form>
         {!this.props.hide_results && this.state.q
           ? <div className="results">
-              {count ? count : "Search"} results for "<strong>{this.state.q}</strong>"
+              {count ? count : 'Search'} results for "<strong>{this.state.q}</strong>"
             </div>
           : null}
       </div>

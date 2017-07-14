@@ -1,15 +1,15 @@
-import React from "react";
-import moment from "moment";
-import momentLocalizer from "react-widgets/lib/localizers/moment";
-import DateTimePicker from "react-widgets/lib/DateTimePicker";
+import React from 'react';
+import moment from 'moment';
+import momentLocalizer from 'react-widgets/lib/localizers/moment';
+import DateTimePicker from 'react-widgets/lib/DateTimePicker';
 
-import Progress from "./status/Progress";
-import FormStatus from "./status/FormStatus";
-import FieldError from "./status/FieldError";
-import Success from "./status/Success";
+import Progress from './status/Progress';
+import FormStatus from './status/FormStatus';
+import FieldError from './status/FieldError';
+import Success from './status/Success';
 
-import { getDevFee } from "../utils/tasks";
-import { parseNumber } from "../utils/helpers";
+import {getDevFee} from '../utils/tasks';
+import {parseNumber} from '../utils/helpers';
 
 momentLocalizer(moment);
 
@@ -18,10 +18,10 @@ export default class ApplicationForm extends React.Component {
     super(props);
     this.state = {
       deliver_at: null,
-      pitch: "",
+      pitch: '',
       agree_schedule: false,
       agree_deadline: false,
-      remarks: ""
+      remarks: '',
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -31,7 +31,7 @@ export default class ApplicationForm extends React.Component {
     var deliver_at = task.deadline
       ? new Date(moment.utc(task.deadline).format())
       : null;
-    this.setState({ deliver_at: deliver_at });
+    this.setState({deliver_at: deliver_at});
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -46,7 +46,7 @@ export default class ApplicationForm extends React.Component {
       var deliver_at = task.deadline
         ? new Date(moment.utc(task.deadline).format())
         : null;
-      this.setState({ deliver_at: deliver_at, pitch: "", remarks: "" });
+      this.setState({deliver_at: deliver_at, pitch: '', remarks: ''});
     }
   }
 
@@ -63,23 +63,23 @@ export default class ApplicationForm extends React.Component {
   }
 
   onDeliveryDateChange(date) {
-    this.setState({ deliver_at: moment(date).utc().format() });
+    this.setState({deliver_at: moment(date).utc().format()});
   }
 
   onPitchChange(e) {
-    this.setState({ pitch: e.target.getContent() });
+    this.setState({pitch: e.target.getContent()});
   }
 
   onAgreeScheduleChange(e) {
-    this.setState({ agree_schedule: !this.state.agree_schedule });
+    this.setState({agree_schedule: !this.state.agree_schedule});
   }
 
   onAgreeDeadlineChange(e) {
-    this.setState({ agree_deadline: !this.state.agree_deadline });
+    this.setState({agree_deadline: !this.state.agree_deadline});
   }
 
   onRemarksChange(e) {
-    this.setState({ remarks: e.target.getContent() });
+    this.setState({remarks: e.target.getContent()});
   }
 
   handleSubmit(e) {
@@ -99,37 +99,30 @@ export default class ApplicationForm extends React.Component {
     ) {
       errors = {
         ...errors,
-        agree_schedule: `You must agree to the update schedule to apply for this ${work_type}`
+        agree_schedule: `You must agree to the update schedule to apply for this ${work_type}`,
       };
     }
 
     if (!this.state.agree_deadline && task.deadline) {
       errors = {
         ...errors,
-        agree_deadline: `You must agree to the milestone deadlines to apply for this ${work_type}`
+        agree_deadline: `You must agree to the milestone deadlines to apply for this ${work_type}`,
       };
     }
 
-    const { TaskActions } = this.props;
+    const {TaskActions} = this.props;
 
     TaskActions.createApplication(
-      {
-        task: task.id,
-        pitch,
-        hours_needed,
-        days_available,
-        deliver_at,
-        remarks
-      },
-      errors
+      {task: task.id, pitch, hours_needed, days_available, deliver_at, remarks},
+      errors,
     );
     return;
   }
 
   render() {
-    const { Task } = this.props;
+    const {Task} = this.props;
     const task = this.props.task || {};
-    const work_type = task.is_task ? "task" : "project";
+    const work_type = task.is_task ? 'task' : 'project';
     return (
       <div className="form-wrapper">
         {Task.detail.applications.isSaved
@@ -138,12 +131,11 @@ export default class ApplicationForm extends React.Component {
               onSubmit={this.handleSubmit}
               name="application_form"
               role="form"
-              ref="application_form"
-            >
+              ref="application_form">
               <FormStatus
                 loading={Task.detail.applications.isSaving}
                 success={Task.detail.applications.isSaved}
-                message={"Application sent successfully"}
+                message={'Application sent successfully'}
                 error={Task.detail.applications.error.create}
               />
 
@@ -161,7 +153,7 @@ export default class ApplicationForm extends React.Component {
                   placeholder={`What makes you qualified for this ${work_type}`}
                   className="form-control"
                   ref="pitch"
-                  onChange={this.onInputChange.bind(this, "pitch")}
+                  onChange={this.onInputChange.bind(this, 'pitch')}
                   value={this.state.pitch}
                 />
               </div>
@@ -188,7 +180,7 @@ export default class ApplicationForm extends React.Component {
                     className="form-control"
                     ref="hours_needed"
                     placeholder={`Development hours needed to complete ${work_type}`}
-                    onChange={this.onInputChange.bind(this, "hours_needed")}
+                    onChange={this.onInputChange.bind(this, 'hours_needed')}
                     required
                   />
                 </div>
@@ -299,11 +291,11 @@ export default class ApplicationForm extends React.Component {
               {task.deadline
                 ? <div className="form-group">
                     <div>
-                      Deadline:{" "}
+                      Deadline:{' '}
                       {moment
                         .utc(task.deadline)
                         .local()
-                        .format("Do, MMMM YYYY")}
+                        .format('Do, MMMM YYYY')}
                     </div>
                     <div className="checkbox">
                       <label className="control-label">
@@ -333,10 +325,10 @@ export default class ApplicationForm extends React.Component {
                   placeholder="Question or remark for the client"
                   className="form-control"
                   ref="remarks"
-                  onChange={this.onInputChange.bind(this, "remarks")}
+                  onChange={this.onInputChange.bind(this, 'remarks')}
                   value={this.state.remarks}
                 />
-                <div className="alert alert-info" style={{ marginTop: "10px" }}>
+                <div className="alert alert-info" style={{marginTop: '10px'}}>
                   Any question or remark will be sent to the client as a direct
                   message
                 </div>
@@ -346,8 +338,7 @@ export default class ApplicationForm extends React.Component {
                 <button
                   type="submit"
                   className="btn"
-                  disabled={Task.detail.applications.isSaving}
-                >
+                  disabled={Task.detail.applications.isSaving}>
                   Apply
                 </button>
               </div>

@@ -1,7 +1,7 @@
-import React from "react";
-import connect from "../utils/connectors/CommentConnector";
-import CommentForm from "../components/CommentForm";
-import CommentList from "../components/ActivityList";
+import React from 'react';
+import connect from '../utils/connectors/CommentConnector';
+import CommentForm from '../components/CommentForm';
+import CommentList from '../components/ActivityList';
 
 class CommentSection extends React.Component {
   renderChildren() {
@@ -10,9 +10,9 @@ class CommentSection extends React.Component {
       function(child) {
         return React.cloneElement(child, {
           Comment: this.props.Comment,
-          CommentActions: this.props.CommentActions
+          CommentActions: this.props.CommentActions,
         });
-      }.bind(this)
+      }.bind(this),
     );
   }
 

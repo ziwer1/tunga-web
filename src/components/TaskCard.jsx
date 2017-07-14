@@ -1,41 +1,41 @@
-import React from "react";
-import { Link } from "react-router";
-import moment from "moment";
-import TimeAgo from "react-timeago";
-import Linkify from "./Linkify";
+import React from 'react';
+import {Link} from 'react-router';
+import moment from 'moment';
+import TimeAgo from 'react-timeago';
+import Linkify from './Linkify';
 
-import TagList from "./TagList";
-import Avatar from "./Avatar";
-import ComponentWithModal from "./ComponentWithModal";
+import TagList from './TagList';
+import Avatar from './Avatar';
+import ComponentWithModal from './ComponentWithModal';
 
-import { render_excerpt } from "../utils/html";
-import { parse_task_status } from "../utils/tasks";
-import { isDeveloper, isProjectManager, isAdmin } from "../utils/auth";
-import confirm from "../utils/confirm";
-import { truncateWords } from "../utils/helpers";
+import {render_excerpt} from '../utils/html';
+import {parse_task_status} from '../utils/tasks';
+import {isDeveloper, isProjectManager, isAdmin} from '../utils/auth';
+import confirm from '../utils/confirm';
+import {truncateWords} from '../utils/helpers';
 
 export default class TaskCard extends ComponentWithModal {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.task.pm && !prevProps.task.pm) {
-      const { router } = this.context;
+      const {router} = this.context;
       router.replace(`/work/${this.props.task.id}`);
     }
   }
 
   onClaimProject() {
-    const { TaskActions, task } = this.props;
+    const {TaskActions, task} = this.props;
     TaskActions.claimTask(task.id);
   }
 
   onReturnProject() {
-    const { TaskActions, task } = this.props;
-    confirm("Confirm return project").then(function() {
+    const {TaskActions, task} = this.props;
+    confirm('Confirm return project').then(function() {
       TaskActions.returnTask(task.id);
     });
   }
 
   getSplitFee() {
-    const { task } = this.props;
+    const {task} = this.props;
     var context_fee = 0;
     if (task && task.amount) {
       if (isDeveloper()) {
@@ -51,15 +51,15 @@ export default class TaskCard extends ComponentWithModal {
     let whole_part = Math.floor(float_fee);
     return {
       whole: whole_part,
-      decimal: float_fee.substring(whole_part.toString().length + 1) || "00"
+      decimal: float_fee.substring(whole_part.toString().length + 1) || '00',
     };
   }
 
   render() {
-    const { task } = this.props;
+    const {task} = this.props;
     var task_status = parse_task_status(task);
     let split_fee = this.getSplitFee();
-    let work_type = task.is_task ? "task" : "project";
+    let work_type = task.is_task ? 'task' : 'project';
 
     return (
       <div className="card task-card">
@@ -78,7 +78,7 @@ export default class TaskCard extends ComponentWithModal {
         <div className="top">
           <div className="clearfix">
             <div className="task-status pull-right" title={task_status.message}>
-              <i className={"fa fa-circle " + task_status.css} />
+              <i className={'fa fa-circle ' + task_status.css} />
             </div>
             <h3 className="title pull-left">
               <Link to={`/work/${task.id}/`}>
@@ -89,9 +89,9 @@ export default class TaskCard extends ComponentWithModal {
           <div className="pledge text-center">
             {split_fee
               ? <div>
-                  {task.amount ? task.amount.currency : "&euro;"}
+                  {task.amount ? task.amount.currency : '&euro;'}
                   {split_fee.whole}
-                  <span className="decimal" style={{ fontSize: "50%" }}>
+                  <span className="decimal" style={{fontSize: '50%'}}>
                     {split_fee.decimal}
                   </span>
                 </div>
@@ -112,9 +112,9 @@ export default class TaskCard extends ComponentWithModal {
           </div>
           <div>
             {task.deadline
-              ? "Deadline " +
-                moment.utc(task.deadline).local().format("Do, MMMM YYYY")
-              : <span dangerouslySetInnerHTML={{ __html: "&nbsp;" }} />}
+              ? 'Deadline ' +
+                moment.utc(task.deadline).local().format('Do, MMMM YYYY')
+              : <span dangerouslySetInnerHTML={{__html: '&nbsp;'}} />}
           </div>
         </div>
         <div className="middle">
@@ -125,11 +125,11 @@ export default class TaskCard extends ComponentWithModal {
                 linkPrefix="/work/skill/"
                 moreLink={`/work/${task.id}/`}
               />
-            : <div style={{ height: "20px" }} />}
+            : <div style={{height: '20px'}} />}
         </div>
         <div className="bottom">
           <div className="short-description">
-            <Linkify properties={{ target: "_blank" }}>
+            <Linkify properties={{target: '_blank'}}>
               {truncateWords(task.description, 20)}
             </Linkify>
           </div>
@@ -140,8 +140,7 @@ export default class TaskCard extends ComponentWithModal {
                     {task.can_apply
                       ? <Link
                           to={`/work/${task.id}/apply`}
-                          className="btn btn-block"
-                        >
+                          className="btn btn-block">
                           Apply for this {work_type}
                         </Link>
                       : task.closed || !task.apply
@@ -150,15 +149,14 @@ export default class TaskCard extends ComponentWithModal {
                           </div>
                         : <div
                             className="btn btn-block"
-                            style={{ visibility: "hidden" }}
+                            style={{visibility: 'hidden'}}
                           />}
                   </div>
                   {task.can_apply
                     ? <div className="col-sm-12">
                         <Link
                           to={`/conversation/start/task/${task.id}`}
-                          className="btn btn-block"
-                        >
+                          className="btn btn-block">
                           Send message
                         </Link>
                       </div>
@@ -172,15 +170,13 @@ export default class TaskCard extends ComponentWithModal {
                     {task.can_claim
                       ? <button
                           className="btn btn-block"
-                          onClick={this.onClaimProject.bind(this)}
-                        >
+                          onClick={this.onClaimProject.bind(this)}>
                           Claim {work_type}
                         </button>
                       : task.can_return
                         ? <button
                             className="btn btn-block"
-                            onClick={this.onReturnProject.bind(this)}
-                          >
+                            onClick={this.onReturnProject.bind(this)}>
                             Return {work_type}
                           </button>
                         : null}
@@ -202,13 +198,13 @@ export default class TaskCard extends ComponentWithModal {
 }
 
 TaskCard.propTypes = {
-  task: React.PropTypes.object.isRequired
+  task: React.PropTypes.object.isRequired,
 };
 
 TaskCard.defaultProps = {
-  task: {}
+  task: {},
 };
 
 TaskCard.contextTypes = {
-  router: React.PropTypes.object.isRequired
+  router: React.PropTypes.object.isRequired,
 };

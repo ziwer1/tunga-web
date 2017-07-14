@@ -1,18 +1,18 @@
-import React from "react";
-import { Link } from "react-router";
+import React from 'react';
+import {Link} from 'react-router';
 
-import EmailVisitorWidget from "../components/EmailVisitorWidget";
+import EmailVisitorWidget from '../components/EmailVisitorWidget';
 
-import connect from "../utils/connectors/AuthConnector";
+import connect from '../utils/connectors/AuthConnector';
 
 class EmailLoginWidget extends React.Component {
   onEmailReceived(email) {
-    const { AuthActions } = this.props;
-    AuthActions.authenticateEmailVisitor({ email });
+    const {AuthActions} = this.props;
+    AuthActions.authenticateEmailVisitor({email});
   }
 
   render() {
-    const { Auth, AuthActions } = this.props;
+    const {Auth, AuthActions} = this.props;
 
     return Auth.isEmailVisitor
       ? <Link to="/people" className="btn btn-lg">
