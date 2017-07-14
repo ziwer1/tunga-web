@@ -3,9 +3,10 @@
   "scripts": {
     "build:local": "cross-env BACKEND_ROOT=http://localhost:8000/ webpack --progress --profile --colors",
     "build": "cross-env NODE_ENV=production BUILD_DEV=0 BUILD_PRERELEASE=0 webpack -p --config webpack.production.config.js --progress --profile --colors --optimize-minimize --optimize-dedupe",
-    "build:sandbox": "cross-env NODE_ENV=production STRIPE_ENV=development AB_ENV=development BUILD_DEV=0 BUILD_PRERELEASE=1 webpack -p --config webpack.production.config.js --progress --profile --colors --optimize-minimize --optimize-dedupe",
-    "build:sandbox:stripelive": "cross-env NODE_ENV=production AB_ENV=development BUILD_DEV=0 BUILD_PRERELEASE=1 webpack -p --config webpack.production.config.js --progress --profile --colors --optimize-minimize --optimize-dedupe",
+    "build:sandbox": "cross-env NODE_ENV=production STRIPE_ENV=development ANALYTICS_ENV=development BUILD_DEV=0 BUILD_PRERELEASE=1 webpack -p --config webpack.production.config.js --progress --profile --colors --optimize-minimize --optimize-dedupe",
+    "build:sandbox:stripelive": "cross-env NODE_ENV=production ANALYTICS_ENV=development BUILD_DEV=0 BUILD_PRERELEASE=1 webpack -p --config webpack.production.config.js --progress --profile --colors --optimize-minimize --optimize-dedupe",
     "watch:local": "cross-env BUILD_DEV=1 BACKEND_ROOT=http://localhost:8000/ webpack-dev-server --hot --inline --progress --colors",
+    "watch:local:prod": "cross-env NODE_ENV=production ANALYTICS_ENV=development BUILD_DEV=0 BACKEND_ROOT=http://localhost:8000/ webpack-dev-server --hot --inline --progress --colors",
     "watch": "cross-env BUILD_DEV=1 webpack-dev-server --hot --inline --progress --colors",
     "test": "echo \"No unit tests and e2e tests yet\" && exit 0"
   },
@@ -73,7 +74,7 @@
     "globals-loader": "0.0.3",
     "html-loader": "^0.4.3",
     "html-webpack-plugin": "^2.26.0",
-    "image-maxsize-webpack-loader": "^0.2.0",
+    "x": "^0.2.0",
     "less": "^2.5.3",
     "less-loader": "^2.2.1",
     "node-sass": "^4.5.2",

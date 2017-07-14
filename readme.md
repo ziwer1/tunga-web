@@ -8,6 +8,7 @@ npm install webpack -g
 npm install webpack-dev-server -g
 npm install
 ```
+2. Install [ImageMagick](https://www.imagemagick.org/script/download.php)
 
 # Coding Guide
 * Built with [React,js](https://facebook.github.io/react/) and [Redux](http://redux.js.org/)
