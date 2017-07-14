@@ -8,6 +8,9 @@
     "watch:local": "cross-env BUILD_DEV=1 BACKEND_ROOT=http://localhost:8000/ webpack-dev-server --hot --inline --progress --colors",
     "watch:local:prod": "cross-env NODE_ENV=production ANALYTICS_ENV=development BUILD_DEV=0 BACKEND_ROOT=http://localhost:8000/ webpack-dev-server --hot --inline --progress --colors",
     "watch": "cross-env BUILD_DEV=1 webpack-dev-server --hot --inline --progress --colors",
+    "lint": "node ./scripts/tasks/eslint.js",
+    "prettier": "node ./scripts/prettier/index.js write-changed",
+    "prettier-all": "node ./scripts/prettier/index.js write",
     "test": "echo \"No unit tests and e2e tests yet\" && exit 0"
   },
   "version": "0.1.0",
@@ -74,17 +77,18 @@
     "globals-loader": "0.0.3",
     "html-loader": "^0.4.3",
     "html-webpack-plugin": "^2.26.0",
-    "x": "^0.2.0",
     "less": "^2.5.3",
     "less-loader": "^2.2.1",
     "node-sass": "^4.5.2",
     "open-browser-webpack-plugin": "0.0.3",
+    "prettier": "^1.5.2",
     "redux-logger": "^2.6.1",
     "sass-loader": "^6.0.3",
     "script-loader": "^0.7.0",
     "style-loader": "^0.13.0",
     "url-loader": "^0.5.6",
     "webpack": "^1.15.0",
-    "webpack-dev-server": "^1.12.1"
+    "webpack-dev-server": "^1.12.1",
+    "x": "^0.2.0"
   }
 }
