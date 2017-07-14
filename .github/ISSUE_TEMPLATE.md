@@ -65,4 +65,10 @@ For Developer issues:
 
 Others:
 <!-- Anything else relevant?  Operating system version, IDE, package manager, HTTP server, ... -->
+
+Requested Delivery Date: dd/MMM/YYYY
+<!-- 
+This gives us a better sense of the urgency of the issue compared to labels 
+If possible, We'll respond with the actual delivery date
+-->
 </code></pre>
