@@ -180,7 +180,8 @@ export default class LandingPage extends ComponentWithModal {
     const tag = this.getDLPTag();
     const desc = this.getDLPDesc();
     if (tag || desc) {
-      return `${this.getDLPTag()} ${this.getDLPDesc()}`;
+      return `${this.getDLPTag() || 'software'} ${this.getDLPDesc() ||
+        'developers'}`;
     }
     return null;
   }
