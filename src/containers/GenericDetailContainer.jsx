@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-import GenericContainer from "./GenericContainer";
+import GenericContainer from './GenericContainer';
 
 export default class GenericDetailContainer extends GenericContainer {
   componentDidMount() {

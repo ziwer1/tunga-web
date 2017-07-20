@@ -20,6 +20,7 @@ import Utility from './UtilityReducers';
 import Search from './SearchReducers';
 import SupportSection from './SupportSectionReducers';
 import SupportPage from './SupportPageReducers';
+import MultiTaskPayment from './MultiTaskPaymentReducers';
 
 const Support = combineReducers({
   Section: SupportSection,
@@ -46,6 +47,7 @@ const TungaApp = combineReducers({
   Utility,
   Search,
   Support,
+  MultiTaskPayment,
   routing: routerReducer,
 });
 

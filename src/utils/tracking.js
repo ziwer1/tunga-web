@@ -37,6 +37,7 @@ export const GA_EVENT_CATEGORIES = {
   REGISTRATION: 'Registration',
   PROFILE: 'Profile',
   TASK: 'Task',
+  BATCH_PAY: 'Batch Pay',
   CONTACT: 'Contact',
   VIDEO: 'Video',
   MESSAGE: 'Message',

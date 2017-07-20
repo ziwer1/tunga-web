@@ -1,10 +1,10 @@
-import React from "react";
-import Progress from "./status/Progress";
-import moment from "moment";
+import React from 'react';
+import Progress from './status/Progress';
+import moment from 'moment';
 
 export default class Planning extends React.Component {
   render() {
-    const { isFetching, milestones } = this.props;
+    const {isFetching, milestones} = this.props;
     if (isFetching) return <Progress />;
     return (
       <div>
@@ -27,17 +27,17 @@ export default class Planning extends React.Component {
   renderMilestones = milestones => {
     if (milestones) {
       return _.values(milestones).map(content =>
-        <tr key={content["id"]}>
+        <tr key={content['id']}>
           <th>
-            {content["title"]}
+            {content['title']}
           </th>
           <th>
-            <div dangerouslySetInnerHTML={{ __html: content["description"] }} />
+            <div dangerouslySetInnerHTML={{__html: content['description']}} />
           </th>
           <th>
-            {moment.utc(content["due_at"]).local().format("D/MMM/YYYY")}
+            {moment.utc(content['due_at']).local().format('D/MMM/YYYY')}
           </th>
-        </tr>
+        </tr>,
       );
     }
   };

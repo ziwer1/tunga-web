@@ -1,7 +1,8 @@
 import React from 'react';
 import {Link, IndexLink} from 'react-router';
-import {Table} from 'react-bootstrap';
 import moment from 'moment';
+import _ from 'lodash';
+
 import Progress from './status/Progress';
 import LoadMore from './status/LoadMore';
 import GenericListContainer from '../containers/GenericListContainer';
@@ -16,6 +17,11 @@ import {
 } from '../utils/auth';
 
 export default class PaymentList extends GenericListContainer {
+  constructor(props) {
+    super(props);
+    this.state = {...this.state, toPay: []};
+  }
+
   componentDidUpdate(prevProps, prevState) {
     super.componentDidUpdate(prevProps, prevState);
 
@@ -33,6 +39,17 @@ export default class PaymentList extends GenericListContainer {
         prev_key: this.state.selection_key,
       });
     }
+
+    if (
+      this.props.Task.MultiTaskPayment.detail.isSaved &&
+      !prevProps.Task.MultiTaskPayment.detail.isSaved
+    ) {
+      const {router} = this.context;
+      router.replace(
+        `/payments/bulk/${this.props.Task.MultiTaskPayment.detail
+          .multi_task_payment.id}`,
+      );
+    }
   }
 
   getList(filters) {
@@ -44,10 +61,36 @@ export default class PaymentList extends GenericListContainer {
     );
   }
 
+  onSelectTask(task, e) {
+    //_.remove(state.tasks, content => task.id == content.id);
+    this.setState({toPay: [...this.state.toPay, task]});
+  }
+
+  totalPayAmount() {
+    return _.reduce(
+      this.state.toPay,
+      function(sum, task) {
+        return sum + parseFloat(task.pay);
+      },
+      0,
+    );
+  }
+
+  onPay() {
+    const {Task, TaskActions} = this.props;
+    TaskActions.createMultiTaskPayment({
+      amount: this.totalPayAmount(),
+      tasks: this.state.toPay.map(task => {
+        return task.id;
+      }),
+    });
+  }
+
   render() {
     const {Task, TaskActions} = this.props;
 
-    const all_tasks = Task.list.ids[this.state.selection_key] || [];
+    const all_tasks = Task.list.ids[this.state.selection_key] || [],
+      totalPay = this.totalPayAmount();
 
     return (
       <div>
@@ -60,24 +103,32 @@ export default class PaymentList extends GenericListContainer {
             </IndexLink>
           </li>
           <li role="presentation">
-            <Link to="/payments/pending" activeClassName="active">
+            <Link to="/payments/filter/pending" activeClassName="active">
               Pending
             </Link>
           </li>
           <li role="presentation">
-            <Link to="/payments/processing" activeClassName="active">
+            <Link to="/payments/filter/processing" activeClassName="active">
               Processing
             </Link>
           </li>
           <li role="presentation">
-            <Link to="/payments/paid" activeClassName="active">
+            <Link to="/payments/filter/paid" activeClassName="active">
               Paid
             </Link>
           </li>
         </ul>
-        {/*<ul className="nav nav-pills nav-top-filter navbar-right">
-                    <li role="presentation"><Link to="/payments/multi-task-payment">Pay Selected Tasks</Link></li>
-                </ul>*/}
+
+        {totalPay
+          ? <div className="form-group clearfix">
+              <button
+                className="btn pull-right"
+                onClick={this.onPay.bind(this)}>
+                Pay €{totalPay}
+              </button>
+            </div>
+          : null}
+
         {Task.list.isFetching
           ? <Progress />
           : <div>
@@ -97,9 +148,9 @@ export default class PaymentList extends GenericListContainer {
                           : <th>Pledge</th>}
                         <th>Invoice</th>
                         <th>Status</th>
-                        {/*(isAdmin() || isProjectManager()) &&
-                                        <th>Select To Pay</th>
-                                    */}
+                        {isAdmin() || isProjectOwner()
+                          ? <th>Select To Pay</th>
+                          : null}
                       </tr>
                     </thead>
                     <tbody>
@@ -195,10 +246,20 @@ export default class PaymentList extends GenericListContainer {
                                 ? 'Paid'
                                 : task.payment_status}
                             </td>
-                            {/*<td>{(task.payment_status == "Pending" && (isDeveloper() || isAdmin())) &&
-                                                    <input type="checkbox" className="tasks_to_pay" value={task.id}/>
-                                                }
-                                            </td>*/}
+                            <td>
+                              {task.payment_status == 'Pending' &&
+                              (isProjectOwner() || isAdmin())
+                                ? <input
+                                    type="checkbox"
+                                    className="tasks_to_pay"
+                                    value={task.id}
+                                    onChange={this.onSelectTask.bind(
+                                      this,
+                                      task,
+                                    )}
+                                  />
+                                : null}
+                            </td>
                           </tr>
                         );
                       })}
@@ -217,7 +278,20 @@ export default class PaymentList extends GenericListContainer {
                   />
                 : null}
             </div>}
+        {totalPay
+          ? <div className="form-group clearfix">
+              <button
+                className="btn pull-right"
+                onClick={this.onPay.bind(this)}>
+                Pay €{totalPay}
+              </button>
+            </div>
+          : null}
       </div>
     );
   }
 }
+
+PaymentList.contextTypes = {
+  router: React.PropTypes.object.isRequired,
+};

@@ -17,6 +17,7 @@ import Application from './ApplicationReducers';
 import Integration from './IntegrationReducers';
 import Activity from './ActivityReducers';
 import Invoice from './InvoiceReducers';
+import MultiTaskPayment from './MultiTaskPaymentReducers';
 
 import {STATUS_ACCEPTED} from '../constants/Api';
 
@@ -385,6 +386,7 @@ const Task = combineReducers({
   detail,
   list,
   running,
+  MultiTaskPayment,
 });
 
 export default Task;

@@ -9,6 +9,7 @@ import * as CommentActions from '../../actions/CommentActions';
 import {clearValidations} from '../../actions/UtilityActions';
 import * as EstimateActions from '../../actions/EstimateActions';
 import * as QuoteActions from '../../actions/QuoteActions';
+import * as MultiTaskPaymentActions from '../../actions/MultiTaskPaymentActions';
 
 function mapStateToProps(state) {
   return {
@@ -37,6 +38,7 @@ function mapDispatchToProps(dispatch) {
       ...bindActionCreators(ApplicationActions, dispatch),
       ...bindActionCreators(SavedTaskActions, dispatch),
       ...bindActionCreators(CommentActions, dispatch),
+      ...bindActionCreators(MultiTaskPaymentActions, dispatch),
     },
     EstimateActions: bindActionCreators(EstimateActions, dispatch),
     QuoteActions: bindActionCreators(QuoteActions, dispatch),

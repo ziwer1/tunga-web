@@ -1,7 +1,7 @@
-import React from "react";
-import Progress from "./status/Progress";
-import FormStatus from "./status/FormStatus";
-import FieldError from "./status/FieldError";
+import React from 'react';
+import Progress from './status/Progress';
+import FormStatus from './status/FormStatus';
+import FieldError from './status/FieldError';
 
 export default class TaxInfo extends React.Component {
   componentDidMount() {
@@ -10,29 +10,29 @@ export default class TaxInfo extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    var status_msg = $(".alert");
+    var status_msg = $('.alert');
     if (status_msg.size()) {
-      $("html, body").animate({ scrollTop: status_msg.offset().top - 70 });
+      $('html, body').animate({scrollTop: status_msg.offset().top - 70});
     }
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    const { Profile, ProfileActions } = this.props;
-    const { profile } = Profile;
+    const {Profile, ProfileActions} = this.props;
+    const {profile} = Profile;
 
     var tax_name = this.refs.tax_name.value.trim();
     var tax_percentage = this.refs.tax_percentage.value.trim();
 
     ProfileActions.updateProfile(Profile.profile.id, {
       tax_name,
-      tax_percentage
+      tax_percentage,
     });
     return;
   }
 
   render() {
-    const { Auth, Profile } = this.props;
+    const {Auth, Profile} = this.props;
 
     return (
       <div>
@@ -42,12 +42,11 @@ export default class TaxInfo extends React.Component {
               onSubmit={this.handleSubmit.bind(this)}
               name="profile"
               role="form"
-              ref="profile_form"
-            >
+              ref="profile_form">
               <FormStatus
                 loading={Profile.isSaving.profile}
                 success={Profile.isSaved.profile}
-                message={"Profile saved"}
+                message={'Profile saved'}
                 error={Profile.error.profile}
               />
 
@@ -89,8 +88,7 @@ export default class TaxInfo extends React.Component {
               <button
                 type="submit"
                 className="btn  pull-right"
-                disabled={Profile.isSaving.profile || Profile.isSaving.user}
-              >
+                disabled={Profile.isSaving.profile || Profile.isSaving.user}>
                 Save
               </button>
               <div className="clearfix" />

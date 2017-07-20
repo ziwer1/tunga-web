@@ -103,6 +103,10 @@ import QuoteDetail from 'components/QuoteDetail';
 import TaskWizard from 'routes/TaskWizard';
 import StoryPage from 'routes/StoryPage';
 import TaskWizardLander from 'routes/TaskWizardLander';
+import MultiTaskPaymentContainer from 'containers/MultiTaskPaymentContainer';
+import MultiTaskPaymentDetailContainer from 'containers/MultiTaskPaymentDetailContainer';
+import MultiTaskPay from 'components/MultiTaskPay';
+import MultiTaskPayProcessing from 'components/MultiTaskPayProcessing';
 
 ReactDOM.render(
   <Provider store={store}>
@@ -293,7 +297,15 @@ ReactDOM.render(
             <Redirect path="channel*" to="conversation*" />
             <Route path="payments" component={TaskContainer}>
               <IndexRoute component={PaymentList} />
-              <Route path=":filter" component={PaymentList} />
+              <Route path="filter/:filter" component={PaymentList} />
+              <Route path="bulk" component={MultiTaskPaymentContainer}>
+                <Route
+                  path=":batchId"
+                  component={MultiTaskPaymentDetailContainer}>
+                  <IndexRoute component={MultiTaskPay} />
+                  <Route path="processing" component={MultiTaskPayProcessing} />
+                </Route>
+              </Route>
             </Route>
             <Route path="help" component={MessagePage}>
               <Route path=":channelId" component={ChannelContainer}>
