@@ -129,7 +129,7 @@ export default class PaymentList extends GenericListContainer {
             </div>
           : null}
 
-        {Task.list.isFetching
+        {Task.list.isFetching || Task.MultiTaskPayment.detail.isSaving
           ? <Progress />
           : <div>
               {all_tasks.length
@@ -222,14 +222,26 @@ export default class PaymentList extends GenericListContainer {
                                     </a>
                                     <br />
                                     {isDeveloper() || isAdmin()
-                                      ? <a
+                                      ? (
+                                      <div>
+                                        <a
                                           href={`${ENDPOINT_TASK}${task.id}/download/invoice/?format=pdf&type=developer`}
                                           target="_blank">
                                           <span>
                                             <i className="fa fa-download" />{' '}
                                             Developer Invoice(s)
                                           </span>
+                                        </a><br/>
+                                        <a
+                                          href={`${ENDPOINT_TASK}${task.id}/download/invoice/?format=pdf&type=tunga`}
+                                          target="_blank">
+                                          <span>
+                                            <i className="fa fa-download" />{' '}
+                                            Tunga Invoice(s)
+                                          </span>
                                         </a>
+                                      </div>
+                                    )
                                       : null}
                                   </div>
                                 : <div>
