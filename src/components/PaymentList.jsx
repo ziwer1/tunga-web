@@ -19,7 +19,7 @@ import {
 export default class PaymentList extends GenericListContainer {
   constructor(props) {
     super(props);
-    this.state = {...this.state, toPay: []};
+    this.state = {...this.state, toPay: [], toDistribute: []};
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -61,14 +61,30 @@ export default class PaymentList extends GenericListContainer {
     );
   }
 
+  getPaymentStatusFilter() {
+    return this.props.params.filter || null;
+  }
+
+  isDistributionMode() {
+    return this.getPaymentStatusFilter() == 'distribute';
+  }
+
   onSelectTask(task, e) {
-    //_.remove(state.tasks, content => task.id == content.id);
-    this.setState({toPay: [...this.state.toPay, task]});
+    let targetState = this.isDistributionMode()?this.state.toDistribute:this.state.toPay;
+    let tasks = [...targetState];
+    if(e.target.checked) {
+      tasks = [...targetState, task];
+    } else {
+      _.remove(tasks, (content) => {return task.id == content.id});
+    }
+    let new_state = {}, stateKey = this.isDistributionMode()?'toDistribute':'toPay';
+    new_state[stateKey] = tasks;
+    this.setState(new_state);
   }
 
   totalPayAmount() {
     return _.reduce(
-      this.state.toPay,
+      this.isDistributionMode()?this.state.toDistribute:this.state.toPay,
       function(sum, task) {
         return sum + parseFloat(task.pay);
       },
@@ -78,12 +94,18 @@ export default class PaymentList extends GenericListContainer {
 
   onPay() {
     const {Task, TaskActions} = this.props;
-    TaskActions.createMultiTaskPayment({
+    let task_info = {
       amount: this.totalPayAmount(),
-      tasks: this.state.toPay.map(task => {
-        return task.id;
-      }),
+      distribute_only: this.isDistributionMode()
+    }, tasks = this.state.toPay.map(task => {
+      return task.id;
     });
+    if(this.isDistributionMode()) {
+      task_info.distribute_tasks = tasks;
+    } else {
+      task_info.tasks = tasks;
+    }
+    TaskActions.createMultiTaskPayment(task_info);
   }
 
   render() {
@@ -117,6 +139,13 @@ export default class PaymentList extends GenericListContainer {
               Paid
             </Link>
           </li>
+          {isAdmin()?(
+            <li role="presentation">
+              <Link to="/payments/filter/distribute" activeClassName="active">
+                Distribute
+              </Link>
+            </li>
+          ):null}
         </ul>
 
         {totalPay
@@ -124,7 +153,7 @@ export default class PaymentList extends GenericListContainer {
               <button
                 className="btn pull-right"
                 onClick={this.onPay.bind(this)}>
-                Pay €{totalPay}
+                {this.isDistributionMode()?'Distribute':'Pay'} €{totalPay}
               </button>
             </div>
           : null}
@@ -259,8 +288,8 @@ export default class PaymentList extends GenericListContainer {
                                 : task.payment_status}
                             </td>
                             <td>
-                              {task.payment_status == 'Pending' &&
-                              (isProjectOwner() || isAdmin())
+                              {(task.payment_status == 'Pending' &&
+                              (isProjectOwner() || isAdmin()) || (isAdmin() && this.isDistributionMode()))
                                 ? <input
                                     type="checkbox"
                                     className="tasks_to_pay"
@@ -295,7 +324,7 @@ export default class PaymentList extends GenericListContainer {
               <button
                 className="btn pull-right"
                 onClick={this.onPay.bind(this)}>
-                Pay €{totalPay}
+                {this.isDistributionMode()?'Distribute':'Pay'} €{totalPay}
               </button>
             </div>
           : null}

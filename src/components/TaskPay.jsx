@@ -403,7 +403,7 @@ export default class TaskPay extends React.Component {
                       <hr style={{marginTop: '0'}} />
                       <div className="pay-choices">
                         {TASK_PAYMENT_METHOD_CHOICES.slice(
-                          0,
+                          multi_task_payment && multi_task_payment.distribute_only?1:0,
                           multi_task_payment
                             ? 3
                             : TASK_PAYMENT_METHOD_CHOICES.length,
