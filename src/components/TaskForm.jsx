@@ -826,8 +826,8 @@ export default class TaskForm extends ComponentWithModal {
             {phase != 'speed-up'
               ? <div className="next-action">
                   <span>
-                    Do you want to speed up the process by providing more
-                    details about your project?{' '}
+                    <i className="tunga-icon-speed-up" /> Do you want to speed
+                    up the process by providing more details about your project?{' '}
                   </span>
                   <Link
                     to={`/${urlPrefix}/speed-up/${Task.detail.task.id}`}

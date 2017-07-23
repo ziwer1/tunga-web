@@ -4,8 +4,6 @@ import {connect} from 'react-redux';
 import moment from 'moment';
 
 import * as UtilityActions from '../actions/UtilityActions';
-import Success from '../components/status/Success';
-import Error from '../components/status/Error';
 
 class ShowCaseFooter extends React.Component {
   componentDidMount() {
@@ -36,7 +34,7 @@ class ShowCaseFooter extends React.Component {
     return (
       <footer className="row">
         <div className="container">
-          <div className="col-sm-3" id="social">
+          <div className="col-md-3" id="social">
             <div id="tunga-logo-btm">
               <img src={require('../images/logo_round.png')} />
             </div>
@@ -71,7 +69,7 @@ class ShowCaseFooter extends React.Component {
               </a>
             </div>
           </div>
-          <div className="col-sm-6" id="contact-info">
+          <div className="col-md-6" id="contact-info">
             <h4>Contact & legal information</h4>
             <p>
               <i className="fa fa-map-marker" /> Ms van Riemsdijkweg 57, 1033RC
@@ -107,7 +105,7 @@ class ShowCaseFooter extends React.Component {
               </small>
             </div>
           </div>
-          <div className="col-sm-3" id="latest-from-blog">
+          <div className="col-md-3" id="latest-from-blog">
             <h4>Latest from our blog</h4>
             <ul className="list-unstyled">
               {Utility.posts.length

@@ -147,9 +147,9 @@ export const TASK_TYPE_MOBILE = 2;
 export const TASK_TYPE_OTHER = 3;
 
 export const TASK_TYPE_CHOICES = [
-  {id: TASK_TYPE_WEB, name: 'Web', icon: 'fa fa-globe'},
-  {id: TASK_TYPE_MOBILE, name: 'Mobile', icon: 'fa fa-mobile'},
-  {id: TASK_TYPE_OTHER, name: 'Other', icon: 'fa fa-tasks'},
+  {id: TASK_TYPE_WEB, name: 'Web', icon: 'tunga-icon-web-alt'},
+  {id: TASK_TYPE_MOBILE, name: 'Mobile', icon: 'tunga-icon-mobile'},
+  {id: TASK_TYPE_OTHER, name: 'Other', icon: 'tunga-icon-other'},
 ];
 
 export function suggestTaskTypeSkills(type) {

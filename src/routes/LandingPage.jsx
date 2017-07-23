@@ -21,25 +21,95 @@ import {
 
 const STEP_DETAILS = [
   {
-    title: '1. Tell us what you need.',
-    icon: 'tunga-icon-post-task',
+    title: 'Tell us what you want to build.',
+    icon: 'tunga-icon-how-needs',
   },
   {
-    title: '2. Tunga matches developers with objectively verified skills.',
-    icon: 'tunga-icon-browse-developers',
+    title: 'Tunga matches developers with objectively verified skills.',
+    icon: 'tunga-icon-how-matches',
   },
   {
-    title:
-      '3. Developers start working in your workflow or set one up for you.',
-    icon: 'tunga-icon-manage-tasks',
+    title: 'Developers start working in your workflow or set one up for you.',
+    icon: 'tunga-icon-how-workflow',
   },
   {
-    title: '4. Get daily feedback reports on progress & quality.',
-    icon: 'tunga-icon-build-network',
+    title: 'Get daily feedback reports on progress & quality.',
+    icon: 'tunga-icon-how-feedback',
+  },
+];
+
+class HowItWorks extends React.Component {
+  render() {
+    return (
+      <section id="how-it-works">
+        <div className="container">
+          <div className="step-slider two-sm four-md clearfix">
+            <ul>
+              {STEP_DETAILS.map((step, idx) => {
+                return (
+                  <li key={idx}>
+                    <div href="#"
+                         className="slide animated fadeInRight"
+                         style={{animationDelay: `${idx}s`}}>
+                      <div className="icon">
+                          <span className="number">
+                            {idx + 1}
+                          </span>
+                        <i className={step.icon} />
+                      </div>
+                      <span dangerouslySetInnerHTML={{__html: step.title}} />
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </div>
+      </section>
+    );
+  }
+}
+
+const NETWORK_EXPERTISE = [
+  {
+    content: (
+      <div>
+        Full stack capacity for web API development<br />
+        All popular JS frameworks<br />
+        Backend development
+      </div>
+    ),
+    icon: 'tunga-icon-service-web',
   },
   {
-    title: '5. Effortless payments & invoice overview.',
-    icon: 'tunga-icon-make-transaction',
+    content: (
+      <div>
+        Excellent native app development<br />
+        Decicated iOS and Android teams<br />
+        App manntemaine and improvements
+      </div>
+    ),
+    icon: 'tunga-icon-service-app',
+  },
+  {
+    content: (
+      <div>
+        Dedicated projec managers available<br />
+        Daily updates from developers<br />
+        Full overview of progress
+      </div>
+    ),
+    icon: 'tunga-icon-service-pm',
+  },
+  {
+    content: (
+      <div>
+        Easily customize your workflow<br />
+        with Slack, Trello, Gdrive, Github<br />
+        on Tunga
+      </div>
+    ),
+    icon: 'tunga-icon-service-workflow',
   },
 ];
 
@@ -53,6 +123,8 @@ export default class LandingPage extends ComponentWithModal {
       pageClass: '',
       showVideo: true,
       youtubeOpts: {height: '360px'},
+      hasAnimatedNumbers: false,
+      skillPage: null
     };
   }
 
@@ -71,7 +143,7 @@ export default class LandingPage extends ComponentWithModal {
         height = 30;
         lp.setState({youtubeOpts: {width: `${windowWidth}px`}});
       } else {
-        lp.setState({youtubeOpts: {height: '360px'}});
+        lp.setState({youtubeOpts: {width: '800', height: '450'}});
       }
       $('.ribbon').css('borderWidth', `${height}px ${width}px 0`);
 
@@ -93,17 +165,39 @@ export default class LandingPage extends ComponentWithModal {
           }
         }
 
-        var outsourceWidget = $('.outsource-widget');
-        var outWidgetPos = $('footer').offset().top;
-        if (currentPos >= outWidgetPos - 500) {
-          if (outsourceWidget.hasClass('slideOutRight')) {
-            outsourceWidget.removeClass('open animated slideOutRight');
+        var stats = $('#platform-stats');
+        if (stats.size()) {
+          var statsPos = $('footer').offset().top;
+          if (currentPos >= statsPos - 800) {
+            stats.find('.stat').each(function(idx, elem) {
+              if (!lp.state.hasAnimatedNumbers) {
+                var numAnim = new CountUp(
+                  $(elem).attr('id'),
+                  0,
+                  parseInt($(elem).attr('data-number')),
+                );
+                numAnim.start();
+              }
+            });
+            lp.setState({hasAnimatedNumbers: true});
+          } else if (currentPos <= statsPos - 1300) {
+            lp.setState({hasAnimatedNumbers: false});
           }
-          outsourceWidget.addClass('open animated slideInRight');
-        } else if (currentPos <= outWidgetPos - 1000) {
-          if (outsourceWidget.hasClass('slideInRight')) {
-            outsourceWidget.removeClass('slideInRight');
-            outsourceWidget.addClass('animated slideOutRight');
+        }
+
+        var outsourceWidget = $('.outsource-widget');
+        if (outsourceWidget.size()) {
+          var outWidgetPos = $('footer').offset().top;
+          if (currentPos >= outWidgetPos - 500) {
+            if (outsourceWidget.hasClass('slideOutRight')) {
+              outsourceWidget.removeClass('open animated slideOutRight');
+            }
+            outsourceWidget.addClass('open animated slideInRight');
+          } else if (currentPos <= outWidgetPos - 1000) {
+            if (outsourceWidget.hasClass('slideInRight')) {
+              outsourceWidget.removeClass('slideInRight');
+              outsourceWidget.addClass('animated slideOutRight');
+            }
           }
         }
       });
@@ -186,13 +280,6 @@ export default class LandingPage extends ComponentWithModal {
     return null;
   }
 
-  onRevealNumber(target) {
-    $(document).ready(function() {
-      var numAnim = new CountUp(target, 0, parseInt($('#' + target).html()));
-      numAnim.start();
-    });
-  }
-
   renderHeaderContent() {
     const dlp_phrase = this.getDLPPhrase();
 
@@ -228,15 +315,21 @@ export default class LandingPage extends ComponentWithModal {
       slidesToScroll: 1,
       autoplay: true,
       autoplaySpeed: 5000,
+      centerMode: true,
+      centerPadding: 0,
       responsive: [
-        {breakpoint: 481, settings: {slidesToShow: 1}},
-        {breakpoint: 769, settings: {slidesToShow: 2}},
-        {breakpoint: 1025, settings: {slidesToShow: 3}},
+        {breakpoint: 481, settings: {slidesToShow: 1 /*, centerMode: true*/}},
+        {breakpoint: 769, settings: {slidesToShow: 2 /*, centerMode: true*/}},
+        {
+          breakpoint: 1025,
+          settings: {slidesToShow: 3, centerMode: true, centerPadding: 0},
+        },
       ],
     };
 
     let meta_title = 'Tunga | Software outsourcing done right';
     let meta_description = `Getting software projects done is hard. We make it easy.`;
+    let skillPage = this.state.skillPage;
 
     return (
       <ShowcaseContainer
@@ -247,101 +340,52 @@ export default class LandingPage extends ComponentWithModal {
         chatId={this.props.params ? this.props.params.chatId : null}>
         <MetaTags title={meta_title} description={meta_description} />
 
-        <section id="how-it-works">
-          <div className="container">
-            <div className="section-heading text-center">How it works</div>
-            <div className="step-slider five-sm clearfix">
-              <ul>
-                {STEP_DETAILS.map((step, idx) => {
-                  return (
-                    <li key={idx}>
-                      <a
-                        href="#"
-                        onClick={this.onChangeSliderStep.bind(this, idx)}
-                        onMouseOver={this.onChangeSliderStep.bind(this, idx)}
-                        className={`slide ${this.state.step == idx
-                          ? 'active'
-                          : ''} animated fadeInRight`}
-                        style={{animationDelay: `${idx}s`}}>
-                        <div className="icon">
-                          <i className={step.icon} />
-                        </div>
-                        <span dangerouslySetInnerHTML={{__html: step.title}} />
-                      </a>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
+        {skillPage?(
+          <div>
+            
           </div>
-        </section>
-
-        <section id="platform-info">
-          <div className="container">
-            <div className="row">
-              <div className="col-md-5">
-                <div className="workflow">
-                  <div className="step">
-                    <Reveal
-                      effect="animated fadeIn"
-                      onReveal={this.onRevealNumber.bind(
-                        this,
-                        'platform-devs',
-                      )}>
-                      <div className="highlight" id="platform-devs">
-                        154
-                      </div>
-                      <div>developers</div>
-                    </Reveal>
+        ):(
+          <div>
+            <section id="platform-info">
+              <div className="container">
+                <div className="row">
+                  <div className="col-md-6">
+                    <div className="workflow">
+                      <div className="section-heading">How we make it easy</div>
+                      <p>
+                        Finding great developers is hard nowadays, it is a journey
+                        that often takes too much time and money. We're here to
+                        help. Tunga not only gives you flexible access to a
+                        community of highly committed developers and at affordable
+                        rates, we also have a simple process in place to make sure
+                        you can stay on top of quality and planning. We get that you
+                        want to have overview at all times over the progress of your
+                        project. That is why Tunga offers unique automated features
+                        that will allow you to smoothly build great products in a
+                        cost effective way. Triggered?{' '}
+                        <a href="#" onClick={this.onScheduleCall.bind(this)}>
+                          Talk with us
+                        </a>
+                      </p>
+                    </div>
                   </div>
-
-                  <div className="step">
-                    <Reveal
-                      effect="animated fadeIn"
-                      onReveal={this.onRevealNumber.bind(
-                        this,
-                        'platform-skills',
-                      )}>
-                      <div className="highlight" id="platform-skills">
-                        89
-                      </div>
-                      <div>different coding skills</div>
-                    </Reveal>
-                  </div>
-
-                  <div className="step">
-                    <Reveal
-                      effect="animated fadeIn"
-                      onReveal={this.onRevealNumber.bind(
-                        this,
-                        'platform-code',
-                      )}>
-                      <div className="highlight" id="platform-code">
-                        698562
-                      </div>
-                      <div>lines of code written</div>
-                    </Reveal>
+                  <div className="col-md-6">
+                    <img
+                      src={require('images/showcase/video-bg.png')}
+                      className="video-trigger"
+                      onClick={this.onPlayVideo.bind(this)}
+                    />
                   </div>
                 </div>
               </div>
-              <div className="col-md-7">
-                <YouTube
-                  videoId="RVVtyapBmuo"
-                  opts={this.state.youtubeOpts}
-                  onReady={this.onVideoReady.bind(this)}
-                  onPause={this.onPauseVideo.bind(this)}
-                />
-              </div>
-            </div>
+            </section>
+            <HowItWorks/>
           </div>
-        </section>
+        )}
         <section id="press">
           <div className="container ">
             <Reveal effect="animated fadeInLeft">
               <div>
-                <div className="section-heading text-center">
-                  Tunga in the press
-                </div>
                 <ul className="press-links">
                   <li>
                     <a
@@ -403,123 +447,119 @@ export default class LandingPage extends ComponentWithModal {
             </Reveal>
           </div>
         </section>
-        <section id="clients-testmonial">
-          <div className="container">
-            <div className="section-heading text-center">Testimonials</div>
-            <Slider
-              className="testimonials-slider text-center"
-              {...slider_settings}>
-              {TESTIMONIALS.map(testimonial => {
-                return (
-                  <div className="testimonial">
-                    <div className="body">
-                      <div>
-                        <i className="fa fa-quote-left pull-left" />
+        {skillPage?(
+          <div>
+            {/*Developers go here*/}
+            <HowItWorks/>
+            {/*Story go here*/}
+          </div>
+        ):(
+          <div>
+            <section id="how-we-verify">
+              <Link to="/quality">How we verify our Developers</Link>
+            </section>
+            <section id="clients-testmonial">
+              <div className="container">
+                <div className="section-heading text-center">
+                  What our clients say
+                </div>
+                <Slider
+                  className="testimonials-slider text-center"
+                  {...slider_settings}>
+                  {TESTIMONIALS.map(testimonial => {
+                    return (
+                      <div className="testimonial">
+                        <div className="body">
+                          <div>
+                            <i className="fa fa-quote-left pull-left" />
                         <span
                           dangerouslySetInnerHTML={{
                             __html: testimonial.message,
                           }}
                         />
-                        <i className="fa fa-quote-right pull-right" />
+                            <i className="fa fa-quote-right pull-right" />
+                          </div>
+                        </div>
+                        <div
+                          className="image"
+                          style={{backgroundImage: `url(${testimonial.image})`}}
+                        />
+                        <div className="author">
+                          {testimonial.name}
+                        </div>
+                        <div className="company">
+                          {testimonial.company}
+                        </div>
                       </div>
-                    </div>
-                    <div
-                      className="image"
-                      style={{backgroundImage: `url(${testimonial.image})`}}
-                    />
-                    <div className="author">
-                      {testimonial.name}
-                    </div>
-                    <div className="company">
-                      {testimonial.company}
-                    </div>
-                  </div>
-                );
-              })}
-            </Slider>
-            <div className="text-center" style={{marginTop: '40px'}}>
-              <button
-                className="btn btn-callout"
-                onClick={this.onScheduleCall.bind(this)}>
-                Schedule call
-              </button>
-            </div>
-          </div>
-        </section>
-        <section id="what-we-can-do">
-          <div className="container">
-            <Reveal effect="animated fadeIn">
-              <div>
+                    );
+                  })}
+                </Slider>
+              </div>
+            </section>
+            <section id="what-we-can-do">
+              <div className="container">
                 <div className="section-heading text-center">
-                  What we can do
+                  Our network expertise
                 </div>
-                <div className="row">
-                  <div className="col-sm-4" id="building-websites">
-                    <Reveal effect="animated rollIn">
-                      <i className="icon tunga-icon-do-web" />
-                    </Reveal>
-                    <p>
-                      Full stack capacity for web<br />
-                      API development<br />
-                      All popular JS frameworks capacity<br />
-                      Backend development
-                    </p>
-                  </div>
-                  <div className="col-sm-4" id="solving-issues">
-                    <Reveal effect="animated rollIn">
-                      <i className="icon tunga-icon-do-workflow" />
-                    </Reveal>
-                    <p>
-                      Integrations with your current workflow<br />
-                      Slack, Trello, Github, Drive etc.<br />
-                      Or set up a custom workflow on Tunga<br />
-                      <Link to="/start">
-                        Find out how this will work for you
-                      </Link>
-                    </p>
-                  </div>
-                  <div className="col-sm-4" id="full-stack">
-                    <Reveal effect="animated rollIn">
-                      <i className="icon tunga-icon-do-pm" />
-                    </Reveal>
-                    <p>
-                      Excellent Project manager available<br />
-                      Daily updates from developers<br />
-                      Full overview of the progress<br />
-                      <Link to="/start/">Start a project now</Link>
-                    </p>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-sm-offset-1 col-sm-5" id="mobile-app">
-                    <Reveal effect="animated rollIn">
-                      <i className="icon tunga-icon-do-app" />
-                    </Reveal>
-                    <p>
-                      Excellent native app development<br />
-                      Specialized iOS and Android teams<br />
-                      App maintenance and improvements<br />
-                      From idea to application
-                    </p>
-                  </div>
-                  <div className="col-sm-5" id="html-slicing">
-                    <Reveal effect="animated rollIn">
-                      <i className="icon tunga-icon-do-slice" />
-                    </Reveal>
-                    <p>
-                      Slicing experts on demand<br />
-                      From PSD, Sketch or AI to webpage<br />
-                      All popular CMS<br />
-                      Ready within days
-                    </p>
-                  </div>
+                <div>
+                  <ul className="row">
+                    {NETWORK_EXPERTISE.map((step, idx) => {
+                      return (
+                        <div key={idx} className="col-sm-3">
+                          <div
+                            className={`${this.state.step == idx
+                          ? 'active'
+                          : ''} animated fadeInRight`}
+                            style={{animationDelay: `${idx}s`}}>
+                            <div className="icon">
+                              <i className={step.icon} />
+                            </div>
+                            {step.content}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </ul>
                 </div>
               </div>
-            </Reveal>
+            </section>
+            <section id="platform-stats">
+              <div className="container">
+                <div className="col-sm-4">
+                  <div
+                    id="stats-devs"
+                    className="highlight figure stat"
+                    data-number="154">
+                    154
+                  </div>
+                  <span className="desc">developers and project managers</span>
+                </div>
+                <div className="col-sm-4">
+                  <div
+                    id="stats-skills"
+                    className="highlight figure stat"
+                    data-number="89">
+                    89
+                  </div>
+              <span className="desc">
+                different development skills available
+              </span>
+                </div>
+                <div className="col-sm-4">
+                  <div className="highlight figure">
+                <span id="stats-code" className="stat" data-number="70">
+                  70
+                </span>
+                    <span>k+</span>
+                  </div>
+                  <span className="desc">lines of code written</span>
+                </div>
+              </div>
+            </section>
           </div>
-        </section>
+        )}
         <section id="video-overlay" className={this.state.play ? 'on' : ''}>
-          <div className={`modal-backdrop fade in`} />
+          <div className="modal-backdrop fade in" />
           <div className="video-close">
             <button
               className="btn btn-borderless"
@@ -530,8 +570,8 @@ export default class LandingPage extends ComponentWithModal {
           </div>
           <div className="container">
             <YouTube
-              videoId="FQHxc5VNs7A"
-              opts={{height: '80%', width: '100%'}}
+              videoId="RVVtyapBmuo"
+              opts={this.state.youtubeOpts}
               onReady={this.onVideoReady.bind(this)}
               onPause={this.onPauseVideo.bind(this)}
             />

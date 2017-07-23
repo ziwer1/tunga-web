@@ -70,21 +70,26 @@ export default class PaymentList extends GenericListContainer {
   }
 
   onSelectTask(task, e) {
-    let targetState = this.isDistributionMode()?this.state.toDistribute:this.state.toPay;
+    let targetState = this.isDistributionMode()
+      ? this.state.toDistribute
+      : this.state.toPay;
     let tasks = [...targetState];
-    if(e.target.checked) {
+    if (e.target.checked) {
       tasks = [...targetState, task];
     } else {
-      _.remove(tasks, (content) => {return task.id == content.id});
+      _.remove(tasks, content => {
+        return task.id == content.id;
+      });
     }
-    let new_state = {}, stateKey = this.isDistributionMode()?'toDistribute':'toPay';
+    let new_state = {},
+      stateKey = this.isDistributionMode() ? 'toDistribute' : 'toPay';
     new_state[stateKey] = tasks;
     this.setState(new_state);
   }
 
   totalPayAmount() {
     return _.reduce(
-      this.isDistributionMode()?this.state.toDistribute:this.state.toPay,
+      this.isDistributionMode() ? this.state.toDistribute : this.state.toPay,
       function(sum, task) {
         return sum + parseFloat(task.pay);
       },
@@ -95,12 +100,13 @@ export default class PaymentList extends GenericListContainer {
   onPay() {
     const {Task, TaskActions} = this.props;
     let task_info = {
-      amount: this.totalPayAmount(),
-      distribute_only: this.isDistributionMode()
-    }, tasks = this.state.toPay.map(task => {
-      return task.id;
-    });
-    if(this.isDistributionMode()) {
+        amount: this.totalPayAmount(),
+        distribute_only: this.isDistributionMode(),
+      },
+      tasks = this.state.toPay.map(task => {
+        return task.id;
+      });
+    if (this.isDistributionMode()) {
       task_info.distribute_tasks = tasks;
     } else {
       task_info.tasks = tasks;
@@ -139,13 +145,13 @@ export default class PaymentList extends GenericListContainer {
               Paid
             </Link>
           </li>
-          {isAdmin()?(
-            <li role="presentation">
-              <Link to="/payments/filter/distribute" activeClassName="active">
-                Distribute
-              </Link>
-            </li>
-          ):null}
+          {isAdmin()
+            ? <li role="presentation">
+                <Link to="/payments/filter/distribute" activeClassName="active">
+                  Distribute
+                </Link>
+              </li>
+            : null}
         </ul>
 
         {totalPay
@@ -153,7 +159,7 @@ export default class PaymentList extends GenericListContainer {
               <button
                 className="btn pull-right"
                 onClick={this.onPay.bind(this)}>
-                {this.isDistributionMode()?'Distribute':'Pay'} €{totalPay}
+                {this.isDistributionMode() ? 'Distribute' : 'Pay'} €{totalPay}
               </button>
             </div>
           : null}
@@ -251,26 +257,25 @@ export default class PaymentList extends GenericListContainer {
                                     </a>
                                     <br />
                                     {isDeveloper() || isAdmin()
-                                      ? (
-                                      <div>
-                                        <a
-                                          href={`${ENDPOINT_TASK}${task.id}/download/invoice/?format=pdf&type=developer`}
-                                          target="_blank">
-                                          <span>
-                                            <i className="fa fa-download" />{' '}
-                                            Developer Invoice(s)
-                                          </span>
-                                        </a><br/>
-                                        <a
-                                          href={`${ENDPOINT_TASK}${task.id}/download/invoice/?format=pdf&type=tunga`}
-                                          target="_blank">
-                                          <span>
-                                            <i className="fa fa-download" />{' '}
-                                            Tunga Invoice(s)
-                                          </span>
-                                        </a>
-                                      </div>
-                                    )
+                                      ? <div>
+                                          <a
+                                            href={`${ENDPOINT_TASK}${task.id}/download/invoice/?format=pdf&type=developer`}
+                                            target="_blank">
+                                            <span>
+                                              <i className="fa fa-download" />{' '}
+                                              Developer Invoice(s)
+                                            </span>
+                                          </a>
+                                          <br />
+                                          <a
+                                            href={`${ENDPOINT_TASK}${task.id}/download/invoice/?format=pdf&type=tunga`}
+                                            target="_blank">
+                                            <span>
+                                              <i className="fa fa-download" />{' '}
+                                              Tunga Invoice(s)
+                                            </span>
+                                          </a>
+                                        </div>
                                       : null}
                                   </div>
                                 : <div>
@@ -289,7 +294,8 @@ export default class PaymentList extends GenericListContainer {
                             </td>
                             <td>
                               {(task.payment_status == 'Pending' &&
-                              (isProjectOwner() || isAdmin()) || (isAdmin() && this.isDistributionMode()))
+                                (isProjectOwner() || isAdmin())) ||
+                              (isAdmin() && this.isDistributionMode())
                                 ? <input
                                     type="checkbox"
                                     className="tasks_to_pay"
@@ -324,7 +330,7 @@ export default class PaymentList extends GenericListContainer {
               <button
                 className="btn pull-right"
                 onClick={this.onPay.bind(this)}>
-                {this.isDistributionMode()?'Distribute':'Pay'} €{totalPay}
+                {this.isDistributionMode() ? 'Distribute' : 'Pay'} €{totalPay}
               </button>
             </div>
           : null}

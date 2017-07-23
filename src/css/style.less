@@ -3149,12 +3149,17 @@ form[name='compose'] {
             .font-size(9.0);
             color: @primary;
             padding: 10px 0;
-            height: 120px;
 
             img {
               vertical-align: top;
               width: 90px;
               height: 90px;
+            }
+
+            .number {
+              color: @inactive-grey;
+              font-weight: 400;
+              .font-size(12);
             }
           }
         }
@@ -3163,6 +3168,16 @@ form[name='compose'] {
   }
 
   .step-slider {
+    &.two,
+    &.two-xs {
+      ul {
+        li {
+          float: left;
+          width: 50%;
+        }
+      }
+    }
+
     &.three,
     &.three-xs {
       ul {
@@ -3209,6 +3224,8 @@ form[name='compose'] {
   }
 
   #latest-from-blog {
+    text-align: center;
+
     li {
       padding: 2px 0;
       max-height: 40px;
@@ -3297,9 +3314,9 @@ form[name='compose'] {
 
 .showcase.landing-page {
   header {
-    background-color: #777;
+    background-color: #555;
     background-image: url('../images/showcase/welcome.jpg');
-    min-height: 100%;
+    min-height: 72%;
 
     display: flex;
     flex-direction: column;
@@ -3360,6 +3377,7 @@ form[name='compose'] {
     }
 
     .arrow-overlay {
+      display: none;
       position: absolute;
       top: 0;
       left: 0;
@@ -3437,12 +3455,12 @@ form[name='compose'] {
 
     ul {
       li {
-        a {
+        > * {
           padding: 0 10px;
 
           .icon {
-            .font-size(6);
-            height: 90px;
+            .font-size(8.5);
+            height: 160px;
           }
         }
       }
@@ -3455,20 +3473,37 @@ form[name='compose'] {
     }
 
     .animated {
-      animation-delay: 0;
+      animation-delay: 0s;
       animation-duration: 1.5s;
     }
+  }
+
+  .video-trigger {
+    display: block;
+    max-width: 100%;
+    margin: 0 auto;
+    max-height: 300px;
+    cursor: pointer;
   }
 
   #platform-info {
     min-height: 365px;
     display: flex;
     align-items: center;
-    background-color: @inactive-grey;
+    background-color: @active-white;
+
+    .container {
+      padding: 70px 0 0 0;
+    }
 
     .workflow {
       width: 90%;
       margin: 0 auto;
+      .font-size(1.6);
+
+      .section-heading {
+        margin-bottom: 30px;
+      }
 
       .step {
         .font-size(1.4);
@@ -3491,15 +3526,46 @@ form[name='compose'] {
     }
   }
 
+  #platform-stats {
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    background: @inactive-grey url("../images/showcase/stats.jpg");
+    .font-size(1.8);
+    color: @active-white;
+
+    .figure {
+      .font-size(9.0);
+      color: @primary;
+      font-weight: bold;
+      margin-bottom: 2px;
+      line-height: .9;
+    }
+  }
+
+  #how-we-verify {
+    background: url("../images/showcase/verification.jpg");
+    height: 300px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    a {
+      color: @active-white;
+      font-weight: 400;
+      .font-size(2.7);
+      border-radius: 10px;
+      border: 2px solid @active-white;
+      text-decoration: none;
+      padding: 24px 36px;
+    }
+  }
+
   #press {
     display: flex;
     align-items: center;
-    min-height: 25%;
     background-color: @inactive-grey;
-
-    .container {
-      padding-top: 0;
-    }
 
     .press-links {
       list-style-type: none;
@@ -3545,15 +3611,16 @@ form[name='compose'] {
 
     .testimonials-slider {
       .testimonial {
-        .font-size(1.4);
+        .font-size(1.2);
+        padding: 20px 15px 0;
 
         .body {
           position: relative;
           color: @primary-text;
-          .font-size(1.4);
+          .font-size(1.2);
           font-weight: 300;
-          padding: 15px 15px;
-          height: 140px;
+          padding: 10px 10px;
+          height: 110px;
           background: @inactive-grey;
           margin: 4px;
           border-radius: 5px;
@@ -3579,8 +3646,8 @@ form[name='compose'] {
 
         .image {
           position: relative;
-          width: 100px;
-          height: 100px;
+          width: 80px;
+          height: 80px;
           margin: 20px auto 10px;
           overflow: hidden;
           border-radius: 50%;
@@ -3594,6 +3661,22 @@ form[name='compose'] {
 
         .company {
           font-weight: 100;
+        }
+
+        &.slick-center {
+          .font-size(1.4);
+          padding-top: 0;
+
+          .body {
+            .font-size(1.4);
+            padding: 15px 15px;
+            height: 140px;
+          }
+
+          .image {
+            width: 100px;
+            height: 100px;
+          }
         }
       }
 
@@ -3701,27 +3784,8 @@ form[name='compose'] {
     .icon {
       display: inline-block;
       .font-size(5.5);
-      color: @blue;
+      color: @primary;
       margin: 10px 0;
-    }
-
-    #building-websites span {
-      background-image: url("../images/icons/build-websites.png");
-    }
-    #solving-issues span {
-      background-image: url("../images/icons/solving-issues.png");
-    }
-    #full-stack span {
-      background-image: url("../images/icons/full-stack.png");
-    }
-    #mobile-app span {
-      background-image: url("../images/icons/mobile-app.png");
-    }
-    #html-slicing span {
-      background-image: url("../images/icons/slicing.png");
-    }
-    #php span {
-      background-image: url("../images/icons/build-websites.png");
     }
   }
 
@@ -3997,7 +4061,7 @@ form[name='compose'] {
   &.lander {
     header {
       text-shadow: none;
-      min-height: 100%;
+      min-height: 72%;
       background-image: url('../images/showcase/welcome.jpg');
       padding-bottom: 60px;
     }
@@ -4138,25 +4202,6 @@ form[name='compose'] {
         height: 75px;
         background-size: contain;
         background-repeat: no-repeat;
-      }
-
-      #building-websites span {
-        background-image: url("../images/icons/build-websites.png");
-      }
-      #solving-issues span {
-        background-image: url("../images/icons/solving-issues.png");
-      }
-      #full-stack span {
-        background-image: url("../images/icons/full-stack.png");
-      }
-      #mobile-app span {
-        background-image: url("../images/icons/mobile-app.png");
-      }
-      #html-slicing span {
-        background-image: url("../images/icons/slicing.png");
-      }
-      #php span {
-        background-image: url("../images/icons/build-websites.png");
       }
     }
 

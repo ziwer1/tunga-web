@@ -188,7 +188,7 @@ export default class User extends React.Component {
                       {user.profile.website
                         ? <div className="media">
                             <div className="media-left">
-                              <i className="fa fa-globe fa-2x" />
+                              <i className="tunga-icon-web-alt fa-2x" />
                             </div>
                             <div className="media-body">
                               <div className="card">

@@ -1045,7 +1045,7 @@ export default class TaskWorflow extends ComponentWithModal {
                   {task.url
                     ? <div>
                         <strong>
-                          <i className="fa fa-globe" /> Code Location
+                          <i className="tunga-icon-web-alt" /> Code Location
                         </strong>
                         <p>
                           <a href={task.url} target="_blank">
