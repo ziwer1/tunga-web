@@ -28,8 +28,10 @@ history.listen(location => {
 
   console.log('Page View sent', full_path);
 
-  window.optimizely = window.optimizely || [];
-  window.optimizely.push({type: 'activate'});
+  if(window.optimizely) {
+    window.optimizely = window.optimizely || [];
+    window.optimizely.push({type: 'activate'});
+  }
 });
 
 if (__PRODUCTION__) {
