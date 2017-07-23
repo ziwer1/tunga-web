@@ -17,9 +17,13 @@ history.listen(location => {
   var full_path = location.pathname + location.search;
 
   if (__PRODUCTION__) {
-    window.ga('set', 'page', full_path);
-    window.ga('send', 'pageview');
-    window.twq('track', 'PageView');
+    if(window.ga) {
+      window.ga('set', 'page', full_path);
+      window.ga('send', 'pageview');
+    }
+    if(window.twq) {
+      window.twq('track', 'PageView');
+    }
   }
 
   console.log('Page View sent', full_path);
