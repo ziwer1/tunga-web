@@ -1,6 +1,7 @@
 import React from 'react';
 
 import ShowcaseContainer from '../containers/ShowcaseContainer';
+import ShowCaseFooter from '../containers/ShowCaseFooter';
 import MetaTags from '../components/MetaTags';
 
 const STEP_DETAILS = [
@@ -74,6 +75,7 @@ export default class QualityPage extends React.Component {
             </div>
           </div>
         </section>
+        <ShowCaseFooter/>
       </ShowcaseContainer>
     );
   }

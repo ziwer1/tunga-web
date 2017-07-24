@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 
 import * as UtilityActions from '../actions/UtilityActions';
 import ShowcaseContainer from '../containers/ShowcaseContainer';
+import ShowCaseFooter from '../containers/ShowCaseFooter';
 
 import ComponentWithModal from '../components/ComponentWithModal';
 import MetaTags from '../components/MetaTags';
@@ -207,6 +208,7 @@ class PricingPage extends ComponentWithModal {
             </div>
           </div>
         </section>
+        <ShowCaseFooter/>
       </ShowcaseContainer>
     );
   }

@@ -5,6 +5,7 @@ import YouTube from 'react-youtube';
 
 import ShowcaseContainer from '../containers/ShowcaseContainer';
 import MetaTags from '../components/MetaTags';
+import ShowCaseFooter from '../containers/ShowCaseFooter';
 
 import {
   sendGAEvent,
@@ -303,6 +304,7 @@ export default class StoryPage extends React.Component {
             </div>
           </section>
         </div>
+        <ShowCaseFooter/>
       </ShowcaseContainer>
     );
   }
