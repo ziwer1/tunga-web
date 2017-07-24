@@ -102,6 +102,7 @@ export const ENDPOINT_MEDIUM = getEndpointUrl('medium/');
 export const ENDPOINT_MULTI_TASK_PAYMENT = getEndpointUrl(
   'multi-task-payment/',
 );
+export const ENDPOINT_SKILL_PAGE = getEndpointUrl('skill-page/');
 
 export const USER_TYPE_DEVELOPER = 1;
 export const USER_TYPE_PROJECT_OWNER = 2;

@@ -1,6 +1,5 @@
 import {combineReducers} from 'redux';
 import * as MultiTaskPaymentActions from '../actions/MultiTaskPaymentActions';
-import * as ApplicationActions from '../actions/ApplicationActions';
 import {PATH_CHANGE} from '../actions/NavActions';
 import {LOGOUT_SUCCESS} from '../actions/AuthActions';
 import {CLEAR_VALIDATIONS} from '../actions/UtilityActions';
@@ -17,11 +16,6 @@ function multi_task_payment(state = {}, action) {
     case MultiTaskPaymentActions.RETRIEVE_MULTI_TASK_PAYMENT_START:
     case MultiTaskPaymentActions.RETRIEVE_MULTI_TASK_PAYMENT_FAILED:
       return {};
-    case ApplicationActions.CREATE_APPLICATION_SUCCESS:
-      if (state.id == action.application.multi_task_payment) {
-        return {...state, can_apply: false};
-      }
-      return state;
     default:
       return state;
   }
@@ -44,15 +38,6 @@ function multi_task_payments(state = {}, action) {
       new_multi_task_payment[action.multi_task_payment.id] =
         action.multi_task_payment;
       return {...state, ...new_multi_task_payment};
-    case ApplicationActions.CREATE_APPLICATION_SUCCESS:
-      var multi_task_payment = state[action.application.multi_task_payment];
-      if (multi_task_payment) {
-        multi_task_payment.can_apply = false;
-        var new_ref = {};
-        new_ref[multi_task_payment.id] = multi_task_payment;
-        return {...state, ...new_ref};
-      }
-      return state;
     default:
       return state;
   }

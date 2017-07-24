@@ -17,18 +17,18 @@ history.listen(location => {
   var full_path = location.pathname + location.search;
 
   if (__PRODUCTION__) {
-    if(window.ga) {
+    if (window.ga) {
       window.ga('set', 'page', full_path);
       window.ga('send', 'pageview');
     }
-    if(window.twq) {
+    if (window.twq) {
       window.twq('track', 'PageView');
     }
   }
 
   console.log('Page View sent', full_path);
 
-  if(window.optimizely) {
+  if (window.optimizely) {
     window.optimizely = window.optimizely || [];
     window.optimizely.push({type: 'activate'});
   }
@@ -119,6 +119,11 @@ ReactDOM.render(
     <Router history={history}>
       <Route path="/" component={App}>
         <IndexRoute component={LandingPage} unauthedOnly={true} />
+        <Route
+          path="skill/:skill"
+          component={LandingPage}
+          unauthedOnly={true}
+        />
         <Route unauthedOnly={true}>
           {/* No Auth Pages */}
           <Route path="welcome">
