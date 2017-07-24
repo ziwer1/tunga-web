@@ -304,7 +304,7 @@ export default class StoryPage extends React.Component {
             </div>
           </section>
         </div>
-        <ShowCaseFooter/>
+        <ShowCaseFooter />
       </ShowcaseContainer>
     );
   }

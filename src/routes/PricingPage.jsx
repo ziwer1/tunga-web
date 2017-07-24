@@ -208,7 +208,7 @@ class PricingPage extends ComponentWithModal {
             </div>
           </div>
         </section>
-        <ShowCaseFooter/>
+        <ShowCaseFooter />
       </ShowcaseContainer>
     );
   }

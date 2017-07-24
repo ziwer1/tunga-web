@@ -75,7 +75,7 @@ export default class QualityPage extends React.Component {
             </div>
           </div>
         </section>
-        <ShowCaseFooter/>
+        <ShowCaseFooter />
       </ShowcaseContainer>
     );
   }

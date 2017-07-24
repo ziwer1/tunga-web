@@ -398,9 +398,11 @@ class LandingPage extends ComponentWithModal {
                 <div className="section-heading">
                   {skill_page.pitch_header}
                 </div>
-                <div dangerouslySetInnerHTML={{
-                                  __html: nl_to_br(skill_page.pitch_body),
-                                }}/>
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: nl_to_br(skill_page.pitch_body),
+                  }}
+                />
               </div>
             </section>
           : <div>
@@ -580,7 +582,15 @@ class LandingPage extends ComponentWithModal {
                     }}
                   />
                 </div>
-                <div id="story-interlude-one" style={skill_page.story_interlude_one_image?{backgroundImage: `url(${skill_page.story_interlude_one_image})`}:{}}>
+                <div
+                  id="story-interlude-one"
+                  style={
+                    skill_page.story_interlude_one_image
+                      ? {
+                          backgroundImage: `url(${skill_page.story_interlude_one_image})`,
+                        }
+                      : {}
+                  }>
                   <div className="container">
                     <div
                       dangerouslySetInnerHTML={{
@@ -600,7 +610,15 @@ class LandingPage extends ComponentWithModal {
                   />
                 </div>
 
-                <div id="story-interlude-two" style={skill_page.story_interlude_two_image?{backgroundImage: `url(${skill_page.story_interlude_two_image})`}:{}}>
+                <div
+                  id="story-interlude-two"
+                  style={
+                    skill_page.story_interlude_two_image
+                      ? {
+                          backgroundImage: `url(${skill_page.story_interlude_two_image})`,
+                        }
+                      : {}
+                  }>
                   <div className="container">
                     <div
                       dangerouslySetInnerHTML={{
