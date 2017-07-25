@@ -1,67 +1,68 @@
 @import "dimens";
 
 .font-size(@sizeValue) {
-    @remValue: @sizeValue;
-    @pxValue: (@sizeValue * 10);
-    font-size: ~"@{pxValue}px";
-    font-size: ~"@{remValue}rem";
+  @remValue: @sizeValue;
+  @pxValue: (@sizeValue * 10);
+  font-size: ~"@{pxValue}px";
+  font-size: ~"@{remValue}rem";
 }
 
 .body-1 {
-    .font-size(1.2);
+  .font-size(1.2);
 }
 
 .body-2 {
-    .font-size(1.4);
+  .font-size(1.4);
 }
 
 .body-3 {
-    .font-size(1.6);
+  .font-size(1.6);
 }
 
 .body-4 {
-    .font-size(1.8);
+  .font-size(1.8);
 }
 
 .heading-1 {
-    .font-size(2.0);
+  .font-size(2.0);
 }
 
 .heading-2 {
-    .font-size(2.4);
+  .font-size(2.4);
 }
 
 .heading-3 {
-    .font-size(2.8);
-    margin-bottom: 10px;
+  .font-size(2.8);
+  margin-bottom: 10px;
 }
 
 .heading-4 {
-    .font-size(3.2);
+  .font-size(3.2);
 }
 
 .heading-5 {
-    .font-size(3.6);
+  .font-size(3.6);
 }
 
 .text-light {
-    font-weight: 100;
+  font-weight: 100;
 }
 
 .text-lighter {
-    font-weight: 200;
+  font-weight: 200;
 }
 
 .text-bold {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .section-heading {
-    .font-size(2.8);
-    margin-bottom: 10px;
+  font-weight: 600;
+  .font-size(2.8);
+  margin-bottom: 10px;
 }
 
 .subheading-1 {
-    .font-size(1.8);
-    font-weight: 100;
+  .font-size(1.8);
+  font-weight: 100;
 }
