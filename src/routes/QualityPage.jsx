@@ -54,7 +54,7 @@ export default class QualityPage extends React.Component {
         <MetaTags title={meta_title} description={meta_description} />
 
         <section id="how-we-select">
-          <div className="container-fluid" >   
+          <div className="container-fluid-header" >   
             <div className="row"  id="step1">
                 <div className="col-md-10" ><br /><br />
                   <h3 id="step_title">Tunga isn't just a network of developers, Tunga is a community<br/>
@@ -243,8 +243,7 @@ export default class QualityPage extends React.Component {
             </div>
             <p className="text-center">
                 <Link to="/start/" className="btn btn-callout btn-main-cta">
-                  <i className="tunga-icon-rocket fa-lg" /> Start your project
-                  now
+                  <i className="tunga-icon-rocket fa-lg" /> Get me started!
                 </Link>
               </p>
         </div>
