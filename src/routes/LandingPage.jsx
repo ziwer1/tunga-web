@@ -799,7 +799,7 @@ class LandingPage extends ComponentWithModal {
               <span id="free_quote_text"> Free quotes.Vetted Quality.Impact Sourcing.Daily progress report</span>
               
               <div>
-                <Link to="/start/" className="btn btn-callout btn-main-cta">
+                <Link to="/start/" className="btn btn-callout btn-main-cta-overlay">
                   <i className="tunga-icon-rocket" />{' '}
                       Start your project
                 </Link>
