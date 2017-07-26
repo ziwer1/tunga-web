@@ -555,7 +555,7 @@ class LandingPage extends ComponentWithModal {
                                 />
                                 <div>
                                   <Link to="/start" className="btn btn-block">
-                                    Go to {profile.user.first_name}'s profile
+                                    Start working with {profile.user.first_name}
                                   </Link>
                                 </div>
                               </div>

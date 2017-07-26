@@ -113,12 +113,12 @@ export default class TaskPay extends React.Component {
       amount: parseInt(this.getActualPayAmount() * 100),
       description: multi_task_payment ? 'Bulk Payment' : task.summary,
       task_id: task.id,
-      invoice_id: invoice.id,
+      invoice_id: invoice?invoice.id:null,
       multi_task_key: multi_task_payment ? multi_task_payment.id : null,
       currency: 'EUR',
     };
     if (multi_task_payment) {
-      MultiTaskPaymentActions.makePayment(task.id, 'stripe', stripe_options);
+      MultiTaskPaymentActions.makePayment(multi_task_payment.id, 'stripe', stripe_options);
     } else {
       TaskActions.makeTaskPayment(task.id, 'stripe', stripe_options);
     }
