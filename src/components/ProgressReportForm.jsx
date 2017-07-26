@@ -8,6 +8,7 @@ import _ from 'lodash';
 import FormStatus from './status/FormStatus';
 import FieldError from './status/FieldError';
 import FormComponent from './FormComponent';
+import confirm from '../utils/confirm';
 
 import {
   PROGRESS_REPORT_STATUS_CHOICES,
@@ -54,6 +55,25 @@ export default class ProgressReportForm extends FormComponent {
     const progress_report = this.props.progress_report || {};
     if (progress_report.id) {
       this.setState({...progress_report});
+    }
+
+    if(isDeveloper()) {
+      confirm(
+        <div>
+          <p>Hi {getUser().first_name},</p>
+          <p>
+            Please take into account that some of these answers might be shared directly with clients.
+          </p>
+          <p>
+            Therefore, please always consider if your answers are business/client appropriate.
+          </p>
+          <p>
+            Thank you for filling in the survey!
+          </p>
+        </div>
+        , false, {hideCancel: true}).then(function() {
+        // Nothing to do for now
+      });
     }
   }
 
