@@ -70,7 +70,7 @@ export default class RateDevelopers extends React.Component {
           <div className="card">
             It would help the Tunga community a great deal if you could rate our
             developers. You can rate a developer on three scales. Please take 5
-            seconds of your to rate our Developers. Thank you in advance
+            seconds of your time to rate our Developers. Thank you!
           </div>
           {RATING_CRITERIA_CHOICES.map(criteria => {
             return (
