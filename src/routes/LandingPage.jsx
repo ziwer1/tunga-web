@@ -319,7 +319,7 @@ class LandingPage extends ComponentWithModal {
 
     return (
       <div>
-        <div className="head-desc">
+        <div className={`head-desc ${isSkillPage && this.getDLPTag().length > 7?'smaller':''}`}>
           <h1>
             {isSkillPage && skill_page.welcome_header?(
               <span dangerouslySetInnerHTML={{__html: nl_to_br(skill_page.welcome_header)}}/>
