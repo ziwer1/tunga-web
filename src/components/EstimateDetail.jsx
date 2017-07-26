@@ -180,6 +180,32 @@ export default class EstimateDetail extends React.Component {
           </div>
         </div>
 
+        <div className="disclaimer">
+          <strong>Disclaimer</strong>
+          <p>This estimate does not include payment fees</p>
+          <p>
+            Tunga has the following 4 payment options:
+          </p>
+
+          <p>
+            <ol>
+              <li>Payment by card (via Stripe) - 2.9% + €0.25 payment fees</li>
+              <li>Payment through iDeal (for the Netherlands and Belgium) - 3% payment fees</li>
+              <li>Pay with BitCoins - no payment fees</li>
+              <li>Payment by bank transfer - 5% payment fees</li>
+            </ol>
+          </p>
+
+          <p>
+            The first 3 options are self service. For these 3 options, you pay directly from the platform.
+          </p>
+
+          <p>
+            The 4<sup>th</sup> option is manual: you will receive an invoice by email and/or on your Tunga account on the platform.<br/>
+            The term for payment is 2 weeks for invoicing.
+          </p>
+        </div>
+
         <div className="text-center clearfix">
           {canEditEstimate(task)
             ? <div>
@@ -223,7 +249,7 @@ export default class EstimateDetail extends React.Component {
                     <button
                       type="submit"
                       className="btn"
-                      isabled={Estimate.detail.isSaving}
+                      disabled={Estimate.detail.isSaving}
                       onClick={this.onChangeStatus.bind(this, STATUS_ACCEPTED)}>
                       Accept
                     </button>
