@@ -2,6 +2,8 @@ import React from 'react';
 import {Link} from 'react-router';
 import Rating from 'react-rating';
 
+import Avatar from './Avatar';
+
 import {RATING_CRITERIA_CHOICES} from '../constants/Api';
 import {getUser} from '../utils/auth';
 
@@ -22,8 +24,7 @@ export default class RateDevelopers extends React.Component {
   }
 
   mapUserRatings(props) {
-    const {Task} = props;
-    const {task} = Task.detail;
+    const {task} = props;
     if (task && task.ratings && task.ratings.length) {
       var ratings_map = {};
       task.ratings.forEach(rating => {
@@ -36,8 +37,8 @@ export default class RateDevelopers extends React.Component {
   }
 
   onRatingChange(criteria, rating) {
-    const {TaskActions, Task} = this.props;
-    TaskActions.updateTask(Task.detail.task.id, {
+    const {TaskActions, task} = this.props;
+    TaskActions.updateTask(task.id, {
       ratings: [{criteria, score: rating}],
     });
   }
@@ -49,8 +50,7 @@ export default class RateDevelopers extends React.Component {
   }
 
   render() {
-    const {Task} = this.props;
-    const {task} = Task.detail;
+    const {task} = this.props;
 
     return (
       <div className="form-wrapper">
@@ -61,16 +61,36 @@ export default class RateDevelopers extends React.Component {
           ref="rate_form">
           <h4 className="title">
             Rate Developer{task.details &&
-            task.details.participation &&
-            task.details.participation.length == 1
+            task.details.active_participants &&
+            task.details.active_participants.length == 1
               ? ''
               : 's'}
           </h4>
 
           <div className="card">
-            It would help the Tunga community a great deal if you could rate our
-            developers. You can rate a developer on three scales. Please take 5
-            seconds of your time to rate our Developers. Thank you!
+            Rating developers helps the Tunga developer community a great deal.
+            We would appreciate it if you could take a moment to rate our developer(s).<br/>
+            It only takes 10 seconds. Thank you!
+          </div>
+          <div className="clearfix">
+            {task.details &&
+            task.details.active_participants
+              ? <div>
+              <div><strong>You've worked with:</strong></div>
+              {task.details.active_participants.map(participation => {
+                const participant = participation.user;
+                return (
+                  <div className="pull-left" style={{marginRight: '10px'}}
+                    key={participant.id}>
+                    <Avatar src={participant.avatar_url} />
+                    <Link to={`/people/${participant.username}/`}>
+                      {participant.display_name}
+                    </Link>
+                  </div>
+                );
+              })}
+            </div>
+              : null}
           </div>
           {RATING_CRITERIA_CHOICES.map(criteria => {
             return (
