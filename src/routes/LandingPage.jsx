@@ -320,28 +320,27 @@ class LandingPage extends ComponentWithModal {
     return (
       <div>
         <div className="head-desc">
-          <h1
-            dangerouslySetInnerHTML={{
-              __html:
-                (isSkillPage && nl_to_br(skill_page.welcome_header)) ||
-                <span>
-                  Getting software projects done is hard.<br />
+          <h1>
+            {isSkillPage && skill_page.welcome_header?(
+              <span dangerouslySetInnerHTML={{__html: nl_to_br(skill_page.welcome_header)}}/>
+            ):(
+              <span>
+                Getting software projects done is hard.<br />
                   We make it easy.
-                </span>,
-            }}
-          />
-          <div
-            className="details"
-            dangerouslySetInnerHTML={{
-              __html:
-                (isSkillPage && nl_to_br(skill_page.welcome_sub_header)) ||
-                <span>
-                  Tunga enables you to have super-bright{' '}
-                  {this.getDLPDesc() || 'developers'} from Africa work on your
+              </span>
+            )}
+          </h1>
+          <div className="details">
+            {isSkillPage && skill_page.welcome_sub_header?(
+              <span dangerouslySetInnerHTML={{__html: nl_to_br(skill_page.welcome_sub_header)}}/>
+            ):(
+              <span>
+                Tunga enables you to have super-bright{' '}
+                {this.getDLPDesc() || 'developers'} from Africa work on your
                   software project in a productive, friendly and worthwhile way.
-                </span>,
-            }}
-          />
+              </span>
+            )}
+          </div>
           <div>
             <Link to="/start/" className="btn btn-callout btn-main-cta">
               <i className="tunga-icon-rocket" />{' '}
