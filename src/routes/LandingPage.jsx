@@ -795,15 +795,19 @@ class LandingPage extends ComponentWithModal {
             </button>
           </div>
           <div className="container">
-              <h2 id="hiring_text">Start hiring great developers?</h2>  
-              <span id="free_quote_text"> Free quotes.Vetted Quality.Impact Sourcing.Daily progress report</span>              
+              <div><h1>Start hiring great developers?</h1></div>  
+              <div><h4> Free quotes.Vetted Quality.Impact Sourcing.Daily progress report</h4></div>              
               <div>
-                <Link to="/start/" className="btn btn-callout btn-main-cta" id="cta">
+                <Link to="/start/" className="btn btn-callout btn-main-cta" id="cta-discuss">
                   <i className="tunga-icon-rocket" />
                       Discuss your project
                 </Link>
-              </div>            
-              <span id="interest_text">i'm not looking to hire experts today</span>
+              </div>
+              <div>                
+                <Link to="/" id="interest_text" onClick={this.onCloseOverlay.bind(this)}>
+                      <h5>l'm not looking to hire experts today</h5>
+                </Link>
+              </div>
           </div>
         </section>
 
