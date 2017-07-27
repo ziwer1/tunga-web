@@ -54,18 +54,18 @@ export default class QualityPage extends React.Component {
         <MetaTags title={meta_title} description={meta_description} />
 
  
-
+        <div className="content">
         <section>
           <div className="container">
-              <div className="section-header" id="tunga-isnot-just">
-                Tunga isn’t just a network of developers, Tunga is a community.<br/>
-                We thoroughly select the brightest developers from the African continent. Tunga<br/>
-                nourish and constantly improve our community of developers by providing them<br/>
+              <div className="section-heading text-center">
+                Tunga isn’t just a network of developers, Tunga is a community.
+                We thoroughly select the brightest developers from the African continent. Tunga
+                nourish and constantly improve our community of developers by providing them
                 with the tools and guidance they need to be even more successful.
               </div>
-            </div>
-        
+          </div>       
         </section>
+        </div>
 
         <section id="press">
           <div className="container ">
@@ -133,7 +133,7 @@ export default class QualityPage extends React.Component {
           </div>
         </section>
         
-        <section id="quality-pg">
+        {/*<section id="quality-pg">
           <div className="container-fluid" id="custom_container-fluid" >    
             <div className="row"  >
               <div className="col-md-12" id="title" >
@@ -196,7 +196,117 @@ export default class QualityPage extends React.Component {
       </p>    
     </div>
    </div>
-  </section>
+  </section>*/}
+      <div>
+        <h1>
+          How we select the best developers
+        </h1>
+      </div>
+
+  <section id="quality-guide">
+    
+    <div className="container-fluid" id="custom_container-fluid" >
+   
+    
+      <div className="row" id="step1">
+          <div className="col-md-3">
+            <img src={require('../images/icons/step1_img.png')} alt="step 1"   />
+            </div>
+          
+            <div className="col-md-8" id="step1_text"  >
+              <span id="Drop_cap">1</span>
+              
+              <div id="step_body" >       
+              <h3 id="step_title">Screening portolio </h3>
+                  
+                     The first thing that we do is screening the CV, references, recent projects of the applicant. If the experience of the developer meets our standard we invite them to a remote interview with one of our senior developers or project coordinators. During this interview, we assess their English proficiency level and communication skills. 
+            </div>
+             
+            </div>
+      </div>
+      
+ 
+    <div className="row"  >
+    <div className="col-md-10" id="dotted_curve_img" >
+    <img src={require('../images/icons/dot_curve1.png')} alt="" />
+    </div>
+    </div>
+   
+      <div className="row" id="step2">
+      
+            <div className="col-md-8" id="step1_text"  >
+              <span id="Drop_cap">2</span>
+              
+              <div id="step_body" >       
+              <h3 id="step_title">Soft skills</h3>
+                  
+              When a developer has successfully passed the first stage of our program we assess our developers on several "soft skills". Such as communication skills, management of expectations, work ethics, stress management and time management. At Tunga, we believe that soft skills are as much or more important than software development skills. </div>
+             
+            </div>
+            
+            <div className="col-md-3">
+                    <img src={require('../images/icons/step2_img.png')} alt="step 1"   />
+            </div>
+            
+      </div>
+    
+    
+      <div className="row"  >
+        <div className="col-md-10" id="dotted_curve_img">
+        <img src={require('../images/icons/dot_curve2.png')} alt="" />
+        </div>
+      </div>
+    
+      <div className="row" id="step3">
+            <div className="col-md-3">
+              <img src={require('../images/icons/step3_img.png')} alt="step 1"   />
+              </div>
+             
+                <div className="col-md-8" id="step1_text"  >
+                  <span id="Drop_cap">3</span>
+                  
+                  <div id="step_body" >       
+                  <h3 id="step_title">Coding skills </h3>
+                      
+                    When the developer has passed our soft skills assessment we thoroughly test their coding skills. We do this in several ways: reviewing recent projects, online coding tests, and in depth Skype interviews. Only the brightest developers are selected to go to the next stage of our program.</div>
+                 
+                </div>
+        </div>
+        
+    
+      <div className="row"  >
+        <div className="col-md-10" id="dotted_curve_img" >
+        <img src={require('../images/icons/dot_curve1.png')} alt="" />
+        </div>
+      </div>
+      
+      <div className="row" id="step4">
+        
+            <div className="col-md-8" id="step1_text"  >
+              <span id="Drop_cap">4</span>
+              
+              <div id="step_body" >       
+              <h3 id="step_title">Guidance program</h3>
+                When a developer passed all our assessments he or she gets to work on the first project on Tunga. For the first couple of projects, the developers work under the guidance of a senior Tunga developer to ensure great collaboration between you and the developer(s) and that all our developer produce top notch products. 
+            </div>
+            
+            
+      </div>
+    
+      <div className="col-md-3">
+            <img src={require('../images/icons/step4_img.png')} alt="step 1"   />
+          </div>      
+       </div>  
+   <div className="row"  >
+    <button id="cta">
+     <i className="fa tunga-rocket" aria-hidden="true"></i>
+     Get me started!  
+     </button>
+     
+   </div>
+   
+   </div> 
+    </section>
 
       
         <ShowCaseFooter />
