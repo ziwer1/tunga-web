@@ -796,14 +796,13 @@ class LandingPage extends ComponentWithModal {
           </div>
           <div className="container">
               <h2 id="hiring_text">Start hiring great developers?</h2>  
-              <span id="free_quote_text"> Free quotes.Vetted Quality.Impact Sourcing.Daily progress report</span>
-              
+              <span id="free_quote_text"> Free quotes.Vetted Quality.Impact Sourcing.Daily progress report</span>              
               <div>
-                <Link to="/start/" className="btn btn-callout btn-main-cta-overlay">
-                  <i className="tunga-icon-rocket" />{' '}
-                      Start your project
+                <Link to="/start/" className="btn btn-callout btn-main-cta" id="cta">
+                  <i className="tunga-icon-rocket" />
+                      Discuss your project
                 </Link>
-              </div>     
+              </div>            
               <span id="interest_text">i'm not looking to hire experts today</span>
           </div>
         </section>

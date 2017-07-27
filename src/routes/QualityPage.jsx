@@ -53,21 +53,18 @@ export default class QualityPage extends React.Component {
         headerContent={this.renderHeaderContent()}>
         <MetaTags title={meta_title} description={meta_description} />
 
-        <section id="how-we-select">
-          <div className="container-fluid-header" >   
-            <div className="row"  id="step1">
-                <div className="col-md-10" ><br /><br />
-                  <h3 id="step_title">Tunga isn't just a network of developers, Tunga is a community<br/>
-            We thoroughly select the brightest developers from the African continent. Tunga <br/>
-            nourish and constantly improve our community of developers by providing them <br/>
-            with the tools and guidance they need to be even more successful.</h3>
-                  <br />
-                  <br />
-                  <br /> 	
-                </div>
-            </div> 
-            
-          </div>
+ 
+
+        <section>
+          <div className="container">
+              <div className="section-header" id="tunga-isnot-just">
+                Tunga isn’t just a network of developers, Tunga is a community.<br/>
+                We thoroughly select the brightest developers from the African continent. Tunga<br/>
+                nourish and constantly improve our community of developers by providing them<br/>
+                with the tools and guidance they need to be even more successful.
+              </div>
+            </div>
+        
         </section>
 
         <section id="press">
@@ -135,120 +132,73 @@ export default class QualityPage extends React.Component {
             </Reveal>
           </div>
         </section>
-
-        {/*<section>
-          <div className="container">
-            <div className="step-slider three-sm clearfix">
-              <ul>
-                {STEP_DETAILS.map((step, idx) => {
-                  return (
-                    <li key={idx}>
-                      <div
-                        className="slide animated slideInRight"
-                        style={{animationDelay: `${idx}s`}}>
-                        <div
-                          className="title"
-                          dangerouslySetInnerHTML={{__html: step.title}}
-                        />
-                        <div className="icon">
-                          {step.icon
-                            ? <i className={step.icon} />
-                            : <img src={step.image} />}
-                        </div>
-                        <div
-                          className="description"
-                          dangerouslySetInnerHTML={{__html: step.description}}
-                        />
-                      </div>
-                    </li>
-                  );
-                })}
-              </ul>
+        
+        <section id="quality-pg">
+          <div className="container-fluid" id="custom_container-fluid" >    
+            <div className="row"  >
+              <div className="col-md-12" id="title" >
+                How we select the best developers
+              </div>
             </div>
-          </div>
-        </section>*/}
-
-        <section id="how-we-select">
-          <div className="container-fluid" >   
-            <div className="row"  id="step1">
-                <div className="col-md-10" ><br /><br />
-                  <h3 id="step_title" >How we select the best developers </h3>
-                  <br />
-                  <br />
-                  <br /> 	
-                </div>
-            </div>    
+    
             <div className="row" id="step1">
-                <div className="col-md-3">
-                  <img src={require('../images/icons/step1_img.png')} alt="step 1"   />
-                </div>              
-                <div className="col-md-8" id="step1_text"  >
-                    <span id="Drop_cap">1</span>                  
-                    <div id="step_body" >				
-                      <h3 id="step_title">Screening portolio </h3>                        
-                          The first thing that we do is screening the CV, references, recent projects of the applicant. If the experience of the developer meets our standard we invite them to a remote interview with one of our senior developers or project coordinators. During this interview, we assess their English proficiency level and communication skills. 
-                    </div>                    
-                </div>
-            </div> 
-            <div className="row"  id="step1">
-              <div className="col-md-10" >
-                <img src={require('../images/icons/dot_curve1.png')} alt="" />
-              </div>
-            </div>   
-            <div className="row" id="step2">  
-              <div className="col-md-8" id="step1_text"  >
-                <span id="Drop_cap">2</span>        
-                <div id="step_body" >				
-                  <h3 id="step_title">Soft skills</h3>              
-                  When a developer has successfully passed the first stage of our program we assess our developers on several "soft skills". Such as communication skills, management of expectations, work ethics, stress management and time management. At Tunga, we believe that soft skills are as much or more important than software development skills. 
-                </div>    
-              </div>      
-              <div className="col-md-3">
-                  <img src={require('../images/icons/step2_img.png')} alt="step 1"   />
-              </div>
-            </div>    
-            <div className="row"  id="step2">
-              <div className="col-md-10" >
-                <img src={require('../images/icons/dot_curve2.png')} alt="" />
-              </div>
-            </div>    
-            <div className="row" id="step3">
-                <div className="col-md-3">
-                  <img src={require('../images/icons/step3_img.png')} alt="step 1"   />
-                </div>    
-                <div className="col-md-8" id="step1_text"  >
-                  <span id="Drop_cap">3</span>        
-                  <div id="step_body" >				
-                    <h3 id="step_title">Coding skills </h3>              
-                    When the developer has passed our soft skills assessment we thoroughly test their coding skills. We do this in several ways: reviewing recent projects, online coding tests, and in depth Skype interviews. Only the brightest developers are selected to go to the next stage of our program.
-                  </div>        
-                </div>
-            </div>    
-            <div className="row"  id="step3">
-              <div className="col-md-10" >
-                <img src={require('../images/icons/dot_curve1.png')} alt="" />
-              </div>
-            </div>    	
-            <div className="row" id="step4">
-              <div className="col-md-8" id="step1_text"  >
-                <span id="Drop_cap">4</span>
-                <div id="step_body" >				
-                  <h3 id="step_title">Guidance program</h3>
-                  When a developer passed all our assessments he or she gets to work on the first project on Tunga. For the first couple of projects, the developers work under the guidance of a senior Tunga developer to ensure great collaboration between you and the developer(s) and that all our developer produce top notch products. 
-                </div>
-              </div>   
-              <div className="col-md-3">
-                <img src={require('../images/icons/step4_img.png')} alt="step 1"   />
-              </div>			
+              <img id="step1_img" src={require('../images/icons/step1_img')}    />         
+              <div className="col-md-8" id="step1_col-md-8"   >
+                <span id="Drop_cap" >1</span>
+                <span id="step_title">Screening portolio  </span>                      
+              <div id="step_body">                 
+                     The first thing that we do is screening the CV, references, recent projects of the applicant. If the experience of the developer meets our standard we invite them to a remote interview with one of our senior developers or project coordinators. During this interview, we assess their English proficiency level and communication skills. 
+              </div>             
             </div>
-            <p className="text-center">
-                <Link to="/start/" className="btn btn-callout btn-main-cta">
-                  <i className="tunga-icon-rocket fa-lg" /> Get me started!
-                </Link>
-              </p>
-        </div>
-        </section>
+          </div> 
+          <div className="row" >
+            <img src={require('../images/icons/dot_curve1.png')}  id="dotted_curve_img"  alt="" />
+          </div>   
+          <div className="row" id="step2">      
+            <div className="col-md-8" id="step2_col-md-8"    >
+              <span id="Drop_cap2"  >2</span>
+              <span id="step_title2"> Soft skills</span>                
+              <div id="step_body2" >                 
+                When a developer has successfully passed the first stage of our program we assess our developers on several "soft skills". Such as communication skills, management of expectations, work ethics, stress management and time management. At Tunga, we believe that soft skills are as much or more important than software development skills. </div>
+            </div>            
+              <img src={require('../images/icons/step2_img.png')} id="img2-unique"   />          
+          </div>   
+          <div className="row" >
+            <img src={require('../images/icons/dot_curve2.png')}  alt="" name="dotted_curve_img2"  id="dotted_curve_img3" />
+          </div>    
+          <div className="row" id="step3">
+              <img src={require('../images/icons/step3_img.png')}  />              
+                <div className="col-md-8" id="step3_col-md-8"  >
+                  <span id="Drop_cap3">3</span>
+                  <span id="step_title3">Coding skills </span>                    
+                  <div id="step_body3" >                     
+                    When the developer has passed our soft skills assessment we thoroughly test their coding skills. We do this in several ways: reviewing recent projects, online coding tests, and in depth Skype interviews. Only the brightest developers are selected to go to the next stage of our program.</div>
+                  </div>
+                </div>   
+        <div className="row" >
+          <img src={require('../images/icons/dot_curve1.png')}  alt="" name="dotted_curve_img3"  id="dotted_curve_img3" />
+        </div>     
+        <div className="row" id="step4"  >          
+            <div className="col-md-8" id="step4_col-md-8" >
+              <span id="Drop_cap4"  >4</span>
+              <span id="step_title4" >Guidance program</span>                
+              <div id="step_body4" >                  
+                When a developer passed all our assessments he or she gets to work on the first project on Tunga. For the first couple of projects, the developers work under the guidance of a senior Tunga developer to ensure great collaboration between you and the developer(s) and that all our developer produce top notch products. 
+              </div>             
+          </div>      
+          <img src={require('../images/icons/step4_img.png')}   />       
+    </div>    
+    <div className="row">
+      <p className="text-center">
+        <Link to="/start/" className="btn btn-callout btn-main-cta">
+          <i className="tunga-icon-rocket fa-lg" /> Get me started!
+        </Link>
+      </p>    
+    </div>
+   </div>
+  </section>
 
+      
         <ShowCaseFooter />
       </ShowcaseContainer>
     );
