@@ -121,7 +121,7 @@ const NETWORK_EXPERTISE = [
   },
 ];
 
-class LandingPage extends ComponentWithModal {
+export class LandingPage extends ComponentWithModal {
   constructor(props) {
     super(props);
     this.state = {

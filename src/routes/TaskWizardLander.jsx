@@ -1,13 +1,14 @@
 import React from 'react';
+import {Link} from 'react-router';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 
-import TaskContainer from '../containers/TaskContainer';
-import TaskDetailContainer from '../containers/TaskDetailContainer';
-import TaskForm from '../components/TaskForm';
-import LandingPage from '../routes/LandingPage';
+import {LandingPage} from '../routes/LandingPage';
 
-import {getEditToken} from '../utils/tasks';
+import * as SkillPageActions from '../actions/SkillPageActions';
 
-export default class TaskWizardLander extends LandingPage {
+
+class TaskWizardLander extends LandingPage {
   constructor(props) {
     super(props);
     this.state = {
@@ -129,3 +130,15 @@ export default class TaskWizardLander extends LandingPage {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {Auth: state.Auth, SkillPage: state.SkillPage};
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    SkillPageActions: bindActionCreators(SkillPageActions, dispatch),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TaskWizardLander);
