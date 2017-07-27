@@ -69,27 +69,31 @@ export default class RateDevelopers extends React.Component {
 
           <div className="card">
             Rating developers helps the Tunga developer community a great deal.
-            We would appreciate it if you could take a moment to rate our developer(s).<br/>
+            We would appreciate it if you could take a moment to rate our
+            developer(s).<br />
             It only takes 10 seconds. Thank you!
           </div>
           <div className="clearfix">
-            {task.details &&
-            task.details.active_participants
+            {task.details && task.details.active_participants
               ? <div>
-              <div><strong>You've worked with:</strong></div>
-              {task.details.active_participants.map(participation => {
-                const participant = participation.user;
-                return (
-                  <div className="pull-left" style={{marginRight: '10px'}}
-                    key={participant.id}>
-                    <Avatar src={participant.avatar_url} />
-                    <Link to={`/people/${participant.username}/`}>
-                      {participant.display_name}
-                    </Link>
+                  <div>
+                    <strong>You've worked with:</strong>
                   </div>
-                );
-              })}
-            </div>
+                  {task.details.active_participants.map(participation => {
+                    const participant = participation.user;
+                    return (
+                      <div
+                        className="pull-left"
+                        style={{marginRight: '10px'}}
+                        key={participant.id}>
+                        <Avatar src={participant.avatar_url} />
+                        <Link to={`/people/${participant.username}/`}>
+                          {participant.display_name}
+                        </Link>
+                      </div>
+                    );
+                  })}
+                </div>
               : null}
           </div>
           {RATING_CRITERIA_CHOICES.map(criteria => {

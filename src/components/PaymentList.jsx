@@ -98,7 +98,10 @@ export default class PaymentList extends GenericListContainer {
   }
 
   isTaskSelected(task) {
-    let idx = _.findIndex(this.isDistributionMode() ? this.state.toDistribute : this.state.toPay, ['id', task.id]);
+    let idx = _.findIndex(
+      this.isDistributionMode() ? this.state.toDistribute : this.state.toPay,
+      ['id', task.id],
+    );
     return idx > -1;
   }
 
@@ -108,7 +111,9 @@ export default class PaymentList extends GenericListContainer {
         //amount: this.totalPayAmount(),
         distribute_only: this.isDistributionMode(),
       },
-      tasks = (this.isDistributionMode() ? this.state.toDistribute : this.state.toPay).map(task => {
+      tasks = (this.isDistributionMode()
+        ? this.state.toDistribute
+        : this.state.toPay).map(task => {
         return task.id;
       });
     if (this.isDistributionMode()) {

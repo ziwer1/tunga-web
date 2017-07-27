@@ -36,11 +36,11 @@ class ConfirmDialog extends React.Component {
             : null}
         </Modal.Body>
         <Modal.Footer>
-          {safe_options.hideCancel?null:(
-            <Button onClick={() => cancel()} className="btn-alt">
-              {safe_options.cancel || 'Cancel'}
-            </Button>
-          )}
+          {safe_options.hideCancel
+            ? null
+            : <Button onClick={() => cancel()} className="btn-alt">
+                {safe_options.cancel || 'Cancel'}
+              </Button>}
           <Button
             onClick={() => {
               if (safe_options.isPrompt) {

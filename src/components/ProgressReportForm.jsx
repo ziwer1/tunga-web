@@ -57,21 +57,25 @@ export default class ProgressReportForm extends FormComponent {
       this.setState({...progress_report});
     }
 
-    if(isDeveloper()) {
+    if (isDeveloper()) {
       confirm(
         <div>
-          <p>Hi {getUser().first_name},</p>
           <p>
-            Please take into account that some of these answers might be shared directly with clients.
+            Hi {getUser().first_name},
           </p>
           <p>
-            Therefore, please always consider if your answers are business/client appropriate.
+            Please take into account that some of these answers might be shared
+            directly with clients.
           </p>
           <p>
-            Thank you for filling in the survey!
+            Therefore, please always consider if your answers are
+            business/client appropriate.
           </p>
-        </div>
-        , false, {hideCancel: true}).then(function() {
+          <p>Thank you for filling in the survey!</p>
+        </div>,
+        false,
+        {hideCancel: true},
+      ).then(function() {
         // Nothing to do for now
       });
     }
