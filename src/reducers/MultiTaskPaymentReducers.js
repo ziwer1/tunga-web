@@ -9,6 +9,7 @@ function multi_task_payment(state = {}, action) {
   switch (action.type) {
     case MultiTaskPaymentActions.CREATE_MULTI_TASK_PAYMENT_SUCCESS:
     case MultiTaskPaymentActions.RETRIEVE_MULTI_TASK_PAYMENT_SUCCESS:
+    case MultiTaskPaymentActions.MAKE_PAYMENT_SUCCESS:
       return action.multi_task_payment;
     case MultiTaskPaymentActions.UPDATE_MULTI_TASK_PAYMENT_SUCCESS:
       return {...state, ...action.multi_task_payment};

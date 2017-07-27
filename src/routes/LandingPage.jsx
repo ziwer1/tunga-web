@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import YouTube from 'react-youtube';
 import Slider from 'react-slick';
 import Reveal from 'react-reveal';
+import _ from 'lodash';
 
 import ShowcaseContainer from '../containers/ShowcaseContainer';
 import ShowCaseFooter from '../containers/ShowCaseFooter';
@@ -637,7 +638,9 @@ class LandingPage extends ComponentWithModal {
             </div>
           : <div>
               <section id="how-we-verify">
-                <Link to="/quality">How we verify our Developers</Link>
+                <div className="container">
+                  <Link to="/quality">How we verify our Developers</Link>
+                </div>
               </section>
               <section id="clients-testmonial">
                 <div className="container">
@@ -685,7 +688,7 @@ class LandingPage extends ComponentWithModal {
                     Our network expertise
                   </div>
                   <div>
-                    <ul className="row">
+                    <div className="row">
                       {NETWORK_EXPERTISE.map((step, idx) => {
                         return (
                           <div key={idx} className="col-sm-3">
@@ -702,7 +705,7 @@ class LandingPage extends ComponentWithModal {
                           </div>
                         );
                       })}
-                    </ul>
+                    </div>
                   </div>
                 </div>
               </section>

@@ -97,17 +97,23 @@ export default class PaymentList extends GenericListContainer {
     );
   }
 
+  isTaskSelected(task) {
+    let idx = _.findIndex(this.isDistributionMode() ? this.state.toDistribute : this.state.toPay, ['id', task.id]);
+    return idx > -1;
+  }
+
   onPay() {
     const {Task, TaskActions} = this.props;
     let task_info = {
-        amount: this.totalPayAmount(),
+        //amount: this.totalPayAmount(),
         distribute_only: this.isDistributionMode(),
       },
-      tasks = this.state.toPay.map(task => {
+      tasks = (this.isDistributionMode() ? this.state.toDistribute : this.state.toPay).map(task => {
         return task.id;
       });
     if (this.isDistributionMode()) {
       task_info.distribute_tasks = tasks;
+      task_info.withhold_tunga_fee = true;
     } else {
       task_info.tasks = tasks;
     }
@@ -300,6 +306,7 @@ export default class PaymentList extends GenericListContainer {
                                     type="checkbox"
                                     className="tasks_to_pay"
                                     value={task.id}
+                                    checked={this.isTaskSelected(task)}
                                     onChange={this.onSelectTask.bind(
                                       this,
                                       task,

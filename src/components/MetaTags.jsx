@@ -1,7 +1,7 @@
 import React from 'react';
 import Helmet from 'react-helmet';
 
-export default class Error extends React.Component {
+export default class MetaTags extends React.Component {
   render() {
     const {title, description} = this.props;
 

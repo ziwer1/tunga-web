@@ -35,6 +35,7 @@ export default class TaskPay extends React.Component {
   componentDidMount() {
     const {task, Task, TaskActions, multi_task_payment} = this.props;
     if (multi_task_payment) {
+      this.setState({showForm: !multi_task_payment.paid, withhold_tunga_fee: multi_task_payment.withhold_tunga_fee});
     } else {
       if (task.id) {
         if (getUser().id == task.user.id && task.closed && task.paid) {
@@ -226,20 +227,23 @@ export default class TaskPay extends React.Component {
 
     if (this.withHoldTungaFee()) {
       if (multi_task_payment) {
-        // Take all different ratios into account
-        /*return _.reduce(
-          multi_task_payment.tasks,
-          function(sum, task) {
-            return sum + amount * (1 - task.tunga_ratio_dev);
-          },
-          0,
-        );*/
         return multi_task_payment.pay_participants;
       } else {
         return amount * (1 - task.tunga_ratio_dev);
       }
     }
     return amount;
+  }
+
+  getMulitTaskList() {
+    const {multi_task_payment} = this.props;
+    if(multi_task_payment && multi_task_payment.details) {
+      if(multi_task_payment.distribute_only) {
+        return multi_task_payment.details.distribute_tasks;
+      }
+      return multi_task_payment.details.tasks;
+    }
+    return [];
   }
 
   render() {
@@ -308,6 +312,29 @@ export default class TaskPay extends React.Component {
                       error={Task && Task.detail.Invoice.error.create}
                     />
 
+                    {multi_task_payment && multi_task_payment.details?(
+                      <table className="table table-striped">
+                        <thead>
+                        <tr>
+                          <th>Task</th><th>Fee</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {this.getMulitTaskList().map(item => {
+                          return (
+                              <tr><td>{item.summary}</td><td>€{parseNumber(item.pay)}</td></tr>
+                          );
+                        })}
+                        <tr>
+                          <th>Total: </th>
+                          <th>
+                            €{parseNumber(multi_task_payment.amount)}
+                          </th>
+                        </tr>
+                        </tbody>
+                      </table>
+                    ):null}
+
                     {(Task &&
                       Task.detail.Invoice.error.create &&
                       Task.detail.Invoice.error.create.fee) ||
@@ -371,6 +398,7 @@ export default class TaskPay extends React.Component {
                                 type="checkbox"
                                 ref="withhold_tunga_fee"
                                 checked={this.state.withhold_tunga_fee}
+                                disabled={(multi_task_payment && multi_task_payment.distribute_only)}
                                 onChange={this.onWithHoldFeeChange.bind(this)}
                               />
                               Withhold Tunga fee/ Only pay participant fees.
@@ -454,7 +482,7 @@ export default class TaskPay extends React.Component {
                         </div>
                       : null}
 
-                    <div className="text-center">
+                    <div className="form-group text-center">
                       <button
                         type="submit"
                         className="btn"
