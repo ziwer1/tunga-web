@@ -296,14 +296,17 @@ export default class QualityPage extends React.Component {
       <div className="col-md-3">
             <img src={require('../images/icons/step4_img.png')} alt="step 1"   />
           </div>      
-       </div>  
+       </div> 
+        
    <div className="row"  >
-    <button id="cta">
-     <i className="fa tunga-rocket" aria-hidden="true"></i>
-     Get me started!  
-     </button>
+    <p className="text-center">
+        <Link to="/start/" className="btn btn-callout btn-main-cta">
+          <i className="tunga-icon-rocket fa-lg" /> Get me started!
+        </Link>
+      </p>
      
    </div>
+   
    
    </div> 
     </section>
