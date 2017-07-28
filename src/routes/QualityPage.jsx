@@ -137,11 +137,16 @@ export default class QualityPage extends React.Component {
           How we select the best developers
         </h1>
       </div>
-      <section id="quality-guide">    
+      <section id="new-quality-guide">    
         <div className="container-fluid" id="custom_container-fluid" >    
           <div className="row" id="step1">
-            <div className="col-md-3">
-              <img src={require('../images/icons/step1_img.png')} alt="step 1"   />
+            <div className="col-md-3"  id="tunga_icon_area_left"  >
+              {/*<img src={require('../images/icons/step1_img.png')} alt="step 1"   />*/}
+              
+                {/*<div className="quality-icon">
+                    <i className="tunga-icon-soft-skills"></i>
+                </div>*/}
+                    <i className="tunga-icon-soft-skills quality-icon"></i>
             </div>          
             <div className="col-md-8" id="step1_text"  >
               <span id="Drop_cap">1</span>              
@@ -152,7 +157,7 @@ export default class QualityPage extends React.Component {
             </div>
           </div>
           <div className="row"  >
-            <div className="col-md-10" id="dotted_curve_img" >
+            <div className="col-md-10" id="dotted_curve_img"  >
               <img src={require('../images/icons/dot_curve1.png')} alt="" />
             </div>
           </div>  
@@ -163,8 +168,11 @@ export default class QualityPage extends React.Component {
               <h3 id="step_title">Soft skills</h3>                  
                 When a developer has successfully passed the first stage of our program we assess our developers on several "soft skills". Such as communication skills, management of expectations, work ethics, stress management and time management. At Tunga, we believe that soft skills are as much or more important than software development skills. </div>
             </div>            
-            <div className="col-md-3">
-                <img src={require('../images/icons/step2_img.png')} alt="step 1"   />
+            <div className="col-md-3"  id="tunga_icon_area_right" >
+                {/*<img src={require('../images/icons/step2_img.png')} alt="step 1"   />*/}
+                <div className="quality-icon">
+                    <i className="tunga-icon-soft-skills"></i>
+                </div>
             </div>            
           </div>    
           <div className="row"  >
@@ -173,8 +181,11 @@ export default class QualityPage extends React.Component {
             </div>
           </div>    
           <div className="row" id="step3">
-            <div className="col-md-3">
-              <img src={require('../images/icons/step3_img.png')} alt="step 1"   />
+            <div className="col-md-3"  id="tunga_icon_area_left" >
+              {/*<img src={require('../images/icons/step3_img.png')} alt="step 1"   />*/}
+              <div className="quality-icon">
+                    <i className="tunga-icon-coding-skills"></i>
+                </div>
             </div>             
             <div className="col-md-8" id="step1_text"  >
               <span id="Drop_cap">3</span>                  
@@ -196,8 +207,11 @@ export default class QualityPage extends React.Component {
                 When a developer passed all our assessments he or she gets to work on the first project on Tunga. For the first couple of projects, the developers work under the guidance of a senior Tunga developer to ensure great collaboration between you and the developer(s) and that all our developer produce top notch products. 
               </div>            
           </div>    
-          <div className="col-md-3">
-              <img src={require('../images/icons/step4_img.png')} alt="step 1"   />
+          <div className="col-md-3"  id="tunga_icon_area_right" >
+              {/*<img src={require('../images/icons/step4_img.png')} alt="step 1"   />*/}
+              <div className="quality-icon">
+                    <i className="tunga-icon-teamwork"></i>
+                </div>
               </div>      
           </div>       
           <div className="row"  >
@@ -210,7 +224,7 @@ export default class QualityPage extends React.Component {
        </div> 
     </section>
 
-      
+          
         <ShowCaseFooter />
       </ShowcaseContainer>
     );
