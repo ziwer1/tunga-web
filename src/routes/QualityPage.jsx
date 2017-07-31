@@ -151,7 +151,7 @@ export default class QualityPage extends React.Component {
             <div className="col-md-8" id="step1_text"  >
               <span id="Drop_cap">1</span>              
               <div id="step_body" >       
-              <h3 id="step_title">Screening Portfolio </h3>                  
+              <h3 id="step_title"  className="section-heading">Screening Portfolio </h3>                  
                      The first thing that we do is screening the CV, references, recent projects of the applicant. If the experience of the developer meets our standard we invite them to a remote interview with one of our senior developers or project coordinators. During this interview, we assess their English proficiency level and communication skills. 
               </div>             
             </div>
