@@ -119,11 +119,6 @@ ReactDOM.render(
     <Router history={history}>
       <Route path="/" component={App}>
         <IndexRoute component={LandingPage} unauthedOnly={true} />
-        <Route
-          path="skill/:skill"
-          component={LandingPage}
-          unauthedOnly={true}
-        />
         <Route unauthedOnly={true}>
           {/* No Auth Pages */}
           <Route path="welcome">
@@ -360,6 +355,11 @@ ReactDOM.render(
         </Route>
         <Route
           path="customer/help/:chatId"
+          component={LandingPage}
+          unauthedOnly={true}
+        />
+        <Route
+          path=":skill"
           component={LandingPage}
           unauthedOnly={true}
         />
