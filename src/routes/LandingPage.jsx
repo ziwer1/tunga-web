@@ -12,6 +12,8 @@ import ComponentWithModal from '../components/ComponentWithModal';
 import MetaTags from '../components/MetaTags';
 import Avatar from '../components/Avatar';
 
+import Progress from '../components/status/Progress';
+
 import {showCallWidget, openCalendlyWidget} from '../utils/router';
 import {TESTIMONIALS} from '../constants/data';
 
@@ -314,9 +316,9 @@ export class LandingPage extends ComponentWithModal {
   }
 
   renderHeaderContent() {
-    const dlp_phrase = this.getDLPPhrase(),
-      isSkillPage = this.state.isSkillPage,
-      {SkillPage: {detail: {skill_page}}} = this.props;
+    let dlp_phrase = this.getDLPPhrase(),
+      {SkillPage: {detail: {skill_page, isRetrieving, error}}} = this.props;
+    let isSkillPage = this.state.isSkillPage && !error.retrieve;
 
     return (
       <div>
@@ -386,8 +388,9 @@ export class LandingPage extends ComponentWithModal {
 
     let meta_title = 'Tunga | Software outsourcing done right';
     let meta_description = `Getting software projects done is hard. We make it easy.`;
-    let isSkillPage = this.state.isSkillPage,
-      {SkillPage: {detail: {skill_page}}} = this.props;
+
+    let {SkillPage: {detail: {skill_page, isRetrieving, error}}} = this.props;
+    let isSkillPage = this.state.isSkillPage && !error.retrieve;
 
     return (
       <ShowcaseContainer
@@ -399,8 +402,12 @@ export class LandingPage extends ComponentWithModal {
         chatId={this.props.params ? this.props.params.chatId : null}>
         <MetaTags title={meta_title} description={meta_description} />
 
-        {isSkillPage
-          ? <section id="pitch">
+        {isRetrieving?(
+          <Progress/>
+        ):(
+          <div>
+            {isSkillPage
+              ? <section id="pitch">
               <div className="container text-center">
                 <div className="section-heading">
                   {skill_page.pitch_header}
@@ -412,7 +419,7 @@ export class LandingPage extends ComponentWithModal {
                 />
               </div>
             </section>
-          : <div>
+              : <div>
               <section id="platform-info">
                 <div className="container">
                   <div className="row">
@@ -451,128 +458,128 @@ export class LandingPage extends ComponentWithModal {
               </section>
               <HowItWorks />
             </div>}
-        <section id="press">
-          <div className="container ">
-            <Reveal effect="animated fadeInLeft">
-              <div>
-                <ul className="press-links">
-                  <li>
-                    <a
-                      href="http://www.bbc.co.uk/news/world-africa-38294998"
-                      target="_blank">
-                      <img src={require('../images/press/bbc.png')} />
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="https://www.youtube.com/watch?v=v9uRtYpZDQs"
-                      target="_blank">
-                      <img src={require('../images/press/campus-party.png')} />
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="https://www.oneworld.nl/startup-tunga-lanceert-pilot-programma-voor-nieuw-soort-freelance-platform"
-                      target="_blank">
-                      <img src={require('../images/press/OWlogo.png')} />
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="http://trendwatching.com/blog/featured-innovator-tunga/"
-                      target="_blank">
-                      <img
-                        src={require('../images/press/trend-watching.png')}
-                      />
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="https://soundcloud.com/african-tech-round-up/a-chat-with-ernesto-spruyt-of-tungaio?in=african-tech-round-up/sets/quick-chats"
-                      target="_blank">
-                      <img
-                        src={require('../images/press/African-Tech-Round-Up.png')}
-                      />
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="http://spendmatters.com/2016/04/01/tunga-wip-of-the-week/"
-                      target="_blank">
-                      <img src={require('../images/press/Spend-Matters.png')} />
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="https://www.nabc.nl/africa-business-news/5/technology/377/tunga-founder-ernesto-spruyt-we-create-21st-century-jobs-in-africa"
-                      target="_blank">
-                      <img
-                        src={require('../images/press/netherlands-african-business-council.png')}
-                      />
-                    </a>
-                  </li>
-                </ul>
+            <section id="press">
+              <div className="container ">
+                <Reveal effect="animated fadeInLeft">
+                  <div>
+                    <ul className="press-links">
+                      <li>
+                        <a
+                          href="http://www.bbc.co.uk/news/world-africa-38294998"
+                          target="_blank">
+                          <img src={require('../images/press/bbc.png')} />
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="https://www.youtube.com/watch?v=v9uRtYpZDQs"
+                          target="_blank">
+                          <img src={require('../images/press/campus-party.png')} />
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="https://www.oneworld.nl/startup-tunga-lanceert-pilot-programma-voor-nieuw-soort-freelance-platform"
+                          target="_blank">
+                          <img src={require('../images/press/OWlogo.png')} />
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="http://trendwatching.com/blog/featured-innovator-tunga/"
+                          target="_blank">
+                          <img
+                            src={require('../images/press/trend-watching.png')}
+                          />
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="https://soundcloud.com/african-tech-round-up/a-chat-with-ernesto-spruyt-of-tungaio?in=african-tech-round-up/sets/quick-chats"
+                          target="_blank">
+                          <img
+                            src={require('../images/press/African-Tech-Round-Up.png')}
+                          />
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="http://spendmatters.com/2016/04/01/tunga-wip-of-the-week/"
+                          target="_blank">
+                          <img src={require('../images/press/Spend-Matters.png')} />
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="https://www.nabc.nl/africa-business-news/5/technology/377/tunga-founder-ernesto-spruyt-we-create-21st-century-jobs-in-africa"
+                          target="_blank">
+                          <img
+                            src={require('../images/press/netherlands-african-business-council.png')}
+                          />
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </Reveal>
               </div>
-            </Reveal>
-          </div>
-        </section>
-        {isSkillPage
-          ? <div>
+            </section>
+            {isSkillPage
+              ? <div>
               {skill_page.profiles && skill_page.profiles.length
                 ? <section id="skill-profiles">
-                    <div className="container">
-                      <div className="row">
-                        {skill_page.profiles.map(profile => {
-                          console.log('profile', profile);
-                          return (
-                            <div className="col-sm-4">
-                              <div className="card user-card">
-                                <Avatar
-                                  src={profile.user.avatar_url}
-                                  size="xl"
-                                />
-                                <div className="name">
-                                  {profile.user.display_name}
-                                </div>
-                                <div>
-                                  {profile.user.profile &&
-                                  (profile.user.profile.city ||
-                                    profile.user.profile.country_name)
-                                    ? `${profile.user.profile.city}, ${profile
-                                        .user.profile.country_name}`
-                                    : null}
-                                </div>
-                                <div className="skills">
-                                  {this.reorderProfileSkills(
-                                    profile.user.profile.skills,
-                                  )
-                                    .slice(0, 3)
-                                    .map(skill => {
-                                      return (
-                                        <span>
+                <div className="container">
+                  <div className="row">
+                    {skill_page.profiles.map(profile => {
+                      console.log('profile', profile);
+                      return (
+                        <div className="col-sm-4">
+                          <div className="card user-card">
+                            <Avatar
+                              src={profile.user.avatar_url}
+                              size="xl"
+                            />
+                            <div className="name">
+                              {profile.user.display_name}
+                            </div>
+                            <div>
+                              {profile.user.profile &&
+                              (profile.user.profile.city ||
+                              profile.user.profile.country_name)
+                                ? `${profile.user.profile.city}, ${profile
+                                .user.profile.country_name}`
+                                : null}
+                            </div>
+                            <div className="skills">
+                              {this.reorderProfileSkills(
+                                profile.user.profile.skills,
+                              )
+                                .slice(0, 3)
+                                .map(skill => {
+                                  return (
+                                    <span>
                                           {skill.name}
                                         </span>
-                                      );
-                                    })}
-                                </div>
-                                <div
-                                  className="intro"
-                                  dangerouslySetInnerHTML={{
+                                  );
+                                })}
+                            </div>
+                            <div
+                              className="intro"
+                              dangerouslySetInnerHTML={{
                                     __html: nl_to_br(profile.intro),
                                   }}
-                                />
-                                <div>
-                                  <Link to="/start" className="btn btn-block">
-                                    Start working with {profile.user.first_name}
-                                  </Link>
-                                </div>
-                              </div>
+                            />
+                            <div>
+                              <Link to="/start" className="btn btn-block">
+                                Start working with {profile.user.first_name}
+                              </Link>
                             </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  </section>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </section>
                 : null}
               <HowItWorks />
               <section id="story">
@@ -643,7 +650,7 @@ export class LandingPage extends ComponentWithModal {
                 </div>
               </section>
             </div>
-          : <div>
+              : <div>
               <section id="how-we-verify">
                 <div className="container">
                   <Link to="/quality">How we verify our Developers</Link>
@@ -752,44 +759,46 @@ export class LandingPage extends ComponentWithModal {
                 </div>
               </section>
             </div>}
-        <section id="video-overlay" className={this.state.play ? 'on' : ''}>
-          <div className="modal-backdrop fade in" />
-          <div className="video-close">
-            <button
-              className="btn btn-borderless"
-              title="Close"
-              onClick={this.onCloseVideo.bind(this)}>
-              <i className="fa fa-times fa-lg" />
-            </button>
-          </div>
-          <div className="container">
-            <YouTube
-              videoId="RVVtyapBmuo"
-              opts={this.state.youtubeOpts}
-              onReady={this.onVideoReady.bind(this)}
-              onPause={this.onPauseVideo.bind(this)}
-            />
-          </div>
-        </section>
+            <section id="video-overlay" className={this.state.play ? 'on' : ''}>
+              <div className="modal-backdrop fade in" />
+              <div className="video-close">
+                <button
+                  className="btn btn-borderless"
+                  title="Close"
+                  onClick={this.onCloseVideo.bind(this)}>
+                  <i className="fa fa-times fa-lg" />
+                </button>
+              </div>
+              <div className="container">
+                <YouTube
+                  videoId="RVVtyapBmuo"
+                  opts={this.state.youtubeOpts}
+                  onReady={this.onVideoReady.bind(this)}
+                  onPause={this.onPauseVideo.bind(this)}
+                />
+              </div>
+            </section>
 
-        <div className="outsource-widget">
-          <div>Ready to outsource the right way?</div>
-          <form
-            name="task"
-            role="form"
-            ref="task_form"
-            action="/start-outsource/">
-            <input
-              type="email"
-              name="email"
-              className="form-control"
-              ref="email"
-              required
-              placeholder="Your email address"
-            />
-            <button className="btn">Go</button>
-          </form>
-        </div>
+            <div className="outsource-widget">
+              <div>Ready to outsource the right way?</div>
+              <form
+                name="task"
+                role="form"
+                ref="task_form"
+                action="/start-outsource/">
+                <input
+                  type="email"
+                  name="email"
+                  className="form-control"
+                  ref="email"
+                  required
+                  placeholder="Your email address"
+                />
+                <button className="btn">Go</button>
+              </form>
+            </div>
+          </div>
+        )}
 
         <ShowCaseFooter />
       </ShowcaseContainer>

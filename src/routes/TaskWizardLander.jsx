@@ -41,9 +41,9 @@ class TaskWizardLander extends LandingPage {
   }
 
   renderHeaderContent() {
-    const dlp_phrase = this.getDLPPhrase(),
-      isSkillPage = this.state.isSkillPage,
-      {SkillPage: {detail: {skill_page}}} = this.props;
+    let dlp_phrase = this.getDLPPhrase(),
+      {SkillPage: {detail: {skill_page, isRetrieving, error}}} = this.props;
+    let isSkillPage = this.state.isSkillPage && !error.retrieve;
 
     console.log('log', dlp_phrase, isSkillPage, skill_page);
 

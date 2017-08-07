@@ -208,11 +208,11 @@ function error(state = {}, action) {
     case SkillPageActions.UPDATE_SKILL_PAGE_START:
     case SkillPageActions.UPDATE_SKILL_PAGE_SUCCESS:
       return {...state, update: null};
-    case SkillPageActions.MAKE_PAYMENT_FAILED:
-      return {...state, pay: action.error};
-    case SkillPageActions.MAKE_PAYMENT_START:
-    case SkillPageActions.MAKE_PAYMENT_SUCCESS:
-      return {...state, pay: null};
+    case SkillPageActions.RETRIEVE_SKILL_PAGE_FAILED:
+      return {...state, retrieve: action.error};
+    case SkillPageActions.RETRIEVE_SKILL_PAGE_START:
+    case SkillPageActions.RETRIEVE_SKILL_PAGE_SUCCESS:
+      return {...state, retrieve: null};
     case CLEAR_VALIDATIONS:
       return {};
     default:
