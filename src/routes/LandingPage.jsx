@@ -590,7 +590,7 @@ export class LandingPage extends ComponentWithModal {
                       __html: nl_to_br(skill_page.story_header),
                     }}
                   />
-                  <div
+                  <div className="readable"
                     dangerouslySetInnerHTML={{
                       __html: skill_page.story_body_one,
                     }}
@@ -617,7 +617,7 @@ export class LandingPage extends ComponentWithModal {
                   </div>
                 </div>
                 <div className="container">
-                  <div
+                  <div className="readable"
                     dangerouslySetInnerHTML={{
                       __html: skill_page.story_body_two,
                     }}
@@ -642,7 +642,7 @@ export class LandingPage extends ComponentWithModal {
                   </div>
                 </div>
                 <div className="container">
-                  <div
+                  <div className="readable"
                     dangerouslySetInnerHTML={{
                       __html: skill_page.story_body_three,
                     }}
