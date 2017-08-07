@@ -5,7 +5,6 @@ import {connect} from 'react-redux';
 import YouTube from 'react-youtube';
 import Slider from 'react-slick';
 import Reveal from 'react-reveal';
-import _ from 'lodash';
 
 import ShowcaseContainer from '../containers/ShowcaseContainer';
 import ShowCaseFooter from '../containers/ShowCaseFooter';
@@ -137,6 +136,7 @@ export class LandingPage extends ComponentWithModal {
   }
 
   componentDidMount() {
+    console.log('componentDidMount');
     if (showCallWidget(this.props.routes)) {
       openCalendlyWidget();
     }

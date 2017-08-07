@@ -1,11 +1,11 @@
 import React from 'react';
-import {Link} from 'react-router';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import {LandingPage} from '../routes/LandingPage';
 
 import * as SkillPageActions from '../actions/SkillPageActions';
+import {nl_to_br} from '../utils/html';
 
 
 class TaskWizardLander extends LandingPage {
@@ -41,20 +41,40 @@ class TaskWizardLander extends LandingPage {
   }
 
   renderHeaderContent() {
-    const dlp_phrase = this.getDLPPhrase();
+    const dlp_phrase = this.getDLPPhrase(),
+      isSkillPage = this.state.isSkillPage,
+      {SkillPage: {detail: {skill_page}}} = this.props;
+
+    console.log('log', dlp_phrase, isSkillPage, skill_page);
 
     return (
       <div className="row">
         <div className="col-sm-6 col-md-8">
           <div className="pitch">
             <h1>
-              Getting software projects done is hard.<br />
-              We make it easy.
+              {isSkillPage && skill_page.welcome_header
+                ? <span
+                dangerouslySetInnerHTML={{
+                    __html: nl_to_br(skill_page.welcome_header),
+                  }}
+              />
+                : <span>
+                  Getting software projects done is hard.<br />
+                  We make it easy.
+                </span>}
             </h1>
             <div className="details">
-              Tunga enables you to have super-bright{' '}
-              {this.getDLPDesc() || 'developers'} from Africa work on your
-              software project in a productive, friendly and worthwhile way.
+              {isSkillPage && skill_page.welcome_sub_header
+                ? <span
+                dangerouslySetInnerHTML={{
+                    __html: nl_to_br(skill_page.welcome_sub_header),
+                  }}
+              />
+                : <span>
+                  Tunga enables you to have super-bright{' '}
+                {this.getDLPDesc() || 'developers'} from Africa work on your
+                  software project in a productive, friendly and worthwhile way.
+                </span>}
             </div>
           </div>
         </div>

@@ -123,6 +123,11 @@ ReactDOM.render(
           {/* No Auth Pages */}
           <Route path="welcome">
             <IndexRoute component={TaskWizardLander} />
+            <Route
+              path=":skill"
+              component={TaskWizardLander}
+              unauthedOnly={true}
+            />
           </Route>
           <Route path="start">
             <IndexRoute component={TaskWizard} />
