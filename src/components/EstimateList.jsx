@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, IndexLink } from 'react-router';
+import {Link, IndexLink} from 'react-router';
 import moment from 'moment';
 
 import Progress from './status/Progress';
@@ -9,101 +9,170 @@ import GenericListContainer from '../containers/GenericListContainer';
 import {getPayDetails} from '../utils/tasks';
 
 export default class EstimateList extends GenericListContainer {
+  componentDidUpdate(prevProps, prevState) {
+    super.componentDidUpdate(prevProps, prevState);
 
-
-    componentDidUpdate(prevProps, prevState) {
-        super.componentDidUpdate(prevProps, prevState);
-
-        if (prevProps.location && this.props.location && prevProps.location.pathname != this.props.location.pathname) {
-            this.getList();
-        }
-
-        if(prevProps.search != this.props.search) {
-            this.setState({selection_key: this.state.selection_key + (this.props.search || ''), prev_key: this.state.selection_key})
-        }
+    if (
+      prevProps.location &&
+      this.props.location &&
+      prevProps.location.pathname != this.props.location.pathname
+    ) {
+      this.getList();
     }
 
-    getList(filters) {
-        this.props.EstimateActions.listEstimates({}, this.state.selection_key, this.state.prev_key);
+    if (prevProps.search != this.props.search) {
+      this.setState({
+        selection_key: this.state.selection_key + (this.props.search || ''),
+        prev_key: this.state.selection_key,
+      });
     }
+  }
 
-    render() {
-        const { Estimate, EstimateActions } = this.props;
-        const all_estimates = Estimate.list.ids[this.state.selection_key] || [];
+  getList(filters) {
+    this.props.EstimateActions.listEstimates(
+      {},
+      this.state.selection_key,
+      this.state.prev_key,
+    );
+  }
 
-        return (
-            <div>
-                <h2 className="clearfix">Estimates <Link to="/estimate/new" className="btn pull-right"><i className="tunga-icon-create"/> Create Estimate</Link></h2>
+  render() {
+    const {Estimate, EstimateActions} = this.props;
+    const all_estimates = Estimate.list.ids[this.state.selection_key] || [];
 
-                <ul className="nav nav-pills nav-top-filter">
-                    <li role="presentation"><IndexLink to="/estimates" activeClassName="active">All</IndexLink></li>
-                    <li role="presentation"><Link to="/estimates/filter/submitted" activeClassName="active">Submitted</Link></li>
-                    <li role="presentation"><Link to="/estimates/filter/approved" activeClassName="active">Approved</Link></li>
-                    <li role="presentation"><Link to="/estimates/filter/declined" activeClassName="active">Declined</Link></li>
-                    <li role="presentation"><Link to="/estimates/filter/accepted" activeClassName="active">Accepted</Link></li>
-                    <li role="presentation"><Link to="/estimates/filter/rejected" activeClassName="active">Rejected</Link></li>
-                </ul>
-                {Estimate.list.isFetching?
-                    (<Progress/>)
-                    :
-                    (<div>
-                        {all_estimates.length?(
-                            <table className="table table-striped table-responsive">
-                                <thead>
-                                <tr>
-                                    <th>Title</th>
-                                    <th>Project</th>
-                                    <th>Total Hours</th>
-                                    <th>Total Fee</th>
-                                    <th>Dev Hours</th>
-                                    <th>Dev Fee</th>
-                                    <th>PM Hours</th>
-                                    <th>PM Fee</th>
-                                    <th>Status</th>
-                                    <th>Date</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {all_estimates.map((id) => {
-                                    const estimate = Estimate.list.estimates[id];
-                                    let payDetails = getPayDetails(estimate.activities);
+    return (
+      <div>
+        <h2 className="clearfix">
+          Estimates{' '}
+          <Link to="/estimate/new" className="btn pull-right">
+            <i className="tunga-icon-create" /> Create Estimate
+          </Link>
+        </h2>
 
-                                    return(
-                                        <tr key={estimate.id}>
-                                            <td>
-                                                {estimate.task?(
-                                                    <Link to={`/work/${estimate.task}/estimate/${estimate.id}/`}>{estimate.details.task.summary}</Link>
-                                                ):(
-                                                    <Link to={`/estimate/${estimate.id}/`}>{estimate.title}</Link>
-                                                )}
-                                            </td>
-                                            <td>
-                                                {estimate.task?(
-                                                    <Link to={`/work/${estimate.task}/`}>{estimate.details.task.summary}</Link>
-                                                ):null}
-                                            </td>
-                                            <th>{payDetails.total.hours}</th>
-                                            <th>€{payDetails.total.fee}</th>
-                                            <th>{payDetails.dev.hours}</th>
-                                            <th>€{payDetails.dev.fee}</th>
-                                            <th>{payDetails.pm.hours}</th>
-                                            <th>€{payDetails.pm.fee}</th>
-                                            <td>{estimate.status}</td>
-                                            <td>{moment.utc(estimate.created_at).local().format('D/MMM/YYYY')}</td>
-                                        </tr>
-                                    );
-                                })}
-                                </tbody>
-                            </table>
-                        ):(
-                        <div className="alert alert-info">No estimates to display</div>
-                            )}
-                        {all_estimates.length && Estimate.list.next?(
-                            <LoadMore url={Estimate.list.next} callback={(x) => { EstimateActions.listMoreEstimates(x, this.state.selection_key)}} loading={Estimate.list.isFetchingMore}/>
-                        ):null}
-                    </div>)
-                    }
-            </div>
-        );
-    }
+        <ul className="nav nav-pills nav-top-filter">
+          <li role="presentation">
+            <IndexLink to="/estimates" activeClassName="active">
+              All
+            </IndexLink>
+          </li>
+          <li role="presentation">
+            <Link to="/estimates/filter/submitted" activeClassName="active">
+              Submitted
+            </Link>
+          </li>
+          <li role="presentation">
+            <Link to="/estimates/filter/approved" activeClassName="active">
+              Approved
+            </Link>
+          </li>
+          <li role="presentation">
+            <Link to="/estimates/filter/declined" activeClassName="active">
+              Declined
+            </Link>
+          </li>
+          <li role="presentation">
+            <Link to="/estimates/filter/accepted" activeClassName="active">
+              Accepted
+            </Link>
+          </li>
+          <li role="presentation">
+            <Link to="/estimates/filter/rejected" activeClassName="active">
+              Rejected
+            </Link>
+          </li>
+        </ul>
+        {Estimate.list.isFetching
+          ? <Progress />
+          : <div>
+              {all_estimates.length
+                ? <table className="table table-striped table-responsive">
+                    <thead>
+                      <tr>
+                        <th>Title</th>
+                        <th>Project</th>
+                        <th>Total Hours</th>
+                        <th>Total Fee</th>
+                        <th>Dev Hours</th>
+                        <th>Dev Fee</th>
+                        <th>PM Hours</th>
+                        <th>PM Fee</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {all_estimates.map(id => {
+                        const estimate = Estimate.list.estimates[id];
+                        let payDetails = getPayDetails(estimate.activities);
+
+                        return (
+                          <tr key={estimate.id}>
+                            <td>
+                              {estimate.task
+                                ? <Link
+                                    to={`/work/${estimate.task}/estimate/${estimate.id}/`}>
+                                    {estimate.details.task.summary}
+                                  </Link>
+                                : <Link to={`/estimate/${estimate.id}/`}>
+                                    {estimate.title}
+                                  </Link>}
+                            </td>
+                            <td>
+                              {estimate.task
+                                ? <Link to={`/work/${estimate.task}/`}>
+                                    {estimate.details.task.summary}
+                                  </Link>
+                                : null}
+                            </td>
+                            <th>
+                              {payDetails.total.hours}
+                            </th>
+                            <th>
+                              €{payDetails.total.fee}
+                            </th>
+                            <th>
+                              {payDetails.dev.hours}
+                            </th>
+                            <th>
+                              €{payDetails.dev.fee}
+                            </th>
+                            <th>
+                              {payDetails.pm.hours}
+                            </th>
+                            <th>
+                              €{payDetails.pm.fee}
+                            </th>
+                            <td>
+                              {estimate.status}
+                            </td>
+                            <td>
+                              {moment
+                                .utc(estimate.created_at)
+                                .local()
+                                .format('D/MMM/YYYY')}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                : <div className="alert alert-info">
+                    No estimates to display
+                  </div>}
+              {all_estimates.length && Estimate.list.next
+                ? <LoadMore
+                    url={Estimate.list.next}
+                    callback={x => {
+                      EstimateActions.listMoreEstimates(
+                        x,
+                        this.state.selection_key,
+                      );
+                    }}
+                    loading={Estimate.list.isFetchingMore}
+                  />
+                : null}
+            </div>}
+      </div>
+    );
+  }
 }

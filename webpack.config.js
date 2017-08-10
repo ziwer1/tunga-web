@@ -10,8 +10,8 @@ module.exports = {
     target: 'web',
     cache: true,
     entry: {
-        app: path.join(srcPath, 'app.js'),
-        vendor: ['react', 'react-router', 'redux', 'react-redux']
+        vendor: ['babel-polyfill', 'react', 'react-dom', 'react-router', 'redux', 'react-redux'],
+        app: path.join(srcPath, 'app.js')
     },
     output: {
         path: path.join(__dirname, 'build'),
@@ -37,7 +37,7 @@ module.exports = {
     resolve: {
         root: srcPath,
         extensions: ['', '.js', '.jsx', '.json', '.coffee', '.less', '.css', '.png', '.jpg', '.gif'],
-        modulesDirectories: ['node_modules', 'src'],
+        modulesDirectories: ['node_modules', 'src']
     },
     plugins: [
         common_config.plugins.chunkVendorPlugin,
