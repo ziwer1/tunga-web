@@ -134,11 +134,11 @@ export class LandingPage extends ComponentWithModal {
       youtubeOpts: {height: '360px'},
       hasAnimatedNumbers: false,
       isSkillPage: false,
+      showOverlay: false
     };
   }
 
   componentDidMount() {
-    console.log('componentDidMount');
     if (showCallWidget(this.props.routes)) {
       openCalendlyWidget();
     }
@@ -218,6 +218,22 @@ export class LandingPage extends ComponentWithModal {
           }
         }
       });
+
+      let setTimer;
+      window.onload = resetTimer;
+      document.onmousemove = resetTimer;
+      document.onkeypress = resetTimer;
+      document.onscroll = resetTimer;
+
+      function displayOverlay(){
+        lp.setState({showOverlay: true});
+      }
+
+      function resetTimer(){
+        clearTimeout(setTimer);
+        setTimer = setTimeout(displayOverlay, 5000);
+      }
+
     };
 
     $(document).ready(updateBg);
@@ -264,6 +280,10 @@ export class LandingPage extends ComponentWithModal {
 
   onChangeSliderStep(step) {
     this.setState({step});
+  }
+
+  onCloseOverlay() {
+    this.setState({showOverlay: false});
   }
 
   getDLPTag() {
@@ -776,6 +796,33 @@ export class LandingPage extends ComponentWithModal {
                   onReady={this.onVideoReady.bind(this)}
                   onPause={this.onPauseVideo.bind(this)}
                 />
+              </div>
+            </section>
+
+            <section id="landing-overlay" className={this.state.showOverlay ? 'on' : ''}>
+              <div className="modal-backdrop fade in" />
+              <div className="landing-overlay-close">
+                <button
+                  className="btn btn-borderless"
+                  title="Close"
+                  onClick={this.onCloseOverlay.bind(this)}>
+                  <i className="fa fa-times fa-lg" />
+                </button>
+              </div>
+              <div className="container">
+                <div><h1>Start hiring great developers?</h1></div>
+                <div><h4> Free quotes.Vetted Quality.Impact Sourcing.Daily progress report</h4></div>
+                <div>
+                  <Link to="/start/" className="btn btn-callout btn-main-cta" id="cta-discuss">
+                    <i className="tunga-icon-rocket" />
+                    Discuss your project
+                  </Link>
+                </div>
+                <div>
+                  <Link to="/" id="interest_text" onClick={this.onCloseOverlay.bind(this)}>
+                    <h5>l'm not looking to hire experts today</h5>
+                  </Link>
+                </div>
               </div>
             </section>
 

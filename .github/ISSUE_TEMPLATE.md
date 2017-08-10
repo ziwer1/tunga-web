@@ -28,6 +28,13 @@ https://plnkr.co or similar.
 <!-- Describe the motivation or the concrete use case. -->
 
 
+## Requested Delivery Date (feature requests only):
+dd/MMM/YYYY
+<!--
+This gives us a better sense of the urgency of the issue compared to labels
+If possible, We'll respond with the actual delivery date
+-->
+
 ## Please tell us about your environment (optional for feature requests)
 
 <pre><code>
@@ -65,6 +72,7 @@ For Developer issues:
 
 Others:
 <!-- Anything else relevant?  Operating system version, IDE, package manager, HTTP server, ... -->
+
 
 Requested Delivery Date: dd/MMM/YYYY
 <!-- 
