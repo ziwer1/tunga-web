@@ -227,6 +227,24 @@ export const TASK_SCOPE_CHOICES = [
   },
 ];
 
+export const TASK_SCOPE_QUIZ_CHOICES = [
+  {
+    id: TASK_SCOPE_TASK,
+    name: 'Task<br/> (up to 12 hours)',
+    icon: 'tunga-icon-task',
+  },
+  {
+    id: TASK_SCOPE_PROJECT,
+    name: 'Project<br/> (more than 50 hours)',
+    icon: 'tunga-icon-project',
+  },
+  {
+    id: TASK_SCOPE_ONGOING,
+    name: 'Ongoing project<br/> (constant need)',
+    icon: 'tunga-icon-running-tasks',
+  },
+];
+
 export const TASK_SCOPE_CHOICES_NEW_USER = [
   {
     id: TASK_SCOPE_TASK,

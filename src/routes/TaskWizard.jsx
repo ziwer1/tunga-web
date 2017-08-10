@@ -5,6 +5,7 @@ import ShowcaseContainer from '../containers/ShowcaseContainer';
 import TaskContainer from '../containers/TaskContainer';
 import TaskDetailContainer from '../containers/TaskDetailContainer';
 import TaskForm from '../components/TaskForm';
+import QuizForm from '../components/QuizForm';
 import Avatar from '../components/Avatar';
 import MetaTags from '../components/MetaTags';
 import Slider from 'react-slick';
@@ -122,6 +123,13 @@ export default class TaskWizard extends React.Component {
                 phase={phase}
                 urlPrefix={this.getUrlPrefix()}
               />
+              {/*<QuizForm
+                showSectionHeader={false}
+                options={{...options, ...this.getUser()}}
+                onStepChange={this.onStepChange.bind(this)}
+                phase={phase}
+                urlPrefix={this.getUrlPrefix()}
+              />*/}
             </TaskDetailContainer>
           </TaskContainer>
         </div>

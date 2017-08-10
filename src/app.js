@@ -113,6 +113,7 @@ import MultiTaskPaymentContainer from 'containers/MultiTaskPaymentContainer';
 import MultiTaskPaymentDetailContainer from 'containers/MultiTaskPaymentDetailContainer';
 import MultiTaskPay from 'components/MultiTaskPay';
 import MultiTaskPayProcessing from 'components/MultiTaskPayProcessing';
+import QuizForm from 'components/QuizForm';
 
 ReactDOM.render(
   <Provider store={store}>
@@ -128,6 +129,10 @@ ReactDOM.render(
               component={TaskWizardLander}
               unauthedOnly={true}
             />
+          </Route>
+          <Route path="quiz">
+            <IndexRoute component={QuizForm} />
+            <Route path="*" component={QuizForm} />
           </Route>
           <Route path="start">
             <IndexRoute component={TaskWizard} />

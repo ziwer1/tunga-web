@@ -180,6 +180,7 @@ export default class TaskForm extends ComponentWithModal {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    console.log(prevState);
     const task = this.props.task || {};
     const {project, urlPrefix, phase} = this.props;
     const {router} = this.context;
