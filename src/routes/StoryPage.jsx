@@ -115,7 +115,7 @@ export default class StoryPage extends React.Component {
                 where they were born.
               </p>
               <div className="image-wrapper">
-                <img src={require('../images/partners/oxfam.png')} />
+                <img src={require('../images/story/section2.jpg')} />
               </div>
             </div>
           </section>
