@@ -35,47 +35,16 @@ export function createSkillPage(skill_page, attachments) {
   return dispatch => {
     dispatch(createSkillPageStart(skill_page));
 
-    if (attachments && attachments.length) {
-      var data = new FormData();
-      Object.keys(skill_page).map(key => {
-        if (
-          (Array.isArray(skill_page[key]) && skill_page[key].length) ||
-          (!Array.isArray(skill_page[key]) && skill_page[key] != null)
-        ) {
-          data.append(key, skill_page[key]);
-        }
+    axios
+      .post(ENDPOINT_SKILL_PAGE, skill_page)
+      .then(function(response) {
+        dispatch(createSkillPageSuccess(response.data));
+      })
+      .catch(function(error) {
+        dispatch(
+          createSkillPageFailed(error.response ? error.response.data : null),
+        );
       });
-
-      attachments.map((file, idx) => {
-        data.append('file' + idx, file);
-      });
-
-      $.ajax({
-        url: ENDPOINT_SKILL_PAGE,
-        type: 'POST',
-        data: data,
-        processData: false,
-        contentType: false,
-      }).then(
-        function(data) {
-          dispatch(createSkillPageSuccess(data));
-        },
-        function(data) {
-          dispatch(createSkillPageFailed(data.responseJSON));
-        },
-      );
-    } else {
-      axios
-        .post(ENDPOINT_SKILL_PAGE, skill_page)
-        .then(function(response) {
-          dispatch(createSkillPageSuccess(response.data));
-        })
-        .catch(function(error) {
-          dispatch(
-            createSkillPageFailed(error.response ? error.response.data : null),
-          );
-        });
-    }
   };
 }
 
@@ -245,55 +214,16 @@ export function updateSkillPage(id, data, uploads, editToken) {
   return dispatch => {
     dispatch(updateSkillPageStart(id));
 
-    if (uploads && uploads.length) {
-      var form_data = new FormData();
-      if (data) {
-        Object.keys(data).map(key => {
-          if (
-            (Array.isArray(data[key]) && data[key].length) ||
-            (!Array.isArray(data[key]) && data[key] != null)
-          ) {
-            form_data.append(key, data[key]);
-          }
-        });
-      }
-
-      uploads.map((file, idx) => {
-        form_data.append('file' + idx, file);
+    axios
+      .patch(ENDPOINT_SKILL_PAGE + id + '/', data)
+      .then(function(response) {
+        dispatch(updateSkillPageSuccess(response.data, data));
+      })
+      .catch(function(error) {
+        dispatch(
+          updateSkillPageFailed(error.response ? error.response.data : null),
+        );
       });
-
-      $.ajax({
-        url: ENDPOINT_SKILL_PAGE + id + '/',
-        type: 'PATCH',
-        data: form_data,
-        processData: false,
-        contentType: false,
-        headers: {'X-EDIT-TOKEN': editToken},
-      }).then(
-        function(response) {
-          dispatch(updateSkillPageSuccess(response, data));
-          if (!data) {
-            dispatch(shareSkillPageUploadSuccess(response, uploads.length));
-          }
-        },
-        function(response) {
-          dispatch(updateSkillPageFailed(response));
-        },
-      );
-    } else {
-      axios
-        .patch(ENDPOINT_SKILL_PAGE + id + '/', data, {
-          headers: {'X-EDIT-TOKEN': editToken},
-        })
-        .then(function(response) {
-          dispatch(updateSkillPageSuccess(response.data, data));
-        })
-        .catch(function(error) {
-          dispatch(
-            updateSkillPageFailed(error.response ? error.response.data : null),
-          );
-        });
-    }
   };
 }
 

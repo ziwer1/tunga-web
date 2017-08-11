@@ -23,8 +23,13 @@ export const LIST_MORE_MILESTONES_FAILED = 'LIST_MORE_MILESTONES_FAILED';
 export function createMilestone(milestone, attachments) {
   return dispatch => {
     dispatch(createMilestoneStart(milestone));
+
+    var headers = {},
+      data = milestone;
     if (attachments.length) {
-      var data = new FormData();
+      headers['Content-Type'] = 'multipart/form-data';
+
+      data = new FormData();
       Object.keys(milestone).map((key, idx) => {
         if (
           (Array.isArray(milestone[key]) && milestone[key].length) ||
@@ -37,33 +42,18 @@ export function createMilestone(milestone, attachments) {
       attachments.map((file, idx) => {
         data.append('file' + idx, file);
       });
-
-      $.ajax({
-        url: ENDPOINT_MILESTONE,
-        type: 'POST',
-        data: data,
-        processData: false,
-        contentType: false,
-      }).then(
-        function(data) {
-          dispatch(createMilestoneSuccess(data));
-        },
-        function(data) {
-          dispatch(createMilestoneFailed(data.responseJSON));
-        },
-      );
-    } else {
-      axios
-        .post(ENDPOINT_MILESTONE, milestone)
-        .then(function(response) {
-          dispatch(createMilestoneSuccess(response.data));
-        })
-        .catch(function(error) {
-          dispatch(
-            createMilestoneFailed(error.response ? error.response.data : null),
-          );
-        });
     }
+
+    axios
+      .post(ENDPOINT_MILESTONE, data, {headers})
+      .then(function(response) {
+        dispatch(createMilestoneSuccess(response.data));
+      })
+      .catch(function(error) {
+        dispatch(
+          createMilestoneFailed(error.response ? error.response.data : null),
+        );
+      });
   };
 }
 

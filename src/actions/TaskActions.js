@@ -71,8 +71,13 @@ export function createTask(task, attachments) {
   return dispatch => {
     dispatch(createTaskStart(task));
 
+    var headers = {},
+      data = task;
+
     if (attachments && attachments.length) {
-      var data = new FormData();
+      headers['Content-Type'] = 'multipart/form-data';
+
+      data = new FormData();
       Object.keys(task).map(key => {
         if (
           (Array.isArray(task[key]) && task[key].length) ||
@@ -85,33 +90,16 @@ export function createTask(task, attachments) {
       attachments.map((file, idx) => {
         data.append('file' + idx, file);
       });
-
-      $.ajax({
-        url: ENDPOINT_TASK,
-        type: 'POST',
-        data: data,
-        processData: false,
-        contentType: false,
-      }).then(
-        function(data) {
-          dispatch(createTaskSuccess(data));
-        },
-        function(data) {
-          dispatch(createTaskFailed(data.responseJSON));
-        },
-      );
-    } else {
-      axios
-        .post(ENDPOINT_TASK, task)
-        .then(function(response) {
-          dispatch(createTaskSuccess(response.data));
-        })
-        .catch(function(error) {
-          dispatch(
-            createTaskFailed(error.response ? error.response.data : null),
-          );
-        });
     }
+
+    axios
+      .post(ENDPOINT_TASK, data, {headers})
+      .then(function(response) {
+        dispatch(createTaskSuccess(response.data));
+      })
+      .catch(function(error) {
+        dispatch(createTaskFailed(error.response ? error.response.data : null));
+      });
   };
 }
 
@@ -275,59 +263,42 @@ export function retrieveTaskFailed(error) {
   };
 }
 
-export function updateTask(id, data, uploads, editToken) {
+export function updateTask(id, task_data, uploads, editToken) {
   return dispatch => {
     dispatch(updateTaskStart(id));
 
+    var headers = {},
+      data = task_data;
     if (uploads && uploads.length) {
-      var form_data = new FormData();
-      if (data) {
-        Object.keys(data).map(key => {
+      headers['Content-Type'] = 'multipart/form-data';
+
+      data = new FormData();
+      if (task_data) {
+        Object.keys(task_data).map(key => {
           if (
-            (Array.isArray(data[key]) && data[key].length) ||
-            (!Array.isArray(data[key]) && data[key] != null)
+            (Array.isArray(task_data[key]) && task_data[key].length) ||
+            (!Array.isArray(task_data[key]) && task_data[key] != null)
           ) {
-            form_data.append(key, data[key]);
+            data.append(key, task_data[key]);
           }
         });
       }
 
       uploads.map((file, idx) => {
-        form_data.append('file' + idx, file);
+        data.append('file' + idx, file);
       });
-
-      $.ajax({
-        url: ENDPOINT_TASK + id + '/',
-        type: 'PATCH',
-        data: form_data,
-        processData: false,
-        contentType: false,
-        headers: {'X-EDIT-TOKEN': editToken},
-      }).then(
-        function(response) {
-          dispatch(updateTaskSuccess(response, data));
-          if (!data) {
-            dispatch(shareTaskUploadSuccess(response, uploads.length));
-          }
-        },
-        function(response) {
-          dispatch(updateTaskFailed(response));
-        },
-      );
-    } else {
-      axios
-        .patch(ENDPOINT_TASK + id + '/', data, {
-          headers: {'X-EDIT-TOKEN': editToken},
-        })
-        .then(function(response) {
-          dispatch(updateTaskSuccess(response.data, data));
-        })
-        .catch(function(error) {
-          dispatch(
-            updateTaskFailed(error.response ? error.response.data : null),
-          );
-        });
     }
+
+    axios
+      .patch(ENDPOINT_TASK + id + '/', data, {
+        headers: {'X-EDIT-TOKEN': editToken, ...headers},
+      })
+      .then(function(response) {
+        dispatch(updateTaskSuccess(response.data, task_data));
+      })
+      .catch(function(error) {
+        dispatch(updateTaskFailed(error.response ? error.response.data : null));
+      });
   };
 }
 

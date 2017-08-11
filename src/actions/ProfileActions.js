@@ -52,38 +52,28 @@ export const GET_COUNTRIES_FAILED = 'GET_COUNTRIES_FAILED';
 export function updateAuthUser(user) {
   return dispatch => {
     dispatch(updateAuthUserStart());
+
+    var headers = {},
+      data = user;
     if (user.image) {
-      var data = new FormData();
+      headers['Content-Type'] = 'multipart/form-data';
+
+      data = new FormData();
       Object.keys(user).map((key, idx) => {
         data.append(key, user[key]);
       });
-
-      $.ajax({
-        url: ENDPOINT_USER_INFO,
-        type: 'PATCH',
-        data: data,
-        processData: false,
-        contentType: false,
-      }).then(
-        function(data) {
-          dispatch(updateAuthUserSuccess(data));
-        },
-        function(data) {
-          dispatch(updateAuthUserFailed(data.responseJSON));
-        },
-      );
-    } else {
-      axios
-        .patch(ENDPOINT_USER_INFO, user)
-        .then(function(response) {
-          dispatch(updateAuthUserSuccess(response.data));
-        })
-        .catch(function(error) {
-          dispatch(
-            updateAuthUserFailed(error.response ? error.response.data : null),
-          );
-        });
     }
+
+    axios
+      .patch(ENDPOINT_USER_INFO, data, {headers})
+      .then(function(response) {
+        dispatch(updateAuthUserSuccess(response.data));
+      })
+      .catch(function(error) {
+        dispatch(
+          updateAuthUserFailed(error.response ? error.response.data : null),
+        );
+      });
   };
 }
 
@@ -201,38 +191,32 @@ export function updateProfile(id, profile) {
     dispatch(updateProfileStart(id));
     let request_method = id ? 'patch' : 'post';
 
+    var headers = {},
+      data = profile;
     if (profile && profile.id_document) {
-      var data = new FormData();
+      headers['Content-Type'] = 'multipart/form-data';
+
+      data = new FormData();
       Object.keys(profile).map(key => {
         data.append(key, profile[key]);
       });
-
-      $.ajax({
-        url: ENDPOINT_PROFILE,
-        type: request_method.toUpperCase(),
-        data: data,
-        processData: false,
-        contentType: false,
-      }).then(
-        function(data) {
-          dispatch(updateProfileSuccess(data));
-        },
-        function(data) {
-          dispatch(updateProfileFailed(data));
-        },
-      );
-    } else {
-      axios
-        .request({url: ENDPOINT_PROFILE, method: request_method, data: profile})
-        .then(function(response) {
-          dispatch(updateProfileSuccess(response.data));
-        })
-        .catch(function(error) {
-          dispatch(
-            updateProfileFailed(error.response ? error.response.data : null),
-          );
-        });
     }
+
+    axios
+      .request({
+        url: ENDPOINT_PROFILE,
+        method: request_method,
+        data: profile,
+        headers,
+      })
+      .then(function(response) {
+        dispatch(updateProfileSuccess(response.data));
+      })
+      .catch(function(error) {
+        dispatch(
+          updateProfileFailed(error.response ? error.response.data : null),
+        );
+      });
   };
 }
 

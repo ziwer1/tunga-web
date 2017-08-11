@@ -24,8 +24,12 @@ export function createComment(comment, attachments) {
   return dispatch => {
     dispatch(createCommentStart(comment));
 
+    var headers = {},
+      data = comment;
     if (attachments && attachments.length) {
-      var data = new FormData();
+      headers['Content-Type'] = 'multipart/form-data';
+
+      data = new FormData();
       Object.keys(comment).map((key, idx) => {
         if (!Array.isArray(comment[key]) || comment[key].length) {
           data.append(key, comment[key]);
@@ -35,33 +39,18 @@ export function createComment(comment, attachments) {
       attachments.map((file, idx) => {
         data.append('file' + idx, file);
       });
-
-      $.ajax({
-        url: ENDPOINT_COMMENT,
-        type: 'POST',
-        data: data,
-        processData: false,
-        contentType: false,
-      }).then(
-        function(data) {
-          dispatch(createCommentSuccess(data));
-        },
-        function(data) {
-          dispatch(createCommentFailed(data.responseJSON));
-        },
-      );
-    } else {
-      axios
-        .post(ENDPOINT_COMMENT, comment)
-        .then(function(response) {
-          dispatch(createCommentSuccess(response.data));
-        })
-        .catch(function(error) {
-          dispatch(
-            createCommentFailed(error.response ? error.response.data : null),
-          );
-        });
     }
+
+    axios
+      .post(ENDPOINT_COMMENT, data, {headers})
+      .then(function(response) {
+        dispatch(createCommentSuccess(response.data));
+      })
+      .catch(function(error) {
+        dispatch(
+          createCommentFailed(error.response ? error.response.data : null),
+        );
+      });
   };
 }
 

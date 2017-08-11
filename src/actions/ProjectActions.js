@@ -27,47 +27,16 @@ export function createProject(project, attachments) {
   return dispatch => {
     dispatch(createProjectStart(project));
 
-    if (attachments && attachments.length) {
-      var data = new FormData();
-      Object.keys(project).map((key, idx) => {
-        if (
-          (Array.isArray(project[key]) && project[key].length) ||
-          (!Array.isArray(project[key]) && project[key] != null)
-        ) {
-          data.append(key, project[key]);
-        }
+    axios
+      .post(ENDPOINT_PROJECT, project)
+      .then(function(response) {
+        dispatch(createProjectSuccess(response.data));
+      })
+      .catch(function(error) {
+        dispatch(
+          createProjectFailed(error.response ? error.response.data : null),
+        );
       });
-
-      attachments.map((file, idx) => {
-        data.append('file' + idx, file);
-      });
-
-      $.ajax({
-        url: ENDPOINT_PROJECT,
-        type: 'POST',
-        data: data,
-        processData: false,
-        contentType: false,
-      }).then(
-        function(data) {
-          dispatch(createProjectSuccess(data));
-        },
-        function(data) {
-          dispatch(createProjectFailed(data.responseJSON));
-        },
-      );
-    } else {
-      axios
-        .post(ENDPOINT_PROJECT, project)
-        .then(function(response) {
-          dispatch(createProjectSuccess(response.data));
-        })
-        .catch(function(error) {
-          dispatch(
-            createProjectFailed(error.response ? error.response.data : null),
-          );
-        });
-    }
   };
 }
 

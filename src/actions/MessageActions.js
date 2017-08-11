@@ -38,8 +38,13 @@ export const LIST_NEW_MESSAGES_FAILED = 'LIST_NEW_MESSAGES_FAILED';
 export function createMessage(message, attachments) {
   return dispatch => {
     dispatch(createMessageStart(message));
+
+    var headers = {},
+      data = message;
     if (attachments && attachments.length) {
-      var data = new FormData();
+      headers['Content-Type'] = 'multipart/form-data';
+
+      data = new FormData();
       Object.keys(message).map((key, idx) => {
         if (!Array.isArray(message[key]) || message[key].length) {
           data.append(key, message[key]);
@@ -49,33 +54,18 @@ export function createMessage(message, attachments) {
       attachments.map((file, idx) => {
         data.append('file' + idx, file);
       });
-
-      $.ajax({
-        url: ENDPOINT_MESSAGE,
-        type: 'POST',
-        data: data,
-        processData: false,
-        contentType: false,
-      }).then(
-        function(data) {
-          dispatch(createMessageSuccess(data));
-        },
-        function(data) {
-          dispatch(createMessageFailed(data));
-        },
-      );
-    } else {
-      axios
-        .post(ENDPOINT_MESSAGE, message)
-        .then(function(response) {
-          dispatch(createMessageSuccess(response.data));
-        })
-        .catch(function(error) {
-          dispatch(
-            createMessageFailed(error.response ? error.response.data : null),
-          );
-        });
     }
+
+    axios
+      .post(ENDPOINT_MESSAGE, data, {headers})
+      .then(function(response) {
+        dispatch(createMessageSuccess(response.data));
+      })
+      .catch(function(error) {
+        dispatch(
+          createMessageFailed(error.response ? error.response.data : null),
+        );
+      });
   };
 }
 

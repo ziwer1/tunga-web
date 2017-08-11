@@ -28,8 +28,13 @@ export const LIST_MORE_PROGRESS_REPORTS_FAILED =
 export function createProgressReport(progress_report, attachments) {
   return dispatch => {
     dispatch(createProgressReportStart(progress_report));
+
+    var headers = {},
+      data = progress_report;
     if (attachments.length) {
-      var data = new FormData();
+      headers['Content-Type'] = 'multipart/form-data';
+
+      data = new FormData();
       Object.keys(progress_report).map((key, idx) => {
         if (
           (Array.isArray(progress_report[key]) &&
@@ -43,35 +48,20 @@ export function createProgressReport(progress_report, attachments) {
       attachments.map((file, idx) => {
         data.append('file' + idx, file);
       });
-
-      $.ajax({
-        url: ENDPOINT_PROGRESS_REPORT,
-        type: 'POST',
-        data: data,
-        processData: false,
-        contentType: false,
-      }).then(
-        function(data) {
-          dispatch(createProgressReportSuccess(data));
-        },
-        function(data) {
-          dispatch(createProgressReportFailed(data.responseJSON));
-        },
-      );
-    } else {
-      axios
-        .post(ENDPOINT_PROGRESS_REPORT, progress_report)
-        .then(function(response) {
-          dispatch(createProgressReportSuccess(response.data));
-        })
-        .catch(function(error) {
-          dispatch(
-            createProgressReportFailed(
-              error.response ? error.response.data : null,
-            ),
-          );
-        });
     }
+
+    axios
+      .post(ENDPOINT_PROGRESS_REPORT, data, {headers})
+      .then(function(response) {
+        dispatch(createProgressReportSuccess(response.data));
+      })
+      .catch(function(error) {
+        dispatch(
+          createProgressReportFailed(
+            error.response ? error.response.data : null,
+          ),
+        );
+      });
   };
 }
 

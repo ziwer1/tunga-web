@@ -52,51 +52,18 @@ export function createMultiTaskPayment(multi_task_payment, attachments) {
   return dispatch => {
     dispatch(createMultiTaskPaymentStart(multi_task_payment));
 
-    if (attachments && attachments.length) {
-      var data = new FormData();
-      Object.keys(multi_task_payment).map(key => {
-        if (
-          (Array.isArray(multi_task_payment[key]) &&
-            multi_task_payment[key].length) ||
-          (!Array.isArray(multi_task_payment[key]) &&
-            multi_task_payment[key] != null)
-        ) {
-          data.append(key, multi_task_payment[key]);
-        }
+    axios
+      .post(ENDPOINT_MULTI_TASK_PAYMENT, multi_task_payment)
+      .then(function(response) {
+        dispatch(createMultiTaskPaymentSuccess(response.data));
+      })
+      .catch(function(error) {
+        dispatch(
+          createMultiTaskPaymentFailed(
+            error.response ? error.response.data : null,
+          ),
+        );
       });
-
-      attachments.map((file, idx) => {
-        data.append('file' + idx, file);
-      });
-
-      $.ajax({
-        url: ENDPOINT_MULTI_TASK_PAYMENT,
-        type: 'POST',
-        data: data,
-        processData: false,
-        contentType: false,
-      }).then(
-        function(data) {
-          dispatch(createMultiTaskPaymentSuccess(data));
-        },
-        function(data) {
-          dispatch(createMultiTaskPaymentFailed(data.responseJSON));
-        },
-      );
-    } else {
-      axios
-        .post(ENDPOINT_MULTI_TASK_PAYMENT, multi_task_payment)
-        .then(function(response) {
-          dispatch(createMultiTaskPaymentSuccess(response.data));
-        })
-        .catch(function(error) {
-          dispatch(
-            createMultiTaskPaymentFailed(
-              error.response ? error.response.data : null,
-            ),
-          );
-        });
-    }
   };
 }
 
@@ -266,63 +233,22 @@ export function retrieveMultiTaskPaymentFailed(error) {
   };
 }
 
-export function updateMultiTaskPayment(id, data, uploads, editToken) {
+export function updateMultiTaskPayment(id, data, uploads) {
   return dispatch => {
     dispatch(updateMultiTaskPaymentStart(id));
 
-    if (uploads && uploads.length) {
-      var form_data = new FormData();
-      if (data) {
-        Object.keys(data).map(key => {
-          if (
-            (Array.isArray(data[key]) && data[key].length) ||
-            (!Array.isArray(data[key]) && data[key] != null)
-          ) {
-            form_data.append(key, data[key]);
-          }
-        });
-      }
-
-      uploads.map((file, idx) => {
-        form_data.append('file' + idx, file);
+    axios
+      .patch(ENDPOINT_MULTI_TASK_PAYMENT + id + '/', data)
+      .then(function(response) {
+        dispatch(updateMultiTaskPaymentSuccess(response.data, data));
+      })
+      .catch(function(error) {
+        dispatch(
+          updateMultiTaskPaymentFailed(
+            error.response ? error.response.data : null,
+          ),
+        );
       });
-
-      $.ajax({
-        url: ENDPOINT_MULTI_TASK_PAYMENT + id + '/',
-        type: 'PATCH',
-        data: form_data,
-        processData: false,
-        contentType: false,
-        headers: {'X-EDIT-TOKEN': editToken},
-      }).then(
-        function(response) {
-          dispatch(updateMultiTaskPaymentSuccess(response, data));
-          if (!data) {
-            dispatch(
-              shareMultiTaskPaymentUploadSuccess(response, uploads.length),
-            );
-          }
-        },
-        function(response) {
-          dispatch(updateMultiTaskPaymentFailed(response));
-        },
-      );
-    } else {
-      axios
-        .patch(ENDPOINT_MULTI_TASK_PAYMENT + id + '/', data, {
-          headers: {'X-EDIT-TOKEN': editToken},
-        })
-        .then(function(response) {
-          dispatch(updateMultiTaskPaymentSuccess(response.data, data));
-        })
-        .catch(function(error) {
-          dispatch(
-            updateMultiTaskPaymentFailed(
-              error.response ? error.response.data : null,
-            ),
-          );
-        });
-    }
   };
 }
 

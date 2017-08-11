@@ -207,54 +207,43 @@ export function retrieveDirectChannelFailed(error) {
   };
 }
 
-export function updateChannel(id, data, uploads) {
+export function updateChannel(id, channel_data, uploads) {
   return dispatch => {
     dispatch(updateChannelStart(id));
 
+    var headers = {},
+      data = channel_data;
+
     if (uploads && uploads.length) {
-      var form_data = new FormData();
-      if (data) {
-        Object.keys(data).map(key => {
+      headers['Content-Type'] = 'multipart/form-data';
+
+      data = new FormData();
+      if (channel_data) {
+        Object.keys(channel_data).map(key => {
           if (
-            (Array.isArray(data[key]) && data[key].length) ||
-            (!Array.isArray(data[key]) && data[key] != null)
+            (Array.isArray(channel_data[key]) && channel_data[key].length) ||
+            (!Array.isArray(channel_data[key]) && channel_data[key] != null)
           ) {
-            form_data.append(key, data[key]);
+            data.append(key, channel_data[key]);
           }
         });
       }
 
       uploads.map((file, idx) => {
-        form_data.append('file' + idx, file);
+        data.append('file' + idx, file);
       });
-
-      $.ajax({
-        url: ENDPOINT_CHANNEL + id + '/',
-        type: 'PATCH',
-        data: form_data,
-        processData: false,
-        contentType: false,
-      }).then(
-        function(response) {
-          dispatch(updateChannelSuccess(response));
-          dispatch(shareChannelUploadSuccess(response, uploads.length));
-        },
-        function(response) {
-          dispatch(updateChannelFailed(response));
-        },
-      );
-    } else {
-      axios
-        .patch(ENDPOINT_CHANNEL + id + '/', data)
-        .then(function(response) {
-          dispatch(updateChannelSuccess(response.data));
-        })
-        .catch(function(error) {
-          dispatch(
-            updateChannelFailed(error.response ? error.response.data : null),
-          );
-        });
     }
+
+    axios
+      .patch(ENDPOINT_CHANNEL + id + '/', data, {headers})
+      .then(function(response) {
+        dispatch(updateChannelSuccess(response.data));
+      })
+      .catch(function(error) {
+        dispatch(
+          updateChannelFailed(error.response ? error.response.data : null),
+        );
+      });
   };
 }
 

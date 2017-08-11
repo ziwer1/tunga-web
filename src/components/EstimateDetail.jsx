@@ -71,7 +71,7 @@ export default class EstimateDetail extends React.Component {
           message={'Estimate saved successfully'}
           error={Estimate.detail.error.create}
         />
-        
+
         <div className="pull-right">
           <a
             href={`${estimate.task && false
