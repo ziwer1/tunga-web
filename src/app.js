@@ -204,6 +204,7 @@ ReactDOM.render(
             <Route path="estimate" component={EstimateContainer}>
               <IndexRoute component={EstimateList} />
               <Route path="new" component={EstimateForm} />
+              <Route path="filter/:filter" component={EstimateList} />
               <Route path=":estimateId" component={EstimateDetailContainer}>
                 <IndexRoute component={EstimateDetail} />
                 <Route path="edit" component={EstimateForm} />

@@ -71,15 +71,7 @@ export default class EstimateDetail extends React.Component {
           message={'Estimate saved successfully'}
           error={Estimate.detail.error.create}
         />
-
-        <div className="pull-right">
-          <a
-            href={`${ENDPOINT_TASK}${estimate.task}/download/estimate?format=pdf`}
-            className="btn btn-primary"
-            target="_blank">
-            <i className="fa fa-file-pdf-o" /> Download Pdf
-          </a>
-        </div>
+        
         <div className="pull-right">
           <a
             href={`${estimate.task && false
