@@ -187,17 +187,17 @@ class Home extends React.Component {
               {(isAdmin() || isProjectManager()) &&
               Notification.notifications.estimates
                 ? <li id="inner-estimates">
-                <Link to="/work/filter/estimates">
+                    <Link to="/work/filter/estimates">
                       <span className="icon">
                         <i className="tunga-icon-project" />{' '}
                         <span className="badge">
                           {Notification.notifications.estimates}
                         </span>
                       </span>
-                  <br />
-                  Estimates
-                </Link>
-              </li>
+                      <br />
+                      Estimates
+                    </Link>
+                  </li>
                 : null}
             </ul>
           </div>

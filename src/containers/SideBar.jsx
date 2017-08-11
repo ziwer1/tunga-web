@@ -114,11 +114,11 @@ class SideBar extends React.Component {
             </li>
             {isProjectManager() || isAdmin()
               ? <li id="sidebar-estimate">
-              <Link to="/estimate" activeClassName="active">
-                <i className="menu-icon fa fa-pie-chart" />{' '}
-                <span>Estimates</span>
-              </Link>
-            </li>
+                  <Link to="/estimate" activeClassName="active">
+                    <i className="menu-icon fa fa-pie-chart" />{' '}
+                    <span>Estimates</span>
+                  </Link>
+                </li>
               : null}
 
             {Support.Section.list.sections.length && false

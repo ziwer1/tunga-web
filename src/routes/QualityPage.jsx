@@ -53,18 +53,18 @@ export default class QualityPage extends React.Component {
         headerContent={this.renderHeaderContent()}>
         <MetaTags title={meta_title} description={meta_description} />
 
- 
         <div className="content">
-        <section>
-          <div className="container">
+          <section>
+            <div className="container">
               <div className="section-heading text-center">
                 Tunga isn’t just a network of developers, Tunga is a community.
-                We thoroughly select the brightest developers from the African continent. Tunga
-                nourish and constantly improve our community of developers by providing them
-                with the tools and guidance they need to be even more successful.
+                We thoroughly select the brightest developers from the African
+                continent. Tunga nourish and constantly improve our community of
+                developers by providing them with the tools and guidance they
+                need to be even more successful.
               </div>
-          </div>       
-        </section>
+            </div>
+          </section>
         </div>
 
         <section id="press">
@@ -132,99 +132,119 @@ export default class QualityPage extends React.Component {
             </Reveal>
           </div>
         </section>
-      <div>
-        <h1>
-          How we select the best developers
-        </h1>
-      </div>
-      <section id="new-quality-guide">    
-        <div className="container-fluid" id="custom_container-fluid" >    
-          <div className="row" id="step1">
-            <div className="col-md-3"  id="tunga_icon_area_left"  >
-              {/*<img src={require('../images/icons/step1_img.png')} alt="step 1"   />*/}
-              
+        <div>
+          <h1>How we select the best developers</h1>
+        </div>
+        <section id="new-quality-guide">
+          <div className="container-fluid" id="custom_container-fluid">
+            <div className="row" id="step1">
+              <div className="col-md-3" id="tunga_icon_area_left">
+                {/*<img src={require('../images/icons/step1_img.png')} alt="step 1"   />*/}
+
                 {/*<div className="quality-icon">
                     <i className="tunga-icon-soft-skills"></i>
                 </div>*/}
-                    <i className="tunga-icon-soft-skills quality-icon"></i>
-            </div>          
-            <div className="col-md-8" id="step1_text"  >
-              <span id="Drop_cap">1</span>              
-              <div id="step_body" >       
-              <h3 id="step_title"  className="section-heading">Screening Portfolio </h3>                  
-                     The first thing that we do is screening the CV, references, recent projects of the applicant. If the experience of the developer meets our standard we invite them to a remote interview with one of our senior developers or project coordinators. During this interview, we assess their English proficiency level and communication skills. 
-              </div>             
+                <i className="tunga-icon-soft-skills quality-icon" />
+              </div>
+              <div className="col-md-8" id="step1_text">
+                <span id="Drop_cap">1</span>
+                <div id="step_body">
+                  <h3 id="step_title" className="section-heading">
+                    Screening Portfolio{' '}
+                  </h3>
+                  The first thing that we do is screening the CV, references,
+                  recent projects of the applicant. If the experience of the
+                  developer meets our standard we invite them to a remote
+                  interview with one of our senior developers or project
+                  coordinators. During this interview, we assess their English
+                  proficiency level and communication skills.
+                </div>
+              </div>
             </div>
-          </div>
-          <div className="row"  >
-            <div className="col-md-10" id="dotted_curve_img"  >
-              <img src={require('../images/icons/dot_curve1.png')} alt="" />
+            <div className="row">
+              <div className="col-md-10" id="dotted_curve_img">
+                <img src={require('../images/icons/dot_curve1.png')} alt="" />
+              </div>
             </div>
-          </div>  
-          <div className="row" id="step2">      
-            <div className="col-md-8" id="step1_text"  >
-              <span id="Drop_cap">2</span>              
-              <div id="step_body" >       
-              <h3 id="step_title">Soft skills</h3>                  
-                When a developer has successfully passed the first stage of our program we assess our developers on several "soft skills". Such as communication skills, management of expectations, work ethics, stress management and time management. At Tunga, we believe that soft skills are as much or more important than software development skills. </div>
-            </div>            
-            <div className="col-md-3"  id="tunga_icon_area_right" >
+            <div className="row" id="step2">
+              <div className="col-md-8" id="step1_text">
+                <span id="Drop_cap">2</span>
+                <div id="step_body">
+                  <h3 id="step_title">Soft skills</h3>
+                  When a developer has successfully passed the first stage of
+                  our program we assess our developers on several "soft skills".
+                  Such as communication skills, management of expectations, work
+                  ethics, stress management and time management. At Tunga, we
+                  believe that soft skills are as much or more important than
+                  software development skills.{' '}
+                </div>
+              </div>
+              <div className="col-md-3" id="tunga_icon_area_right">
                 {/*<img src={require('../images/icons/step2_img.png')} alt="step 1"   />*/}
                 <div className="quality-icon">
-                    <i className="tunga-icon-soft-skills"></i>
+                  <i className="tunga-icon-soft-skills" />
                 </div>
-            </div>            
-          </div>    
-          <div className="row"  >
-            <div className="col-md-10" id="dotted_curve_img">
-              <img src={require('../images/icons/dot_curve2.png')} alt="" />
-            </div>
-          </div>    
-          <div className="row" id="step3">
-            <div className="col-md-3"  id="tunga_icon_area_left" >
-              {/*<img src={require('../images/icons/step3_img.png')} alt="step 1"   />*/}
-              <div className="quality-icon">
-                    <i className="tunga-icon-coding-skills"></i>
-                </div>
-            </div>             
-            <div className="col-md-8" id="step1_text"  >
-              <span id="Drop_cap">3</span>                  
-              <div id="step_body" >       
-                <h3 id="step_title">Coding skills </h3>                      
-                When the developer has passed our soft skills assessment we thoroughly test their coding skills. We do this in several ways: reviewing recent projects, online coding tests, and in depth Skype interviews. Only the brightest developers are selected to go to the next stage of our program.</div>
               </div>
-            </div>   
-          <div className="row"  >
-            <div className="col-md-10" id="dotted_curve_img" >
-              <img src={require('../images/icons/dot_curve1.png')} alt="" />
             </div>
-          </div>      
-          <div className="row" id="step4">        
-            <div className="col-md-8" id="step1_text"  >
-              <span id="Drop_cap">4</span>              
-              <div id="step_body" >       
-                <h3 id="step_title">Guidance program</h3>
-                When a developer passed all our assessments he or she gets to work on the first project on Tunga. For the first couple of projects, the developers work under the guidance of a senior Tunga developer to ensure great collaboration between you and the developer(s) and that all our developer produce top notch products. 
-              </div>            
-          </div>    
-          <div className="col-md-3"  id="tunga_icon_area_right" >
-              {/*<img src={require('../images/icons/step4_img.png')} alt="step 1"   />*/}
-              <div className="quality-icon">
-                    <i className="tunga-icon-teamwork"></i>
+            <div className="row">
+              <div className="col-md-10" id="dotted_curve_img">
+                <img src={require('../images/icons/dot_curve2.png')} alt="" />
+              </div>
+            </div>
+            <div className="row" id="step3">
+              <div className="col-md-3" id="tunga_icon_area_left">
+                {/*<img src={require('../images/icons/step3_img.png')} alt="step 1"   />*/}
+                <div className="quality-icon">
+                  <i className="tunga-icon-coding-skills" />
                 </div>
-              </div>      
-          </div>       
-          <div className="row"  >
+              </div>
+              <div className="col-md-8" id="step1_text">
+                <span id="Drop_cap">3</span>
+                <div id="step_body">
+                  <h3 id="step_title">Coding skills </h3>
+                  When the developer has passed our soft skills assessment we
+                  thoroughly test their coding skills. We do this in several
+                  ways: reviewing recent projects, online coding tests, and in
+                  depth Skype interviews. Only the brightest developers are
+                  selected to go to the next stage of our program.
+                </div>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-md-10" id="dotted_curve_img">
+                <img src={require('../images/icons/dot_curve1.png')} alt="" />
+              </div>
+            </div>
+            <div className="row" id="step4">
+              <div className="col-md-8" id="step1_text">
+                <span id="Drop_cap">4</span>
+                <div id="step_body">
+                  <h3 id="step_title">Guidance program</h3>
+                  When a developer passed all our assessments he or she gets to
+                  work on the first project on Tunga. For the first couple of
+                  projects, the developers work under the guidance of a senior
+                  Tunga developer to ensure great collaboration between you and
+                  the developer(s) and that all our developer produce top notch
+                  products.
+                </div>
+              </div>
+              <div className="col-md-3" id="tunga_icon_area_right">
+                {/*<img src={require('../images/icons/step4_img.png')} alt="step 1"   />*/}
+                <div className="quality-icon">
+                  <i className="tunga-icon-teamwork" />
+                </div>
+              </div>
+            </div>
+            <div className="row">
               <p className="text-center">
                 <Link to="/start/" className="btn btn-callout btn-main-cta">
                   <i className="tunga-icon-rocket fa-lg" /> Get me started!
                 </Link>
-              </p>     
-          </div>   
-       </div> 
-    </section>
+              </p>
+            </div>
+          </div>
+        </section>
 
-          
         <ShowCaseFooter />
       </ShowcaseContainer>
     );

@@ -222,17 +222,17 @@ export default class EstimateForm extends ComponentWithModal {
           {task.id
             ? null
             : <div>
-            <h4>Title:</h4>
-            {Estimate.detail.error.create &&
-            Estimate.detail.error.create.title
-              ? <FieldError message={Estimate.detail.error.create.title} />
-              : null}
-            {Estimate.detail.error.update &&
-            Estimate.detail.error.update.title
-              ? <FieldError message={Estimate.detail.error.update.title} />
-              : null}
-            <div className="form-group">
-              {/*<label className="control-label">Title *</label>*/}
+                <h4>Title:</h4>
+                {Estimate.detail.error.create &&
+                Estimate.detail.error.create.title
+                  ? <FieldError message={Estimate.detail.error.create.title} />
+                  : null}
+                {Estimate.detail.error.update &&
+                Estimate.detail.error.update.title
+                  ? <FieldError message={Estimate.detail.error.update.title} />
+                  : null}
+                <div className="form-group">
+                  {/*<label className="control-label">Title *</label>*/}
                   <textarea
                     className="form-control"
                     onChange={this.onInputChange.bind(this, 'title')}
@@ -240,8 +240,8 @@ export default class EstimateForm extends ComponentWithModal {
                     ref="title"
                     placeholder="Title"
                   />
-            </div>
-          </div>}
+                </div>
+              </div>}
 
           <h4>Introduction:</h4>
           {Estimate.detail.error.create &&

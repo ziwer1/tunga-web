@@ -58,61 +58,60 @@ import {parseNumber} from '../utils/helpers';
 momentLocalizer(moment);
 
 var sections = [];
-var quiz_choices = {}
+var quiz_choices = {};
 
 export default class QuizForm extends ComponentWithModal {
   constructor(props) {
     super(props);
 
     this.state = {
-        step: 0,
-        first_name: '',
-        last_name: '',
-        email: '',
-        skype_id: '',
-        type: '',
-        scope: '',
-        tech: '',
-        details: '',
-        manage: '',
-        enable_btn: false,
-        disabled: true
+      step: 0,
+      first_name: '',
+      last_name: '',
+      email: '',
+      skype_id: '',
+      type: '',
+      scope: '',
+      tech: '',
+      details: '',
+      manage: '',
+      enable_btn: false,
+      disabled: true,
     };
   }
 
-  componentDidUpdate(prevProps, prevState){
-     if(prevState.first_name != '' && prevState.last_name != '' && prevState.email != ''){
-        this.state.disabled ? this.setState({disabled: false}): '';
-     }else{
-       this.state.disabled == false ? this.setState({disabled: true}): '';  
-     }
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      prevState.first_name != '' &&
+      prevState.last_name != '' &&
+      prevState.email != ''
+    ) {
+      this.state.disabled ? this.setState({disabled: false}) : '';
+    } else {
+      this.state.disabled == false ? this.setState({disabled: true}) : '';
+    }
   }
-
 
   componentWillUnmount() {
     // incase someone does not finish the quiz, send current choices
   }
 
-  onStateValueChange(key, value){
-    this.setState({step: this.state.step + 1 });
-    if(key != ''){
-      this.setState({ [key] : value});
+  onStateValueChange(key, value) {
+    this.setState({step: this.state.step + 1});
+    if (key != '') {
+      this.setState({[key]: value});
     }
   }
 
-  onChange(e){
-    this.setState({ [e.target.name]: e.target.value });
+  onChange(e) {
+    this.setState({[e.target.name]: e.target.value});
   }
 
-
   renderHeaderContent() {
-
     let skypeComp = (
       <div>
         <div className="form-group">
-          <label className="control-label">
-            Skype ID
-          </label>
+          <label className="control-label">Skype ID</label>
           <div className="row">
             <div className="col-md-12">
               <div>
@@ -181,23 +180,21 @@ export default class QuizForm extends ComponentWithModal {
         </div>
       </div>
     );
-    
+
     let startQuizComp = (
       <div className="form-group">
-        <div className="nav text-center"> 
-            <button
+        <div className="nav text-center">
+          <button
             type="button"
             className="btn btn-callout btn-main-cta quiz-start"
-            onClick={this.onStateValueChange.bind(this)}
-            >
+            onClick={this.onStateValueChange.bind(this)}>
             Start
-                
-            </button>                           
+          </button>
         </div>
       </div>
     );
 
-     let taskTypeComp = (
+    let taskTypeComp = (
       <div>
         <div className="btn-choices choice-fork" role="group">
           {TASK_TYPE_CHOICES.map(type => {
@@ -225,7 +222,7 @@ export default class QuizForm extends ComponentWithModal {
     let taskScopeComp = (
       <div>
         <div className="btn-choices choice-fork" role="group">
-          {(TASK_SCOPE_QUIZ_CHOICES).map(scope_type => {
+          {TASK_SCOPE_QUIZ_CHOICES.map(scope_type => {
             return (
               <div className="choice">
                 <button
@@ -277,9 +274,7 @@ export default class QuizForm extends ComponentWithModal {
                   )}>
                   <i className={`icon ${require_tech.icon}`} />
                 </button>
-                <div
-                  dangerouslySetInnerHTML={{__html: require_tech.name}}
-                />
+                <div dangerouslySetInnerHTML={{__html: require_tech.name}} />
               </div>
             );
           })}
@@ -320,9 +315,7 @@ export default class QuizForm extends ComponentWithModal {
                   )}>
                   <i className={`icon ${can_manage.icon}`} />
                 </button>
-                <div
-                  dangerouslySetInnerHTML={{__html: can_manage.name}}
-                />
+                <div dangerouslySetInnerHTML={{__html: can_manage.name}} />
               </div>
             );
           })}
@@ -330,7 +323,7 @@ export default class QuizForm extends ComponentWithModal {
       </div>
     );
 
-     let taskSpecificationComp = (
+    let taskSpecificationComp = (
       <div className="form-group">
         <div className="btn-choices choice-fork" role="group">
           {[
@@ -358,9 +351,7 @@ export default class QuizForm extends ComponentWithModal {
                   )}>
                   <i className={`icon ${has_details.icon}`} />
                 </button>
-                <div
-                  dangerouslySetInnerHTML={{__html: has_details.name}}
-                />
+                <div dangerouslySetInnerHTML={{__html: has_details.name}} />
               </div>
             );
           })}
@@ -369,43 +360,40 @@ export default class QuizForm extends ComponentWithModal {
     );
 
     sections = [
-        {
-            title: 'Your guide towards effectively executing your project',
-            subtitle: 'find out in 5 clicks what way of working works best for you',
-            items: [startQuizComp],
-        },
-        {
-            title: 'What kind of product are you building?',
-            items: [taskTypeComp]
-        },
-        {
-            title: 'What is the scope for your project?',
-            items: [taskScopeComp]
-        },
-        {
-            title: 'Do you know which technologies you want to use?',
-            items: [taskTechComp]
-        },
-        {
-            title: 'Do you have detailed project specifications?',
-            items: [taskSpecificationComp]
-        },
-        {
-            title: 'Do you need help in managing and cordinating the project?',
-            items: [taskManageComp]
-        }
-        // {
-        //     title: 'Hire top African developers!',
-        //     items: [personalComp, emailComp, skypeComp]
-        // },
-
+      {
+        title: 'Your guide towards effectively executing your project',
+        subtitle: 'find out in 5 clicks what way of working works best for you',
+        items: [startQuizComp],
+      },
+      {
+        title: 'What kind of product are you building?',
+        items: [taskTypeComp],
+      },
+      {
+        title: 'What is the scope for your project?',
+        items: [taskScopeComp],
+      },
+      {
+        title: 'Do you know which technologies you want to use?',
+        items: [taskTechComp],
+      },
+      {
+        title: 'Do you have detailed project specifications?',
+        items: [taskSpecificationComp],
+      },
+      {
+        title: 'Do you need help in managing and cordinating the project?',
+        items: [taskManageComp],
+      },
+      // {
+      //     title: 'Hire top African developers!',
+      //     items: [personalComp, emailComp, skypeComp]
+      // },
     ];
-
 
     let current_section = sections[this.state.step];
 
     return (
-
       <div className="task-wizard">
         <div className="title-bar">
           <div className="heading-3 bold text-center">
@@ -416,94 +404,92 @@ export default class QuizForm extends ComponentWithModal {
           </div>
         </div>
         <div className="task-section">
-            {/*begin steps*/}
-            <div className="form-wrapper task-form">
-                <form role="form">
-                    {/*<div>*/}
-                        <div className="step">
-                        {current_section.items.map(item => {
-                            return item;
-                        })}
-                        </div>                        
-                    {/*</div>*/}
-                    
-                </form>
-                
-            </div>
-            {/* end steps */}
+          {/*begin steps*/}
+          <div className="form-wrapper task-form">
+            <form role="form">
+              {/*<div>*/}
+              <div className="step">
+                {current_section.items.map(item => {
+                  return item;
+                })}
+              </div>
+              {/*</div>*/}
+            </form>
+          </div>
+          {/* end steps */}
         </div>
         <section id="press">
-                  <div className="container ">
-                    <Reveal effect="animated fadeInLeft">
-                      <div>
-                        <ul className="press-links">
-                          <li>
-                            <a
-                              href="http://www.bbc.co.uk/news/world-africa-38294998"
-                              target="_blank">
-                              <img src={require('../images/press/bbc.png')} />
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="https://www.youtube.com/watch?v=v9uRtYpZDQs"
-                              target="_blank">
-                              <img src={require('../images/press/campus-party.png')} />
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="https://www.oneworld.nl/startup-tunga-lanceert-pilot-programma-voor-nieuw-soort-freelance-platform"
-                              target="_blank">
-                              <img src={require('../images/press/OWlogo.png')} />
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="http://trendwatching.com/blog/featured-innovator-tunga/"
-                              target="_blank">
-                              <img
-                                src={require('../images/press/trend-watching.png')}
-                              />
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="https://soundcloud.com/african-tech-round-up/a-chat-with-ernesto-spruyt-of-tungaio?in=african-tech-round-up/sets/quick-chats"
-                              target="_blank">
-                              <img
-                                src={require('../images/press/African-Tech-Round-Up.png')}
-                              />
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="http://spendmatters.com/2016/04/01/tunga-wip-of-the-week/"
-                              target="_blank">
-                              <img src={require('../images/press/Spend-Matters.png')} />
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="https://www.nabc.nl/africa-business-news/5/technology/377/tunga-founder-ernesto-spruyt-we-create-21st-century-jobs-in-africa"
-                              target="_blank">
-                              <img
-                                src={require('../images/press/netherlands-african-business-council.png')}
-                              />
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
-                    </Reveal>
-                  </div>
-                </section>
-         <div className="text-center">
-            <small>
-              &copy; {moment().format('YYYY')} Tunga.io &mdash; All rights
-              reserved.
-            </small>
+          <div className="container ">
+            <Reveal effect="animated fadeInLeft">
+              <div>
+                <ul className="press-links">
+                  <li>
+                    <a
+                      href="http://www.bbc.co.uk/news/world-africa-38294998"
+                      target="_blank">
+                      <img src={require('../images/press/bbc.png')} />
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="https://www.youtube.com/watch?v=v9uRtYpZDQs"
+                      target="_blank">
+                      <img src={require('../images/press/campus-party.png')} />
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="https://www.oneworld.nl/startup-tunga-lanceert-pilot-programma-voor-nieuw-soort-freelance-platform"
+                      target="_blank">
+                      <img src={require('../images/press/OWlogo.png')} />
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="http://trendwatching.com/blog/featured-innovator-tunga/"
+                      target="_blank">
+                      <img
+                        src={require('../images/press/trend-watching.png')}
+                      />
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="https://soundcloud.com/african-tech-round-up/a-chat-with-ernesto-spruyt-of-tungaio?in=african-tech-round-up/sets/quick-chats"
+                      target="_blank">
+                      <img
+                        src={require('../images/press/African-Tech-Round-Up.png')}
+                      />
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="http://spendmatters.com/2016/04/01/tunga-wip-of-the-week/"
+                      target="_blank">
+                      <img src={require('../images/press/Spend-Matters.png')} />
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="https://www.nabc.nl/africa-business-news/5/technology/377/tunga-founder-ernesto-spruyt-we-create-21st-century-jobs-in-africa"
+                      target="_blank">
+                      <img
+                        src={require('../images/press/netherlands-african-business-council.png')}
+                      />
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </Reveal>
           </div>
-      </div>    
+        </section>
+        <div className="text-center">
+          <small>
+            &copy; {moment().format('YYYY')} Tunga.io &mdash; All rights
+            reserved.
+          </small>
+        </div>
+      </div>
     );
   }
 
@@ -520,4 +506,3 @@ export default class QuizForm extends ComponentWithModal {
     );
   }
 }
-

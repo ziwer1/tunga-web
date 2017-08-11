@@ -7,7 +7,6 @@ import {LandingPage} from '../routes/LandingPage';
 import * as SkillPageActions from '../actions/SkillPageActions';
 import {nl_to_br} from '../utils/html';
 
-
 class TaskWizardLander extends LandingPage {
   constructor(props) {
     super(props);
@@ -54,27 +53,28 @@ class TaskWizardLander extends LandingPage {
             <h1>
               {isSkillPage && skill_page.welcome_header
                 ? <span
-                dangerouslySetInnerHTML={{
-                    __html: nl_to_br(skill_page.welcome_header),
-                  }}
-              />
+                    dangerouslySetInnerHTML={{
+                      __html: nl_to_br(skill_page.welcome_header),
+                    }}
+                  />
                 : <span>
-                  Getting software projects done is hard.<br />
-                  We make it easy.
-                </span>}
+                    Getting software projects done is hard.<br />
+                    We make it easy.
+                  </span>}
             </h1>
             <div className="details">
               {isSkillPage && skill_page.welcome_sub_header
                 ? <span
-                dangerouslySetInnerHTML={{
-                    __html: nl_to_br(skill_page.welcome_sub_header),
-                  }}
-              />
+                    dangerouslySetInnerHTML={{
+                      __html: nl_to_br(skill_page.welcome_sub_header),
+                    }}
+                  />
                 : <span>
-                  Tunga enables you to have super-bright{' '}
-                {this.getDLPDesc() || 'developers'} from Africa work on your
-                  software project in a productive, friendly and worthwhile way.
-                </span>}
+                    Tunga enables you to have super-bright{' '}
+                    {this.getDLPDesc() || 'developers'} from Africa work on your
+                    software project in a productive, friendly and worthwhile
+                    way.
+                  </span>}
             </div>
           </div>
         </div>

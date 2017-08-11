@@ -134,7 +134,7 @@ export class LandingPage extends ComponentWithModal {
       youtubeOpts: {height: '360px'},
       hasAnimatedNumbers: false,
       isSkillPage: false,
-      showOverlay: false
+      showOverlay: false,
     };
   }
 
@@ -225,15 +225,14 @@ export class LandingPage extends ComponentWithModal {
       document.onkeypress = resetTimer;
       document.onscroll = resetTimer;
 
-      function displayOverlay(){
+      function displayOverlay() {
         lp.setState({showOverlay: true});
       }
 
-      function resetTimer(){
+      function resetTimer() {
         clearTimeout(setTimer);
         setTimer = setTimeout(displayOverlay, 5000);
       }
-
     };
 
     $(document).ready(updateBg);
@@ -422,434 +421,469 @@ export class LandingPage extends ComponentWithModal {
         chatId={this.props.params ? this.props.params.chatId : null}>
         <MetaTags title={meta_title} description={meta_description} />
 
-        {isRetrieving?(
-          <Progress/>
-        ):(
-          <div>
-            {isSkillPage
-              ? <section id="pitch">
-              <div className="container text-center">
-                <div className="section-heading">
-                  {skill_page.pitch_header}
-                </div>
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: nl_to_br(skill_page.pitch_body),
-                  }}
-                />
-              </div>
-            </section>
-              : <div>
-              <section id="platform-info">
-                <div className="container">
-                  <div className="row">
-                    <div className="col-md-6">
-                      <div className="workflow">
-                        <div className="section-heading">
-                          How we make it easy
-                        </div>
-                        <p>
-                          Finding great developers is hard nowadays, it is a
-                          journey that often takes too much time and money.
-                          We're here to help. Tunga not only gives you flexible
-                          access to a community of highly committed developers
-                          and at affordable rates, we also have a simple process
-                          in place to make sure you can stay on top of quality
-                          and planning. We get that you want to have overview at
-                          all times over the progress of your project. That is
-                          why Tunga offers unique automated features that will
-                          allow you to smoothly build great products in a cost
-                          effective way. Triggered?{' '}
-                          <a href="#" onClick={this.onScheduleCall.bind(this)}>
-                            Talk with us
-                          </a>
-                        </p>
+        {isRetrieving
+          ? <Progress />
+          : <div>
+              {isSkillPage
+                ? <section id="pitch">
+                    <div className="container text-center">
+                      <div className="section-heading">
+                        {skill_page.pitch_header}
                       </div>
-                    </div>
-                    <div className="col-md-6">
-                      <img
-                        src={require('images/showcase/video-bg.png')}
-                        className="video-trigger"
-                        onClick={this.onPlayVideo.bind(this)}
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: nl_to_br(skill_page.pitch_body),
+                        }}
                       />
                     </div>
-                  </div>
-                </div>
-              </section>
-              <HowItWorks />
-            </div>}
-            <section id="press">
-              <div className="container ">
-                <Reveal effect="animated fadeInLeft">
-                  <div>
-                    <ul className="press-links">
-                      <li>
-                        <a
-                          href="http://www.bbc.co.uk/news/world-africa-38294998"
-                          target="_blank">
-                          <img src={require('../images/press/bbc.png')} />
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          href="https://www.youtube.com/watch?v=v9uRtYpZDQs"
-                          target="_blank">
-                          <img src={require('../images/press/campus-party.png')} />
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          href="https://www.oneworld.nl/startup-tunga-lanceert-pilot-programma-voor-nieuw-soort-freelance-platform"
-                          target="_blank">
-                          <img src={require('../images/press/OWlogo.png')} />
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          href="http://trendwatching.com/blog/featured-innovator-tunga/"
-                          target="_blank">
-                          <img
-                            src={require('../images/press/trend-watching.png')}
-                          />
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          href="https://soundcloud.com/african-tech-round-up/a-chat-with-ernesto-spruyt-of-tungaio?in=african-tech-round-up/sets/quick-chats"
-                          target="_blank">
-                          <img
-                            src={require('../images/press/African-Tech-Round-Up.png')}
-                          />
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          href="http://spendmatters.com/2016/04/01/tunga-wip-of-the-week/"
-                          target="_blank">
-                          <img src={require('../images/press/Spend-Matters.png')} />
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          href="https://www.nabc.nl/africa-business-news/5/technology/377/tunga-founder-ernesto-spruyt-we-create-21st-century-jobs-in-africa"
-                          target="_blank">
-                          <img
-                            src={require('../images/press/netherlands-african-business-council.png')}
-                          />
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </Reveal>
-              </div>
-            </section>
-            {isSkillPage
-              ? <div>
-              {skill_page.profiles && skill_page.profiles.length
-                ? <section id="skill-profiles">
-                <div className="container">
-                  <div className="row">
-                    {skill_page.profiles.map(profile => {
-                      console.log('profile', profile);
-                      return (
-                        <div className="col-sm-4">
-                          <div className="card user-card">
-                            <Avatar
-                              src={profile.user.avatar_url}
-                              size="xl"
+                  </section>
+                : <div>
+                    <section id="platform-info">
+                      <div className="container">
+                        <div className="row">
+                          <div className="col-md-6">
+                            <div className="workflow">
+                              <div className="section-heading">
+                                How we make it easy
+                              </div>
+                              <p>
+                                Finding great developers is hard nowadays, it is
+                                a journey that often takes too much time and
+                                money. We're here to help. Tunga not only gives
+                                you flexible access to a community of highly
+                                committed developers and at affordable rates, we
+                                also have a simple process in place to make sure
+                                you can stay on top of quality and planning. We
+                                get that you want to have overview at all times
+                                over the progress of your project. That is why
+                                Tunga offers unique automated features that will
+                                allow you to smoothly build great products in a
+                                cost effective way. Triggered?{' '}
+                                <a
+                                  href="#"
+                                  onClick={this.onScheduleCall.bind(this)}>
+                                  Talk with us
+                                </a>
+                              </p>
+                            </div>
+                          </div>
+                          <div className="col-md-6">
+                            <img
+                              src={require('images/showcase/video-bg.png')}
+                              className="video-trigger"
+                              onClick={this.onPlayVideo.bind(this)}
                             />
-                            <div className="name">
-                              {profile.user.display_name}
-                            </div>
-                            <div>
-                              {profile.user.profile &&
-                              (profile.user.profile.city ||
-                              profile.user.profile.country_name)
-                                ? `${profile.user.profile.city}, ${profile
-                                .user.profile.country_name}`
-                                : null}
-                            </div>
-                            <div className="skills">
-                              {this.reorderProfileSkills(
-                                profile.user.profile.skills,
-                              )
-                                .slice(0, 3)
-                                .map(skill => {
-                                  return (
-                                    <span>
-                                          {skill.name}
-                                        </span>
-                                  );
-                                })}
-                            </div>
-                            <div
-                              className="intro"
-                              dangerouslySetInnerHTML={{
-                                    __html: nl_to_br(profile.intro),
-                                  }}
-                            />
-                            <div>
-                              <Link to="/start" className="btn btn-block">
-                                Start working with {profile.user.first_name}
-                              </Link>
-                            </div>
                           </div>
                         </div>
-                      );
-                    })}
-                  </div>
+                      </div>
+                    </section>
+                    <HowItWorks />
+                  </div>}
+              <section id="press">
+                <div className="container ">
+                  <Reveal effect="animated fadeInLeft">
+                    <div>
+                      <ul className="press-links">
+                        <li>
+                          <a
+                            href="http://www.bbc.co.uk/news/world-africa-38294998"
+                            target="_blank">
+                            <img src={require('../images/press/bbc.png')} />
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            href="https://www.youtube.com/watch?v=v9uRtYpZDQs"
+                            target="_blank">
+                            <img
+                              src={require('../images/press/campus-party.png')}
+                            />
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            href="https://www.oneworld.nl/startup-tunga-lanceert-pilot-programma-voor-nieuw-soort-freelance-platform"
+                            target="_blank">
+                            <img src={require('../images/press/OWlogo.png')} />
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            href="http://trendwatching.com/blog/featured-innovator-tunga/"
+                            target="_blank">
+                            <img
+                              src={require('../images/press/trend-watching.png')}
+                            />
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            href="https://soundcloud.com/african-tech-round-up/a-chat-with-ernesto-spruyt-of-tungaio?in=african-tech-round-up/sets/quick-chats"
+                            target="_blank">
+                            <img
+                              src={require('../images/press/African-Tech-Round-Up.png')}
+                            />
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            href="http://spendmatters.com/2016/04/01/tunga-wip-of-the-week/"
+                            target="_blank">
+                            <img
+                              src={require('../images/press/Spend-Matters.png')}
+                            />
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            href="https://www.nabc.nl/africa-business-news/5/technology/377/tunga-founder-ernesto-spruyt-we-create-21st-century-jobs-in-africa"
+                            target="_blank">
+                            <img
+                              src={require('../images/press/netherlands-african-business-council.png')}
+                            />
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </Reveal>
                 </div>
               </section>
-                : null}
-              <HowItWorks />
-              <section id="story">
-                <div className="container">
-                  <div
-                    className="section-heading text-center"
-                    dangerouslySetInnerHTML={{
-                      __html: nl_to_br(skill_page.story_header),
-                    }}
-                  />
-                  <div className="readable"
-                    dangerouslySetInnerHTML={{
-                      __html: skill_page.story_body_one,
-                    }}
-                  />
-                </div>
-                <div
-                  id="story-interlude-one"
-                  style={
-                    skill_page.story_interlude_one_image
-                      ? {
-                          backgroundImage: `url(${skill_page.story_interlude_one_image})`,
-                        }
-                      : {}
-                  }>
-                  <div className="container">
-                    <div
-                      dangerouslySetInnerHTML={{
-                        __html: nl_to_br(skill_page.story_interlude_one_text),
-                      }}
-                    />
-                    <Link to="/start" className="cta">
-                      {skill_page.story_interlude_one_cta}
-                    </Link>
-                  </div>
-                </div>
-                <div className="container">
-                  <div className="readable"
-                    dangerouslySetInnerHTML={{
-                      __html: skill_page.story_body_two,
-                    }}
-                  />
-                </div>
-
-                <div
-                  id="story-interlude-two"
-                  style={
-                    skill_page.story_interlude_two_image
-                      ? {
-                          backgroundImage: `url(${skill_page.story_interlude_two_image})`,
-                        }
-                      : {}
-                  }>
-                  <div className="container">
-                    <div
-                      dangerouslySetInnerHTML={{
-                        __html: nl_to_br(skill_page.story_interlude_two_text),
-                      }}
-                    />
-                  </div>
-                </div>
-                <div className="container">
-                  <div className="readable"
-                    dangerouslySetInnerHTML={{
-                      __html: skill_page.story_body_three,
-                    }}
-                  />
-                </div>
-              </section>
-            </div>
-              : <div>
-              <section id="how-we-verify">
-                <div className="container">
-                  <Link to="/quality">How we verify our Developers</Link>
-                </div>
-              </section>
-              <section id="clients-testmonial">
-                <div className="container">
-                  <div className="section-heading text-center">
-                    What our clients say
-                  </div>
-                  <Slider
-                    className="testimonials-slider text-center"
-                    {...slider_settings}>
-                    {TESTIMONIALS.map(testimonial => {
-                      return (
-                        <div className="testimonial">
-                          <div className="body">
-                            <div>
-                              <i className="fa fa-quote-left pull-left" />
-                              <span
-                                dangerouslySetInnerHTML={{
-                                  __html: testimonial.message,
-                                }}
-                              />
-                              <i className="fa fa-quote-right pull-right" />
+              {isSkillPage
+                ? <div>
+                    {skill_page.profiles && skill_page.profiles.length
+                      ? <section id="skill-profiles">
+                          <div className="container">
+                            <div className="row">
+                              {skill_page.profiles.map(profile => {
+                                console.log('profile', profile);
+                                return (
+                                  <div className="col-sm-4">
+                                    <div className="card user-card">
+                                      <Avatar
+                                        src={profile.user.avatar_url}
+                                        size="xl"
+                                      />
+                                      <div className="name">
+                                        {profile.user.display_name}
+                                      </div>
+                                      <div>
+                                        {profile.user.profile &&
+                                        (profile.user.profile.city ||
+                                          profile.user.profile.country_name)
+                                          ? `${profile.user.profile
+                                              .city}, ${profile.user.profile
+                                              .country_name}`
+                                          : null}
+                                      </div>
+                                      <div className="skills">
+                                        {this.reorderProfileSkills(
+                                          profile.user.profile.skills,
+                                        )
+                                          .slice(0, 3)
+                                          .map(skill => {
+                                            return (
+                                              <span>
+                                                {skill.name}
+                                              </span>
+                                            );
+                                          })}
+                                      </div>
+                                      <div
+                                        className="intro"
+                                        dangerouslySetInnerHTML={{
+                                          __html: nl_to_br(profile.intro),
+                                        }}
+                                      />
+                                      <div>
+                                        <Link
+                                          to="/start"
+                                          className="btn btn-block">
+                                          Start working with{' '}
+                                          {profile.user.first_name}
+                                        </Link>
+                                      </div>
+                                    </div>
+                                  </div>
+                                );
+                              })}
                             </div>
                           </div>
+                        </section>
+                      : null}
+                    <HowItWorks />
+                    <section id="story">
+                      <div className="container">
+                        <div
+                          className="section-heading text-center"
+                          dangerouslySetInnerHTML={{
+                            __html: nl_to_br(skill_page.story_header),
+                          }}
+                        />
+                        <div
+                          className="readable"
+                          dangerouslySetInnerHTML={{
+                            __html: skill_page.story_body_one,
+                          }}
+                        />
+                      </div>
+                      <div
+                        id="story-interlude-one"
+                        style={
+                          skill_page.story_interlude_one_image
+                            ? {
+                                backgroundImage: `url(${skill_page.story_interlude_one_image})`,
+                              }
+                            : {}
+                        }>
+                        <div className="container">
                           <div
-                            className="image"
-                            style={{
-                              backgroundImage: `url(${testimonial.image})`,
+                            dangerouslySetInnerHTML={{
+                              __html: nl_to_br(
+                                skill_page.story_interlude_one_text,
+                              ),
                             }}
                           />
-                          <div className="author">
-                            {testimonial.name}
-                          </div>
-                          <div className="company">
-                            {testimonial.company}
+                          <Link to="/start" className="cta">
+                            {skill_page.story_interlude_one_cta}
+                          </Link>
+                        </div>
+                      </div>
+                      <div className="container">
+                        <div
+                          className="readable"
+                          dangerouslySetInnerHTML={{
+                            __html: skill_page.story_body_two,
+                          }}
+                        />
+                      </div>
+
+                      <div
+                        id="story-interlude-two"
+                        style={
+                          skill_page.story_interlude_two_image
+                            ? {
+                                backgroundImage: `url(${skill_page.story_interlude_two_image})`,
+                              }
+                            : {}
+                        }>
+                        <div className="container">
+                          <div
+                            dangerouslySetInnerHTML={{
+                              __html: nl_to_br(
+                                skill_page.story_interlude_two_text,
+                              ),
+                            }}
+                          />
+                        </div>
+                      </div>
+                      <div className="container">
+                        <div
+                          className="readable"
+                          dangerouslySetInnerHTML={{
+                            __html: skill_page.story_body_three,
+                          }}
+                        />
+                      </div>
+                    </section>
+                  </div>
+                : <div>
+                    <section id="how-we-verify">
+                      <div className="container">
+                        <Link to="/quality">How we verify our Developers</Link>
+                      </div>
+                    </section>
+                    <section id="clients-testmonial">
+                      <div className="container">
+                        <div className="section-heading text-center">
+                          What our clients say
+                        </div>
+                        <Slider
+                          className="testimonials-slider text-center"
+                          {...slider_settings}>
+                          {TESTIMONIALS.map(testimonial => {
+                            return (
+                              <div className="testimonial">
+                                <div className="body">
+                                  <div>
+                                    <i className="fa fa-quote-left pull-left" />
+                                    <span
+                                      dangerouslySetInnerHTML={{
+                                        __html: testimonial.message,
+                                      }}
+                                    />
+                                    <i className="fa fa-quote-right pull-right" />
+                                  </div>
+                                </div>
+                                <div
+                                  className="image"
+                                  style={{
+                                    backgroundImage: `url(${testimonial.image})`,
+                                  }}
+                                />
+                                <div className="author">
+                                  {testimonial.name}
+                                </div>
+                                <div className="company">
+                                  {testimonial.company}
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </Slider>
+                      </div>
+                    </section>
+                    <section id="what-we-can-do">
+                      <div className="container">
+                        <div className="section-heading text-center">
+                          Our network expertise
+                        </div>
+                        <div>
+                          <div className="row">
+                            {NETWORK_EXPERTISE.map((step, idx) => {
+                              return (
+                                <div key={idx} className="col-sm-3">
+                                  <div
+                                    className={`${this.state.step == idx
+                                      ? 'active'
+                                      : ''} animated fadeInRight`}
+                                    style={{animationDelay: `${idx}s`}}>
+                                    <div className="icon">
+                                      <i className={step.icon} />
+                                    </div>
+                                    {step.content}
+                                  </div>
+                                </div>
+                              );
+                            })}
                           </div>
                         </div>
-                      );
-                    })}
-                  </Slider>
-                </div>
-              </section>
-              <section id="what-we-can-do">
-                <div className="container">
-                  <div className="section-heading text-center">
-                    Our network expertise
-                  </div>
-                  <div>
-                    <div className="row">
-                      {NETWORK_EXPERTISE.map((step, idx) => {
-                        return (
-                          <div key={idx} className="col-sm-3">
-                            <div
-                              className={`${this.state.step == idx
-                                ? 'active'
-                                : ''} animated fadeInRight`}
-                              style={{animationDelay: `${idx}s`}}>
-                              <div className="icon">
-                                <i className={step.icon} />
-                              </div>
-                              {step.content}
-                            </div>
+                      </div>
+                    </section>
+                    <section id="platform-stats">
+                      <div className="container">
+                        <div className="col-sm-offset-1 col-sm-4">
+                          <div
+                            id="stats-devs"
+                            className="highlight figure stat"
+                            data-number="154">
+                            154
                           </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </div>
-              </section>
-              <section id="platform-stats">
-                <div className="container">
-                  <div className="col-sm-offset-1 col-sm-4">
-                    <div
-                      id="stats-devs"
-                      className="highlight figure stat"
-                      data-number="154">
-                      154
-                    </div>
-                    <span className="desc">
-                      developers and project managers
-                    </span>
-                  </div>
-                  <div className="col-sm-4">
-                    <div
-                      id="stats-skills"
-                      className="highlight figure stat"
-                      data-number="89">
-                      89
-                    </div>
-                    <span className="desc">
-                      different development skills available
-                    </span>
-                  </div>
-                  <div className="col-sm-3">
-                    <div className="highlight figure">
-                      <span id="stats-code" className="stat" data-number="70">
-                        70
-                      </span>
-                      <span>k+</span>
-                    </div>
-                    <span className="desc">lines of code written</span>
-                  </div>
-                </div>
-              </section>
-            </div>}
-            <section id="video-overlay" className={this.state.play ? 'on' : ''}>
-              <div className="modal-backdrop fade in" />
-              <div className="video-close">
-                <button
-                  className="btn btn-borderless"
-                  title="Close"
-                  onClick={this.onCloseVideo.bind(this)}>
-                  <i className="fa fa-times fa-lg" />
-                </button>
-              </div>
-              <div className="container">
-                <YouTube
-                  videoId="RVVtyapBmuo"
-                  opts={this.state.youtubeOpts}
-                  onReady={this.onVideoReady.bind(this)}
-                  onPause={this.onPauseVideo.bind(this)}
-                />
-              </div>
-            </section>
-
-            <section id="landing-overlay" className={this.state.showOverlay ? 'on' : ''}>
-
-              <div className="modal-backdrop fade in" />
-              <div className="container">
-                <div className="landing-overlay-close">
+                          <span className="desc">
+                            developers and project managers
+                          </span>
+                        </div>
+                        <div className="col-sm-4">
+                          <div
+                            id="stats-skills"
+                            className="highlight figure stat"
+                            data-number="89">
+                            89
+                          </div>
+                          <span className="desc">
+                            different development skills available
+                          </span>
+                        </div>
+                        <div className="col-sm-3">
+                          <div className="highlight figure">
+                            <span
+                              id="stats-code"
+                              className="stat"
+                              data-number="70">
+                              70
+                            </span>
+                            <span>k+</span>
+                          </div>
+                          <span className="desc">lines of code written</span>
+                        </div>
+                      </div>
+                    </section>
+                  </div>}
+              <section
+                id="video-overlay"
+                className={this.state.play ? 'on' : ''}>
+                <div className="modal-backdrop fade in" />
+                <div className="video-close">
                   <button
                     className="btn btn-borderless"
                     title="Close"
-                    onClick={this.onCloseOverlay.bind(this)}>
+                    onClick={this.onCloseVideo.bind(this)}>
                     <i className="fa fa-times fa-lg" />
                   </button>
                 </div>
+                <div className="container">
+                  <YouTube
+                    videoId="RVVtyapBmuo"
+                    opts={this.state.youtubeOpts}
+                    onReady={this.onVideoReady.bind(this)}
+                    onPause={this.onPauseVideo.bind(this)}
+                  />
+                </div>
+              </section>
 
-                <div class="row">
-                  <div><h1>Start hiring great developers?</h1></div>
-                  <div><h3> Free quotes. Vetted Quality.Impact Sourcing. Daily progress report</h3></div>
-                  <div>
-                    <Link to="/start/" className="btn btn-callout btn-main-cta" id="cta-discuss">
-                      <i className="tunga-icon-rocket" />
-                      Discuss your project
-                    </Link>
+              <section
+                id="landing-overlay"
+                className={this.state.showOverlay ? 'on' : ''}>
+                <div className="modal-backdrop fade in" />
+                <div className="container">
+                  <div className="landing-overlay-close">
+                    <button
+                      className="btn btn-borderless"
+                      title="Close"
+                      onClick={this.onCloseOverlay.bind(this)}>
+                      <i className="fa fa-times fa-lg" />
+                    </button>
                   </div>
-                  <div>
-                    <Link to="/" id="interest_text" onClick={this.onCloseOverlay.bind(this)}>
-                      <h5>l'm not looking to hire experts today</h5>
-                    </Link>
+
+                  <div class="row">
+                    <div>
+                      <h1>Start hiring great developers?</h1>
+                    </div>
+                    <div>
+                      <h3>
+                        {' '}Free quotes. Vetted Quality.Impact Sourcing. Daily
+                        progress report
+                      </h3>
+                    </div>
+                    <div>
+                      <Link
+                        to="/start/"
+                        className="btn btn-callout btn-main-cta"
+                        id="cta-discuss">
+                        <i className="tunga-icon-rocket" />
+                        Discuss your project
+                      </Link>
+                    </div>
+                    <div>
+                      <Link
+                        to="/"
+                        id="interest_text"
+                        onClick={this.onCloseOverlay.bind(this)}>
+                        <h5>l'm not looking to hire experts today</h5>
+                      </Link>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </section>
+              </section>
 
-            <div className="outsource-widget">
-              <div>Ready to outsource the right way?</div>
-              <form
-                name="task"
-                role="form"
-                ref="task_form"
-                action="/start-outsource/">
-                <input
-                  type="email"
-                  name="email"
-                  className="form-control"
-                  ref="email"
-                  required
-                  placeholder="Your email address"
-                />
-                <button className="btn">Go</button>
-              </form>
-            </div>
-          </div>
-        )}
+              <div className="outsource-widget">
+                <div>Ready to outsource the right way?</div>
+                <form
+                  name="task"
+                  role="form"
+                  ref="task_form"
+                  action="/start-outsource/">
+                  <input
+                    type="email"
+                    name="email"
+                    className="form-control"
+                    ref="email"
+                    required
+                    placeholder="Your email address"
+                  />
+                  <button className="btn">Go</button>
+                </form>
+              </div>
+            </div>}
 
         <ShowCaseFooter />
       </ShowcaseContainer>
