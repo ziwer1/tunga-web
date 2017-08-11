@@ -23,9 +23,6 @@ import {
   canAddEstimate,
   canEditEstimate,
   canViewEstimate,
-  canAddQuote,
-  canEditQuote,
-  canViewQuote,
   getAcquisitionUrl,
   hasStarted,
 } from '../utils/tasks';
@@ -488,24 +485,6 @@ export default class TaskWorflow extends ComponentWithModal {
                           to={`/work/${task.id}/estimate/${task.estimate.id}`}
                           className="btn">
                           View Estimate
-                        </Link>
-                      : null}
-
-                {canAddQuote(task)
-                  ? <Link to={`/work/${task.id}/quote/new`} className="btn">
-                      Add Quote
-                    </Link>
-                  : canEditQuote(task)
-                    ? <Link
-                        to={`/work/${task.id}/quote/${task.quote.id}/edit`}
-                        className="btn">
-                        Edit Quote
-                      </Link>
-                    : canViewQuote(task)
-                      ? <Link
-                          to={`/work/${task.id}/quote/${task.quote.id}`}
-                          className="btn">
-                          View Quote
                         </Link>
                       : null}
 

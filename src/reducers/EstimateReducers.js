@@ -2,6 +2,8 @@ import {combineReducers} from 'redux';
 import * as EstimateActions from '../actions/EstimateActions';
 import {PATH_CHANGE} from '../actions/NavActions';
 
+import {getIds} from '../utils/reducers';
+
 function estimate(state = {}, action) {
   switch (action.type) {
     case EstimateActions.CREATE_ESTIMATE_SUCCESS:
@@ -37,18 +39,25 @@ function estimates(state = {}, action) {
   }
 }
 
-function ids(state = [], action) {
+function ids(state = {}, action) {
+  var selection_key = action.selection || 'default';
+  var new_state = {};
   switch (action.type) {
     case EstimateActions.LIST_ESTIMATES_SUCCESS:
-      return action.items.map(estimate => {
-        return estimate.id;
-      });
+      new_state[selection_key] = getIds(action.items);
+      return {...state, ...new_state};
     case EstimateActions.LIST_MORE_ESTIMATES_SUCCESS:
-      var new_estimates = action.items.map(estimate => {
-        return estimate.id;
-      });
-      return [...state, ...new_estimates];
+      new_state[selection_key] = [
+        ...state[selection_key],
+        ...getIds(action.items),
+      ];
+      return {...state, ...new_state};
     case EstimateActions.LIST_ESTIMATES_START:
+      if (action.prev_selection && state[action.prev_selection]) {
+        new_state[selection_key] = state[action.prev_selection];
+        return {...state, ...new_state};
+      }
+      return state;
     case EstimateActions.LIST_ESTIMATES_FAILED:
       return [];
     default:

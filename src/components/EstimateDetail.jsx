@@ -14,6 +14,7 @@ import {
   STATUS_ACCEPTED,
   STATUS_REJECTED,
   ENDPOINT_TASK,
+  ENDPOINT_ESTIMATE,
 } from '../constants/Api';
 import {
   getPayDetails,
@@ -78,6 +79,29 @@ export default class EstimateDetail extends React.Component {
             target="_blank">
             <i className="fa fa-file-pdf-o" /> Download Pdf
           </a>
+        </div>
+        <div className="pull-right">
+          <a
+            href={`${estimate.task && false
+              ? `${ENDPOINT_TASK}${estimate.task}/download/estimate`
+              : `${ENDPOINT_ESTIMATE}${estimate.id}/download`}?format=pdf`}
+            className="btn btn-primary"
+            target="_blank">
+            <i className="fa fa-file-pdf-o" /> Download Pdf
+          </a>
+        </div>
+
+        <div className="form-group">
+          <h4>Introduction:</h4>
+          <div>
+            {estimate.introduction}
+          </div>
+        </div>
+        <div className="form-group">
+          <h4>Title:</h4>
+          <div>
+            {estimate.task ? estimate.details.task.summary : estimate.title}
+          </div>
         </div>
 
         <div className="form-group">

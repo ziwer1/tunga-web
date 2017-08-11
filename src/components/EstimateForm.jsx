@@ -22,6 +22,7 @@ export default class EstimateForm extends ComponentWithModal {
   constructor(props) {
     super(props);
     this.state = {
+      title: '',
       introduction: '',
       activities: [],
       modalActivity: null,
@@ -128,6 +129,7 @@ export default class EstimateForm extends ComponentWithModal {
 
   handleSubmit(e) {
     e.preventDefault();
+    var title = this.state.title;
     var introduction = this.state.introduction;
     var activities = this.state.activities;
     var start_date = this.state.start_date;
@@ -141,6 +143,10 @@ export default class EstimateForm extends ComponentWithModal {
 
     if (!estimate.id) {
       estimate_info.task = task.id;
+    }
+
+    if (title) {
+      estimate_info.title = title;
     }
 
     if (this.state.submitted) {
@@ -212,6 +218,30 @@ export default class EstimateForm extends ComponentWithModal {
           {Estimate.detail.error.update && Estimate.detail.error.update.message
             ? <FieldError message={Estimate.detail.error.update.message} />
             : null}
+
+          {task.id
+            ? null
+            : <div>
+            <h4>Title:</h4>
+            {Estimate.detail.error.create &&
+            Estimate.detail.error.create.title
+              ? <FieldError message={Estimate.detail.error.create.title} />
+              : null}
+            {Estimate.detail.error.update &&
+            Estimate.detail.error.update.title
+              ? <FieldError message={Estimate.detail.error.update.title} />
+              : null}
+            <div className="form-group">
+              {/*<label className="control-label">Title *</label>*/}
+                  <textarea
+                    className="form-control"
+                    onChange={this.onInputChange.bind(this, 'title')}
+                    value={this.state.title}
+                    ref="title"
+                    placeholder="Title"
+                  />
+            </div>
+          </div>}
 
           <h4>Introduction:</h4>
           {Estimate.detail.error.create &&
