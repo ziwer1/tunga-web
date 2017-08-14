@@ -191,7 +191,10 @@ export default class PaymentList extends GenericListContainer {
                               <th>Tunga fee</th>,
                               <th>To Receive</th>,
                             ]
-                          : <th>Pledge</th>}
+                          : [
+                          <th>Pledge</th>,
+                          <th>Developers</th>
+                        ]}
                         <th>Invoice</th>
                         <th>Status</th>
                         {isAdmin() || isProjectOwner()
@@ -247,9 +250,22 @@ export default class PaymentList extends GenericListContainer {
                                     ).toFixed(2)}
                                   </td>,
                                 ]
-                              : <td>
-                                  {task.display_fee}
-                                </td>}
+                              : [
+                              <td>
+                                {task.display_fee}
+                              </td>,
+                              <td>
+                                {task.details && task.details.active_participants?(
+                                  <div>
+                                    {task.details.active_participants.map(dev => {
+                                      return (
+                                        <div><a href={`/people/${dev.username}`} target="_blank">{dev.display_name}</a></div>
+                                      );
+                                    })}
+                                  </div>
+                                ):null}
+                              </td>
+                            ]}
                             <td>
                               {task.invoice
                                 ? <div>
