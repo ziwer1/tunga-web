@@ -257,7 +257,8 @@ export default class PaymentList extends GenericListContainer {
                               <td>
                                 {task.details && task.details.active_participants?(
                                   <div>
-                                    {task.details.active_participants.map(dev => {
+                                    {task.details.active_participants.map(participant => {
+                                      let dev = participant.user || participant;
                                       return (
                                         <div><a href={`/people/${dev.username}`} target="_blank">{dev.display_name}</a></div>
                                       );
