@@ -153,9 +153,12 @@ export class LandingPage extends ComponentWithModal {
     let lp = this;
 
     let updateBg = function() {
+      let menuItemToggled = false;
       let windowWidth = $(window).innerWidth();
       let width = windowWidth / 2;
       let height = 60;
+      let roundTungaLogoTop = $('.tunga-logo-top');
+
       if (windowWidth <= 360) {
         height = 30;
         lp.setState({youtubeOpts: {width: `${windowWidth}px`}});
@@ -217,7 +220,63 @@ export class LandingPage extends ComponentWithModal {
             }
           }
         }
+
+        if(roundTungaLogoTop.size()){
+          var logoPos = roundTungaLogoTop.offset().top;
+          var currentLogoPos = logoPos - $(this).scrollTop();
+          console.log('position 3 is '+ currentLogoPos);
+          
+          if(menuItemToggled === true){
+            if (currentPos >= 0) {
+              $('.navbar').addClass('navbarbgOnScroll');
+              $('.navbar').removeClass('navbar-brand');
+              $('.navbar-brand').addClass('medium-showcase');
+              $('.navbar-brand').addClass('navbar-scrolled-top');
+            }
+          }else{
+            if (currentPos >= logoPos + 50) {
+              $('.navbar').addClass('navbarbgOnScroll');
+              $('.navbar').removeClass('navbar-brand');
+              $('.navbar-brand').addClass('medium-showcase');
+              $('.navbar-brand').addClass('navbar-scrolled-top');
+            } else {
+              $('.navbar').removeClass('navbarbgOnScroll');
+              $('.navbar-brand').removeClass('medium-showcase');
+              $('.navbar-brand').removeClass('navbar-scrolled-top');
+            }
+          }
+        }
       });
+
+
+      $('.navbar-toggle').click(function(){
+          if(windowWidth < 600){
+            console.log('window is small');
+            var $navbar = $('.navbar-collapse');
+            var _opened = $navbar.hasClass('in');
+
+            if(_opened === true){
+              var logoPos = roundTungaLogoTop.offset().top;
+              var currentLogoPos = logoPos - $(document).scrollTop();
+              // console.log('position 2 is '+ currentLogoPos);
+              menuItemToggled = false;
+              if(currentLogoPos >= 50){
+                $('.navbar').removeClass('navbarbg');
+                $('.navbar-brand').removeClass('medium-showcase');
+              }else{
+                $('.navbar-brand').addClass('medium-showcase');
+              }
+              // console.log('closed');
+              
+            }else{
+              $('.navbar').addClass('navbarbg');
+              $('.navbar').removeClass('navbar-brand');
+              $('.navbar-brand').addClass('medium-showcase');
+              menuItemToggled = true;
+              // console.log('open');
+            }
+          }
+      });      
 
       let setTimer;
       window.onload = resetTimer;
@@ -231,8 +290,9 @@ export class LandingPage extends ComponentWithModal {
 
       function resetTimer() {
         clearTimeout(setTimer);
-        setTimer = setTimeout(displayOverlay, 5000);
+        setTimer = setTimeout(displayOverlay, 500000);
       }
+      
     };
 
     $(document).ready(updateBg);
@@ -341,10 +401,16 @@ export class LandingPage extends ComponentWithModal {
 
     return (
       <div>
+        <div className="tunga-logo-top">
+              <img src={require('../images/logo_round.png')} />
+            </div>
         <div
           className={`head-desc ${isSkillPage && this.getDLPTag().length > 7
             ? 'smaller'
             : ''}`}>
+           {/*<div id="tunga-logo-btm">
+              <img src={require('../images/logo_round.png')} />
+            </div>*/}
           <h1>
             {isSkillPage && skill_page.welcome_header
               ? <span

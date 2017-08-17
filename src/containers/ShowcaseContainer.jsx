@@ -50,7 +50,7 @@ export default class ShowcaseContainer extends React.Component {
           <Affix affixClassName="navbar-fixed-top" offsetTop={60}>
             <nav className="navbar navbar-fixed-top">
               <div className="navbar-header">
-                <button
+                {/*<button
                   type="button"
                   className="navbar-toggle collapsed"
                   data-toggle="collapse"
@@ -59,6 +59,16 @@ export default class ShowcaseContainer extends React.Component {
                   aria-controls="navbar">
                   <span className="sr-only">Toggle navigation</span>
                   <i className="fa fa-ellipsis-v fa-lg" />
+                </button>*/}
+                <button
+                  type="button"
+                  className="navbar-toggle collapsed"
+                  data-toggle="collapse"
+                  data-target="#navbar"
+                  aria-expanded="false"
+                  aria-controls="navbar">
+                  <span className="sr-only">Toggle navigation</span>
+                  <i className="fa fa-bars fa-lg" aria-hidden="true"/>
                 </button>
                 <Link className="navbar-brand" to="/">
                   <img src={require('../images/logo.png')} />
