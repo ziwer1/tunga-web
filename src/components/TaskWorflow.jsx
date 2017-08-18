@@ -985,6 +985,41 @@ export default class TaskWorflow extends ComponentWithModal {
                     </Link>
                   </div>
 
+                  {task.schedule_call_start
+                    ? <div>
+                    <strong>Call Window:</strong>
+                    <div>
+                      <i className="fa fa-calendar-o" />{' '}
+                        <span>
+                          {moment
+                            .utc(task.schedule_call_start)
+                            .local()
+                            .format("Do MMM 'YY")}
+                        </span>
+                    </div>
+                    <div>
+                      <i className="fa fa-clock-o" />{' '}
+                        <span>
+                          {moment
+                            .utc(task.schedule_call_start)
+                            .local()
+                            .format("hh:mm A")}
+                        </span>
+                      {task.schedule_call_end?(
+                        <span>
+                          {' - '}
+                        <span>
+                          {moment
+                            .utc(task.schedule_call_end)
+                            .local()
+                            .format("hh:mm A")}
+                        </span>
+                        </span>
+                      ):null}
+                    </div>
+                  </div>
+                    : null}
+
                   {task.pm && task.details && task.details.pm
                     ? <div>
                         <strong>Project Manager</strong>

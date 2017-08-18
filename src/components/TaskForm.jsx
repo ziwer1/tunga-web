@@ -1412,6 +1412,14 @@ export default class TaskForm extends ComponentWithModal {
       </div>
     );
 
+    let detailedUpdates = (
+      <div>
+        {updatesComp}
+
+
+      </div>
+    );
+
     let milestoneComp = (
       <div>
         {is_project_task
@@ -2220,6 +2228,20 @@ export default class TaskForm extends ComponentWithModal {
               requires: ['fee'],
             },
           ];
+        } else if (enabledWidgets[0] == 'call') {
+          sections = [
+            {
+              title: 'Schedule a call with us',
+              items: [scheduleCallMethodComp],
+              requires: ['skype_id'],
+            },
+            {
+              title: 'Schedule Call',
+              items: [scheduleCallComp],
+              required: true,
+            },
+          ];
+
         } else {
           var all_comps = [];
           enabledWidgets.forEach(function(widget) {
