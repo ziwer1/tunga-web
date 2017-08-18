@@ -69,7 +69,7 @@ export default class Milestone extends React.Component {
     // 48 hrs for devs to fill and 72 hrs for PMs, forever for clients
     let is_missed = isProjectOwner()
       ? false
-      : timestamp + (isDeveloper() ? 48 : 72) * 60 * 60 < ts_now &&
+      : timestamp + (isDeveloper() ? 24 : 72) * 60 * 60 < ts_now &&
         milestone.type;
 
     return Milestone.detail.isRetrieving
