@@ -3957,6 +3957,30 @@ form[name='compose'] {
   }
 }
 
+.call-highlight {
+  color: @primary;
+
+  .icon {
+    display: inline-block;
+    .font-size(3.2);
+    margin-bottom: 10px;
+  }
+
+  .skype-id {
+    display: inline-block;
+    border-radius: 5px;
+    padding: 5px 20px;
+    border: 1px @primary solid;
+    margin-bottom: 30px;
+  }
+
+  .form-group {
+    display: inline-block;
+    min-width: 300px;
+    margin: 0 auto;
+  }
+}
+
 .showcase.task-wizard-page {
   .font-size(1.4);
   color: @primary-text;
@@ -4041,30 +4065,6 @@ form[name='compose'] {
 
     .dev-section {
       display: none;
-    }
-
-    .call-highlight {
-      color: @primary;
-
-      .icon {
-        display: inline-block;
-        .font-size(3.2);
-        margin-bottom: 10px;
-      }
-
-      .skype-id {
-        display: inline-block;
-        border-radius: 5px;
-        padding: 5px 20px;
-        border: 1px @primary solid;
-        margin-bottom: 30px;
-      }
-
-      .form-group {
-        display: inline-block;
-        min-width: 300px;
-        margin: 0 auto;
-      }
     }
 
     &.show-trust {

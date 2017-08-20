@@ -965,18 +965,6 @@ export default class TaskWorflow extends ComponentWithModal {
                       </div>
                     : null}
 
-                  {task.owner && task.details && task.details.owner
-                    ? <div>
-                        <strong>Project Owner</strong>
-                        <div>
-                          <Avatar src={task.details.owner.avatar_url} />{' '}
-                          <Link to={`/people/${task.details.owner.username}/`}>
-                            {task.details.owner.display_name}
-                          </Link>
-                        </div>
-                      </div>
-                    : null}
-
                   <strong>Posted by</strong>
                   <div>
                     <Avatar src={task.user.avatar_url} />{' '}
@@ -984,6 +972,34 @@ export default class TaskWorflow extends ComponentWithModal {
                       {task.user.display_name}
                     </Link>
                   </div>
+
+                  {task.owner && task.details && task.details.owner
+                    ? <div>
+                    <strong>Project Owner</strong>
+                    <div>
+                      <Avatar src={task.details.owner.avatar_url} />{' '}
+                      <Link to={`/people/${task.details.owner.username}/`}>
+                        {task.details.owner.display_name}
+                      </Link>
+                    </div>
+                  </div>
+                    : null}
+
+                  {task.details && task.details.admins && task.details.admins.length
+                    ? <div>
+                    <strong>Administrators</strong>
+                    {task.details.admins.map(user => {
+                      return (
+                        <div>
+                          <Avatar src={user.avatar_url} />{' '}
+                          <Link to={`/people/${user.username}/`}>
+                            {user.display_name}
+                          </Link>
+                        </div>
+                      );
+                    })}
+                  </div>
+                    : null}
 
                   {task.schedule_call_start
                     ? <div>
