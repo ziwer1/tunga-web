@@ -67,16 +67,18 @@
 
 @media only screen and (max-width: 767px) {
   .showcase {
+    .navbar {
+      .navbar-toggle {
+        .font-size(2.7);
+        padding: 0 10px;
+        margin-top: 7px;
+        margin-bottom: 0;
+      }
+    }
+
     &.landing-page {
       .navbar {
         background: transparent !important;
-
-        .navbar-toggle {
-          .font-size(2.7);
-          padding: 0 10px;
-          margin-top: 7px;
-          margin-bottom: 0;
-        }
       }
 
       .navbar-brand > img {
@@ -356,6 +358,14 @@
       }
     }
 
+    #press {
+      .press-links {
+        li {
+          margin: 0 20px 10px;
+        }
+      }
+    }
+
     &.landing-page {
       header {
         background-image: url("../images/showcase/welcome.jpg?max-width=992");
@@ -454,6 +464,42 @@
             max-width: 20%;
             margin-bottom: 0;
           }
+        }
+      }
+    }
+
+    &.quality-page {
+      #new-quality-guide {
+        .step {
+          margin-bottom: 0;
+
+          .step-icon {
+            float: left;
+            max-width: 210px;
+            text-align: center;
+            margin-right: 20px;
+          }
+
+          .step-body {
+            float: left;
+            max-width: 480px;
+          }
+
+          &:nth-of-type(even) {
+            .step-icon {
+              float: right;
+              margin-right: 0;
+              margin-left: 20px;
+            }
+
+            .step-body {
+              float: right;
+            }
+          }
+        }
+
+        .dot-connector {
+          display: block;
         }
       }
     }
