@@ -4688,15 +4688,22 @@ form[name='compose'] {
   section {
     padding-top: 20px;
     padding-bottom: 20px;
-    background-color: @inactive-grey;
+    background-color: @active-white !important;
 
     &:first-child {
       padding-top: 60px;
+      padding-bottom: 30px;
     }
 
     &#select-devs-section {
       padding-top: 40px;
-      padding-bottom: 40px;
+      padding-bottom: 80px;
+
+      .section-heading {
+        font-weight: bold;
+        font-size: 3.2rem;
+        margin-bottom: 0;
+      }
     }
 
     .media {
@@ -4736,11 +4743,12 @@ form[name='compose'] {
 
         h1 {
           margin-top: 0;
+          font-weight: bold;
         }
 
         .number {
           position: absolute;
-          top: -10px;
+          top: -20px;
           left: 0;
           .font-size(7.4);
           font-weight: 400;
