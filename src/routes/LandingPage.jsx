@@ -134,11 +134,11 @@ export class LandingPage extends ComponentWithModal {
       youtubeOpts: {height: '360px'},
       hasAnimatedNumbers: false,
       isSkillPage: false,
+      showOverlay: false,
     };
   }
 
   componentDidMount() {
-    console.log('componentDidMount');
     if (showCallWidget(this.props.routes)) {
       openCalendlyWidget();
     }
@@ -153,9 +153,12 @@ export class LandingPage extends ComponentWithModal {
     let lp = this;
 
     let updateBg = function() {
+      let menuItemToggled = false;
       let windowWidth = $(window).innerWidth();
       let width = windowWidth / 2;
       let height = 60;
+      let roundTungaLogoTop = $('.tunga-logo-top');
+
       if (windowWidth <= 360) {
         height = 30;
         lp.setState({youtubeOpts: {width: `${windowWidth}px`}});
@@ -217,7 +220,76 @@ export class LandingPage extends ComponentWithModal {
             }
           }
         }
+
+        if (roundTungaLogoTop.size()) {
+          var logoPos = roundTungaLogoTop.offset().top;
+          var currentLogoPos = logoPos - $(this).scrollTop();
+          console.log('position 3 is ' + currentLogoPos);
+
+          if (menuItemToggled === true) {
+            if (currentPos >= 0) {
+              $('.navbar').addClass('navbarbgOnScroll');
+              $('.navbar').removeClass('navbar-brand');
+              $('.navbar-brand').addClass('medium-showcase');
+              $('.navbar-brand').addClass('navbar-scrolled-top');
+            }
+          } else {
+            if (currentPos >= logoPos + 50) {
+              $('.navbar').addClass('navbarbgOnScroll');
+              $('.navbar').removeClass('navbar-brand');
+              $('.navbar-brand').addClass('medium-showcase');
+              $('.navbar-brand').addClass('navbar-scrolled-top');
+            } else {
+              $('.navbar').removeClass('navbarbgOnScroll');
+              $('.navbar-brand').removeClass('medium-showcase');
+              $('.navbar-brand').removeClass('navbar-scrolled-top');
+            }
+          }
+        }
       });
+
+      $('.navbar-toggle').click(function() {
+        if (windowWidth < 600) {
+          console.log('window is small');
+          var $navbar = $('.navbar-collapse');
+          var _opened = $navbar.hasClass('in');
+
+          if (_opened === true) {
+            var logoPos = roundTungaLogoTop.offset().top;
+            var currentLogoPos = logoPos - $(document).scrollTop();
+            // console.log('position 2 is '+ currentLogoPos);
+            menuItemToggled = false;
+            if (currentLogoPos >= 50) {
+              $('.navbar').removeClass('navbarbg');
+              $('.navbar-brand').removeClass('medium-showcase');
+            } else {
+              $('.navbar-brand').addClass('medium-showcase');
+            }
+            // console.log('closed');
+          } else {
+            $('.navbar').addClass('navbarbg');
+            $('.navbar').removeClass('navbar-brand');
+            $('.navbar-brand').addClass('medium-showcase');
+            menuItemToggled = true;
+            // console.log('open');
+          }
+        }
+      });
+
+      let setTimer;
+      window.onload = resetTimer;
+      document.onmousemove = resetTimer;
+      document.onkeypress = resetTimer;
+      document.onscroll = resetTimer;
+
+      function displayOverlay() {
+        lp.setState({showOverlay: true});
+      }
+
+      function resetTimer() {
+        clearTimeout(setTimer);
+        setTimer = setTimeout(displayOverlay, 500000);
+      }
     };
 
     $(document).ready(updateBg);
@@ -264,6 +336,10 @@ export class LandingPage extends ComponentWithModal {
 
   onChangeSliderStep(step) {
     this.setState({step});
+  }
+
+  onCloseOverlay() {
+    this.setState({showOverlay: false});
   }
 
   getDLPTag() {
@@ -322,6 +398,9 @@ export class LandingPage extends ComponentWithModal {
 
     return (
       <div>
+        <div className="tunga-logo-top">
+          <img src={require('../images/logo_round.png')} />
+        </div>
         <div
           className={`head-desc ${isSkillPage && this.getDLPTag().length > 7
             ? 'smaller'
@@ -798,6 +877,51 @@ export class LandingPage extends ComponentWithModal {
                     onReady={this.onVideoReady.bind(this)}
                     onPause={this.onPauseVideo.bind(this)}
                   />
+                </div>
+              </section>
+
+              <section
+                id="landing-overlay"
+                className={this.state.showOverlay ? 'on' : ''}>
+                <div className="modal-backdrop fade in" />
+                <div className="container">
+                  <div className="landing-overlay-close">
+                    <button
+                      className="btn btn-borderless"
+                      title="Close"
+                      onClick={this.onCloseOverlay.bind(this)}>
+                      <i className="fa fa-times fa-lg" />
+                    </button>
+                  </div>
+
+                  <div class="row">
+                    <div>
+                      <h1>Start hiring great developers?</h1>
+                    </div>
+                    <div>
+                      <h3>
+                        {' '}Free quotes. Vetted Quality.Impact Sourcing. Daily
+                        progress report
+                      </h3>
+                    </div>
+                    <div>
+                      <Link
+                        to="/start/"
+                        className="btn btn-callout btn-main-cta"
+                        id="cta-discuss">
+                        <i className="tunga-icon-rocket" />
+                        Discuss your project
+                      </Link>
+                    </div>
+                    <div>
+                      <Link
+                        to="/"
+                        id="interest_text"
+                        onClick={this.onCloseOverlay.bind(this)}>
+                        <h5>l'm not looking to hire experts today</h5>
+                      </Link>
+                    </div>
+                  </div>
                 </div>
               </section>
 

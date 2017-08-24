@@ -58,7 +58,7 @@ export default class ShowcaseContainer extends React.Component {
                   aria-expanded="false"
                   aria-controls="navbar">
                   <span className="sr-only">Toggle navigation</span>
-                  <i className="fa fa-ellipsis-v fa-lg" />
+                  <i className="fa tunga-icon-bars" />
                 </button>
                 <Link className="navbar-brand" to="/">
                   <img src={require('../images/logo.png')} />
