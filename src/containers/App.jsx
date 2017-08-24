@@ -62,13 +62,13 @@ class App extends React.Component {
         !Auth.isEmailVisitor
       ) {
         AuthActions.authRedirect(location.pathname);
-        router.replace('/?next=' + location.pathname);
+        router.replace('/signin?next=' + location.pathname);
         return;
       }
 
       if (requiresAuth(routes) && !Auth.isAuthenticated) {
         AuthActions.authRedirect(location.pathname);
-        router.replace('/?next=' + location.pathname);
+        router.replace('/signin?next=' + location.pathname);
         return;
       }
     }
@@ -122,7 +122,7 @@ class App extends React.Component {
     this.close();
     if (requiresAuth(routes) && !Auth.isAuthenticated) {
       AuthActions.authRedirect(location.pathname);
-      router.replace('/?next=' + location.pathname);
+      router.replace('/signin?next=' + location.pathname);
     }
   }
 

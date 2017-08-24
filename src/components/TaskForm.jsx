@@ -12,6 +12,7 @@ import Progress from './status/Progress';
 import FormStatus from './status/FormStatus';
 import FieldError from './status/FieldError';
 
+import Avatar from '../components/Avatar';
 import UserSelector from '../containers/UserSelector';
 import SkillSelector from '../containers/SkillSelector';
 import ComponentWithModal from './ComponentWithModal';
@@ -111,6 +112,7 @@ export default class TaskForm extends ComponentWithModal {
       lastAcquisitionUrl: null,
       analytics_id: props.analyticsId || randomstring.generate(),
       call_required: null,
+      participant_updates: {},
     };
   }
 
@@ -126,18 +128,20 @@ export default class TaskForm extends ComponentWithModal {
   getStateFromTask() {
     const {project, options} = this.props;
     const task = this.props.task || {};
-    var new_state = {};
 
     const assignee =
       task.assignee && task.assignee.user ? task.assignee.user.id : null;
     const description = task.description || '';
     const remarks = task.remarks || '';
     var participants = [];
+    var participant_updates = {};
     if (task.details) {
       task.details.participation.forEach(participant => {
         if (participant.user.id != assignee) {
           participants.push(participant.user.id);
         }
+
+        participant_updates[participant.id] = participant.updates_enabled;
       });
     }
     var user = {};
@@ -161,6 +165,7 @@ export default class TaskForm extends ComponentWithModal {
       ...task,
       assignee,
       participants,
+      participant_updates,
       description,
       remarks,
       fee: task.pay,
@@ -502,6 +507,22 @@ export default class TaskForm extends ComponentWithModal {
     this.setState({schedule_call: new_schedule_call});
   }
 
+  onPauseUpdateUntilChange(date) {
+    this.setState({
+      pause_updates_until: date
+        ? moment(date).utc().format('YYYY-MM-DD 23:59:59')
+        : undefined,
+    });
+  }
+
+  onParticipantUpdatesChange(participation, enabled) {
+    let new_state = {};
+    new_state[participation.id] = enabled;
+    this.setState({
+      participant_updates: {...this.state.participant_updates, ...new_state},
+    });
+  }
+
   onRichTextChange(key, e) {
     var new_state = {};
     new_state[key] = e.target.getContent();
@@ -763,6 +784,13 @@ export default class TaskForm extends ComponentWithModal {
           .state.schedule_call.to}Z`;
       }
     }
+
+    req_data.pause_updates_until = this.state.pause_updates_until;
+    req_data.participant_updates = Object.keys(
+      this.state.participant_updates,
+    ).map(id => {
+      return {id: id, enabled: this.state.participant_updates[id]};
+    });
 
     var task_info = {};
     Object.keys(req_data).forEach(function(key) {
@@ -1413,6 +1441,128 @@ export default class TaskForm extends ComponentWithModal {
       </div>
     );
 
+    let pauseUpdatesComp = (
+      <div>
+        {Task.detail.error.create &&
+        Task.detail.error.create.pause_updates_until
+          ? <FieldError
+              message={Task.detail.error.create.pause_updates_until}
+            />
+          : null}
+        {Task.detail.error.update &&
+        Task.detail.error.update.pause_updates_until
+          ? <FieldError
+              message={Task.detail.error.update.pause_updates_until}
+            />
+          : null}
+        <div className="form-group">
+          <label className="control-label">
+            Turn off developer updates until:
+          </label>
+          <div>
+            <DateTimePicker
+              ref="pause_updates_until"
+              onChange={this.onPauseUpdateUntilChange.bind(this)}
+              defaultValue={
+                task.pause_updates_until
+                  ? new Date(moment.utc(task.pause_updates_until).format())
+                  : null
+              }
+              value={
+                this.state.pause_updates_until
+                  ? new Date(
+                      moment.utc(this.state.pause_updates_until).format(),
+                    )
+                  : null
+              }
+              time={false}
+            />
+          </div>
+        </div>
+      </div>
+    );
+
+    let detailedUpdates = (
+      <div>
+        {updatesComp}
+
+        {pauseUpdatesComp}
+
+        <div className="form-group">
+          <label className="control-label">
+            Turn updates on and off for specific developers:
+          </label>
+          <div>
+            {task.details &&
+              task.details.active_participation.map(participation => {
+                let user = participation.user;
+                return (
+                  <div className="list-group-item">
+                    <div className="media">
+                      <div className="media-left">
+                        <Avatar src={user.avatar_url} size="small" />
+                      </div>
+                      <div className="media-body">
+                        <div className="pull-left">
+                          <div>
+                            {user.display_name}
+                          </div>
+                          <div className="secondary">
+                            @{user.username}
+                          </div>
+                        </div>
+
+                        <div className="pull-right">
+                          <div
+                            className="btn-group btn-choices btn-switch"
+                            role="group"
+                            aria-label="status">
+                            <button
+                              type="button"
+                              onClick={this.onParticipantUpdatesChange.bind(
+                                this,
+                                participation,
+                                true,
+                              )}
+                              className={
+                                'btn ' +
+                                (this.state.participant_updates[
+                                  participation.id
+                                ]
+                                  ? ' active'
+                                  : '')
+                              }>
+                              on
+                            </button>
+                            <button
+                              type="button"
+                              onClick={this.onParticipantUpdatesChange.bind(
+                                this,
+                                participation,
+                                false,
+                              )}
+                              className={
+                                'btn ' +
+                                (this.state.participant_updates[
+                                  participation.id
+                                ]
+                                  ? ''
+                                  : ' active')
+                              }>
+                              off
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+          </div>
+        </div>
+      </div>
+    );
+
     let milestoneComp = (
       <div>
         {is_project_task
@@ -1790,7 +1940,8 @@ export default class TaskForm extends ComponentWithModal {
           : null}
         <div className="form-group">
           <label className="control-label">
-            Skype ID {phase == 'schedule' ? ' or Call URL' : ''}
+            Skype ID{' '}
+            {phase == 'schedule' || isAuthenticated() ? ' or Call URL' : ''}
           </label>
           <div className="row">
             <div className="col-md-12">
@@ -1799,7 +1950,8 @@ export default class TaskForm extends ComponentWithModal {
                   type="text"
                   className="form-control"
                   ref="skype_id"
-                  placeholder={`Your Skype ID ${phase == 'schedule'
+                  placeholder={`Your Skype ID ${phase == 'schedule' ||
+                  isAuthenticated()
                     ? ' or Call URL'
                     : ''}`}
                   value={this.state.skype_id}
@@ -2197,7 +2349,7 @@ export default class TaskForm extends ComponentWithModal {
           deliverables: deliverablesComp,
           stack: stackDescComp,
           files: filesComp,
-          updates: updatesComp,
+          updates: detailedUpdates,
           pm: pmComp,
           owner: ownerComp,
           trello: trelloComp,
@@ -2219,6 +2371,19 @@ export default class TaskForm extends ComponentWithModal {
               title: 'Agreements',
               items: [deadlineComp, feeComp],
               requires: ['fee'],
+            },
+          ];
+        } else if (enabledWidgets[0] == 'call') {
+          sections = [
+            {
+              title: 'Schedule a call with us',
+              items: [scheduleCallMethodComp],
+              requires: ['skype_id'],
+            },
+            {
+              title: 'Schedule Call',
+              items: [scheduleCallComp],
+              required: true,
             },
           ];
         } else {
