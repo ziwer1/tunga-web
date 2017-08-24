@@ -122,6 +122,8 @@ const NETWORK_EXPERTISE = [
   },
 ];
 
+let closedOverlay = false;
+
 export class LandingPage extends ComponentWithModal {
   constructor(props) {
     super(props);
@@ -287,8 +289,12 @@ export class LandingPage extends ComponentWithModal {
       }
 
       function resetTimer() {
-        clearTimeout(setTimer);
-        setTimer = setTimeout(displayOverlay, 500000);
+        if(setTimer) {
+          clearTimeout(setTimer);
+        }
+        if(!closedOverlay) {
+          setTimer = setTimeout(displayOverlay, __PRODUCTION__?45000:3000);
+        }
       }
     };
 
@@ -339,6 +345,7 @@ export class LandingPage extends ComponentWithModal {
   }
 
   onCloseOverlay() {
+    closedOverlay = true;
     this.setState({showOverlay: false});
   }
 
@@ -900,8 +907,7 @@ export class LandingPage extends ComponentWithModal {
                     </div>
                     <div>
                       <h3>
-                        {' '}Free quotes. Vetted Quality.Impact Sourcing. Daily
-                        progress report
+                        Free quotes. Vetted Quality. Impact Sourcing. Daily progress report
                       </h3>
                     </div>
                     <div>
@@ -910,7 +916,7 @@ export class LandingPage extends ComponentWithModal {
                         className="btn btn-callout btn-main-cta"
                         id="cta-discuss">
                         <i className="tunga-icon-rocket" />
-                        Discuss your project
+                        Start your project
                       </Link>
                     </div>
                     <div>
