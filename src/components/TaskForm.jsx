@@ -112,7 +112,7 @@ export default class TaskForm extends ComponentWithModal {
       lastAcquisitionUrl: null,
       analytics_id: props.analyticsId || randomstring.generate(),
       call_required: null,
-      participant_updates: {}
+      participant_updates: {},
     };
   }
 
@@ -507,13 +507,19 @@ export default class TaskForm extends ComponentWithModal {
   }
 
   onPauseUpdateUntilChange(date) {
-    this.setState({pause_updates_until: date ? moment(date).utc().format('YYYY-MM-DD 23:59:59') : undefined});
+    this.setState({
+      pause_updates_until: date
+        ? moment(date).utc().format('YYYY-MM-DD 23:59:59')
+        : undefined,
+    });
   }
 
   onParticipantUpdatesChange(participation, enabled) {
     let new_state = {};
     new_state[participation.id] = enabled;
-    this.setState({participant_updates: {...this.state.participant_updates, ...new_state}});
+    this.setState({
+      participant_updates: {...this.state.participant_updates, ...new_state},
+    });
   }
 
   onRichTextChange(key, e) {
@@ -779,8 +785,10 @@ export default class TaskForm extends ComponentWithModal {
     }
 
     req_data.pause_updates_until = this.state.pause_updates_until;
-    req_data.participant_updates = Object.keys(this.state.participant_updates).map(id => {
-      return {id: id, enabled: this.state.participant_updates[id]}
+    req_data.participant_updates = Object.keys(
+      this.state.participant_updates,
+    ).map(id => {
+      return {id: id, enabled: this.state.participant_updates[id]};
     });
 
     var task_info = {};
@@ -1434,11 +1442,17 @@ export default class TaskForm extends ComponentWithModal {
 
     let pauseUpdatesComp = (
       <div>
-        {Task.detail.error.create && Task.detail.error.create.pause_updates_until
-          ? <FieldError message={Task.detail.error.create.pause_updates_until} />
+        {Task.detail.error.create &&
+        Task.detail.error.create.pause_updates_until
+          ? <FieldError
+              message={Task.detail.error.create.pause_updates_until}
+            />
           : null}
-        {Task.detail.error.update && Task.detail.error.update.pause_updates_until
-          ? <FieldError message={Task.detail.error.update.pause_updates_until} />
+        {Task.detail.error.update &&
+        Task.detail.error.update.pause_updates_until
+          ? <FieldError
+              message={Task.detail.error.update.pause_updates_until}
+            />
           : null}
         <div className="form-group">
           <label className="control-label">
@@ -1449,15 +1463,17 @@ export default class TaskForm extends ComponentWithModal {
               ref="pause_updates_until"
               onChange={this.onPauseUpdateUntilChange.bind(this)}
               defaultValue={
-                  task.pause_updates_until
-                    ? new Date(moment.utc(task.pause_updates_until).format())
-                    : null
-                }
+                task.pause_updates_until
+                  ? new Date(moment.utc(task.pause_updates_until).format())
+                  : null
+              }
               value={
-                  this.state.pause_updates_until
-                    ? new Date(moment.utc(this.state.pause_updates_until).format())
-                    : null
-                }
+                this.state.pause_updates_until
+                  ? new Date(
+                      moment.utc(this.state.pause_updates_until).format(),
+                    )
+                  : null
+              }
               time={false}
             />
           </div>
@@ -1476,49 +1492,71 @@ export default class TaskForm extends ComponentWithModal {
             Turn updates on and off for specific developers:
           </label>
           <div>
-            {task.details && task.details.active_participation.map(participation => {
-              let user = participation.user;
-              return (
-                <div
-                  className="list-group-item">
-                  <div className="media">
-                    <div className="media-left">
-                      <Avatar src={user.avatar_url} size="small" />
-                    </div>
-                    <div className="media-body">
-                      <div className="pull-left">
-                        <div>
-                          {user.display_name}
-                        </div>
-                        <div className="secondary">
-                          @{user.username}
-                        </div>
+            {task.details &&
+              task.details.active_participation.map(participation => {
+                let user = participation.user;
+                return (
+                  <div className="list-group-item">
+                    <div className="media">
+                      <div className="media-left">
+                        <Avatar src={user.avatar_url} size="small" />
                       </div>
+                      <div className="media-body">
+                        <div className="pull-left">
+                          <div>
+                            {user.display_name}
+                          </div>
+                          <div className="secondary">
+                            @{user.username}
+                          </div>
+                        </div>
 
-                      <div className="pull-right">
-                        <div
-                          className="btn-group btn-choices btn-switch"
-                          role="group"
-                          aria-label="status">
-                          <button
-                            type="button"
-                            onClick={this.onParticipantUpdatesChange.bind(this, participation, true)}
-                            className={'btn ' + (this.state.participant_updates[participation.id] ? ' active' : '')}>
-                            on
-                          </button>
-                          <button
-                            type="button"
-                            onClick={this.onParticipantUpdatesChange.bind(this, participation, false)}
-                            className={'btn ' + (this.state.participant_updates[participation.id] ? '' : ' active')}>
-                            off
-                          </button>
+                        <div className="pull-right">
+                          <div
+                            className="btn-group btn-choices btn-switch"
+                            role="group"
+                            aria-label="status">
+                            <button
+                              type="button"
+                              onClick={this.onParticipantUpdatesChange.bind(
+                                this,
+                                participation,
+                                true,
+                              )}
+                              className={
+                                'btn ' +
+                                (this.state.participant_updates[
+                                  participation.id
+                                ]
+                                  ? ' active'
+                                  : '')
+                              }>
+                              on
+                            </button>
+                            <button
+                              type="button"
+                              onClick={this.onParticipantUpdatesChange.bind(
+                                this,
+                                participation,
+                                false,
+                              )}
+                              className={
+                                'btn ' +
+                                (this.state.participant_updates[
+                                  participation.id
+                                ]
+                                  ? ''
+                                  : ' active')
+                              }>
+                              off
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
           </div>
         </div>
       </div>
@@ -1901,7 +1939,8 @@ export default class TaskForm extends ComponentWithModal {
           : null}
         <div className="form-group">
           <label className="control-label">
-            Skype ID {phase == 'schedule' || isAuthenticated()? ' or Call URL' : ''}
+            Skype ID{' '}
+            {phase == 'schedule' || isAuthenticated() ? ' or Call URL' : ''}
           </label>
           <div className="row">
             <div className="col-md-12">
@@ -1910,7 +1949,8 @@ export default class TaskForm extends ComponentWithModal {
                   type="text"
                   className="form-control"
                   ref="skype_id"
-                  placeholder={`Your Skype ID ${phase == 'schedule' || isAuthenticated()
+                  placeholder={`Your Skype ID ${phase == 'schedule' ||
+                  isAuthenticated()
                     ? ' or Call URL'
                     : ''}`}
                   value={this.state.skype_id}
@@ -2345,7 +2385,6 @@ export default class TaskForm extends ComponentWithModal {
               required: true,
             },
           ];
-
         } else {
           var all_comps = [];
           enabledWidgets.forEach(function(widget) {

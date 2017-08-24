@@ -363,11 +363,7 @@ ReactDOM.render(
           component={LandingPage}
           unauthedOnly={true}
         />
-        <Route
-          path=":skill"
-          component={LandingPage}
-          unauthedOnly={true}
-        />
+        <Route path=":skill" component={LandingPage} unauthedOnly={true} />
         <Redirect path="*" to="home" />
       </Route>
     </Router>

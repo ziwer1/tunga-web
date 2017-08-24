@@ -24,22 +24,20 @@ export default class UserCardProfile extends React.Component {
               </div>}
 
           {isAdmin()
-            ? (
-            <div>
-              <p>
-                <a href={`mailto:${user.email}`}>
-                  {user.email}
-                </a>
-              </p>
-              {user.profile && user.profile.phone_number?(
+            ? <div>
                 <p>
-                  <a href={`tel:${user.profile.phone_number}`}>
-                    {user.profile.phone_number}
+                  <a href={`mailto:${user.email}`}>
+                    {user.email}
                   </a>
                 </p>
-              ):null}
-            </div>
-          )
+                {user.profile && user.profile.phone_number
+                  ? <p>
+                      <a href={`tel:${user.profile.phone_number}`}>
+                        {user.profile.phone_number}
+                      </a>
+                    </p>
+                  : null}
+              </div>
             : null}
           {user.is_project_owner && user.profile
             ? <p>

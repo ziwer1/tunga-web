@@ -975,65 +975,67 @@ export default class TaskWorflow extends ComponentWithModal {
 
                   {task.owner && task.details && task.details.owner
                     ? <div>
-                    <strong>Project Owner</strong>
-                    <div>
-                      <Avatar src={task.details.owner.avatar_url} />{' '}
-                      <Link to={`/people/${task.details.owner.username}/`}>
-                        {task.details.owner.display_name}
-                      </Link>
-                    </div>
-                  </div>
-                    : null}
-
-                  {task.details && task.details.admins && task.details.admins.length
-                    ? <div>
-                    <strong>Administrators</strong>
-                    {task.details.admins.map(user => {
-                      return (
+                        <strong>Project Owner</strong>
                         <div>
-                          <Avatar src={user.avatar_url} />{' '}
-                          <Link to={`/people/${user.username}/`}>
-                            {user.display_name}
+                          <Avatar src={task.details.owner.avatar_url} />{' '}
+                          <Link to={`/people/${task.details.owner.username}/`}>
+                            {task.details.owner.display_name}
                           </Link>
                         </div>
-                      );
-                    })}
-                  </div>
+                      </div>
+                    : null}
+
+                  {task.details &&
+                  task.details.admins &&
+                  task.details.admins.length
+                    ? <div>
+                        <strong>Administrators</strong>
+                        {task.details.admins.map(user => {
+                          return (
+                            <div>
+                              <Avatar src={user.avatar_url} />{' '}
+                              <Link to={`/people/${user.username}/`}>
+                                {user.display_name}
+                              </Link>
+                            </div>
+                          );
+                        })}
+                      </div>
                     : null}
 
                   {task.schedule_call_start
                     ? <div>
-                    <strong>Call Window:</strong>
-                    <div>
-                      <i className="fa fa-calendar-o" />{' '}
-                        <span>
-                          {moment
-                            .utc(task.schedule_call_start)
-                            .local()
-                            .format("Do MMM 'YY")}
-                        </span>
-                    </div>
-                    <div>
-                      <i className="fa fa-clock-o" />{' '}
-                        <span>
-                          {moment
-                            .utc(task.schedule_call_start)
-                            .local()
-                            .format("hh:mm A")}
-                        </span>
-                      {task.schedule_call_end?(
-                        <span>
-                          {' - '}
-                        <span>
-                          {moment
-                            .utc(task.schedule_call_end)
-                            .local()
-                            .format("hh:mm A")}
-                        </span>
-                        </span>
-                      ):null}
-                    </div>
-                  </div>
+                        <strong>Call Window:</strong>
+                        <div>
+                          <i className="fa fa-calendar-o" />{' '}
+                          <span>
+                            {moment
+                              .utc(task.schedule_call_start)
+                              .local()
+                              .format("Do MMM 'YY")}
+                          </span>
+                        </div>
+                        <div>
+                          <i className="fa fa-clock-o" />{' '}
+                          <span>
+                            {moment
+                              .utc(task.schedule_call_start)
+                              .local()
+                              .format('hh:mm A')}
+                          </span>
+                          {task.schedule_call_end
+                            ? <span>
+                                {' - '}
+                                <span>
+                                  {moment
+                                    .utc(task.schedule_call_end)
+                                    .local()
+                                    .format('hh:mm A')}
+                                </span>
+                              </span>
+                            : null}
+                        </div>
+                      </div>
                     : null}
 
                   {task.pm && task.details && task.details.pm
