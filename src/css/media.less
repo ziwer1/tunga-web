@@ -5,7 +5,7 @@
 @import "typo";
 
 /*XTRA-XTRA SMALL*/
-@media (max-width: 480px) {
+@media (max-width: 479px) {
   .showcase {
     section {
       .media {
@@ -60,6 +60,54 @@
         .pitch {
           margin-bottom: 10px;
         }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .showcase {
+    &.landing-page {
+      .navbar {
+        background: transparent !important;
+
+        .navbar-toggle {
+          .font-size(2.7);
+          padding: 0 10px;
+          margin-top: 7px;
+          margin-bottom: 0;
+        }
+      }
+
+      .navbar-brand > img {
+        display: none;
+      }
+
+      .medium-showcase img {
+        display: block;
+        max-width: 100% !important;
+      }
+
+      .tunga-logo-top {
+        display: block;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .medium-navbar-brand > img {
+        display: block;
+      }
+
+      .navbar-scrolled-top > img {
+        display: block;
+      }
+
+      .navbarbgOnScroll {
+        background: @primary !important;
+      }
+
+      .navbarbg {
+        background: @primary !important;
       }
     }
   }
@@ -324,7 +372,12 @@
             }
           }
 
+          h3 {
+            display: block;
+          }
+
           .details {
+            display: block;
             text-align: center;
 
             > div {

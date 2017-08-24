@@ -174,43 +174,13 @@ form .alert {
   }
 }
 
-.tunga-logo-top{
+.tunga-logo-top {
   display: none;
+
+  img {
+    width: 94px;
+  }
 }
-
-@media only screen and (max-width: 768px) {
-  .showcase.landing-page .navbar {
-    background: transparent !important;
-  }
-  .showcase.landing-page .navbar-brand>img {
-      display: none;
-  }
-  .showcase.landing-page .medium-showcase img {
-      display: block;
-      max-width: 100% !important;
-  }
-  .tunga-logo-top{
-    display: block;
-    text-align: center;
-  }
-  .showcase.landing-page .tunga-logo-top img {
-      max-width: 20% !important;
-  }
-  .showcase.landing-page .medium-navbar-brand>img{
-    display: block;
-  }
-  .showcase.landing-page .navbar-scrolled-top>img{
-    display: block;
-  }
-  .showcase.landing-page .navbarbgOnScroll{
-    background: @primary !important;
-  }
-
-  .showcase.landing-page .navbarbg{
-    background: @primary !important;
-  }
-
-} 
 
 .navbar {
   .font-size(1.3);
@@ -3386,13 +3356,14 @@ form[name='compose'] {
 
     .head-desc {
       h1 {
-        .font-size(4.4);
-        line-height: 44px;
+        .font-size(2.8);
+        line-height: 35px;
       }
 
       h3 {
+        display: none;
         margin-top: 20px;
-        .font-size(2.4);
+        .font-size(2.0);
         line-height: 24px;
       }
 
@@ -3404,6 +3375,7 @@ form[name='compose'] {
       }
 
       .details {
+        display: none;
         margin-top: 20px;
         .font-size(2.2);
         color: @active-grey;
