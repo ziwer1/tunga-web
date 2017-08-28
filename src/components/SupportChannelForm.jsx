@@ -5,7 +5,7 @@ import FieldError from './status/FieldError';
 
 import {isAuthenticated, isAdmin} from '../utils/auth';
 
-export default class ChannelForm extends React.Component {
+export default class SupportChannelForm extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (
       nextProps.Channel.detail.isSaved &&
@@ -133,6 +133,6 @@ export default class ChannelForm extends React.Component {
   }
 }
 
-ChannelForm.contextTypes = {
+SupportChannelForm.contextTypes = {
   router: React.PropTypes.object.isRequired,
 };

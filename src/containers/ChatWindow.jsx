@@ -2,7 +2,6 @@ import React from 'react';
 import {Button, OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import ChannelView from '../components/Channel';
-import SupportChannelForm from '../components/SupportChannelForm';
 import ChatBox from '../components/ChatBox';
 
 import connect from '../utils/connectors/ChannelConnector';
@@ -87,6 +86,10 @@ class ChatWindow extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     resizeOverviewBox();
+    if(!isAuthenticated() && this.state.open && !prevState.open && !this.state.channel) {
+      const {ChannelActions} = this.props;
+      ChannelActions.createSupportChannel();
+    }
   }
 
   componentWillUnmount() {
@@ -163,14 +166,7 @@ class ChatWindow extends React.Component {
                         MessageActions={MessageActions}>
                         <ChatBox />
                       </ChannelView>
-                    : isAuthenticated()
-                      ? null
-                      : <SupportChannelForm
-                          Channel={Channel}
-                          Message={Message}
-                          ChannelActions={ChannelActions}
-                          MessageActions={MessageActions}
-                        />}
+                    : null}
                 </div>
               </div>
             </div>

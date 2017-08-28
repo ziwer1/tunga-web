@@ -70,8 +70,18 @@ export default class ActivityList extends React.Component {
       case 'message':
         if (item.action == 'send' && showMessages) {
           creator = object.sender || object.user;
+          if(!creator) {
+            creator = {
+              id: 'guest',
+              username: 'guest',
+              short_name: isAuthenticated()?'Guest':'You',
+              display_name: isAuthenticated()?'Guest':'You',
+            }
+          }
           created_at = object.created_at;
-          body = (
+          body = object.isForm?(
+            object.body
+          ):(
             <Linkify properties={{target: '_blank'}}>
               {object.body}
             </Linkify>
@@ -384,10 +394,13 @@ export default class ActivityList extends React.Component {
 
     let is_current_user =
       (isAuthenticated() && activity.user.id == getUser().id) ||
-      (!isAuthenticated() && activity.user.inquirer);
-    let display_name = is_current_user ? 'Me' : activity.user.display_name;
+      (!isAuthenticated() && (activity.user.inquirer || activity.user.id == 'guest'));
 
-    let avatar_div = (
+    console.log('activity: ', is_current_user, activity.user);
+
+    let display_name = is_current_user ? 'You' : activity.user.display_name;
+
+    let avatar_div = activity.user.hide?null:(
       <div className={is_current_user ? 'media-right' : 'media-left'}>
         <Avatar src={activity.user.avatar_url} />
       </div>
@@ -409,27 +422,29 @@ export default class ActivityList extends React.Component {
         {is_current_user ? null : avatar_div}
         <div className="media-body">
           <div className="body">
-            <p>
-              {activity.user.id && activity.user.username
-                ? <Link to={`/people/${activity.user.username}/`}>
-                    {display_name}
-                  </Link>
-                : <span className="username">
+            {activity.user.hide?null:(
+              <p>
+                {activity.user.id && activity.user.username
+                  ? <Link to={`/people/${activity.user.username}/`}>
+                  {display_name}
+                </Link>
+                  : <span className="username">
                     {display_name}
                   </span>}
-              {activity.summary
-                ? <span>
+                {activity.summary
+                  ? <span>
                     {' '}{activity.summary}
                   </span>
-                : null}
+                  : null}
 
-              {activity.created_at
-                ? <TimeAgo
-                    date={moment.utc(activity.created_at).local().format()}
-                    className="pull-right"
-                  />
-                : null}
-            </p>
+                {activity.created_at
+                  ? <TimeAgo
+                  date={moment.utc(activity.created_at).local().format()}
+                  className="pull-right"
+                />
+                  : null}
+              </p>
+            )}
             <div>
               {activity.body}
             </div>
