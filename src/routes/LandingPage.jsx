@@ -293,7 +293,7 @@ export class LandingPage extends ComponentWithModal {
           clearTimeout(setTimer);
         }
         if(!closedOverlay) {
-          setTimer = setTimeout(displayOverlay, __PRODUCTION__?45000:3000);
+          setTimer = setTimeout(displayOverlay, __PRODUCTION__?45000:6000);
         }
       }
     };

@@ -46,6 +46,13 @@ class ChatWindow extends React.Component {
         channel = null;
       }
     }
+
+    if (!isAuthenticated()) {
+      let cw = this;
+      setTimeout(function () {
+        cw.setState({open: true});
+      }, __PRODUCTION__?10000:3000);
+    }
     this.setState({channel, open});
   }
 

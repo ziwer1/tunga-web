@@ -135,9 +135,9 @@ export default class Channel extends React.Component {
                 <div>
                   Hi there, we're are Tunga. How can we help?
                   <div className="avatars">
-                    <Avatar size="medium" src="https://tunga.io/icons/tunga_square.png" />
+                    <Avatar size="medium" src={require('../images/chat/bart.jpg')}/>
                     <Avatar size="medium" src="https://tunga.io/icons/tunga_square.png"/>
-                    <Avatar size="medium" src="https://tunga.io/icons/tunga_square.png"/>
+                    <Avatar size="medium" src={require('../images/chat/ivan.jpg')}/>
                   </div>
                 </div>
               ):(
