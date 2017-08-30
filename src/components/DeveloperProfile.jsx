@@ -1,0 +1,169 @@
+import React from 'react';
+import {Link} from 'react-router';
+import Reveal from 'react-reveal';
+
+import ShowcaseContainer from '../containers/ShowcaseContainer';
+import MetaTags from '../components/MetaTags';
+import ShowCaseFooter from '../containers/ShowCaseFooter';
+
+export default class DeveloperProfile extends React.Component {
+  renderHeaderContent() {
+    return (
+      <div>
+        <h1>Developer Awesomeness</h1>
+        <h2>Kampala, Uganda</h2>
+        <div className="profile-div">
+          <img className="profile-image" src={require('../images/devs/Adeline.jpg')} />
+        </div>
+      </div>
+    );
+  }
+
+  render() {
+    let meta_title = 'Tunga | Developer profile';
+    let meta_description = 'Developer Awesomeness';
+
+    return (
+      <ShowcaseContainer
+        className="developer-profile-page"
+        headerContent={this.renderHeaderContent()}>
+        <MetaTags title={meta_title} description={meta_description} />
+
+        {/*<div className="">
+          <img className="profile-image" src={require('../images/devs/Adeline.jpg')} />
+        </div>*/}
+
+        <div className="content">
+          <section>
+            <div className="container">
+              <div className="col-container">
+                <div className="col developer-card bio-content">
+                  <div className="bio-text">
+                    Bio of developers Lorem ipsum dolor sit amet,
+                    libris dolorem quo no, ei sed clita repudiandae,
+                    quo ridens instructior ad. Ius libris deleniti ea,
+                    cu mutat detraxit vis, cum iudico oratio tamquam ad. 
+                    Ei ubique invidunt expetendis ius, ea pro quis detraxit iudicabit.
+                    Quo corpora molestiae an. Te duo novum
+                  </div>                  
+                  <div className="">
+                    <Link to="/start/" className="btn btn-bio">iOS</Link>
+                    <Link to="/start/" className="btn btn-bio">Swift</Link>
+                    <Link to="/start/" className="btn btn-bio">Cordova</Link>
+                  </div>
+                  <div className="">
+                    <Link to="/start/" className="btn btn-bio">Android</Link>
+                    <Link to="/start/" className="btn btn-bio">PHP</Link>                      
+                  </div>
+                </div>
+                <div className="col developer-card map">
+                  <div>
+                    Bio of developers Lorem ipsum dolor sit amet,
+                    libris dolorem quo no, ei sed clita repudiandae,
+                    quo ridens instructior ad. Ius libris deleniti ea,
+                    cu mutat detraxit vis, cum iudico oratio tamquam ad. 
+                    Ei ubique invidunt expetendis ius, ea pro quis detraxit iudicabit.
+                    Quo corpora molestiae an. Te duo novum
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-container">
+                <div className="col developer-card other-content">
+                  <div className="heading-2 bold">Experience</div>                      
+                  <div className="info-block">
+                    <p className="info-header">Company / Project 20XX - 20XX</p>
+                    <p className="info-title">Title</p>
+                    <ul>
+                      <li>Responsibility 1</li>
+                      <li>Responsibility 2</li>
+                      <li>Responsibility 3</li>
+                      <li>Responsibility 4</li>
+                      <li>Responsibility 5</li>
+                    </ul>
+                  </div>
+                  <div className="info-block">
+                    <p className="info-header">Company</p>
+                    <p className="info-title">Title</p>
+                    <ul>
+                      <li>Responsibility 1</li>
+                      <li>Responsibility 2</li>
+                      <li>Responsibility 3</li>
+                    </ul>
+                  </div>
+                  <div className="info-block">
+                    <p className="info-header">Company</p>
+                    <p className="info-title">Title</p>
+                    <ul>
+                      <li>Responsibility 1</li>
+                      <li>Responsibility 2</li>
+                      <li>Responsibility 3</li>
+                    </ul>
+                  </div>
+                </div>
+                <div className="col developer-card other-content">
+                  <div className="heading-2 bold">Skillset</div>
+                  <div className="info-block">
+                    <p className="info-header">Languages</p>
+                    <p>PHP, Python, Java, Ruby</p>
+                  </div>
+                  <div className="info-block">
+                    <p className="info-header">Frameworks</p>
+                    <p>Rails, Python, Wordpress, React.js</p>
+                  </div>
+                  <div className="info-block">
+                    <p className="info-header">Platforms</p>
+                    <p>Ubuntu, AWS, Heroku</p>
+                  </div>
+                  <div className="info-block">
+                    <p className="info-header">Libraries</p>
+                    <p>Rails, Python, Wordpress, React.js</p>
+                  </div>
+                  <div className="info-block">
+                    <p className="info-header">Storage</p>
+                    <p>MySQL, Postgres</p>
+                  </div>
+                  <div className="info-block">
+                    <p className="info-header">3rd party APIs</p>
+                    <p>Slack, Facebook</p>
+                  </div>
+                  <div className="info-block">
+                    <p className="info-header">Miscellaneous</p>
+                    <p>Example 1, Example 2</p>
+                  </div>
+                </div>
+                <div className="col developer-card other-content">
+                  <div className="heading-2 bold">Education</div>
+                  <div className="info-block">
+                    <p className="info-header">University name</p>
+                    <p className="info-title">Degree</p>
+                    <p>mon/20XX - Mon/20XX</p>
+                  </div>
+                  <div className="info-block">
+                    <p className="info-header">3rd party APIs</p>
+                    <p className="info-title">Degree</p>
+                    <p>mon/20XX - Mon/20XX</p>
+                  </div>
+                  <div className="info-block">
+                    <p className="info-header">Vocational training 2</p>
+                    <p className="info-title">Degree</p>
+                    <p>mon/20XX - Mon/20XX</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="text-center">
+                <Link to="/start/" className="btn btn-callout btn-main-cta">
+                  Hire JaneFrancis 
+                </Link>
+              </div>
+
+            </div>
+          </section>
+        </div>
+
+        <ShowCaseFooter />
+      </ShowcaseContainer>
+    );
+  }
+}

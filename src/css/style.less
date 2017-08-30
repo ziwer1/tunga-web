@@ -4870,4 +4870,95 @@ form[name="estimate-form"] {
   .font-size(1.2);
 }
 
+.showcase.developer-profile-page{
+  header {
+    min-height: 30%;
+    .content {
+      .container {
+        text-align: center;
+        padding-top: 0px;
+        margin-bottom: 50px;
+        h1{
+          font-size: 36px;
+          margin-bottom: 0px;
+        }
+        h2{
+          font-size: 18px;
+          margin-bottom: 80px;
+        }
+        .profile-image{
+          width: 100px;
+          height: 100px;
+          border-radius: 50%;
+          margin: 20px;
+          object-fit: cover;
+          object-position: center right;
+        }
+      }
+    }
+  }
+
+  .profile-div{
+    position: absolute;
+    top: 180px;
+    width:400px;
+    margin-left:-200px;
+    left:50%;
+  }
+
+  .col-container{
+    display: -ms-flex;
+	  display: -webkit-flex;
+	  display: flex;
+    .other-content:first-child{
+      margin-right: 2%;
+    }
+    .other-content:nth-of-type(2){
+      margin-right: 2%;
+    }
+  }
+  .col{
+    padding:25px;
+    margin-bottom: 20px;
+    .btn-bio{
+      line-height:20px;
+    }
+  }
+  .developer-card{
+    -webkit-box-shadow: 0 0 10px 0 rgba(0,0,0,.10);
+    box-shadow: 0 0 10px 0 rgba(0,0,0,.10);
+  }
+  .bio-content{
+    width:40%;
+    margin-right: 2%;
+    .bio-text{
+      margin-bottom: 20px;
+    }
+  }
+  .map{
+    width:60%;
+  }
+  .other-content{
+    width:70%;
+  }
+
+  .info-block{
+    margin-bottom:5px;
+
+    .info-header{
+      font-size: 13px;
+      font-weight: bold;
+      text-align: left;
+      color: #ee1f54;
+    }
+
+    .info-title{
+      font-size: 12px;
+      font-weight: bold;
+      text-align: left;
+      color: #444444;
+    }
+  }
+}
+
 @import "media";

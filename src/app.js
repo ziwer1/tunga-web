@@ -115,6 +115,7 @@ import MultiTaskPaymentDetailContainer from 'containers/MultiTaskPaymentDetailCo
 import MultiTaskPay from 'components/MultiTaskPay';
 import MultiTaskPayProcessing from 'components/MultiTaskPayProcessing';
 import QuizForm from 'components/QuizForm';
+import DeveloperProfile from 'components/DeveloperProfile';
 
 ReactDOM.render(
   <Provider store={store}>
@@ -134,6 +135,10 @@ ReactDOM.render(
           <Route path="quiz">
             <IndexRoute component={QuizForm} />
             <Route path="*" component={QuizForm} />
+          </Route>
+          <Route path="developer/profile">
+            <IndexRoute component={DeveloperProfile} />
+            <Route path="*" component={DeveloperProfile} />
           </Route>
           <Route path="start">
             <IndexRoute component={TaskWizard} />
