@@ -1,12 +1,28 @@
 import React from 'react';
 import {Link} from 'react-router';
 import Reveal from 'react-reveal';
+import moment from 'moment';
 
 import ShowcaseContainer from '../containers/ShowcaseContainer';
 import MetaTags from '../components/MetaTags';
 import ShowCaseFooter from '../containers/ShowCaseFooter';
 
 export default class DeveloperProfile extends React.Component {
+
+  componentDidMount(){
+    console.log('component loaded successfully');
+    $(document).ready(function(){
+        var uluru = {lat: -25.363, lng: 131.044};
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 4,
+          center: uluru
+        });
+        var marker = new google.maps.Marker({
+          position: uluru,
+          map: map
+        });      
+    });    
+  }
   renderHeaderContent() {
     return (
       <div>
@@ -35,6 +51,16 @@ export default class DeveloperProfile extends React.Component {
 
         <div className="content">
           <section>
+            <div className="arrow">
+            <button type="button" className="btn btn-borderless nav-btn prev-btn pull-left">
+              <i className="fa fa-chevron-left"></i>
+            </button>
+            </div>
+            <div className="arrow">
+            <button type="button" className="btn btn-borderless nav-btn prev-btn pull-right">
+              <i className="fa fa-chevron-right"></i>
+            </button>
+            </div>
             <div className="container">
               <div className="col-container">
                 <div className="col developer-card bio-content">
@@ -45,18 +71,20 @@ export default class DeveloperProfile extends React.Component {
                     cu mutat detraxit vis, cum iudico oratio tamquam ad. 
                     Ei ubique invidunt expetendis ius, ea pro quis detraxit iudicabit.
                     Quo corpora molestiae an. Te duo novum
-                  </div>                  
-                  <div className="">
-                    <Link to="/start/" className="btn btn-bio">iOS</Link>
-                    <Link to="/start/" className="btn btn-bio">Swift</Link>
-                    <Link to="/start/" className="btn btn-bio">Cordova</Link>
                   </div>
-                  <div className="">
-                    <Link to="/start/" className="btn btn-bio">Android</Link>
-                    <Link to="/start/" className="btn btn-bio">PHP</Link>                      
+                  <div className="bio-languages">                  
+                    <div className="">
+                      <Link to="/start/" className="btn btn-bio">iOS</Link>
+                      <Link to="/start/" className="btn btn-bio">Swift</Link>
+                      <Link to="/start/" className="btn btn-bio">Cordova</Link>
+                    </div>
+                    <div className="">
+                      <Link to="/start/" className="btn btn-bio">Android</Link>
+                      <Link to="/start/" className="btn btn-bio">PHP</Link>                      
+                    </div>
                   </div>
                 </div>
-                <div className="col developer-card map">
+                <div className="col developer-card map" id="map">
                   <div>
                     Bio of developers Lorem ipsum dolor sit amet,
                     libris dolorem quo no, ei sed clita repudiandae,
@@ -72,7 +100,7 @@ export default class DeveloperProfile extends React.Component {
                 <div className="col developer-card other-content">
                   <div className="heading-2 bold">Experience</div>                      
                   <div className="info-block">
-                    <p className="info-header">Company / Project 20XX - 20XX</p>
+                    <p className="info-header">Company / Project</p> 20XX - 20XX
                     <p className="info-title">Title</p>
                     <ul>
                       <li>Responsibility 1</li>
@@ -161,8 +189,12 @@ export default class DeveloperProfile extends React.Component {
             </div>
           </section>
         </div>
-
-        <ShowCaseFooter />
+        <div className="text-center">
+          <small>
+            &copy; {moment().format('YYYY')} Tunga.io &mdash; All rights
+            reserved.
+          </small>
+        </div>
       </ShowcaseContainer>
     );
   }
