@@ -5,6 +5,7 @@ export default class SearchBox extends React.Component {
   constructor(props) {
     super(props);
     this.onSearch = _.debounce(this.onSearch, 250);
+    this.performSearch = _.debounce(this.performSearch, 250);
     this.state = {q: ''};
   }
 
