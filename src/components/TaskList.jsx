@@ -75,8 +75,7 @@ export default class TaskList extends GenericListContainer {
                 </h2>
                 <div className="pull-right">
                   <SearchBox
-                    placeholder="Search for tasks"
-                    filter={{filter, skill, ...this.props.filters}}
+                    placeholder="Search tasks"
                     onSearch={this.getList.bind(this)}
                     count={Task.list.count}
                   />

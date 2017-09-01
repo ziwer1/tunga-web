@@ -137,7 +137,7 @@ export default class PaymentList extends GenericListContainer {
           <h2 className="pull-left">Payments</h2>
           <div className="pull-right">
             <SearchBox
-              placeholder="Search for payments"
+              placeholder="Search payments"
               onSearch={this.getList.bind(this)}
               count={Task.list.count}
             />
