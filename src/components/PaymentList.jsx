@@ -6,6 +6,7 @@ import _ from 'lodash';
 import Progress from './status/Progress';
 import LoadMore from './status/LoadMore';
 import GenericListContainer from '../containers/GenericListContainer';
+import SearchBox from './SearchBox';
 
 import {ENDPOINT_TASK} from '../constants/Api';
 
@@ -53,9 +54,8 @@ export default class PaymentList extends GenericListContainer {
   }
 
   getList(filters) {
-    var payment_status = this.props.params.filter || null;
     this.props.TaskActions.listTasks(
-      {payment_status, filter: 'payments'},
+      {payment_status: this.getPaymentStatusFilter(), filter: 'payments', ...filters || {}},
       this.state.selection_key,
       this.state.prev_key,
     );
@@ -133,7 +133,16 @@ export default class PaymentList extends GenericListContainer {
 
     return (
       <div>
-        <h2>Payments</h2>
+        <div className="clearfix">
+          <h2 className="pull-left">Payments</h2>
+          <div className="pull-right">
+            <SearchBox
+              placeholder="Search for payments"
+              onSearch={this.getList.bind(this)}
+              count={Task.list.count}
+            />
+          </div>
+        </div>
 
         <ul className="nav nav-pills nav-top-filter">
           <li role="presentation">
