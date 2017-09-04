@@ -80,7 +80,7 @@ export default class RateDevelopers extends React.Component {
                     <strong>You've worked with:</strong>
                   </div>
                   {task.details.active_participants.map(participation => {
-                    const participant = participation.user;
+                    const participant = participation.user || participation;
                     return (
                       <div
                         className="pull-left"
