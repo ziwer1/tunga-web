@@ -63,7 +63,7 @@ export default class TaskPay extends React.Component {
         this.props.MultiTaskPayment.detail.isSaved &&
         !prevProps.MultiTaskPayment.detail.isSaved)
     ) {
-      const {Task, MultiTaskPayment, multi_task_payment} = this.props;
+      const {Task, MultiTaskPayment, task, multi_task_payment} = this.props;
 
       this.setState({showForm: false});
 
@@ -72,7 +72,7 @@ export default class TaskPay extends React.Component {
         payment_method =
           MultiTaskPayment.detail.multi_task_payment.payment_method;
       } else {
-        const {task, Invoice} = Task.detail;
+        const {Invoice} = Task.detail;
         payment_method = Invoice.invoice.payment_method;
       }
 
@@ -88,7 +88,7 @@ export default class TaskPay extends React.Component {
           ? ENDPOINT_MULTI_TASK_PAYMENT
           : ENDPOINT_TASK}${multi_task_payment
           ? multi_task_payment.id
-          : task.id}/pay/bitonic/`;
+          : task.id}/pay/bitonic/?amount=${this.getActualPayAmount()}`;
       }
     }
   }
@@ -617,7 +617,10 @@ export default class TaskPay extends React.Component {
                               </tr>
                               {this.withHoldTungaFee() && isAdmin()
                                 ? <tr>
-                                    <th>Actual Payment (Minus Tunga Fee): </th>
+                                    <th>
+                                      Actual Payment (minus Tunga fee and
+                                      taxes):{' '}
+                                    </th>
                                     <th>
                                       &euro;{' '}
                                       {parseNumber(this.getActualPayAmount())}
@@ -673,7 +676,7 @@ export default class TaskPay extends React.Component {
                                                      width="400px" height="413px" sandbox/>*/}
                                 </div>
                                 <a
-                                  href={`${ENDPOINT_TASK}${task.id}/pay/bitonic/`}
+                                  href={`${ENDPOINT_TASK}${task.id}/pay/bitonic/?amount=${this.getActualPayAmount()}`}
                                   className="btn ">
                                   <i className="fa fa-money" /> Pay with iDeal
                                 </a>
