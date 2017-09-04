@@ -227,6 +227,33 @@ export default class TaskPay extends React.Component {
     }
   }
 
+  getTaxRate() {
+    const {task, Task, TaskActions, multi_task_payment} = this.props;
+
+    let tax_rate = 0;
+
+    if (multi_task_payment) {
+      tax_rate = multi_task_payment.tax_rate;
+    } else {
+      tax_rate = task.tax_rate;
+    }
+    return tax_rate;
+  }
+
+  getTaxAmount() {
+    const {task, Task, TaskActions, multi_task_payment} = this.props;
+
+    let amount = this.getTotalPayAmount(),
+      tax_ratio = 0;
+
+    if (multi_task_payment) {
+      tax_ratio = multi_task_payment.tax_ratio;
+    } else {
+      tax_ratio = task.tax_ratio;
+    }
+    return amount*tax_ratio;
+  }
+
   getActualPayAmount() {
     const {task, Task, TaskActions, multi_task_payment} = this.props;
 
@@ -239,7 +266,7 @@ export default class TaskPay extends React.Component {
         return amount * (1 - task.tunga_ratio_dev);
       }
     }
-    return amount;
+    return amount + this.getTaxAmount();
   }
 
   getMulitTaskList() {
@@ -419,7 +446,7 @@ export default class TaskPay extends React.Component {
                                 }
                                 onChange={this.onWithHoldFeeChange.bind(this)}
                               />
-                              Withhold Tunga fee/ Only pay participant fees.
+                              Withhold Tunga fee and taxes/ Only pay participant fees.
                             </label>
                           </div>
                           <div className="alert alert-info">
@@ -570,13 +597,13 @@ export default class TaskPay extends React.Component {
                                 </th>
                               </tr>
                               <tr>
-                                <td>VAT 0%:</td>
-                                <td>&euro; 0</td>
+                                <td>VAT {parseNumber(this.getTaxRate())}%:</td>
+                                <td>&euro; {parseNumber(this.getTaxAmount())}</td>
                               </tr>
                               <tr>
                                 <th>Total: </th>
                                 <th>
-                                  &euro; {parseNumber(this.getTotalPayAmount())}
+                                  &euro; {parseNumber(this.getTotalPayAmount() + this.getTaxAmount())}
                                 </th>
                               </tr>
                               {this.withHoldTungaFee() && isAdmin()
