@@ -25,6 +25,36 @@ class App extends React.Component {
     return {router};
   }
 
+  getSkill(props) {
+    if (props.params && props.params.skill) {
+      return props.params.skill;
+    }
+    return null;
+  }
+
+  verifyRoute(props) {
+    let path = (window.location.pathname + location.search).replace(
+      '/tunga',
+      '',
+    );
+    if (
+      !this.getSkill(props) &&
+      [
+        'localhost',
+        'tunga.io',
+        'www.tunga.io',
+        'test.tunga.io',
+        'stage.tunga.io',
+      ].indexOf(window.location.hostname) == -1 && !/^\/((welcome|our-story|quality|pricing)\/?)?(\?.*|$)/.test(path)
+    ) {
+      window.location.href = `https://tunga.io${path}`;
+    }
+  }
+
+  componentWillMount() {
+    this.verifyRoute(this.props);
+  }
+
   componentDidMount() {
     if (!this.props.Auth.isVerifying) {
       this.props.AuthActions.verify();
@@ -33,6 +63,10 @@ class App extends React.Component {
     initNavUIController();
 
     runOptimizely();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.verifyRoute(nextProps);
   }
 
   componentDidUpdate(prevProps, prevState) {
