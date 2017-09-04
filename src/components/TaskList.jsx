@@ -36,7 +36,7 @@ export default class TaskList extends GenericListContainer {
         skill: this.getSkill(),
         ...this.props.filters,
         search: this.props.search,
-        ...filters || {},
+        ...(filters || {}),
       },
       this.state.selection_key,
       this.state.prev_key,

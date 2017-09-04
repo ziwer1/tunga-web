@@ -55,7 +55,11 @@ export default class PaymentList extends GenericListContainer {
 
   getList(filters) {
     this.props.TaskActions.listTasks(
-      {payment_status: this.getPaymentStatusFilter(), filter: 'payments', ...filters || {}},
+      {
+        payment_status: this.getPaymentStatusFilter(),
+        filter: 'payments',
+        ...(filters || {}),
+      },
       this.state.selection_key,
       this.state.prev_key,
     );

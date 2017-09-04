@@ -251,7 +251,7 @@ export default class TaskPay extends React.Component {
     } else {
       tax_ratio = task.tax_ratio;
     }
-    return amount*tax_ratio;
+    return amount * tax_ratio;
   }
 
   getActualPayAmount() {
@@ -446,7 +446,8 @@ export default class TaskPay extends React.Component {
                                 }
                                 onChange={this.onWithHoldFeeChange.bind(this)}
                               />
-                              Withhold Tunga fee and taxes/ Only pay participant fees.
+                              Withhold Tunga fee and taxes/ Only pay participant
+                              fees.
                             </label>
                           </div>
                           <div className="alert alert-info">
@@ -597,13 +598,21 @@ export default class TaskPay extends React.Component {
                                 </th>
                               </tr>
                               <tr>
-                                <td>VAT {parseNumber(this.getTaxRate())}%:</td>
-                                <td>&euro; {parseNumber(this.getTaxAmount())}</td>
+                                <td>
+                                  VAT {parseNumber(this.getTaxRate())}%:
+                                </td>
+                                <td>
+                                  &euro; {parseNumber(this.getTaxAmount())}
+                                </td>
                               </tr>
                               <tr>
                                 <th>Total: </th>
                                 <th>
-                                  &euro; {parseNumber(this.getTotalPayAmount() + this.getTaxAmount())}
+                                  &euro;{' '}
+                                  {parseNumber(
+                                    this.getTotalPayAmount() +
+                                      this.getTaxAmount(),
+                                  )}
                                 </th>
                               </tr>
                               {this.withHoldTungaFee() && isAdmin()
