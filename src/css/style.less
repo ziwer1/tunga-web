@@ -4924,9 +4924,8 @@ form[name="estimate-form"] {
   }
 
   .col-container{
-    display: -ms-flex;
-	  display: -webkit-flex;
 	  display: flex;
+    flex-direction: row;
     .other-content:first-child{
       margin-right: 2%;
     }
@@ -4982,16 +4981,30 @@ form[name="estimate-form"] {
   }
 
   @media only screen and (max-width: 767px) {
+    section{
+      padding: 70px 0;
+    }
+    header .content .container .profile-image.profile-image{
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      margin: 10px;
+      position: absolute;
+      top: -70px;
+      margin-left: -75px;
+    }
     .arrow{
       display: none;
     }
     .col-container{
-      display: block;
+      flex-direction: column;
     }
     .bio-content{
+      display: flex;
+      flex-direction: column-reverse;
       width:100%;
       .bio-text{
-        margin-bottom: 20px;
+        margin-top: 20px;
       }
       .bio-languages{
         text-align: center;
@@ -4999,7 +5012,9 @@ form[name="estimate-form"] {
       }
     }
     .map{
-      width:100%;
+      width:100vw;
+      margin-left: -50vw;
+      left: 50%;
       height: 100px;
     }
     .other-content{
