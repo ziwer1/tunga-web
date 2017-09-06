@@ -12,7 +12,7 @@ import ChatWindow from '../containers/ChatWindow';
 export default class ShowcaseContainer extends React.Component {
   render() {
 
-    const pathPrefix = !isTungaDomain() && /^\/tunga\/.*/ig.test(window.location.pathname)?'/tunga':'';
+    const pathPrefix = !isTungaDomain() && /^\/tunga((\/|\?).*)?/ig.test(window.location.pathname)?'/tunga':'';
 
     return (
       <div className={'showcase ' + this.props.className}>
