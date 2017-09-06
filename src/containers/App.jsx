@@ -17,6 +17,7 @@ import {
   requiresAuth,
   requiresNoAuth,
   requiresAuthOrEmail,
+  isTungaDomain
 } from '../utils/router';
 
 class App extends React.Component {
@@ -41,13 +42,7 @@ class App extends React.Component {
     );
     if (
       !this.getSkill(props) &&
-      [
-        'localhost',
-        'tunga.io',
-        'www.tunga.io',
-        'test.tunga.io',
-        'stage.tunga.io',
-      ].indexOf(window.location.hostname) == -1 && !/^\/((welcome|our-story|quality|pricing)\/?)?(\?.*|$)/.test(path)
+      !isTungaDomain() && !/^\/?((welcome|our-story|quality|pricing)\/?)?(\?.*|$)/.test(path)
     ) {
       this.shouldRender = false;
       window.location.href = `https://tunga.io${path}`;

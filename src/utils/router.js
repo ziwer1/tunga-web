@@ -90,3 +90,15 @@ export function openCalendlyWidget(url = CALENDLY_CALL_URL) {
   Calendly.showPopupWidget(url);
   sendGAEvent(GA_EVENT_CATEGORIES.CONTACT, GA_EVENT_ACTIONS.SCHEDULE_CALL);
 }
+
+export const TUNGA_DOMAINS = [
+  //'localhost',
+  'tunga.io',
+  'www.tunga.io',
+  'test.tunga.io',
+  'stage.tunga.io',
+];
+
+export function isTungaDomain() {
+  return TUNGA_DOMAINS.indexOf(window.location.hostname) > -1;
+}

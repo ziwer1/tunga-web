@@ -3,11 +3,17 @@ import {Link} from 'react-router';
 import {Affix} from 'react-overlays';
 
 import {openCalendlyWidget} from '../utils/router';
+import {
+  isTungaDomain
+} from '../utils/router';
 
 import ChatWindow from '../containers/ChatWindow';
 
 export default class ShowcaseContainer extends React.Component {
   render() {
+
+    const pathPrefix = !isTungaDomain() && /^\/tunga\/.*/ig.test(window.location.pathname)?'/tunga':'';
+
     return (
       <div className={'showcase ' + this.props.className}>
         <header
@@ -90,17 +96,17 @@ export default class ShowcaseContainer extends React.Component {
                 </ul>
                 <ul className="nav navbar-nav navbar-left nav-main">
                   <li>
-                    <Link to="/our-story" activeClassName="active">
+                    <Link to={`${pathPrefix}/our-story`} activeClassName="active">
                       Our Story
                     </Link>
                   </li>
                   <li>
-                    <Link to="/quality" activeClassName="active">
+                    <Link to={`${pathPrefix}/quality`} activeClassName="active">
                       Quality
                     </Link>
                   </li>
                   <li>
-                    <Link to="/pricing" activeClassName="active">
+                    <Link to={`${pathPrefix}/pricing`} activeClassName="active">
                       Pricing
                     </Link>
                   </li>
