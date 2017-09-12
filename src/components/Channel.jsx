@@ -130,100 +130,115 @@ export default class Channel extends React.Component {
       ? <Progress />
       : channel.id
         ? <div className="chatbox">
-            <div className={`chatbox-top clearfix ${channel.type == CHANNEL_TYPES.support?'support':''}`}>
-              {channel.type == CHANNEL_TYPES.support?(
-                <div>
-                  Hi there, we're are Tunga. How can we help?
-                  <div className="avatars">
-                    <Avatar size="medium" src={require('../images/chat/bart.jpg')}/>
-                    <Avatar size="medium" src="https://tunga.io/icons/tunga_square.png"/>
-                    <Avatar size="medium" src={require('../images/chat/ivan.jpg')}/>
-                  </div>
-                </div>
-              ):(
-                <div>
-                  <div
-                    className={`chat-actions ${!isAuthenticated() ||
-                (channel.type == CHANNEL_TYPES.support && !isAdmin())
-                  ? ''
-                  : 'pull-right'}`}>
-                    {channel.type == CHANNEL_TYPES.support
-                      ? null
-                      : <div
-                      className="btn-group btn-choices select pull-right"
-                      role="group">
-                      <Link
-                        to={`/conversation/${channel.id}/messages`}
-                        className="btn btn-borderless"
-                        activeClassName="active">
-                        <i className="fa fa-comments" />
-                      </Link>
-                      <Link
-                        to={`/conversation/${channel.id}/files`}
-                        className="btn btn-borderless"
-                        activeClassName="active">
-                        <i className="fa fa-paperclip" />
-                      </Link>
-                      {isDeveloper() && channel.type == CHANNEL_TYPES.developer
-                        ? null
-                        : <div
-                        className="dropdown"
-                        style={{display: 'inline-block'}}>
-                        <button
-                          className="btn btn-borderless dropdown-toggle"
-                          type="button"
-                          id="chat-overflow"
-                          data-toggle="dropdown"
-                          aria-haspopup="true"
-                          aria-expanded="true">
-                          <i className="fa fa-ellipsis-v" />
-                        </button>
-                        <ul
-                          className="dropdown-menu dropdown-menu-right"
-                          aria-labelledby="chat-overflow">
-                          <li>
-                            <Link
-                              id="edit-channel"
-                              to={`/conversation/${channel.id}/edit`}>
-                              <i className="fa fa-pencil-square-o" /> Edit
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              id="channel-people"
-                              to={`/conversation/${channel.id}/people`}>
-                              <i className="glyphicon glyphicon-user" />{' '}
-                              People
-                            </Link>
-                          </li>
-                        </ul>
-                      </div>}
-                    </div>}
-                    {['messages', null].indexOf(this.getView() > -1)
-                      ? <div className="pull-right">
-                      <SearchBox
-                        placeholder="Search messages"
-                        onSearch={this.onSearch.bind(this)}
-                        count={Channel.detail.activity.count[channel_key] || 0}
+            <div
+              className={`chatbox-top clearfix ${channel.type ==
+              CHANNEL_TYPES.support
+                ? 'support'
+                : ''}`}>
+              {channel.type == CHANNEL_TYPES.support
+                ? <div>
+                    Hi there, we're are Tunga. How can we help?
+                    <div className="avatars">
+                      <Avatar
+                        size="medium"
+                        src={require('../images/chat/bart.jpg')}
+                      />
+                      <Avatar
+                        size="medium"
+                        src="https://tunga.io/icons/tunga_square.png"
+                      />
+                      <Avatar
+                        size="medium"
+                        src={require('../images/chat/ivan.jpg')}
                       />
                     </div>
-                      : null}
                   </div>
-                  {isAuthenticated() && channel.type != CHANNEL_TYPES.support
-                    ? <div className="media">
-                    <div className="media-left">
-                      {channel.user
-                        ? <Avatar src={channel.user.avatar_url} />
+                : <div>
+                    <div
+                      className={`chat-actions ${!isAuthenticated() ||
+                      (channel.type == CHANNEL_TYPES.support && !isAdmin())
+                        ? ''
+                        : 'pull-right'}`}>
+                      {channel.type == CHANNEL_TYPES.support
+                        ? null
+                        : <div
+                            className="btn-group btn-choices select pull-right"
+                            role="group">
+                            <Link
+                              to={`/conversation/${channel.id}/messages`}
+                              className="btn btn-borderless"
+                              activeClassName="active">
+                              <i className="fa fa-comments" />
+                            </Link>
+                            <Link
+                              to={`/conversation/${channel.id}/files`}
+                              className="btn btn-borderless"
+                              activeClassName="active">
+                              <i className="fa fa-paperclip" />
+                            </Link>
+                            {isDeveloper() &&
+                            channel.type == CHANNEL_TYPES.developer
+                              ? null
+                              : <div
+                                  className="dropdown"
+                                  style={{display: 'inline-block'}}>
+                                  <button
+                                    className="btn btn-borderless dropdown-toggle"
+                                    type="button"
+                                    id="chat-overflow"
+                                    data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="true">
+                                    <i className="fa fa-ellipsis-v" />
+                                  </button>
+                                  <ul
+                                    className="dropdown-menu dropdown-menu-right"
+                                    aria-labelledby="chat-overflow">
+                                    <li>
+                                      <Link
+                                        id="edit-channel"
+                                        to={`/conversation/${channel.id}/edit`}>
+                                        <i className="fa fa-pencil-square-o" />{' '}
+                                        Edit
+                                      </Link>
+                                    </li>
+                                    <li>
+                                      <Link
+                                        id="channel-people"
+                                        to={`/conversation/${channel.id}/people`}>
+                                        <i className="glyphicon glyphicon-user" />{' '}
+                                        People
+                                      </Link>
+                                    </li>
+                                  </ul>
+                                </div>}
+                          </div>}
+                      {['messages', null].indexOf(this.getView() > -1)
+                        ? <div className="pull-right">
+                            <SearchBox
+                              placeholder="Search messages"
+                              onSearch={this.onSearch.bind(this)}
+                              count={
+                                Channel.detail.activity.count[channel_key] || 0
+                              }
+                            />
+                          </div>
                         : null}
                     </div>
-                    <div className="media-body">
-                      <ChannelInfo channel={channel} />
-                    </div>
-                  </div>
-                    : null}
-                  <div className="clearfix" />
-                </div>
-              )}
+                    {isAuthenticated() && channel.type != CHANNEL_TYPES.support
+                      ? <div className="media">
+                          <div className="media-left">
+                            {channel.user
+                              ? <Avatar src={channel.user.avatar_url} />
+                              : null}
+                          </div>
+                          <div className="media-body">
+                            <ChannelInfo channel={channel} />
+                          </div>
+                        </div>
+                      : null}
+                    <div className="clearfix" />
+                  </div>}
             </div>
             {channel.id ? this.renderChildren() : null}
           </div>

@@ -47,47 +47,45 @@ export default class ChatBox extends React.Component {
               display_name: 'David',
               avatar_url: 'https://tunga.io/icons/Tunga_squarex150.png',
             },
-            body: "Hi, feel free to ask me anything.",
+            body: 'Hi, feel free to ask me anything.',
           },
         },
         ...activities,
       ];
 
-      if(activities.length >= 2 && !isAuthenticated()) {
-         let emailForm = {
-           action: 'send',
-           activity_type: 'message',
-           activity: {
-             sender: {
-               id: 'tunga',
-               username: null,
-               short_name: 'Tunga',
-               display_name: 'Tunga',
-               avatar_url: 'https://tunga.io/icons/Tunga_squarex150.png',
-               hide: true
-             },
-             isForm: true,
-             body: (
-               <div>
-                 {Channel.detail.channel.object_id?(
-                   <div className="text-center got-it">
-                     <div>We got it! Thanks</div>
-                     <i className="icon tunga-icon-check"/>
-                   </div>
-                 ):(
-                   <div>
-                     <div>Where can we reach you to follow up?</div>
-                     <SupportChannelMiniForm {...this.props}/>
-                   </div>
-                 )}
-               </div>
-             ),
-           },
-         }
+      if (activities.length >= 2 && !isAuthenticated()) {
+        let emailForm = {
+          action: 'send',
+          activity_type: 'message',
+          activity: {
+            sender: {
+              id: 'tunga',
+              username: null,
+              short_name: 'Tunga',
+              display_name: 'Tunga',
+              avatar_url: 'https://tunga.io/icons/Tunga_squarex150.png',
+              hide: true,
+            },
+            isForm: true,
+            body: (
+              <div>
+                {Channel.detail.channel.object_id
+                  ? <div className="text-center got-it">
+                      <div>We got it! Thanks</div>
+                      <i className="icon tunga-icon-check" />
+                    </div>
+                  : <div>
+                      <div>Where can we reach you to follow up?</div>
+                      <SupportChannelMiniForm {...this.props} />
+                    </div>}
+              </div>
+            ),
+          },
+        };
         activities = [
           ...activities.slice(0, 2),
           emailForm,
-          ...activities.slice(2)
+          ...activities.slice(2),
         ];
       }
     }
