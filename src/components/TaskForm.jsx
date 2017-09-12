@@ -1277,7 +1277,13 @@ export default class TaskForm extends ComponentWithModal {
           : null}
         <div className="form-group">
           <label className="control-label">
-            What is your estimated budget for this {work_type}?{!is_project_task && isAuthenticated() ? '' : ' - (optional)'}
+            What is{' '}
+            {isAuthenticated() && task.id
+              ? 'the fee'
+              : 'your estimated budget'}{' '}
+            for this {work_type}?{!is_project_task && isAuthenticated()
+              ? ''
+              : ' - (optional)'}
           </label>
           <div>
             <input
