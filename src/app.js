@@ -118,229 +118,229 @@ import QuizForm from 'components/QuizForm';
 
 let all_routes = (
   <Route>
-    <IndexRoute component={LandingPage} unauthedOnly={true} />
-    <Route unauthedOnly={true}>
-      {/* No Auth Pages */}
-      <Route path="welcome">
-        <IndexRoute component={TaskWizardLander} />
-        <Route
-          path=":skill"
-          component={TaskWizardLander}
-          unauthedOnly={true}
-        />
-      </Route>
-      <Route path="quiz">
-        <IndexRoute component={QuizForm} />
-        <Route path="*" component={QuizForm} />
-      </Route>
-      <Route path="start">
-        <IndexRoute component={TaskWizard} />
-        <Route path=":phase/:taskId" component={TaskWizard} />
-        <Route path=":phase/:taskId/*" component={TaskWizard} />
-        <Route path="*" component={TaskWizard} />
-      </Route>
-      <Route path="start-welcome">
-        <IndexRoute component={TaskWizard} />
-        <Route path=":phase/:taskId" component={TaskWizard} />
-        <Route path=":phase/:taskId/*" component={TaskWizard} />
-        <Route path="*" component={TaskWizard} />
-      </Route>
-      <Route path="start-outsource">
-        <IndexRoute component={TaskWizard} />
-        <Route path=":phase/:taskId" component={TaskWizard} />
-        <Route path=":phase/:taskId/*" component={TaskWizard} />
-        <Route path="*" component={TaskWizard} />
-      </Route>
-      <Route path="call" component={LandingPage} showCallWidget={true} />
-      <Route path="our-story" component={StoryPage} />
-      <Route path="quality" component={QualityPage} />
-      <Route path="pricing" component={PricingPage} />
-      <Route path="press" component={LandingPage} />
-      <Route path="FAQ" component={LandingPage} />
-      <Route path="press" component={LandingPage} />
-      <Route path="agreement" component={Agreement} />
-      <Route path="privacy" component={PrivacyPolicy} />
-      <Route path="code-of-conduct" component={CodeOfConduct} />
-      <Route path="signin" component={SignInPage} />
-      <Route path="signup">
-        <IndexRedirect to="/signin" />
-        <Route path="project-owner" component={SignUpPage} />
-        <Route path="invite/:invitationKey" component={SignUpPage} />
-        <Route path="developer">
-          <Route path="invite/:invitationKey" component={SignUpPage} />
-          <Route path=":confirmationKey" component={SignUpPage} />
-        </Route>
-      </Route>
-      <Route path="reset-password" component={PasswordResetPage} />
-      <Route
-        path="reset-password/confirm/:uid/:token"
-        component={PasswordResetConfirmPage}
-      />
-      {/* End of No Auth Pages */}
-    </Route>
-
-    <Route component={AppWrapper} authedOrEmailOnly={true}>
-      {/* Auth or Email Only Pages */}
-      <Route authedOnly={true}>
-        {/* Auth Only Pages */}
-        <Route path="home" component={Home} />
-        <Route path="profile" component={ProfilePage}>
-          <IndexRedirect to="personal" />
-          <Route path="personal" component={Profile} />
-          <Route path="stack" component={Stack} />
-          <Route path="company" component={CompanyProfile} />
-          <Route path="payment" component={PaymentMethod} />
-          <Route path="payment/:provider" component={PaymentMethod} />
-          <Route path="account" component={Account} />
-          <Route path="id-document" component={IDDocument} />
-          <Route path="photo" component={ProfilePicture} />
-          <Route path="security" component={PasswordChangeForm} />
-          <Route path="security" component={PasswordChangeForm} />
-          <Route path="complete" component={ProfileType} />
-          <Redirect path="*" to="personal" />
-        </Route>
-        <Route path="estimate" component={EstimateContainer}>
-          <IndexRoute component={EstimateList} />
-          <Route path="new" component={EstimateForm} />
-          <Route path="filter/:filter" component={EstimateList} />
-          <Route path=":estimateId" component={EstimateDetailContainer}>
-            <IndexRoute component={EstimateDetail} />
-            <Route path="edit" component={EstimateForm} />
-          </Route>
-        </Route>
-        <Route path="settings" component={SettingsPage} />
-        <Route path="work" component={TaskContainer}>
-          <IndexRoute component={TaskList} />
-          <Route path="new" component={TaskForm} />
-          <Route path="filter/:filter" component={TaskList} />
-          <Route path="skill/:skill(/:filter)" component={TaskList} />
-          <Route path=":taskId" component={TaskDetailPage}>
-            <IndexRoute component={TaskWorflow} />
-            <Route path="edit" crumb="Edit">
-              <IndexRoute component={TaskForm} />
-              {/*<Route path="complete-task" component={EditTaskSectionForm} crumb="Finalize Task"/>*/}
-              <Route
-                path=":editSection"
-                component={EditTaskSectionForm}
-                crumbs={{trello: 'Trello', 'google-drive': 'Google Drive'}}
-              />
-              <Route path="*" component={TaskForm} />
-            </Route>
-            <Route path="apply" component={ApplicationForm} crumb="Apply" />
+        <IndexRoute component={LandingPage} unauthedOnly={true} />
+        <Route unauthedOnly={true}>
+          {/* No Auth Pages */}
+          <Route path="welcome">
+            <IndexRoute component={TaskWizardLander} />
             <Route
-              path="estimate"
-              component={EstimateContainer}
-              crumb="Estimate">
-              <IndexRedirect to="new" />
+              path=":skill"
+              component={TaskWizardLander}
+              unauthedOnly={true}
+            />
+          </Route>
+          <Route path="quiz">
+            <IndexRoute component={QuizForm} />
+            <Route path="*" component={QuizForm} />
+          </Route>
+          <Route path="start">
+            <IndexRoute component={TaskWizard} />
+            <Route path=":phase/:taskId" component={TaskWizard} />
+            <Route path=":phase/:taskId/*" component={TaskWizard} />
+            <Route path="*" component={TaskWizard} />
+          </Route>
+          <Route path="start-welcome">
+            <IndexRoute component={TaskWizard} />
+            <Route path=":phase/:taskId" component={TaskWizard} />
+            <Route path=":phase/:taskId/*" component={TaskWizard} />
+            <Route path="*" component={TaskWizard} />
+          </Route>
+          <Route path="start-outsource">
+            <IndexRoute component={TaskWizard} />
+            <Route path=":phase/:taskId" component={TaskWizard} />
+            <Route path=":phase/:taskId/*" component={TaskWizard} />
+            <Route path="*" component={TaskWizard} />
+          </Route>
+          <Route path="call" component={LandingPage} showCallWidget={true} />
+          <Route path="our-story" component={StoryPage} />
+          <Route path="quality" component={QualityPage} />
+          <Route path="pricing" component={PricingPage} />
+          <Route path="press" component={LandingPage} />
+          <Route path="FAQ" component={LandingPage} />
+          <Route path="press" component={LandingPage} />
+          <Route path="agreement" component={Agreement} />
+          <Route path="privacy" component={PrivacyPolicy} />
+          <Route path="code-of-conduct" component={CodeOfConduct} />
+          <Route path="signin" component={SignInPage} />
+          <Route path="signup">
+            <IndexRedirect to="/signin" />
+            <Route path="project-owner" component={SignUpPage} />
+            <Route path="invite/:invitationKey" component={SignUpPage} />
+            <Route path="developer">
+              <Route path="invite/:invitationKey" component={SignUpPage} />
+              <Route path=":confirmationKey" component={SignUpPage} />
+            </Route>
+          </Route>
+          <Route path="reset-password" component={PasswordResetPage} />
+          <Route
+            path="reset-password/confirm/:uid/:token"
+            component={PasswordResetConfirmPage}
+          />
+          {/* End of No Auth Pages */}
+        </Route>
+
+        <Route component={AppWrapper} authedOrEmailOnly={true}>
+          {/* Auth or Email Only Pages */}
+          <Route authedOnly={true}>
+            {/* Auth Only Pages */}
+            <Route path="home" component={Home} />
+            <Route path="profile" component={ProfilePage}>
+              <IndexRedirect to="personal" />
+              <Route path="personal" component={Profile} />
+              <Route path="stack" component={Stack} />
+              <Route path="company" component={CompanyProfile} />
+              <Route path="payment" component={PaymentMethod} />
+              <Route path="payment/:provider" component={PaymentMethod} />
+              <Route path="account" component={Account} />
+              <Route path="id-document" component={IDDocument} />
+              <Route path="photo" component={ProfilePicture} />
+              <Route path="security" component={PasswordChangeForm} />
+              <Route path="security" component={PasswordChangeForm} />
+              <Route path="complete" component={ProfileType} />
+              <Redirect path="*" to="personal" />
+            </Route>
+            <Route path="estimate" component={EstimateContainer}>
+              <IndexRoute component={EstimateList} />
               <Route path="new" component={EstimateForm} />
+              <Route path="filter/:filter" component={EstimateList} />
               <Route path=":estimateId" component={EstimateDetailContainer}>
                 <IndexRoute component={EstimateDetail} />
                 <Route path="edit" component={EstimateForm} />
               </Route>
             </Route>
-            <Route path="quote" component={QuoteContainer} crumb="Quote">
-              <IndexRedirect to="new" />
-              <Route path="new" component={QuoteForm} />
-              <Route path=":quoteId" component={QuoteDetailContainer}>
-                <IndexRoute component={QuoteDetail} />
-                <Route path="edit" component={QuoteForm} />
+            <Route path="settings" component={SettingsPage} />
+            <Route path="work" component={TaskContainer}>
+              <IndexRoute component={TaskList} />
+              <Route path="new" component={TaskForm} />
+              <Route path="filter/:filter" component={TaskList} />
+              <Route path="skill/:skill(/:filter)" component={TaskList} />
+              <Route path=":taskId" component={TaskDetailPage}>
+                <IndexRoute component={TaskWorflow} />
+                <Route path="edit" crumb="Edit">
+                  <IndexRoute component={TaskForm} />
+                  {/*<Route path="complete-task" component={EditTaskSectionForm} crumb="Finalize Task"/>*/}
+                  <Route
+                    path=":editSection"
+                    component={EditTaskSectionForm}
+                    crumbs={{trello: 'Trello', 'google-drive': 'Google Drive'}}
+                  />
+                  <Route path="*" component={TaskForm} />
+                </Route>
+                <Route path="apply" component={ApplicationForm} crumb="Apply" />
+                <Route
+                  path="estimate"
+                  component={EstimateContainer}
+                  crumb="Estimate">
+                  <IndexRedirect to="new" />
+                  <Route path="new" component={EstimateForm} />
+                  <Route path=":estimateId" component={EstimateDetailContainer}>
+                    <IndexRoute component={EstimateDetail} />
+                    <Route path="edit" component={EstimateForm} />
+                  </Route>
+                </Route>
+                <Route path="quote" component={QuoteContainer} crumb="Quote">
+                  <IndexRedirect to="new" />
+                  <Route path="new" component={QuoteForm} />
+                  <Route path=":quoteId" component={QuoteDetailContainer}>
+                    <IndexRoute component={QuoteDetail} />
+                    <Route path="edit" component={QuoteForm} />
+                  </Route>
+                </Route>
+                <Route path="quote" component={EstimateForm} crumb="Quote" />
+                <Route path="applications">
+                  <IndexRoute
+                    component={ApplicationList}
+                    crumb="Applications"
+                  />
+                  <Route path=":applicationId" component={ApplicationDetail} />
+                </Route>
+                <Route
+                  path="board"
+                  component={ProjectBoard}
+                  crumb="Project Board"
+                />
+                <Route
+                  path="task/new"
+                  component={ProjectTaskForm}
+                  crumb="Add task"
+                />
+                <Route
+                  path="task/new/*"
+                  component={ProjectTaskForm}
+                  crumb="Add task"
+                />
+                <Route path="integrations" crumb="Integrations">
+                  <IndexRedirect to="github" component={IntegrationList} />
+                  <Route path="trello" component={TaskForm} crumb="Trello" />
+                  <Route
+                    path="google"
+                    component={TaskForm}
+                    crumb="Google Drive"
+                  />
+                  <Route
+                    path=":provider"
+                    component={IntegrationList}
+                    crumb="Integrations"
+                    crumbs={{slack: 'Slack', github: 'GitHub'}}
+                  />
+                </Route>
+                <Route path="pay" component={TaskPay} crumb="Make Payment" />
+                <Route
+                  path="participation"
+                  component={Participation}
+                  crumb="Participation shares"
+                />
+                <Route
+                  path="rate"
+                  component={RateDevelopers}
+                  crumb="Rate Developers"
+                />
+                <Route path="event" component={MilestoneContainer}>
+                  <Route path=":eventId" component={Milestone} />
+                </Route>
+              </Route>
+              <Route path="*" component={TaskForm} />
+            </Route>
+            <Redirect path="task*" to="work*" />
+            <Route path="conversation" component={MessagePage}>
+              <IndexRedirect to="start" />
+              <Route path="start" component={ChannelForm}>
+                <Route path=":recipientId" />
+                <Route path="task/:taskId" />
+              </Route>
+              <Route path=":channelId" component={ChannelContainer}>
+                <IndexRedirect to="messages" />
+                <Route path="edit" component={ChannelForm} />
+                <Route path=":channelView" component={ChatBox} />
               </Route>
             </Route>
-            <Route path="quote" component={EstimateForm} crumb="Quote" />
-            <Route path="applications">
-              <IndexRoute
-                component={ApplicationList}
-                crumb="Applications"
-              />
-              <Route path=":applicationId" component={ApplicationDetail} />
+            <Redirect path="message*" to="channel" />
+            <Redirect path="channel*" to="conversation*" />
+            <Route path="payments" component={TaskContainer}>
+              <IndexRoute component={PaymentList} />
+              <Route path="filter/:filter" component={PaymentList} />
+              <Route path="bulk" component={MultiTaskPaymentContainer}>
+                <Route
+                  path=":batchId"
+                  component={MultiTaskPaymentDetailContainer}>
+                  <IndexRoute component={MultiTaskPay} />
+                  <Route path="processing" component={MultiTaskPayProcessing} />
+                </Route>
+              </Route>
             </Route>
-            <Route
-              path="board"
-              component={ProjectBoard}
-              crumb="Project Board"
-            />
-            <Route
-              path="task/new"
-              component={ProjectTaskForm}
-              crumb="Add task"
-            />
-            <Route
-              path="task/new/*"
-              component={ProjectTaskForm}
-              crumb="Add task"
-            />
-            <Route path="integrations" crumb="Integrations">
-              <IndexRedirect to="github" component={IntegrationList} />
-              <Route path="trello" component={TaskForm} crumb="Trello" />
-              <Route
-                path="google"
-                component={TaskForm}
-                crumb="Google Drive"
-              />
-              <Route
-                path=":provider"
-                component={IntegrationList}
-                crumb="Integrations"
-                crumbs={{slack: 'Slack', github: 'GitHub'}}
-              />
+            <Route path="help" component={MessagePage}>
+              <Route path=":channelId" component={ChannelContainer}>
+                <IndexRoute component={ChatBox} />
+              </Route>
             </Route>
-            <Route path="pay" component={TaskPay} crumb="Make Payment" />
-            <Route
-              path="participation"
-              component={Participation}
-              crumb="Participation shares"
-            />
-            <Route
-              path="rate"
-              component={RateDevelopers}
-              crumb="Rate Developers"
-            />
-            <Route path="event" component={MilestoneContainer}>
-              <Route path=":eventId" component={Milestone} />
+            <Route path="dashboard">
+              <Route path="updates" component={MilestoneContainer}>
+                <IndexRoute component={MilestoneList} />
+                <Route path="filter/:filter" component={MilestoneList} />
+              </Route>
             </Route>
+            {/* End Auth Only Pages */}
           </Route>
-          <Route path="*" component={TaskForm} />
-        </Route>
-        <Redirect path="task*" to="work*" />
-        <Route path="conversation" component={MessagePage}>
-          <IndexRedirect to="start" />
-          <Route path="start" component={ChannelForm}>
-            <Route path=":recipientId" />
-            <Route path="task/:taskId" />
-          </Route>
-          <Route path=":channelId" component={ChannelContainer}>
-            <IndexRedirect to="messages" />
-            <Route path="edit" component={ChannelForm} />
-            <Route path=":channelView" component={ChatBox} />
-          </Route>
-        </Route>
-        <Redirect path="message*" to="channel" />
-        <Redirect path="channel*" to="conversation*" />
-        <Route path="payments" component={TaskContainer}>
-          <IndexRoute component={PaymentList} />
-          <Route path="filter/:filter" component={PaymentList} />
-          <Route path="bulk" component={MultiTaskPaymentContainer}>
-            <Route
-              path=":batchId"
-              component={MultiTaskPaymentDetailContainer}>
-              <IndexRoute component={MultiTaskPay} />
-              <Route path="processing" component={MultiTaskPayProcessing} />
-            </Route>
-          </Route>
-        </Route>
-        <Route path="help" component={MessagePage}>
-          <Route path=":channelId" component={ChannelContainer}>
-            <IndexRoute component={ChatBox} />
-          </Route>
-        </Route>
-        <Route path="dashboard">
-          <Route path="updates" component={MilestoneContainer}>
-            <IndexRoute component={MilestoneList} />
-            <Route path="filter/:filter" component={MilestoneList} />
-          </Route>
-        </Route>
-        {/* End Auth Only Pages */}
-      </Route>
 
       <Route path="people" component={UserPage}>
         <IndexRedirect to="filter/developers" />

@@ -114,16 +114,6 @@ class NavBar extends React.Component {
                     </ul>
                   </li>
                 : null}
-              {/*<li className="dropdown notifications">
-                             <a href="#" className="dropdown-toggle"
-                             data-toggle="dropdown" role="button"
-                             aria-expanded="false">
-                             <i className="nav-icon fa fa-bell fa-lg"/> {0?(<span className="badge">{0}</span>):null}
-                             </a>
-                             <div className="dropdown-menu" role="menu">
-
-                             </div>
-                             </li>*/}
               <li className="dropdown" id="navbar-account">
                 <a
                   href="#"
