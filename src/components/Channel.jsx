@@ -145,11 +145,11 @@ export default class Channel extends React.Component {
                       />
                       <Avatar
                         size="medium"
-                        src="https://tunga.io/icons/tunga_square.png"
+                        src={require('../images/chat/domieck.jpg')}
                       />
                       <Avatar
                         size="medium"
-                        src={require('../images/chat/ivan.jpg')}
+                        src={require('../images/chat/elijah.jpg')}
                       />
                     </div>
                   </div>

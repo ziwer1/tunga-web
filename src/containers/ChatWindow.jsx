@@ -21,7 +21,14 @@ export function resizeOverviewBox() {
   var t_h = nav_h + wf_h + 120;
 
   if (w_h > t_h) {
-    $('.chat-overview').css('height', w_h - t_h + 'px');
+    let chatbox_h = w_h - t_h,
+      extra_h = 0;
+    if (chatbox_h > 500) {
+      extra_h = chatbox_h - 500;
+      chatbox_h = 500;
+    }
+    $('.chat-overview').css('height', `${chatbox_h}px`);
+    $('#chat-window').css('top', `${100 + extra_h}px`);
   }
 }
 

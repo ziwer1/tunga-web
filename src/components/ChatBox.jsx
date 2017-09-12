@@ -43,9 +43,9 @@ export default class ChatBox extends React.Component {
             sender: {
               id: 'tunga',
               username: null,
-              short_name: 'David',
-              display_name: 'David',
-              avatar_url: 'https://tunga.io/icons/Tunga_squarex150.png',
+              short_name: 'Elijah',
+              display_name: 'Elijah',
+              avatar_url: require('../images/chat/elijah.jpg'),
             },
             body: 'Hi, feel free to ask me anything.',
           },

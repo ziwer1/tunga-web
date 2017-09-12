@@ -459,24 +459,45 @@ textarea {
   }
 }
 
-.input-group.message-widget {
+.message-widget {
+  position: relative;
   margin-top: 10px;
-  padding-top: 20px;
-  border-top: 1px solid @inactive-grey;
 
-  .input-group-btn {
-    vertical-align: top;
-    padding: 0 5px;
+  .input-group {
+    width: 100%;
+
+    .input-group-btn {
+      vertical-align: top;
+      padding: 0 5px;
+    }
+
+    textarea {
+      border-width: 0;
+      background-color: @inactive-grey;
+      border-radius: 5px !important;
+      padding-right: 38px;
+    }
+
+    .btn {
+      border-radius: 5px;
+    }
   }
 
-  textarea {
-    border-width: 0;
-    background-color: @inactive-grey;
-    border-radius: 5px !important;
-  }
-
-  .btn {
-    border-radius: 5px;
+  .btn-send,
+  .btn.btn-send,
+  .btn.btn-send:hover,
+  .btn.btn-send:focus,
+  .btn.btn-send:active {
+    position: absolute;
+    top: 10px;
+    right: 0;
+    z-index: 3;
+    color: @primary-text;
+    .font-size(2.0);
+    background: transparent none !important;
+    border-width: 0 !important;
+    outline-width: 0 !important;
+    box-shadow: none !important;
   }
 }
 
@@ -946,7 +967,7 @@ form[name='compose'] {
   background-size: cover;
   margin: 5px;
   border-radius: 50%;
-  border: 1px solid @primary;
+  border: 0 solid @primary;
   overflow: hidden;
 
   img {
@@ -1763,12 +1784,12 @@ form[name='compose'] {
     min-width: 50px;
 
     .avatar {
-      width: 50px;
-      height: 50px;
+      width: 40px;
+      height: 40px;
     }
 
     .avatar.avatar-icon {
-      font-size: 50px;
+      font-size: 40px;
     }
   }
 
@@ -2587,7 +2608,7 @@ form[name='compose'] {
     padding: 0;
     margin: 0;
     width: 100%;
-    max-width: 350px;
+    max-width: 360px;
     height: 100%;
 
     .chat-overview {
@@ -2604,6 +2625,10 @@ form[name='compose'] {
 
       .message-widget {
         padding-bottom: 10px;
+
+        textarea {
+          background-color: @active-white;
+        }
       }
     }
 
