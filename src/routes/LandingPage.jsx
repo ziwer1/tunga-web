@@ -14,7 +14,11 @@ import Avatar from '../components/Avatar';
 
 import Progress from '../components/status/Progress';
 
-import {showCallWidget, openCalendlyWidget} from '../utils/router';
+import {
+  showCallWidget,
+  openCalendlyWidget,
+  isTungaDomain,
+} from '../utils/router';
 import {TESTIMONIALS} from '../constants/data';
 
 import * as SkillPageActions from '../actions/SkillPageActions';
@@ -807,7 +811,9 @@ export class LandingPage extends ComponentWithModal {
                   name="task"
                   role="form"
                   ref="task_form"
-                  action="/start-outsource/">
+                  action={`${isTungaDomain()
+                    ? ''
+                    : 'https://tunga.io'}/start-outsource/`}>
                   <input
                     type="email"
                     name="email"

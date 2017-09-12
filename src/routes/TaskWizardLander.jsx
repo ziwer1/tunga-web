@@ -6,6 +6,7 @@ import {LandingPage} from '../routes/LandingPage';
 
 import * as SkillPageActions from '../actions/SkillPageActions';
 import {nl_to_br} from '../utils/html';
+import {isTungaDomain} from '../utils/router';
 
 class TaskWizardLander extends LandingPage {
   constructor(props) {
@@ -43,8 +44,6 @@ class TaskWizardLander extends LandingPage {
     let dlp_phrase = this.getDLPPhrase(),
       {SkillPage: {detail: {skill_page, isRetrieving, error}}} = this.props;
     let isSkillPage = this.state.isSkillPage && !error.retrieve;
-
-    console.log('log', dlp_phrase, isSkillPage, skill_page);
 
     return (
       <div className="row">
@@ -98,7 +97,9 @@ class TaskWizardLander extends LandingPage {
                   name="task"
                   role="form"
                   ref="task_form"
-                  action="/start-welcome/">
+                  action={`${isTungaDomain()
+                    ? ''
+                    : 'https://tunga.io'}/start-welcome/`}>
                   <div className="form-group">
                     <div className="row">
                       <div className="col-xs-5">
