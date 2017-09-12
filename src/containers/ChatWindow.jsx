@@ -49,9 +49,9 @@ class ChatWindow extends React.Component {
 
     if (!isAuthenticated()) {
       let cw = this;
-      setTimeout(function () {
+      setTimeout(function() {
         cw.setState({open: true});
-      }, __PRODUCTION__?10000:3000);
+      }, __PRODUCTION__ ? 10000 : 3000);
     }
     this.setState({channel, open});
   }
@@ -93,7 +93,12 @@ class ChatWindow extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     resizeOverviewBox();
-    if(!isAuthenticated() && this.state.open && !prevState.open && !this.state.channel) {
+    if (
+      !isAuthenticated() &&
+      this.state.open &&
+      !prevState.open &&
+      !this.state.channel
+    ) {
       const {ChannelActions} = this.props;
       ChannelActions.createSupportChannel();
     }

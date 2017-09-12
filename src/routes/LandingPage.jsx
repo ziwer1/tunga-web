@@ -293,11 +293,11 @@ export class LandingPage extends ComponentWithModal {
       }
 
       function resetTimer() {
-        if(setTimer) {
+        if (setTimer) {
           clearTimeout(setTimer);
         }
-        if(!closedOverlay) {
-          setTimer = setTimeout(displayOverlay, __PRODUCTION__?45000:6000);
+        if (!closedOverlay) {
+          setTimer = setTimeout(displayOverlay, __PRODUCTION__ ? 45000 : 6000);
         }
       }
     };
@@ -911,7 +911,8 @@ export class LandingPage extends ComponentWithModal {
                     </div>
                     <div>
                       <h3>
-                        Free quotes. Vetted Quality. Impact Sourcing. Daily progress report
+                        Free quotes. Vetted Quality. Impact Sourcing. Daily
+                        progress report
                       </h3>
                     </div>
                     <div>

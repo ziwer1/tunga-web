@@ -57,7 +57,7 @@ export default class QualityPage extends React.Component {
           <section>
             <div className="container">
               <div className="heading-2 text-center bold">
-                Tunga isn’t just a network of developers, Tunga is a community.<br/>
+                Tunga isn’t just a network of developers, Tunga is a community.<br />
                 We thoroughly select the brightest developers from the African
                 continent. Tunga nourish and constantly improve our community of
                 developers by providing them with the tools and guidance they
@@ -82,7 +82,9 @@ export default class QualityPage extends React.Component {
                       <a
                         href="https://www.youtube.com/watch?v=v9uRtYpZDQs"
                         target="_blank">
-                        <img src={require('../images/press/campus-party.png')} />
+                        <img
+                          src={require('../images/press/campus-party.png')}
+                        />
                       </a>
                     </li>
                     <li>
@@ -114,7 +116,9 @@ export default class QualityPage extends React.Component {
                       <a
                         href="http://spendmatters.com/2016/04/01/tunga-wip-of-the-week/"
                         target="_blank">
-                        <img src={require('../images/press/Spend-Matters.png')} />
+                        <img
+                          src={require('../images/press/Spend-Matters.png')}
+                        />
                       </a>
                     </li>
                     <li>
@@ -134,7 +138,9 @@ export default class QualityPage extends React.Component {
 
           <section id="select-devs-section">
             <div className="container">
-              <div className="section-heading text-center">How we select the best developers</div>
+              <div className="section-heading text-center">
+                How we select the best developers
+              </div>
             </div>
           </section>
 
@@ -170,11 +176,11 @@ export default class QualityPage extends React.Component {
                   <h1>Soft skills</h1>
                   <div>
                     When a developer has successfully passed the first stage of
-                    our program we assess our developers on several "soft skills".
-                    Such as communication skills, management of expectations, work
-                    ethics, stress management and time management. At Tunga, we
-                    believe that soft skills are as much or more important than
-                    software development skills.
+                    our program we assess our developers on several "soft
+                    skills". Such as communication skills, management of
+                    expectations, work ethics, stress management and time
+                    management. At Tunga, we believe that soft skills are as
+                    much or more important than software development skills.
                   </div>
                 </div>
                 <div className="dot-connector">
@@ -210,12 +216,12 @@ export default class QualityPage extends React.Component {
                   <div className="number">4</div>
                   <h1>Guidance program</h1>
                   <div>
-                    When a developer passed all our assessments he or she gets to
-                    work on the first project on Tunga. For the first couple of
-                    projects, the developers work under the guidance of a senior
-                    Tunga developer to ensure great collaboration between you and
-                    the developer(s) and that all our developer produce top notch
-                    products.
+                    When a developer passed all our assessments he or she gets
+                    to work on the first project on Tunga. For the first couple
+                    of projects, the developers work under the guidance of a
+                    senior Tunga developer to ensure great collaboration between
+                    you and the developer(s) and that all our developer produce
+                    top notch products.
                   </div>
                 </div>
               </div>

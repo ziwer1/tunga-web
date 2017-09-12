@@ -23,7 +23,10 @@ export default class SupportChannelMiniForm extends React.Component {
 
   saveChannel(email) {
     const {channel, ChannelActions} = this.props;
-    ChannelActions.createSupportChannel({id: channel?channel.id:null, email});
+    ChannelActions.createSupportChannel({
+      id: channel ? channel.id : null,
+      email,
+    });
   }
 
   handleSubmit(e) {
@@ -47,7 +50,6 @@ export default class SupportChannelMiniForm extends React.Component {
           name="channel"
           role="form"
           ref="channel_form">
-
           {/*<FormStatus
             loading={Channel.detail.isSaving}
             success={Channel.detail.isSaved}
@@ -56,16 +58,23 @@ export default class SupportChannelMiniForm extends React.Component {
           />*/}
 
           <div>
-            {Channel.detail.error.create &&
-            Channel.detail.error.create.email
+            {Channel.detail.error.create && Channel.detail.error.create.email
               ? <FieldError message={Channel.detail.error.create.email} />
               : null}
             <div className="form-group">
               <div className="input-group">
-                <input type="text" ref="email" className="form-control" placeholder="Your email address" required/>
-              <span className="input-group-btn">
-                <button className="btn btn-grey" type="submit"><i className="fa fa-paper-plane"/></button>
-              </span>
+                <input
+                  type="text"
+                  ref="email"
+                  className="form-control"
+                  placeholder="Your email address"
+                  required
+                />
+                <span className="input-group-btn">
+                  <button className="btn btn-grey" type="submit">
+                    <i className="fa fa-paper-plane" />
+                  </button>
+                </span>
               </div>
             </div>
           </div>
