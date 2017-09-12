@@ -31,7 +31,7 @@ import {getTaskKey} from '../utils/reducers';
 import confirm from '../utils/confirm';
 
 import {SOCIAL_PROVIDERS} from '../constants/Api';
-import {isAdmin, getUser} from '../utils/auth';
+import {isAdmin, isProjectManager, getUser} from '../utils/auth';
 import {sendGAPageView} from '../utils/tracking';
 
 import {
@@ -616,7 +616,7 @@ export default class TaskWorflow extends ComponentWithModal {
                                         Edit {work_type} description
                                       </Link>
                                     </li>,
-                                    task.is_developer_ready && task.pay
+                                    task.is_developer_ready
                                       ? <li>
                                           <Link
                                             to={`/work/${task.id}/edit/fee`}
@@ -627,12 +627,20 @@ export default class TaskWorflow extends ComponentWithModal {
                                       : null,
                                     <li>
                                       <Link
+                                        to={`/work/${task.id}/edit/deadline`}
+                                        className="btn">
+                                        Edit deadline
+                                      </Link>
+                                    </li>,
+                                    <li>
+                                      <Link
                                         to={`/work/${task.id}/edit/skills`}
                                         className="btn">
                                         Add skills
                                       </Link>
                                     </li>,
-                                    isAdmin() && !task.owner
+                                    (isAdmin() || isProjectManager()) &&
+                                    !task.owner
                                       ? <li>
                                           <Link
                                             to={`/work/${task.id}/edit/owner`}
@@ -641,7 +649,7 @@ export default class TaskWorflow extends ComponentWithModal {
                                           </Link>
                                         </li>
                                       : null,
-                                    task.is_project && !task.pm
+                                    isAdmin() && task.is_project && !task.pm
                                       ? <li>
                                           <Link
                                             to={`/work/${task.id}/edit/pm`}
