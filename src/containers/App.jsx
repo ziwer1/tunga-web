@@ -17,7 +17,7 @@ import {
   requiresAuth,
   requiresNoAuth,
   requiresAuthOrEmail,
-  isTungaDomain
+  isTungaDomain,
 } from '../utils/router';
 
 class App extends React.Component {
@@ -42,7 +42,8 @@ class App extends React.Component {
     );
     if (
       !this.getSkill(props) &&
-      !isTungaDomain() && !/^\/?((welcome|our-story|quality|pricing)\/?)?(\?.*|$)/.test(path)
+      !isTungaDomain() &&
+      !/^\/?((welcome|our-story|quality|pricing)\/?)?(\?.*|$)/.test(path)
     ) {
       this.shouldRender = false;
       window.location.href = `https://tunga.io${path}`;
@@ -178,11 +179,11 @@ class App extends React.Component {
       <div style={{height: '100%'}}>
         {Auth.isVerifying || !this.shouldRender
           ? <div className="app-loading">
-          <div>
-            <img src={require('../images/logo.png')} height="50px" />
-          </div>
-          <Progress message="Initializing ..." />
-        </div>
+              <div>
+                <img src={require('../images/logo.png')} height="50px" />
+              </div>
+              <Progress message="Initializing ..." />
+            </div>
           : null}
         <div
           style={{

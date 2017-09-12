@@ -121,11 +121,7 @@ let all_routes = (
       {/* No Auth Pages */}
       <Route path="welcome">
         <IndexRoute component={TaskWizardLander} />
-        <Route
-          path=":skill"
-          component={TaskWizardLander}
-          unauthedOnly={true}
-        />
+        <Route path=":skill" component={TaskWizardLander} unauthedOnly={true} />
       </Route>
       <Route path="start">
         <IndexRoute component={TaskWizard} />
@@ -236,10 +232,7 @@ let all_routes = (
             </Route>
             <Route path="quote" component={EstimateForm} crumb="Quote" />
             <Route path="applications">
-              <IndexRoute
-                component={ApplicationList}
-                crumb="Applications"
-              />
+              <IndexRoute component={ApplicationList} crumb="Applications" />
               <Route path=":applicationId" component={ApplicationDetail} />
             </Route>
             <Route
@@ -260,11 +253,7 @@ let all_routes = (
             <Route path="integrations" crumb="Integrations">
               <IndexRedirect to="github" component={IntegrationList} />
               <Route path="trello" component={TaskForm} crumb="Trello" />
-              <Route
-                path="google"
-                component={TaskForm}
-                crumb="Google Drive"
-              />
+              <Route path="google" component={TaskForm} crumb="Google Drive" />
               <Route
                 path=":provider"
                 component={IntegrationList}
@@ -308,9 +297,7 @@ let all_routes = (
           <IndexRoute component={PaymentList} />
           <Route path="filter/:filter" component={PaymentList} />
           <Route path="bulk" component={MultiTaskPaymentContainer}>
-            <Route
-              path=":batchId"
-              component={MultiTaskPaymentDetailContainer}>
+            <Route path=":batchId" component={MultiTaskPaymentDetailContainer}>
               <IndexRoute component={MultiTaskPay} />
               <Route path="processing" component={MultiTaskPayProcessing} />
             </Route>
