@@ -10,13 +10,36 @@ import ShowCaseFooter from '../containers/ShowCaseFooter';
 export default class DeveloperProfile extends React.Component {
 
   componentDidMount(){
-    console.log('component loaded successfully');
-    $(document).ready(function(){
-      if(initMap) {
-        initMap();
-      }
-    });
+    this.initMap();
   }
+
+  initMap() {
+    var mapTimer = null;
+    function createMap() {
+      try {
+        if(google && google.maps) {
+          var uluru = {lat: 0.3476, lng: 32.5825};
+          var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 12,
+            center: uluru
+          });
+          var marker = new google.maps.Marker({
+            position: uluru,
+            map: map
+          });
+          if(mapTimer) {
+            clearInterval(mapTimer);
+          }
+        } else {
+          mapTimer = setInterval(createMap, 1000);
+        }
+      } catch (e) {
+        mapTimer = setInterval(createMap, 1000);
+      }
+    }
+    createMap();
+  }
+
   renderHeaderContent() {
     return (
       <div>
