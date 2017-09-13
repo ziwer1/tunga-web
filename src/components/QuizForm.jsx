@@ -77,18 +77,14 @@ export default class QuizForm extends ComponentWithModal {
       manage: '',
       enable_btn: false,
       disabled: true,
+      autoSubmit: false
     };
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (
-      prevState.first_name != '' &&
-      prevState.last_name != '' &&
-      prevState.email != ''
-    ) {
-      this.state.disabled ? this.setState({disabled: false}) : '';
-    } else {
-      this.state.disabled == false ? this.setState({disabled: true}) : '';
+    if(this.state.autoSubmit && !prevState.autoSubmit) {
+      // submit form
+      console.log('Ready to submit');
     }
   }
 
@@ -99,7 +95,11 @@ export default class QuizForm extends ComponentWithModal {
   onStateValueChange(key, value) {
     this.setState({step: this.state.step + 1});
     if (key != '') {
-      this.setState({[key]: value});
+      let extraState = {};
+      if(key == 'manage') {
+        extraState.autoSubmit = true;
+      }
+      this.setState({ ...extraState, [key]: value});
     }
   }
 
@@ -108,6 +108,21 @@ export default class QuizForm extends ComponentWithModal {
   }
 
   renderHeaderContent() {
+
+    if(this.state.autoSubmit) {
+      return (
+        <div>
+          <div className="heading-3 bold text-center">
+            Thank you for using Tunga!
+          </div>
+          <div className="thank-you">
+            We will reach out to you shortly!<br />
+            <i className="fa fa-check-circle" />
+          </div>
+        </div>
+      );
+    }
+
     let skypeComp = (
       <div>
         <div className="form-group">
@@ -385,10 +400,6 @@ export default class QuizForm extends ComponentWithModal {
         title: 'Do you need help in managing and cordinating the project?',
         items: [taskManageComp],
       },
-      // {
-      //     title: 'Hire top African developers!',
-      //     items: [personalComp, emailComp, skypeComp]
-      // },
     ];
 
     let current_section = sections[this.state.step];
