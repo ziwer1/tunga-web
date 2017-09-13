@@ -12,15 +12,9 @@ export default class DeveloperProfile extends React.Component {
   componentDidMount(){
     console.log('component loaded successfully');
     $(document).ready(function(){
-        var uluru = {lat: 0.3476, lng: 32.5825};
-        var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 12,
-          center: uluru
-        });
-        var marker = new google.maps.Marker({
-          position: uluru,
-          map: map
-        });
+      if(initMap) {
+        initMap();
+      }
     });
   }
   renderHeaderContent() {

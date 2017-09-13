@@ -71,8 +71,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/1.8.5/countUp.min.js"></script>
     <script src="https://cdn.ravenjs.com/3.15.0/raven.min.js" crossorigin="anonymous"></script>
 
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBAF5b1S-ZQpthng3kXPEPQ_0_8fA5K0YA&callback=initMap"
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrNZwL5sT-XOZC9iCT-Z0Vaa7EDcs-Cfc&callback=initMap"
   type="text/javascript"></script>
+    <script type="text/javascript">
+      function initMap() {
+        var uluru = {lat: 0.3476, lng: 32.5825};
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 12,
+          center: uluru
+        });
+        var marker = new google.maps.Marker({
+          position: uluru,
+          map: map
+        });
+      }
+    </script>
 
     <%- include ./src/analytics %>
 
