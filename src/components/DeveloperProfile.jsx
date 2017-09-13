@@ -12,9 +12,9 @@ export default class DeveloperProfile extends React.Component {
   componentDidMount(){
     console.log('component loaded successfully');
     $(document).ready(function(){
-        var uluru = {lat: -25.363, lng: 131.044};
+        var uluru = {lat: 0.3476, lng: 32.5825};
         var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 4,
+          zoom: 12,
           center: uluru
         });
         var marker = new google.maps.Marker({
@@ -26,10 +26,10 @@ export default class DeveloperProfile extends React.Component {
   renderHeaderContent() {
     return (
       <div>
-        <h1>Developer Awesomeness</h1>
+        <h1>Elijah Atuhaire</h1>
         <h2>Kampala, Uganda</h2>
         <div className="profile-div">
-          <img className="profile-image" src={require('../images/devs/Adeline.jpg')} />
+          <img className="profile-image" src={require('../images/chat/elijah.jpg')} />
         </div>
       </div>
     );
@@ -182,7 +182,7 @@ export default class DeveloperProfile extends React.Component {
 
               <div className="text-center">
                 <Link to="/start/" className="btn btn-callout btn-main-cta">
-                  Hire Jane Francis
+                  Hire Elijah
                 </Link>
               </div>
 
