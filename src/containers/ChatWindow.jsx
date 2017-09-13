@@ -27,6 +27,7 @@ export function resizeOverviewBox() {
       extra_h = chatbox_h - 500;
       chatbox_h = 500;
     }
+    //let topBaseline = ($(window).width() >= 768)?100:100;
     $('.chat-overview').css('height', `${chatbox_h}px`);
     $('#chat-window').css('top', `${100 + extra_h}px`);
   }
