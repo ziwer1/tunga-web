@@ -100,7 +100,7 @@ export default class DeveloperProfile extends React.Component {
                 <div className="col developer-card other-content">
                   <div className="heading-2 bold">Experience</div>
                   <div className="info-block">
-                    <p className="info-header">Company / Project 20XX - 20XX</p>
+                    <p className="info-header">Company / Project <span className="period">20XX - 20XX</span></p>
                     <p className="info-title">Title</p>
                     <ul>
                       <li>Responsibility 1</li>
