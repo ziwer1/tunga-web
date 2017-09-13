@@ -20,8 +20,8 @@ export default class DeveloperProfile extends React.Component {
         var marker = new google.maps.Marker({
           position: uluru,
           map: map
-        });      
-    });    
+        });
+    });
   }
   renderHeaderContent() {
     return (
@@ -68,11 +68,11 @@ export default class DeveloperProfile extends React.Component {
                     Bio of developers Lorem ipsum dolor sit amet,
                     libris dolorem quo no, ei sed clita repudiandae,
                     quo ridens instructior ad. Ius libris deleniti ea,
-                    cu mutat detraxit vis, cum iudico oratio tamquam ad. 
+                    cu mutat detraxit vis, cum iudico oratio tamquam ad.
                     Ei ubique invidunt expetendis ius, ea pro quis detraxit iudicabit.
                     Quo corpora molestiae an. Te duo novum
                   </div>
-                  <div className="bio-languages">                  
+                  <div className="bio-languages">
                     <div className="">
                       <Link to="/start/" className="btn btn-bio">iOS</Link>
                       <Link to="/start/" className="btn btn-bio">Swift</Link>
@@ -80,7 +80,7 @@ export default class DeveloperProfile extends React.Component {
                     </div>
                     <div className="">
                       <Link to="/start/" className="btn btn-bio">Android</Link>
-                      <Link to="/start/" className="btn btn-bio">PHP</Link>                      
+                      <Link to="/start/" className="btn btn-bio">PHP</Link>
                     </div>
                   </div>
                 </div>
@@ -89,7 +89,7 @@ export default class DeveloperProfile extends React.Component {
                     Bio of developers Lorem ipsum dolor sit amet,
                     libris dolorem quo no, ei sed clita repudiandae,
                     quo ridens instructior ad. Ius libris deleniti ea,
-                    cu mutat detraxit vis, cum iudico oratio tamquam ad. 
+                    cu mutat detraxit vis, cum iudico oratio tamquam ad.
                     Ei ubique invidunt expetendis ius, ea pro quis detraxit iudicabit.
                     Quo corpora molestiae an. Te duo novum
                   </div>
@@ -98,7 +98,7 @@ export default class DeveloperProfile extends React.Component {
 
               <div className="col-container">
                 <div className="col developer-card other-content">
-                  <div className="heading-2 bold">Experience</div>                      
+                  <div className="heading-2 bold">Experience</div>
                   <div className="info-block">
                     <p className="info-header">Company / Project 20XX - 20XX</p>
                     <p className="info-title">Title</p>
@@ -182,7 +182,7 @@ export default class DeveloperProfile extends React.Component {
 
               <div className="text-center">
                 <Link to="/start/" className="btn btn-callout btn-main-cta">
-                  Hire JaneFrancis 
+                  Hire Jane Francis
                 </Link>
               </div>
 
