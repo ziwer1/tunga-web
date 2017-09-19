@@ -550,34 +550,18 @@ export default class TaskWorflow extends ComponentWithModal {
                         : null}
                       {can_pay
                         ? <Link
-                            to={`/work/${task.id}/pay/`}
+                            to={`/work/${task.id}/${task.payment_approved?'pay':'invoice'}/`}
                             className="btn"
                             id="make-payment-btn">
-                            {can_pay
-                              ? 'Make payment'
-                              : <OverlayTrigger
-                                  placement="top"
-                                  overlay={pay_popover}>
-                                  <div>Make payment</div>
-                                </OverlayTrigger>}
+                        {task.payment_approved?'Make payment':'Generate Invoice'}
                           </Link>
                         : null}
                       {can_rate
                         ? <Link
-                            to={
-                              can_rate
-                                ? `/work/${task.id}/rate/`
-                                : workflow_link
-                            }
+                            to={`/work/${task.id}/rate/`}
                             className="btn"
                             id="rate-developers-btn">
-                            {can_rate
-                              ? 'Rate Developers'
-                              : <OverlayTrigger
-                                  placement="top"
-                                  overlay={rate_dev_popover}>
-                                  <div>Rate Developers</div>
-                                </OverlayTrigger>}
+                        Rate Developers
                           </Link>
                         : null}
                       {task.is_developer_ready &&

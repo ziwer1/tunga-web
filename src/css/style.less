@@ -301,6 +301,10 @@ form .alert {
   .form-wrapper {
     max-width: 600px;
     margin: 0 auto;
+
+    &.pay-wrapper {
+      max-width: 700px;
+    }
   }
 }
 
@@ -2841,6 +2845,25 @@ form[name='compose'] {
   color: @secondary;
   background: @active-white none;
   border-color: @secondary;
+}
+
+.btc-copy-widgets {
+  margin-top: 10px;
+  max-width: 400px;
+
+  .input-group {
+    margin-bottom: 5px;
+
+    .input-group-addon {
+      color: @primary-text;
+    }
+
+    input {
+      &:disabled {
+        cursor: pointer;
+      }
+    }
+  }
 }
 
 .showcase,
