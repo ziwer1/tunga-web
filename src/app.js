@@ -261,7 +261,11 @@ let all_routes = (
                 crumbs={{slack: 'Slack', github: 'GitHub'}}
               />
             </Route>
-            <Route path="invoice" component={TaskPay} crumb="Generate Invoice" />
+            <Route
+              path="invoice"
+              component={TaskPay}
+              crumb="Generate Invoice"
+            />
             <Route path="pay" component={TaskPay} crumb="Make Payment" />
             <Route
               path="participation"

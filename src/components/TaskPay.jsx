@@ -76,7 +76,7 @@ export default class TaskPay extends React.Component {
         payment_method = Invoice.invoice.payment_method;
       }
 
-      if(multi_task_payment || (task && task.payment_approved)) {
+      if (multi_task_payment || (task && task.payment_approved)) {
         if (payment_method == TASK_PAYMENT_METHOD_STRIPE) {
           let tp = this;
           setTimeout(function() {
@@ -286,7 +286,7 @@ export default class TaskPay extends React.Component {
     const {multi_task_payment, task} = this.props;
     if (multi_task_payment) {
       return true;
-    } else if(task) {
+    } else if (task) {
       return task.payment_approved;
     }
     return false;
@@ -344,7 +344,7 @@ export default class TaskPay extends React.Component {
                     name="invoice"
                     role="form"
                     ref="invoice_form">
-                {/*<h4 className="title">Make Payment</h4>*/}
+                    {/*<h4 className="title">Make Payment</h4>*/}
 
                     <FormStatus
                       loading={
@@ -355,7 +355,9 @@ export default class TaskPay extends React.Component {
                         (Task && Task.detail.Invoice.isSaved) ||
                         (MultiTaskPayment && MultiTaskPayment.detail.isSaved)
                       }
-                      message={`${multi_task_payment? 'Batch payment updated':'Invoice saved'} successfully`}
+                      message={`${multi_task_payment
+                        ? 'Batch payment updated'
+                        : 'Invoice saved'} successfully`}
                       error={Task && Task.detail.Invoice.error.create}
                     />
 
@@ -423,7 +425,7 @@ export default class TaskPay extends React.Component {
                               : task.pay,
                             false,
                           )}
-                          disabled={multi_task_payment?true:false}
+                          disabled={multi_task_payment ? true : false}
                         />
                       </div>
                     </div>
@@ -486,7 +488,9 @@ export default class TaskPay extends React.Component {
                         />
                       : null}
                     <div className="form-group">
-                      <label className="control-label">How would you like to pay?</label>
+                      <label className="control-label">
+                        How would you like to pay?
+                      </label>
                       <hr style={{marginTop: '0'}} />
                       <div className="pay-choices">
                         {TASK_PAYMENT_METHOD_CHOICES.slice(
@@ -581,42 +585,60 @@ export default class TaskPay extends React.Component {
                             ? <Error message={Task.detail.error.pay.message} />
                             : null}
 
-                          {this.isPaymentApproved() && this.getPaymentMethod() ==
-                          TASK_PAYMENT_METHOD_BITCOIN
+                          {this.isPaymentApproved() &&
+                          this.getPaymentMethod() == TASK_PAYMENT_METHOD_BITCOIN
                             ? <div>
-                            Send exactly BTC <strong>{btc_amount}</strong>{' '}
-                            to{' '}
-                            <a href={btc_address}>
-                              <strong>
-                                {btc_address_only}
-                              </strong>
-                            </a>
-                            <div className="btc-copy-widgets">
-                              <CopyToClipboard text={btc_amount}>
-                                <div className="input-group">
-                                  <span className="input-group-addon">Fee: </span>
-                                  <input type="text" className="form-control" value={btc_amount} disabled/>
-                                <span className="input-group-btn">
-                                  <button className="btn" type="button"><i className="fa fa-copy"/> Copy</button>
-                                </span>
+                                Send exactly BTC <strong>{btc_amount}</strong>{' '}
+                                to{' '}
+                                <a href={btc_address}>
+                                  <strong>
+                                    {btc_address_only}
+                                  </strong>
+                                </a>
+                                <div className="btc-copy-widgets">
+                                  <CopyToClipboard text={btc_amount}>
+                                    <div className="input-group">
+                                      <span className="input-group-addon">
+                                        Fee:{' '}
+                                      </span>
+                                      <input
+                                        type="text"
+                                        className="form-control"
+                                        value={btc_amount}
+                                        disabled
+                                      />
+                                      <span className="input-group-btn">
+                                        <button className="btn" type="button">
+                                          <i className="fa fa-copy" /> Copy
+                                        </button>
+                                      </span>
+                                    </div>
+                                  </CopyToClipboard>
+                                  <CopyToClipboard text={btc_address_only}>
+                                    <div className="input-group">
+                                      <span className="input-group-addon">
+                                        Address:{' '}
+                                      </span>
+                                      <input
+                                        type="text"
+                                        className="form-control"
+                                        value={btc_address_only}
+                                        disabled
+                                      />
+                                      <span className="input-group-btn">
+                                        <button className="btn" type="button">
+                                          <i className="fa fa-copy" /> Copy
+                                        </button>
+                                      </span>
+                                    </div>
+                                  </CopyToClipboard>
                                 </div>
-                              </CopyToClipboard>
-                              <CopyToClipboard text={btc_address_only}>
-                                <div className="input-group">
-                                  <span className="input-group-addon">Address: </span>
-                                  <input type="text" className="form-control" value={btc_address_only} disabled/>
-                                <span className="input-group-btn">
-                                  <button className="btn" type="button"><i className="fa fa-copy"/> Copy</button>
-                                </span>
+                                <div>
+                                  <img
+                                    src={`https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=${btc_address}`}
+                                  />
                                 </div>
-                              </CopyToClipboard>
-                            </div>
-                            <div>
-                              <img
-                                src={`https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=${btc_address}`}
-                              />
-                            </div>
-                          </div>
+                              </div>
                             : null}
 
                           <table className="table table-striped">
@@ -681,67 +703,73 @@ export default class TaskPay extends React.Component {
                             </tbody>
                           </table>
 
-                          <div className='clearfix'>
-                            {this.isPaymentApproved()?(
-                              <div className="pull-left">
-                                {this.getPaymentMethod() ==
-                                TASK_PAYMENT_METHOD_BITCOIN
-                                  ?(
-                                  <a href={btc_address} className="btn">
-                                    <i className="fa fa-btc" /> Open bitcoin wallet on device
-                                  </a>
-                                ):null}
+                          <div className="clearfix">
+                            {this.isPaymentApproved()
+                              ? <div className="pull-left">
+                                  {this.getPaymentMethod() ==
+                                  TASK_PAYMENT_METHOD_BITCOIN
+                                    ? <a href={btc_address} className="btn">
+                                        <i className="fa fa-btc" /> Open bitcoin
+                                        wallet on device
+                                      </a>
+                                    : null}
 
-                                {this.getPaymentMethod() ==
-                                TASK_PAYMENT_METHOD_BITONIC
-                                  ? <a
-                                  href={`${ENDPOINT_TASK}${task.id}/pay/bitonic/?amount=${this.getActualPayAmount()}`}
-                                  className="btn ">
-                                  <i className="fa fa-money" /> Pay with iDeal
-                                </a>
-                                  : null}
+                                  {this.getPaymentMethod() ==
+                                  TASK_PAYMENT_METHOD_BITONIC
+                                    ? <a
+                                        href={`${ENDPOINT_TASK}${task.id}/pay/bitonic/?amount=${this.getActualPayAmount()}`}
+                                        className="btn ">
+                                        <i className="fa fa-money" /> Pay with
+                                        iDeal
+                                      </a>
+                                    : null}
 
-                                {this.getPaymentMethod() == TASK_PAYMENT_METHOD_STRIPE
-                                  ? <StripeCheckout
-                                  name="Tunga"
-                                  description={
-                                  multi_task_payment
-                                    ? `Bulk Payment`
-                                    : task.summary
-                                }
-                                  image="https://tunga.io/icons/tunga_square.png"
-                                  ComponentClass="span"
-                                  panelLabel="Make Payment"
-                                  amount={this.getActualPayAmount() * 100}
-                                  currency="EUR"
-                                  stripeKey={__STRIPE_KEY__}
-                                  locale="en"
-                                  //bitcoin={true}
-                                  email={getUser().email}
-                                  token={this.onStripeToken.bind(this)}
-                                  reconfigureOnUpdate={false}
-                                  triggerEvent="onClick">
-                                  <button
-                                    type="button"
-                                    className="btn btn-success"
-                                    ref="pay_stripe">
-                                    <i className="fa fa-cc-stripe" /> Pay with Card
-                                  </button>
-                                </StripeCheckout>
-                                  : null}
-                              </div>
-                            ):null}
+                                  {this.getPaymentMethod() ==
+                                  TASK_PAYMENT_METHOD_STRIPE
+                                    ? <StripeCheckout
+                                        name="Tunga"
+                                        description={
+                                          multi_task_payment
+                                            ? `Bulk Payment`
+                                            : task.summary
+                                        }
+                                        image="https://tunga.io/icons/tunga_square.png"
+                                        ComponentClass="span"
+                                        panelLabel="Make Payment"
+                                        amount={this.getActualPayAmount() * 100}
+                                        currency="EUR"
+                                        stripeKey={__STRIPE_KEY__}
+                                        locale="en"
+                                        //bitcoin={true}
+                                        email={getUser().email}
+                                        token={this.onStripeToken.bind(this)}
+                                        reconfigureOnUpdate={false}
+                                        triggerEvent="onClick">
+                                        <button
+                                          type="button"
+                                          className="btn btn-success"
+                                          ref="pay_stripe">
+                                          <i className="fa fa-cc-stripe" /> Pay
+                                          with Card
+                                        </button>
+                                      </StripeCheckout>
+                                    : null}
+                                </div>
+                              : null}
 
                             {!multi_task_payment &&
-                            (this.getPaymentMethod() == TASK_PAYMENT_METHOD_BANK || !this.isPaymentApproved())
-                              ?
-                              <a
-                                href={`${ENDPOINT_TASK}${task.id}/download/invoice/?format=pdf`}
-                                target="_blank"
-                                className={`btn ${this.isPaymentApproved()?'btn-alt':''}`}>
-                                <i className="fa fa-download" /> Download
-                                Invoice
-                              </a>
+                            (this.getPaymentMethod() ==
+                              TASK_PAYMENT_METHOD_BANK ||
+                              !this.isPaymentApproved())
+                              ? <a
+                                  href={`${ENDPOINT_TASK}${task.id}/download/invoice/?format=pdf`}
+                                  target="_blank"
+                                  className={`btn ${this.isPaymentApproved()
+                                    ? 'btn-alt'
+                                    : ''}`}>
+                                  <i className="fa fa-download" /> Download
+                                  Invoice
+                                </a>
                               : null}
 
                             <div className="pull-right">
@@ -754,11 +782,13 @@ export default class TaskPay extends React.Component {
                             </div>
                           </div>
 
-                          {this.isPaymentApproved() || this.getPaymentMethod() == TASK_PAYMENT_METHOD_BANK?null:(
-                            <div className="alert alert-info">
-                              You will be notified by email once the payment link for this invoice is ready.
-                            </div>
-                          )}
+                          {this.isPaymentApproved() ||
+                          this.getPaymentMethod() == TASK_PAYMENT_METHOD_BANK
+                            ? null
+                            : <div className="alert alert-info">
+                                You will be notified by email once the payment
+                                link for this invoice is ready.
+                              </div>}
                         </div>}
                   </div>}
             </div>}
