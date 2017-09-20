@@ -571,7 +571,7 @@ export default class TaskWorflow extends ComponentWithModal {
                       task.details.participation &&
                       task.details.participation.length
                         ? <Link
-                            to={`/work/${task.id}/participation/`}
+                            to={`/work/${task.id}/edit/participation/`}
                             className="btn"
                             id="participation-shares-btn">
                             Participation shares

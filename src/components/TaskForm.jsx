@@ -113,6 +113,7 @@ export default class TaskForm extends ComponentWithModal {
       analytics_id: props.analyticsId || randomstring.generate(),
       call_required: null,
       participant_updates: {},
+      users: {}
     };
   }
 
@@ -181,12 +182,13 @@ export default class TaskForm extends ComponentWithModal {
       ...user,
       ...project_state,
       ...options,
+      users: this.parseUsers()
     };
   }
 
   componentDidUpdate(prevProps, prevState) {
     const task = this.props.task || {};
-    const {project, urlPrefix, phase} = this.props;
+    const {project, urlPrefix, phase, enabledWidgets} = this.props;
     const {router} = this.context;
 
     var new_state = {};
@@ -280,7 +282,9 @@ export default class TaskForm extends ComponentWithModal {
       }
 
       if (isAuthenticated()) {
-        router.replace(`/work/${Task.detail.task.id}`);
+        if(!enabledWidgets || (Array.isArray(enabledWidgets) && (enabledWidgets.indexOf('participation') == -1 || enabledWidgets.indexOf('updates') == -1))) {
+          router.replace(`/work/${Task.detail.task.id}`);
+        }
       }
     }
 
@@ -484,6 +488,42 @@ export default class TaskForm extends ComponentWithModal {
       });
     }
     return collaborators;
+  }
+
+  parseUsers() {
+    const {task} = this.props;
+    var users = {};
+    if (task.details && task.details.participation_shares.length) {
+      task.details.participation_shares.forEach(item => {
+        users[item.participant.user.id] = item.percentage;
+      });
+    }
+    return users;
+  }
+
+  getTotalShares() {
+    var total = 0;
+    Object.keys(this.state.users).forEach(key => {
+      total += parseFloat(this.state.users[key]) || 0;
+    });
+    return Math.round(total);
+  }
+
+  getParticipation() {
+    var participation = [];
+    Object.keys(this.state.users).forEach(key => {
+      participation.push({
+        user: key,
+        share: parseFloat(this.state.users[key]).toFixed(2) || 0,
+      });
+    });
+    return participation;
+  }
+
+  onShareChange(user, e) {
+    var new_user = {};
+    new_user[user] = e.target.value;
+    this.setState({users: {...this.state.users, ...new_user}});
   }
 
   onDeadlineChange(date) {
@@ -760,7 +800,7 @@ export default class TaskForm extends ComponentWithModal {
     if (assignee) {
       participation.push({user: assignee, assignee: true});
     }
-    req_data.participation = participation;
+    req_data.participation = [...participation, ...this.getParticipation()];
     req_data.milestones = this.state.milestones;
 
     const selected_skills = this.state.skills;
@@ -2340,6 +2380,66 @@ export default class TaskForm extends ComponentWithModal {
       </div>
     );
 
+    let participationComp = (
+      task.details && task.details.participation_shares.length
+        ? <div>
+        {task.details.participation_shares.map(item => {
+          let user = item.participant.user;
+          return (
+            <div
+              key={item.participant.id}
+              className="form-group">
+              <label className="control-label">Participation shares</label>
+              <blockquote>
+                <strong>NOTE:</strong> Enter shares either as hours or percentages
+              </blockquote>
+              <div>
+                <div className="list-group-item">
+                  <div className="media">
+                    <div className="media-left">
+                      <Avatar src={user.avatar_url} size="small" />
+                    </div>
+                    <div className="media-body">
+                      <div className="pull-left">
+                        <div>
+                          <Link
+                            to={`/people/${user.username}`}>
+                            {user.display_name}
+                          </Link>
+                        </div>
+                        <div className="secondary">
+                          @{user.username}
+                        </div>
+                      </div>
+
+                      <div className="pull-right">
+                        <input
+                          type="text"
+                          className="form-control"
+                          required
+                          placeholder="Share"
+                          defaultValue={parseNumber(
+                                  item.percentage,
+                                  false,
+                                )}
+                          onChange={this.onShareChange.bind(
+                                  this,
+                                  item.participant.user.id,
+                                )}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          );
+        })}
+      </div>
+        : null
+    );
+
     if (isAuthenticated()) {
       if (enabledWidgets && enabledWidgets.length) {
         let widgetMap = {
@@ -2359,6 +2459,7 @@ export default class TaskForm extends ComponentWithModal {
           owner: ownerComp,
           trello: trelloComp,
           'google-drive': googleDriveComp,
+          participation: participationComp,
         };
 
         if (enabledWidgets[0] == 'complete-task') {
@@ -2727,7 +2828,7 @@ export default class TaskForm extends ComponentWithModal {
                 <FormStatus
                   loading={Task.detail.isSaving}
                   success={Task.detail.isSaved}
-                  message={'Task saved successfully'}
+                  message={'Changes saved successfully!'}
                   error={Task.detail.error.create || Task.detail.error.update}
                   errorMessage={
                     (Task.detail.error.create &&
