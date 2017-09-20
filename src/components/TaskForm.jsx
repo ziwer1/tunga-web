@@ -39,6 +39,9 @@ import {
   suggestTaskTypeSkills,
   TASK_TYPE_OTHER,
   TASK_SCOPE_TASK,
+  PROGRESS_EVENT_TYPE_MILESTONE,
+  PROGRESS_EVENT_TYPE_SUBMIT,
+  PROGRESS_EVENT_TYPE_COMPLETE
 } from '../constants/Api';
 
 import {getTaskTypeUrl, getScopeUrl, sendGAPageView} from '../utils/tracking';
@@ -1620,10 +1623,15 @@ export default class TaskForm extends ComponentWithModal {
                 ? <div>
                     <div className="btn-choices">
                       {this.state.milestones.map((milestone, idx) => {
+                        if([
+                            PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT, PROGRESS_EVENT_TYPE_COMPLETE
+                          ].indexOf(milestone.type) == -1) {
+                          return;
+                        }
                         const tooltip = (
                           <Tooltip id="tooltip">
                             <strong>
-                              {milestone.title}
+                              {milestone.title || 'Scheduled Update'}
                             </strong>
                             <br />
                             {milestone.due_at
@@ -1645,7 +1653,7 @@ export default class TaskForm extends ComponentWithModal {
                                 ...milestone,
                                 idx,
                               })}>
-                              {_.truncate(milestone.title, {length: 25})}
+                              {_.truncate(milestone.title || 'Scheduled Update', {length: 25})}
                             </Button>
                           </OverlayTrigger>
                         );
