@@ -102,7 +102,8 @@ export default class TaskWorflow extends ComponentWithModal {
     }
 
     if (
-      nextProps.Task.detail.task.closed && !this.props.Task.detail.task.closed
+      nextProps.Task.detail.task.closed &&
+      !this.props.Task.detail.task.closed
     ) {
       this.redirectToNextStep(nextProps, true);
     }
@@ -127,7 +128,7 @@ export default class TaskWorflow extends ComponentWithModal {
     this.intervals.push(setInterval.apply(null, arguments));
   }
 
-  redirectToNextStep(props, force_redirect=false) {
+  redirectToNextStep(props, force_redirect = false) {
     const {task} = props;
 
     if (
@@ -137,7 +138,9 @@ export default class TaskWorflow extends ComponentWithModal {
           (!task.approved ||
             !task.participation ||
             !task.participation.length))) &&
-      (!this.props.location.query || !this.props.location.query.nr || force_redirect) &&
+      (!this.props.location.query ||
+        !this.props.location.query.nr ||
+        force_redirect) &&
       (!props.params || !props.params.eventId)
     ) {
       const {router} = this.context;
@@ -148,7 +151,7 @@ export default class TaskWorflow extends ComponentWithModal {
         next = `/work/${task.id}/applications`;
       } else if (task.paid) {
         next = `/work/${task.id}/rate`;
-      } else if(!task.payment_approved) {
+      } else if (!task.payment_approved) {
         next = `/work/${task.id}/invoice`;
       } else {
         next = `/work/${task.id}/pay`;
@@ -550,22 +553,18 @@ export default class TaskWorflow extends ComponentWithModal {
                             Project Board
                           </Link>
                         : null}
-                      {can_pay
+
+                      {task.is_developer_ready &&
+                      !is_project_task &&
+                      is_admin_or_owner
                         ? <Link
-                            to={`/work/${task.id}/${task.payment_approved?'pay':'invoice'}/`}
+                            to={`/work/${task.id}/edit/updates/`}
                             className="btn"
-                            id="make-payment-btn">
-                        {task.payment_approved?'Make payment':'Generate Invoice'}
+                            id="configure-updates-btn">
+                            Configure updates
                           </Link>
                         : null}
-                      {can_rate
-                        ? <Link
-                            to={`/work/${task.id}/rate/`}
-                            className="btn"
-                            id="rate-developers-btn">
-                        Rate Developers
-                          </Link>
-                        : null}
+
                       {task.is_developer_ready &&
                       can_edit_shares &&
                       task.details &&
@@ -579,14 +578,32 @@ export default class TaskWorflow extends ComponentWithModal {
                           </Link>
                         : null}
 
-                      {task.is_developer_ready &&
-                      !is_project_task &&
-                      is_admin_or_owner
-                        ? <Link
-                            to={`/work/${task.id}/edit/updates/`}
+                      {task.is_developer_ready && !task.closed
+                        ? <button
+                            type="button"
                             className="btn"
-                            id="configure-updates-btn">
-                            Configure updates
+                            onClick={this.handleCloseTask.bind(this)}>
+                            Close {work_type}
+                          </button>
+                        : null}
+                      {can_pay
+                        ? <Link
+                            to={`/work/${task.id}/${task.payment_approved
+                              ? 'pay'
+                              : 'invoice'}/`}
+                            className="btn"
+                            id="make-payment-btn">
+                            {task.payment_approved
+                              ? 'Make payment'
+                              : 'Generate Invoice'}
+                          </Link>
+                        : null}
+                      {can_rate
+                        ? <Link
+                            to={`/work/${task.id}/rate/`}
+                            className="btn"
+                            id="rate-developers-btn">
+                            Rate Developers
                           </Link>
                         : null}
 
@@ -705,27 +722,18 @@ export default class TaskWorflow extends ComponentWithModal {
                                               </button>}
                                         </li>
                                       : null,
-                                    task.is_developer_ready
+                                    task.is_developer_ready &&
+                                    task.closed &&
+                                    !task.paid
                                       ? <li>
-                                          {task.closed
-                                            ? task.paid
-                                              ? null
-                                              : <button
-                                                  type="button"
-                                                  className="btn"
-                                                  onClick={this.handleOpenTask.bind(
-                                                    this,
-                                                  )}>
-                                                  Open {work_type}
-                                                </button>
-                                            : <button
-                                                type="button"
-                                                className="btn"
-                                                onClick={this.handleCloseTask.bind(
-                                                  this,
-                                                )}>
-                                                Close {work_type}
-                                              </button>}
+                                          <button
+                                            type="button"
+                                            className="btn"
+                                            onClick={this.handleOpenTask.bind(
+                                              this,
+                                            )}>
+                                            Open {work_type}
+                                          </button>
                                         </li>
                                       : null,
                                     task.is_developer_ready &&
