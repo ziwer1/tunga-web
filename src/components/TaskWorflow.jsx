@@ -102,9 +102,9 @@ export default class TaskWorflow extends ComponentWithModal {
     }
 
     if (
-      nextProps.Task.detail.task.closed != this.props.Task.detail.task.closed
+      nextProps.Task.detail.task.closed && !this.props.Task.detail.task.closed
     ) {
-      this.redirectToNextStep(nextProps);
+      this.redirectToNextStep(nextProps, true);
     }
   }
 
@@ -127,7 +127,7 @@ export default class TaskWorflow extends ComponentWithModal {
     this.intervals.push(setInterval.apply(null, arguments));
   }
 
-  redirectToNextStep(props) {
+  redirectToNextStep(props, force_redirect=false) {
     const {task} = props;
 
     if (
@@ -137,7 +137,7 @@ export default class TaskWorflow extends ComponentWithModal {
           (!task.approved ||
             !task.participation ||
             !task.participation.length))) &&
-      (!this.props.location.query || !this.props.location.query.nr) &&
+      (!this.props.location.query || !this.props.location.query.nr || force_redirect) &&
       (!props.params || !props.params.eventId)
     ) {
       const {router} = this.context;
@@ -148,6 +148,8 @@ export default class TaskWorflow extends ComponentWithModal {
         next = `/work/${task.id}/applications`;
       } else if (task.paid) {
         next = `/work/${task.id}/rate`;
+      } else if(!task.payment_approved) {
+        next = `/work/${task.id}/invoice`;
       } else {
         next = `/work/${task.id}/pay`;
       }
