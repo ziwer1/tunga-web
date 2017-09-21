@@ -285,7 +285,7 @@ export default class TaskForm extends ComponentWithModal {
       }
 
       if (isAuthenticated()) {
-        if(!enabledWidgets || (Array.isArray(enabledWidgets) && (enabledWidgets.indexOf('participation') == -1 || enabledWidgets.indexOf('updates') == -1))) {
+        if(!enabledWidgets || (Array.isArray(enabledWidgets) && (enabledWidgets.indexOf('participation') == -1 && enabledWidgets.indexOf('updates') == -1))) {
           router.replace(`/work/${Task.detail.task.id}`);
         }
       }
