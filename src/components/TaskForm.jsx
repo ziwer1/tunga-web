@@ -1650,7 +1650,7 @@ export default class TaskForm extends ComponentWithModal {
           : <div className="form-group">
               <label className="control-label">Assignee *</label>
               <UserSelector
-                filter={{type: USER_TYPE_DEVELOPER}}
+                filter={{types: [USER_TYPE_DEVELOPER, USER_TYPE_PROJECT_MANAGER].join(',')}}
                 onChange={this.onAssigneeChange.bind(this)}
                 selected={
                   task.assignee && task.assignee.user
@@ -1663,7 +1663,7 @@ export default class TaskForm extends ComponentWithModal {
         <div className="form-group">
           <label className="control-label">Collaborators</label>
           <UserSelector
-            filter={{type: USER_TYPE_DEVELOPER}}
+            filter={{types: [USER_TYPE_DEVELOPER, USER_TYPE_PROJECT_MANAGER].join(',')}}
             onChange={this.onParticipantChange.bind(this)}
             selected={this.getCollaborators()}
             deselected={this.state.assignee ? [this.state.assignee] : []}
