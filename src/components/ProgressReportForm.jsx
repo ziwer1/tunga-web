@@ -13,12 +13,11 @@ import confirm from '../utils/confirm';
 import {
   PROGRESS_REPORT_STATUS_CHOICES,
   PROGRESS_REPORT_STATUS_BEHIND_AND_STUCK,
+  PROGRESS_EVENT_TYPE_CLIENT,
+  PROGRESS_EVENT_TYPE_PM
 } from '../constants/Api';
 import {
-  isDeveloper,
   getUser,
-  isProjectManager,
-  isProjectOwner,
 } from '../utils/auth';
 
 momentLocalizer(moment);
@@ -57,7 +56,7 @@ export default class ProgressReportForm extends FormComponent {
       this.setState({...progress_report});
     }
 
-    if (isDeveloper()) {
+    if (this.isDevReport()) {
       confirm(
         <div>
           <p>
@@ -93,6 +92,21 @@ export default class ProgressReportForm extends FormComponent {
         this.setState(defaultState);
       }
     }
+  }
+
+  isDevReport() {
+    const {milestone} = this.props;
+    return milestone && [PROGRESS_EVENT_TYPE_CLIENT, PROGRESS_EVENT_TYPE_PM].indexOf(milestone.type) == -1;
+  }
+
+  isPMReport() {
+    const {milestone} = this.props;
+    return milestone && milestone.type == PROGRESS_EVENT_TYPE_PM;
+  }
+
+  isClientReport() {
+    const {milestone} = this.props;
+    return milestone && milestone.type == PROGRESS_EVENT_TYPE_CLIENT;
   }
 
   onInputChange(key, e) {
@@ -225,7 +239,7 @@ export default class ProgressReportForm extends FormComponent {
       return (
         <div className="thank-you">
           Thank you for{' '}
-          {isProjectOwner()
+          {this.isClientReport()
             ? 'filling in your progress report!'
             : 'responding to the survey!'}
           <br />
@@ -242,12 +256,12 @@ export default class ProgressReportForm extends FormComponent {
           role="form"
           ref="progress_report_form">
           <h4>
-            {isProjectOwner() ? 'Weekly Survey' : 'Progress Report'}
+            {this.isClientReport() ? 'Weekly Survey' : 'Progress Report'}
           </h4>
           <FormStatus
             loading={ProgressReport.detail.isSaving}
             success={ProgressReport.detail.isSaved}
-            message={`${isProjectOwner()
+            message={`${this.isClientReport()
               ? 'Weekly Survey'
               : 'Progress Report'} saved successfully`}
             error={
@@ -256,7 +270,7 @@ export default class ProgressReportForm extends FormComponent {
             }
           />
 
-          {isDeveloper() || isProjectManager()
+          {this.isDevReport() || this.isPMReport()
             ? <div>
                 {ProgressReport.detail.error.create &&
                 ProgressReport.detail.error.create.status
@@ -300,7 +314,7 @@ export default class ProgressReportForm extends FormComponent {
               </div>
             : null}
 
-          {(isDeveloper() || isProjectManager()) &&
+          {(this.isDevReport() || this.isPMReport()) &&
           this.state.status == PROGRESS_REPORT_STATUS_BEHIND_AND_STUCK
             ? <div>
                 {/* check status if stuck and is developer for this */}
@@ -362,7 +376,7 @@ export default class ProgressReportForm extends FormComponent {
               </div>
             : null}
 
-          {isDeveloper()
+          {this.isDevReport()
             ? <div>
                 <div>
                   <div className="form-group">
@@ -384,7 +398,7 @@ export default class ProgressReportForm extends FormComponent {
               </div>
             : null}
 
-          {isProjectManager()
+          {this.isPMReport()
             ? <div>
                 {ProgressReport.detail.error.create &&
                 ProgressReport.detail.error.create.last_deadline_met
@@ -547,7 +561,7 @@ export default class ProgressReportForm extends FormComponent {
               </div>
             : null}
 
-          {isDeveloper() || isProjectManager()
+          {this.isDevReport() || this.isPMReport()
             ? <div>
                 {ProgressReport.detail.error.create &&
                 ProgressReport.detail.error.create.percentage
@@ -579,7 +593,7 @@ export default class ProgressReportForm extends FormComponent {
               </div>
             : null}
 
-          {isDeveloper() || isProjectManager()
+          {this.isDevReport() || this.isPMReport()
             ? <div>
                 {ProgressReport.detail.error.create &&
                 ProgressReport.detail.error.create.accomplished
@@ -641,7 +655,7 @@ export default class ProgressReportForm extends FormComponent {
                   </div>
                 </div>
 
-                {isDeveloper()
+                {this.isDevReport()
                   ? <div>
                       {ProgressReport.detail.error.create &&
                       ProgressReport.detail.error.create.rate_deliverables
@@ -709,14 +723,14 @@ export default class ProgressReportForm extends FormComponent {
                   : null}
                 <div className="form-group">
                   <label className="control-label">
-                    {isDeveloper()
+                    {this.isDevReport()
                       ? 'What do you intend to achieve/complete today?'
                       : 'What are the next steps?'}{' '}
                     *
                   </label>
                   <textarea
                     placeholder={
-                      isDeveloper()
+                      this.isDevReport()
                         ? 'What do you intend to achieve/complete today?'
                         : 'What are the next steps?'
                     }
@@ -880,7 +894,7 @@ export default class ProgressReportForm extends FormComponent {
               </div>
             : null}
 
-          {isProjectManager()
+          {this.isPMReport()
             ? <div>
                 {ProgressReport.detail.error.create &&
                 ProgressReport.detail.error.create.team_appraisal
@@ -916,7 +930,7 @@ export default class ProgressReportForm extends FormComponent {
               </div>
             : null}
 
-          {isProjectOwner()
+          {this.isClientReport()
             ? <div>
                 {ProgressReport.detail.error.create &&
                 ProgressReport.detail.error.create.last_deadline_met
