@@ -310,7 +310,8 @@ export default class TaskWorflow extends ComponentWithModal {
     const {uploads} = Task.detail;
     var task_status = parse_task_status(task);
 
-    let is_owner = [task.user.id, task.owner].indexOf(getUser().id) > -1, is_pm = task.pm == getUser().id;
+    let is_owner = [task.user.id, task.owner].indexOf(getUser().id) > -1,
+      is_pm = task.pm == getUser().id;
     let is_admin_or_owner = is_owner || isAdmin();
     let is_admin_or_owner_or_pm = is_admin_or_owner || is_pm;
     let is_confirmed_assignee =
@@ -322,7 +323,8 @@ export default class TaskWorflow extends ComponentWithModal {
     let can_pay = is_admin_or_owner && task.closed && !task.paid;
     let can_rate = is_admin_or_owner && task.closed && task.paid;
     let can_edit_shares =
-      isAdmin() || is_pm ||
+      isAdmin() ||
+      is_pm ||
       (is_confirmed_assignee &&
         task.details &&
         task.details.participation_shares.length > 1);
@@ -518,9 +520,7 @@ export default class TaskWorflow extends ComponentWithModal {
               </div>
             : null}
 
-          {is_admin_or_owner_or_pm ||
-          task.is_admin ||
-          task.is_participant
+          {is_admin_or_owner_or_pm || task.is_admin || task.is_participant
             ? <div className="nav-top-filter">
                 {is_admin_or_owner || can_edit_shares
                   ? <div className="pull-left">
@@ -659,9 +659,9 @@ export default class TaskWorflow extends ComponentWithModal {
                                         Add skills
                                       </Link>
                                     </li>,
-                                    (isAdmin() || is_pm) //&&
-                                    //!task.owner
-                                      ? <li>
+                                    isAdmin() || is_pm //&&
+                                      ? //!task.owner
+                                        <li>
                                           <Link
                                             to={`/work/${task.id}/edit/owner`}
                                             className="btn">
@@ -697,7 +697,9 @@ export default class TaskWorflow extends ComponentWithModal {
                                           </Link>
                                         </li>
                                       : null,
-                                    task.is_developer_ready && !task.closed && is_admin_or_owner
+                                    task.is_developer_ready &&
+                                    !task.closed &&
+                                    is_admin_or_owner
                                       ? <li>
                                           {task.apply
                                             ? <button

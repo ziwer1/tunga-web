@@ -14,11 +14,9 @@ import {
   PROGRESS_REPORT_STATUS_CHOICES,
   PROGRESS_REPORT_STATUS_BEHIND_AND_STUCK,
   PROGRESS_EVENT_TYPE_CLIENT,
-  PROGRESS_EVENT_TYPE_PM
+  PROGRESS_EVENT_TYPE_PM,
 } from '../constants/Api';
-import {
-  getUser,
-} from '../utils/auth';
+import {getUser} from '../utils/auth';
 
 momentLocalizer(moment);
 
@@ -96,7 +94,12 @@ export default class ProgressReportForm extends FormComponent {
 
   isDevReport() {
     const {milestone} = this.props;
-    return milestone && [PROGRESS_EVENT_TYPE_CLIENT, PROGRESS_EVENT_TYPE_PM].indexOf(milestone.type) == -1;
+    return (
+      milestone &&
+      [PROGRESS_EVENT_TYPE_CLIENT, PROGRESS_EVENT_TYPE_PM].indexOf(
+        milestone.type,
+      ) == -1
+    );
   }
 
   isPMReport() {
