@@ -315,10 +315,10 @@ export default class TaskWorflow extends ComponentWithModal {
     const {uploads} = Task.detail;
     var task_status = parse_task_status(task);
 
-    let is_owner = [task.user.id, task.owner].indexOf(getUser().id) > -1;
+    let is_owner = [task.user.id, task.owner].indexOf(getUser().id) > -1,
+      is_pm = task.pm == getUser().id;
     let is_admin_or_owner = is_owner || isAdmin();
-
-    let is_pm = task.pm == getUser().id;
+    let is_admin_or_owner_or_pm = is_admin_or_owner || is_pm;
     let is_confirmed_assignee =
       task.assignee &&
       task.assignee.status == STATUS_ACCEPTED &&
@@ -329,6 +329,7 @@ export default class TaskWorflow extends ComponentWithModal {
     let can_rate = is_admin_or_owner && task.closed && task.paid;
     let can_edit_shares =
       isAdmin() ||
+      is_pm ||
       (is_confirmed_assignee &&
         task.details &&
         task.details.participation_shares.length > 1);
@@ -524,13 +525,13 @@ export default class TaskWorflow extends ComponentWithModal {
               </div>
             : null}
 
-          {/*task.is_developer_ready &&*/ is_admin_or_owner ||
+          {is_admin_or_owner_or_pm ||
           task.is_admin ||
           task.is_participant
             ? <div className="nav-top-filter">
                 {is_admin_or_owner || can_edit_shares
                   ? <div className="pull-left">
-                      {task.is_developer_ready && is_admin_or_owner
+                      {task.is_developer_ready && is_admin_or_owner_or_pm
                         ? <Link
                             to={`/work/${task.id}/applications/`}
                             className="btn"
@@ -544,7 +545,7 @@ export default class TaskWorflow extends ComponentWithModal {
                           </Link>
                         : null}
                       {task.is_developer_ready &&
-                      is_admin_or_owner &&
+                      is_admin_or_owner_or_pm &&
                       task.is_project
                         ? <Link
                             to={`/work/${task.id}/board/`}
@@ -607,7 +608,7 @@ export default class TaskWorflow extends ComponentWithModal {
                           </Link>
                         : null}
 
-                      {is_admin_or_owner
+                      {is_admin_or_owner_or_pm
                         ? <div
                             className="dropdown"
                             style={{display: 'inline-block'}}>
@@ -624,7 +625,7 @@ export default class TaskWorflow extends ComponentWithModal {
                             <ul
                               className="dropdown-menu dropdown-menu-right"
                               aria-labelledby="chat-overflow">
-                              {is_admin_or_owner
+                              {is_admin_or_owner_or_pm
                                 ? [
                                     <li>
                                       <Link
@@ -640,7 +641,7 @@ export default class TaskWorflow extends ComponentWithModal {
                                         Edit {work_type} description
                                       </Link>
                                     </li>,
-                                    task.is_developer_ready
+                                    task.is_developer_ready && is_admin_or_owner
                                       ? <li>
                                           <Link
                                             to={`/work/${task.id}/edit/fee`}
@@ -663,22 +664,22 @@ export default class TaskWorflow extends ComponentWithModal {
                                         Add skills
                                       </Link>
                                     </li>,
-                                    (isAdmin() || isProjectManager()) &&
-                                    !task.owner
-                                      ? <li>
+                                    isAdmin() || is_pm
+                                      ?
+                                        <li>
                                           <Link
                                             to={`/work/${task.id}/edit/owner`}
                                             className="btn">
-                                            Add Project Owner
+                                            {task.owner?'Change':'Add'} Project Owner
                                           </Link>
                                         </li>
                                       : null,
-                                    isAdmin() && task.is_project && !task.pm
+                                    isAdmin() && task.is_project
                                       ? <li>
                                           <Link
                                             to={`/work/${task.id}/edit/pm`}
                                             className="btn">
-                                            Assign a PM to this {work_type}
+                                            {task.pm?'Change':'Assign a'} Project Manager
                                           </Link>
                                         </li>
                                       : null,
@@ -701,7 +702,9 @@ export default class TaskWorflow extends ComponentWithModal {
                                           </Link>
                                         </li>
                                       : null,
-                                    task.is_developer_ready && !task.closed
+                                    task.is_developer_ready &&
+                                    !task.closed &&
+                                    is_admin_or_owner
                                       ? <li>
                                           {task.apply
                                             ? <button
@@ -724,7 +727,7 @@ export default class TaskWorflow extends ComponentWithModal {
                                       : null,
                                     task.is_developer_ready &&
                                     task.closed &&
-                                    !task.paid
+                                    !task.paid && is_admin_or_owner
                                       ? <li>
                                           <button
                                             type="button"
