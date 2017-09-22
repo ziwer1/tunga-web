@@ -208,7 +208,11 @@ let all_routes = (
                 component={EditTaskSectionForm}
                 crumbs={{trello: 'Trello', 'google-drive': 'Google Drive'}}
               />
-              <Route path="participation" component={TaskForm} crumb="Participation"/>
+              <Route
+                path="participation"
+                component={TaskForm}
+                crumb="Participation"
+              />
               <Route path="*" component={TaskForm} />
             </Route>
             <Route path="apply" component={ApplicationForm} crumb="Apply" />

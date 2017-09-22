@@ -41,7 +41,7 @@ import {
   TASK_SCOPE_TASK,
   PROGRESS_EVENT_TYPE_MILESTONE,
   PROGRESS_EVENT_TYPE_SUBMIT,
-  PROGRESS_EVENT_TYPE_COMPLETE
+  PROGRESS_EVENT_TYPE_COMPLETE,
 } from '../constants/Api';
 
 import {getTaskTypeUrl, getScopeUrl, sendGAPageView} from '../utils/tracking';
@@ -116,7 +116,7 @@ export default class TaskForm extends ComponentWithModal {
       analytics_id: props.analyticsId || randomstring.generate(),
       call_required: null,
       participant_updates: {},
-      users: {}
+      users: {},
     };
   }
 
@@ -185,7 +185,7 @@ export default class TaskForm extends ComponentWithModal {
       ...user,
       ...project_state,
       ...options,
-      users: this.parseUsers()
+      users: this.parseUsers(),
     };
   }
 
@@ -285,7 +285,12 @@ export default class TaskForm extends ComponentWithModal {
       }
 
       if (isAuthenticated()) {
-        if(!enabledWidgets || (Array.isArray(enabledWidgets) && (enabledWidgets.indexOf('participation') == -1 && enabledWidgets.indexOf('updates') == -1))) {
+        if (
+          !enabledWidgets ||
+          (Array.isArray(enabledWidgets) &&
+            (enabledWidgets.indexOf('participation') == -1 &&
+              enabledWidgets.indexOf('updates') == -1))
+        ) {
           router.replace(`/work/${Task.detail.task.id}`);
         }
       }
@@ -1623,9 +1628,13 @@ export default class TaskForm extends ComponentWithModal {
                 ? <div>
                     <div className="btn-choices">
                       {this.state.milestones.map((milestone, idx) => {
-                        if([
-                            PROGRESS_EVENT_TYPE_MILESTONE, PROGRESS_EVENT_TYPE_SUBMIT, PROGRESS_EVENT_TYPE_COMPLETE
-                          ].indexOf(milestone.type) == -1) {
+                        if (
+                          [
+                            PROGRESS_EVENT_TYPE_MILESTONE,
+                            PROGRESS_EVENT_TYPE_SUBMIT,
+                            PROGRESS_EVENT_TYPE_COMPLETE,
+                          ].indexOf(milestone.type) == -1
+                        ) {
                           return;
                         }
                         const tooltip = (
@@ -1653,7 +1662,10 @@ export default class TaskForm extends ComponentWithModal {
                                 ...milestone,
                                 idx,
                               })}>
-                              {_.truncate(milestone.title || 'Scheduled Update', {length: 25})}
+                              {_.truncate(
+                                milestone.title || 'Scheduled Update',
+                                {length: 25},
+                              )}
                             </Button>
                           </OverlayTrigger>
                         );
@@ -2388,65 +2400,58 @@ export default class TaskForm extends ComponentWithModal {
       </div>
     );
 
-    let participationComp = (
+    let participationComp =
       task.details && task.details.participation_shares.length
         ? <div>
-        {task.details.participation_shares.map(item => {
-          let user = item.participant.user;
-          return (
-            <div
-              key={item.participant.id}
-              className="form-group">
-              <label className="control-label">Participation shares</label>
-              <blockquote>
-                <strong>NOTE:</strong> Enter shares either as hours or percentages
-              </blockquote>
-              <div>
-                <div className="list-group-item">
-                  <div className="media">
-                    <div className="media-left">
-                      <Avatar src={user.avatar_url} size="small" />
-                    </div>
-                    <div className="media-body">
-                      <div className="pull-left">
-                        <div>
-                          <Link
-                            to={`/people/${user.username}`}>
-                            {user.display_name}
-                          </Link>
+            {task.details.participation_shares.map(item => {
+              let user = item.participant.user;
+              return (
+                <div key={item.participant.id} className="form-group">
+                  <label className="control-label">Participation shares</label>
+                  <blockquote>
+                    <strong>NOTE:</strong> Enter shares either as hours or
+                    percentages
+                  </blockquote>
+                  <div>
+                    <div className="list-group-item">
+                      <div className="media">
+                        <div className="media-left">
+                          <Avatar src={user.avatar_url} size="small" />
                         </div>
-                        <div className="secondary">
-                          @{user.username}
-                        </div>
-                      </div>
+                        <div className="media-body">
+                          <div className="pull-left">
+                            <div>
+                              <Link to={`/people/${user.username}`}>
+                                {user.display_name}
+                              </Link>
+                            </div>
+                            <div className="secondary">
+                              @{user.username}
+                            </div>
+                          </div>
 
-                      <div className="pull-right">
-                        <input
-                          type="text"
-                          className="form-control"
-                          required
-                          placeholder="Share"
-                          defaultValue={parseNumber(
-                                  item.percentage,
-                                  false,
-                                )}
-                          onChange={this.onShareChange.bind(
-                                  this,
-                                  item.participant.user.id,
-                                )}
-                        />
+                          <div className="pull-right">
+                            <input
+                              type="text"
+                              className="form-control"
+                              required
+                              placeholder="Share"
+                              defaultValue={parseNumber(item.percentage, false)}
+                              onChange={this.onShareChange.bind(
+                                this,
+                                item.participant.user.id,
+                              )}
+                            />
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-
-            </div>
-          );
-        })}
-      </div>
-        : null
-    );
+              );
+            })}
+          </div>
+        : null;
 
     if (isAuthenticated()) {
       if (enabledWidgets && enabledWidgets.length) {
