@@ -12,6 +12,7 @@ class TaskWizardLander extends LandingPage {
   constructor(props) {
     super(props);
     this.state = {
+      ...this.state || {},
       title: (
         <span>
           Discuss your project within<br />
@@ -99,7 +100,7 @@ class TaskWizardLander extends LandingPage {
                   ref="task_form"
                   action={`${isTungaDomain()
                     ? ''
-                    : 'https://tunga.io'}/start-welcome/`}>
+                    : 'https://tunga.io'}/start-welcome/`} onKeyUp={() => {window.tungaCanOpenOverlay = false; this.setState({closeChat: true})}}>
                   <div className="form-group">
                     <div className="row">
                       <div className="col-xs-5">

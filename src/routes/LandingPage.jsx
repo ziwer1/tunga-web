@@ -126,7 +126,7 @@ const NETWORK_EXPERTISE = [
   },
 ];
 
-let closedOverlay = false;
+let overlayTimer = null;
 
 export class LandingPage extends ComponentWithModal {
   constructor(props) {
@@ -141,6 +141,7 @@ export class LandingPage extends ComponentWithModal {
       hasAnimatedNumbers: false,
       isSkillPage: false,
       showOverlay: false,
+      closeChat: false,
     };
   }
 
@@ -157,6 +158,29 @@ export class LandingPage extends ComponentWithModal {
     }
 
     let lp = this;
+
+    function displayOverlay() {
+      if(window.tungaCanOpenOverlay) {
+        lp.setState({showOverlay: true});
+      }
+    }
+
+    function resetTimer() {
+      if (overlayTimer) {
+        clearTimeout(overlayTimer);
+      }
+      if (window.tungaCanOpenOverlay) {
+        overlayTimer = setTimeout(displayOverlay, __PRODUCTION__ ? 45000 : 6000);
+      }
+    }
+
+    window.tungaCanOpenOverlay = true;
+    resetTimer();
+
+    // Reset timer when any activity happens
+    document.onmousemove = resetTimer;
+    document.onkeypress = resetTimer;
+    document.onscroll = resetTimer;
 
     let updateBg = function() {
       let menuItemToggled = false;
@@ -281,29 +305,14 @@ export class LandingPage extends ComponentWithModal {
           }
         }
       });
-
-      let setTimer;
-      window.onload = resetTimer;
-      document.onmousemove = resetTimer;
-      document.onkeypress = resetTimer;
-      document.onscroll = resetTimer;
-
-      function displayOverlay() {
-        lp.setState({showOverlay: true});
-      }
-
-      function resetTimer() {
-        if (setTimer) {
-          clearTimeout(setTimer);
-        }
-        if (!closedOverlay) {
-          setTimer = setTimeout(displayOverlay, __PRODUCTION__ ? 45000 : 6000);
-        }
-      }
     };
 
     $(document).ready(updateBg);
     $(window).resize(updateBg);
+  }
+
+  componentWillUnmount() {
+    window.tungaCanOpenOverlay = false;
   }
 
   onScheduleCall() {
@@ -349,7 +358,7 @@ export class LandingPage extends ComponentWithModal {
   }
 
   onCloseOverlay() {
-    closedOverlay = true;
+    window.tungaCanOpenOverlay = false;
     this.setState({showOverlay: false});
   }
 
@@ -489,7 +498,8 @@ export class LandingPage extends ComponentWithModal {
         headerContent={this.renderHeaderContent()}
         headerVideo={false && this.state.showVideo}
         hasArrow={true}
-        chatId={this.props.params ? this.props.params.chatId : null}>
+        chatId={this.props.params ? this.props.params.chatId : null}
+        closeChat={this.state.closeChat}>
         <MetaTags title={meta_title} description={meta_description} />
 
         {isRetrieving

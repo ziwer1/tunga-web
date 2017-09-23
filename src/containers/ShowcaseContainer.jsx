@@ -131,8 +131,18 @@ export default class ShowcaseContainer extends React.Component {
 
         {this.props.children}
 
-        <ChatWindow channelId={this.props.chatId || null} />
+        <ChatWindow channelId={this.props.chatId || null} closeChat={this.props.closeChat || false}/>
       </div>
     );
   }
 }
+
+ShowcaseContainer.propTypes = {
+  chatId: React.PropTypes.number,
+  closeChat: React.PropTypes.bool,
+};
+
+ShowcaseContainer.defaultProps = {
+  chatId: null,
+  closeChat: false,
+};

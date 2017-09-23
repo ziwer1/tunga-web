@@ -113,6 +113,10 @@ class ChatWindow extends React.Component {
       const {ChannelActions} = this.props;
       ChannelActions.createSupportChannel();
     }
+
+    if(this.props.closeChat && !prevProps.closeChat && this.state.open) {
+      this.setState({open: false});
+    }
   }
 
   componentWillUnmount() {
@@ -220,5 +224,15 @@ class ChatWindow extends React.Component {
     );
   }
 }
+
+ChatWindow.propTypes = {
+  channelId: React.PropTypes.number,
+  closeChat: React.PropTypes.bool,
+};
+
+ChatWindow.defaultProps = {
+  channelId: null,
+  closeChat: false,
+};
 
 export default connect(ChatWindow);

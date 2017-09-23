@@ -20,6 +20,8 @@ export default class MessageWidget extends React.Component {
   onSend(e) {
     if (this.props.onSend) {
       this.props.onSend(e);
+      // No overlay when visitor sends a chat
+      window.tungaCanOpenOverlay = false;
     }
   }
 

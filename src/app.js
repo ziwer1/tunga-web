@@ -41,6 +41,9 @@ if (__PRODUCTION__) {
   ).install();
 }
 
+// Control overlay pop up on landing pages
+window.tungaCanOpenOverlay = false;
+
 import App from 'containers/App';
 import AppWrapper from 'containers/AppWrapper';
 import LandingPage from 'routes/LandingPage';
