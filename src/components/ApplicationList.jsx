@@ -33,7 +33,7 @@ export default class ApplicationList extends ComponentWithModal {
     const {TaskActions, Task} = this.props;
     TaskActions.listApplications({
       task: Task.detail.task.id,
-      status: STATUS_INITIAL,
+      //status: STATUS_INITIAL,
     });
   }
 
