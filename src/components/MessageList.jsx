@@ -92,7 +92,7 @@ export default class MessageList extends React.Component {
                       ? `/people/${message.user.username}/`
                       : `/conversation/${message.channel}/#message${message.id}`
                   }>
-                  {message.user.display_name}
+                  {message.user.short_name}
                 </Link>
                 <TimeAgo
                   date={moment.utc(message.created_at).local().format()}

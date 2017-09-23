@@ -230,6 +230,7 @@ export default class ActivityList extends React.Component {
           creator = object.created_by || {
             id: 'tunga',
             username: null,
+            short_name: 'Tunga',
             display_name: 'Tunga Bot',
             avatar_url: 'https://tunga.io/icons/Tunga_squarex150.png',
           };
@@ -338,6 +339,7 @@ export default class ActivityList extends React.Component {
       case 'integration_activity':
         if (showNotifications && item.action == 'report') {
           creator = {
+            short_name: object.user_display_name,
             display_name: object.user_display_name,
             avatar_url: object.avatar_url,
           };
@@ -397,7 +399,7 @@ export default class ActivityList extends React.Component {
 
     console.log('activity: ', is_current_user, activity.user);
 
-    let display_name = is_current_user ? 'You' : activity.user.display_name;
+    let display_name = is_current_user ? 'You' : activity.user.short_name;
 
     let avatar_div = activity.user.hide
       ? null
