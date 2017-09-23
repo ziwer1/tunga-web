@@ -260,8 +260,39 @@
 
       .navbar,
       .navbar.navbar-fixed-top {
+        #navbar {
+          background-color: @primary;
+        }
+
         .nav-main {
           width: 100%;
+          background-color: @inactive-grey;
+        }
+
+        .navbar-nav.nav-actions {
+          padding-right: 15px;
+
+          li {
+            > a {
+              color: @inactive-grey;
+            }
+
+            > a:hover,
+            > a.active,
+            > a:hover.active,
+            > a:focus.active,
+            > a:visited.active {
+              color: @inactive-grey;
+              border-bottom-color: @inactive-grey;
+            }
+          }
+
+          .primary {
+            color: @primary !important;
+            background-color: @inactive-grey !important;
+            border-radius: 5px;
+            padding: 8px 20px;
+          }
         }
       }
 
@@ -693,14 +724,33 @@
       .navbar.navbar-fixed-top {
         background-color: @inactive-grey;
 
-        .nav-actions {
-          margin-right: 20px;
-          margin-left: 40px;
-        }
-
         .nav-main {
           margin-left: 240px;
           width: auto;
+          background-color: transparent;
+        }
+
+        .navbar-nav {
+          li {
+
+            > a {
+              color: @inactive-grey;
+            }
+
+            > a:hover,
+            > a.active,
+            > a:hover.active,
+            > a:focus.active,
+            > a:visited.active {
+              color: @inactive-grey;
+              border-bottom-color: @inactive-grey;
+            }
+          }
+        }
+
+        .nav-actions {
+          margin-right: 20px;
+          margin-left: 40px;
         }
       }
 
