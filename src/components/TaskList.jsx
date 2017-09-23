@@ -98,11 +98,11 @@ export default class TaskList extends GenericListContainer {
                               <i className="tunga-icon-project" /> New Projects
                             </Link>
                           </li>,
-                          <li role="presentation" key="estimates">
+                          <li role="presentation" key="proposals">
                             <Link
-                              to="/work/filter/estimates"
+                              to="/work/filter/proposals"
                               activeClassName="active">
-                              <i className="tunga-icon-project" /> Estimates
+                              <i className="fa fa-pie-chart" /> Estimates
                             </Link>
                           </li>,
                         ]

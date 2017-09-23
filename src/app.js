@@ -203,7 +203,7 @@ let all_routes = (
           <Route path="complete" component={ProfileType} />
           <Redirect path="*" to="personal" />
         </Route>
-        <Route path="estimate" component={EstimateContainer}>
+        <Route path="proposal" component={EstimateContainer}>
           <IndexRoute component={EstimateList} />
           <Route path="new" component={EstimateForm} />
           <Route path="filter/:filter" component={EstimateList} />
@@ -212,6 +212,7 @@ let all_routes = (
             <Route path="edit" component={EstimateForm} />
           </Route>
         </Route>
+        <Redirect path="estimate*" to="proposal*" />
         <Route path="settings" component={SettingsPage} />
         <Route path="work" component={TaskContainer}>
           <IndexRoute component={TaskList} />
@@ -237,7 +238,7 @@ let all_routes = (
             </Route>
             <Route path="apply" component={ApplicationForm} crumb="Apply" />
             <Route
-              path="estimate"
+              path="proposal"
               component={EstimateContainer}
               crumb="Estimate">
               <IndexRedirect to="new" />
@@ -247,6 +248,7 @@ let all_routes = (
                 <Route path="edit" component={EstimateForm} />
               </Route>
             </Route>
+            <Redirect path="estimate*" to="proposal*" />
             <Route path="quote" component={QuoteContainer} crumb="Quote">
               <IndexRedirect to="new" />
               <Route path="new" component={QuoteForm} />

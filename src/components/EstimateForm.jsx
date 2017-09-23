@@ -60,7 +60,7 @@ export default class EstimateForm extends ComponentWithModal {
       ) {
         const {router} = this.context;
         router.replace(
-          `/work/${Estimate.detail.estimate.task}/estimate/${Estimate.detail
+          `/work/${Estimate.detail.estimate.task}/proposal/${Estimate.detail
             .estimate.id}`,
         );
       }
@@ -206,7 +206,7 @@ export default class EstimateForm extends ComponentWithModal {
           <FormStatus
             loading={Estimate.detail.isSaving}
             success={Estimate.detail.isSaved}
-            message={`Estimate ${estimate.status == STATUS_SUBMITTED
+            message={`Proposal ${estimate.status == STATUS_SUBMITTED
               ? 'submitted'
               : 'saved'} successfully`}
             error={Estimate.detail.error.create}

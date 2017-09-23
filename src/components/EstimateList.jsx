@@ -30,10 +30,17 @@ export default class EstimateList extends GenericListContainer {
 
   getList(filters) {
     this.props.EstimateActions.listEstimates(
-      {},
+      {status: this.getFilter()},
       this.state.selection_key,
       this.state.prev_key,
     );
+  }
+
+  getFilter() {
+    if (this.props.params && this.props.params.filter) {
+      return this.props.params.filter;
+    }
+    return null;
   }
 
   render() {
@@ -43,40 +50,40 @@ export default class EstimateList extends GenericListContainer {
     return (
       <div>
         <h2 className="clearfix">
-          Estimates{' '}
-          <Link to="/estimate/new" className="btn pull-right">
-            <i className="tunga-icon-create" /> Create Estimate
+          <div className="pull-left">Proposals</div>
+          <Link to="/proposal/new" className="btn pull-right">
+            <i className="tunga-icon-create" /> Create Proposal
           </Link>
         </h2>
 
         <ul className="nav nav-pills nav-top-filter">
           <li role="presentation">
-            <IndexLink to="/estimates" activeClassName="active">
+            <IndexLink to="/proposal" activeClassName="active">
               All
             </IndexLink>
           </li>
           <li role="presentation">
-            <Link to="/estimates/filter/submitted" activeClassName="active">
+            <Link to="/proposal/filter/submitted" activeClassName="active">
               Submitted
             </Link>
           </li>
           <li role="presentation">
-            <Link to="/estimates/filter/approved" activeClassName="active">
+            <Link to="/proposal/filter/approved" activeClassName="active">
               Approved
             </Link>
           </li>
           <li role="presentation">
-            <Link to="/estimates/filter/declined" activeClassName="active">
+            <Link to="/proposal/filter/declined" activeClassName="active">
               Declined
             </Link>
           </li>
           <li role="presentation">
-            <Link to="/estimates/filter/accepted" activeClassName="active">
+            <Link to="/proposal/filter/accepted" activeClassName="active">
               Accepted
             </Link>
           </li>
           <li role="presentation">
-            <Link to="/estimates/filter/rejected" activeClassName="active">
+            <Link to="/proposal/filter/rejected" activeClassName="active">
               Rejected
             </Link>
           </li>
@@ -110,10 +117,10 @@ export default class EstimateList extends GenericListContainer {
                             <td>
                               {estimate.task
                                 ? <Link
-                                    to={`/work/${estimate.task}/estimate/${estimate.id}/`}>
+                                    to={`/work/${estimate.task}/proposal/${estimate.id}/`}>
                                     {estimate.details.task.summary}
                                   </Link>
-                                : <Link to={`/estimate/${estimate.id}/`}>
+                                : <Link to={`/proposal/${estimate.id}/`}>
                                     {estimate.title}
                                   </Link>}
                             </td>
@@ -157,7 +164,7 @@ export default class EstimateList extends GenericListContainer {
                     </tbody>
                   </table>
                 : <div className="alert alert-info">
-                    No estimates to display
+                    No proposals to display
                   </div>}
               {all_estimates.length && Estimate.list.next
                 ? <LoadMore

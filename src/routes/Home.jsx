@@ -81,7 +81,7 @@ class Home extends React.Component {
       },
       {
         title: 'Estimates',
-        text: 'Manage your task estimates',
+        text: 'Manage your proposals',
         selector: '#inner-estimates',
         position: 'top',
         condition: Notification.notifications.estimates,
@@ -187,9 +187,9 @@ class Home extends React.Component {
               {(isAdmin() || isProjectManager()) &&
               Notification.notifications.estimates
                 ? <li id="inner-estimates">
-                    <Link to="/work/filter/estimates">
+                    <Link to="/work/filter/proposals">
                       <span className="icon">
-                        <i className="tunga-icon-project" />{' '}
+                        <i className="fa fa-pie-chart" />{' '}
                         <span className="badge">
                           {Notification.notifications.estimates}
                         </span>

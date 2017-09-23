@@ -114,9 +114,9 @@ class SideBar extends React.Component {
             </li>
             {isProjectManager() || isAdmin()
               ? <li id="sidebar-estimate">
-                  <Link to="/estimate" activeClassName="active">
+                  <Link to="/proposal" activeClassName="active">
                     <i className="menu-icon fa fa-pie-chart" />{' '}
-                    <span>Estimates</span>
+                    <span>Proposals</span>
                   </Link>
                 </li>
               : null}

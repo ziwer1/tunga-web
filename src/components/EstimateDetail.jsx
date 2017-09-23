@@ -198,7 +198,7 @@ export default class EstimateDetail extends React.Component {
 
         <div className="disclaimer">
           <strong>Disclaimer</strong>
-          <p>This estimate does not include payment fees</p>
+          <p>This proposal does not include payment fees</p>
           <p>Tunga has the following 4 payment options:</p>
 
           <p>

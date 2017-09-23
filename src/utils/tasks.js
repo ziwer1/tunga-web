@@ -30,7 +30,7 @@ export function parse_task_status(task) {
     css: 'open',
   };
   if (!task.approved && !task.is_developer_ready && task.pm) {
-    task_status.message = `This ${work_type} is being estimated`;
+    task_status.message = `A proposal is being created for this ${work_type}`;
     task_status.css = 'in-progress';
   } else if (task.closed) {
     task_status.message = `This ${work_type} is closed`;
