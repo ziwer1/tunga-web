@@ -211,7 +211,7 @@ export class LandingPage extends ComponentWithModal {
           }
         }
 
-        var outsourceWidget = $('.outsource-widget');
+        /*var outsourceWidget = $('.outsource-widget');
         if (outsourceWidget.size()) {
           var outWidgetPos = $('footer').offset().top;
           if (currentPos >= outWidgetPos - 500) {
@@ -225,7 +225,7 @@ export class LandingPage extends ComponentWithModal {
               outsourceWidget.addClass('animated slideOutRight');
             }
           }
-        }
+        }*/
 
         if (roundTungaLogoTop.size()) {
           var logoPos = roundTungaLogoTop.offset().top;
