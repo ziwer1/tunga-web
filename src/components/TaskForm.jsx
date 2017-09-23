@@ -2415,7 +2415,7 @@ export default class TaskForm extends ComponentWithModal {
               return (
                 <div key={item.participant.id} className="form-group">
                   <label className="control-label">Participation shares</label>
-                  <blockquote>
+                  <blockquote className="highlight">
                     <strong>NOTE:</strong> Enter shares either as hours or
                     percentages
                   </blockquote>
