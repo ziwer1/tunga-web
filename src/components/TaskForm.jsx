@@ -1311,6 +1311,9 @@ export default class TaskForm extends ComponentWithModal {
             showTitle={
               !((enabledWidgets && enabledWidgets.length) || canShowAll)
             }
+            showInstruction={true}
+            title="Technologies for your product"
+            titleSuggestions="Suggestions for your product"
           />
         </div>
       </div>

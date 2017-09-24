@@ -1,5 +1,6 @@
 import React from 'react';
 import Linkify from './Linkify';
+import _ from 'lodash';
 
 import Progress from './status/Progress';
 import FormStatus from './status/FormStatus';
@@ -12,7 +13,7 @@ import EducationForm from './EducationForm';
 export default class Stack extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {bio: '', skills: [], editWork: null, editEducation: null};
+    this.state = {bio: '', skills: [], skills_details: {}, editWork: null, editEducation: null, reset: false, skill_categories: {}};
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -25,7 +26,8 @@ export default class Stack extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.Profile.profile.skills != prevProps.Profile.profile.skills) {
+    if (!_.isEqual(this.props.Profile.profile.skills, prevProps.Profile.profile.skills) ||
+      (this.props.Profile.isSaved.profile && !prevProps.Profile.isSaved.profile)) {
       this.addSkillsToState();
     }
   }
@@ -40,25 +42,41 @@ export default class Stack extends React.Component {
     const {Profile} = this.props;
     this.setState({
       skills: Profile.profile.skills
-        ? Profile.profile.skills.map(skill => {
-            return skill.name;
-          })
+        ? this.flattenSkills(Profile.profile.skills)
         : [],
+      skills_details: Profile.profile.skills_details || {},
+      reset: true
+    });
+
+    let stack = this;
+    setTimeout(function () {
+      stack.setState({reset: false});
+    }, 500);
+  }
+
+  flattenSkills(skills) {
+    return (skills || []).map(skill => {
+      return skill.name;
     });
   }
 
-  onSkillChange(skills) {
-    this.setState({skills: skills});
+  onSkillChange(category, skills) {
+    let new_state = {};
+    new_state[category] = [...this.state.skill_categories[category] || {}, ...skills];
+    this.setState({skills: [...this.state.skills, ...skills], skill_categories: {...this.state.skill_categories, ...new_state}});
   }
 
   handleSubmit(e) {
     e.preventDefault();
     var website = this.refs.website ? this.refs.website.value.trim() : null;
     var bio = this.state.bio;
-    const {Profile, ProfileActions} = this.props;
     const selected_skills = this.state.skills;
     const skills = selected_skills.join(',') || null;
-    ProfileActions.updateProfile(Profile.profile.id, {website, bio, skills});
+    const skill_categories = this.state.skill_categories;
+
+    const {Profile, ProfileActions} = this.props;
+    var profile_info = {website, bio, skills, skill_categories};
+    ProfileActions.updateProfile(Profile.profile.id, profile_info);
     return;
   }
 
@@ -127,7 +145,7 @@ export default class Stack extends React.Component {
               onSubmit={this.handleSubmit}
               name="profile"
               role="form"
-              ref="profile_form">
+              ref="profile_form" className="clearfix">
               <FormStatus
                 loading={Profile.isSaving.profile}
                 success={Profile.isSaved.profile}
@@ -169,17 +187,31 @@ export default class Stack extends React.Component {
                   </div>
                 : null}
 
-              {Profile.error.profile && Profile.error.profile.skills
-                ? <FieldError message={Profile.error.profile.skills} />
+              {Profile.error.profile && Profile.error.profile.skills && Profile.error.profile.skills.languages
+                ? <FieldError message={Profile.error.profile.skills.languages} />
                 : null}
-              <div className="form-group">
-                <label className="control-label">Skills</label>
-                <SkillSelector
-                  filter={{filter: null}}
-                  onChange={this.onSkillChange.bind(this)}
-                  skills={this.state.skills ? this.state.skills : []}
-                />
-              </div>
+
+              {[
+                {id: 'language', name:'Languages'},
+                {id: 'framework', name:'Frameworks'},
+                {id: 'platform', name:'Platforms'},
+                {id: 'library', name:'Libraries'},
+                {id: 'storage', name:'Storage Engines'},
+                {id: 'other', name:'Miscellaneous', tag: 'skill'}
+              ].map(category => {
+                return (
+                  <div className="form-group">
+                    <label className="control-label">{category.name}</label>
+                    <SkillSelector
+                      filter={{filter: null}}
+                      onChange={this.onSkillChange.bind(this, category.id)}
+                      skills={this.state.skills_details? (this.flattenSkills(this.state.skills_details[category.id]) || []) : []}
+                      reset={this.state.reset}
+                      tagName={category.tag || category.id}
+                    />
+                  </div>
+                );
+              })}
 
               {Auth.user.is_developer
                 ? <div>
@@ -300,7 +332,6 @@ export default class Stack extends React.Component {
                 disabled={Profile.isSaving.profile}>
                 Save
               </button>
-              <div className="clearfix" />
             </form>}
         {this.renderModalContent()}
       </div>

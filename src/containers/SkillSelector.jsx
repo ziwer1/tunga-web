@@ -1,11 +1,17 @@
 import React from 'react';
 import _ from 'lodash';
+import randomstring from 'randomstring';
+
 import connect from '../utils/connectors/SkillSelectionConnector';
 
 class SkillSelector extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {skill: '', skills: [], suggested: []};
+    this.state = {
+      skill: '', skills: [], suggested: [],
+      selection_key: props.selectionKey || randomstring.generate(),
+      prev_key: null
+    };
     this.handleSkillChange = this.handleSkillChange.bind(this);
     this.handleGetSuggestions = _.debounce(this.handleGetSuggestions, 250);
   }
@@ -29,10 +35,10 @@ class SkillSelector extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     const {onChange} = this.props;
     const {SkillSelectionActions, skills, suggested} = this.props;
-    if (prevProps.skills != skills && skills && Array.isArray(skills)) {
-      this.setState({
-        skills: Array.from(new Set([...this.state.skills, ...skills])),
-      });
+
+    let new_state = {};
+    if (skills && Array.isArray(skills) && !_.isEqual(prevProps.skills, skills)) {
+      new_state.skills = Array.from(new Set([...this.state.skills, ...skills]));
     }
 
     if (
@@ -40,7 +46,15 @@ class SkillSelector extends React.Component {
       suggested &&
       Array.isArray(suggested)
     ) {
-      this.setState({suggested});
+      new_state.suggested = suggested;
+    }
+
+    if(this.props.reset && !prevProps.reset) {
+     new_state.skills = this.props.skills || [];
+    }
+
+    if(!_.isEqual(new_state, {})) {
+      this.setState(new_state);
     }
   }
 
@@ -61,7 +75,7 @@ class SkillSelector extends React.Component {
 
   handleGetSuggestions() {
     const {SkillSelectionActions} = this.props;
-    SkillSelectionActions.getSkillSuggestions({search: this.state.skill});
+    SkillSelectionActions.getSkillSuggestions({search: this.state.skill}, this.state.selection_key, this.state.prev_key);
   }
 
   handleSelectSkill(skill) {
@@ -96,7 +110,7 @@ class SkillSelector extends React.Component {
   }
 
   render() {
-    const {SkillSelection, showTitle} = this.props;
+    const {SkillSelection, title, titleSuggestions, showTitle, showInstruction, tagName} = this.props;
 
     return (
       <div
@@ -104,7 +118,7 @@ class SkillSelector extends React.Component {
         onClick={this.handleComponentClick.bind(this)}>
         <div className="selections">
           {showTitle && this.state.suggested && this.state.suggested.length
-            ? <label className="control-label">Skills or products</label>
+            ? <label className="control-label">{title || 'Skills or products'}</label>
             : null}
           {this.state.skills && this.state.skills.length
             ? <div>
@@ -121,15 +135,15 @@ class SkillSelector extends React.Component {
                   );
                 })}
               </div>
-            : <div className="alert alert-info">
+            : showInstruction?<div className="alert alert-info">
                 {this.state.suggested && this.state.suggested.length
                   ? 'Click on some suggestions or a'
-                  : 'A'}dd some tags with the widget
-              </div>}
+                  : 'A'}dd some {tagName}s
+              </div>:null}
         </div>
         {this.state.suggested && this.state.suggested.length
           ? <div className="selections">
-              <label className="control-label">Quick Suggestions</label>
+              <label className="control-label">{titleSuggestions || 'Quick Suggestions'}</label>
               {this.state.suggested.map(skill => {
                 if (this.state.skills.indexOf(skill) > -1) {
                   return null;
@@ -152,7 +166,7 @@ class SkillSelector extends React.Component {
           <input
             type="text"
             className="form-control"
-            placeholder="Type here to get more suggestions or to add a new tag"
+            placeholder={`Type here to get more suggestions or to add a new ${tagName}`}
             onChange={this.handleSkillChange}
             onKeyPress={this.handleSkillChange}
             value={this.state.skill}
@@ -161,7 +175,7 @@ class SkillSelector extends React.Component {
 
         <div className="list-group suggestions">
           {SkillSelection.isValid
-            ? SkillSelection.suggestions.map(skill => {
+            ? (SkillSelection.suggestions[this.state.selection_key || 'default'] || []).map(skill => {
                 return (
                   <a
                     className="list-group-item"
@@ -182,12 +196,18 @@ SkillSelector.propTypes = {
   skills: React.PropTypes.array,
   suggested: React.PropTypes.array,
   showTitle: React.PropTypes.bool,
+  showInstruction: React.PropTypes.bool,
+  tagName: React.PropTypes.string,
+  reset: React.PropTypes.bool,
 };
 
 SkillSelector.defaultProps = {
   skills: [],
   suggested: [],
   showTitle: true,
+  showInstruction: false,
+  tagName: 'tag',
+  reset: false
 };
 
 export default connect(SkillSelector);

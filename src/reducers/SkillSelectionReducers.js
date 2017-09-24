@@ -23,12 +23,16 @@ function selected(state = [], action) {
   }
 }
 
-function suggestions(state = [], action) {
+function suggestions(state = {}, action) {
+  var selection_key = action.selection || 'default';
+  var new_state = {};
   switch (action.type) {
     case SkillSelectionActions.GET_SKILL_SUGGESTIONS_SUCCESS:
-      return action.items;
+      new_state[selection_key] = action.items;
+      return {...state, ...new_state};
     case SkillSelectionActions.INVALIDATE_SKILL_SUGGESTIONS:
-      return [];
+      new_state[selection_key] = [];
+      return {...state, ...new_state};
     default:
       return state;
   }
