@@ -103,7 +103,7 @@ export default class TaskWizard extends React.Component {
           ? 'show-trust'
           : ''}`}>
         <div className="title-bar">
-          {/*<i className="icon tunga-icon-post-task" />*/}
+          <i className="icon tunga-icon-post-task" />
           <div className="heading-3 bold text-center">
             {this.state.title}
           </div>

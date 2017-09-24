@@ -2957,7 +2957,7 @@ export default class TaskForm extends ComponentWithModal {
                                     : 'task'}`}
                             </button>
                           </div>
-                        : (
+                        : (isAuthenticated() || phase == "speed-up"?
                         <div>
                           <div className="slider text-center">
                             {sections.map((section, idx) => {
@@ -2970,7 +2970,7 @@ export default class TaskForm extends ComponentWithModal {
                               );
                             })}
                           </div>
-                        </div>
+                        </div>:null
                       )}
                     </div>
                   : null}

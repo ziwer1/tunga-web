@@ -2743,6 +2743,7 @@ form[name='compose'] {
       display: inline-block;
       color: @inactive-slider;
       margin: 2px 5px;
+      .font-size(1.0);
 
       &.active {
         color: @primary;
@@ -2756,6 +2757,11 @@ form[name='compose'] {
     .form-group {
       max-width: 600px;
       margin: 0 auto 15px;
+    }
+
+    .form-control, .rw-widget {
+      max-width: 500px;
+      margin: 0 auto;
     }
 
     .error {
@@ -2795,13 +2801,13 @@ form[name='compose'] {
 
   .tag-selector {
     .input-group {
-      max-width: 400px;
+      max-width: 500px;
       margin: 0 auto;
     }
 
     .selections {
       .alert {
-        max-width: 400px;
+        max-width: 500px;
         margin: 0 auto;
       }
     }
@@ -4229,7 +4235,7 @@ form[name='compose'] {
 
     .title-bar {
       text-align: center;
-      border-bottom: 1px @border-grey solid;
+      /*border-bottom: 1px @border-grey solid;*/
       padding: 20px 0;
       margin-bottom: 20px;
 
@@ -4282,7 +4288,7 @@ form[name='compose'] {
         padding: 0;
         min-height: initial;
         border-width: 0;
-        margin-top: 30px;
+        margin-top: 50px;
       }
     }
 
@@ -4304,6 +4310,7 @@ form[name='compose'] {
           .step {
             height: auto;
             min-height: 285px;
+            text-align: left;
           }
         }
       }
