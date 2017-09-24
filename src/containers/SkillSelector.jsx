@@ -166,7 +166,7 @@ class SkillSelector extends React.Component {
           <input
             type="text"
             className="form-control"
-            placeholder={`Type here to get more suggestions or to add a new ${tagName}`}
+            placeholder={`Type here to add ${tagName}s`}
             onChange={this.handleSkillChange}
             onKeyPress={this.handleSkillChange}
             value={this.state.skill}

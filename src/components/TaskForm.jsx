@@ -2812,7 +2812,7 @@ export default class TaskForm extends ComponentWithModal {
         !canShowAll
           ? <div className="section-title clearfix">
               <h4
-                className="pull-left"
+                className="text-center"
                 id={`task-wizard-title-step-${this.canShowFork('type')
                   ? getTaskTypeUrl(this.state.type)
                   : ''}-${this.canShowFork('scope')
@@ -2826,17 +2826,6 @@ export default class TaskForm extends ComponentWithModal {
                   : ''}-${this.state.step}`}>
                 {current_section.title}
               </h4>
-              <div className="slider pull-right">
-                {sections.map((section, idx) => {
-                  return (
-                    <i
-                      className={`fa fa-circle${this.state.step == idx + 1
-                        ? ''
-                        : '-o'}`}
-                    />
-                  );
-                })}
-              </div>
             </div>
           : null}
 
@@ -2900,7 +2889,7 @@ export default class TaskForm extends ComponentWithModal {
                   );
                 })}
 
-                {showPrev || showNext || showSubmit
+                {showPrev || showNext || showSubmit || true
                   ? <div className="nav text-center">
                       {showPrev
                         ? <button
@@ -2968,7 +2957,21 @@ export default class TaskForm extends ComponentWithModal {
                                     : 'task'}`}
                             </button>
                           </div>
-                        : null}
+                        : (
+                        <div>
+                          <div className="slider text-center">
+                            {sections.map((section, idx) => {
+                              return (
+                                <i
+                                  className={`fa fa-circle ${this.state.step == idx + 1
+                        ? 'active'
+                        : ''}`}
+                                />
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   : null}
               </div>}

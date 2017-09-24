@@ -2733,15 +2733,19 @@ form[name='compose'] {
 
     h4 {
       margin: 0;
-      float: left;
       padding-left: 10px;
       font-weight: 300;
     }
+  }
 
-    .slider {
-      i {
+  .slider {
+    i {
+      display: inline-block;
+      color: @inactive-slider;
+      margin: 2px 5px;
+
+      &.active {
         color: @primary;
-        margin: 2px;
       }
     }
   }
@@ -2785,6 +2789,20 @@ form[name='compose'] {
 
       .fa {
         .font-size(1.8);
+      }
+    }
+  }
+
+  .tag-selector {
+    .input-group {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .selections {
+      .alert {
+        max-width: 400px;
+        margin: 0 auto;
       }
     }
   }
@@ -4264,6 +4282,7 @@ form[name='compose'] {
         padding: 0;
         min-height: initial;
         border-width: 0;
+        margin-top: 30px;
       }
     }
 
