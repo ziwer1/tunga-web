@@ -243,8 +243,8 @@ export default class ProgressReportForm extends FormComponent {
         <div className="thank-you">
           Thank you for{' '}
           {this.isClientReport()
-            ? 'filling in your progress report!'
-            : 'responding to the survey!'}
+            ? 'responding to the survey!'
+            : 'filling in your progress report!'}
           <br />
           <i className="fa fa-check-circle" />
         </div>
