@@ -227,7 +227,11 @@
   }
 
   .main {
-    padding: 50px 60px 20px 80px;
+    padding: 50px 20px 20px 20px;
+
+    .browser-warning {
+      margin-top: -50px;
+    }
   }
 
   .main-content {
@@ -242,6 +246,16 @@
     .card {
       .title {
         .font-size(4.5);
+      }
+    }
+  }
+
+  .workflow-head {
+    .title {
+      color: @primary;
+
+      a {
+        color: @primary;
       }
     }
   }
@@ -707,9 +721,97 @@
 
 /*MEDIUM SCREENS*/
 @media (min-width: 992px) {
+  .main {
+    padding: 50px 60px 20px 80px;
+  }
+
   .task-form-dialog,
   .task-form-dialog.modal-dialog {
     width: 1000px;
+  }
+
+  .home-page {
+    .card {
+      max-width: 600px;
+      padding: 60px 10px;
+
+      .title {
+        color: @primary;
+        text-align: center;
+        text-shadow: rgba(255, 255, 255, 0.1) 0 0 3px;
+        .font-size(3.2);
+        font-weight: 400;
+      }
+    }
+
+    .notification-list {
+      max-width: 700px;
+
+      ul {
+        li {
+          margin: 5px 25px;
+
+          a {
+            padding: 20px 10px 5px;
+            min-width: 100px;
+
+            .icon {
+              display: inline-block;
+              text-align: center;
+              margin-bottom: 2px;
+              position: relative;
+
+              i {
+                .font-size(3.5);
+              }
+            }
+          }
+
+          a:hover {
+            text-decoration: none;
+          }
+        }
+      }
+
+      .fa.fa-caret-right {
+        margin-left: 5px;
+      }
+    }
+  }
+
+  .notification-list.large {
+    max-width: 800px;
+
+    ul {
+      li {
+        margin: 5px 10px;
+      }
+    }
+  }
+
+  .overview {
+    &.workflow-overview {
+      .mainbox {
+        width: 70%;
+        padding: 0 10px;
+      }
+
+      .sidebox {
+        display: block;
+      }
+    }
+  }
+
+  .workflow-head {
+
+    .nav-top-filter,
+    .nav-top-filter.nav-pills {
+      a,
+      .btn,
+      > li > a {
+        line-height: 40px;
+      }
+    }
   }
 
   .showcase {
@@ -861,65 +963,6 @@
             max-width: 970px;
           }
         }
-      }
-    }
-  }
-
-  .home-page {
-    .card {
-      max-width: 600px;
-      padding: 60px 10px;
-
-      .title {
-        color: @primary;
-        text-align: center;
-        text-shadow: rgba(255, 255, 255, 0.1) 0 0 3px;
-        .font-size(3.2);
-        font-weight: 400;
-      }
-    }
-
-    .notification-list {
-      max-width: 700px;
-
-      ul {
-        li {
-          margin: 5px 25px;
-
-          a {
-            padding: 20px 10px 5px;
-            min-width: 100px;
-
-            .icon {
-              display: inline-block;
-              text-align: center;
-              margin-bottom: 2px;
-              position: relative;
-
-              i {
-                .font-size(3.5);
-              }
-            }
-          }
-
-          a:hover {
-            text-decoration: none;
-          }
-        }
-      }
-
-      .fa.fa-caret-right {
-        margin-left: 5px;
-      }
-    }
-  }
-
-  .notification-list.large {
-    max-width: 800px;
-
-    ul {
-      li {
-        margin: 5px 10px;
       }
     }
   }

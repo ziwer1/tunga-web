@@ -159,33 +159,35 @@ class SkillSelector extends React.Component {
             </div>
           : null}
 
-        <div className="input-group">
+        <div className="tag-input">
+          <div className="input-group">
           <span className="input-group-addon">
             <i className="tunga-icon-tag" />
           </span>
-          <input
-            type="text"
-            className="form-control"
-            placeholder={`Type here to add ${tagName}s`}
-            onChange={this.handleSkillChange}
-            onKeyPress={this.handleSkillChange}
-            value={this.state.skill}
-          />
-        </div>
+            <input
+              type="text"
+              className="form-control"
+              placeholder={`Type here to add ${tagName}s`}
+              onChange={this.handleSkillChange}
+              onKeyPress={this.handleSkillChange}
+              value={this.state.skill}
+            />
+          </div>
 
-        <div className="list-group suggestions">
-          {SkillSelection.isValid
-            ? (SkillSelection.suggestions[this.state.selection_key || 'default'] || []).map(skill => {
-                return (
-                  <a
-                    className="list-group-item"
-                    key={skill.id}
-                    onClick={this.handleSelectSkill.bind(this, skill.name)}>
-                    {skill.name}
-                  </a>
-                );
-              })
-            : ''}
+          <div className="list-group suggestions">
+            {SkillSelection.isValid
+              ? (SkillSelection.suggestions[this.state.selection_key || 'default'] || []).map(skill => {
+              return (
+                <a
+                  className="list-group-item"
+                  key={skill.id}
+                  onClick={this.handleSelectSkill.bind(this, skill.name)}>
+                  {skill.name}
+                </a>
+              );
+            })
+              : ''}
+          </div>
         </div>
       </div>
     );

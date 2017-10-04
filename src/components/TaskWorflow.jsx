@@ -43,7 +43,7 @@ export function resizeOverviewBox() {
   var w_h = $(window).height();
   var nav_h = $('nav.navbar').height();
   var wf_h = $('.workflow-head').height();
-  var t_h = nav_h + wf_h + 80;
+  var t_h = nav_h + wf_h + ($(window).width() >= 768?80:90);
   if (w_h > t_h) {
     $('.workflow-overview').css('height', w_h - t_h + 'px');
   }
@@ -60,7 +60,8 @@ export default class TaskWorflow extends ComponentWithModal {
       files: true,
       progress_reports: true,
       showFilter: false,
-      sideSection: 'details'
+      sideSection: 'details',
+      showBrowserWarnings: true
     };
   }
 
@@ -448,6 +449,12 @@ export default class TaskWorflow extends ComponentWithModal {
 
     return (
       <div>
+
+        <div className={`browser-warning clearfix hidden-md hidden-lg ${this.state.showBrowserWarnings?'':'hide'}`}>
+          <span className="close-icon" onClick={() => {this.setState({showBrowserWarnings: false})}}><i className="fa fa-close"/></span>
+          <span>For all functionalities, use the desktop version of Tunga</span>
+        </div>
+
         {this.renderModalContent()}
 
         <Joyride
@@ -462,12 +469,11 @@ export default class TaskWorflow extends ComponentWithModal {
         />
 
         <div className="workflow-head clearfix">
-          <div className="" style={{marginBottom: '10px'}}>
-            <div className="clearfix">
-              <div className="pull-right">
-                <Link to="/work/new" className="btn btn-grey btn-create"><i className="fa fa-plus"/> Create a new task</Link>
-                {is_admin_or_owner_or_pm
-                  ? <span className="overview-dropdown">
+          <div className="clearfix">
+            <div className="pull-right hidden-xs hidden-sm">
+              <Link to="/work/new" className="btn btn-grey btn-create"><i className="fa fa-plus"/> Create a new task</Link>
+              {is_admin_or_owner_or_pm
+                ? <span className="overview-dropdown">
                   <span className="dropdown">
                   <button
                     className="btn btn-grey btn-create"
@@ -591,11 +597,11 @@ export default class TaskWorflow extends ComponentWithModal {
                   </ul>
                 </span>
                 </span>
-                  : null}
-              </div>
-              <div className="title pull-left">
-                {task.parent && task.details
-                  ? <span>
+                : null}
+            </div>
+            <div className="title pull-left">
+              {task.parent && task.details
+                ? <span>
                     <Link to={`/work/${task.parent}/`} className="small">
                       {render_summary(
                         task.details.parent.title || task.summary,
@@ -603,18 +609,20 @@ export default class TaskWorflow extends ComponentWithModal {
                       )}
                     </Link>
                   </span>
-                  : null}
+                : null}
               <span>
                 <Link to={`/work/${task.id}/`}>
                   {task.summary}
                 </Link>
               </span>
-              </div>
             </div>
+          </div>
+
+          <div className="hidden-xs hidden-sm" style={{marginBottom: '10px'}}>
             {task.is_developer_ready
               ? <span className="task-status">
                   <i className={'fa fa-circle ' + task_status.css} />{' '}
-                  {task_status.message} |{' '}
+              {task_status.message} |{' '}
                 </span>
               : null}
             <span className="time">
@@ -623,12 +631,12 @@ export default class TaskWorflow extends ComponentWithModal {
             </span>
           </div>
 
-          <div className="clearfix">
+          <div className="clearfix hidden-xs">
             <div className="nav-top-filter pull-left">
               <Link to={`/work/${task.id}/?nr=true`} activeClassName="active">Meeting room</Link>
 
               {!task.is_developer_ready
-                ? <span>
+                ? <span className="hidden-xs hidden-sm">
                 {canAddEstimate(task)
                   ? <Link to={`/work/${task.id}/estimate/new`} className="btn">
                   Proposal
@@ -661,7 +669,7 @@ export default class TaskWorflow extends ComponentWithModal {
               {is_admin_or_owner_or_pm ||
               task.is_admin ||
               task.is_participant
-                ? <span>
+                ? <span className="hidden-xs hidden-sm">
                 {is_admin_or_owner || can_edit_shares
                   ? <span>
                   {task.is_developer_ready && is_admin_or_owner_or_pm
@@ -718,7 +726,7 @@ export default class TaskWorflow extends ComponentWithModal {
                 : null}
             </div>
 
-            <div className="pull-right">
+            <div className="pull-right hidden-xs hidden-sm">
               {is_admin_or_owner && !task.parent
                 ? <ul className="integration-options pull-right">
                 <li id="github-btn">
@@ -764,7 +772,7 @@ export default class TaskWorflow extends ComponentWithModal {
             task.is_participant &&
             task.my_participation &&
             task.my_participation.status == STATUS_INITIAL
-              ? <div className="pull-right">
+              ? <div className="pull-right hidden-xs hidden-sm">
               <button
                 type="button"
                 className="btn"
@@ -786,9 +794,10 @@ export default class TaskWorflow extends ComponentWithModal {
             start={task.created_at}
             end={task.deadline}
             events={task.progress_events}
-            openMilestone={this.openMilestone.bind(this)} />
+            openMilestone={this.openMilestone.bind(this)}
+            className="hidden-xs hidden-sm" />
 
-          <div className="clearfix">
+          <div className="clearfix hidden-xs">
             <div
               className={`activity-filter ${this.state.showFilter
                 ? 'open'
@@ -903,10 +912,7 @@ export default class TaskWorflow extends ComponentWithModal {
                   <Avatar src={task.details.owner.avatar_url} title={task.details.owner.display_name} url={`/people/${task.details.owner.username}/`}/>
                 </span>
                       : <span>
-                  <Avatar src={task.user.avatar_url} />{' '}
-                  <Link to={`/people/${task.user.username}/`}>
-                    {task.user.display_name}
-                  </Link>
+                  <Avatar src={task.user.avatar_url} title={task.user.display_name} url={`/people/${task.user.username}/`}/>
                 </span>}
                     {isAdmin() || is_pm
                       ?

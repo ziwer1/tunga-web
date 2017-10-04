@@ -1729,7 +1729,7 @@ export default class TaskForm extends ComponentWithModal {
               />
             </div>}
         <div className="form-group">
-          <label className="control-label">Collaborators</label>
+          <label className="control-label">Developers</label>
           <UserSelector
             filter={{
               types: [USER_TYPE_DEVELOPER, USER_TYPE_PROJECT_MANAGER].join(','),

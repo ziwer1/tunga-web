@@ -196,7 +196,7 @@ export default class Timeline extends React.Component {
     const length = this.state.now - this.state.min;
     var fill_length = (length / this.state.duration) * 100;
     return (
-      <div className="timeline">
+      <div className={`timeline ${this.props.className}`}>
         <div className="line"></div>
         <div className="duration" style={{width: `${fill_length}%`}}></div>
         {this.state.all_events.map((event) => {

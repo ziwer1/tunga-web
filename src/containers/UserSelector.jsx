@@ -160,50 +160,52 @@ class UserSelector extends React.Component {
           })}
         </div>
 
-        {max && selections.length >= max
-          ? null
-          : <div
-              className="input-group"
-              onClick={this.handleComponentClick.bind(this)}>
+        <div className="tag-input">
+          {max && selections.length >= max
+            ? null
+            : <div
+            className="input-group"
+            onClick={this.handleComponentClick.bind(this)}>
               <span className="input-group-addon">
                 <span className="glyphicon glyphicon-user" />
               </span>
-              <input
-                type="text"
-                className="form-control"
-                ref="user_name"
-                value={this.state.user_name}
-                placeholder="Type a name or username to get suggestions"
-                onChange={this.onQueryChange.bind(this)}
-                onKeyUp={this.onInputKeyUp.bind(this)}
-              />
-            </div>}
+            <input
+              type="text"
+              className="form-control"
+              ref="user_name"
+              value={this.state.user_name}
+              placeholder="Type a name or username to get suggestions"
+              onChange={this.onQueryChange.bind(this)}
+              onKeyUp={this.onInputKeyUp.bind(this)}
+            />
+          </div>}
 
-        <div className="list-group suggestions">
-          {UserSelection.isValid
-            ? suggestions.map(user => {
-                return (
-                  <a
-                    key={user.id}
-                    className="list-group-item"
-                    onClick={this.onUserSelect.bind(this, user)}>
-                    <div className="media">
-                      <div className="media-left">
-                        <Avatar src={user.avatar_url} size="small" />
+          <div className="list-group suggestions">
+            {UserSelection.isValid
+              ? suggestions.map(user => {
+              return (
+                <a
+                  key={user.id}
+                  className="list-group-item"
+                  onClick={this.onUserSelect.bind(this, user)}>
+                  <div className="media">
+                    <div className="media-left">
+                      <Avatar src={user.avatar_url} size="small" />
+                    </div>
+                    <div className="media-body">
+                      <div>
+                        {user.display_name}
                       </div>
-                      <div className="media-body">
-                        <div>
-                          {user.display_name}
-                        </div>
-                        <div className="secondary">
-                          @{user.username}
-                        </div>
+                      <div className="secondary">
+                        @{user.username}
                       </div>
                     </div>
-                  </a>
-                );
-              })
-            : null}
+                  </div>
+                </a>
+              );
+            })
+              : null}
+          </div>
         </div>
       </div>
     );
