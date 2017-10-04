@@ -1,10 +1,12 @@
 import React from 'react';
+import {Link} from 'react-router';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 export default class Avatar extends React.Component {
   render() {
-    const {src, size, icon, badge} = this.props;
+    const {src, size, icon, badge, title, url} = this.props;
     const image = src;
-    return (
+    let avatar = (
       <div className="avatar-wrapper">
         {badge
           ? <span className="badge">
@@ -20,6 +22,16 @@ export default class Avatar extends React.Component {
         </div>
       </div>
     );
+
+    let linked_avatar = url?(
+      <Link to={url}>{avatar}</Link>
+    ):avatar;
+
+    return title?(
+      <OverlayTrigger placement="top" overlay={<Tooltip id="tooltip"><strong>{title}</strong></Tooltip>}>
+        {linked_avatar}
+      </OverlayTrigger>
+    ):linked_avatar;
   }
 }
 

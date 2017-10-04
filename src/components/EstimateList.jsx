@@ -51,8 +51,8 @@ export default class EstimateList extends GenericListContainer {
       <div>
         <h2 className="clearfix">
           <div className="pull-left">Proposals</div>
-          <Link to="/proposal/new" className="btn pull-right">
-            <i className="tunga-icon-create" /> Create Proposal
+          <Link to="/proposal/new" className="btn btn-grey btn-create pull-right">
+            <i className="fa fa-plus" /> Create a new proposal
           </Link>
         </h2>
 

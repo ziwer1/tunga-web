@@ -64,7 +64,7 @@ export default class ActivityList extends React.Component {
     var uploads = null;
     var more = null;
 
-    const {showMessages, showNotifications, showFiles} = this.props;
+    const {showMessages, showNotifications, showFiles, showProgressReports} = this.props;
 
     switch (activity_type) {
       case 'message':
@@ -289,7 +289,7 @@ export default class ActivityList extends React.Component {
         ) {
           break;
         }
-        if (showNotifications && item.action == 'report') {
+        if (showProgressReports && item.action == 'report') {
           creator = object.user;
           created_at = object.created_at;
           uploads = object.uploads;
@@ -587,6 +587,7 @@ ActivityList.propTypes = {
   showMessages: React.PropTypes.bool,
   showNotifications: React.PropTypes.bool,
   showFiles: React.PropTypes.bool,
+  showProgressReports: React.PropTypes.bool
 };
 
 ActivityList.defaultProps = {
@@ -596,4 +597,5 @@ ActivityList.defaultProps = {
   showMessages: true,
   showNotifications: true,
   showFiles: true,
+  showProgressReports: true
 };

@@ -44,15 +44,19 @@ export default class Timeline extends React.Component {
       all_events.push({title: 'Task created', due_at: start});
     }
     if (end) {
-      all_events.push({title: 'Deadline', due_at: end});
+      all_events.push({title: 'Deadline', due_at: end, is_deadline: true});
     }
-    all_events = [...all_events, ...events];
+
+    all_events.push({title: 'Reminder', due_at: moment.unix(this.state.now).format(), is_now: true});
+
+
+    //all_events = [...all_events, ...events];
     var next_event = null;
     const now = this.state.now;
     var timestamps = all_events.map(event => {
       let this_tm = moment.utc(event.due_at).unix();
       if (
-        this_tm > now &&
+        (this_tm > now || event.is_deadline) &&
         (!next_event ||
           (next_event && this_tm < moment.utc(next_event.due_at).unix()))
       ) {
@@ -110,15 +114,15 @@ export default class Timeline extends React.Component {
   }
 
   renderEvent(event) {
-    if (!this.state.duration || (event.is_now && !this.state.next_event)) {
+    if (!this.state.duration) {
       return null;
     }
-    const timestamp = moment.utc(event.due_at).unix();
+    const timestamp = moment.utc(event.due_at).unix(),
+      next_timestamp = this.state.next_event.due_at?moment.utc(this.state.next_event.due_at).unix():null;
     const length = timestamp - this.state.min;
-    const pos = length / this.state.duration * 100;
     const ts_now = this.state.now;
-    let is_missed = timestamp + 24 * 60 * 60 < ts_now && event.type; // Developers have 24 hrs before a task update is missed
-    var angle = (length / this.state.duration * 360 + 270) % 360;
+    let is_missed = timestamp + (24 * 60 * 60) < ts_now && event.type; // Developers have 24 hrs before a task update is missed
+    var pos = ((length) / this.state.duration) * 100;
 
     const {task} = this.props;
 
@@ -139,7 +143,7 @@ export default class Timeline extends React.Component {
                     ? 'Milestone'
                     : 'Update')
                 : 'Deadline'}
-              <span> is </span>
+              <span> {next_timestamp && timestamp > next_timestamp?'was':'is'} </span>
               <TimeAgo
                 date={moment.utc(this.state.next_event.due_at).local().format()}
               />
@@ -178,54 +182,26 @@ export default class Timeline extends React.Component {
       </Popover>
     );
     return (
-      <Link to={`/work/${task.id}/event/${event.id}`}>
-        <OverlayTrigger key={event.due_at} placement="top" overlay={popover}>
-          <div
-            key={event.id}
-            className={
-              'event' +
-              (moment.utc(event.due_at) < moment.utc() && !event.is_now
-                ? ' past'
-                : '')
-            }
-            style={{transform: `rotate(${angle}deg) translate(110px)`}}>
-            <span>
-              {event.is_now
-                ? <i className="fa fa-square" />
-                : <i className="fa fa-circle" />}
-            </span>
-          </div>
-        </OverlayTrigger>
-      </Link>
+      <OverlayTrigger key={event.due_at} placement="top" overlay={popover}>
+        {event.id?(
+          <Link to={`/work/${task.id}/event/${event.id}`} className="event" style={{left: `${pos}%`}}/>
+        ):(
+          <div className={`event ${timestamp > this.state.now?'future':''} ${event.is_now?'now':''}`} style={{left: `${pos}%`}}></div>
+        )}
+      </OverlayTrigger>
     );
   }
 
   render() {
     const length = this.state.now - this.state.min;
-    var angle = length / this.state.duration * 360;
-    if (angle > 360) {
-      angle = 360;
-    }
+    var fill_length = (length / this.state.duration) * 100;
     return (
       <div className="timeline">
-        <div className={`line ${angle >= 360 ? 'closed' : ''}`}>
-          <div className="inner-line" />
-          <div className="content">
-            {this.props.children}
-          </div>
-        </div>
-        <div className="duration">
-          {
-            <svg>
-              <path fill="none" d={this.describeArc(130, 110, 100, 0, angle)} />
-            </svg>
-          }
-          {/*this.state.all_events.map((event) => {
-                        return this.renderEvent(event);
-                    })*/}
-
-          {/*this.renderEvent({title: 'Reminder', due_at: this.state.now, is_now: true})*/}
-        </div>
+        <div className="line"></div>
+        <div className="duration" style={{width: `${fill_length}%`}}></div>
+        {this.state.all_events.map((event) => {
+          return this.renderEvent(event);
+        })}
       </div>
     );
   }

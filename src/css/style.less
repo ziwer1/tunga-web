@@ -411,6 +411,15 @@ a.btn,
   border-color: @primary;
 }
 
+.btn-create {
+  padding-left: 10px;
+  padding-right: 10px;
+
+  .fa {
+    color: @primary;
+  }
+}
+
 form[name="comment"],
 form[name="reply"] {
   max-width: none;
@@ -2021,6 +2030,7 @@ form[name='compose'] {
   display: block;
   list-style: none;
   padding: 0;
+  line-height: 1;
 
   li {
     float: left;
@@ -2048,30 +2058,56 @@ form[name='compose'] {
 }
 
 .activity-filter {
-  display: inline-block;
-
   .filter-btn {
     display: block;
-    .font-size(3.6);
+    float: left;
+    .font-size(2.0);
     text-align: center;
-    line-height: 60px;
-    width: 60px;
-    height: 60px;
+    line-height: 20px;
     color: @primary-text;
     background-color: @inactive-grey !important;
     border: 1px solid @inactive-grey !important;
-    padding: 3px 0 0;
-    margin: 0;
+    padding: 5px 10px;
+    margin: 0 45px 0 0;
     text-decoration: none;
-    border-radius: 100%;
 
     &:hover,
-    &:focus,
     &.active {
       background-color: @active-white !important;
       color: @primary;
       border-color: @primary !important;
       outline-width: 0;
+    }
+  }
+
+  .switches {
+    display: none;
+    float: left;
+    padding: 5px 0 0;
+
+    > * {
+      margin-right: 15px;
+      float: left;
+    }
+
+    span {
+      padding: 0;
+      line-height: 20px;
+      position: relative;
+      top: -3px;
+    }
+
+    .switch {
+      .font-size(2.4);
+      margin-right: 5px;
+
+      &.fa-toggle-on {
+        color: @primary;
+      }
+
+      &.fa-toggle-off {
+        color: @active-grey;
+      }
     }
   }
 
@@ -2082,27 +2118,9 @@ form[name='compose'] {
       border-color: @primary !important;
       outline-width: 0;
     }
-  }
 
-  .dropdown-menu {
-    width: auto;
-    min-width: 160px !important;
-    left: auto;
-    right: 0;
-    line-height: 30px;
-    padding: 10px !important;
-
-    .switch {
-      float: right;
-      .font-size(2.4);
-
-      &.fa-toggle-on {
-        color: @primary;
-      }
-
-      &.fa-toggle-off {
-        color: @active-grey;
-      }
+    .switches {
+      display: inline-block;
     }
   }
 }
@@ -2126,37 +2144,26 @@ form[name='compose'] {
     font-size: 80%;
   }
 
-  .dropdown {
-    .dropdown-toggle {
-      background: #fff none;
-      border-color: #ccc;
+  .nav-top-filter,
+  .nav-top-filter.nav-pills {
+    a,
+    .btn,
+    > li > a {
+      padding: 0 10px;
+      line-height: 40px;
+
+      &.active {
+        background-color: @active-white;
+        color: @primary;
+      }
     }
 
     .dropdown-menu {
-      padding: 5px;
-      min-width: 100%;
-    }
-
-    .dropdown-menu.workflow-actions {
-      .btn {
-        display: block;
-        width: 100%;
-        color: @primary-text;
-        background-color: @active-white;
-        border-color: @active-grey;
-        margin: 2px 0;
-      }
-
-      .btn:hover,
-      .btn:active {
-        color: @primary;
-        background-color: @active-white;
-        border-color: @primary;
-      }
-
-      hr {
-        margin-top: 10px;
-        margin-bottom: 5px;
+      a,
+      .btn,
+      > li > a {
+        padding: 3px 10px;
+        line-height: 20px;
       }
     }
   }
@@ -2168,66 +2175,43 @@ form[name='compose'] {
 
 .timeline {
   position: relative;
-  margin: 10px auto;
+  margin: 0 auto 10px;
 
-  .line {
-    position: relative;
-    width: 220px;
-    height: 220px;
-    border: 20px solid @active-white;
-    border-radius: 50%;
+  .line, .duration {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 2px;
     margin: 0 auto;
-  }
-
-  .line.closed {
-    border-color: @primary;
+    background-color: @active-grey;
   }
 
   .duration {
-    position: relative;
-    width: 220px;
-    margin: 0 auto -200px;
-    top: -220px;
-
-    svg {
-      stroke-width: 20px;
-      stroke: @primary;
-      min-height: 220px;
-      display: block;
-      margin: 0 auto;
-      position: relative;
-      left: -20px;
-    }
-  }
-
-  .content {
-    display: table-cell;
-    color: @primary;
-    vertical-align: middle;
-    text-align: center;
-    width: 170px;
-    height: 170px;
-    overflow: hidden;
-
-    .pledge {
-      font-size: 35px;
-      font-weight: 500;
-    }
-
-    .deadline > * {
-      display: inline-block;
-    }
+    background-color: @primary;
   }
 
   .event {
     display: block;
     overflow: hidden;
     position: absolute;
-    top: 50%;
-    left: 50%;
-    margin: -9px -5px;
+    top: 0;
+    left: 0;
+    margin: -3px 0;
     color: @active-white;
-    cursor: pointer;
+    background-color: @active-white;
+    border: 1px solid @primary;
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+
+    &.now {
+      background-color: @primary;
+    }
+
+    &.future {
+      border-color: @active-grey;
+      background-color: @active-grey;
+    }
   }
 }
 
@@ -2325,23 +2309,118 @@ form[name='compose'] {
   }
 }
 
+.overview-dropdown {
+  .fa-pencil-square-o {
+    color: @primary-text;
+  }
+
+  .dropdown {
+    .dropdown-toggle {
+      background: #fff none;
+      border-color: #ccc;
+    }
+
+    .dropdown-menu {
+      padding: 5px;
+      min-width: 100%;
+
+      .btn {
+        display: block;
+        width: 100%;
+        color: @primary-text;
+        background: @active-white none;
+        border-color: @active-grey;
+        padding: 3px 10px;
+        margin: 2px 0;
+        font-weight: 300;
+      }
+
+      .btn:hover,
+      .btn:active {
+        color: @primary;
+        background: @active-white none;
+        border-color: @primary;
+      }
+
+      hr {
+        margin-top: 10px;
+        margin-bottom: 5px;
+      }
+    }
+  }
+}
+
 .workflow-overview {
   .mainbox {
     padding: 0 10px;
-    border-top: 1px solid @inactive-grey;
+    /*border-top: 1px solid @inactive-grey;*/
   }
 
   .sidebox {
-    padding: 0 10px;
+    padding: 3px 10px 0;
     overflow-y: scroll;
 
     .overview-details {
-      min-height: 100%;
-      border-radius: 8px;
+      padding: 10px;
+      background-color: @active-white;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px 0 rgba(191, 191, 191, 0.5);
 
-      .task-info {
-        position: relative;
-        z-index: 10;
+
+      .title, a.title {
+        .font-size(1.8);
+        color: @primary-text;
+        font-weight: 300;
+        text-decoration: none;
+
+        &:hover, &:focus, &:active {
+          text-decoration: none;
+        }
+
+        .fa-chevron-down {
+          display: none;
+        }
+
+        .fa-chevron-right {
+          display: inline-block;
+        }
+
+        span {
+          padding-top: 5px;
+          .font-size(1.4);
+        }
+      }
+
+      strong {
+        display: block;
+        .font-size(1.6);
+        font-weight: 300;
+        margin: 15px 0 5px;
+      }
+
+      .edit-icon {
+        .font-size(2.0);
+      }
+
+      .content {
+        display: none;
+      }
+
+      &.on {
+        .title, a.title {
+          .fa-chevron-down {
+            display: inline-block;
+          }
+
+          .fa-chevron-right {
+            display: none;
+          }
+        }
+
+        .content {
+          display: block;
+        }
       }
     }
 
@@ -2356,10 +2435,10 @@ form[name='compose'] {
       }
     }
 
-    .wrapper {
+    /*.wrapper {
       padding: 10px;
       background-color: @inactive-grey;
-    }
+    }*/
   }
 }
 

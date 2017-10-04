@@ -3,7 +3,6 @@ import {renderToString} from 'react-dom/server';
 import {Link} from 'react-router';
 import moment from 'moment';
 import TimeAgo from 'react-timeago';
-import {OverlayTrigger, Popover} from 'react-bootstrap';
 import Linkify from './Linkify';
 import Joyride from 'react-joyride';
 
@@ -31,7 +30,7 @@ import {getTaskKey} from '../utils/reducers';
 import confirm from '../utils/confirm';
 
 import {SOCIAL_PROVIDERS} from '../constants/Api';
-import {isAdmin, isProjectManager, getUser} from '../utils/auth';
+import {isAdmin, getUser} from '../utils/auth';
 import {sendGAPageView} from '../utils/tracking';
 
 import {
@@ -59,7 +58,9 @@ export default class TaskWorflow extends ComponentWithModal {
       messages: true,
       notifications: true,
       files: true,
+      progress_reports: true,
       showFilter: false,
+      sideSection: 'details'
     };
   }
 
@@ -307,6 +308,38 @@ export default class TaskWorflow extends ComponentWithModal {
     return new_applications.length;
   }
 
+  toggleSideSection(section) {
+    this.setState({sideSection: this.state.sideSection == section?'':section});
+  }
+
+  getApprovedDevelopers() {
+    const {task, Task, TaskActions} = this.props;
+    let devs = [];
+    if(task.details && task.details.participation) {
+      task.details.participation.map(participation => {
+        const participant = participation.user;
+        if(participation.status == STATUS_ACCEPTED) {
+          devs.push(participant);
+        }
+      });
+    }
+    return devs;
+  }
+
+  getInvitedDevelopers() {
+    const {task, Task, TaskActions} = this.props;
+    let devs = [];
+    if(task.details && task.details.participation) {
+      task.details.participation.map(participation => {
+        const participant = participation.user;
+        if(participation.status == STATUS_INITIAL) {
+          devs.push(participant);
+        }
+      });
+    }
+    return devs;
+  }
+
   render() {
     const {task, Task, TaskActions} = this.props;
     const {uploads} = Task.detail;
@@ -334,22 +367,8 @@ export default class TaskWorflow extends ComponentWithModal {
     let new_applications = this.getNewApplications();
 
     let is_project_task = task && task.parent;
-
-    const pay_popover = (
-      <Popover id="popover">
-        <div>
-          {task.paid
-            ? 'Payment has been completed'
-            : 'Close the task to move to this step'}
-        </div>
-      </Popover>
-    );
-
-    const rate_dev_popover = (
-      <Popover id="popover">
-        <div>Close the task and make the payment to move to this step</div>
-      </Popover>
-    );
+    let approved_devs = this.getApprovedDevelopers(),
+      invited_devs = this.getInvitedDevelopers();
 
     let steps = [
       ...steps,
@@ -444,9 +463,139 @@ export default class TaskWorflow extends ComponentWithModal {
 
         <div className="workflow-head clearfix">
           <div className="" style={{marginBottom: '10px'}}>
-            <div className="title">
-              {task.parent && task.details
-                ? <span>
+            <div className="clearfix">
+              <div className="pull-right">
+                <Link to="/work/new" className="btn btn-grey btn-create"><i className="fa fa-plus"/> Create a new task</Link>
+                {is_admin_or_owner_or_pm
+                  ? <span className="overview-dropdown">
+                  <span className="dropdown">
+                  <button
+                    className="btn btn-grey btn-create"
+                    type="button"
+                    id="chat-overflow"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="true">
+                    <i className="fa fa-ellipsis-v" />
+                  </button>
+                  <ul
+                    className="dropdown-menu dropdown-menu-right"
+                    aria-labelledby="chat-overflow">
+                    {is_admin_or_owner_or_pm
+                      ? [
+                      task.is_developer_ready &&
+                      !task.closed &&
+                      is_admin_or_owner
+                        ? <li>
+                        {task.apply
+                          ? <button
+                          type="button"
+                          className="btn "
+                          onClick={this.handleCloseApplications.bind(
+                                                  this,
+                                                )}>
+                          Close applications
+                        </button>
+                          : <button
+                          type="button"
+                          className="btn "
+                          onClick={this.handleOpenApplications.bind(
+                                                  this,
+                                                )}>
+                          Open applications
+                        </button>}
+                      </li>
+                        : null,
+                      task.is_developer_ready &&
+                      task.closed &&
+                      !task.paid && is_admin_or_owner
+                        ? <li>
+                        <button
+                          type="button"
+                          className="btn"
+                          onClick={this.handleOpenTask.bind(
+                                              this,
+                                            )}>
+                          Open {work_type}
+                        </button>
+                      </li>
+                        : null,
+                      task.is_developer_ready &&
+                      task.closed &&
+                      !task.paid &&
+                      isAdmin()
+                        ? <li>
+                        <button
+                          type="button"
+                          className="btn"
+                          onClick={this.handleMarkPaid.bind(
+                                              this,
+                                            )}>
+                          Mark as paid
+                        </button>
+                      </li>
+                        : null,
+                    ]
+                      : null}
+                    {task.is_developer_ready &&
+                    !is_project_task &&
+                    is_admin_or_owner
+                      ? <li>
+                      <Link
+                        to={`/work/${task.id}/edit/updates/`}
+                        className="btn"
+                        id="configure-updates-btn">
+                        Configure updates
+                      </Link>
+                    </li>
+                      : null}
+
+                    {task.is_developer_ready &&
+                    can_edit_shares &&
+                    task.details &&
+                    task.details.participation &&
+                    task.details.participation.length
+                      ? <li>
+                      <Link
+                        to={`/work/${task.id}/edit/participation/`}
+                        className="btn"
+                        id="participation-shares-btn">
+                        Participation shares
+                      </Link>
+                    </li>
+                      : null}
+
+                    {task.is_developer_ready && !task.closed
+                      ? <li>
+                      <button
+                        type="button"
+                        className="btn"
+                        onClick={this.handleCloseTask.bind(this)}>
+                        Close {work_type}
+                      </button>
+                    </li>
+                      : null}
+                    {is_admin_or_owner?(
+                      <li>
+                        <button
+                          type="button"
+                          className="btn"
+                          onClick={this.handleDeleteTask.bind(
+                                          this,
+                                        )}>
+                          <i className="fa fa-trash-o" /> Delete{' '}
+                          {work_type}
+                        </button>
+                      </li>
+                    ):null}
+                  </ul>
+                </span>
+                </span>
+                  : null}
+              </div>
+              <div className="title pull-left">
+                {task.parent && task.details
+                  ? <span>
                     <Link to={`/work/${task.parent}/`} className="small">
                       {render_summary(
                         task.details.parent.title || task.summary,
@@ -454,12 +603,13 @@ export default class TaskWorflow extends ComponentWithModal {
                       )}
                     </Link>
                   </span>
-                : null}
+                  : null}
               <span>
                 <Link to={`/work/${task.id}/`}>
                   {task.summary}
                 </Link>
               </span>
+              </div>
             </div>
             {task.is_developer_ready
               ? <span className="task-status">
@@ -473,386 +623,218 @@ export default class TaskWorflow extends ComponentWithModal {
             </span>
           </div>
 
-          {!task.is_developer_ready
-            ? <div className="nav-top-filter pull-left">
+          <div className="clearfix">
+            <div className="nav-top-filter pull-left">
+              <Link to={`/work/${task.id}/?nr=true`} activeClassName="active">Meeting room</Link>
+
+              {!task.is_developer_ready
+                ? <span>
                 {canAddEstimate(task)
                   ? <Link to={`/work/${task.id}/estimate/new`} className="btn">
-                      Add Estimate
-                    </Link>
+                  Proposal
+                </Link>
                   : canEditEstimate(task)
-                    ? <Link
-                        to={`/work/${task.id}/estimate/${task.estimate
+                  ? <Link
+                  to={`/work/${task.id}/estimate/${task.estimate
                           .id}/edit`}
-                        className="btn">
-                        Edit Estimate
-                      </Link>
-                    : canViewEstimate(task)
-                      ? <Link
-                          to={`/work/${task.id}/estimate/${task.estimate.id}`}
-                          className="btn">
-                          View Estimate
-                        </Link>
-                      : null}
+                  className="btn">
+                  Proposal
+                </Link>
+                  : canViewEstimate(task)
+                  ? <Link
+                  to={`/work/${task.id}/estimate/${task.estimate.id}`}
+                  className="btn">
+                  Proposal
+                </Link>
+                  : null}
 
                 {task.can_return
                   ? <button
-                      className="btn"
-                      onClick={this.onReturnProject.bind(this)}>
-                      Return {work_type}
-                    </button>
+                  className="btn"
+                  onClick={this.onReturnProject.bind(this)}>
+                  Return {work_type}
+                </button>
                   : null}
-              </div>
-            : null}
+              </span>
+                : null}
 
-          {is_admin_or_owner_or_pm ||
-          task.is_admin ||
-          task.is_participant
-            ? <div className="nav-top-filter">
+              {is_admin_or_owner_or_pm ||
+              task.is_admin ||
+              task.is_participant
+                ? <span>
                 {is_admin_or_owner || can_edit_shares
-                  ? <div className="pull-left">
-                      {task.is_developer_ready && is_admin_or_owner_or_pm
-                        ? <Link
-                            to={`/work/${task.id}/applications/`}
-                            className="btn"
-                            id="view-applications-btn">
-                            View applications{' '}
-                            {new_applications
-                              ? <span className="badge">
+                  ? <span>
+                  {task.is_developer_ready && is_admin_or_owner_or_pm
+                    ? <Link
+                    to={`/work/${task.id}/applications/`}
+                    className="btn"
+                    id="view-applications-btn">
+                    View applications{' '}
+                    {new_applications
+                      ? <span className="badge">
                                   {new_applications}
                                 </span>
-                              : null}
-                          </Link>
-                        : null}
-                      {task.is_developer_ready &&
-                      is_admin_or_owner_or_pm &&
-                      task.is_project
-                        ? <Link
-                            to={`/work/${task.id}/board/`}
-                            className="btn"
-                            id="project-board-btn">
-                            Project Board
-                          </Link>
-                        : null}
+                      : null}
+                  </Link>
+                    : null}
+                  {task.is_developer_ready &&
+                  is_admin_or_owner_or_pm &&
+                  task.is_project
+                    ? <Link
+                    to={`/work/${task.id}/board/`}
+                    className="btn"
+                    id="project-board-btn">
+                    Project Board
+                  </Link>
+                    : null}
+                </span>
+                  : null}
 
-                      {task.is_developer_ready &&
-                      !is_project_task &&
-                      is_admin_or_owner
-                        ? <Link
-                            to={`/work/${task.id}/edit/updates/`}
-                            className="btn"
-                            id="configure-updates-btn">
-                            Configure updates
-                          </Link>
-                        : null}
-
-                      {task.is_developer_ready &&
-                      can_edit_shares &&
-                      task.details &&
-                      task.details.participation &&
-                      task.details.participation.length
-                        ? <Link
-                            to={`/work/${task.id}/edit/participation/`}
-                            className="btn"
-                            id="participation-shares-btn">
-                            Participation shares
-                          </Link>
-                        : null}
-
-                      {task.is_developer_ready && !task.closed
-                        ? <button
-                            type="button"
-                            className="btn"
-                            onClick={this.handleCloseTask.bind(this)}>
-                            Close {work_type}
-                          </button>
-                        : null}
-                      {can_pay
-                        ? <Link
-                            to={`/work/${task.id}/${task.payment_approved
+                {is_admin_or_owner?(
+                  <span>
+                    {can_pay
+                      ? <Link
+                      to={`/work/${task.id}/${task.payment_approved
                               ? 'pay'
                               : 'invoice'}/`}
-                            className="btn"
-                            id="make-payment-btn">
-                            {task.payment_approved
-                              ? 'Make payment'
-                              : 'Generate Invoice'}
-                          </Link>
-                        : null}
-                      {can_rate
-                        ? <Link
-                            to={`/work/${task.id}/rate/`}
-                            className="btn"
-                            id="rate-developers-btn">
-                            Rate Developers
-                          </Link>
-                        : null}
+                      className="btn"
+                      id="make-payment-btn">
+                      {task.payment_approved
+                        ? 'Make payment'
+                        : 'Generate Invoice'}
+                    </Link>
+                      : null}
+                    {can_rate
+                      ? <Link
+                      to={`/work/${task.id}/rate/`}
+                      className="btn"
+                      id="rate-developers-btn">
+                      Rate Developers
+                    </Link>
+                      : null}
+                  </span>
+                ):null}
+              </span>
+                : null}
+            </div>
 
-                      {is_admin_or_owner_or_pm
-                        ? <div
-                            className="dropdown"
-                            style={{display: 'inline-block'}}>
-                            <button
-                              className="btn"
-                              type="button"
-                              id="chat-overflow"
-                              data-toggle="dropdown"
-                              aria-haspopup="true"
-                              aria-expanded="true">
-                              {work_type} actions{' '}
-                              <i className="fa fa-ellipsis-v" id="menu-btn" />
-                            </button>
-                            <ul
-                              className="dropdown-menu dropdown-menu-right"
-                              aria-labelledby="chat-overflow">
-                              {is_admin_or_owner_or_pm
-                                ? [
-                                    <li>
-                                      <Link
-                                        to={`/work/${task.id}/edit/title`}
-                                        className="btn">
-                                        Edit {work_type} title
-                                      </Link>
-                                    </li>,
-                                    <li>
-                                      <Link
-                                        to={`/work/${task.id}/edit/description`}
-                                        className="btn">
-                                        Edit {work_type} description
-                                      </Link>
-                                    </li>,
-                                    task.is_developer_ready && is_admin_or_owner
-                                      ? <li>
-                                          <Link
-                                            to={`/work/${task.id}/edit/fee`}
-                                            className="btn">
-                                            Edit the fee for the {work_type}
-                                          </Link>
-                                        </li>
-                                      : null,
-                                    <li>
-                                      <Link
-                                        to={`/work/${task.id}/edit/deadline`}
-                                        className="btn">
-                                        Edit deadline
-                                      </Link>
-                                    </li>,
-                                    <li>
-                                      <Link
-                                        to={`/work/${task.id}/edit/skills`}
-                                        className="btn">
-                                        Add skills
-                                      </Link>
-                                    </li>,
-                                    isAdmin() || is_pm
-                                      ?
-                                        <li>
-                                          <Link
-                                            to={`/work/${task.id}/edit/owner`}
-                                            className="btn">
-                                            {task.owner?'Change':'Add'} Project Owner
-                                          </Link>
-                                        </li>
-                                      : null,
-                                    isAdmin() && task.is_project
-                                      ? <li>
-                                          <Link
-                                            to={`/work/${task.id}/edit/pm`}
-                                            className="btn">
-                                            {task.pm?'Change':'Assign a'} Project Manager
-                                          </Link>
-                                        </li>
-                                      : null,
-                                    task.is_developer_ready
-                                      ? <li>
-                                          <Link
-                                            to={`/work/${task.id}/edit/developers`}
-                                            className="btn">
-                                            Add another developer to this{' '}
-                                            {work_type}
-                                          </Link>
-                                        </li>
-                                      : null,
-                                    task.is_developer_ready && !task.parent
-                                      ? <li>
-                                          <Link
-                                            to={`/work/${task.id}/edit/milestone`}
-                                            className="btn">
-                                            Add a milestone
-                                          </Link>
-                                        </li>
-                                      : null,
-                                    task.is_developer_ready &&
-                                    !task.closed &&
-                                    is_admin_or_owner
-                                      ? <li>
-                                          {task.apply
-                                            ? <button
-                                                type="button"
-                                                className="btn "
-                                                onClick={this.handleCloseApplications.bind(
-                                                  this,
-                                                )}>
-                                                Close applications
-                                              </button>
-                                            : <button
-                                                type="button"
-                                                className="btn "
-                                                onClick={this.handleOpenApplications.bind(
-                                                  this,
-                                                )}>
-                                                Open applications
-                                              </button>}
-                                        </li>
-                                      : null,
-                                    task.is_developer_ready &&
-                                    task.closed &&
-                                    !task.paid && is_admin_or_owner
-                                      ? <li>
-                                          <button
-                                            type="button"
-                                            className="btn"
-                                            onClick={this.handleOpenTask.bind(
-                                              this,
-                                            )}>
-                                            Open {work_type}
-                                          </button>
-                                        </li>
-                                      : null,
-                                    task.is_developer_ready &&
-                                    task.closed &&
-                                    !task.paid &&
-                                    isAdmin()
-                                      ? <li>
-                                          <button
-                                            type="button"
-                                            className="btn"
-                                            onClick={this.handleMarkPaid.bind(
-                                              this,
-                                            )}>
-                                            Mark as paid
-                                          </button>
-                                        </li>
-                                      : null,
-                                    <li>
-                                      <button
-                                        type="button"
-                                        className="btn"
-                                        onClick={this.handleDeleteTask.bind(
-                                          this,
-                                        )}>
-                                        <i className="fa fa-trash-o" /> Delete{' '}
-                                        {work_type}
-                                      </button>
-                                    </li>,
-                                  ]
-                                : null}
-                            </ul>
-                          </div>
-                        : null}
-                    </div>
-                  : null}
-                {task.is_developer_ready &&
-                !task.closed &&
-                task.is_participant &&
-                task.my_participation &&
-                task.my_participation.status == STATUS_INITIAL
-                  ? <div className="pull-right">
-                      <button
-                        type="button"
-                        className="btn"
-                        onClick={this.handleAcceptTask.bind(this)}>
-                        Accept task
-                      </button>
-                      <button
-                        type="button"
-                        className="btn"
-                        onClick={this.handleRejectTask.bind(this)}>
-                        Reject task
-                      </button>
-                    </div>
-                  : null}
-              </div>
-            : null}
-
-          <div className="pull-right" style={{width: '30%'}}>
-            {task.is_developer_ready && is_admin_or_owner && !task.parent
-              ? <ul className="integration-options pull-right">
-                  <li id="github-btn">
-                    <Link
-                      to={`/work/${task.id}/integrations/${SOCIAL_PROVIDERS.github}`}
-                      activeClassName="active"
-                      title="GitHub">
-                      <i className="fa fa-github" />
-                    </Link>
-                  </li>
-                  <li id="slack-btn">
-                    <Link
-                      to={`/work/${task.id}/integrations/${SOCIAL_PROVIDERS.slack}`}
-                      activeClassName="active"
-                      title="Slack">
-                      <i className="fa fa-slack" />
-                    </Link>
-                  </li>
-                  <li id="trello-btn">
-                    <Link
-                      to={`/work/${task.id}/edit/${SOCIAL_PROVIDERS.trello}`}
-                      activeClassName="active"
-                      title="Trello">
-                      <i className="fa fa-trello" />
-                    </Link>
-                  </li>
-                  <li id="google-drive-btn">
-                    <Link
-                      to={`/work/${task.id}/edit/${SOCIAL_PROVIDERS[
+            <div className="pull-right">
+              {is_admin_or_owner && !task.parent
+                ? <ul className="integration-options pull-right">
+                <li id="github-btn">
+                  <Link
+                    to={`/work/${task.id}/integrations/${SOCIAL_PROVIDERS.github}`}
+                    activeClassName="active"
+                    title="GitHub">
+                    <i className="fa fa-github" />
+                  </Link>
+                </li>
+                <li id="slack-btn">
+                  <Link
+                    to={`/work/${task.id}/integrations/${SOCIAL_PROVIDERS.slack}`}
+                    activeClassName="active"
+                    title="Slack">
+                    <i className="fa fa-slack" />
+                  </Link>
+                </li>
+                <li id="trello-btn">
+                  <Link
+                    to={`/work/${task.id}/edit/${SOCIAL_PROVIDERS.trello}`}
+                    activeClassName="active"
+                    title="Trello">
+                    <i className="fa fa-trello" />
+                  </Link>
+                </li>
+                <li id="google-drive-btn">
+                  <Link
+                    to={`/work/${task.id}/edit/${SOCIAL_PROVIDERS[
                         'google-drive'
                       ]}`}
-                      activeClassName="active"
-                      title="Google Drive">
-                      <i className="tunga-icon-google-drive" />
-                    </Link>
-                  </li>
-                </ul>
-              : <span>&nbsp;</span>}
+                    activeClassName="active"
+                    title="Google Drive">
+                    <i className="tunga-icon-google-drive" />
+                  </Link>
+                </li>
+              </ul>
+                : <span>&nbsp;</span>}
+            </div>
+
+            {task.is_developer_ready &&
+            !task.closed &&
+            task.is_participant &&
+            task.my_participation &&
+            task.my_participation.status == STATUS_INITIAL
+              ? <div className="pull-right">
+              <button
+                type="button"
+                className="btn"
+                onClick={this.handleAcceptTask.bind(this)}>
+                Accept {work_type}
+              </button>
+              <button
+                type="button"
+                className="btn"
+                onClick={this.handleRejectTask.bind(this)}>
+                Reject {work_type}
+              </button>
+            </div>
+              : null}
           </div>
 
-          <div className="pull-right">
+          <Timeline
+            task={task}
+            start={task.created_at}
+            end={task.deadline}
+            events={task.progress_events}
+            openMilestone={this.openMilestone.bind(this)} />
+
+          <div className="clearfix">
             <div
-              className={`dropdown activity-filter ${this.state.showFilter
+              className={`activity-filter ${this.state.showFilter
                 ? 'open'
                 : ''}`}
               onClick={() => {
                 this.setState({showFilter: !this.state.showFilter});
               }}>
-              <button className="btn filter-btn dropdown-toggle">
+              <button className="btn filter-btn">
                 <i className="tunga-icon-filter" />
               </button>
-              <div className="dropdown-menu">
+              <div className="switches">
                 <div>
-                  Messages{' '}
                   <i
                     className={`switch fa fa-toggle-${this.state.messages
                       ? 'on'
                       : 'off'}`}
                     onClick={this.onToggleFilter.bind(this, 'messages')}
                   />
+                  <span>Messages</span>
                 </div>
                 <div>
-                  Notifications{' '}
                   <i
                     className={`switch fa fa-toggle-${this.state.notifications
                       ? 'on'
                       : 'off'}`}
                     onClick={this.onToggleFilter.bind(this, 'notifications')}
                   />
+                  <span>Notifications</span>
                 </div>
                 <div>
-                  Files{' '}
+                  <i
+                    className={`switch fa fa-toggle-${this.state.progress_reports
+                      ? 'on'
+                      : 'off'}`}
+                    onClick={this.onToggleFilter.bind(this, 'progress_reports')}
+                  />
+                  <span>Progress Reports</span>
+                </div>
+                <div>
                   <i
                     className={`switch fa fa-toggle-${this.state.files
                       ? 'on'
                       : 'off'}`}
                     onClick={this.onToggleFilter.bind(this, 'files')}
                   />
+                  <span>Files</span>
                 </div>
               </div>
             </div>
@@ -883,6 +865,7 @@ export default class TaskWorflow extends ComponentWithModal {
                     loadMoreText="Show older activity"
                     showMessages={this.state.messages}
                     showNotifications={this.state.notifications}
+                    showProgressReports={this.state.progress_reports}
                     showFiles={this.state.files}
                   />
                 </div>
@@ -904,38 +887,205 @@ export default class TaskWorflow extends ComponentWithModal {
           </div>
 
           <div className="sidebox" id="sidebox">
-            <div className="overview-details">
-              <div className="wrapper">
-                <Timeline
-                  task={task}
-                  start={task.created_at}
-                  end={task.deadline}
-                  events={task.progress_events}
-                  openMilestone={this.openMilestone.bind(this)}>
-                  <div className="pledge">
-                    {task.display_fee}
+            <div className={`overview-details ${this.state.sideSection == 'team'?'on':''}`}>
+              <div>
+                <Link to={workflow_link} className="title" onClick={this.toggleSideSection.bind(this, 'team')}>
+                  <i className="fa fa-chevron-right"/><i className="fa fa-chevron-down"/> Team
+                </Link>
+              </div>
+
+              <div className="content">
+                <div className="clearfix">
+                  <div>{task.is_project?'Project':'Task'} Owner</div>
+                  <div>
+                    {task.owner && task.details && task.details.owner
+                      ? <span>
+                  <Avatar src={task.details.owner.avatar_url} title={task.details.owner.display_name} url={`/people/${task.details.owner.username}/`}/>
+                </span>
+                      : <span>
+                  <Avatar src={task.user.avatar_url} />{' '}
+                  <Link to={`/people/${task.user.username}/`}>
+                    {task.user.display_name}
+                  </Link>
+                </span>}
+                    {isAdmin() || is_pm
+                      ?
+                      <Link
+                        to={`/work/${task.id}/edit/owner`}
+                        className="btn btn-borderless">
+                        <i className="fa fa-pencil-square-o edit-icon"/>
+                      </Link>
+                      : null}
                   </div>
+                </div>
 
-                  {task.deadline
-                    ? <div className="deadline">
-                        <i className="fa fa-clock-o fa-2x" />{' '}
-                        <span className="bold">
-                          {moment
-                            .utc(task.deadline)
-                            .local()
-                            .format("Do MMM 'YY")}
+                {task.details &&
+                task.details.admins &&
+                task.details.admins.length
+                  ? <div className="clearfix">
+                  <div>Administrators</div>
+                  <div>
+                    {task.details.admins.map(user => {
+                      return (
+                        <span>
+                        <Avatar src={user.avatar_url} title={user.display_name} url={`/people/${user.username}/`}/>
+                      </span>
+                      );
+                    })}
+                  </div>
+                </div>
+                  : null}
+
+                {task.is_project?(
+                  <div>
+                    {task.pm && task.details && task.details.pm
+                      ? <div>
+                  <div>Project Manager</div>
+                  <div>
+                    <span>
+                      <Avatar src={task.details.pm.avatar_url} title={task.details.pm.display_name} url={`/people/${task.details.pm.username}`}/>
+                    </span>
+                    {isAdmin()
+                      ? <Link
+                      to={`/work/${task.id}/edit/pm`}
+                      className="btn btn-borderless">
+                      <i className={`edit-icon ${task.pm?'fa fa-pencil-square-o':'tunga-icon-create'}`}/>
+                    </Link>
+                      : null}
+                  </div>
+                </div>
+                      : null}
+                  </div>
+                ):null}
+
+
+                {task.is_developer_ready?(
+                  <div>
+                    <div>
+                      <div>Developers</div>
+                      <div>
+                        {approved_devs.map(participant => {
+                          return (
+                            <span
+                              className="collaborator"
+                              key={participant.id}>
+                          <Avatar src={participant.avatar_url} title={participant.display_name} url={`/people/${participant.username}/`}/>
                         </span>
+                          )
+                        })}
+                        <Link
+                          to={`/work/${task.id}/edit/developers`}
+                          className="btn btn-borderless">
+                          <i className="edit-icon tunga-icon-create"/>
+                        </Link>
                       </div>
-                    : null}
-                </Timeline>
+                    </div>
 
-                <div className="task-info">
-                  {task.description
-                    ? <div>
-                        <strong>Description</strong>
-                        <div className="description">
-                          <div
-                            dangerouslySetInnerHTML={{
+                    {invited_devs.length?(
+                      <div>
+                        <div>Pending Invitations</div>
+                        <div>
+                          {invited_devs.map(participant => {
+                            return (
+                              <span
+                                className="collaborator"
+                                key={participant.id}>
+                          <Avatar src={participant.avatar_url} title={participant.display_name} url={`/people/${participant.username}/`}/>
+                        </span>
+                            )
+                          })}
+                        </div>
+                      </div>
+                    ):null}
+                  </div>
+                ):null}
+
+              </div>
+            </div>
+
+            <div className={`overview-details ${this.state.sideSection == 'details'?'on':''}`}>
+              <div className="clearfix">
+                <Link to={workflow_link} className="title" onClick={this.toggleSideSection.bind(this, 'details')}>
+                  <i className="fa fa-chevron-right"/><i className="fa fa-chevron-down"/> {task.is_project?'Project':'Task'} details
+                </Link>
+                <div className="overview-dropdown pull-right">
+                  {is_admin_or_owner_or_pm
+                    ? <div className="dropdown">
+                    <button
+                      className="btn btn-borderless"
+                      type="button"
+                      id="chat-overflow"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="true">
+                      <i className="fa fa-pencil-square-o"/>
+                    </button>
+                    <ul
+                      className="dropdown-menu dropdown-menu-right"
+                      aria-labelledby="chat-overflow">
+                      {is_admin_or_owner_or_pm
+                        ? [
+                        <li>
+                          <Link
+                            to={`/work/${task.id}/edit/title`}
+                            className="btn">
+                            Edit {work_type} title
+                          </Link>
+                        </li>,
+                        <li>
+                          <Link
+                            to={`/work/${task.id}/edit/description`}
+                            className="btn">
+                            Edit {work_type} description
+                          </Link>
+                        </li>,
+                        task.is_developer_ready && is_admin_or_owner
+                          ? <li>
+                          <Link
+                            to={`/work/${task.id}/edit/fee`}
+                            className="btn">
+                            Edit the fee for the {work_type}
+                          </Link>
+                        </li>
+                          : null,
+                        <li>
+                          <Link
+                            to={`/work/${task.id}/edit/deadline`}
+                            className="btn">
+                            Edit deadline
+                          </Link>
+                        </li>,
+                        <li>
+                          <Link
+                            to={`/work/${task.id}/edit/skills`}
+                            className="btn">
+                            Add skills
+                          </Link>
+                        </li>,
+                        task.is_developer_ready && !task.parent
+                          ? <li>
+                          <Link
+                            to={`/work/${task.id}/edit/milestone`}
+                            className="btn">
+                            Add a milestone
+                          </Link>
+                        </li>
+                          : null
+                      ]
+                        : null}
+                    </ul>
+                  </div>
+                    : null}
+                </div>
+              </div>
+
+              <div className="content">
+                {task.description
+                  ? <div>
+                  <strong>About</strong>
+                  <div className="description">
+                    <div
+                      dangerouslySetInnerHTML={{
                               __html: nl_to_br(
                                 renderToString(
                                   <Linkify properties={{target: '_blank'}}>
@@ -944,71 +1094,42 @@ export default class TaskWorflow extends ComponentWithModal {
                                 ),
                               ),
                             }}
-                          />
-                        </div>
-                      </div>
-                    : null}
-
-                  <strong>Posted by</strong>
-                  <div>
-                    <Avatar src={task.user.avatar_url} />{' '}
-                    <Link to={`/people/${task.user.username}/`}>
-                      {task.user.display_name}
-                    </Link>
+                    />
                   </div>
+                </div>
+                  : null}
 
-                  {task.owner && task.details && task.details.owner
-                    ? <div>
-                        <strong>Project Owner</strong>
-                        <div>
-                          <Avatar src={task.details.owner.avatar_url} />{' '}
-                          <Link to={`/people/${task.details.owner.username}/`}>
-                            {task.details.owner.display_name}
-                          </Link>
-                        </div>
-                      </div>
-                    : null}
+                {task.display_fee?(
+                  <div>
+                    <strong>Fee</strong>
+                    <div className="pledge">
+                      {task.display_fee}
+                    </div>
+                  </div>
+                ):null}
 
-                  {task.details &&
-                  task.details.admins &&
-                  task.details.admins.length
-                    ? <div>
-                        <strong>Administrators</strong>
-                        {task.details.admins.map(user => {
-                          return (
-                            <div>
-                              <Avatar src={user.avatar_url} />{' '}
-                              <Link to={`/people/${user.username}/`}>
-                                {user.display_name}
-                              </Link>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    : null}
-
-                  {task.schedule_call_start
-                    ? <div>
-                        <strong>Call Window:</strong>
-                        <div>
-                          <i className="fa fa-calendar-o" />{' '}
+                {task.schedule_call_start
+                  ? <div>
+                  <strong>Call Window:</strong>
+                  <div>
+                    <i className="fa fa-calendar-o" />{' '}
                           <span>
                             {moment
                               .utc(task.schedule_call_start)
                               .local()
                               .format("Do MMM 'YY")}
                           </span>
-                        </div>
-                        <div>
-                          <i className="fa fa-clock-o" />{' '}
+                  </div>
+                  <div>
+                    <i className="fa fa-clock-o" />{' '}
                           <span>
                             {moment
                               .utc(task.schedule_call_start)
                               .local()
                               .format('hh:mm A')}
                           </span>
-                          {task.schedule_call_end
-                            ? <span>
+                    {task.schedule_call_end
+                      ? <span>
                                 {' - '}
                                 <span>
                                   {moment
@@ -1017,165 +1138,107 @@ export default class TaskWorflow extends ComponentWithModal {
                                     .format('hh:mm A')}
                                 </span>
                               </span>
-                            : null}
-                        </div>
-                      </div>
-                    : null}
+                      : null}
+                  </div>
+                </div>
+                  : null}
 
-                  {task.pm && task.details && task.details.pm
-                    ? <div>
-                        <strong>Project Manager</strong>
-                        <div>
-                          <Avatar src={task.details.pm.avatar_url} />{' '}
-                          <Link to={`/people/${task.details.pm.username}/`}>
-                            {task.details.pm.display_name}
-                          </Link>
-                        </div>
-                      </div>
-                    : null}
-
-                  {task.assignee
-                    ? <div>
-                        <strong>Assignee</strong>
-                        <div className="collaborator">
-                          <Avatar src={task.assignee.user.avatar_url} />
-                          <Link to={`/people/${task.assignee.user.username}/`}>
-                            {task.assignee.user.display_name}
-                          </Link>
-                          <span className="status">
-                            {task.assignee.status == STATUS_ACCEPTED
-                              ? <i className="fa fa-check-circle accepted" />
-                              : '[Invited]'}
-                          </span>
-                        </div>
-                      </div>
-                    : null}
-
-                  {task.details &&
-                  task.details.participation &&
-                  task.details.participation.length > (task.assignee ? 1 : 0)
-                    ? <div>
-                        <strong>Developers</strong>
-                        {task.details.participation.map(participation => {
-                          const participant = participation.user;
-                          return (!task.assignee ||
-                            participant.id != task.assignee.user.id) &&
-                          participation.status != STATUS_REJECTED
-                            ? <div
-                                className="collaborator"
-                                key={participant.id}>
-                                <Avatar src={participant.avatar_url} />
-                                <Link to={`/people/${participant.username}/`}>
-                                  {participant.display_name}
-                                </Link>
-                                <span className="status">
-                                  {participation.status == STATUS_ACCEPTED
-                                    ? <i className="fa fa-check-circle accepted" />
-                                    : '[Invited]'}
-                                </span>
-                              </div>
-                            : null;
-                        })}
-                      </div>
-                    : null}
-
-                  {task.url
-                    ? <div>
-                        <strong>
-                          <i className="tunga-icon-web-alt" /> Code Location
-                        </strong>
-                        <p>
-                          <a href={task.url} target="_blank">
-                            {task.url}
-                          </a>
-                        </p>
-                      </div>
-                    : null}
-                  {task.details && task.details.skills.length
-                    ? <div>
-                        <strong>Skills/ Products</strong>
-                        <TagList
-                          tags={task.details.skills}
-                          max={3}
-                          linkPrefix="/work/skill/"
-                          moreLink={`/work/${task.id}/`}
-                        />
-                      </div>
-                    : null}
-                  {task.trello_board_url
-                    ? <div>
-                        <strong>
-                          <i className="fa fa-trello trello" /> Trello board
-                        </strong>
-                        <p>
-                          <a href={task.trello_board_url} target="_blank">
-                            {task.trello_board_url}
-                          </a>
-                        </p>
-                      </div>
-                    : null}
-                  {task.google_drive_url
-                    ? <div>
-                        <strong>
-                          <i className="tunga-icon-google-drive google" />{' '}
-                          Google Drive
-                        </strong>
-                        <p>
-                          <a href={task.google_drive_url} target="_blank">
-                            {task.google_drive_url}
-                          </a>
-                        </p>
-                      </div>
-                    : null}
-                  {task.milestones.length
-                    ? <div>
-                        <strong>Milestones</strong>
-                        {task.milestones.map(milestone => {
-                          return (
-                            <div key={milestone.id}>
-                              <Link
-                                to={`/work/${task.id}/event/${milestone.id}`}>
-                                <i
-                                  className={
+                {task.url
+                  ? <div>
+                  <strong>
+                    <i className="tunga-icon-web-alt" /> Code Location
+                  </strong>
+                  <p>
+                    <a href={task.url} target="_blank">
+                      {task.url}
+                    </a>
+                  </p>
+                </div>
+                  : null}
+                {task.details && task.details.skills.length
+                  ? <div>
+                  <strong>Stack</strong>
+                  <TagList
+                    tags={task.details.skills}
+                    max={3}
+                    linkPrefix="/work/skill/"
+                    moreLink={`/work/${task.id}/`}
+                  />
+                </div>
+                  : null}
+                {task.trello_board_url
+                  ? <div>
+                  <strong>
+                    <i className="fa fa-trello trello" /> Trello board
+                  </strong>
+                  <p>
+                    <a href={task.trello_board_url} target="_blank">
+                      {task.trello_board_url}
+                    </a>
+                  </p>
+                </div>
+                  : null}
+                {task.google_drive_url
+                  ? <div>
+                  <strong>
+                    <i className="tunga-icon-google-drive google" />{' '}
+                    Google Drive
+                  </strong>
+                  <p>
+                    <a href={task.google_drive_url} target="_blank">
+                      {task.google_drive_url}
+                    </a>
+                  </p>
+                </div>
+                  : null}
+                {task.milestones.length
+                  ? <div>
+                  <strong>Milestones</strong>
+                  {task.milestones.map(milestone => {
+                    return (
+                      <div key={milestone.id}>
+                        <Link
+                          to={`/work/${task.id}/event/${milestone.id}`}>
+                          <i
+                            className={
                                     'fa fa-flag' +
                                     (milestone.type == 4 ? '-checkered' : '-o')
                                   }
-                                />{' '}
-                                {milestone.title}
+                          />{' '}
+                          {milestone.title}
                                 <span style={{marginLeft: '5px'}}>
                                   {moment
                                     .utc(milestone.due_at)
                                     .local()
                                     .format('Do, MMMM YYYY')}
                                 </span>
-                              </Link>
-                            </div>
-                          );
-                        })}
+                        </Link>
                       </div>
-                    : null}
-
-                  {[
-                    {key: 'deliverables', title: 'Deliverables'},
-                    {key: 'stack_description', title: 'Technology Stack'},
-                  ].map(item => {
-                    if (task[item.key]) {
-                      return (
-                        <div>
-                          <strong>
-                            {item.title}
-                          </strong>
-                          <div>
-                            <Linkify properties={{target: '_blank'}}>
-                              {task[item.key]}
-                            </Linkify>
-                          </div>
-                        </div>
-                      );
-                    }
-                    return null;
+                    );
                   })}
                 </div>
+                  : null}
+
+                {[
+                  {key: 'deliverables', title: 'Deliverables'},
+                  {key: 'stack_description', title: 'Technology Stack'},
+                ].map(item => {
+                  if (task[item.key]) {
+                    return (
+                      <div>
+                        <strong>
+                          {item.title}
+                        </strong>
+                        <div>
+                          <Linkify properties={{target: '_blank'}}>
+                            {task[item.key]}
+                          </Linkify>
+                        </div>
+                      </div>
+                    );
+                  }
+                  return null;
+                })}
               </div>
             </div>
           </div>
