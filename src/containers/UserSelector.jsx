@@ -39,9 +39,9 @@ class UserSelector extends React.Component {
       onChange,
       selected,
       deselected,
+      returnObjects
     } = this.props;
-    const selections =
-      UserSelection.selected.ids[this.state.selection_key] || [];
+    const selections = UserSelection.selected.ids[this.state.selection_key] || [];
 
     var can_publish = true;
     if (
@@ -74,7 +74,12 @@ class UserSelector extends React.Component {
         selections &&
       onChange
     ) {
-      onChange(selections);
+      const selection_objects_map = UserSelection.selected.users[this.state.selection_key] || {};
+      const selection_objects =
+        Object.keys(selection_objects_map).map(key => {
+          return selection_objects_map[key];
+        });
+      onChange(returnObjects?selection_objects:selections);
     }
   }
 
@@ -219,10 +224,12 @@ UserSelector.propTypes = {
   canRemove: React.PropTypes.bool,
   deselected: React.PropTypes.array,
   unremovable: React.PropTypes.array,
+  returnObjects: React.PropTypes.bool,
 };
 
 UserSelector.defaultProps = {
   canRemove: true,
+  returnObjects: false
 };
 
 export default connect(UserSelector);

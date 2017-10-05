@@ -341,6 +341,14 @@ export default class TaskWorflow extends ComponentWithModal {
     return devs;
   }
 
+  getLatestSprint() {
+    const {task, Task, TaskActions} = this.props;
+    if(task.sprints && task.sprints.length) {
+      return task.sprints[0];
+    }
+    return null;
+  }
+
   render() {
     const {task, Task, TaskActions} = this.props;
     const {uploads} = Task.detail;
@@ -369,7 +377,8 @@ export default class TaskWorflow extends ComponentWithModal {
 
     let is_project_task = task && task.parent;
     let approved_devs = this.getApprovedDevelopers(),
-      invited_devs = this.getInvitedDevelopers();
+      invited_devs = this.getInvitedDevelopers(),
+      latestSprint = this.getLatestSprint();
 
     let steps = [
       ...steps,
@@ -665,6 +674,10 @@ export default class TaskWorflow extends ComponentWithModal {
                   : null}
               </span>
                 : null}
+
+              <Link to={`/work/${task.id}/planning/${latestSprint && latestSprint.id?latestSprint.id:''}`} className="btn">
+                Planning
+              </Link>
 
               {is_admin_or_owner_or_pm ||
               task.is_admin ||

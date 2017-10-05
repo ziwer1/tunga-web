@@ -36,7 +36,7 @@ export default class QuoteDetail extends React.Component {
     if (this.props.Quote.detail.isSaved && !prevProps.Quote.detail.isSaved) {
       if (Quote.detail.quote.status == STATUS_ACCEPTED) {
         const {router} = this.context;
-        window.location.href = `/work/${Quote.detail.quote.task}/quote/${Quote
+        window.location.href = `/work/${Quote.detail.quote.task}/planning/${Quote
           .detail.quote.id}`;
       }
     }
@@ -92,102 +92,57 @@ export default class QuoteDetail extends React.Component {
     let payDetails = getPayDetails(quote.activities);
 
     return (
-      <div className="estimate-presentation">
-        <FormStatus
-          loading={Quote.detail.isSaving}
-          success={Quote.detail.isSaved}
-          message={'Quote saved successfully'}
-          error={Quote.detail.error.create}
-        />
+      <div>
+        <div className="estimate-presentation">
+          <FormStatus
+            loading={Quote.detail.isSaving}
+            success={Quote.detail.isSaved}
+            message={'Sprint saved successfully'}
+            error={Quote.detail.error.create}
+          />
 
-        <div className="pull-right">
-          <a
-            href={`${ENDPOINT_TASK}${quote.task}/download/estimate?format=pdf`}
-            className="btn btn-primary"
-            target="_blank">
-            <i className="fa fa-file-pdf-o" /> Download Pdf
-          </a>
-        </div>
+          <div className="sprint-card">
+            <div className="title">
+              {quote.title}
+            </div>
 
-        <div className="form-group">
-          <h4>Introduction:</h4>
-          <div>
-            {quote.introduction}
-          </div>
-        </div>
+            <div className="content">
 
-        <h4>Scope:</h4>
-        <div className="form-group">
-          <h5>In scope:</h5>
-          <div>
-            {quote.in_scope}
-          </div>
-        </div>
+              <div className="form-group">
+                <div className="row">
+                  <div className="col-md-6">
+                    <h5>Start Date</h5>
+                    {moment.utc(quote.start_date).local().format('Do, MMMM YYYY')}
+                  </div>
+                  <div className="col-md-6">
+                    <h5>End Date</h5>
+                    {moment.utc(quote.end_date).local().format('Do, MMMM YYYY')}
+                  </div>
+                </div>
+              </div>
 
-        <div className="form-group">
-          <h5>Out of scope:</h5>
-          <div>
-            {quote.out_scope}
-          </div>
-        </div>
+              <div className="form-group">
+                <h5>Introduction</h5>
+                <p>
+                  {quote.introduction}
+                </p>
+              </div>
 
-        <div className="form-group">
-          <h5>Assumptions:</h5>
-          <div>
-            {quote.assumptions}
-          </div>
-        </div>
-
-        <div className="form-group">
-          <h5>Deliverables:</h5>
-          <div>
-            {quote.deliverables}
-          </div>
-        </div>
-
-        <h4>Solution:</h4>
-        <div className="form-group">
-          <h5>Architecture:</h5>
-          <div>
-            {quote.architecture}
-          </div>
-        </div>
-
-        <div className="form-group">
-          <h5>Technology:</h5>
-          <div>
-            {quote.technology}
-          </div>
-        </div>
-
-        <h4>Methodology</h4>
-        <div className="form-group">
-          <h5>Process:</h5>
-          <div>
-            {quote.process}
-          </div>
-        </div>
-
-        <div className="form-group">
-          <h5>Reporting:</h5>
-          <div>
-            {quote.reporting}
-          </div>
-        </div>
-
-        <div className="form-group">
-          <h4>Activities:</h4>
-          {quote.activities && quote.activities.length
-            ? <Table>
-                <thead>
+              <div className="form-group">
+                <h5>Activities:</h5>
+                {quote.activities && quote.activities.length
+                  ? <Table>
+                  <thead>
                   <tr>
                     <th>Title</th>
                     <th>Hours</th>
                     {isAdminOrProjectOwner() ? <th>Fee</th> : null}
                     <th>Description</th>
+                    <th>Assignee</th>
+                    <th>Status</th>
                   </tr>
-                </thead>
-                <tbody>
+                  </thead>
+                  <tbody>
                   {quote.activities.map((activity, idx) => {
                     return (
                       <tr>
@@ -199,19 +154,25 @@ export default class QuoteDetail extends React.Component {
                         </td>
                         {isAdminOrProjectOwner()
                           ? <td>
-                              €{parseNumber(DEVELOPER_FEE * activity.hours)}
-                            </td>
+                          €{parseNumber(DEVELOPER_FEE * activity.hours)}
+                        </td>
                           : null}
                         <td>
                           {activity.description}
                         </td>
+                        <td>
+                          {activity.assignee?activity.assignee.display_name:''}
+                        </td>
+                        <td>
+                          <i className={`fa ${activity.completed?'fa-check-square-o':''}`}/>
+                        </td>
                       </tr>
                     );
                   })}
-                </tbody>
-                <tfoot>
+                  </tbody>
+                  <tfoot>
                   <tr>
-                    <th colSpan="4">Sub Totals</th>
+                    <th colSpan="6">Sub Totals</th>
                   </tr>
                   <tr>
                     <th>Development</th>
@@ -220,9 +181,11 @@ export default class QuoteDetail extends React.Component {
                     </th>
                     {isAdminOrProjectOwner()
                       ? <th>
-                          €{payDetails.dev.fee}
-                        </th>
+                      €{payDetails.dev.fee}
+                    </th>
                       : null}
+                    <th />
+                    <th />
                     <th />
                   </tr>
                   <tr>
@@ -232,9 +195,11 @@ export default class QuoteDetail extends React.Component {
                     </th>
                     {isAdminOrProjectOwner()
                       ? <th>
-                          €{payDetails.pm.fee}
-                        </th>
+                      €{payDetails.pm.fee}
+                    </th>
                       : null}
+                    <th />
+                    <th />
                     <th />
                   </tr>
                   <tr>
@@ -244,115 +209,32 @@ export default class QuoteDetail extends React.Component {
                     </th>
                     {isAdminOrProjectOwner()
                       ? <th>
-                          €{payDetails.total.fee}
-                        </th>
+                      €{payDetails.total.fee}
+                    </th>
                       : null}
                     <th />
+                    <th />
+                    <th />
                   </tr>
-                </tfoot>
-              </Table>
-            : null}
-        </div>
-
-        <div className="form-group">
-          <h4>Planning:</h4>
-
-          {quote.plan && quote.plan.length
-            ? <Table>
-                <thead>
-                  <tr>
-                    <th>Milestone</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {quote.plan.map((milestone, idx) => {
-                    return (
-                      <tr>
-                        <td>
-                          {milestone.title}
-                        </td>
-                        <td>
-                          {moment
-                            .utc(milestone.start_date)
-                            .local()
-                            .format('Do, MMMM YYYY')}
-                        </td>
-                        <td>
-                          {moment
-                            .utc(milestone.end_date)
-                            .local()
-                            .format('Do, MMMM YYYY')}
-                        </td>
-                        <td>
-                          {milestone.description}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </Table>
-            : null}
-        </div>
-
-        <div className="text-center clearfix">
-          {canEditQuote(task)
-            ? <div>
-                <Link
-                  to={`/work/${quote.task}/quote/${quote.id}/edit`}
-                  className="btn">
-                  Edit Quote
-                </Link>
-                {quote.user && quote.user.id == getUser().id
-                  ? <button
-                      type="submit"
-                      className="btn"
-                      disabled={Quote.detail.isSaving}
-                      onClick={this.onChangeStatus.bind(
-                        this,
-                        STATUS_SUBMITTED,
-                      )}>
-                      Submit for Review
-                    </button>
+                  </tfoot>
+                </Table>
                   : null}
               </div>
-            : canModerateQuote(task)
+
+            </div>
+          </div>
+
+          <div className="text-center clearfix">
+            {canEditQuote(task)
               ? <div>
-                  <button
-                    type="submit"
-                    className="btn"
-                    disabled={Quote.detail.isSaving}
-                    onClick={this.onChangeStatus.bind(this, STATUS_APPROVED)}>
-                    Approve
-                  </button>
-                  <button
-                    type="submit"
-                    className="btn"
-                    disabled={Quote.detail.isSaving}
-                    onClick={this.onChangeStatus.bind(this, STATUS_DECLINED)}>
-                    Decline
-                  </button>
-                </div>
-              : canReviewQuote(task)
-                ? <div>
-                    <button
-                      type="submit"
-                      className="btn"
-                      isabled={Quote.detail.isSaving}
-                      onClick={this.onChangeStatus.bind(this, STATUS_ACCEPTED)}>
-                      Accept
-                    </button>
-                    <button
-                      type="submit"
-                      className="btn"
-                      disabled={Quote.detail.isSaving}
-                      onClick={this.onChangeStatus.bind(this, STATUS_REJECTED)}>
-                      Reject
-                    </button>
-                  </div>
-                : null}
+              <Link
+                to={`/work/${quote.task}/planning/${quote.id}/edit`}
+                className="btn">
+                Edit Sprint
+              </Link>
+            </div>
+              : null}
+          </div>
         </div>
       </div>
     );

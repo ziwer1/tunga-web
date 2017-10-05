@@ -249,7 +249,7 @@ let all_routes = (
               </Route>
             </Route>
             <Redirect path="estimate*" to="proposal*" />
-            <Route path="quote" component={QuoteContainer} crumb="Quote">
+            <Route path="planning" component={QuoteContainer} crumb="Planning">
               <IndexRedirect to="new" />
               <Route path="new" component={QuoteForm} />
               <Route path=":quoteId" component={QuoteDetailContainer}>
@@ -257,7 +257,6 @@ let all_routes = (
                 <Route path="edit" component={QuoteForm} />
               </Route>
             </Route>
-            <Route path="quote" component={QuoteForm} crumb="Quote" />
             <Route path="applications">
               <IndexRoute component={ApplicationList} crumb="Applications" />
               <Route path=":applicationId" component={ApplicationDetail} />

@@ -223,18 +223,12 @@ export function isEstimationComplete(task) {
 
 export function canAddQuote(task) {
   return (
-    isEstimationComplete(task) && !task.quote && (isAdmin() || isTaskPM(task))
+    (isEstimationComplete(task) || task.is_developer_ready) && (isAdmin() || isTaskPM(task))
   );
 }
 
 export function canEditQuote(task) {
-  return (
-    task.quote &&
-    ([STATUS_SUBMITTED, STATUS_ACCEPTED, STATUS_APPROVED].indexOf(
-      task.quote.status,
-    ) == -1 &&
-      (isAdmin() || isTaskPM(task)))
-  );
+  return (isAdmin() || isTaskPM(task));
 }
 
 export function canModerateQuote(task) {

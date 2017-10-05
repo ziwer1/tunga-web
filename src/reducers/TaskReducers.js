@@ -38,16 +38,21 @@ function task(state = {}, action) {
       }
       return state;
     case QuoteActions.CREATE_QUOTE_SUCCESS:
+      if (action.quote.task == state.id) {
+        return {
+          ...state,
+          sprints: [...state.sprints, action.quote]
+        };
+      }
+      return state;
     case QuoteActions.UPDATE_QUOTE_SUCCESS:
     case QuoteActions.RETRIEVE_QUOTE_SUCCESS:
       if (action.quote.task == state.id) {
         return {
           ...state,
-          quote: action.quote,
-          is_developer_ready:
-            action.quote.status == STATUS_ACCEPTED
-              ? true
-              : state.is_developer_ready,
+          sprints: state.sprints.map(sprint => {
+            return action.quote.id == sprint.id?action.quote:sprint;
+          })
         };
       }
       return state;

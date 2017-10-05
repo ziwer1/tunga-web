@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import _ from 'lodash';
 import momentLocalizer from 'react-widgets/lib/localizers/moment';
+import DateTimePicker from 'react-widgets/lib/DateTimePicker';
 import {Table} from 'react-bootstrap';
 
 import FormStatus from './status/FormStatus';
@@ -9,7 +10,6 @@ import FieldError from './status/FieldError';
 import ComponentWithModal from './ComponentWithModal';
 import LargeModal from './LargeModal';
 import ActivityForm from './ActivityForm';
-import PlanForm from './PlanForm';
 
 import {
   DEVELOPER_FEE,
@@ -26,13 +26,15 @@ export default class QuoteForm extends ComponentWithModal {
   constructor(props) {
     super(props);
     this.state = {
+      title: '',
       introduction: '',
       activities: [],
-      plan: [],
       modalActivity: null,
       modalContent: null,
       modalTitle: '',
       submitted: false,
+      start_date: null,
+      end_date: null,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -53,19 +55,18 @@ export default class QuoteForm extends ComponentWithModal {
     const quote = this.props.quote || {};
 
     if (this.props.Quote.detail.isSaved && !prevProps.Quote.detail.isSaved) {
-      if (!this.props.quote) {
+      //if (!this.props.quote) {
         const {router} = this.context;
         router.replace(
-          `/work/${Quote.detail.quote.task}/quote/${Quote.detail.quote.id}`,
+          `/work/${Quote.detail.quote.task}/planning/${Quote.detail.quote.id}`,
         );
-      }
+      //}
 
       if (
-        this.props.quote.id != Quote.detail.quote.id ||
-        Quote.detail.quote.status == STATUS_ACCEPTED
+        this.props.quote.id != Quote.detail.quote.id
       ) {
         const {router} = this.context;
-        window.location.href = `/work/${Quote.detail.quote.task}/quote/${Quote
+        window.location.href = `/work/${Quote.detail.quote.task}/planning/${Quote
           .detail.quote.id}`;
       }
 
@@ -151,36 +152,32 @@ export default class QuoteForm extends ComponentWithModal {
     }
   }
 
+  onStartDateChange(date) {
+    this.setState({start_date: moment(date).utc().format()});
+  }
+
+  onEndDateChange(date) {
+    this.setState({end_date: moment(date).utc().format()});
+  }
+
   handleSubmit(e) {
     e.preventDefault();
+    var title = this.state.title;
     var introduction = this.state.introduction;
-    var in_scope = this.state.in_scope;
-    var out_scope = this.state.out_scope;
-    var assumptions = this.state.assumptions;
-    var deliverables = this.state.deliverables;
-    var architecture = this.state.architecture;
-    var technology = this.state.technology;
-    var process = this.state.process;
-    var reporting = this.state.reporting;
     var activities = this.state.activities;
-    var plan = this.state.plan;
+    var start_date = this.state.start_date;
+    var end_date = this.state.end_date;
 
     const {QuoteActions} = this.props;
     const quote = this.props.quote || {};
     const task = this.props.task || {};
 
     let quote_info = {
+      title,
       introduction,
       activities,
-      in_scope,
-      out_scope,
-      assumptions,
-      deliverables,
-      architecture,
-      technology,
-      process,
-      reporting,
-      plan,
+      start_date,
+      end_date
     };
 
     if (!quote.id) {
@@ -211,13 +208,8 @@ export default class QuoteForm extends ComponentWithModal {
                 activity={this.state.modalActivity}
                 onSave={this.onAddActivity.bind(this)}
                 close={this.close.bind(this)}
-              />
-            : null}
-          {this.state.modalContent == 'plan'
-            ? <PlanForm
-                activity={this.state.modalActivity}
-                onSave={this.onAddMilestone.bind(this)}
-                close={this.close.bind(this)}
+                selectUser={true}
+                setStatus={true}
               />
             : null}
         </LargeModal>
@@ -243,9 +235,7 @@ export default class QuoteForm extends ComponentWithModal {
           <FormStatus
             loading={Quote.detail.isSaving}
             success={Quote.detail.isSaved}
-            message={`Quote ${quote.status == STATUS_SUBMITTED
-              ? 'submitted'
-              : 'saved'} successfully`}
+            message="Sprint saved successfully"
             error={Quote.detail.error.create}
           />
 
@@ -255,6 +245,78 @@ export default class QuoteForm extends ComponentWithModal {
           {Quote.detail.error.update && Quote.detail.error.update.message
             ? <FieldError message={Quote.detail.error.update.message} />
             : null}
+
+          {Quote.detail.error.create &&
+          Quote.detail.error.create.title
+            ? <FieldError message={Quote.detail.error.create.title} />
+            : null}
+          {Quote.detail.error.update &&
+          Quote.detail.error.update.title
+            ? <FieldError message={Quote.detail.error.update.title} />
+            : null}
+          <div className="form-group">
+            <label className="control-label">Sprint Name *</label>
+            <textarea
+              className="form-control"
+              onChange={this.onInputChange.bind(this, 'title')}
+              value={this.state.title}
+              ref="title"
+              placeholder="Sprint Name"
+            />
+          </div>
+
+          <div className="row">
+            <div className="col-md-6">
+              {Quote.detail.error.create &&
+              Quote.detail.error.create.start_date
+                ? <FieldError
+                message={Quote.detail.error.create.start_date}
+              />
+                : null}
+              {Quote.detail.error.update &&
+              Quote.detail.error.update.start_date
+                ? <FieldError
+                message={Quote.detail.error.update.start_date}
+              />
+                : null}
+              <div className="form-group">
+                <label className="control-label">Start Date *</label>
+                <DateTimePicker
+                  ref="due_at"
+                  onChange={this.onStartDateChange.bind(this)}
+                  value={
+                    this.state.start_date
+                      ? new Date(moment.utc(this.state.start_date).format())
+                      : null
+                  }
+                  time={false}
+                />
+              </div>
+            </div>
+            <div className="col-md-6">
+              {Quote.detail.error.create &&
+              Quote.detail.error.create.end_date
+                ? <FieldError message={Quote.detail.error.create.end_date} />
+                : null}
+              {Quote.detail.error.update &&
+              Quote.detail.error.update.end_date
+                ? <FieldError message={Quote.detail.error.update.end_date} />
+                : null}
+              <div className="form-group">
+                <label className="control-label">End Date *</label>
+                <DateTimePicker
+                  ref="due_at"
+                  onChange={this.onEndDateChange.bind(this)}
+                  value={
+                    this.state.end_date
+                      ? new Date(moment.utc(this.state.end_date).format())
+                      : null
+                  }
+                  time={false}
+                />
+              </div>
+            </div>
+          </div>
 
           {Quote.detail.error.create && Quote.detail.error.create.introduction
             ? <FieldError message={Quote.detail.error.create.introduction} />
@@ -270,148 +332,6 @@ export default class QuoteForm extends ComponentWithModal {
               value={this.state.introduction}
               ref="introduction"
               placeholder="Introduction"
-            />
-          </div>
-
-          <h4>Scope</h4>
-
-          {Quote.detail.error.create && Quote.detail.error.create.in_scope
-            ? <FieldError message={Quote.detail.error.create.in_scope} />
-            : null}
-          {Quote.detail.error.update && Quote.detail.error.update.in_scope
-            ? <FieldError message={Quote.detail.error.update.in_scope} />
-            : null}
-          <div className="form-group">
-            <label className="control-label">In scope *</label>
-            <textarea
-              className="form-control"
-              onChange={this.onInputChange.bind(this, 'in_scope')}
-              value={this.state.in_scope}
-              ref="introduction"
-              placeholder="In scope"
-            />
-          </div>
-
-          {Quote.detail.error.create && Quote.detail.error.create.out_scope
-            ? <FieldError message={Quote.detail.error.create.out_scope} />
-            : null}
-          {Quote.detail.error.update && Quote.detail.error.update.out_scope
-            ? <FieldError message={Quote.detail.error.update.out_scope} />
-            : null}
-          <div className="form-group">
-            <label className="control-label">Out of scope *</label>
-            <textarea
-              className="form-control"
-              onChange={this.onInputChange.bind(this, 'out_scope')}
-              value={this.state.out_scope}
-              ref="out_scope"
-              placeholder="Out of scope"
-            />
-          </div>
-
-          {Quote.detail.error.create && Quote.detail.error.create.assumptions
-            ? <FieldError message={Quote.detail.error.create.assumptions} />
-            : null}
-          {Quote.detail.error.update && Quote.detail.error.update.assumptions
-            ? <FieldError message={Quote.detail.error.update.assumptions} />
-            : null}
-          <div className="form-group">
-            <label className="control-label">Assumptions *</label>
-            <textarea
-              className="form-control"
-              onChange={this.onInputChange.bind(this, 'assumptions')}
-              value={this.state.assumptions}
-              ref="out_scope"
-              placeholder="Assumptions"
-            />
-          </div>
-
-          {Quote.detail.error.create && Quote.detail.error.create.deliverables
-            ? <FieldError message={Quote.detail.error.create.deliverables} />
-            : null}
-          {Quote.detail.error.update && Quote.detail.error.update.deliverables
-            ? <FieldError message={Quote.detail.error.update.deliverables} />
-            : null}
-          <div className="form-group">
-            <label className="control-label">Deliverables *</label>
-            <textarea
-              className="form-control"
-              onChange={this.onInputChange.bind(this, 'deliverables')}
-              value={this.state.deliverables}
-              ref="out_scope"
-              placeholder="Deliverables"
-            />
-          </div>
-
-          <h4>Solution</h4>
-
-          {Quote.detail.error.create && Quote.detail.error.create.architecture
-            ? <FieldError message={Quote.detail.error.create.architecture} />
-            : null}
-          {Quote.detail.error.update && Quote.detail.error.update.architecture
-            ? <FieldError message={Quote.detail.error.update.architecture} />
-            : null}
-          <div className="form-group">
-            <label className="control-label">Architecture *</label>
-            <textarea
-              className="form-control"
-              onChange={this.onInputChange.bind(this, 'architecture')}
-              value={this.state.architecture}
-              ref="out_scope"
-              placeholder="Architecture"
-            />
-          </div>
-
-          {Quote.detail.error.create && Quote.detail.error.create.technology
-            ? <FieldError message={Quote.detail.error.create.technology} />
-            : null}
-          {Quote.detail.error.update && Quote.detail.error.update.technology
-            ? <FieldError message={Quote.detail.error.update.technology} />
-            : null}
-          <div className="form-group">
-            <label className="control-label">Technologies *</label>
-            <textarea
-              className="form-control"
-              onChange={this.onInputChange.bind(this, 'technology')}
-              value={this.state.technology}
-              ref="out_scope"
-              placeholder="Technologies"
-            />
-          </div>
-
-          <h4>Methodology</h4>
-
-          {Quote.detail.error.create && Quote.detail.error.create.process
-            ? <FieldError message={Quote.detail.error.create.process} />
-            : null}
-          {Quote.detail.error.update && Quote.detail.error.update.process
-            ? <FieldError message={Quote.detail.error.update.process} />
-            : null}
-          <div className="form-group">
-            <label className="control-label">Process *</label>
-            <textarea
-              className="form-control"
-              onChange={this.onInputChange.bind(this, 'process')}
-              value={this.state.process}
-              ref="out_scope"
-              placeholder="Process"
-            />
-          </div>
-
-          {Quote.detail.error.create && Quote.detail.error.create.reporting
-            ? <FieldError message={Quote.detail.error.create.reporting} />
-            : null}
-          {Quote.detail.error.update && Quote.detail.error.update.reporting
-            ? <FieldError message={Quote.detail.error.update.reporting} />
-            : null}
-          <div className="form-group">
-            <label className="control-label">Reporting *</label>
-            <textarea
-              className="form-control"
-              onChange={this.onInputChange.bind(this, 'reporting')}
-              value={this.state.reporting}
-              ref="out_scope"
-              placeholder="Reporting"
             />
           </div>
 
@@ -439,6 +359,8 @@ export default class QuoteForm extends ComponentWithModal {
                       <th>Hours</th>
                       {isAdminOrProjectOwner() ? <th>Fee</th> : null}
                       <th>Description</th>
+                      <th>Assignee</th>
+                      <th>Status</th>
                       <th />
                     </tr>
                   </thead>
@@ -468,6 +390,12 @@ export default class QuoteForm extends ComponentWithModal {
                             {activity.description}
                           </td>
                           <td>
+                            {activity.assignee?activity.assignee.display_name:''}
+                          </td>
+                          <td>
+                            <i className={`fa ${activity.completed?'fa-check-square-o':''}`}/>
+                          </td>
+                          <td>
                             <button
                               className="btn"
                               onClick={this.onDelete.bind(this, idx)}>
@@ -480,7 +408,7 @@ export default class QuoteForm extends ComponentWithModal {
                   </tbody>
                   <tfoot>
                     <tr>
-                      <th colSpan="5">Sub Totals</th>
+                      <th colSpan="7">Sub Totals</th>
                     </tr>
                     <tr>
                       <th>Development</th>
@@ -492,6 +420,8 @@ export default class QuoteForm extends ComponentWithModal {
                             €{payDetails.dev.fee}
                           </th>
                         : null}
+                      <th />
+                      <th />
                       <th />
                       <th />
                     </tr>
@@ -507,6 +437,8 @@ export default class QuoteForm extends ComponentWithModal {
                         : null}
                       <th />
                       <th />
+                      <th />
+                      <th />
                     </tr>
                     <tr>
                       <th>Total</th>
@@ -520,79 +452,10 @@ export default class QuoteForm extends ComponentWithModal {
                         : null}
                       <th />
                       <th />
-                    </tr>
-                  </tfoot>
-                </Table>
-              : null}
-          </div>
-
-          {Quote.detail.error.create && Quote.detail.error.create.plan
-            ? <FieldError message={Quote.detail.error.create.plan} />
-            : null}
-          {Quote.detail.error.update && Quote.detail.error.update.plan
-            ? <FieldError message={Quote.detail.error.update.plan} />
-            : null}
-          <div className="form-group">
-            <label className="control-label">Planning *</label>
-
-            <button
-              type="button"
-              className="btn"
-              onClick={this.onComposePlan.bind(this, null)}>
-              Add
-            </button>
-
-            {this.state.plan && this.state.plan.length
-              ? <Table>
-                  <thead>
-                    <tr>
-                      <th>Milestone</th>
-                      <th>Start Date</th>
-                      <th>End Date</th>
-                      <th>Description</th>
+                      <th />
                       <th />
                     </tr>
-                  </thead>
-                  <tbody>
-                    {this.state.plan.map((milestone, idx) => {
-                      return (
-                        <tr>
-                          <td>
-                            <a
-                              href="#"
-                              onClick={this.onComposePlan.bind(this, {
-                                ...milestone,
-                                idx,
-                              })}>
-                              {_.truncate(milestone.title, {length: 25})}
-                            </a>
-                          </td>
-                          <td>
-                            {moment
-                              .utc(milestone.start_date)
-                              .local()
-                              .format('Do, MMMM YYYY')}
-                          </td>
-                          <td>
-                            {moment
-                              .utc(milestone.end_date)
-                              .local()
-                              .format('Do, MMMM YYYY')}
-                          </td>
-                          <td>
-                            {milestone.description}
-                          </td>
-                          <td>
-                            <button
-                              className="btn"
-                              onClick={this.onDeletePlan.bind(this, idx)}>
-                              <i className="fa fa-trash-o" />
-                            </button>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
+                  </tfoot>
                 </Table>
               : null}
           </div>
@@ -605,19 +468,6 @@ export default class QuoteForm extends ComponentWithModal {
                   disabled={Quote.detail.isSaving}>
                   Save
                 </button>
-                {!quote.user || quote.user.id == getUser().id
-                  ? <button
-                      type="submit"
-                      value={STATUS_SUBMITTED}
-                      className="btn"
-                      onClick={e => {
-                        this.setState({submitted: true});
-                        return true;
-                      }}
-                      disabled={Quote.detail.isSaving}>
-                      Submit for Review
-                    </button>
-                  : null}
               </div>
             : null}
         </form>

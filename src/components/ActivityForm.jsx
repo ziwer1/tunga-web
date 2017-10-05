@@ -1,14 +1,21 @@
 import React from 'react';
 import moment from 'moment';
 import momentLocalizer from 'react-widgets/lib/localizers/moment';
+
 import FieldError from './status/FieldError';
+import UserSelector from '../containers/UserSelector';
 
 momentLocalizer(moment);
+
+import {
+  USER_TYPE_DEVELOPER,
+  USER_TYPE_PROJECT_MANAGER
+} from '../constants/Api';
 
 export default class ActivityForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {description: ''};
+    this.state = {description: '', assignee: null, completed: false, ...(this.props.activity||{})};
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -28,21 +35,49 @@ export default class ActivityForm extends React.Component {
     this.setState(new_state);
   }
 
+  onAssigneeChange(users) {
+    var assignee = null;
+    if (Array.isArray(users) && users.length) {
+      assignee = users[0];
+    }
+    this.setState({assignee});
+  }
+
+  onStatusChange(e) {
+    this.setState({completed: !this.state.completed});
+  }
+
   handleSubmit(e) {
     e.preventDefault();
     var title = this.refs.title.value.trim();
     var hours = this.refs.hours.value.trim();
     var description = this.refs.description.value.trim();
+    var assignee = this.state.assignee;
+    var completed = this.state.completed;
 
-    if (this.props.onSave) {
-      this.props.onSave({...this.props.activity, title, hours, description});
+    let activity_info = {...this.props.activity, title, hours, description};
+
+    const {selectUser, setStatus, onSave, close} = this.props;
+
+    if(selectUser) {
+      activity_info.assignee = assignee;
+      activity_info.assignee_id = assignee?assignee.id:null;
     }
-    if (this.props.close) {
-      this.props.close();
+
+    if(setStatus) {
+      activity_info.completed = completed;
+    }
+
+    if (onSave) {
+      onSave(activity_info);
+    }
+    if (close) {
+      close();
     }
   }
 
   render() {
+    const {selectUser, setStatus} = this.props;
     const activity = this.props.activity || {};
 
     return (
@@ -101,6 +136,48 @@ export default class ActivityForm extends React.Component {
             />
           </div>
 
+          {selectUser?(
+            <div>
+              {this.state.error && this.state.error.assignee
+                ? <FieldError message={this.state.error.assignee} />
+                : null}
+              <div className="form-group">
+                <label className="control-label">Assignee *</label>
+                <UserSelector
+                  filter={{
+                  types: [USER_TYPE_DEVELOPER, USER_TYPE_PROJECT_MANAGER].join(
+                    ',',
+                  ),
+                }}
+                  onChange={this.onAssigneeChange.bind(this)}
+                  selected={
+                  activity.assignee
+                    ? [activity.assignee]
+                    : []
+                }
+                  max={1}
+                  returnObjects={true}
+                />
+              </div>
+            </div>
+          ):null}
+
+          {setStatus?(
+            <div className="form-group">
+              <div className="checkbox">
+                <label className="control-label">
+                  <input
+                    type="checkbox"
+                    ref="agree_deadline"
+                    checked={this.state.status}
+                    onChange={this.onStatusChange.bind(this)}
+                  />
+                  Has this activity been completed?
+                </label>
+              </div>
+            </div>
+          ):null}
+
           <div className="text-center">
             <button type="submit" className="btn  ">
               {activity.idx > -1 ? 'Update' : 'Add'} activity
@@ -111,3 +188,19 @@ export default class ActivityForm extends React.Component {
     );
   }
 }
+
+ActivityForm.propTypes = {
+  activity: React.PropTypes.object,
+  onSave: React.PropTypes.func,
+  close: React.PropTypes.func,
+  selectUser: React.PropTypes.bool,
+  setStatus: React.PropTypes.bool,
+};
+
+ActivityForm.defaultProps = {
+  activity: null,
+  onSave: null,
+  close: null,
+  selectUser: false,
+  setStatus: false
+};
