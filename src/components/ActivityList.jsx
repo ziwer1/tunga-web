@@ -207,6 +207,29 @@ export default class ActivityList extends React.Component {
           );
         }
         break;
+      case 'sprint':
+        if (showNotifications && item.action == 'create') {
+          creator = object.user;
+          created_at = object.created_at;
+
+          let isCurrentYear = moment.utc(object.start_date).local().format('YYYY') == moment().local().format('YYYY'),
+            isSameYear = moment.utc(object.start_date).local().format('YYYY') == moment.utc(object.end_date).local().format('YYYY');
+
+          body = (
+            <div>
+              <div>
+                <i className="fa fa-flag-checkered"/>{' '}Created a sprint:
+              </div>
+              <Link to={`/work/${object.task}/planning/${object.id}/`}>
+                {object.title || `Sprint #${object.id}`}
+              </Link>
+              <div>
+                Period: {moment.utc(object.start_date).local().format(`Do MMM${isCurrentYear || isSameYear?'':' YYYY'}`)} - {moment.utc(object.end_date).local().format(`Do MMM${isCurrentYear?'':' YYYY'}`)}
+              </div>
+            </div>
+          );
+        }
+        break;
       case 'progress_event':
         if (
           isDeveloper() &&
