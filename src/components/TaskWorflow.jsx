@@ -819,7 +819,7 @@ export default class TaskWorflow extends ComponentWithModal {
                 this.setState({showFilter: !this.state.showFilter});
               }}>
               <button className="btn filter-btn">
-                <i className="tunga-icon-filter" />
+                <i className="tunga-icon-filter-alt" />
               </button>
               <div className="switches">
                 <div>
@@ -912,7 +912,7 @@ export default class TaskWorflow extends ComponentWithModal {
             <div className={`overview-details ${this.state.sideSection == 'team'?'on':''}`}>
               <div>
                 <Link to={workflow_link} className="title" onClick={this.toggleSideSection.bind(this, 'team')}>
-                  <i className="fa fa-chevron-right"/><i className="fa fa-chevron-down"/> Team
+                  <i className="tunga-icon-arrow-right"/><i className="tunga-icon-arrow-down"/> Team
                 </Link>
               </div>
 
@@ -1025,8 +1025,9 @@ export default class TaskWorflow extends ComponentWithModal {
             <div className={`overview-details ${this.state.sideSection == 'details'?'on':''}`}>
               <div className="clearfix">
                 <Link to={workflow_link} className="title" onClick={this.toggleSideSection.bind(this, 'details')}>
-                  <i className="fa fa-chevron-right"/><i className="fa fa-chevron-down"/> {task.is_project?'Project':'Task'} details
+                  <i className="tunga-icon-arrow-right"/><i className="tunga-icon-arrow-down"/> {task.is_project?'Project':'Task'} details
                 </Link>
+
                 <div className="overview-dropdown pull-right">
                   {is_admin_or_owner_or_pm
                     ? <div className="dropdown">
