@@ -43,7 +43,7 @@ export default class TaskPay extends React.Component {
       if (task.id) {
         if (getUser().id == task.user.id && task.closed && task.paid) {
           const {router} = this.context;
-          router.replace(`/work/${Task.detail.task.id}/rate`);
+          //router.replace(`/work/${Task.detail.task.id}/rate`);
         }
 
         if (task.payment_method) {
@@ -563,10 +563,17 @@ export default class TaskPay extends React.Component {
                       ? <div>
                           <div className="thank-you">
                             We received your payment. Thank you!<br />
-                            <i className="fa fa-check-circle" />
+                            <i className="fa fa-check-circle status-icon" />
                             {multi_task_payment
                               ? null
                               : <div className="next-action">
+                                  <a
+                                    href={`${ENDPOINT_TASK}${task.id}/download/invoice/?format=pdf`}
+                                    target="_blank"
+                                    className="btn">
+                                    <i className="fa fa-download" /> Download
+                                    Invoice
+                                  </a>
                                   <Link
                                     to={`/work/${task.id}/rate`}
                                     className="btn">
@@ -585,6 +592,21 @@ export default class TaskPay extends React.Component {
                             ? <Error message={Task.detail.error.pay.message} />
                             : null}
 
+                          {!this.isPaymentApproved() || Task.detail.Invoice.isSaved
+                            ? (
+                            <blockquote className="highlight">
+                              {this.getPaymentMethod() != TASK_PAYMENT_METHOD_BANK?(
+                                <div>
+                                  You will be notified by email once the payment
+                                  link for this invoice is ready.
+                                </div>
+                              ):null}
+                              <div>
+                                We{Task.detail.Invoice.isSaved?"'ve":' already'} sent the invoice to your email but you can also download it using the button below.
+                              </div>
+                            </blockquote>
+                          ) :null}
+
                           {this.isPaymentApproved() &&
                           this.getPaymentMethod() == TASK_PAYMENT_METHOD_BITCOIN
                             ? <div>
@@ -595,59 +617,66 @@ export default class TaskPay extends React.Component {
                                     {btc_address_only}
                                   </strong>
                                 </a>
-                                <div className="btc-copy-widgets">
-                                  <CopyToClipboard text={btc_amount}>
-                                    <div className="input-group">
+                                <div className="clearfix">
+                                  <div className="pull-left">
+                                    <div>
+                                      <img
+                                        src={`https://chart.googleapis.com/chart?cht=qr&chs=200x200&chl=${btc_address}`}
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="pull-left">
+                                    <div className="btc-copy-widgets">
+                                      <CopyToClipboard text={btc_amount}>
+                                        <div className="input-group">
                                       <span className="input-group-addon">
                                         Fee:{' '}
                                       </span>
-                                      <input
-                                        type="text"
-                                        className="form-control"
-                                        value={btc_amount}
-                                        disabled
-                                      />
+                                          <input
+                                            type="text"
+                                            className="form-control"
+                                            value={btc_amount}
+                                            disabled
+                                          />
                                       <span className="input-group-btn">
                                         <button className="btn" type="button">
-                                          <i className="fa fa-copy" /> Copy
+                                          <i className="fa fa-copy" />
                                         </button>
                                       </span>
-                                    </div>
-                                  </CopyToClipboard>
-                                  <CopyToClipboard text={btc_address_only}>
-                                    <div className="input-group">
+                                        </div>
+                                      </CopyToClipboard>
+                                      <CopyToClipboard text={btc_address_only}>
+                                        <div className="input-group">
                                       <span className="input-group-addon">
                                         Address:{' '}
                                       </span>
-                                      <input
-                                        type="text"
-                                        className="form-control"
-                                        value={btc_address_only}
-                                        disabled
-                                      />
+                                          <input
+                                            type="text"
+                                            className="form-control"
+                                            value={btc_address_only}
+                                            disabled
+                                          />
                                       <span className="input-group-btn">
                                         <button className="btn" type="button">
-                                          <i className="fa fa-copy" /> Copy
+                                          <i className="fa fa-copy" />
                                         </button>
                                       </span>
+                                        </div>
+                                      </CopyToClipboard>
                                     </div>
-                                  </CopyToClipboard>
-                                </div>
-                                <div>
-                                  <img
-                                    src={`https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=${btc_address}`}
-                                  />
+                                  </div>
                                 </div>
                               </div>
                             : null}
 
-                          <table className="table table-striped">
-                            <thead>
+                          {this.isPaymentApproved()?(
+                            <table className="table table-striped">
+                              <thead>
                               <tr>
                                 <th colSpan="2">Payment Breakdown</th>
                               </tr>
-                            </thead>
-                            <tbody>
+                              </thead>
+                              <tbody>
                               <tr>
                                 <td>Task fee:</td>
                                 <td>
@@ -660,7 +689,7 @@ export default class TaskPay extends React.Component {
                                   &euro;{' '}
                                   {parseNumber(
                                     this.getTotalPayAmount() -
-                                      this.getInvoiceAmount(),
+                                    this.getInvoiceAmount(),
                                   )}
                                 </td>
                               </tr>
@@ -684,24 +713,25 @@ export default class TaskPay extends React.Component {
                                   &euro;{' '}
                                   {parseNumber(
                                     this.getTotalPayAmount() +
-                                      this.getTaxAmount(),
+                                    this.getTaxAmount(),
                                   )}
                                 </th>
                               </tr>
                               {this.withHoldTungaFee() && isAdmin()
                                 ? <tr>
-                                    <th>
-                                      Actual Payment (minus Tunga fee and
-                                      taxes):{' '}
-                                    </th>
-                                    <th>
-                                      &euro;{' '}
-                                      {parseNumber(this.getActualPayAmount())}
-                                    </th>
-                                  </tr>
+                                <th>
+                                  Actual Payment (minus Tunga fee and
+                                  taxes):{' '}
+                                </th>
+                                <th>
+                                  &euro;{' '}
+                                  {parseNumber(this.getActualPayAmount())}
+                                </th>
+                              </tr>
                                 : null}
-                            </tbody>
-                          </table>
+                              </tbody>
+                            </table>
+                          ):null}
 
                           <div className="clearfix">
                             {this.isPaymentApproved()
@@ -781,14 +811,6 @@ export default class TaskPay extends React.Component {
                               </button>
                             </div>
                           </div>
-
-                          {this.isPaymentApproved() ||
-                          this.getPaymentMethod() == TASK_PAYMENT_METHOD_BANK
-                            ? null
-                            : <div className="alert alert-info">
-                                You will be notified by email once the payment
-                                link for this invoice is ready.
-                              </div>}
                         </div>}
                   </div>}
             </div>}

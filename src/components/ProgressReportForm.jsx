@@ -246,7 +246,7 @@ export default class ProgressReportForm extends FormComponent {
             ? 'responding to the survey!'
             : 'filling in your progress report!'}
           <br />
-          <i className="fa fa-check-circle" />
+          <i className="fa fa-check-circle status-icon" />
         </div>
       );
     }

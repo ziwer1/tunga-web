@@ -14,7 +14,7 @@ export default class MultiTaskPay extends React.Component {
 
         <div className="thank-you">
           We are processing your payment. Thank you!<br />
-          <i className="fa fa-check-circle" />
+          <i className="fa fa-check-circle status-icon" />
         </div>
       </div>
     );

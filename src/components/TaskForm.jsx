@@ -899,7 +899,7 @@ export default class TaskForm extends ComponentWithModal {
         <div>
           <div className="thank-you">
             We will reach out to you shortly!<br />
-            <i className="fa fa-check-circle" />
+            <i className="fa fa-check-circle status-icon" />
             {phase != 'speed-up'
               ? <div className="next-action">
                   <span>

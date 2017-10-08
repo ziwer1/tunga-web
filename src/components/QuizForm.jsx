@@ -117,7 +117,7 @@ export default class QuizForm extends ComponentWithModal {
           </div>
           <div className="thank-you">
             We will reach out to you shortly!<br />
-            <i className="fa fa-check-circle" />
+            <i className="fa fa-check-circle status-icon" />
           </div>
         </div>
       );
