@@ -117,6 +117,10 @@ class ChatWindow extends React.Component {
     if(this.props.closeChat && !prevProps.closeChat && this.state.open) {
       this.setState({open: false});
     }
+
+    if(this.state.open && !prevState.open && this.audio) {
+      this.audio.play();
+    }
   }
 
   componentWillUnmount() {
@@ -220,6 +224,10 @@ class ChatWindow extends React.Component {
                 </button>
               </OverlayTrigger>}
         </div>
+        <audio autoPlay={false} controls={false} ref={(audio) => { this.audio = audio }}>
+          <source src={require('../audio/chat.mp3')} type="audio/mpeg"/>
+          <source src={require('../audio/chat.wav')} type="audio/wav"/>
+        </audio>
       </div>
     );
   }
