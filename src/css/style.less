@@ -470,7 +470,7 @@ form {
 
 form.steps-all {
   .step {
-    min-height: initial;
+    min-height: 0 !important;
     height: auto !important;
     overflow-y: visible !important;
   }
@@ -2886,6 +2886,10 @@ form[name='compose'] {
     .form-group {
       max-width: 600px;
       margin: 0 auto 15px;
+
+      .row {
+        max-width: 500px;
+      }
     }
 
     .form-control, .rw-widget {

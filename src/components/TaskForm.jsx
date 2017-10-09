@@ -293,7 +293,7 @@ export default class TaskForm extends ComponentWithModal {
               enabledWidgets.indexOf('updates') == -1) &&
           enabledWidgets.indexOf('payment-approval') == -1)
         ) {
-          router.replace(`/work/${Task.detail.task.id}`);
+          router.replace(`/work/${Task.detail.task.id}?nr=true`);
         }
       }
     }
@@ -1044,13 +1044,13 @@ export default class TaskForm extends ComponentWithModal {
             {
               id: true,
               name: 'Yes, and I would like to submit my project on Tunga now',
-              icon: 'fa fa-check-circle',
+              icon: 'tunga-icon-check',
             },
             {
               id: false,
               name:
                 'No, I would like to talk to someone on Tunga about my project',
-              icon: 'fa fa-times-circle',
+              icon: 'tunga-icon-cross',
             },
           ].map(has_requirements => {
             return (
@@ -1096,13 +1096,13 @@ export default class TaskForm extends ComponentWithModal {
                 {
                   id: true,
                   name: 'Yes, I want a project manager',
-                  icon: 'fa fa-check-circle',
+                  icon: 'tunga-icon-check',
                 },
                 {
                   id: false,
                   name:
                     'No, I will manage all processes for this project myself',
-                  icon: 'fa fa-times-circle',
+                  icon: 'tunga-icon-cross',
                 },
               ].map(pm_options => {
                 return (
