@@ -174,24 +174,31 @@ class App extends React.Component {
   }
 
   render() {
-    const {Auth} = this.props;
+    const {Auth} = this.props, underMaintenance = false;
     return (
       <div style={{height: '100%'}}>
-        {Auth.isVerifying || !this.shouldRender
+        {Auth.isVerifying || !this.shouldRender || underMaintenance
           ? <div className="app-loading">
               <div>
                 <img src={require('../images/logo.png')} height="50px" />
               </div>
-              <Progress message="Initializing ..." />
+          {underMaintenance?(
+            <blockquote className="highlight" style={{margin: '15px auto 0', display: 'inline-block'}}>
+              Tunga is being updated. Please check back in a bit.
+            </blockquote>
+          ):(
+            <Progress message="Initializing ..." />
+          )}
             </div>
-          : null}
-        <div
-          style={{
+          : (
+          <div
+            style={{
             height: '100%',
             display: Auth.isVerifying ? 'none' : 'block',
           }}>
-          {this.renderChildren()}
-        </div>
+            {this.renderChildren()}
+          </div>
+        )}
       </div>
     );
   }

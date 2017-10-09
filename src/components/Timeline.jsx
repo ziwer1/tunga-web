@@ -118,7 +118,7 @@ export default class Timeline extends React.Component {
       return null;
     }
     const timestamp = moment.utc(event.due_at).unix(),
-      next_timestamp = this.state.next_event.due_at?moment.utc(this.state.next_event.due_at).unix():null;
+      next_timestamp = this.state.next_event && this.state.next_event.due_at?moment.utc(this.state.next_event.due_at).unix():null;
     const length = timestamp - this.state.min;
     const ts_now = this.state.now;
     let is_missed = timestamp + (24 * 60 * 60) < ts_now && event.type; // Developers have 24 hrs before a task update is missed
@@ -127,6 +127,7 @@ export default class Timeline extends React.Component {
     const {task} = this.props;
 
     const popover = (
+      this.state.next_event?
       <Popover id="popover">
         <div className="title">
           {event.title || 'Scheduled Update'}
@@ -179,7 +180,7 @@ export default class Timeline extends React.Component {
                     </div>
                   : null}
             </div>}
-      </Popover>
+      </Popover>:null
     );
     return (
       <OverlayTrigger key={event.due_at} placement="top" overlay={popover}>
@@ -193,6 +194,12 @@ export default class Timeline extends React.Component {
   }
 
   render() {
+    console.log('All events: ', this.state.all_events.length);
+    if(this.state.all_events.length < 3) {
+      // should have at least: start, end and now
+      return null;
+    }
+
     const length = this.state.now - this.state.min;
     var fill_length = (length / this.state.duration) * 100;
     return (
