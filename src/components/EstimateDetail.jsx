@@ -82,13 +82,7 @@ export default class EstimateDetail extends React.Component {
             <i className="fa fa-file-pdf-o" /> Download Pdf
           </a>
         </div>
-
-        <div className="form-group">
-          <h4>Introduction:</h4>
-          <div>
-            {estimate.introduction}
-          </div>
-        </div>
+        
         <div className="form-group">
           <h4>Title:</h4>
           <div>
