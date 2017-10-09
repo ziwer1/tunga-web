@@ -19,7 +19,7 @@ export default class Profile extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     const {Profile, ProfileActions} = this.props;
-    const {profile} = Profile;
+    const profile = Profile.profile || {};
 
     var first_name = this.refs.first_name.value.trim();
     var last_name = this.refs.last_name.value.trim();
@@ -35,7 +35,7 @@ export default class Profile extends React.Component {
     var postal_code = this.refs.postal_code.value.trim() || null;
     var phone_number = this.refs.phone_number.value.trim();
 
-    ProfileActions.updateProfile(Profile.profile.id, {
+    ProfileActions.updateProfile(profile.id, {
       first_name,
       last_name,
       country,
@@ -52,6 +52,7 @@ export default class Profile extends React.Component {
 
   render() {
     const {Auth, Profile} = this.props;
+    const profile = Profile.profile || {};
 
     return (
       <div>
@@ -116,7 +117,7 @@ export default class Profile extends React.Component {
                     className="form-control"
                     ref="company"
                     placeholder="Company"
-                    defaultValue={Profile.profile.company}
+                    defaultValue={profile.company}
                   />
                 </div>
               </div>
@@ -137,7 +138,7 @@ export default class Profile extends React.Component {
                         className="form-control"
                         ref="vat_number"
                         placeholder="VAT Number"
-                        defaultValue={Profile.profile.vat_number}
+                        defaultValue={profile.vat_number}
                       />
                     </div>
                   </div>
@@ -152,7 +153,7 @@ export default class Profile extends React.Component {
                   className="form-control"
                   ref="country"
                   required
-                  defaultValue={Profile.profile.country}>
+                  defaultValue={profile.country}>
                   {Profile.countries.map(country => {
                     return (
                       <option key={country.code} value={country.code}>
@@ -175,7 +176,7 @@ export default class Profile extends React.Component {
                     ref="city"
                     placeholder="City"
                     required
-                    defaultValue={Profile.profile.city}
+                    defaultValue={profile.city}
                   />
                 </div>
               </div>
@@ -192,7 +193,7 @@ export default class Profile extends React.Component {
                     ref="street"
                     placeholder="Street"
                     required
-                    defaultValue={Profile.profile.street}
+                    defaultValue={profile.street}
                   />
                 </div>
               </div>
@@ -209,7 +210,7 @@ export default class Profile extends React.Component {
                     ref="plot_number"
                     placeholder="Plot Number"
                     required
-                    defaultValue={Profile.profile.plot_number}
+                    defaultValue={profile.plot_number}
                   />
                 </div>
               </div>
@@ -226,7 +227,7 @@ export default class Profile extends React.Component {
                     ref="postal_code"
                     placeholder="ZIP Code"
                     required
-                    defaultValue={Profile.profile.postal_code}
+                    defaultValue={profile.postal_code}
                   />
                 </div>
               </div>
@@ -242,7 +243,7 @@ export default class Profile extends React.Component {
                     className="form-control"
                     ref="phone_number"
                     placeholder="Phone Number"
-                    defaultValue={Profile.profile.phone_number}
+                    defaultValue={profile.phone_number}
                   />
                 </div>
               </div>

@@ -17,29 +17,21 @@ import {
   isProjectOwner,
 } from '../utils/auth';
 
+let paySelectionKeyBase = 'search-pay';
+
 export default class PaymentList extends GenericListContainer {
   constructor(props) {
     super(props);
-    this.state = {...this.state, toPay: [], toDistribute: []};
+    this.state = {
+      ...this.state, toPay: [], toDistribute: [],
+      selection_key: paySelectionKeyBase,
+      status_filter: this.getPaymentStatusFilter(),
+      search: ''
+    };
   }
 
   componentDidUpdate(prevProps, prevState) {
     super.componentDidUpdate(prevProps, prevState);
-
-    if (
-      prevProps.location &&
-      this.props.location &&
-      prevProps.location.pathname != this.props.location.pathname
-    ) {
-      this.getList();
-    }
-
-    if (prevProps.search != this.props.search) {
-      this.setState({
-        selection_key: this.state.selection_key + (this.props.search || ''),
-        prev_key: this.state.selection_key,
-      });
-    }
 
     if (
       this.props.Task.MultiTaskPayment.detail.isSaved &&
@@ -51,22 +43,62 @@ export default class PaymentList extends GenericListContainer {
           .multi_task_payment.id}`,
       );
     }
+
+    var newState = {};
+    if (this.props.params && (!prevProps.params || this.props.params.filter != prevProps.params.filter)) {
+      newState = {
+        ...newState,
+        selection_key: this.composeSearchKey(`${this.state.search}--${this.getPaymentStatusFilter()}`),
+        prev_key: this.state.selection_key,
+        status_filter: this.getPaymentStatusFilter()
+      };
+    }
+
+    if (prevState.search != this.state.search) {
+      newState = {
+        ...newState,
+        selection_key: this.composeSearchKey(`${this.state.search}--${this.getPaymentStatusFilter()}`),
+        prev_key: this.state.selection_key,
+        search: this.state.search
+      };
+    }
+
+    if(Object.keys(newState).length > 0) {
+      this.setState(newState);
+    } else if (
+      this.state.status_filter != prevState.status_filter ||
+      this.state.search != prevState.search ||
+      this.state.selection_key != prevState.selection_key
+    ) {
+      this.getList();
+    }
   }
 
   getList(filters) {
     this.props.TaskActions.listTasks(
       {
+        ...(filters || {}),
+        search: this.state.search,
         payment_status: this.getPaymentStatusFilter(),
         filter: 'payments',
-        ...(filters || {}),
       },
       this.state.selection_key,
       this.state.prev_key,
     );
   }
 
+  composeSearchKey(search) {
+    let searchKey = search?`${paySelectionKeyBase}--${search}`:this.state.selection_key;
+    return (searchKey || '').replace(/[^\w]/ig, '-');
+  }
+
+  onSearch(filters) {
+    console.log('search filters: ', filters);
+    this.setState({...filters/*, selection_key: this.composeSearchKey(filters.search)*/});
+  }
+
   getPaymentStatusFilter() {
-    return this.props.params.filter || null;
+    return this.props.params?(this.props.params.filter || ''):'';
   }
 
   isDistributionMode() {
@@ -142,7 +174,7 @@ export default class PaymentList extends GenericListContainer {
           <div className="pull-right">
             <SearchBox
               placeholder="Search payments"
-              onSearch={this.getList.bind(this)}
+              onSearch={this.onSearch.bind(this)}
               count={Task.list.count}
             />
           </div>
