@@ -290,7 +290,8 @@ export default class TaskForm extends ComponentWithModal {
           !enabledWidgets ||
           (Array.isArray(enabledWidgets) &&
             (enabledWidgets.indexOf('participation') == -1 &&
-              enabledWidgets.indexOf('updates') == -1))
+              enabledWidgets.indexOf('updates') == -1) &&
+          enabledWidgets.indexOf('payment-approval') == -1)
         ) {
           router.replace(`/work/${Task.detail.task.id}`);
         }
@@ -708,6 +709,11 @@ export default class TaskForm extends ComponentWithModal {
       }
     }
 
+    if(key == 'payment_approved') {
+      new_state.autoSave = true;
+      shouldChangeStep = false;
+    }
+
     this.setState(new_state);
     if (
       ['scope', 'is_project', 'has_requirements', 'pm_required'].indexOf(key) >
@@ -840,6 +846,10 @@ export default class TaskForm extends ComponentWithModal {
       return {id: id, enabled: this.state.participant_updates[id]};
     });
 
+    if(isAdmin()) {
+      req_data.payment_approved = this.state.payment_approved;
+    }
+
     var task_info = {};
     Object.keys(req_data).forEach(function(key) {
       const data_value = req_data[key];
@@ -890,7 +900,7 @@ export default class TaskForm extends ComponentWithModal {
     const task = this.props.task || {};
 
     if (
-      (!isAuthenticated() && Task.detail.isSaved && !this.state.autoSave) ||
+      (Task.detail.isSaved && ((!isAuthenticated() && !this.state.autoSave) || (isAuthenticated() && task.id))) ||
       /\/(start|start-welcome|start-outsource|welcome)\/(finish|schedule|speed-up)\/.*\/complete$/.test(
         window.location.href,
       )
@@ -898,9 +908,9 @@ export default class TaskForm extends ComponentWithModal {
       return (
         <div>
           <div className="thank-you">
-            We will reach out to you shortly!<br />
+            {isAuthenticated()?'Changes saved successfully!':'We will reach out to you shortly!'}<br />
             <i className="fa fa-check-circle status-icon" />
-            {phase != 'speed-up'
+            {!isAuthenticated() && phase != 'speed-up'
               ? <div className="next-action">
                   <span>
                     <i className="tunga-icon-speed-up" /> Do you want to speed
@@ -2463,6 +2473,57 @@ export default class TaskForm extends ComponentWithModal {
           </div>
         : null;
 
+    let paymentApprovalComp = (
+      <div className="form-group">
+        {Task.detail.error.create && Task.detail.error.create.pm_required
+          ? <FieldError message={Task.detail.error.create.pm_required} />
+          : null}
+        {Task.detail.error.update && Task.detail.error.update.pm_required
+          ? <FieldError message={Task.detail.error.update.pm_required} />
+          : null}
+        <div>
+          <div>
+            <label>Is this task ready for payment?</label>
+            <div className="btn-choices choice-fork" role="group">
+              {[
+                {
+                  id: true,
+                  name: 'Yes',
+                  icon: 'tunga-icon-check',
+                },
+                {
+                  id: false,
+                  name:
+                    'No',
+                  icon: 'tunga-icon-cross',
+                },
+              ].map(approval_options => {
+                return (
+                  <div className="choice">
+                    <button
+                      key={approval_options.id}
+                      type="button"
+                      className={
+                      'btn' +
+                      (typeof this.state.payment_approved == 'boolean' && this.state.payment_approved == approval_options.id ? ' active' : '')
+                    }
+                      onClick={this.onStateValueChange.bind(
+                      this,
+                      'payment_approved',
+                      approval_options.id,
+                    )}>
+                      <i className={`icon ${approval_options.icon}`}></i>
+                    </button>
+                    <div dangerouslySetInnerHTML={{__html: approval_options.name}} />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+
     if (isAuthenticated()) {
       if (enabledWidgets && enabledWidgets.length) {
         let widgetMap = {
@@ -2515,6 +2576,30 @@ export default class TaskForm extends ComponentWithModal {
               required: true,
             },
           ];
+        }  else if (enabledWidgets[0] == 'payment-approval') {
+          sections = [
+            {
+              items: [feeComp],
+              requires: ['fee'],
+            },
+            {
+              items: [developersComp],
+            },
+            {
+              items: [participationComp],
+            },
+          ];
+
+          if(isAdmin()) {
+            sections = [
+              ...sections,
+              {
+                items: [paymentApprovalComp],
+                required: true,
+                forks: ['payment_approved'],
+              },
+            ]
+          }
         } else {
           var all_comps = [];
           enabledWidgets.forEach(function(widget) {

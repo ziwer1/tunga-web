@@ -234,6 +234,11 @@ let all_routes = (
                 component={TaskForm}
                 crumb="Participation"
               />
+              <Route
+                path="payment-approval"
+                component={TaskForm}
+                crumb="Payment Review"
+              />
               <Route path="*" component={TaskForm} />
             </Route>
             <Route path="apply" component={ApplicationForm} crumb="Apply" />
