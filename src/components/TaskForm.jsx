@@ -847,6 +847,11 @@ export default class TaskForm extends ComponentWithModal {
     });
 
     if(isAdmin()) {
+      req_data.dev_rate = this.state.dev_rate;
+      req_data.pm_rate = this.state.pm_rate;
+      req_data.pm_time_percentage = this.state.pm_time_percentage;
+      req_data.tunga_percentage_dev = this.state.tunga_percentage_dev;
+      req_data.tunga_percentage_pm = this.state.tunga_percentage_pm;
       req_data.payment_approved = this.state.payment_approved;
     }
 
@@ -1348,15 +1353,18 @@ export default class TaskForm extends ComponentWithModal {
               : ' - (optional)'}
           </label>
           <div>
-            <input
-              type="number"
-              className="form-control"
-              ref="fee"
-              required={!is_project_task && isAuthenticated()}
-              placeholder="Amount in Euros"
-              onChange={this.onInputChange.bind(this, 'fee')}
-              value={this.state.fee ? parseNumber(this.state.fee, false) : ''}
-            />
+            <div className="input-group">
+              <span className="input-group-addon">€</span>
+              <input
+                type="number"
+                className="form-control"
+                ref="fee"
+                required={!is_project_task && isAuthenticated()}
+                placeholder="Amount in Euros"
+                onChange={this.onInputChange.bind(this, 'fee')}
+                value={this.state.fee ? parseNumber(this.state.fee, false) : ''}
+              />
+            </div>
           </div>
           {this.state.fee
             ? <div style={{marginTop: '10px'}}>
@@ -2471,53 +2479,215 @@ export default class TaskForm extends ComponentWithModal {
               );
             })}
           </div>
-        : null;
+        : <div>
+        <div className="form-group">
+          <blockquote className="highlight">
+            No active participants
+          </blockquote>
+        </div>
+      </div>;
 
     let paymentApprovalComp = (
       <div className="form-group">
-        {Task.detail.error.create && Task.detail.error.create.pm_required
-          ? <FieldError message={Task.detail.error.create.pm_required} />
+        {Task.detail.error.create && Task.detail.error.create.payment_approved
+          ? <FieldError message={Task.detail.error.create.payment_approved} />
           : null}
-        {Task.detail.error.update && Task.detail.error.update.pm_required
-          ? <FieldError message={Task.detail.error.update.pm_required} />
+        {Task.detail.error.update && Task.detail.error.update.payment_approved
+          ? <FieldError message={Task.detail.error.update.payment_approved} />
           : null}
         <div>
-          <div>
-            <label>Is this task ready for payment?</label>
-            <div className="btn-choices choice-fork" role="group">
-              {[
-                {
-                  id: true,
-                  name: 'Yes',
-                  icon: 'tunga-icon-check',
-                },
-                {
-                  id: false,
-                  name:
-                    'No',
-                  icon: 'tunga-icon-cross',
-                },
-              ].map(approval_options => {
-                return (
-                  <div className="choice">
-                    <button
-                      key={approval_options.id}
-                      type="button"
-                      className={
+          {task.details && task.details.active_participants && task.details.active_participants.length > 1?(
+            <div>
+              <h4>Is this {work_type} ready for payment?</h4>
+              <div className="btn-choices choice-fork" role="group">
+                {[
+                  {
+                    id: true,
+                    name: 'Yes',
+                    icon: 'tunga-icon-check',
+                  },
+                  {
+                    id: false,
+                    name:
+                      'No',
+                    icon: 'tunga-icon-cross',
+                  },
+                ].map(approval_options => {
+                  return (
+                    <div className="choice">
+                      <button
+                        key={approval_options.id}
+                        type="button"
+                        className={
                       'btn' +
                       (typeof this.state.payment_approved == 'boolean' && this.state.payment_approved == approval_options.id ? ' active' : '')
                     }
-                      onClick={this.onStateValueChange.bind(
+                        onClick={this.onStateValueChange.bind(
                       this,
                       'payment_approved',
                       approval_options.id,
                     )}>
-                      <i className={`icon ${approval_options.icon}`}></i>
-                    </button>
-                    <div dangerouslySetInnerHTML={{__html: approval_options.name}} />
-                  </div>
-                );
-              })}
+                        <i className={`icon ${approval_options.icon}`}></i>
+                      </button>
+                      <div dangerouslySetInnerHTML={{__html: approval_options.name}} />
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ):(
+            <div>
+              <div className="alert alert-danger">This {work_type} is not ready for payment</div>
+
+              <blockquote className="highlight">
+                At least one developer needs to accept the {work_type}<br/>
+                However, you can still save the changes you have made.
+              </blockquote>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+
+    let devRateComp = (
+      <div>
+        {Task.detail.error.create && Task.detail.error.create.dev_rate
+          ? <FieldError message={Task.detail.error.create.dev_rate} />
+          : null}
+        {Task.detail.error.update && Task.detail.error.update.dev_rate
+          ? <FieldError message={Task.detail.error.update.dev_rate} />
+          : null}
+        <div className="form-group">
+          <label className="control-label">
+            Developer Rate (in Euros)
+          </label>
+          <div>
+            <div className="input-group">
+              <span className="input-group-addon">€</span>
+              <input
+                type="number"
+                className="form-control"
+                ref="dev_rate"
+                placeholder="Developer Rate e.g 19"
+                onChange={this.onInputChange.bind(this, 'dev_rate')}
+                value={this.state.dev_rate ? parseNumber(this.state.dev_rate, false) : ''}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+
+    let pmRateComp = (
+      <div>
+        {Task.detail.error.create && Task.detail.error.create.pm_rate
+          ? <FieldError message={Task.detail.error.create.pm_rate} />
+          : null}
+        {Task.detail.error.update && Task.detail.error.update.pm_rate
+          ? <FieldError message={Task.detail.error.update.pm_rate} />
+          : null}
+        <div className="form-group">
+          <label className="control-label">
+            PM Rate (in Euros)
+          </label>
+          <div>
+            <div className="input-group">
+              <span className="input-group-addon">€</span>
+              <input
+                type="number"
+                className="form-control"
+                ref="pm_rate"
+                placeholder="PM Rate e.g 39"
+                onChange={this.onInputChange.bind(this, 'pm_rate')}
+                value={this.state.pm_rate ? parseNumber(this.state.pm_rate, false) : ''}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+
+    let pmPercentageComp = (
+      <div>
+        {Task.detail.error.create && Task.detail.error.create.pm_time_percentage
+          ? <FieldError message={Task.detail.error.create.pm_time_percentage} />
+          : null}
+        {Task.detail.error.update && Task.detail.error.update.pm_time_percentage
+          ? <FieldError message={Task.detail.error.update.pm_time_percentage} />
+          : null}
+        <div className="form-group">
+          <label className="control-label">
+            PM percentage (default 15%)
+          </label>
+          <div>
+            <div className="input-group">
+              <input
+                type="number"
+                className="form-control"
+                ref="pm_time_percentage"
+                placeholder="PM percentage e.g 15"
+                onChange={this.onInputChange.bind(this, 'pm_time_percentage')}
+                value={this.state.pm_time_percentage ? parseNumber(this.state.pm_time_percentage, false) : ''}
+              />
+              <span className="input-group-addon">%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+
+    let tungaDevPercentageComp = (
+      <div>
+        {Task.detail.error.create && Task.detail.error.create.tunga_percentage_dev
+          ? <FieldError message={Task.detail.error.create.tunga_percentage_dev} />
+          : null}
+        {Task.detail.error.update && Task.detail.error.update.tunga_percentage_dev
+          ? <FieldError message={Task.detail.error.update.tunga_percentage_dev} />
+          : null}
+        <div className="form-group">
+          <label className="control-label">
+            Tunga percentage for Developer fee (default 34.21%)
+          </label>
+          <div>
+            <div className="input-group">
+              <input
+                type="number"
+                className="form-control"
+                ref="tunga_percentage_dev"
+                placeholder="PM Time percentage e.g 34.21"
+                onChange={this.onInputChange.bind(this, 'tunga_percentage_dev')}
+                value={this.state.tunga_percentage_dev ? parseNumber(this.state.tunga_percentage_dev, false) : ''}
+              />
+              <span className="input-group-addon">%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+
+    let tungaPMPercentageComp = (
+      <div>
+        {Task.detail.error.create && Task.detail.error.create.tunga_percentage_pm
+          ? <FieldError message={Task.detail.error.create.tunga_percentage_pm} />
+          : null}
+        {Task.detail.error.update && Task.detail.error.update.tunga_percentage_pm
+          ? <FieldError message={Task.detail.error.update.tunga_percentage_pm} />
+          : null}
+        <div className="form-group">
+          <label className="control-label">
+            Tunga percentage for PM fee  (default 48.71%)
+          </label>
+          <div>
+            <div className="input-group">
+              <input
+                type="number"
+                className="form-control"
+                ref="tunga_percentage_pm"
+                placeholder="PM Time percentage e.g 48.71"
+                onChange={this.onInputChange.bind(this, 'tunga_percentage_pm')}
+                value={this.state.pm_time_percentage ? parseNumber(this.state.tunga_percentage_pm, false) : ''}
+              />
+              <span className="input-group-addon">%</span>
             </div>
           </div>
         </div>
@@ -2593,6 +2763,25 @@ export default class TaskForm extends ComponentWithModal {
           if(isAdmin()) {
             sections = [
               ...sections,
+              {
+                items: [
+                  <div>
+                    <h4>Hourly rates</h4>
+                    {devRateComp}
+                    {pmRateComp}
+                  </div>
+                ]
+              },
+              {
+                items: [
+                  <div>
+                    <h4>Distribution percentages</h4>
+                    {pmPercentageComp}
+                    {tungaDevPercentageComp}
+                    {tungaPMPercentageComp}
+                  </div>
+                ]
+              },
               {
                 items: [paymentApprovalComp],
                 required: true,
