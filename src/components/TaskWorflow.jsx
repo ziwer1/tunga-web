@@ -781,7 +781,7 @@ export default class TaskWorflow extends ComponentWithModal {
             </div>
 
             {task.is_developer_ready &&
-            !task.closed &&
+            !task.payment_approved && !task.paid &&
             task.is_participant &&
             task.my_participation &&
             task.my_participation.status == STATUS_INITIAL
