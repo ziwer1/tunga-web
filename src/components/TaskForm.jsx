@@ -2496,7 +2496,7 @@ export default class TaskForm extends ComponentWithModal {
           ? <FieldError message={Task.detail.error.update.payment_approved} />
           : null}
         <div>
-          {task.details && task.details.active_participants && task.details.active_participants.length > 1?(
+          {task.details && task.details.active_participants && task.details.active_participants.length > 0?(
             <div>
               <h4>Is this {work_type} ready for payment?</h4>
               <div className="btn-choices choice-fork" role="group">
