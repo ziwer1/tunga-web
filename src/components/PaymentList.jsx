@@ -359,10 +359,18 @@ export default class PaymentList extends GenericListContainer {
                                       : null}
                                   </div>
                                 : <div>
-                                    Contact{' '}
-                                    <a href="mailto:hello@tunga.io">
-                                      hello@tunga.io
-                                    </a>
+                                  {task.paid?(
+                                    <div>
+                                      Contact{' '}
+                                      <a href="mailto:hello@tunga.io">
+                                        hello@tunga.io
+                                      </a>
+                                    </div>
+                                  ):(
+                                    <div>
+                                      <Link to={`/work/${task.id}/invoice`}>Generate Invoice</Link>
+                                    </div>
+                                  )}
                                   </div>}
                             </td>
                             <td>
