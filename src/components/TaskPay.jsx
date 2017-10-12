@@ -592,13 +592,14 @@ export default class TaskPay extends React.Component {
                             ? <Error message={Task.detail.error.pay.message} />
                             : null}
 
-                          {!this.isPaymentApproved() || Task.detail.Invoice.isSaved
+                          {!this.isPaymentApproved()
                             ? (
                             <blockquote className="highlight">
                               {this.getPaymentMethod() != TASK_PAYMENT_METHOD_BANK?(
-                                <div>
+                                <div style={{marginBottom: '10px'}}>
                                   You will be notified by email once the payment
-                                  link for this invoice is ready.
+                                  link for this invoice is ready.<br/>
+                                  This usually takes less than 24 hours.
                                 </div>
                               ):null}
                               <div>
