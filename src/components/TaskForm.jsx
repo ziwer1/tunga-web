@@ -1390,39 +1390,22 @@ export default class TaskForm extends ComponentWithModal {
           <label className="control-label">
             When do you need the {work_type} done?
           </label>
-          <div className="row">
-            <div className="col-md-6">
-              <DateTimePicker
-                ref="deadline"
-                onChange={this.onDeadlineChange.bind(this)}
-                defaultValue={
+          <div>
+            <DateTimePicker
+              ref="deadline"
+              onChange={this.onDeadlineChange.bind(this)}
+              defaultValue={
                   task.deadline
                     ? new Date(moment.utc(task.deadline).format())
                     : null
                 }
-                value={
+              value={
                   this.state.deadline
                     ? new Date(moment.utc(this.state.deadline).format())
                     : null
                 }
-                time={false}
-              />
-            </div>
-            <div>
-              <button
-                type="button"
-                className={
-                  'btn btn-grey ' +
-                  (this.state.deadline === undefined ? ' active' : '')
-                }
-                onClick={this.onStateValueChange.bind(
-                  this,
-                  'deadline',
-                  this.state.deadline === undefined ? null : undefined,
-                )}>
-                I'm not sure
-              </button>
-            </div>
+              time={false}
+            />
           </div>
         </div>
       </div>
