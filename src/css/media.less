@@ -273,6 +273,7 @@
 
   .showcase {
     header {
+      padding-top: 100px;
       background-image: url("../images/header.jpg?max-width=992");
 
       .navbar,
@@ -842,6 +843,7 @@
 
   .showcase {
     header {
+      padding-top: 70px;
       background-image: url("../images/header.jpg?max-width=1200");
 
       .container {
@@ -851,6 +853,17 @@
       .navbar,
       .navbar.navbar-fixed-top {
         background-color: @inactive-grey;
+
+        &.navbar-glass {
+          position: absolute;
+          background-color: transparent;
+          box-shadow: none;
+          margin-top: 20px;
+
+          #navbar {
+            background-color: transparent;
+          }
+        }
 
         .nav-main {
           margin-left: 240px;

@@ -8,6 +8,25 @@ import {isTungaDomain} from '../utils/router';
 import ChatWindow from '../containers/ChatWindow';
 
 export default class ShowcaseContainer extends React.Component {
+
+  componentDidMount() {
+
+    let updateTopBar = function () {
+      let windowWidth = $(window).innerWidth();
+      if(windowWidth >= 992) {
+        if($(document).scrollTop() >= 20) {
+          $('.navbar').removeClass('navbar-glass');
+        } else {
+          $('.navbar').addClass('navbar-glass');
+        }
+      }
+    };
+
+    $(document).ready(updateTopBar);
+    $(document).scroll(updateTopBar);
+    $(window).resize(updateTopBar);
+  }
+
   render() {
     const pathPrefix =
       !isTungaDomain() &&
@@ -55,7 +74,7 @@ export default class ShowcaseContainer extends React.Component {
               </div>
             : null}
           <Affix affixClassName="navbar-fixed-top" offsetTop={60}>
-            <nav className="navbar navbar-fixed-top">
+            <nav className="navbar navbar-fixed-top navbar-glass">
               <div className="navbar-header">
                 <button
                   type="button"
