@@ -716,7 +716,7 @@ export default class TaskForm extends ComponentWithModal {
 
     this.setState(new_state);
     if (
-      ['scope', 'is_project', 'has_requirements', 'pm_required'].indexOf(key) >
+      ['scope', 'is_project', 'has_requirements', 'pm_required', 'includes_pm_fee'].indexOf(key) >
       -1
     ) {
       shouldChangeStep = true;
@@ -847,6 +847,7 @@ export default class TaskForm extends ComponentWithModal {
     });
 
     if(isAdmin()) {
+      req_data.includes_pm_fee = this.state.includes_pm_fee;
       req_data.dev_rate = this.state.dev_rate;
       req_data.pm_rate = this.state.pm_rate;
       req_data.pm_time_percentage = this.state.pm_time_percentage;
@@ -2532,6 +2533,55 @@ export default class TaskForm extends ComponentWithModal {
       </div>
     );
 
+    let includePMFeeComp = (
+      <div className="form-group">
+        {Task.detail.error.create && Task.detail.error.create.includes_pm_fee
+          ? <FieldError message={Task.detail.error.create.includes_pm_fee} />
+          : null}
+        {Task.detail.error.update && Task.detail.error.update.includes_pm_fee
+          ? <FieldError message={Task.detail.error.update.includes_pm_fee} />
+          : null}
+        <div>
+          <h4>Does the task fee cover the PM payment? (default 15%)</h4>
+          <div className="btn-choices choice-fork" role="group">
+            {[
+              {
+                id: true,
+                name: 'Yes',
+                icon: 'tunga-icon-check',
+              },
+              {
+                id: false,
+                name:
+                  'No',
+                icon: 'tunga-icon-cross',
+              },
+            ].map(pm_fee_options => {
+              return (
+                <div className="choice">
+                  <button
+                    key={pm_fee_options.id}
+                    type="button"
+                    className={
+                      'btn' +
+                      (typeof this.state.includes_pm_fee == 'boolean' && this.state.includes_pm_fee == pm_fee_options.id ? ' active' : '')
+                    }
+                    onClick={this.onStateValueChange.bind(
+                      this,
+                      'includes_pm_fee',
+                      pm_fee_options.id,
+                    )}>
+                    <i className={`icon ${pm_fee_options.icon}`}></i>
+                  </button>
+                  <div dangerouslySetInnerHTML={{__html: pm_fee_options.name}} />
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    );
+
     let devRateComp = (
       <div>
         {Task.detail.error.create && Task.detail.error.create.dev_rate
@@ -2744,6 +2794,17 @@ export default class TaskForm extends ComponentWithModal {
           ];
 
           if(isAdmin()) {
+            if(task.is_project || is_project_task) {
+              sections = [
+                ...sections,
+                {
+                  items: [includePMFeeComp],
+                  required: true,
+                  forks: ['includes_pm_fee'],
+                }
+              ]
+            }
+
             sections = [
               ...sections,
               {
@@ -2751,7 +2812,7 @@ export default class TaskForm extends ComponentWithModal {
                   <div>
                     <h4>Hourly rates</h4>
                     {devRateComp}
-                    {pmRateComp}
+                    {this.state.includes_pm_fee?pmRateComp:null}
                   </div>
                 ]
               },
@@ -2759,9 +2820,9 @@ export default class TaskForm extends ComponentWithModal {
                 items: [
                   <div>
                     <h4>Distribution percentages</h4>
-                    {pmPercentageComp}
+                    {this.state.includes_pm_fee?pmPercentageComp:null}
                     {tungaDevPercentageComp}
-                    {tungaPMPercentageComp}
+                    {this.state.includes_pm_fee?tungaPMPercentageComp:null}
                   </div>
                 ]
               },
