@@ -3291,9 +3291,6 @@ form[name='compose'] {
     padding: 45px 0;
     background-color: #202020;
     color: @active-white;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
     .font-size(1.4);
 
     h4 {
@@ -4794,71 +4791,75 @@ form[name='compose'] {
     background-image: url('../images/showcase/pricing.jpg');
   }
 
-  .pricing-table {
-    position: relative;
-    top: -220px;
-
-    .table-key {
-      margin-top: 220px;
-      text-align: left;
-
-      p {
-        line-height: 15px !important;
-      }
-    }
-
-    .slide {
-      padding: 20px 0;
-
-      > * {
-        padding: 0 10px;
-      }
-
-      h2 {
-        margin: 0 0 15px 0;
-        padding: 10px 0 20px 0;
-        border-bottom: 1px @inactive-grey solid;
-      }
-
-      .perks {
-        margin-top: 25px;
-        color: @primary;
-        font-weight: 400;
-        .font-size(1.6);
-
-        .fa-times {
-          color: @primary-text;
-        }
-      }
-    }
-
-    .table-key,
-    .perks {
-      p {
-        padding: 5px 10px;
-        height: 45px;
-        margin: 0;
-        line-height: 30px;
-
-        &:first-child,
-        &:nth-child(10),
-        &:nth-child(12),
-        &:nth-child(13) {
-          height: 45px;
-          /*line-height: 40px;*/
-        }
-
-        &:nth-child(11) {
-          height: 50px;
-          /*line-height: 50px;*/
-        }
-      }
-    }
-  }
-
   section.pricing-options {
     background-color: @inactive-grey;
-    margin-bottom: -220px;
+    margin-bottom: 0;
+
+    > .container {
+      margin-bottom: -220px;
+    }
+
+    .pricing-table {
+      position: relative;
+      top: -220px;
+
+      .table-key {
+        margin-top: 220px;
+        text-align: left;
+
+        p {
+          line-height: 15px !important;
+        }
+      }
+
+      .slide {
+        padding: 20px 0;
+
+        > * {
+          padding: 0 10px;
+        }
+
+        h2 {
+          margin: 0 0 15px 0;
+          padding: 10px 0 20px 0;
+          border-bottom: 1px @inactive-grey solid;
+        }
+
+        .perks {
+          margin-top: 25px;
+          color: @primary;
+          font-weight: 400;
+          .font-size(1.6);
+
+          .fa-times {
+            color: @primary-text;
+          }
+        }
+      }
+
+      .table-key,
+      .perks {
+        p {
+          padding: 5px 10px;
+          height: 45px;
+          margin: 0;
+          line-height: 30px;
+
+          &:first-child,
+          &:nth-child(10),
+          &:nth-child(12),
+          &:nth-child(13) {
+            height: 45px;
+            /*line-height: 40px;*/
+          }
+
+          &:nth-child(11) {
+            height: 50px;
+            /*line-height: 50px;*/
+          }
+        }
+      }
+    }
   }
 
   ul {
@@ -4872,34 +4873,6 @@ form[name='compose'] {
         }
       }
     }
-  }
-}
-
-.pricing-options {
-  .card {
-    text-align: center;
-    color: @primary-text;
-    background-color: @inactive-grey;
-    border: 1px @active-grey solid;
-
-    .icon {
-      .font-size(4.5);
-    }
-  }
-
-  a.card:hover,
-  a.card:focus {
-    color: @primary;
-    text-decoration: none;
-  }
-
-  .card.active,
-  a.card.active,
-  a.card.active:hover,
-  a.card.active:focus {
-    color: @active-white;
-    background-color: @primary;
-    border-color: @primary;
   }
 }
 
