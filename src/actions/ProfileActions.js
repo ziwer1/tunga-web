@@ -55,7 +55,7 @@ export function updateAuthUser(user) {
 
     var headers = {},
       data = user;
-    if (user.image) {
+    if (user.image || user.id_document) {
       headers['Content-Type'] = 'multipart/form-data';
 
       data = new FormData();
@@ -206,7 +206,7 @@ export function updateProfile(id, profile) {
       .request({
         url: ENDPOINT_PROFILE,
         method: request_method,
-        data: profile,
+        data,
         headers,
       })
       .then(function(response) {
