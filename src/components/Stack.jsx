@@ -13,7 +13,7 @@ import EducationForm from './EducationForm';
 export default class Stack extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {bio: '', skills: [], skills_details: {}, editWork: null, editEducation: null, reset: false, skill_categories: {}};
+    this.state = {bio: '', skills_details: {}, editWork: null, editEducation: null, reset: false, skill_categories: {}};
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -40,11 +40,13 @@ export default class Stack extends React.Component {
 
   addSkillsToState() {
     const {Profile} = this.props;
+    var skill_categories = {}, skills_details = Profile.profile.skills_details || {};
+    Object.keys(skills_details).forEach(category => {
+      skill_categories[category] = this.flattenSkills(skills_details[category]);
+    });
     this.setState({
-      skills: Profile.profile.skills
-        ? this.flattenSkills(Profile.profile.skills)
-        : [],
-      skills_details: Profile.profile.skills_details || {},
+      skill_categories,
+      skills_details: skills_details,
       reset: true
     });
 
@@ -62,17 +64,22 @@ export default class Stack extends React.Component {
 
   onSkillChange(category, skills) {
     let new_state = {};
-    new_state[category] = [...this.state.skill_categories[category] || {}, ...skills];
-    this.setState({skills: [...this.state.skills, ...skills], skill_categories: {...this.state.skill_categories, ...new_state}});
+    new_state[category] = skills;
+    this.setState({skill_categories: {...this.state.skill_categories, ...new_state}});
   }
 
   handleSubmit(e) {
     e.preventDefault();
     var website = this.refs.website ? this.refs.website.value.trim() : null;
     var bio = this.state.bio;
-    const selected_skills = this.state.skills;
-    const skills = selected_skills.join(',') || null;
+    var all_skills = [];
     const skill_categories = this.state.skill_categories;
+    if(skill_categories) {
+      Object.keys(skill_categories).forEach((category) => {
+        all_skills = all_skills.concat(skill_categories[category]);
+      });
+    }
+    const skills = all_skills.join(',') || '';
 
     const {Profile, ProfileActions} = this.props;
     var profile_info = {website, bio, skills, skill_categories};
