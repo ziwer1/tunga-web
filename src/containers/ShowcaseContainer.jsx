@@ -74,7 +74,7 @@ export default class ShowcaseContainer extends React.Component {
               </div>
             : null}
           <Affix affixClassName="navbar-fixed-top" offsetTop={60}>
-            <nav className={`navbar navbar-fixed-top ${__PRODUCTION__?'navbar-glass':''}`}>
+            <nav className={`navbar navbar-fixed-top ${__PRODUCTION__?'':'navbar-glass'}`}>
               <div className="navbar-header">
                 <button
                   type="button"
