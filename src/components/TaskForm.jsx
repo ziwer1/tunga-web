@@ -2020,22 +2020,18 @@ export default class TaskForm extends ComponentWithModal {
             Skype ID{' '}
             {phase == 'schedule' || isAuthenticated() ? ' or Call URL' : ''}
           </label>
-          <div className="row">
-            <div className="col-md-12">
-              <div>
-                <input
-                  type="text"
-                  className="form-control"
-                  ref="skype_id"
-                  placeholder={`Your Skype ID ${phase == 'schedule' ||
+          <div>
+            <input
+              type="text"
+              className="form-control"
+              ref="skype_id"
+              placeholder={`Your Skype ID ${phase == 'schedule' ||
                   isAuthenticated()
                     ? ' or Call URL'
                     : ''}`}
-                  value={this.state.skype_id}
-                  onChange={this.onInputChange.bind(this, 'skype_id')}
-                />
-              </div>
-            </div>
+              value={this.state.skype_id}
+              onChange={this.onInputChange.bind(this, 'skype_id')}
+            />
           </div>
         </div>
       </div>
@@ -2878,6 +2874,11 @@ export default class TaskForm extends ComponentWithModal {
             title: `Basic details about the ${work_type}`,
             items: [codersComp, descComp],
             requires: ['coders_needed'],
+          },
+          {
+            title: `Tag skills or products that are relevant to this ${work_type}`,
+            items: [skillsComp],
+            requires: ['skills'],
           },
           {
             title: 'The next step',
