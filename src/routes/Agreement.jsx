@@ -312,43 +312,83 @@ export default class Agreement extends React.Component {
           acts beyond the authority given by Tunga.
         </p>
 
-        <h3>3. USER CONDUCT & PROTECTION</h3>
+        <h3>3. NON-CIRCUMVENTION CLAUSE</h3>
+
+        <p>3.1 Seller agrees that he will not approach nor compete for Buyer’s accounts without prior formal consent of
+          Tunga at any time during the project, and/or for a time of after Seller finishes the Project.</p>
+
+        <p>3.2 This non-circumvention clause is deemed effective whether a Seller leaves voluntarily, or is
+          involuntarily terminated. It also stands effective in spite of any other breach of associated contract.</p>
+
+        <p>3.3 This non-circumvention clause fairly covers actions interpreted as either direct or indirect at the
+          discretion of Tunga.</p>
+
+        <p>3.4 This non-circumvention clause applies to the Seller as an individual and also to any other company,
+          partnership, employee relationship, contracted relationship or similar that the Seller enters into.</p>
+
+        <p>3.5 Any time two parties enter into a Service Contract through Tunga, both the Buyer and the Seller agree to
+          use the website as the exclusive method to request, make, and receive payments for the first 24 months—a time
+          referred to as the “Non-Circumvention Period.”</p>
+
+        <p>3.6 You may opt-out of this obligation with respect to each Buyer-Seller relationship only if Buyer or
+          prospective Buyer or Seller pays Tunga for each such relationship: (a) An “<strong>Opt-Out Fee</strong>” computed to be the
+          greater of the following amounts: (1) 2,000 euros (two thousand euros); or (2) all Service Fees that would be
+          earned by Tunga from the Tunga Relationship during the Non-Circumvention Period, computed based on the
+          annualized amount earned by Seller from Buyer during the most recent normalized 8-week period, or during such
+          shorter period as data is available to Tunga; and (b) an interest at the rate of 18% per annum or the maximum
+          rate permitted by applicable law, whichever is less, calculated from the date Buyer first makes payment to the
+          subject Seller until the date the Opt-Out Fee is paid.</p>
+
+        <p>3.7. Breaching the non-compete clause may result in the User being removed from the platform.</p>
+
+        <h3>4. FULL TIME COMMITMENT CLAUSE</h3>
+
+        <p>4.1 Full Time Commitment is taking place when a Buyer hires a Seller for at least 40 hours per week</p>
+
+        <p>4.2 If and when a Full Time Commitment is agreed for a period of 3 months or more, the Buyer may be entitled
+          to a price discount, at the discretion of Tunga.</p>
+
+        <p>4.3 If at any point during a period of Full-Time Commitment, the Buyer chooses to return to a regular hiring
+          basis or terminates the commitment prematurely, Tunga will retrospectively charge the applicable Tunga fee
+          without any discount.</p>
+
+        <h3>5. USER CONDUCT & PROTECTION</h3>
 
         <p>
-          3.1 User agrees not to infringe any laws, third party rights or our
+          5.1 User agrees not to infringe any laws, third party rights or our
           policies, including our Code of Conduct.
         </p>
 
         <p>
-          3.2. Buyer agrees always to fulfill the payment for services delivered
+          5.2. Buyer agrees always to fulfill the payment for services delivered
           to Buyer by the Seller, unless the Seller has not delivered the
           Service and/or fails to meet the terms agreed upon in the Service
           Contract.
         </p>
 
         <p>
-          3.3 Seller agrees to always deliver the Services agreed in the Service
+          5.3 Seller agrees to always deliver the Services agreed in the Service
           Contract, unless the Buyer fails to meet the terms agreed in the
           Service Contract.
         </p>
 
         <p>
-          3.4 User agrees not to circumvent or manipulate our fee structure, the
+          5.4 User agrees not to circumvent or manipulate our fee structure, the
           billing process, or fees owed to Tunga.
         </p>
 
         <p>
-          3.5 User agrees not to post false, inaccurate, misleading, defamatory
+          5.5 User agrees not to post false, inaccurate, misleading, defamatory
           or offensive content (including personal information).
         </p>
 
         <p>
-          3.6 User agrees not to distribute or post spam, unsolicited, or bulk
+          5.6 User agrees not to distribute or post spam, unsolicited, or bulk
           electronic communications, chain letters, or pyramid schemes.
         </p>
 
         <p>
-          3.7 User agrees not to distribute viruses or any other technologies
+          5.7 User agrees not to distribute viruses or any other technologies
           that may harm Tunga, the Website, or the interests or property of
           Tunga Users (including their Intellectual Property Rights, privacy and
           publicity rights) or that is unlawful, threatening, abusive,
@@ -358,7 +398,7 @@ export default class Agreement extends React.Component {
         </p>
 
         <p>
-          3.8 User agrees not to download and aggregate listings from our
+          5.8 User agrees not to download and aggregate listings from our
           Website for display with listings from other websites without our
           express written permission, "frame", "mirror" or otherwise incorporate
           any part of the Website into any other website without our prior
@@ -366,19 +406,19 @@ export default class Agreement extends React.Component {
         </p>
 
         <p>
-          3.9 User agrees not to harvest or otherwise collect information about
+          5.9 User agrees not to harvest or otherwise collect information about
           Users, including email addresses, without their consent.
         </p>
 
         <p>
-          3.10 Content on the Website may not be used, copied, reproduced,
+          5.10 Content on the Website may not be used, copied, reproduced,
           distributed, transmitted, broadcasted, displayed, sold, licensed or
           otherwise exploited for any other purposes whatsoever without the
           prior written consent of the respective owners.
         </p>
 
         <p>
-          3.11 You will indemnify us (and our officers, directors, agents,
+          5.11 You will indemnify us (and our officers, directors, agents,
           subsidiaries, joint venturers and employees) against any claim or
           demand, including legal fees and costs, made against us by any third
           party due to or arising out of your breach of this User Agreement, or
@@ -387,52 +427,52 @@ export default class Agreement extends React.Component {
         </p>
 
         <p>
-          3.12 We use your information as described in the{' '}
+          5.12 We use your information as described in the{' '}
           <a href="/privacy" target="_blank">
             Tunga Privacy Policy
           </a>. If you object to your information being transferred or used in
           this way then you may not use our services.
         </p>
 
-        <h3>4. DISPUTE RESOLUTION</h3>
+        <h3>6. DISPUTE RESOLUTION</h3>
 
         <p>
-          4.1 If and when a dispute between you and another User arises, you
+          6.1 If and when a dispute between you and another User arises, you
           agree that you will first attempt to resolve any differences that you
           have in relation to a Service Contract, including in relation to the
           quality of the services provided.
         </p>
 
         <p>
-          4.2 If you continue to have any difficulties or problems in relation
+          6.2 If you continue to have any difficulties or problems in relation
           to a dispute with another User in relation to a Service Contract we
           encourage you to contact us directly in accordance with article 5.12.
         </p>
 
         <p>
-          4.3 Tunga will have full rights and powers to make a determination for
+          6.3 Tunga will have full rights and powers to make a determination for
           all reported disputes.
         </p>
 
         <p>
-          4.4 Upon the reporting of a dispute, Tunga has the right to request
+          6.4 Upon the reporting of a dispute, Tunga has the right to request
           the Seller and the Buyer to provide documentation in support of their
           claim or position in relation to the dispute.
         </p>
 
         <p>
-          4.5 You agree that Tunga has absolute discretion to accept or reject
+          6.5 You agree that Tunga has absolute discretion to accept or reject
           any document provided.
         </p>
 
         <p>
-          4.6 You also acknowledge that Tunga is not a judicial or alternative
+          6.6 You also acknowledge that Tunga is not a judicial or alternative
           dispute resolution institution and that we will make the
           determinations only as an ordinary reasonable person.
         </p>
 
         <p>
-          4.7 We do not warrant that the documents provided by the parties to
+          6.7 We do not warrant that the documents provided by the parties to
           the dispute will be true, complete or correct and you agree to
           indemnify and (to the maximum extent permitted by law) hold Tunga and
           any of our affiliates harmless against any damages or liability you
@@ -441,22 +481,22 @@ export default class Agreement extends React.Component {
         </p>
 
         <p>
-          4.8 In relation to disputes with any other users of the Website, you
+          6.8 In relation to disputes with any other users of the Website, you
           hereby agree to indemnify Tunga from any and all claims, demands, and
           damages, actual and consequential, of every kind and nature, known and
           unknown, that is related to such a dispute.
         </p>
 
-        <h3>5. OTHER PROVISIONS</h3>
+        <h3>7. OTHER PROVISIONS</h3>
 
         <p>
-          5.1 Tunga is never liable for claims as a result of outages or
+          7.1 Tunga is never liable for claims as a result of outages or
           unavailability of the server. Tunga has the objective for hundred
           percent (100%) server up-time, but cannot guarantee this.
         </p>
 
         <p>
-          5.2 Tunga reserves the right to perform maintenance or changes to the
+          7.2 Tunga reserves the right to perform maintenance or changes to the
           Tunga Account, the Services and/or Website. This may result in periods
           during which the Tunga Account, the Services and/or Website may be
           temporarily unavailable. Tunga will announce such interruptions in
@@ -465,28 +505,28 @@ export default class Agreement extends React.Component {
         </p>
 
         <p>
-          5.3 Tunga is committed to the high standard of data security and
+          7.3 Tunga is committed to the high standard of data security and
           precision. However, Tunga is never liable for any loss or damages that
           a User may incur as a result of malfunctions, errors, security
           breaches or any other reason.
         </p>
 
         <p>
-          5.4 Tunga is never liable for the content used by a User. If a User
+          7.4 Tunga is never liable for the content used by a User. If a User
           comes across content that is not correct, offensive or in violations
           with these terms of use, the User has to report this immediately to
           Tunga. Tunga has the right to delete content of Users, if necessary.
         </p>
 
         <p>
-          5.5 Tunga is never liable for losses or damages resulting from
+          7.5 Tunga is never liable for losses or damages resulting from
           suspension of/ defects in the Services as a result of extraordinary
           events or circumstances beyond the control of Tunga (a “force majeure
           event”).
         </p>
 
         <p>
-          5.6 The content on the Website, including, without limitation, the
+          7.6 The content on the Website, including, without limitation, the
           text, software, scripts, graphics, photographs, sounds, videos,
           articles and the trademarks, service marks and logos contained therein
           are owned by or licensed by Tunga, subject to intellectual property
@@ -494,28 +534,28 @@ export default class Agreement extends React.Component {
         </p>
 
         <p>
-          5.7 Tunga reserves the right to close, suspend or limit your access to
+          7.7 Tunga reserves the right to close, suspend or limit your access to
           your Account at our own discretion. This includes closing an Inactive
           Account.
         </p>
 
         <p>
-          5.8 Headings in this User Agreement are included for convenience only
+          7.8 Headings in this User Agreement are included for convenience only
           and are not be considered in interpreting this User Agreement.
         </p>
 
         <p>
-          5.9 If any of the provisions of these terms of use is null and/or
+          7.9 If any of the provisions of these terms of use is null and/or
           void, the other provisions of these terms maintain their effect.
         </p>
 
         <p>
-          5.10 The laws of the Netherlands are applicable if any disputes arise
+          7.10 The laws of the Netherlands are applicable if any disputes arise
           concerning the (use of the) Tunga Account and the Services.
         </p>
 
         <p>
-          5.11 All disputes arising from the use of the Tunga Account and the
+          7.11 All disputes arising from the use of the Tunga Account and the
           Services and/or from other agreements for the execution thereof, shall
           be judged by the competent authorised court having jurisdiction in the
           district or subdistrict where Tunga has its registered office, with
@@ -523,7 +563,7 @@ export default class Agreement extends React.Component {
         </p>
 
         <p>
-          5.12 All legal notices should be sent via e-mail to{' '}
+          7.12 All legal notices should be sent via e-mail to{' '}
           <a href="mailto:admin@tunga.com">admin@tunga.com</a>. Also, if you
           have any questions about this User Agreement or if you wish to report
           breaches of this User Agreement, please contact us by e-mail us to
@@ -542,7 +582,7 @@ export default class Agreement extends React.Component {
       <ShowcaseContainer
         className="agreement-page"
         headerContent={this.renderHeaderContent()}>
-        <MetaTags title={meta_title} description={meta_description} />
+        <MetaTags title={meta_title} description={meta_description}/>
 
         <ShowCaseFooter />
       </ShowcaseContainer>
