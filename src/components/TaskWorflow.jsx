@@ -620,9 +620,7 @@ export default class TaskWorflow extends ComponentWithModal {
                   </span>
                 : null}
               <span>
-                <Link to={`/work/${task.id}/`}>
-                  {task.summary}
-                </Link>
+                {task.summary}
               </span>
             </div>
           </div>
