@@ -14,7 +14,7 @@ import {
 export default class ProfilePage extends React.Component {
   render() {
     return (
-      <div className="form-wrapper">
+      <div className="profile-form-wrapper form-wrapper">
         {PROFILE_COMPLETE_PATH.test(this.props.location.pathname)
           ? null
           : <div>
@@ -67,9 +67,11 @@ export default class ProfilePage extends React.Component {
                 </li>
               </ul>
             </div>}
-        <ProfileContainer>
-          {this.props.children}
-        </ProfileContainer>
+        <div className="form-wrapper">
+          <ProfileContainer>
+            {this.props.children}
+          </ProfileContainer>
+        </div>
       </div>
     );
   }
