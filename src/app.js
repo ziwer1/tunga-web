@@ -123,6 +123,9 @@ import DeveloperProfile from 'components/DeveloperProfile';
 let all_routes = (
   <Route>
     <IndexRoute component={LandingPage} unauthedOnly={true} />
+    <Route path="agreement" component={Agreement} />
+    <Route path="privacy" component={PrivacyPolicy} />
+    <Route path="code-of-conduct" component={CodeOfConduct} />
     <Route unauthedOnly={true}>
       {/* No Auth Pages */}
       <Route path="welcome">
@@ -162,9 +165,6 @@ let all_routes = (
       <Route path="press" component={LandingPage} />
       <Route path="FAQ" component={LandingPage} />
       <Route path="press" component={LandingPage} />
-      <Route path="agreement" component={Agreement} />
-      <Route path="privacy" component={PrivacyPolicy} />
-      <Route path="code-of-conduct" component={CodeOfConduct} />
       <Route path="signin" component={SignInPage} />
       <Route path="signup">
         <IndexRedirect to="/signin" />

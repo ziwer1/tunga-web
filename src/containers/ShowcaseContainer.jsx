@@ -16,7 +16,7 @@ export default class ShowcaseContainer extends React.Component {
       if(windowWidth >= 992) {
         if($(document).scrollTop() >= 20) {
           $('.navbar').removeClass('navbar-glass');
-        } else {
+        } else if(!__PRODUCTION__) {
           $('.navbar').addClass('navbar-glass');
         }
       }
