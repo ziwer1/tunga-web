@@ -359,12 +359,15 @@ export default class ProfileForm extends React.Component {
 
                       <div className="v-spacer">
                         Having any issue?
-                        <div
+                        <a href={
+                            SOCIAL_LOGIN_URLS.coinbase +
+                            `?action=connect&next=/profile/payment/coinbase/`
+                          }
                           className="btn coinbase-connect-button"
                           style={{marginLeft: '5px'}}>
                           <i className="tunga-icon-coinbase fa-lg" /> Re-connect
                           to Coinbase
-                        </div>
+                        </a>
                       </div>
                     </div>
                   : <a
