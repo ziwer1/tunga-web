@@ -10,8 +10,8 @@ module.exports = {
     target: 'web',
     cache: true,
     entry: {
-        app: path.join(srcPath, 'app.js'),
-        vendor: ['react', 'react-router', 'redux', 'react-redux']
+        vendor: ['babel-polyfill', 'react', 'react-dom', 'react-router', 'redux', 'react-redux'],
+        app: path.join(srcPath, 'app.js')
     },
     output: {
         path: path.join(__dirname, 'build'),
@@ -31,13 +31,14 @@ module.exports = {
             { test: /\.woff(2)?(\?v=[0-9].[0-9].[0-9])?$/, loader: "url-loader?mimetype=application/font-woff&name=fonts/[hash].[ext]" },
             { test: /\.(ttf|eot|svg)(\?v=[0-9].[0-9].[0-9])?$/, loader: "file-loader?name=fonts/[hash].[ext]" },
             { test: /\.ejs$/, loader: 'ejs-compiled?htmlmin' },
-            { test: /\.mp4$/, loader: 'file-loader?name=videos/[hash].[ext]?v='+ common_config.hash}
+            { test: /\.mp4$/, loader: 'file-loader?name=videos/[hash].[ext]?v='+ common_config.hash},
+            { test: /\.(mp3|wav)$/, loader: 'file-loader?name=audio/[hash].[ext]?v='+ common_config.hash}
         ]
     },
     resolve: {
         root: srcPath,
         extensions: ['', '.js', '.jsx', '.json', '.coffee', '.less', '.css', '.png', '.jpg', '.gif'],
-        modulesDirectories: ['node_modules', 'src'],
+        modulesDirectories: ['node_modules', 'src']
     },
     plugins: [
         common_config.plugins.chunkVendorPlugin,

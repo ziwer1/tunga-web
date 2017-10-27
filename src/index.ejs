@@ -71,13 +71,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/1.8.5/countUp.min.js"></script>
     <script src="https://cdn.ravenjs.com/3.15.0/raven.min.js" crossorigin="anonymous"></script>
 
-    <% if (htmlWebpackPlugin.options.env == 'production') { %>
-        <%- include ./src/analytics %>
-    <% } %>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrNZwL5sT-XOZC9iCT-Z0Vaa7EDcs-Cfc&callback=initMap"
+  type="text/javascript"></script>
+    <script type="text/javascript">
+      function initMap() {
+      }
+    </script>
 
-    <!-- Optimizely -->
-    <script src="https://cdn.optimizely.com/js/<%= htmlWebpackPlugin.options.site.optimizely_id %>.js"></script>
-    <!-- End of Optimizely -->
+    <%- include ./src/analytics %>
 
     <!-- HTML5 shim, Respond.js, es5-shim and console shim for IE8 support of HTML5 elements, media queries, ES5 syntax and console -->
     <!--[if lt IE 9]>
