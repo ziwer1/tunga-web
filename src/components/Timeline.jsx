@@ -3,7 +3,7 @@ import moment from 'moment';
 import {Link} from 'react-router';
 import TimeAgo from 'react-timeago';
 import {OverlayTrigger, Popover} from 'react-bootstrap';
-import {resizeOverviewBox} from './TaskWorflow';
+import {resizeOverviewBox} from './TaskWorkflow';
 import Milestone from './Milestone';
 
 import {

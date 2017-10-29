@@ -49,7 +49,7 @@ export function resizeOverviewBox() {
   }
 }
 
-export default class TaskWorflow extends ComponentWithModal {
+export default class TaskWorkflow extends ComponentWithModal {
   constructor(props) {
     super(props);
     this.state = {
@@ -1266,6 +1266,6 @@ export default class TaskWorflow extends ComponentWithModal {
   }
 }
 
-TaskWorflow.contextTypes = {
+TaskWorkflow.contextTypes = {
   router: React.PropTypes.object.isRequired,
 };
