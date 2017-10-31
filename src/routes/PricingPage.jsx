@@ -130,6 +130,46 @@ class PricingPage extends ComponentWithModal {
       </div>
     );
   }
+  //mobile
+  renderTableKey(){
+    return (
+      <div className="tablekey col-xs-8 hidden-lg hidden-md">
+        <p>Browse & Connect with developers</p>
+        <p>Hourly fee</p>
+        <p>Availability</p>
+        <p>Duration</p>
+        <p>Verified skills guarantee</p>
+        <p>Progress tracking</p>
+        <p>Quality tracking</p>
+        <p>Daily progress reports</p>
+        <p>Weekly progress reports</p>
+        <p>Dedicated Project Manager (optional)</p>
+        <p>Custom integrations (GitHub, Trello, Slack, GDrive)</p>
+        <p>Hassle free invoicing & payment</p>
+        <p>Agree on project sum beforehand</p>
+      </div>
+    );
+  }
+  //large devices
+  renderLgTableKey(){
+    return (
+      <div className="hidden-sm hidden-xs">
+        <p>Browse & Connect with developers</p>
+        <p>Hourly fee</p>
+        <p>Availability</p>
+        <p>Duration</p>
+        <p>Verified skills guarantee</p>
+        <p>Progress tracking</p>
+        <p>Quality tracking</p>
+        <p>Daily progress reports</p>
+        <p>Weekly progress reports</p>
+        <p>Dedicated Project Manager (optional)</p>
+        <p>Custom integrations (GitHub, Trello, Slack, GDrive)</p>
+        <p>Hassle free invoicing & payment</p>
+        <p>Agree on project sum beforehand</p>
+      </div>
+    );
+  }
 
   render() {
     let meta_title = 'Tunga | Pricing';
@@ -148,21 +188,7 @@ class PricingPage extends ComponentWithModal {
               <div className="step-slider four-sm clearfix">
                 <ul>
                   <li className="table-key">
-                    <div>
-                      <p>Browse & Connect with developers</p>
-                      <p>Hourly fee</p>
-                      <p>Availability</p>
-                      <p>Duration</p>
-                      <p>Verified skills guarantee</p>
-                      <p>Progress tracking</p>
-                      <p>Quality tracking</p>
-                      <p>Daily progress reports</p>
-                      <p>Weekly progress reports</p>
-                      <p>Dedicated Project Manager (optional)</p>
-                      <p>Custom integrations (GitHub, Trello, Slack, GDrive)</p>
-                      <p>Hassle free invoicing & payment</p>
-                      <p>Agree on project sum beforehand</p>
-                    </div>
+                    {this.renderLgTableKey()}
                   </li>
                   {OFFER_DETAILS.map((offer, idx) => {
                     return (
@@ -174,8 +200,9 @@ class PricingPage extends ComponentWithModal {
                           <div className="description">
                             {offer.description}
                           </div>
-                          <div className="perks">
-                            {offer.perks &&
+                          <div className="clearfix perks">
+                            <div className="col-xs-4 col-lg-12">
+                              {offer.perks &&
                               offer.perks.map(comp => {
                                 return (
                                   <p>
@@ -183,6 +210,8 @@ class PricingPage extends ComponentWithModal {
                                   </p>
                                 );
                               })}
+                            </div>
+                            {this.renderTableKey()}
                           </div>
                           <div>
                             {offer.cta
