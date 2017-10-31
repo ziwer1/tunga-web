@@ -13,7 +13,7 @@ export default class CodeOfConduct extends React.Component {
         <p>
           To promote optimal relations between the Users on our Website, Tunga
           has formulated a Code of Conduct. This serves as a guide to help all
-          our Users to use the Tunga Website in a way to promotes and ensures
+          our Users to use the Tunga Website in a way that promotes and ensures
           trust, safety and respect. And which leads to successful cooperations!
         </p>
 
