@@ -8,6 +8,7 @@ PLEASE HELP US PROCESS GITHUB ISSUES FASTER BY PROVIDING THE FOLLOWING INFORMATI
 [ ] Bug report <!-- Please search this repo for a similar issue or PR before submitting -->
 [ ] Feature request
 [ ] Regression (behavior that used to work and stopped working in a new release)
+[ ] Enhancement
 </code></pre>
 
 ## Current behavior
