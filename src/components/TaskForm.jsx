@@ -84,7 +84,6 @@ export default class TaskForm extends ComponentWithModal {
       description: '',
       remarks: '',
       visibility: VISIBILITY_DEVELOPERS,
-      assignee: null,
       participants: [],
       schedule_options,
       schedule_map,
@@ -124,7 +123,7 @@ export default class TaskForm extends ComponentWithModal {
     if (this.state.step == 1) {
       this.reportFunnelUrl(this.getStepUrl());
     }
-    if (this.props.task) {
+    if (this.props.task || this.props.project) {
       this.setState(this.getStateFromTask());
     }
   }
@@ -132,19 +131,15 @@ export default class TaskForm extends ComponentWithModal {
   getStateFromTask() {
     const {project, options} = this.props;
     const task = this.props.task || {};
-
-    const assignee =
-      task.assignee && task.assignee.user ? task.assignee.user.id : null;
     const description = task.description || '';
     const remarks = task.remarks || '';
     var participants = [];
     var participant_updates = {};
+    var participation = [];
     if (task.details) {
+      participation = task.details.participation;
       task.details.participation.forEach(participant => {
-        if (participant.user.id != assignee) {
-          participants.push(participant.user.id);
-        }
-
+        participants.push(participant.user.id);
         participant_updates[participant.id] = participant.updates_enabled;
       });
     }
@@ -163,12 +158,43 @@ export default class TaskForm extends ComponentWithModal {
         type: project.type || TASK_TYPE_OTHER,
         scope: TASK_SCOPE_TASK,
       };
+
+      if(!task.id) {
+        project_state.skills = project.details && project.details.skills
+          ? project.details.skills.map(skill => {
+          return skill.name;
+        }):[];
+
+        project_state.title = `Task: ${project.title}`;
+        project_state.description = project.description;
+        project_state.deadline = project.deadline;
+
+        participants = [];
+        if (project.details) {
+          participation = project.details.participation;
+          project.details.participation.forEach(participant => {
+            participants.push(participant.user.id);
+          });
+        }
+
+        project_state.participants = participants;
+        project_state.participation = participation;
+        if(participation.length) {
+          project_state.visibility = VISIBILITY_CUSTOM;
+        }
+
+        project_state.pm = project.pm;
+        project_state.owner = project.owner;
+        project_state.details = project.details;
+      }
+
+      return project_state;
     }
 
     return {
       ...task,
-      assignee,
       participants,
+      participation,
       participant_updates,
       description,
       remarks,
@@ -261,7 +287,6 @@ export default class TaskForm extends ComponentWithModal {
           description: '',
           remarks: '',
           visibility: VISIBILITY_DEVELOPERS,
-          assignee: null,
           participants: [],
           schedule: null,
           attachments: [],
@@ -488,13 +513,10 @@ export default class TaskForm extends ComponentWithModal {
   }
 
   getCollaborators() {
-    const task = this.props.task || {};
     var collaborators = [];
-    if (task.id && task.details) {
-      task.details.participation.forEach(collaborator => {
-        if (collaborator.user.id != this.state.assignee) {
-          collaborators.push(collaborator.user);
-        }
+    if (this.state.participation) {
+      this.state.participation.forEach(collaborator => {
+        collaborators.push(collaborator.user);
       });
     }
     return collaborators;
@@ -590,22 +612,11 @@ export default class TaskForm extends ComponentWithModal {
 
   onVisibilityChange(visibility = VISIBILITY_DEVELOPERS) {
     this.setState({visibility: visibility});
-    if (visibility != VISIBILITY_CUSTOM) {
-      this.setState({assignee: null});
-    }
   }
 
   onUpdateScheduleChange(schedule) {
     var schedule_id = schedule || null;
     this.setState({schedule: schedule_id});
-  }
-
-  onAssigneeChange(users) {
-    var assignee = null;
-    if (Array.isArray(users) && users.length) {
-      assignee = users[0];
-    }
-    this.setState({assignee});
   }
 
   onPMChange(users) {
@@ -805,15 +816,11 @@ export default class TaskForm extends ComponentWithModal {
     req_data = {...req_data, ...update_schedule};
 
     var participation = [];
-    var assignee = this.state.assignee;
     var participants = this.state.participants;
     if (participants) {
       participation = participants.map(function(id) {
-        return {user: id, assignee: false};
+        return {user: id};
       });
-    }
-    if (assignee) {
-      participation.push({user: assignee, assignee: true});
     }
     req_data.participation = [...participation, ...this.getParticipation()];
     req_data.milestones = this.state.milestones;
@@ -936,7 +943,7 @@ export default class TaskForm extends ComponentWithModal {
 
     let is_project_task = (project && project.id) || (task && task.parent);
     let is_project = this.state.scope != TASK_SCOPE_TASK;
-    let work_type = is_project ? 'project' : 'task';
+    let work_type = is_project && !is_project_task ? 'project' : 'task';
 
     if (
       isAuthenticated() &&
@@ -1346,10 +1353,10 @@ export default class TaskForm extends ComponentWithModal {
         <div className="form-group">
           <label className="control-label">
             What is{' '}
-            {isAuthenticated() && task.id
+            {isAuthenticated() && (task.id || is_project_task)
               ? 'the fee'
               : 'your estimated budget'}{' '}
-            for this {work_type}?{!is_project_task && isAuthenticated()
+            for this {work_type}?{isAuthenticated()
               ? ''
               : ' - (optional)'}
           </label>
@@ -1711,25 +1718,6 @@ export default class TaskForm extends ComponentWithModal {
 
     let developersComp = (
       <div>
-        {is_project
-          ? null
-          : <div className="form-group">
-              <label className="control-label">Assignee *</label>
-              <UserSelector
-                filter={{
-                  types: [USER_TYPE_DEVELOPER, USER_TYPE_PROJECT_MANAGER].join(
-                    ',',
-                  ),
-                }}
-                onChange={this.onAssigneeChange.bind(this)}
-                selected={
-                  task.assignee && task.assignee.user
-                    ? [task.assignee.user]
-                    : []
-                }
-                max={1}
-              />
-            </div>}
         <div className="form-group">
           <label className="control-label">Developers</label>
           <UserSelector
@@ -1738,7 +1726,6 @@ export default class TaskForm extends ComponentWithModal {
             }}
             onChange={this.onParticipantChange.bind(this)}
             selected={this.getCollaborators()}
-            deselected={this.state.assignee ? [this.state.assignee] : []}
             unremovable={this.getCollaborators().map(user => {
               return user.id;
             })}
@@ -1760,7 +1747,7 @@ export default class TaskForm extends ComponentWithModal {
           <UserSelector
             filter={{type: USER_TYPE_PROJECT_MANAGER}}
             onChange={this.onPMChange.bind(this)}
-            selected={task.details && task.details.pm ? [task.details.pm] : []}
+            selected={this.state.details && this.state.details.pm ? [this.state.details.pm] : []}
             max={1}
           />
         </div>
@@ -1781,7 +1768,7 @@ export default class TaskForm extends ComponentWithModal {
             filter={{type: USER_TYPE_PROJECT_OWNER}}
             onChange={this.onOwnerChange.bind(this)}
             selected={
-              task.details && task.details.owner ? [task.details.owner] : []
+              this.state.details && this.state.details.owner ? [this.state.details.owner] : []
             }
             max={1}
           />
@@ -2850,13 +2837,13 @@ export default class TaskForm extends ComponentWithModal {
         sections = [
           {
             title: `Basic details about the ${work_type}`,
-            items: [titleComp, skillsComp],
-            requires: ['title', 'skills'],
+            items: [titleComp, descComp],
+            requires: ['title', 'description'],
           },
           {
-            title: 'Task description',
-            items: [descComp],
-            requires: ['description'],
+            title: `Tag skills or products that are relevant to this ${work_type}`,
+            items: [skillsComp],
+            requires: ['skills'],
           },
           {
             title: 'Agreements',
@@ -2868,6 +2855,27 @@ export default class TaskForm extends ComponentWithModal {
             items: [visibilityComp],
           },
         ];
+
+        if(project.pm) {
+          sections = [
+            ...sections,
+            {
+              title: 'Select a project manager',
+              items: [pmComp]
+            },
+          ]
+        }
+
+        if(project.owner) {
+          sections = [
+            ...sections,
+            {
+              title: 'Select a project owner',
+              items: [ownerComp]
+            },
+          ]
+        }
+
       } else if (this.state.scope == TASK_SCOPE_ONGOING) {
         sections = [
           {
