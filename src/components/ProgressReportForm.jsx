@@ -176,6 +176,7 @@ export default class ProgressReportForm extends FormComponent {
     var accomplished = this.state.accomplished;
     var todo = this.state.todo;
     var obstacles = this.state.obstacles;
+    var obstacles_prevention = this.state.obstacles_prevention;
     var remarks = this.state.remarks;
     const attachments = this.state.attachments;
     var last_deadline_met = this.state.last_deadline_met;
@@ -204,6 +205,7 @@ export default class ProgressReportForm extends FormComponent {
       accomplished,
       todo,
       obstacles,
+      obstacles_prevention,
       remarks,
       last_deadline_met,
       deadline_report,
@@ -875,6 +877,7 @@ export default class ProgressReportForm extends FormComponent {
                               }
                             />
                           : null}
+
                         <div className="form-group">
                           <label className="control-label">
                             What obstacles are impeding your progress? *
@@ -892,6 +895,27 @@ export default class ProgressReportForm extends FormComponent {
                             {this.state.obstacles}
                           </textarea>
                         </div>
+
+                      {this.state.obstacles?(
+                        <div className="form-group">
+                          <label className="control-label">
+                            What could have been done to prevent this from happening? *
+                          </label>
+                              <textarea
+                                placeholder="What could have been done to prevent this from happening?"
+                                className="form-control"
+                                ref="obstacles_prevention"
+                                onChange={this.onInputChange.bind(
+                                  this,
+                                  'obstacles_prevention',
+                                )}
+                                value={this.state.obstacles_prevention}
+                                required>
+                                {this.state.obstacles_prevention}
+                              </textarea>
+                        </div>
+                      ):null}
+
                       </div>}
                 </div>
               </div>

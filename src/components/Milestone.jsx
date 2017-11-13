@@ -372,6 +372,17 @@ export default class Milestone extends React.Component {
                                 </div>
                               : null}
 
+                            {report.obstacles_prevention
+                              ? <div>
+                              <strong>What could have been done to prevent this from happening?</strong>
+                              <div>
+                                <Linkify properties={{target: '_blank'}}>
+                                  {report.obstacles_prevention}
+                                </Linkify>
+                              </div>
+                            </div>
+                              : null}
+
                             {/* General */}
                             {typeof report.pm_communication == 'boolean'
                               ? <div>
