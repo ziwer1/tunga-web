@@ -639,7 +639,7 @@ export default class TaskForm extends ComponentWithModal {
     if (Array.isArray(users)) {
       this.setState({
         participants: Array.from(
-          new Set([...this.state.participants, ...users]),
+          new Set([...users]),
         ),
       });
     }
