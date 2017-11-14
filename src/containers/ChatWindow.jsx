@@ -57,12 +57,12 @@ class ChatWindow extends React.Component {
 
     if (!isAuthenticated()) {
       let path = (window.location.pathname + location.search);
-      if(/^\/?(((tunga\/)?welcome)\/?)?(\?.*|$)/.test(path)) {
+      //if(/^\/?(((tunga\/)?welcome)\/?)?(\?.*|$)/.test(path)) {
         let cw = this;
         setTimeout(function() {
           cw.setState({open: true});
         }, __PRODUCTION__ ? 10000 : 3000);
-      }
+      //}
     }
     this.setState({channel, open});
   }
