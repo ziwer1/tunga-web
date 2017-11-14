@@ -56,13 +56,12 @@ class ChatWindow extends React.Component {
     }
 
     if (!isAuthenticated()) {
-      let path = (window.location.pathname + location.search);
-      //if(/^\/?(((tunga\/)?welcome)\/?)?(\?.*|$)/.test(path)) {
+      if(this.props.autoOpen) {
         let cw = this;
         setTimeout(function() {
           cw.setState({open: true});
         }, __PRODUCTION__ ? 10000 : 3000);
-      //}
+      }
     }
     this.setState({channel, open});
   }
@@ -236,11 +235,13 @@ class ChatWindow extends React.Component {
 ChatWindow.propTypes = {
   channelId: React.PropTypes.number,
   closeChat: React.PropTypes.bool,
+  autoOpen: React.PropTypes.bool,
 };
 
 ChatWindow.defaultProps = {
   channelId: null,
   closeChat: false,
+  autoOpen: true,
 };
 
 export default connect(ChatWindow);

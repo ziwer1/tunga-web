@@ -18,7 +18,7 @@ class ShowcaseContainer extends React.Component {
       if(windowWidth >= 992) {
         if($(document).scrollTop() >= 20) {
           $('.navbar').removeClass('navbar-glass');
-        } else if(!__PRODUCTION__) {
+        } else if(this.props.hasGlassNav) {
           $('.navbar').addClass('navbar-glass');
         }
       }
@@ -77,7 +77,7 @@ class ShowcaseContainer extends React.Component {
               </div>
             : null}
           <Affix affixClassName="navbar-fixed-top" offsetTop={60}>
-            <nav className={`navbar navbar-fixed-top ${__PRODUCTION__?'':'navbar-glass'}`}>
+            <nav className={`navbar navbar-fixed-top ${this.props.hasGlassNav?'navbar-glass':''}`}>
               <div className="navbar-header">
                 <button
                   type="button"
@@ -165,7 +165,7 @@ class ShowcaseContainer extends React.Component {
 
         {this.props.children}
 
-        <ChatWindow channelId={this.props.chatId || null} closeChat={this.props.closeChat || false}/>
+        <ChatWindow channelId={this.props.chatId || null} closeChat={this.props.closeChat || false} autoOpen={this.props.autoOpenChat}/>
       </div>
     );
   }
@@ -174,11 +174,15 @@ class ShowcaseContainer extends React.Component {
 ShowcaseContainer.propTypes = {
   chatId: React.PropTypes.number,
   closeChat: React.PropTypes.bool,
+  hasGlassNav: React.PropTypes.bool,
+  autoOpenChat: React.PropTypes.bool,
 };
 
 ShowcaseContainer.defaultProps = {
   chatId: null,
   closeChat: false,
+  hasGlassNav: true,
+  autoOpenChat: true,
 };
 
 export default connect(ShowcaseContainer);

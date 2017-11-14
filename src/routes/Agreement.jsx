@@ -581,7 +581,9 @@ export default class Agreement extends React.Component {
     return (
       <ShowcaseContainer
         className="agreement-page"
-        headerContent={this.renderHeaderContent()}>
+        headerContent={this.renderHeaderContent()}
+        hasGlassNav={false}
+        autoOpenChat={false}>
         <MetaTags title={meta_title} description={meta_description}/>
 
         <ShowCaseFooter />

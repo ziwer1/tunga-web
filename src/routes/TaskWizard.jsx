@@ -226,7 +226,7 @@ export default class TaskWizard extends React.Component {
     return (
       <ShowcaseContainer
         className="task-wizard-page"
-        headerContent={this.renderHeaderContent()}>
+        headerContent={this.renderHeaderContent()} hasGlassNav={false}>
         <MetaTags title={meta_title} description={meta_description} />
       </ShowcaseContainer>
     );

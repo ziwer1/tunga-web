@@ -88,15 +88,15 @@ class ShowCaseFooter extends React.Component {
 
               <div>
                 <p>
-                  <a href="/privacy" target="_blank">
+                  <a href="https://tunga.io/privacy" target="_blank">
                     Privacy Policy
                   </a>{' '}
                   &nbsp; | &nbsp;{' '}
-                  <a href="/agreement" target="_blank">
+                  <a href="https://tunga.io/agreement" target="_blank">
                     Terms and Conditions
                   </a>{' '}
                   &nbsp; | &nbsp;{' '}
-                  <a href="/code-of-conduct" target="_blank">
+                  <a href="https://tunga.io/code-of-conduct" target="_blank">
                     Code of Conduct
                   </a>
                 </p>
