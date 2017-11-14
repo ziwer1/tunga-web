@@ -12,13 +12,13 @@ import connect from '../utils/connectors/AuthConnector';
 class ShowcaseContainer extends React.Component {
 
   componentDidMount() {
-
+    let hasGlassNav = this.props.hasGlassNav;
     let updateTopBar = function () {
       let windowWidth = $(window).innerWidth();
       if(windowWidth >= 992) {
         if($(document).scrollTop() >= 20) {
           $('.navbar').removeClass('navbar-glass');
-        } else if(this.props.hasGlassNav) {
+        } else if(hasGlassNav) {
           $('.navbar').addClass('navbar-glass');
         }
       }
