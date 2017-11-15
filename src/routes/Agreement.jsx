@@ -487,16 +487,22 @@ export default class Agreement extends React.Component {
           unknown, that is related to such a dispute.
         </p>
 
-        <h3>7. OTHER PROVISIONS</h3>
+        <h3>7. PAYMENTS</h3>
 
         <p>
-          7.1 Tunga is never liable for claims as a result of outages or
+          7.1 Tunga is the responsible party for all payment transactions on the platform, including refunds, cancellation and disputes. Also Tunga is the first point of contact in terms of questions or complaints about the payments.
+        </p>
+
+        <h3>8. OTHER PROVISIONS</h3>
+
+        <p>
+          8.1 Tunga is never liable for claims as a result of outages or
           unavailability of the server. Tunga has the objective for hundred
           percent (100%) server up-time, but cannot guarantee this.
         </p>
 
         <p>
-          7.2 Tunga reserves the right to perform maintenance or changes to the
+          8.2 Tunga reserves the right to perform maintenance or changes to the
           Tunga Account, the Services and/or Website. This may result in periods
           during which the Tunga Account, the Services and/or Website may be
           temporarily unavailable. Tunga will announce such interruptions in
@@ -505,28 +511,28 @@ export default class Agreement extends React.Component {
         </p>
 
         <p>
-          7.3 Tunga is committed to the high standard of data security and
+          8.3 Tunga is committed to the high standard of data security and
           precision. However, Tunga is never liable for any loss or damages that
           a User may incur as a result of malfunctions, errors, security
           breaches or any other reason.
         </p>
 
         <p>
-          7.4 Tunga is never liable for the content used by a User. If a User
+          8.4 Tunga is never liable for the content used by a User. If a User
           comes across content that is not correct, offensive or in violations
           with these terms of use, the User has to report this immediately to
           Tunga. Tunga has the right to delete content of Users, if necessary.
         </p>
 
         <p>
-          7.5 Tunga is never liable for losses or damages resulting from
+          8.5 Tunga is never liable for losses or damages resulting from
           suspension of/ defects in the Services as a result of extraordinary
           events or circumstances beyond the control of Tunga (a “force majeure
           event”).
         </p>
 
         <p>
-          7.6 The content on the Website, including, without limitation, the
+          8.6 The content on the Website, including, without limitation, the
           text, software, scripts, graphics, photographs, sounds, videos,
           articles and the trademarks, service marks and logos contained therein
           are owned by or licensed by Tunga, subject to intellectual property
@@ -534,28 +540,28 @@ export default class Agreement extends React.Component {
         </p>
 
         <p>
-          7.7 Tunga reserves the right to close, suspend or limit your access to
+          8.7 Tunga reserves the right to close, suspend or limit your access to
           your Account at our own discretion. This includes closing an Inactive
           Account.
         </p>
 
         <p>
-          7.8 Headings in this User Agreement are included for convenience only
+          8.8 Headings in this User Agreement are included for convenience only
           and are not be considered in interpreting this User Agreement.
         </p>
 
         <p>
-          7.9 If any of the provisions of these terms of use is null and/or
+          8.9 If any of the provisions of these terms of use is null and/or
           void, the other provisions of these terms maintain their effect.
         </p>
 
         <p>
-          7.10 The laws of the Netherlands are applicable if any disputes arise
+          8.10 The laws of the Netherlands are applicable if any disputes arise
           concerning the (use of the) Tunga Account and the Services.
         </p>
 
         <p>
-          7.11 All disputes arising from the use of the Tunga Account and the
+          8.11 All disputes arising from the use of the Tunga Account and the
           Services and/or from other agreements for the execution thereof, shall
           be judged by the competent authorised court having jurisdiction in the
           district or subdistrict where Tunga has its registered office, with
@@ -563,7 +569,7 @@ export default class Agreement extends React.Component {
         </p>
 
         <p>
-          7.12 All legal notices should be sent via e-mail to{' '}
+          8.12 All legal notices should be sent via e-mail to{' '}
           <a href="mailto:admin@tunga.com">admin@tunga.com</a>. Also, if you
           have any questions about this User Agreement or if you wish to report
           breaches of this User Agreement, please contact us by e-mail us to
