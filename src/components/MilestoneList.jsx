@@ -179,7 +179,7 @@ export default class MilestoneList extends React.Component {
                               <strong>Developers</strong>
                               {milestone.details.active_participants.map(
                                 participation => {
-                                  const participant = participation.user;
+                                  const participant = participation.user || participation;
                                   return (
                                     <div
                                       className="collaborator"
