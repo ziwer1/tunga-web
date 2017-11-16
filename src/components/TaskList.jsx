@@ -91,18 +91,25 @@ export default class TaskList extends GenericListContainer {
                     </li>
                     {isProjectManager() || isAdmin()
                       ? [
-                          <li role="presentation" key="new-projects">
+                          <li role="presentation" key="leads">
                             <Link
-                              to="/work/filter/new-projects"
+                              to="/work/filter/leads"
                               activeClassName="active">
-                              <i className="tunga-icon-project" /> New Projects
+                              <i className="fa fa-bullseye" /> Leads
                             </Link>
                           </li>,
-                          <li role="presentation" key="proposals">
+                          <li role="presentation" key="projects">
                             <Link
-                              to="/work/filter/proposals"
+                              to="/work/filter/projects"
                               activeClassName="active">
-                              <i className="fa fa-pie-chart" /> Estimates
+                              <i className="tunga-icon-project" /> Projects
+                            </Link>
+                          </li>,
+                          <li role="presentation" key="tasks">
+                            <Link
+                              to="/work/filter/tasks"
+                              activeClassName="active">
+                              <i className="tunga-icon-task" /> Tasks
                             </Link>
                           </li>,
                         ]
@@ -112,27 +119,33 @@ export default class TaskList extends GenericListContainer {
                         <i className="tunga-icon-running-tasks" /> Running
                       </Link>
                     </li>
-                    {isDeveloper() || isAdmin()
-                      ? [
-                          <li
-                            role="presentation"
-                            key="skills"
-                            style={{marginLeft: '20px'}}>
-                            <Link
-                              to="/work/filter/skills"
-                              activeClassName="active">
-                              My Skills
-                            </Link>
-                          </li>,
-                          <li role="presentation" key="clients">
-                            <Link
-                              to="/work/filter/project-owners"
-                              activeClassName="active">
-                              My Clients
-                            </Link>
-                          </li>,
-                        ]
-                      : null}
+                    <li role="presentation">
+                      <Link to="/work/filter/closed" activeClassName="active">
+                        <i className="fa fa-list" /> Closed
+                      </Link>
+                    </li>
+                    {isDeveloper() || isAdmin()?(
+                      <li
+                        role="presentation"
+                        key="skills"
+                        style={{marginLeft: '20px'}}>
+                        <Link
+                          to="/work/filter/skills"
+                          activeClassName="active">
+                          My Skills
+                        </Link>
+                      </li>
+                    ):null}
+                    {isDeveloper()
+                      ? (
+                      <li role="presentation" key="clients">
+                        <Link
+                          to="/work/filter/project-owners"
+                          activeClassName="active">
+                          My Clients
+                        </Link>
+                      </li>
+                    ): null}
                     {skill
                       ? <li role="presentation" style={{marginLeft: '20px'}}>
                           <Link
