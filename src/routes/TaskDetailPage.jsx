@@ -113,7 +113,7 @@ export default class TaskDetailPage extends React.Component {
     if (task) {
       let can_prevent_redirect =
         !task.is_task ||
-        (task.approved && task.participation && task.participation.length);
+        (task.approved /*&& task.participation && task.participation.length*/);
       if (task.parent) {
         crumb_parents.push({
           name: task.details.parent.summary,

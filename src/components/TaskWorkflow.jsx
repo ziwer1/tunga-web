@@ -918,7 +918,7 @@ export default class TaskWorkflow extends ComponentWithModal {
                       : <span>
                   <Avatar src={task.user.avatar_url} title={task.user.display_name} url={`/people/${task.user.username}/`}/>
                 </span>}
-                    {isAdmin() || is_pm
+                    {(isAdmin() || is_pm) && !(task.payment_approved || task.paid)
                       ?
                       <Link
                         to={`/work/${task.id}/edit/owner`}
@@ -955,7 +955,7 @@ export default class TaskWorkflow extends ComponentWithModal {
                     <span>
                       <Avatar src={task.details.pm.avatar_url} title={task.details.pm.display_name} url={`/people/${task.details.pm.username}`}/>
                     </span>
-                    {isAdmin()
+                    {isAdmin() && !(task.payment_approved || task.paid)
                       ? <Link
                       to={`/work/${task.id}/edit/pm`}
                       className="btn btn-borderless">
@@ -983,11 +983,14 @@ export default class TaskWorkflow extends ComponentWithModal {
                         </span>
                           )
                         })}
-                        <Link
-                          to={`/work/${task.id}/edit/developers`}
-                          className="btn btn-borderless">
-                          <i className="edit-icon tunga-icon-create"/>
-                        </Link>
+
+                        {is_admin_or_owner_or_pm && !(task.payment_approved || task.paid)?(
+                          <Link
+                            to={`/work/${task.id}/edit/developers`}
+                            className="btn btn-borderless">
+                            <i className="edit-icon tunga-icon-create"/>
+                          </Link>
+                        ):null}
                       </div>
                     </div>
 
@@ -1050,7 +1053,7 @@ export default class TaskWorkflow extends ComponentWithModal {
                             Edit {work_type} description
                           </Link>
                         </li>,
-                        task.is_developer_ready && is_admin_or_owner
+                        is_admin_or_owner && !task.paid
                           ? <li>
                           <Link
                             to={`/work/${task.id}/edit/fee`}
