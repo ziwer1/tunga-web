@@ -249,9 +249,10 @@ export default class PaymentList extends GenericListContainer {
                         const task = Task.list.tasks[id];
                         const invoice = task.invoice || {
                           amount: task.amount,
-                          developer_amount: {},
+                          developer_amount: {developer: task.amount.developer, tunga: task.amount.tunga},
                           created_at: task.invoice_date,
                         };
+                        console.log(task);
                         return (
                           <tr key={task.id}>
                             <td>
@@ -359,7 +360,7 @@ export default class PaymentList extends GenericListContainer {
                                       : null}
                                   </div>
                                 : <div>
-                                  {task.paid?(
+                                  {task.paid || isDeveloper()?(
                                     <div>
                                       Contact{' '}
                                       <a href="mailto:hello@tunga.io">
