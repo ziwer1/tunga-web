@@ -137,7 +137,7 @@ export default class Channel extends React.Component {
                 : ''}`}>
               {channel.type == CHANNEL_TYPES.support
                 ? <div>
-                    Hi there, we're are Tunga. How can we help?
+                    Hi there, we are Tunga. How can we help?
                     <div className="avatars">
                       <Avatar
                         size="medium"

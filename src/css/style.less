@@ -2833,19 +2833,29 @@ form[name='compose'] {
     .font-size(2.0);
     font-weight: 700;
   }
-}
 
-.chat-btn:hover,
-.btn.chat-btn:hover,
-.btn.chat-btn:focus,
-.btn.chat-btn:active {
-  color: @primary;
-  background-color: @active-white;
-  outline-color: transparent !important;
+  &.chat-top-btn {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    z-index: 1;
+    height: 25px;
+    width: 25px;
+    box-shadow: none;
+    padding: 0;
+  }
 
-  .badge {
-    color: @active-white;
-    background-color: @primary;
+  &:hover,
+  &:focus,
+  &:active {
+    color: @primary;
+    background-color: @active-white;
+    outline-color: transparent !important;
+
+    .badge {
+      color: @active-white;
+      background-color: @primary;
+    }
   }
 }
 

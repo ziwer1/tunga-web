@@ -186,6 +186,10 @@ class ChatWindow extends React.Component {
           ? <div id="chat-window">
               <div className="chat-overview overview">
                 <div className="mainbox">
+                  <button className="btn chat-btn chat-top-btn"
+                          onClick={this.closeWindow.bind(this)}>
+                    <i className="fa fa-times fa-lg"/>
+                  </button>
                   {channel && channel.id
                     ? <ChannelView
                         channelId={channel.id}
