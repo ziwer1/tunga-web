@@ -247,12 +247,17 @@ export default class PaymentList extends GenericListContainer {
                     <tbody>
                       {all_tasks.map(id => {
                         const task = Task.list.tasks[id];
+                        if(!task) {
+                          return null;
+                        }
                         const invoice = task.invoice || {
                           amount: task.amount,
-                          developer_amount: {developer: task.amount.developer, tunga: task.amount.tunga},
+                          developer_amount: {
+                            developer: task.amount?task.amount.developer:0,
+                            tunga: task.amount?task.amount.tunga:0
+                          },
                           created_at: task.invoice_date,
                         };
-                        console.log(task);
                         return (
                           <tr key={task.id}>
                             <td>
