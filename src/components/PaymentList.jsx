@@ -234,7 +234,7 @@ export default class PaymentList extends GenericListContainer {
                               <th>Pledge</th>,
                               <th>Payment fee</th>,
                               <th>Tunga fee</th>,
-                              <th>To Receive</th>,
+                              <th>Developer(s) fee</th>,
                             ]
                           : [<th>Pledge</th>, <th>Developers</th>]}
                         <th>Invoice</th>
