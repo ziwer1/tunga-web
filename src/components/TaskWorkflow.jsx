@@ -30,7 +30,7 @@ import {getTaskKey} from '../utils/reducers';
 import confirm from '../utils/confirm';
 
 import {SOCIAL_PROVIDERS} from '../constants/Api';
-import {isAdmin, getUser} from '../utils/auth';
+import {isAdmin, getUser, isProjectManager} from '../utils/auth';
 import {sendGAPageView} from '../utils/tracking';
 
 import {
@@ -918,7 +918,7 @@ export default class TaskWorkflow extends ComponentWithModal {
                       : <span>
                   <Avatar src={task.user.avatar_url} title={task.user.display_name} url={`/people/${task.user.username}/`}/>
                 </span>}
-                    {(isAdmin() || is_pm) && !(task.payment_approved || task.paid)
+                    {(isAdmin() || is_pm || (is_owner && isProjectManager())) && !task.payment_approved && !task.paid
                       ?
                       <Link
                         to={`/work/${task.id}/edit/owner`}
@@ -948,13 +948,14 @@ export default class TaskWorkflow extends ComponentWithModal {
 
                 {task.is_project?(
                   <div>
+                    {task.pm || isAdmin()?(
+                      <div>Project Manager</div>
+                    ):null}
                     {task.pm && task.details && task.details.pm
-                      ? <div>
-                  <div>Project Manager</div>
-                  <div>
-                    <span>
+                      ? <span>
                       <Avatar src={task.details.pm.avatar_url} title={task.details.pm.display_name} url={`/people/${task.details.pm.username}`}/>
                     </span>
+                      : null}
                     {isAdmin() && !(task.payment_approved || task.paid)
                       ? <Link
                       to={`/work/${task.id}/edit/pm`}
@@ -963,53 +964,45 @@ export default class TaskWorkflow extends ComponentWithModal {
                     </Link>
                       : null}
                   </div>
-                </div>
-                      : null}
-                  </div>
                 ):null}
 
-
-                {task.is_developer_ready?(
+                <div>
+                  <div>Developers</div>
                   <div>
-                    <div>
-                      <div>Developers</div>
-                      <div>
-                        {approved_devs.map(participant => {
-                          return (
-                            <span
-                              className="collaborator"
-                              key={participant.id}>
+                    {approved_devs.map(participant => {
+                      return (
+                        <span
+                          className="collaborator"
+                          key={participant.id}>
                           <Avatar src={participant.avatar_url} title={participant.display_name} url={`/people/${participant.username}/`}/>
                         </span>
-                          )
-                        })}
+                      )
+                    })}
 
-                        {is_admin_or_owner_or_pm && !(task.payment_approved || task.paid)?(
-                          <Link
-                            to={`/work/${task.id}/edit/developers`}
-                            className="btn btn-borderless">
-                            <i className="edit-icon tunga-icon-create"/>
-                          </Link>
-                        ):null}
-                      </div>
-                    </div>
-
-                    {invited_devs.length?(
-                      <div>
-                        <div>Pending Invitations</div>
-                        <div>
-                          {invited_devs.map(participant => {
-                            return (
-                              <span
-                                className="collaborator"
-                                key={participant.id}>
-                          <Avatar src={participant.avatar_url} title={participant.display_name} url={`/people/${participant.username}/`}/>
-                        </span>
-                            )
-                          })}
-                        </div>
-                      </div>
+                    {is_admin_or_owner_or_pm && !(task.payment_approved || task.paid)?(
+                      <Link
+                        to={`/work/${task.id}/edit/developers`}
+                        className="btn btn-borderless">
+                        <i className="edit-icon tunga-icon-create"/>
+                      </Link>
                     ):null}
+                  </div>
+                </div>
+
+                {invited_devs.length?(
+                  <div>
+                    <div>Pending Invitations</div>
+                    <div>
+                      {invited_devs.map(participant => {
+                        return (
+                          <span
+                            className="collaborator"
+                            key={participant.id}>
+                          <Avatar src={participant.avatar_url} title={participant.display_name} url={`/people/${participant.username}/`}/>
+                        </span>
+                        )
+                      })}
+                    </div>
                   </div>
                 ):null}
 
