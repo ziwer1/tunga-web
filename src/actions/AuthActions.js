@@ -14,6 +14,8 @@ import {
   SOCIAL_PROVIDERS,
 } from '../constants/Api';
 import {listRunningProjects} from './ProjectActions';
+import {updateAccountInfo, updateAuthUser} from './ProfileActions';
+
 import {
   sendGAEvent,
   sendTwitterSignUpEvent,
@@ -764,3 +766,8 @@ export function retrieveInviteFailed(error) {
     error,
   };
 }
+
+export {
+  updateAccountInfo,
+  updateAuthUser
+};

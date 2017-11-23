@@ -1,14 +1,53 @@
 import React from 'react';
 import Joyride from 'react-joyride';
+import moment from 'moment';
+import momentLocalizer from 'react-widgets/lib/localizers/moment';
 
 import NavBar from '../components/NavBar';
 import SideBar from './SideBar';
 import ChatWindow from '../containers/ChatWindow';
 import MetaTags from '../components/MetaTags';
 
-import {isAdmin, isProjectManager, isProjectOwner} from '../utils/auth';
+import {isAdmin, isProjectManager, isProjectOwner, getUser} from '../utils/auth';
+import confirm from '../utils/confirm';
+
+momentLocalizer(moment);
+
+const AGREEMENT_VERSION = 1.1;
 
 export default class AppWrapper extends React.Component {
+
+  componentDidMount() {
+    const {Auth, AuthActions} = this.props;
+    if(Auth.isAuthenticated) {
+      if(Auth.user && parseFloat(Auth.user.agree_version || 0) < AGREEMENT_VERSION) {
+        confirm(
+          <div>
+            <p>
+              Hi {getUser().first_name},
+            </p>
+            <p>
+              A change in our User Agreement has taken place as of October 27, 2017. Please read them carefully <a href="https://tunga.io/agreement">here</a>.
+            </p>
+          </div>,
+          false,
+          {ok: 'I agree', cancel: "I don't agree"}
+        ).then(function() {
+          AuthActions.updateAuthUser({
+            agree_version: AGREEMENT_VERSION,
+            agreed_at: moment.utc().format()
+          });
+        }, function () {
+          AuthActions.updateAuthUser({
+            disagree_version: AGREEMENT_VERSION,
+            disagreed_at: moment.utc().format()
+          });
+          AuthActions.logout();
+        });
+      }
+    }
+  }
+
   handleAppClick() {
     const {onAppClick} = this.props;
     if (onAppClick) {
