@@ -8,6 +8,7 @@ import {STATUS_INITIAL} from '../constants/Api';
 function user(state = {}, action) {
   switch (action.type) {
     case UserActions.RETRIEVE_USER_SUCCESS:
+    case UserActions.UPDATE_USER_SUCCESS:
       return action.user;
     case UserActions.RETRIEVE_USER_START:
     case UserActions.RETRIEVE_USER_FAILED:

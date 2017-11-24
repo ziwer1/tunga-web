@@ -126,6 +126,10 @@ let all_routes = (
     <Route path="agreement" component={Agreement} />
     <Route path="privacy" component={PrivacyPolicy} />
     <Route path="code-of-conduct" component={CodeOfConduct} />
+    <Route path="developer" component={UserPage}>
+      <IndexRoute component={DeveloperProfile} />
+      <Route path=":userId" component={DeveloperProfile} />
+    </Route>
     <Route unauthedOnly={true}>
       {/* No Auth Pages */}
       <Route path="welcome">
@@ -135,10 +139,6 @@ let all_routes = (
       <Route path="quiz">
         <IndexRoute component={QuizForm} />
         <Route path="*" component={QuizForm} />
-      </Route>
-      <Route path="developer/profile">
-        <IndexRoute component={DeveloperProfile} />
-        <Route path="*" component={DeveloperProfile} />
       </Route>
       <Route path="start">
         <IndexRoute component={TaskWizard} />

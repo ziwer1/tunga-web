@@ -7,6 +7,9 @@ export const LIST_USERS_FAILED = 'LIST_USERS_FAILED';
 export const RETRIEVE_USER_START = 'RETRIEVE_USER_START';
 export const RETRIEVE_USER_SUCCESS = 'RETRIEVE_USER_SUCCESS';
 export const RETRIEVE_USER_FAILED = 'RETRIEVE_USER_FAILED';
+export const UPDATE_USER_START = 'UPDATE_USER_START';
+export const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS';
+export const UPDATE_USER_FAILED = 'UPDATE_USER_FAILED';
 export const LIST_MORE_USERS_START = 'LIST_MORE_USERS_START';
 export const LIST_MORE_USERS_SUCCESS = 'LIST_MORE_USERS_SUCCESS';
 export const LIST_MORE_USERS_FAILED = 'LIST_MORE_USERS_FAILED';
@@ -87,6 +90,41 @@ export function retrieveUserSuccess(user) {
 export function retrieveUserFailed(error) {
   return {
     type: RETRIEVE_USER_FAILED,
+    error,
+  };
+}
+
+export function updateUser(id, data) {
+  return dispatch => {
+    dispatch(updateUserStart(id));
+    axios
+      .patch(ENDPOINT_USER + id + '/', data)
+      .then(function(response) {
+        dispatch(updateUserSuccess(response.data));
+      })
+      .catch(function(error) {
+        dispatch(updateUserFailed(error.response ? error.response.data : null));
+      });
+  };
+}
+
+export function updateUserStart(id) {
+  return {
+    type: UPDATE_USER_START,
+    id,
+  };
+}
+
+export function updateUserSuccess(user) {
+  return {
+    type: UPDATE_USER_SUCCESS,
+    user,
+  };
+}
+
+export function updateUserFailed(error) {
+  return {
+    type: UPDATE_USER_FAILED,
     error,
   };
 }
