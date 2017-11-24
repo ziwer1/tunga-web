@@ -53,6 +53,7 @@ export const CREATE_DEVELOPER_CHANNEL_FAILED =
 export const CREATE_TASK_CHANNEL_START = 'CREATE_TASK_CHANNEL_START';
 export const CREATE_TASK_CHANNEL_SUCCESS = 'CREATE_TASK_CHANNEL_SUCCESS';
 export const CREATE_TASK_CHANNEL_FAILED = 'CREATE_TASK_CHANNEL_FAILED';
+export const AUTO_OPEN_CHAT_SUCCESS = 'AUTO_OPEN_CHAT_SUCCESS';
 
 export function createChannel(channel) {
   return dispatch => {
@@ -628,5 +629,11 @@ export function listMoreChannelActivityFailed(error, id) {
     type: LIST_MORE_CHANNEL_ACTIVITY_FAILED,
     error,
     id,
+  };
+}
+
+export function recordAutoOpenChatSuccess() {
+  return {
+    type: AUTO_OPEN_CHAT_SUCCESS
   };
 }

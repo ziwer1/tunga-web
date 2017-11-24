@@ -302,6 +302,19 @@ function support(state = {new: 0}, action) {
   }
 }
 
+function hasAutoOpenedChat(state=false, action) {
+  switch (action.type) {
+    case ChannelActions.AUTO_OPEN_CHAT_SUCCESS:
+          return true;
+    case VERIFY_SUCCESS:
+    case LOGIN_SUCCESS:
+    case LOGOUT_SUCCESS:
+      return false;
+    default:
+          return state;
+  }
+}
+
 const detail = combineReducers({
   channel,
   isRetrieving,
@@ -326,6 +339,7 @@ const list = combineReducers({
 const Channel = combineReducers({
   detail,
   list,
+  hasAutoOpenedChat
 });
 
 export default Channel;
