@@ -173,13 +173,7 @@ export default class TaskCard extends ComponentWithModal {
                           onClick={this.onClaimProject.bind(this)}>
                           Claim {work_type}
                         </button>
-                      : task.can_return
-                        ? <button
-                            className="btn btn-block"
-                            onClick={this.onReturnProject.bind(this)}>
-                            Return {work_type}
-                          </button>
-                        : null}
+                      : null}
                   </div>
                 </div>
               : null}

@@ -655,14 +655,6 @@ export default class TaskWorkflow extends ComponentWithModal {
                   Proposal
                 </Link>
                   : null}
-
-                {task.can_return
-                  ? <button
-                  className="btn"
-                  onClick={this.onReturnProject.bind(this)}>
-                  Return {work_type}
-                </button>
-                  : null}
               </span>
                 : null}
 
