@@ -14,23 +14,33 @@ export default class DeveloperProfile extends React.Component {
 
   componentDidMount(){
     this.props.UserActions.retrieveUser(this.props.params.userId);
-    this.initMap();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const {User} = this.props;
+    if (User.detail.user.id != prevProps.User.detail.user.id) {
+      this.initMap();
+    }
   }
 
   initMap() {
-    var mapTimer = null;
+    const {User} = this.props;
+    const user = User.detail.user || {};
+
+    var map = null,
+      mapTimer = null;
     function createMap() {
       try {
         if(google && google.maps) {
-          var uluru = {lat: 0.3476, lng: 32.5825};
-          var map = new google.maps.Map(document.getElementById('map'), {
+          var kampala = {lat: 0.3476, lng: 32.5825}; // Kampala, Uganda
+          map = new google.maps.Map(document.getElementById('map'), {
             zoom: 12,
-            center: uluru
+            center: kampala
           });
-          var marker = new google.maps.Marker({
-            position: uluru,
-            map: map
-          });
+
+          if(user.profile && user.profile.location) {
+            codeAddress(user.profile.location);
+          }
           if(mapTimer) {
             clearInterval(mapTimer);
           }
@@ -41,6 +51,22 @@ export default class DeveloperProfile extends React.Component {
         mapTimer = setInterval(createMap, 1000);
       }
     }
+
+    function codeAddress(address) {
+      var geocoder = new google.maps.Geocoder();
+      geocoder.geocode( { 'address': address}, function(results, status) {
+        if (status == 'OK') {
+          map.setCenter(results[0].geometry.location);
+          var marker = new google.maps.Marker({
+            map: map,
+            position: results[0].geometry.location
+          });
+        } else {
+          console.error('Geocode was not successful for the following reason: ' + status);
+        }
+      });
+    }
+
     createMap();
   }
 
