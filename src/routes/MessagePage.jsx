@@ -73,81 +73,94 @@ class MessagePage extends React.Component {
 
     return (
       <div id="chat-window">
-        {isAuthenticated()
-          ? <div className="chat-head">
-              <h2>
-                {channel_type_filter == CHANNEL_TYPES.support
-                  ? 'Help'
-                  : 'Messages'}
-              </h2>
-            </div>
-          : null}
+        <div className="col-lg-12 nopadding">
 
-        <div className="chat-overview overview">
-          {isAuthenticated() &&
-          (isAdmin() || channel_type_filter != CHANNEL_TYPES.support)
-            ? <div className="sidebox channelbox">
-                <SearchBox
-                  placeholder="Search"
-                  onSearch={ChannelActions.listChannels}
-                  count={Channel.list.count}
-                />
-                {channel_type_filter == CHANNEL_TYPES.support
-                  ? null
-                  : <div>
-                      <Link to="/conversation/start/">
-                        <i className="fa fa-plus" />{' '}
-                        {channel_type_filter == CHANNEL_TYPES.support
-                          ? 'Create a new inquiry'
+          <div className="col-md-6 col-sm-6 col-xs-6  nopadding">
+            {isAuthenticated()
+              ? <div className="chat-head">
+                  <h2>
+                    {channel_type_filter == CHANNEL_TYPES.support
+                      ? 'Help'
+                      : 'Messages'}
+                  </h2>
+                </div>
+              : null}
+          </div>
+
+          <div className="col-md-6 col-sm-6 col-xs-6 nopadding">
+            {
+              channel_type_filter == CHANNEL_TYPES.support
+                ? null
+                : <div className="pull-right btn-start">
+                    <Link to="/conversation/start/">
+                      <i className="fa fa-plus" />{' '}
+                      {channel_type_filter == CHANNEL_TYPES.support
+                        ? 'Create a new inquiry'
                           : 'Start a new conversation'}
-                      </Link>
-                    </div>}
-                {Channel.list.isFetching
-                  ? <Progress />
-                  : <div className="list-box">
-                      <div className="channel-list">
-                        {Channel.list.ids.map(id => {
-                          let channel = Channel.list.channels[id];
-                          return (
-                            <Link
-                              key={id}
-                              to={`${channel_type_filter ==
-                              CHANNEL_TYPES.support
-                                ? '/help'
-                                : '/conversation'}/${channel.id}/`}
-                              className="media"
-                              activeClassName="active">
-                              <div className="media-left">
-                                <Avatar
-                                  src={
-                                    channel.user
-                                      ? channel.user.avatar_url
-                                      : null
-                                  }
-                                  icon={
-                                    channel.user ? null : 'glypichon-comment'
-                                  }
-                                  badge={channel.new || null}
-                                />
-                              </div>
-                              <div className="media-body channel-details">
-                                <ChannelInfo channel={channel} />
-                              </div>
-                            </Link>
-                          );
-                        })}
-                      </div>
-                      <LoadMore
-                        url={Channel.list.next}
-                        callback={ChannelActions.listMoreChannels}
-                        loading={Channel.list.isFetchingMore}
-                        text="more"
-                      />
-                    </div>}
-              </div>
-            : null}
-          <div className="mainbox">
-            {this.renderChildren()}
+                    </Link>
+                  </div>
+            }
+          </div>
+          <div className="col-xs-12 nopadding"><hr style={{marginTop: 0}}/></div>
+        </div>
+        <div className="col-xs-12 nopadding">
+          <div className="chat-overview overview">
+            {isAuthenticated() &&
+            (isAdmin() || channel_type_filter != CHANNEL_TYPES.support)
+              ? <div className="sidebox channelbox">
+                  <SearchBox
+                    placeholder="Search"
+                    onSearch={ChannelActions.listChannels}
+                    count={Channel.list.count}
+                    custom_class="search-box-group-custom"
+                  />
+                  {Channel.list.isFetching
+                    ? <Progress />
+                    : <div className="list-box">
+                        <div className="channel-list">
+                          {Channel.list.ids.map(id => {
+                            let channel = Channel.list.channels[id];
+                            return (
+                              <Link
+                                key={id}
+                                to={`${channel_type_filter ==
+                                CHANNEL_TYPES.support
+                                  ? '/help'
+                                  : '/conversation'}/${channel.id}/`}
+                                className="media"
+                                activeClassName="active">
+                                <div className="media-left">
+                                  <Avatar
+                                    src={
+                                      channel.user
+                                        ? channel.user.avatar_url
+                                        : null
+                                    }
+                                    icon={
+                                      channel.user ? null : 'glypichon-comment'
+                                    }
+                                    badge={channel.new || null}
+                                  />
+                                </div>
+                                <div className="media-body channel-details">
+                                  <ChannelInfo channel={channel} />
+                                </div>
+                              </Link>
+                            );
+                          })}
+                        </div>
+                        <LoadMore
+                          url={Channel.list.next}
+                          callback={ChannelActions.listMoreChannels}
+                          loading={Channel.list.isFetchingMore}
+                          text="more"
+                        />
+                      </div>}
+                </div>
+              : null}
+            <div className="mainbox">
+              {this.renderChildren()}
+            </div>
           </div>
         </div>
       </div>

@@ -112,6 +112,32 @@ th {
   font-weight: 400;
 }
 
+.search-box-group-custom{
+  border-radius: 8px;
+  background-color: #ffffff;
+  -webkit-box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+  box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+  border: solid 1px #f6f6f6;
+}
+
+.search-box-group-custom input{
+  border-radius: 0 !important;
+  box-shadow: none;
+}
+.search-box-group-custom input:focus{
+  border: 0 !important;
+  box-shadow: none;
+}
+.nopadding{
+  padding: 0 !important;
+}
+
+.btn-start{
+  border-radius: 3px;
+  background-color: #f6f6f6;
+  padding: 5px 20px;
+}
+
 #content {
   height: 100%;
 }
@@ -1501,13 +1527,12 @@ form[name='compose'] {
   }
 
   .input-group-addon {
-    background: @inactive-grey none;
-    padding-right: 6px;
+    background: transparent;
+    padding-right: 0;
   }
 
   input.form-control {
-    background: @inactive-grey none;
-    border-left-width: 0;
+    background: transparent;
   }
 
   .results {
@@ -2474,9 +2499,9 @@ form[name='compose'] {
       position: relative;
       display: flex;
       flex-direction: column;
-      background-color: @inactive-grey;
+      background-color: @white;
       padding: 15px 10px;
-      border-radius: 10px;
+      box-shadow: 0 2px 4px 0 rgba(191, 191, 191, 0.5);
 
       .search-box {
         margin-bottom: 15px;
@@ -2531,8 +2556,8 @@ form[name='compose'] {
           }
 
           a.active {
-            color: @active-white;
-            background-color: @primary;
+            color: @greyish-brown;
+            background-color: @inactive-grey;
             text-decoration: none;
 
             .avatar {
@@ -2546,7 +2571,7 @@ form[name='compose'] {
 
             .channel-details {
               .title {
-                color: @active-white;
+                color:@greyish-brown;
               }
             }
           }
@@ -2555,11 +2580,13 @@ form[name='compose'] {
 
       .search-box {
         .input-group-addon {
-          background: @active-white none;
+          background: transparent;
         }
 
         input.form-control {
-          background: @active-white none;
+          background: transparent;
+          border-radius: 0 !important;
+          box-shadow: none;
         }
       }
     }
@@ -2568,7 +2595,7 @@ form[name='compose'] {
       padding: 0 15px;
 
       .chatbox {
-        border-top: 1px solid @inactive-grey;
+        //border-top: 1px solid @inactive-grey;
 
         .chatbox-top {
           padding: 0 10px 5px;

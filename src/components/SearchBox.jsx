@@ -47,12 +47,11 @@ export default class SearchBox extends React.Component {
   }
 
   render() {
-    const {count} = this.props;
-
+    const {count, custom_class} = this.props;
     return (
       <div className="search-box">
         <form name="search" role="form" onSubmit={this.onSearch.bind(this)}>
-          <div className="input-group">
+          <div className={"input-group "+custom_class}>
             <span className="input-group-addon">
               <i className="fa fa-search" />
             </span>
