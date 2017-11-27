@@ -7,6 +7,7 @@ import {isAdmin, isProjectManager} from '../utils/auth';
 
 import ShowcaseContainer from '../containers/ShowcaseContainer';
 import MetaTags from '../components/MetaTags';
+import Avatar from '../components/Avatar';
 import ShowCaseFooter from '../containers/ShowCaseFooter';
 
 export default class DeveloperProfile extends React.Component {
@@ -60,14 +61,15 @@ export default class DeveloperProfile extends React.Component {
     const {User} = this.props;
     const {user} = User.detail;
 
-    console.log('User Profile',  user);
-
     return (
       <div>
         <h1>{user.display_name}</h1>
         <h2>{user.profile?user.profile.location:''}</h2>
-        <div className="profile-div">
+        {/*<div className="profile-div">
           <img className="profile-image" src={user.image} />
+        </div>*/}
+        <div style={{textAlign: 'center', position: 'relative', top: '50px', marginTop: '-100px'}}>
+          <Avatar src={user.image} size="xl"/>
         </div>
       </div>
     );
@@ -89,7 +91,9 @@ export default class DeveloperProfile extends React.Component {
 
         {(isAdmin() || isProjectManager())?(
           <div className="text-center" style={{paddingTop: '20px'}}>
-            <button className="btn" onClick={this.onApprove.bind(this, !user.verified)}>{user.verified?'A':'Disa'}pprove</button>
+            <button className={`btn ${user.verified?'btn-alt':''}`} onClick={this.onApprove.bind(this, !user.verified)}>
+              <i className={`fa fa-${user.verified?'times':'check-circle'}`}/> {user.verified?'Disa':'A'}pprove
+            </button>
             {/*
              <span className="verified"><i className="fa fa-check-circle"/> Verified</span>
             */}
