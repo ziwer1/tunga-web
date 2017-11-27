@@ -65,9 +65,6 @@ export default class DeveloperProfile extends React.Component {
       <div>
         <h1>{user.display_name}</h1>
         <h2>{user.profile?user.profile.location:''}</h2>
-        {/*<div className="profile-div">
-          <img className="profile-image" src={user.image} />
-        </div>*/}
         <div style={{textAlign: 'center', position: 'relative', top: '50px', marginTop: '-100px'}}>
           <Avatar src={user.image} size="xl"/>
         </div>

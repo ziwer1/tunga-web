@@ -4,6 +4,7 @@ import Rating from 'react-rating';
 import Avatar from './Avatar';
 
 import {isAuthenticated, isAdmin} from '../utils/auth';
+import {USER_TYPE_DEVELOPER} from '../constants/Api';
 
 export default class UserCardProfile extends React.Component {
   render() {
@@ -16,9 +17,13 @@ export default class UserCardProfile extends React.Component {
         </div>
         <div className="media-body">
           {profileLink
-            ? <Link to={`/people/${user.username}/`}>
-                {user.display_name}
-              </Link>
+            ? <div>
+                {user.type == USER_TYPE_DEVELOPER?(
+                  <a href={`/developer/${user.username}/`} target="_blank">{user.display_name}</a>
+                ):(
+                  <Link to={`/people/${user.username}/`} className="btn btn-block ">{user.display_name}</Link>
+                )}
+              </div>
             : <div>
                 {user.display_name}
               </div>}
