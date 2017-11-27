@@ -11,7 +11,7 @@ export default class ProjectBoard extends ComponentWithModal {
   render() {
     const {Task} = this.props;
     const {task} = Task.detail;
-    let is_admin_or_owner = getUser().id == task.user.id || isAdmin();
+    let is_admin_or_owner = getUser().id == task.user.id || isAdmin() || getUser().id == task.pm;
 
     return Task.detail.isRetrieving
       ? <Progress />
