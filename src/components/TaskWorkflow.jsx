@@ -785,11 +785,11 @@ export default class TaskWorkflow extends ComponentWithModal {
                 : <span>&nbsp;</span>}
             </div>
 
-            {(task.is_developer_ready &&
+            {task.is_developer_ready &&
             !task.payment_approved && !task.paid &&
             task.is_participant &&
             task.my_participation &&
-            task.my_participation.status == STATUS_INITIAL) || true
+            task.my_participation.status == STATUS_INITIAL
               ? <div className="pull-right hidden-xs hidden-sm">
               <button
                 type="button"
