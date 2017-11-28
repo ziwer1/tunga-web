@@ -146,12 +146,12 @@ export default class TaskWorkflow extends ComponentWithModal {
       var next = null;
       if (!task.approved) {
         next = `/work/${task.id}/edit/complete-task`;
+      } else if (!task.payment_approved) {
+        next = `/work/${task.id}/invoice`;
       } else if (!task.participation || !task.participation.length) {
         next = `/work/${task.id}/applications`;
       } else if (task.paid) {
         next = `/work/${task.id}/rate`;
-      } else if (!task.payment_approved) {
-        next = `/work/${task.id}/invoice`;
       } else {
         next = `/work/${task.id}/pay`;
       }
