@@ -241,9 +241,31 @@ export default class TaskWorkflow extends ComponentWithModal {
   }
 
   handleAcceptTask() {
-    const {TaskActions, Task} = this.props;
-    TaskActions.updateTask(Task.detail.task.id, {
-      participation: [{user: getUser().id, status: STATUS_ACCEPTED}],
+    const {TaskActions, Task, task} = this.props;
+
+    let work_type = task.is_project ? 'project' : 'task';
+
+    confirm(
+      <div>
+        <p>
+          Hi {getUser().first_name},
+        </p>
+        <p>
+          By accepting this {work_type}, you agree to our user agreement and code of conduct.
+        </p>
+        <p>
+          Please read them carefully at the links below before accepting:<br/>
+
+          <a href="https://tunga.io/agreement" target="_blank">User Agreement</a><br/>
+          <a href="https://tunga.io/code-of-conduct" target="_blank">Code of Conduct</a>
+        </p>
+      </div>,
+      false,
+      {ok: 'I accept'}
+    ).then(function() {
+      TaskActions.updateTask(Task.detail.task.id, {
+        participation: [{user: getUser().id, status: STATUS_ACCEPTED}],
+      });
     });
   }
 
@@ -763,11 +785,11 @@ export default class TaskWorkflow extends ComponentWithModal {
                 : <span>&nbsp;</span>}
             </div>
 
-            {task.is_developer_ready &&
+            {(task.is_developer_ready &&
             !task.payment_approved && !task.paid &&
             task.is_participant &&
             task.my_participation &&
-            task.my_participation.status == STATUS_INITIAL
+            task.my_participation.status == STATUS_INITIAL) || true
               ? <div className="pull-right hidden-xs hidden-sm">
               <button
                 type="button"
