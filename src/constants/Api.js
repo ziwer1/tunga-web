@@ -396,8 +396,16 @@ export const TASK_PAYMENT_METHOD_BITONIC = 'bitonic';
 export const TASK_PAYMENT_METHOD_BITCOIN = 'bitcoin';
 export const TASK_PAYMENT_METHOD_BANK = 'bank';
 export const TASK_PAYMENT_METHOD_STRIPE = 'stripe';
+export const TASK_PAYMENT_METHOD_AYDEN = 'ayden';
 
 export const TASK_PAYMENT_METHOD_CHOICES = [
+  {
+    id: TASK_PAYMENT_METHOD_AYDEN,
+    name: 'Pay with Ayden',
+    meta: 'Details to be added',
+    icon_class: 'fa fa-credit-card',
+    details: 'Click continue to pay with your credit/debit card on Ayden.',
+  },
   {
     id: TASK_PAYMENT_METHOD_STRIPE,
     name: 'Pay with Card',
