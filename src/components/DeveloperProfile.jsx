@@ -7,29 +7,40 @@ import {isAdmin, isProjectManager} from '../utils/auth';
 
 import ShowcaseContainer from '../containers/ShowcaseContainer';
 import MetaTags from '../components/MetaTags';
+import Avatar from '../components/Avatar';
 import ShowCaseFooter from '../containers/ShowCaseFooter';
 
 export default class DeveloperProfile extends React.Component {
 
   componentDidMount(){
     this.props.UserActions.retrieveUser(this.props.params.userId);
-    this.initMap();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const {User} = this.props;
+    if (User.detail.user.id != prevProps.User.detail.user.id) {
+      this.initMap();
+    }
   }
 
   initMap() {
-    var mapTimer = null;
+    const {User} = this.props;
+    const user = User.detail.user || {};
+
+    var map = null,
+      mapTimer = null;
     function createMap() {
       try {
         if(google && google.maps) {
-          var uluru = {lat: 0.3476, lng: 32.5825};
-          var map = new google.maps.Map(document.getElementById('map'), {
+          var kampala = {lat: 0.3476, lng: 32.5825}; // Kampala, Uganda
+          map = new google.maps.Map(document.getElementById('map'), {
             zoom: 12,
-            center: uluru
+            center: kampala
           });
-          var marker = new google.maps.Marker({
-            position: uluru,
-            map: map
-          });
+
+          if(user.profile && user.profile.location) {
+            codeAddress(user.profile.location);
+          }
           if(mapTimer) {
             clearInterval(mapTimer);
           }
@@ -40,6 +51,22 @@ export default class DeveloperProfile extends React.Component {
         mapTimer = setInterval(createMap, 1000);
       }
     }
+
+    function codeAddress(address) {
+      var geocoder = new google.maps.Geocoder();
+      geocoder.geocode( { 'address': address}, function(results, status) {
+        if (status == 'OK') {
+          map.setCenter(results[0].geometry.location);
+          var marker = new google.maps.Marker({
+            map: map,
+            position: results[0].geometry.location
+          });
+        } else {
+          console.error('Geocode was not successful for the following reason: ' + status);
+        }
+      });
+    }
+
     createMap();
   }
 
@@ -60,14 +87,12 @@ export default class DeveloperProfile extends React.Component {
     const {User} = this.props;
     const {user} = User.detail;
 
-    console.log('User Profile',  user);
-
     return (
       <div>
         <h1>{user.display_name}</h1>
         <h2>{user.profile?user.profile.location:''}</h2>
-        <div className="profile-div">
-          <img className="profile-image" src={user.image} />
+        <div style={{textAlign: 'center', position: 'relative', top: '50px', marginTop: '-100px'}}>
+          <Avatar src={user.image} size="xl"/>
         </div>
       </div>
     );
@@ -89,7 +114,9 @@ export default class DeveloperProfile extends React.Component {
 
         {(isAdmin() || isProjectManager())?(
           <div className="text-center" style={{paddingTop: '20px'}}>
-            <button className="btn" onClick={this.onApprove.bind(this, !user.verified)}>{user.verified?'A':'Disa'}pprove</button>
+            <button className={`btn ${user.verified?'btn-alt':''}`} onClick={this.onApprove.bind(this, !user.verified)}>
+              <i className={`fa fa-${user.verified?'times':'check-circle'}`}/> {user.verified?'Disa':'A'}pprove
+            </button>
             {/*
              <span className="verified"><i className="fa fa-check-circle"/> Verified</span>
             */}

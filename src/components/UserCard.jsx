@@ -7,7 +7,7 @@ import TagList from './TagList';
 
 import {isProjectOwner} from '../utils/auth';
 
-import {STATUS_ACCEPTED, STATUS_REJECTED} from '../constants/Api';
+import {STATUS_ACCEPTED, STATUS_REJECTED, USER_TYPE_DEVELOPER} from '../constants/Api';
 
 export default class UserCard extends React.Component {
   handleConnectRequest() {
@@ -74,9 +74,13 @@ export default class UserCard extends React.Component {
         <div className="actions">
           <div className="row">
             <div className="col-sm-12">
-              <Link to={`/people/${user.username}/`} className="btn btn-block ">
-                Go to profile
-              </Link>
+              {user.type == USER_TYPE_DEVELOPER?(
+                <a href={`/developer/${user.username}/`} target="_blank">Go to profile</a>
+              ):(
+                <Link to={`/people/${user.username}/`} className="btn btn-block ">
+                  Go to profile
+                </Link>
+              )}
             </div>
           </div>
 
