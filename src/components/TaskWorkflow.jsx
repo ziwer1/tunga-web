@@ -146,12 +146,12 @@ export default class TaskWorkflow extends ComponentWithModal {
       var next = null;
       if (!task.approved) {
         next = `/work/${task.id}/edit/complete-task`;
-      } else if (!task.payment_approved) {
-        next = `/work/${task.id}/invoice`;
       } else if (!task.participation || !task.participation.length) {
         next = `/work/${task.id}/applications`;
       } else if (task.paid) {
         next = `/work/${task.id}/rate`;
+      } else if (!task.payment_approved) {
+        next = `/work/${task.id}/invoice`;
       } else {
         next = `/work/${task.id}/pay`;
       }
@@ -241,31 +241,9 @@ export default class TaskWorkflow extends ComponentWithModal {
   }
 
   handleAcceptTask() {
-    const {TaskActions, Task, task} = this.props;
-
-    let work_type = task.is_project ? 'project' : 'task';
-
-    confirm(
-      <div>
-        <p>
-          Hi {getUser().first_name},
-        </p>
-        <p>
-          By accepting this {work_type}, you agree to our user agreement and code of conduct.
-        </p>
-        <p>
-          Please read them carefully at the links below before accepting:<br/>
-
-          <a href="https://tunga.io/agreement" target="_blank">User Agreement</a><br/>
-          <a href="https://tunga.io/code-of-conduct" target="_blank">Code of Conduct</a>
-        </p>
-      </div>,
-      false,
-      {ok: 'I accept'}
-    ).then(function() {
-      TaskActions.updateTask(Task.detail.task.id, {
-        participation: [{user: getUser().id, status: STATUS_ACCEPTED}],
-      });
+    const {TaskActions, Task} = this.props;
+    TaskActions.updateTask(Task.detail.task.id, {
+      participation: [{user: getUser().id, status: STATUS_ACCEPTED}],
     });
   }
 
@@ -730,14 +708,6 @@ export default class TaskWorkflow extends ComponentWithModal {
                         : 'Generate Invoice'}
                     </Link>
                       : null}
-                    {can_pay && task.invoice && !task.payment_approved?(
-                      <Link
-                        to={`/work/${task.id}/edit/payment-approval/`}
-                        className="btn"
-                        id="make-payment-btn">
-                        Approve Payment
-                      </Link>
-                    ):null}
                     {can_rate
                       ? <Link
                       to={`/work/${task.id}/rate/`}
