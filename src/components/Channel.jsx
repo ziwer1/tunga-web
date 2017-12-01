@@ -81,7 +81,7 @@ export default class Channel extends React.Component {
   }
 
   onSendMessage(body, attachments) {
-    const {MessageActions, Channel} = this.props;
+    const {MessageActions, Channel, ChannelActions} = this.props;
     const {channel} = Channel.detail;
     MessageActions.createMessage({channel: channel.id, body}, attachments);
   }

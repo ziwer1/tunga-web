@@ -57,7 +57,6 @@ class ChatWindow extends React.Component {
 
     if (!isAuthenticated()) {
       const { autoOpen, Channel, ChannelActions } = this.props;
-      console.log('ChatWindow', this.props);
       if(autoOpen && !Channel.hasAutoOpenedChat) {
         let cw = this;
         setTimeout(function() {

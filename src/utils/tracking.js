@@ -41,6 +41,7 @@ export const GA_EVENT_CATEGORIES = {
   CONTACT: 'Contact',
   VIDEO: 'Video',
   MESSAGE: 'Message',
+  CHAT: 'Chat'
 };
 
 export const GA_EVENT_ACTIONS = {
@@ -65,6 +66,7 @@ export const GA_EVENT_ACTIONS = {
   REQUEST_OFFER: 'Request Offer',
   SEND: 'Send',
   PAY: 'Pay',
+  START: 'Start',
 };
 
 export const GA_EVENT_LABELS = {
@@ -88,7 +90,7 @@ export function getUserTypeTwitter(type) {
 }
 
 export function getGAUserType(user) {
-  if (user) {
+  if (user && user.id) {
     if (user.is_staff || user.is_superuser) {
       return 'Admin';
     }

@@ -254,7 +254,6 @@ export class LandingPage extends ComponentWithModal {
         if (roundTungaLogoTop.size()) {
           var logoPos = roundTungaLogoTop.offset().top;
           var currentLogoPos = logoPos - $(this).scrollTop();
-          console.log('position 3 is ' + currentLogoPos);
 
           if (menuItemToggled === true) {
             if (currentPos >= 0) {
@@ -280,7 +279,6 @@ export class LandingPage extends ComponentWithModal {
 
       $('.navbar-toggle').click(function() {
         if (windowWidth < 768) {
-          console.log('window is small');
           var $navbar = $('.navbar-collapse');
           var _opened = $navbar.hasClass('in');
 

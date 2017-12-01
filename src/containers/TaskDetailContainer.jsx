@@ -11,7 +11,6 @@ export default class TaskDetailContainer extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     const {taskId, editToken} = this.props;
     if (taskId != prevProps.taskId) {
-      console.log('Re trigger: ', taskId, prevProps.taskId);
       this.props.TaskActions.retrieveTask(taskId, editToken);
     }
   }

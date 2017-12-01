@@ -420,8 +420,6 @@ export default class ActivityList extends React.Component {
       (!isAuthenticated() &&
         (activity.user.inquirer || activity.user.id == 'guest'));
 
-    console.log('activity: ', is_current_user, activity.user);
-
     let display_name = is_current_user ? 'You' : activity.user.short_name;
 
     let avatar_div = activity.user.hide
