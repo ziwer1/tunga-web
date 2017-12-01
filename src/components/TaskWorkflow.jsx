@@ -29,8 +29,8 @@ import {render_summary, nl_to_br} from '../utils/html';
 import {getTaskKey} from '../utils/reducers';
 import confirm from '../utils/confirm';
 
-import {SOCIAL_PROVIDERS} from '../constants/Api';
-import {isAdmin, getUser, isProjectManager} from '../utils/auth';
+import {SOCIAL_PROVIDERS, ENDPOINT_TASK} from '../constants/Api';
+import {isAdmin, getUser, isProjectManager, isDeveloper} from '../utils/auth';
 import {sendGAPageView} from '../utils/tracking';
 
 import {
@@ -1268,6 +1268,49 @@ export default class TaskWorkflow extends ComponentWithModal {
                   }
                   return null;
                 })}
+
+                {task.invoice
+                  ? <div>
+                  <div>
+                    <strong>Invoice{isDeveloper() || isAdmin()?'s':''}</strong>
+                  </div>
+                  <a
+                    href={`${ENDPOINT_TASK}${task.id}/download/invoice/?format=pdf&type=client`}
+                    target="_blank">
+                                      <span>
+                                        <i className="fa fa-download" />{' '}
+                                        {isDeveloper() ||
+                                        isProjectManager() ||
+                                        isAdmin()
+                                          ? 'Client'
+                                          : 'Download'}{' '}
+                                        Invoice(s)
+                                      </span>
+                  </a>
+                  <br />
+                  {(isDeveloper() || isAdmin()) && task.participation && task.participation.length
+                    ? <div>
+                    <a
+                      href={`${ENDPOINT_TASK}${task.id}/download/invoice/?format=pdf&type=developer`}
+                      target="_blank">
+                                            <span>
+                                              <i className="fa fa-download" />{' '}
+                                              Developer Invoice(s)
+                                            </span>
+                    </a>
+                    <br />
+                    <a
+                      href={`${ENDPOINT_TASK}${task.id}/download/invoice/?format=pdf&type=tunga`}
+                      target="_blank">
+                                            <span>
+                                              <i className="fa fa-download" />{' '}
+                                              Tunga Invoice(s)
+                                            </span>
+                    </a>
+                  </div>
+                    : null}
+                </div>
+                  : null}
               </div>
             </div>
           </div>
