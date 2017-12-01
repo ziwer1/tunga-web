@@ -19,8 +19,11 @@ export default class ChatBox extends React.Component {
   }
 
   onSendMessage(body, attachments) {
-    const {channel, MessageActions} = this.props;
+    const {channel, Channel, MessageActions, ChannelActions} = this.props;
     MessageActions.createMessage({channel: channel.id, body}, attachments);
+    if(channel.type == CHANNEL_TYPES.support && !Channel.chatStarted) {
+      ChannelActions.recordChatStart();
+    }
   }
 
   onUpload(files) {
