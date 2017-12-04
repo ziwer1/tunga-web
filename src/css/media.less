@@ -154,6 +154,10 @@
   .flex-row.row {
     display: flex;
     flex-wrap: wrap;
+
+    &:after, &:before {
+      content: normal;
+    }
   }
   .flex-row.row > [class*='col-'] {
     display: flex;
