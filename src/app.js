@@ -72,6 +72,7 @@ import ApplicationDetail from 'components/ApplicationDetail';
 import MilestoneContainer from 'containers/MilestoneContainer';
 import Milestone from 'components/Milestone';
 import MilestoneList from 'components/MilestoneList';
+import EventList from 'components/EventList';
 import IntegrationList from 'components/IntegrationList';
 import TaskPay from 'components/TaskPay';
 import Participation from 'components/Participation';
@@ -214,6 +215,9 @@ let all_routes = (
         </Route>
         <Redirect path="estimate*" to="proposal*" />
         <Route path="settings" component={SettingsPage} />
+        <Route path="events" component={MilestoneContainer}>
+          <IndexRoute component={EventList} />
+        </Route>
         <Route path="work" component={TaskContainer}>
           <IndexRoute component={TaskList} />
           <Route path="new" component={TaskForm} />
