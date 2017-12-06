@@ -10,7 +10,7 @@ momentLocalizer(moment);
 export default class MilestoneForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {due_at: null, description: ''};
+    this.state = {due_at: null, description: '', internal: false};
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -27,6 +27,12 @@ export default class MilestoneForm extends React.Component {
     this.setState(new_state);
   }
 
+  onInputCheck(){
+    this.setState({
+      internal: !this.state.internal
+    });
+  }
+
   onDueAtChange(date) {
     this.setState({due_at: moment(date).utc().format()});
   }
@@ -36,9 +42,10 @@ export default class MilestoneForm extends React.Component {
     var title = this.refs.title.value.trim();
     var description = this.state.description;
     var due_at = this.state.due_at;
+    var internal = this.state.internal;
 
     if (this.props.onSave) {
-      this.props.onSave({...this.props.milestone, title, description, due_at});
+      this.props.onSave({...this.props.milestone, title, description, due_at, internal});
     }
     if (this.props.close) {
       this.props.close();
@@ -98,6 +105,15 @@ export default class MilestoneForm extends React.Component {
               ref="description"
               placeholder="Description"
             />
+          </div>
+
+          <div className="form-group">
+            <label className="control-label">
+              <input
+                defaultChecked={this.state.internal}
+                onChange={() => this.onInputCheck()}
+                type="checkbox"/>Internal Milestone
+            </label>
           </div>
 
           <div className="text-center">
