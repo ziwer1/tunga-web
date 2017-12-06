@@ -50,6 +50,7 @@ export default class MilestoneForm extends React.Component {
     if (this.props.close) {
       this.props.close();
     }
+    
   }
 
   render() {
