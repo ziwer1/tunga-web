@@ -515,7 +515,7 @@ export default class TaskWorkflow extends ComponentWithModal {
                       ? [
                       task.is_developer_ready &&
                       !task.closed &&
-                      is_admin_or_owner
+                      is_admin_or_owner_or_pm
                         ? <li>
                         {task.apply
                           ? <button
@@ -538,7 +538,7 @@ export default class TaskWorkflow extends ComponentWithModal {
                         : null,
                       task.is_developer_ready &&
                       task.closed &&
-                      !task.paid && is_admin_or_owner
+                      !task.paid && is_admin_or_owner_or_pm
                         ? <li>
                         <button
                           type="button"
@@ -569,7 +569,7 @@ export default class TaskWorkflow extends ComponentWithModal {
                       : null}
                     {task.is_developer_ready &&
                     !is_project_task &&
-                    is_admin_or_owner
+                    is_admin_or_owner_or_pm
                       ? <li>
                       <Link
                         to={`/work/${task.id}/edit/updates/`}
@@ -688,7 +688,7 @@ export default class TaskWorkflow extends ComponentWithModal {
               task.is_admin ||
               task.is_participant
                 ? <span className="hidden-xs hidden-sm">
-                {is_admin_or_owner || can_edit_shares
+                {is_admin_or_owner_or_pm || can_edit_shares
                   ? <span>
                   {task.is_developer_ready && is_admin_or_owner_or_pm
                     ? <Link
@@ -753,7 +753,7 @@ export default class TaskWorkflow extends ComponentWithModal {
             </div>
 
             <div className="pull-right hidden-xs hidden-sm">
-              {is_admin_or_owner && !task.parent
+              {is_admin_or_owner_or_pm && !task.parent
                 ? <ul className="integration-options pull-right">
                 <li id="github-btn">
                   <Link
