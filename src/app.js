@@ -89,7 +89,7 @@ import ProfilePage from 'routes/ProfilePage';
 import Profile from 'components/Profile';
 import Stack from 'components/Stack';
 import CompanyProfile from 'components/CompanyProfile';
-import PaymentMethod from 'components/PaymentMethod';
+import Payoneer from 'components/Payoneer';
 import Account from 'components/Account';
 import IDDocument from 'components/IDDocument';
 import ProfilePicture from 'components/ProfilePicture';
@@ -193,8 +193,8 @@ let all_routes = (
           <Route path="personal" component={Profile} />
           <Route path="stack" component={Stack} />
           <Route path="company" component={CompanyProfile} />
-          <Route path="payment" component={PaymentMethod} />
-          <Route path="payment/:provider" component={PaymentMethod} />
+          <Route path="payment" component={Payoneer} />
+          <Route path="payment/:provider" component={Payoneer} />
           <Route path="account" component={Account} />
           <Route path="id-document" component={IDDocument} />
           <Route path="photo" component={ProfilePicture} />
