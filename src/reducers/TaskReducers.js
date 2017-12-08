@@ -84,7 +84,6 @@ function task(state = {}, action) {
           payment_method: invoice.payment_method,
           btc_address: invoice.btc_address,
           withhold_tunga_fee: invoice.withhold_tunga_fee,
-          invoice
         };
       }
       return state;

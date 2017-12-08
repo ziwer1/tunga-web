@@ -213,17 +213,17 @@ export const TASK_SCOPE_PROJECT = 3;
 export const TASK_SCOPE_CHOICES = [
   {
     id: TASK_SCOPE_TASK,
-    name: 'I have a task<br/>&lt; 50 hours',
+    name: 'Task<br/> (up to 12 hours)',
     icon: 'tunga-icon-task',
   },
   {
     id: TASK_SCOPE_PROJECT,
-    name: 'I have a project<br/>&gt; 50 hours',
+    name: 'Project <br/> (from 13 hours onwards)',
     icon: 'tunga-icon-project',
   },
   {
     id: TASK_SCOPE_ONGOING,
-    name: 'I have an ongoing project',
+    name: 'Ongoing project<br/> (constant need)',
     icon: 'tunga-icon-running-tasks',
   },
 ];
@@ -397,16 +397,8 @@ export const TASK_PAYMENT_METHOD_BITONIC = 'bitonic';
 export const TASK_PAYMENT_METHOD_BITCOIN = 'bitcoin';
 export const TASK_PAYMENT_METHOD_BANK = 'bank';
 export const TASK_PAYMENT_METHOD_STRIPE = 'stripe';
-export const TASK_PAYMENT_METHOD_AYDEN = 'ayden';
 
 export const TASK_PAYMENT_METHOD_CHOICES = [
-  {
-    id: TASK_PAYMENT_METHOD_AYDEN,
-    name: 'Pay with Ayden',
-    meta: 'Details to be added',
-    icon_class: 'fa fa-credit-card',
-    details: 'Click continue to pay with your credit/debit card on Ayden.',
-  },
   {
     id: TASK_PAYMENT_METHOD_STRIPE,
     name: 'Pay with Card',

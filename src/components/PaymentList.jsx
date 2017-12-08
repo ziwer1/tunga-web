@@ -387,7 +387,7 @@ export default class PaymentList extends GenericListContainer {
                                 : task.payment_status}
                             </td>
                             <td>
-                              {(task.payment_approved && task.payment_status == 'Pending' &&
+                              {(task.payment_status == 'Pending' &&
                                 (isProjectOwner() || isAdmin())) ||
                               (isAdmin() && this.isDistributionMode())
                                 ? <input

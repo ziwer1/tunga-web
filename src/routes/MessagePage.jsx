@@ -6,7 +6,7 @@ import Progress from '../components/status/Progress';
 import LoadMore from '../components/status/LoadMore';
 import Avatar from '../components/Avatar';
 import ChannelInfo from '../components/ChannelInfo';
-
+import UserSearchForm from '../components/UserSearchForm';
 import connect from '../utils/connectors/ChannelConnector';
 
 import {CHANNEL_TYPES} from '../constants/Api';
@@ -24,6 +24,14 @@ export function resizeOverviewBox() {
 }
 
 class MessagePage extends React.Component {
+
+  constructor(props){
+    super(props);
+    this.state = {
+      isShowing: false
+    }
+  }
+
   componentDidMount() {
     resizeOverviewBox();
     $(window).resize(resizeOverviewBox);
@@ -53,6 +61,14 @@ class MessagePage extends React.Component {
     }
   }
 
+  toggleButton(){
+    this.setState((prevState, props) => {
+      return ({
+        isShowing: !this.state.isShowing
+      })
+    });
+  }
+
   renderChildren() {
     return React.Children.map(
       this.props.children,
@@ -71,12 +87,26 @@ class MessagePage extends React.Component {
     const {Channel, ChannelActions} = this.props;
     const channel_type_filter = this.getChannelTypeFilter();
 
+    var right_component = (this.state.isShowing)
+    ? <UserSearchForm {...this.props} toggleButton={() => this.toggleButton()} />
+    : (channel_type_filter == CHANNEL_TYPES.support)
+        ? null
+        : <div className="pull-right btn-start">
+            <a onClick={() => this.toggleButton()}>
+              <i className="fa fa-plus" />{' '}
+                {channel_type_filter == CHANNEL_TYPES.support
+                ? 'Create a new inquiry'
+                : 'Start a new conversation'}
+            </a>
+          </div>
+
     return (
       <div id="chat-window">
         <div className="col-lg-12 nopadding">
 
           <div className="col-md-6 col-sm-6 col-xs-6  nopadding">
-            {isAuthenticated()
+            {
+              isAuthenticated()
               ? <div className="chat-head">
                   <h2>
                     {channel_type_filter == CHANNEL_TYPES.support
@@ -84,22 +114,12 @@ class MessagePage extends React.Component {
                       : 'Messages'}
                   </h2>
                 </div>
-              : null}
+              : null
+            }
           </div>
 
           <div className="col-md-6 col-sm-6 col-xs-6 nopadding">
-            {
-              channel_type_filter == CHANNEL_TYPES.support
-                ? null
-                : <div className="pull-right btn-start">
-                    <Link to="/conversation/start/">
-                      <i className="fa fa-plus" />{' '}
-                      {channel_type_filter == CHANNEL_TYPES.support
-                        ? 'Create a new inquiry'
-                          : 'Start a new conversation'}
-                    </Link>
-                  </div>
-            }
+            { right_component }
           </div>
           <div className="col-xs-12 nopadding"><hr style={{marginTop: 0}}/></div>
         </div>
