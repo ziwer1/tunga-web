@@ -50,7 +50,7 @@ export default class MilestoneForm extends React.Component {
     if (this.props.close) {
       this.props.close();
     }
-    
+
   }
 
   render() {
@@ -113,7 +113,7 @@ export default class MilestoneForm extends React.Component {
               <input
                 defaultChecked={this.state.internal}
                 onChange={() => this.onInputCheck()}
-                type="checkbox"/>Internal Milestone
+                type="checkbox"/> Internal Milestone
             </label>
           </div>
 
