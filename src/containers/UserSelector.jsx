@@ -145,45 +145,26 @@ class UserSelector extends React.Component {
 
     return (
       <div className="user-selector tag-selector">
-        <div className="selections">
-          {selections.map(id => {
-            var user = selection_users[id];
-            return (
-              <div key={id} className="list-group-item selected-item">
-                <Avatar src={user.avatar_url} size="xs" />
-                {user.display_name} @{user.username}
-                {canRemove &&
-                (!unremovable || unremovable.indexOf(user.id) == -1)
-                  ? <a
-                      onClick={this.onUserRemove.bind(this, user)}
-                      className="close">
-                      <i className="fa fa-remove" />
-                    </a>
-                  : null}
-              </div>
-            );
-          })}
-        </div>
 
         <div className="tag-input">
           {max && selections.length >= max
             ? null
             : <div
-            className="input-group"
-            onClick={this.handleComponentClick.bind(this)}>
-              <span className="input-group-addon">
-                <span className="glyphicon glyphicon-user" />
-              </span>
-            <input
-              type="text"
-              className="form-control"
-              ref="user_name"
-              value={this.state.user_name}
-              placeholder="Type a name or username to get suggestions"
-              onChange={this.onQueryChange.bind(this)}
-              onKeyUp={this.onInputKeyUp.bind(this)}
-            />
-          </div>}
+                className="input-group col-lg-12"
+                onClick={this.handleComponentClick.bind(this)}>
+                  <span className="input-group-addon">
+                    <span className="glyphicon glyphicon-user" />
+                  </span>
+                  <input
+                    type="text"
+                    className="form-control"
+                    ref="user_name"
+                    value={this.state.user_name}
+                    placeholder="Type a name or username to get suggestions"
+                    onChange={this.onQueryChange.bind(this)}
+                    onKeyUp={this.onInputKeyUp.bind(this)}
+                  />
+              </div>}
 
           <div className="list-group suggestions">
             {UserSelection.isValid
@@ -212,6 +193,28 @@ class UserSelector extends React.Component {
               : null}
           </div>
         </div>
+
+        <div className="selections">
+          {selections.map(id => {
+            var user = selection_users[id];
+            return (
+              <div key={id} className="list-group-item selected-item">
+                <Avatar src={user.avatar_url} size="xs" />
+                {user.display_name} @{user.username}
+                {canRemove &&
+                (!unremovable || unremovable.indexOf(user.id) == -1)
+                  ? <a
+                      onClick={this.onUserRemove.bind(this, user)}
+                      className="close">
+                      <i className="fa fa-remove" />
+                    </a>
+                  : null}
+              </div>
+            );
+          })}
+        </div>
+
+
       </div>
     );
   }

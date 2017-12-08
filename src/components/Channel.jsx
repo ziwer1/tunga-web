@@ -164,18 +164,6 @@ export default class Channel extends React.Component {
                         : <div
                             className="btn-group btn-choices select pull-right"
                             role="group">
-                            <Link
-                              to={`/conversation/${channel.id}/messages`}
-                              className="btn btn-borderless"
-                              activeClassName="active">
-                              <i className="fa fa-comments" />
-                            </Link>
-                            <Link
-                              to={`/conversation/${channel.id}/files`}
-                              className="btn btn-borderless"
-                              activeClassName="active">
-                              <i className="fa fa-paperclip" />
-                            </Link>
                             {isDeveloper() &&
                             channel.type == CHANNEL_TYPES.developer
                               ? null
@@ -221,6 +209,7 @@ export default class Channel extends React.Component {
                               count={
                                 Channel.detail.activity.count[channel_key] || 0
                               }
+                              custom_class="search-box-group-custom"
                             />
                           </div>
                         : null}

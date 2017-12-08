@@ -27,8 +27,7 @@ export default class AppWrapper extends React.Component {
               Hi {getUser().first_name},
             </p>
             <p>
-              A change in our User Agreement has taken place as of Friday, 27th October, 2017.<br/>
-              Please read it carefully <a href="https://tunga.io/agreement" target="_blank">here</a>.
+              A change in our User Agreement has taken place as of Friday, 27th October, 2017. Please read it carefully <a href="https://tunga.io/agreement" target="_blank">here</a>.
             </p>
           </div>,
           false,

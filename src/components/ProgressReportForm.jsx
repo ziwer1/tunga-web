@@ -25,7 +25,6 @@ let defaultState = {
   accomplished: '',
   todo: '',
   obstacles: '',
-  obstacles_prevention: '',
   remarks: '',
   last_deadline_met: null,
   deadline_report: '',
@@ -897,8 +896,7 @@ export default class ProgressReportForm extends FormComponent {
                           </textarea>
                         </div>
 
-                      {this.state.obstacles &&
-                      ['none', 'no', 'non', 'n/a', 'na', 'false'].indexOf(this.state.obstacles.toLocaleLowerCase().trim()) == -1?(
+                      {this.state.obstacles?(
                         <div className="form-group">
                           <label className="control-label">
                             What could have been done to prevent this from happening? *

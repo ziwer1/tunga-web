@@ -1,4 +1,5 @@
 import numeral from 'numeral';
+import _ from 'lodash';
 
 export function isInt(n) {
   return parseInt(n) === n;
@@ -24,4 +25,36 @@ export function getItemsList(ids, itemsMap) {
     });
   }
   return [];
+}
+
+export function serializeMilestones(milestones){
+
+  var result = [];
+
+  milestones.map(item => {
+
+    var participants = '';
+    var title = '';
+
+    if(item.details !== null){
+      var part = item.details.participants;
+      part.map(it => {
+        participants += it.username + ' '
+      })
+    }
+    if(item.title !== null){
+      title = item.title;
+    }
+
+    result.push(
+      {
+        'title': title + ' - ' + participants,
+        'start': new Date(item.created_at),
+        'end': new Date(item.due_at)
+      }
+    )
+  });
+
+  return result;
+
 }

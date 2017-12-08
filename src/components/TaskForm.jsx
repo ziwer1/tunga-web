@@ -116,6 +116,7 @@ export default class TaskForm extends ComponentWithModal {
       call_required: null,
       participant_updates: {},
       users: {},
+      skillNotRequired: false
     };
   }
 
@@ -725,6 +726,16 @@ export default class TaskForm extends ComponentWithModal {
       shouldChangeStep = false;
     }
 
+    if(key == 'skill_required'){
+      if(value == 1){
+        new_state.skillNotRequired = false;
+        shouldChangeStep = true;
+      }else if(value == 2){
+        new_state.skillNotRequired = true;
+        shouldChangeStep = true;
+      }
+    }
+
     this.setState(new_state);
     if (
       ['scope', 'is_project', 'has_requirements', 'pm_required', 'includes_pm_fee'].indexOf(key) >
@@ -1212,16 +1223,16 @@ export default class TaskForm extends ComponentWithModal {
           ? <FieldError message={Task.detail.error.update.title} />
           : null}
         <div className="form-group">
-          <label className="control-label">
-            Title for your {work_type} *
-          </label>
+          <h4>
+            What is the title of your {work_type} ?
+          </h4>
           <div>
             <input
               type="text"
               className="form-control"
               ref="title"
               required
-              placeholder="Title"
+              placeholder="type here the title of your task"
               onChange={this.onInputChange.bind(this, 'title')}
               value={this.state.title}
             />
@@ -1239,7 +1250,7 @@ export default class TaskForm extends ComponentWithModal {
           ? <FieldError message={Task.detail.error.update.description} />
           : null}
         <div className="form-group">
-          <label className="control-label">
+          <h4>
             {isAuthenticated()
               ? this.state.scope == TASK_SCOPE_ONGOING
                 ? 'What kind of work do you have for developers'
@@ -1247,9 +1258,9 @@ export default class TaskForm extends ComponentWithModal {
                   ? this.state.has_requirements
                     ? 'Goals of the project'
                     : 'Describe the idea you have for the project'
-                  : `Description *`
+                  : `Short description of your ${work_type}`
               : 'Description *'}
-          </label>
+          </h4>
           <textarea
             placeholder={`Description of the ${work_type}`}
             className="form-control"
@@ -1272,9 +1283,9 @@ export default class TaskForm extends ComponentWithModal {
           ? <FieldError message={Task.detail.error.update.stack_description} />
           : null}
         <div className="form-group">
-          <label className="control-label">
+          <h4>
             Description of the stack/technology you want to use
-          </label>
+          </h4>
           <textarea
             placeholder=""
             className="form-control"
@@ -1295,7 +1306,7 @@ export default class TaskForm extends ComponentWithModal {
           ? <FieldError message={Task.detail.error.update.deliverables} />
           : null}
         <div className="form-group">
-          <label className="control-label">What are the deliverables</label>
+          <h4>What are the deliverables</h4>
           <textarea
             placeholder=""
             className="form-control"
@@ -1322,6 +1333,11 @@ export default class TaskForm extends ComponentWithModal {
                 {isAuthenticated() ? '*' : ''}
               </label>
             : null}
+
+            <h4 style={{marginBottom: 30}}>
+              Which technologies do you want to use for this product?    
+            </h4>
+
           <SkillSelector
             filter={{filter: null}}
             onChange={this.onSkillChange.bind(this)}
@@ -1339,6 +1355,46 @@ export default class TaskForm extends ComponentWithModal {
             titleSuggestions="Suggestions for your product"
           />
         </div>
+      </div>
+    );
+
+    let skillChooseComp = (
+      <div className="form-group">
+      <h4>Do you have a prefered stack that you want to work with?</h4>
+        <div className="btn-choices choice-fork" role="group">
+            {[
+                {
+                    id: 1,
+                    name: 'Yes',
+                    icon: 'tunga-icon-check',
+                },
+                {
+                    id: 2,
+                    name: 'No',
+                    icon: 'tunga-icon-cross',
+                },
+            ].map(require_tech => {
+                return (
+                    <div key={require_tech.id} className="choice">
+                        <button
+                            key={require_tech.id}
+                            type="button"
+                            className="btn"
+                            onClick={this.onStateValueChange.bind(this, 'skill_required', require_tech.id)}
+                            >
+                            <i className={`icon ${require_tech.icon}`} />
+                        </button>
+                        <div dangerouslySetInnerHTML={{__html: require_tech.name}} />
+                    </div>
+                );
+            })}
+        </div>
+      </div>
+    );
+
+    let finalScreenComp  = (
+      <div className="form-group">
+        <h4>We will reach out to you soon to follow up on your project.</h4>
       </div>
     );
 
@@ -1394,28 +1450,41 @@ export default class TaskForm extends ComponentWithModal {
         {Task.detail.error.update && Task.detail.error.update.deadline
           ? <FieldError message={Task.detail.error.update.deadline} />
           : null}
-        <div className="form-group">
-          <label className="control-label">
+        <h4>
             When do you need the {work_type} done?
-          </label>
-          <div>
-            <DateTimePicker
-              ref="deadline"
-              onChange={this.onDeadlineChange.bind(this)}
-              defaultValue={
-                  task.deadline
-                    ? new Date(moment.utc(task.deadline).format())
-                    : null
-                }
-              value={
-                  this.state.deadline
-                    ? new Date(moment.utc(this.state.deadline).format())
-                    : null
-                }
-              time={false}
-            />
+          </h4>
+
+          <div className="btn-choices choice-fork" role="group">
+            <div className="choice">
+              <DateTimePicker
+                ref="deadline"
+                onChange={this.onDeadlineChange.bind(this)}
+                defaultValue={
+                    task.deadline
+                      ? new Date(moment.utc(task.deadline).format())
+                      : null
+                  }
+                value={
+                    this.state.deadline
+                      ? new Date(moment.utc(this.state.deadline).format())
+                      : null
+                  }
+                time={false}
+                style={{bottom: '-30%', marginRight:20}}
+              />
+            </div>
+            <div className="choice">
+                <button
+                  type="button"
+                  className="btn active"
+                  onClick={this.onDeadlineChange.bind(this)}>
+                  <i className="icon tunga-icon-question" />
+                </button>
+                <div>
+                  I’m not sure
+                </div>
+              </div>
           </div>
-        </div>
       </div>
     );
 
@@ -1424,7 +1493,7 @@ export default class TaskForm extends ComponentWithModal {
         <label className="control-label">
           {is_project
             ? `Please upload relevant files for the ${work_type} (e.g functional requirements and/or wireframes)`
-            : 'Files'}
+            : ''}
         </label>
         <div>
           <Dropzone
@@ -1786,11 +1855,34 @@ export default class TaskForm extends ComponentWithModal {
           : null}
         <div className="form-group">
           <label className="control-label">
-            Who would you like to be able to see your {work_type}?
+            Do you want to work with specific Tunga developers?
           </label>
           <br />
-          <div className="btn-choices" role="group">
-            {TASK_VISIBILITY_CHOICES.map(visibility => {
+          <div className="btn-choices choice-fork" role="group">
+
+            <div className="choice">
+              <button
+                type="button"
+                className="btn active">
+                <i className="icon tunga-icon-check" />
+              </button>
+              <div>
+                YES
+              </div>
+            </div>
+
+            <div className="choice">
+              <button
+                type="button"
+                className="btn">
+                <i className="icon tunga-icon-cross" />
+              </button>
+              <div>
+                NO
+              </div>
+            </div>
+
+            {/*{TASK_VISIBILITY_CHOICES.map(visibility => {
               return (
                 <button
                   key={visibility.id}
@@ -1803,7 +1895,7 @@ export default class TaskForm extends ComponentWithModal {
                   {visibility.name}
                 </button>
               );
-            })}
+            })}*/}
           </div>
           {this.state.visibility == VISIBILITY_CUSTOM
             ? <div style={{marginTop: '10px'}}>
@@ -1950,7 +2042,7 @@ export default class TaskForm extends ComponentWithModal {
                       'billing_method',
                       this.state.deadline === undefined ? null : undefined,
                     )}>
-                    I'm not sure
+                    I am not sure
                   </button>
                 : null}
             </div>
@@ -2454,6 +2546,7 @@ export default class TaskForm extends ComponentWithModal {
         </div>
       </div>;
 
+    
     let paymentApprovalComp = (
       <div className="form-group">
         {Task.detail.error.create && Task.detail.error.create.payment_approved
@@ -2735,17 +2828,17 @@ export default class TaskForm extends ComponentWithModal {
         if (enabledWidgets[0] == 'complete-task') {
           sections = [
             {
+              title: 'Task description',
+              items: [deliverablesComp, stackDescComp, filesComp],
+            },
+            {
               title: `Basic details about the ${work_type}`,
               items: [titleComp, descComp],
               requires: ['title', 'description'],
             },
             {
-              title: 'Task description',
-              items: [deliverablesComp, stackDescComp, filesComp],
-            },
-            {
               title: 'Agreements',
-              items: [deadlineComp, feeComp],
+              items: [deadlineComp],
               requires: ['fee'],
             },
           ];
@@ -2847,7 +2940,7 @@ export default class TaskForm extends ComponentWithModal {
           },
           {
             title: 'Agreements',
-            items: [feeComp, deadlineComp],
+            items: [deadlineComp],
             requires: ['fee'],
           },
           {
@@ -2859,10 +2952,7 @@ export default class TaskForm extends ComponentWithModal {
         if(project.pm) {
           sections = [
             ...sections,
-            {
-              title: 'Select a project manager',
-              items: [pmComp]
-            },
+            
           ]
         }
 
@@ -2896,11 +2986,6 @@ export default class TaskForm extends ComponentWithModal {
       } else {
         sections = [
           {
-            title: `Tag skills or products that are relevant to this ${work_type}`,
-            items: [skillsComp],
-            requires: ['skills'],
-          },
-          {
             title: `Basic details about your ${work_type}`,
             items: [titleComp],
             requires: ['title'],
@@ -2908,92 +2993,59 @@ export default class TaskForm extends ComponentWithModal {
         ];
 
         if (is_project) {
-          if (!isProjectManager() && !isAdmin()) {
-            sections = [
-              ...sections,
-              {
-                title: `Do you want a project manager for this ${work_type}?`,
-                items: [requiresPMComp],
-                required: true,
-                forks: ['pm_required'],
-              },
-            ];
-          }
-
-          if (isAdmin()) {
-            sections = [
-              ...sections,
-              {
-                title: 'Select a project manager',
-                items: [pmComp],
-                //requires: ['pm']
-              },
-            ];
-          }
 
           var stepComps = [];
 
-          if (this.state.pm_required) {
-            stepComps = [
-              requiresContactComp,
-              this.state.contact_required === null
-                ? null
-                : this.state.contact_required
-                  ? skypeComp
-                  : <div>
-                      {descComp}
-                      {deliverablesComp}
-                      {filesComp}
-                    </div>,
-            ];
+          sections = [
+            ...sections,
+            {
+              title: 'Project description',
+              items: [descComp, filesComp],
+            },
+            {
+              title: 'Requires Technical Skill',
+              items: [skillChooseComp],
+            },
+          ];
 
+          if(this.state.skillNotRequired){
+            sections = [
+            ...sections,
+            {
+              title: 'Complete',
+              items: [finalScreenComp],
+            }
+          ];
+          }else{
             sections = [
               ...sections,
               {
-                title: 'Project description',
-                items: stepComps,
-                forks: ['contact_required'],
+                title: `Tag skills or products that are relevant to this ${work_type}`,
+                items: [skillsComp],
+                requires: ['skills'],
               },
-            ];
-          } else {
-            sections = [
-              ...sections,
               {
-                title: 'Project description',
-                items: [descComp, stackDescComp, deliverablesComp, filesComp],
+                title: 'Complete',
+                items: [finalScreenComp],
               },
-            ];
+            ]
           }
 
-          if (!this.state.pm_required || !this.state.contact_required) {
-            sections = [
-              ...sections,
-              {
-                title: 'Agreements',
-                items: [deadlineComp, billingComp],
-              },
-            ];
-          }
-
-          if (isAdmin() || isProjectManager()) {
-            sections = [
-              ...sections,
-              {
-                title: `Who would you like to see your ${work_type}?`,
-                items: [visibilityComp],
-              },
-            ];
-          }
         } else {
           sections = [
             ...sections,
             {
               title: 'Requirements',
-              items: [descComp, filesComp, codersComp],
+              items: [descComp, filesComp],
+            },
+            {
+              title: `Tag skills or products that are relevant to this ${work_type}`,
+              items: [skillsComp],
+              requires: ['skills'],
             },
             {
               title: 'Agreements',
-              items: [deadlineComp, billingComp],
+              items: [deadlineComp],
             },
             {
               title: `Who would you like to see your ${work_type}?`,
@@ -3068,16 +3120,16 @@ export default class TaskForm extends ComponentWithModal {
             forks: ['scope'],
           },
           {
-            title: `Tag skills or products that are relevant to this ${work_type}`,
-            items: [skillsComp],
+            title: 'Additional information',
+            items: [deliverablesComp, stackDescComp, filesComp],
           },
           {
             title: `Basic details about the ${work_type}`,
             items: [descComp],
           },
           {
-            title: 'Additional information',
-            items: [deliverablesComp, stackDescComp, filesComp],
+            title: `Tag skills or products that are relevant to this ${work_type}`,
+            items: [skillsComp],
           },
           {
             title: 'Additional information',
