@@ -193,7 +193,7 @@ export default class EstimateForm extends ComponentWithModal {
     const task = this.props.task || {};
     const estimate = this.props.estimate || {};
 
-    let payDetails = getPayDetails(this.state.activities);
+    let payDetails = getPayDetails(this.state.activities, task.dev_rate, task.pm_rate, task.pm_time_ratio);
 
     return (
       <div className="form-wrapper">
@@ -312,7 +312,7 @@ export default class EstimateForm extends ComponentWithModal {
                           </td>
                           {isAdminOrProjectOwner()
                             ? <td>
-                                €{parseNumber(DEVELOPER_FEE * activity.hours)}
+                                €{parseNumber((task.dev_rate || DEVELOPER_FEE) * activity.hours)}
                               </td>
                             : null}
                           <td>

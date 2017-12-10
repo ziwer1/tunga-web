@@ -110,7 +110,8 @@ export default class EstimateList extends GenericListContainer {
                     <tbody>
                       {all_estimates.map(id => {
                         const estimate = Estimate.list.estimates[id];
-                        let payDetails = getPayDetails(estimate.activities);
+                        const task = estimate.details?estimate.details.task || {}:{};
+                        let payDetails = getPayDetails(estimate.activities, task.dev_rate, task.pm_rate, task.pm_time_ratio);
 
                         return (
                           <tr key={estimate.id}>

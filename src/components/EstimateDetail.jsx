@@ -61,7 +61,7 @@ export default class EstimateDetail extends React.Component {
     const task = this.props.task || {};
     const estimate = this.props.estimate || {};
 
-    let payDetails = getPayDetails(estimate.activities);
+    let payDetails = getPayDetails(estimate.activities, task.dev_rate, task.pm_rate, task.pm_time_ratio);
 
     return (
       <div className="estimate-presentation">
@@ -82,7 +82,7 @@ export default class EstimateDetail extends React.Component {
             <i className="fa fa-file-pdf-o" /> Download Pdf
           </a>
         </div>
-        
+
         <div className="form-group">
           <h4>Title:</h4>
           <div>
@@ -121,7 +121,7 @@ export default class EstimateDetail extends React.Component {
                         </td>
                         {isAdminOrProjectOwner()
                           ? <td>
-                              €{parseNumber(DEVELOPER_FEE * activity.hours)}
+                              €{parseNumber((task.dev_rate || DEVELOPER_FEE) * activity.hours)}
                             </td>
                           : null}
                         <td>

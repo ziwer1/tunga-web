@@ -318,7 +318,7 @@ export default class ApplicationList extends ComponentWithModal {
                                 <div>
                                   You will be charged{' '}
                                   <span className="bold">
-                                    €{getTotalFee(application.hours_needed)}
+                                    €{getTotalFee(application.hours_needed, task.dev_rate)}
                                   </span>
                                 </div>
                               </div>

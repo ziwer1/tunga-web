@@ -89,7 +89,7 @@ export default class QuoteDetail extends React.Component {
     const task = this.props.task || {};
     const quote = this.props.quote || {};
 
-    let payDetails = getPayDetails(quote.activities);
+    let payDetails = getPayDetails(quote.activities, task.dev_rate, task.pm_rate, task.pm_time_ratio);
 
     return (
       <div>
@@ -154,7 +154,7 @@ export default class QuoteDetail extends React.Component {
                         </td>
                         {isAdminOrProjectOwner()
                           ? <td>
-                          €{parseNumber(DEVELOPER_FEE * activity.hours)}
+                          €{parseNumber((task.dev_rate || DEVELOPER_FEE) * activity.hours)}
                         </td>
                           : null}
                         <td>

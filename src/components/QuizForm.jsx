@@ -1,64 +1,20 @@
 import React from 'react';
-import {Link} from 'react-router';
 import moment from 'moment';
-import _ from 'lodash';
-import {Button, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import momentLocalizer from 'react-widgets/lib/localizers/moment';
-import {DateTimePicker, Calendar} from 'react-widgets';
-import Dropzone from 'react-dropzone';
-import randomstring from 'randomstring';
 
-import Progress from './status/Progress';
-import FormStatus from './status/FormStatus';
-import FieldError from './status/FieldError';
-
-import UserSelector from '../containers/UserSelector';
-import SkillSelector from '../containers/SkillSelector';
 import ComponentWithModal from './ComponentWithModal';
-import LargeModal from './LargeModal';
-import MilestoneForm from './MilestoneForm';
 import ShowcaseContainer from '../containers/ShowcaseContainer';
 import MetaTags from '../components/MetaTags';
 import Reveal from 'react-reveal';
 
 import {
-  USER_TYPE_DEVELOPER,
-  USER_TYPE_PROJECT_MANAGER,
-  USER_TYPE_PROJECT_OWNER,
   TASK_TYPE_CHOICES,
-  TASK_SCOPE_CHOICES,
   TASK_SCOPE_QUIZ_CHOICES,
-  TASK_SCOPE_CHOICES_NEW_USER,
-  TASK_SCOPE_ONGOING,
-  TASK_SCOPE_PROJECT,
-  TASK_BILLING_METHOD_CHOICES,
-  TASK_BILLING_METHOD_FIXED,
-  TASK_BILLING_METHOD_HOURLY,
-  TASK_CODERS_NEEDED_CHOICES,
-  TASK_VISIBILITY_CHOICES,
-  VISIBILITY_DEVELOPERS,
-  VISIBILITY_CUSTOM,
-  UPDATE_SCHEDULE_CHOICES,
-  suggestTaskTypeSkills,
-  TASK_TYPE_OTHER,
-  TASK_SCOPE_TASK,
 } from '../constants/Api';
-
-import {getTaskTypeUrl, getScopeUrl, sendGAPageView} from '../utils/tracking';
-import {
-  isAuthenticated,
-  isProjectManager,
-  getUser,
-  isAdmin,
-  openProfileWizard,
-} from '../utils/auth';
-import {estimateDevHoursForFee, getAcquisitionUrl} from '../utils/tasks';
-import {parseNumber} from '../utils/helpers';
 
 momentLocalizer(moment);
 
 var sections = [];
-var quiz_choices = {};
 
 export default class QuizForm extends ComponentWithModal {
   constructor(props) {

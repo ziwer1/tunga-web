@@ -1377,7 +1377,7 @@ export default class TaskForm extends ComponentWithModal {
             ? <div style={{marginTop: '10px'}}>
                 Estimated Number of development hours:{' '}
                 <span className="bold">
-                  {estimateDevHoursForFee(this.state.fee)} hr{this.state.fee ? 's' : ''}
+                  {estimateDevHoursForFee(this.state.fee, this.state.dev_rate)} hr(s)
                 </span>
               </div>
             : null}
