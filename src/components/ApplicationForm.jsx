@@ -196,7 +196,7 @@ export default class ApplicationForm extends React.Component {
                         : null}
                       {this.state.hours_needed
                         ? <div className="bold">
-                            Your Estimate: €{getDevFee(this.state.hours_needed)}
+                            Your Estimate: €{getDevFee(this.state.hours_needed, task.dev_rate, task.tunga_ratio_dev)}
                           </div>
                         : null}
                     </div>

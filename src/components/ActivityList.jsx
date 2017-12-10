@@ -173,7 +173,8 @@ export default class ActivityList extends React.Component {
             comment_txt = object.reviewer_comment;
           }
 
-          let payDetails = getPayDetails(object.activities);
+          let task = object.details?object.details.task || {}:{};
+          let payDetails = getPayDetails(object.activities, task.dev_rate, task.pm_rate, task.pm_time_ratio);
 
           object.total_hours = payDetails.total.hours;
           object.total_pay = payDetails.total.fee;

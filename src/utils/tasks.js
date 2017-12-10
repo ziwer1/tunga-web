@@ -8,7 +8,6 @@ import {
   STATUS_ACCEPTED,
   TASK_TYPE_WEB,
   TASK_TYPE_MOBILE,
-  TASK_TYPE_OTHER,
 } from '../constants/Api';
 
 import {isAdmin, getUser} from '../utils/auth';
@@ -122,18 +121,18 @@ export function hasStarted(task) {
   return started;
 }
 
-export function getDevFee(hours) {
+export function getDevFee(hours, dev_fee, tunga_dev_percentage) {
   if (!hours) {
     return 0;
   }
-  return parseNumber(hours * DEVELOPER_FEE * (1 - TUNGA_PERCENTAGE_DEVELOPER));
+  return parseNumber(hours * (dev_fee || DEVELOPER_FEE) * (1 - (tunga_dev_percentage || TUNGA_PERCENTAGE_DEVELOPER)));
 }
 
-export function getTotalFee(hours) {
+export function getTotalFee(hours, dev_fee) {
   if (!hours) {
     return 0;
   }
-  return parseNumber(hours * DEVELOPER_FEE);
+  return parseNumber(hours * (dev_fee || DEVELOPER_FEE));
 }
 
 export function getDevHours(activities) {
@@ -149,34 +148,34 @@ export function getDevHours(activities) {
     });
 }
 
-export function getPayDetails(activities) {
+export function getPayDetails(activities, dev_fee, pm_fee, tunga_pm_percentage) {
   let dev_hours = getDevHours(activities);
   var details = {
     dev: {
       hours: dev_hours,
-      fee: parseNumber(DEVELOPER_FEE * dev_hours),
+      fee: parseNumber((dev_fee || DEVELOPER_FEE) * dev_hours),
     },
   };
 
   details.pm = {
-    hours: parseNumber(0.15 * dev_hours),
-    fee: parseNumber(PM_FEE * 0.15 * dev_hours),
+    hours: parseNumber((tunga_pm_percentage || 0.15) * dev_hours),
+    fee: parseNumber((pm_fee || PM_FEE) * (tunga_pm_percentage || 0.15) * dev_hours),
   };
 
   details.total = {
     hours: parseNumber(
       parseFloat(details.dev.hours) + parseFloat(details.pm.hours),
     ),
-    fee: parseNumber(DEVELOPER_FEE * dev_hours + PM_FEE * 0.15 * dev_hours),
+    fee: parseNumber((dev_fee || DEVELOPER_FEE) * dev_hours + (pm_fee || PM_FEE) * 0.15 * dev_hours),
   };
   return details;
 }
 
-export function estimateDevHoursForFee(fee) {
+export function estimateDevHoursForFee(fee, dev_fee) {
   if (!fee) {
     return 0;
   }
-  return parseNumber(fee / (DEVELOPER_FEE * 1.0));
+  return parseNumber(fee / ((dev_fee || DEVELOPER_FEE) * 1.0));
 }
 
 export function isTaskOwner(task) {
