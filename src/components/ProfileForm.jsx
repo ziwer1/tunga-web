@@ -572,12 +572,10 @@ export default class ProfileForm extends React.Component {
         {
           title: `Payment`,
           items: [paymentComp],
-          requires: ['first_name', 'last_name'],
         },
         {
           title: `ID Document`,
           items: [IDComp],
-          requires: ['first_name', 'last_name'],
         },
       ];
     }

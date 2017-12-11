@@ -18,7 +18,7 @@ import {
   ENDPOINT_MULTI_TASK_PAYMENT,
 } from '../constants/Api';
 import {objectToQueryString} from '../utils/html';
-import {getUser, isAdmin} from '../utils/auth';
+import {getUser, isAdmin, openProfileWizard} from '../utils/auth';
 import {parseNumber} from '../utils/helpers';
 
 export default class TaskPay extends React.Component {
@@ -293,6 +293,28 @@ export default class TaskPay extends React.Component {
   }
 
   render() {
+    if (
+      !getUser().can_contribute
+    ) {
+      return (
+        <div>
+          <div className="alert alert-info">
+            You need to complete your profile before you can make payments
+          </div>
+          <div>
+            <Link
+              to="/profile"
+              onClick={e => {
+                e.preventDefault();
+                openProfileWizard();
+              }}>
+              <i className="fa fa-arrow-right" /> Continue to your profile
+            </Link>
+          </div>
+        </div>
+      );
+    }
+
     const {task, Task, multi_task_payment, MultiTaskPayment} = this.props;
     const {invoice} = Task ? Task.detail.Invoice : {invoice: {}};
 
