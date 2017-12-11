@@ -111,7 +111,7 @@ class ShowcaseContainer extends React.Component {
                         onClick={() => {
                         openCalendlyWidget();
                       }}>
-                        Schedule call
+                        <i className="fa fa-phone"/> Schedule a call with us
                       </a>
                     </li>
                     <li className="launch">
