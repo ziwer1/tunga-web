@@ -406,7 +406,7 @@ export const TASK_PAYMENT_METHOD_CHOICES = [
     icon_class: 'fa fa-cc-stripe',
     details: 'Click continue to pay with your credit/debit card on Stripe.',
   },
-  {
+  /*{
     id: TASK_PAYMENT_METHOD_BITONIC,
     name: 'Pay with iDeal (NL)',
     meta: '3% payment fee',
@@ -421,7 +421,7 @@ export const TASK_PAYMENT_METHOD_CHOICES = [
     icon_class: 'fa fa-bitcoin',
     details:
       'Click continue to view the BTC address the payment needs to be sent to or scan our QR code.',
-  },
+  },*/
   {
     id: TASK_PAYMENT_METHOD_BANK,
     name: 'Pay by bank transfer via invoice',
