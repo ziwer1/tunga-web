@@ -1,17 +1,12 @@
 import React from 'react';
 import Dropzone from 'react-dropzone';
-import {DropdownList} from 'react-widgets';
 
 import Progress from './status/Progress';
 import FormStatus from './status/FormStatus';
 import FieldError from './status/FieldError';
 
 import {
-  PAYMENT_METHOD_CHOICES,
-  PAYMENT_METHOD_BTC_WALLET,
-  PAYMENT_METHOD_MOBILE_MONEY,
-  PAYMENT_METHOD_BTC_ADDRESS,
-  SOCIAL_LOGIN_URLS,
+  ENDPOINT_PAYONEER_SIGNUP
 } from '../constants/Api';
 
 export default class ProfileForm extends React.Component {
@@ -148,14 +143,8 @@ export default class ProfileForm extends React.Component {
     let id_doc = this.state.photo
       ? this.state.photo.preview
       : Profile.profile.id_document;
-    const {profile} = Profile;
 
-    var country_codes = [
-      {id: null, name: '- Country Code -'},
-      {id: 234, name: 'Nigeria (+234)'},
-      {id: 255, name: 'Tanzania (+255)'},
-      {id: 256, name: 'Uganda (+256)'},
-    ];
+    const {user} = Auth;
 
     const has_error = Profile.error.profile;
     let canShowAll =
@@ -313,140 +302,38 @@ export default class ProfileForm extends React.Component {
 
     let paymentComp = (
       <div>
-        {Profile.error.profile && Profile.error.profile.payment_method
-          ? <FieldError message={Profile.error.profile.payment_method} />
-          : null}
-        <div className="form-group">
-          <label className="control-label">Payment Method *</label>
+        {user.payoneer_status == 'approved'
+          ? (
           <div>
-            <div
-              className="btn-group btn-choices"
-              role="group"
-              aria-label="payment method">
-              {PAYMENT_METHOD_CHOICES.map(payment_method => {
-                return (
-                  <button
-                    key={payment_method.id}
-                    type="button"
-                    className={
-                      'btn ' +
-                      (this.state.payment_method == payment_method.id
-                        ? ' active'
-                        : '')
-                    }
-                    onClick={this.onPaymentMethodChange.bind(
-                      this,
-                      payment_method.id,
-                    )}>
-                    {payment_method.name}
-                  </button>
-                );
-              })}
+            <div className="thank-you">
+              <div>
+                Payoneer is set up correctly.
+              </div>
+              <i className="fa fa-check-circle status-icon" />
+              <div>
+                You are ready to receive payments.
+              </div>
             </div>
           </div>
-        </div>
-        <div className="form-group">
-          {this.state.payment_method == PAYMENT_METHOD_BTC_WALLET
-            ? <div>
-                {Profile.profile.payment_method == PAYMENT_METHOD_BTC_WALLET &&
-                Profile.profile.btc_wallet &&
-                Profile.profile.btc_wallet.provider == 'coinbase'
-                  ? <div>
-                      <div className="alert alert-success">
-                        <i className="fa fa-check-square-o" /> Connected to
-                        Coinbase
-                      </div>
+        )
+          : user.payoneer_status == 'pending'?(
+          <div>
+            <div className="alert alert-info" style={{fontSize: '16px'}}><i className="fa fa-info-circle" /> Your Payoneer application is still under review</div>
+          </div>
+        ):(
+          <div>
+            {user.payoneer_status == 'declined'?(
+              <div className="alert alert-danger" style={{fontSize: '16px'}}><i className="fa fa-exclamation-triangle" /> Your Payoneer application was declined, please try again</div>
+            ):null}
 
-                      <div className="v-spacer">
-                        Having any issue?
-                        <a href={
-                            SOCIAL_LOGIN_URLS.coinbase +
-                            `?action=connect&next=/profile/payment/coinbase/`
-                          }
-                          className="btn coinbase-connect-button"
-                          style={{marginLeft: '5px'}}>
-                          <i className="tunga-icon-coinbase fa-lg" /> Re-connect
-                          to Coinbase
-                        </a>
-                      </div>
-                    </div>
-                  : <a
-                      href={
-                        SOCIAL_LOGIN_URLS.coinbase +
-                        `?action=connect&next=/profile/payment/coinbase/`
-                      }
-                      className="btn coinbase-connect-button"
-                      title="Connect with Coinbase"
-                      target="_blank">
-                      <i className="tunga-icon-coinbase fa-lg" /> Connect with
-                      Coinbase
-                    </a>}
-              </div>
-            : null}
-
-          {this.state.payment_method == PAYMENT_METHOD_MOBILE_MONEY
-            ? <div>
-                {Profile.error.profile &&
-                Profile.error.profile.mobile_money_number
-                  ? <FieldError
-                      message={Profile.error.profile.mobile_money_number}
-                    />
-                  : null}
-                {Profile.error.profile && Profile.error.profile.mobile_money_cc
-                  ? <FieldError
-                      message={Profile.error.profile.mobile_money_cc}
-                    />
-                  : null}
-                <div className="form-group">
-                  <label className="control-label">Mobile Money Number</label>
-                  <div className="alert alert-info">
-                    This number <strong>MUST BE REGISTERED</strong> for Mobile
-                    Money
-                  </div>
-                  <div className="row">
-                    <div className="col-md-4">
-                      <DropdownList
-                        valueField="id"
-                        textField="name"
-                        data={country_codes}
-                        defaultValue={profile.mobile_money_cc}
-                        onChange={this.onCountryCodeChange.bind(this)}
-                      />
-                    </div>
-                    <div className="col-md-8">
-                      <input
-                        type="text"
-                        className="form-control"
-                        ref="mobile_money_number"
-                        placeholder="Enter phone number"
-                        defaultValue={profile.mobile_money_number}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            : null}
-
-          {this.state.payment_method == PAYMENT_METHOD_BTC_ADDRESS
-            ? <div>
-                {Profile.error.profile && Profile.error.profile.btc_address
-                  ? <FieldError message={Profile.error.profile.btc_address} />
-                  : null}
-                <div className="form-group">
-                  <label className="control-label">Bitcoin Address</label>
-                  <div>
-                    <input
-                      type="text"
-                      className="form-control"
-                      ref="btc_address"
-                      placeholder="Enter a bitcoin address you own"
-                      defaultValue={profile.btc_address}
-                    />
-                  </div>
-                </div>
-              </div>
-            : null}
-        </div>
+            <a
+              href={ENDPOINT_PAYONEER_SIGNUP}
+              className="btn"
+              title="Set up Payoneer Account for payments">
+              <i className="fa fa-money"/> Set up Payoneer Account for payments
+            </a>
+          </div>
+        )}
       </div>
     );
     let companyComp = (
