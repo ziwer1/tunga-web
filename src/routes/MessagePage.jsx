@@ -87,19 +87,6 @@ class MessagePage extends React.Component {
     const {Channel, ChannelActions} = this.props;
     const channel_type_filter = this.getChannelTypeFilter();
 
-    var right_component = (this.state.isShowing)
-    ? <UserSearchForm {...this.props} toggleButton={() => this.toggleButton()} />
-    : (channel_type_filter == CHANNEL_TYPES.support)
-        ? null
-        : <div className="pull-right btn-start">
-            <a onClick={() => this.toggleButton()}>
-              <i className="fa fa-plus" />{' '}
-                {channel_type_filter == CHANNEL_TYPES.support
-                ? 'Create a new inquiry'
-                : 'Start a new conversation'}
-            </a>
-          </div>
-
     return (
       <div id="chat-window">
         <div className="col-lg-12 nopadding">
@@ -119,7 +106,22 @@ class MessagePage extends React.Component {
           </div>
 
           <div className="col-md-6 col-sm-6 col-xs-6 nopadding">
-            { right_component }
+            <div className={this.state.isShowing?'':'hidden'}>
+              <UserSearchForm {...this.props} toggleButton={() => this.toggleButton()} />
+            </div>
+
+            {this.state.isShowing?null:(
+              (channel_type_filter == CHANNEL_TYPES.support)
+                ? null
+                : <div className="pull-right btn-start">
+                <a onClick={() => this.toggleButton()}>
+                  <i className="fa fa-plus" />{' '}
+                  {channel_type_filter == CHANNEL_TYPES.support
+                    ? 'Create a new inquiry'
+                    : 'Start a new conversation'}
+                </a>
+              </div>
+            )}
           </div>
           <div className="col-xs-12 nopadding"><hr style={{marginTop: 0}}/></div>
         </div>
