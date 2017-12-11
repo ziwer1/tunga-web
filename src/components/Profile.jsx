@@ -127,10 +127,10 @@ export default class Profile extends React.Component {
               Profile.error.profile.vat_number
                 ? <FieldError message={Profile.error.profile.vat_number} />
                 : null}
-              {Auth.user.is_developer
+              {Auth.user.is_developer || Auth.user.is_project_manager || Auth.user.tax_location == 'europe'
                 ? <div className="form-group">
                     <label className="control-label">
-                      VAT Number (if applicable)
+                      VAT Number {Auth.user.tax_location == 'europe'?'*':'(if applicable)'}
                     </label>
                     <div>
                       <input
@@ -139,6 +139,7 @@ export default class Profile extends React.Component {
                         ref="vat_number"
                         placeholder="VAT Number"
                         defaultValue={profile.vat_number}
+                        required={Auth.user.tax_location == 'europe'}
                       />
                     </div>
                   </div>
