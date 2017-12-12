@@ -233,6 +233,27 @@ export default class TaskWorkflow extends ComponentWithModal {
     });
   }
 
+  handleApproveDistribution() {
+    const {TaskActions, Task} = this.props;
+    confirm(
+      <div>
+        <p>
+          Confirm payout approval
+        </p>
+        <p>
+          Make sure funds have already been sent to Payoneer account before approving payout.
+        </p>
+      </div>,
+      false,
+      {ok: 'Approve'}
+    ).then(function() {
+      TaskActions.updateTask(Task.detail.task.id, {
+        distribution_approved: true,
+        distribution_approved_at: moment.utc().format(),
+      });
+    });
+  }
+
   handleDeleteTask() {
     const {TaskActions, Task} = this.props;
     confirm('Confirm delete Task').then(function() {
@@ -530,31 +551,45 @@ export default class TaskWorkflow extends ComponentWithModal {
                         : null,
                       task.is_developer_ready &&
                       task.closed &&
-                      !task.paid &&
                       isAdmin()
                         ? (
-                        task.payment_approved?(
-                          <li>
-                            <button
-                              type="button"
-                              className="btn"
-                              onClick={this.handleMarkPaid.bind(
+                        task.paid?(
+                          task.distribution_approved?null:(
+                            <li>
+                              <button
+                                type="button"
+                                className="btn"
+                                onClick={this.handleApproveDistribution.bind(
                                               this,
                                             )}>
-                              Mark as paid
-                            </button>
-                          </li>
-                        ): (
-                          <li>
-                            <Link
-                              to={`/work/${task.id}/edit/payment-approval/`}
-                              className="btn"
-                              id="payment-approval-btn">
-                              Approve payment
-                            </Link>
-                          </li>
+                                Approve payout via Payoneer
+                              </button>
+                            </li>
+                          )
+                        ):(
+                          task.payment_approved?(
+                            <li>
+                              <button
+                                type="button"
+                                className="btn"
+                                onClick={this.handleMarkPaid.bind(
+                                              this,
+                                            )}>
+                                Mark as paid
+                              </button>
+                            </li>
+                          ): (
+                            <li>
+                              <Link
+                                to={`/work/${task.id}/edit/payment-approval/`}
+                                className="btn"
+                                id="payment-approval-btn">
+                                Approve payment
+                              </Link>
+                            </li>
+                          )
                         )
-                      ): null,
+                      ):null
                     ]
                       : null}
                     {task.is_developer_ready &&
