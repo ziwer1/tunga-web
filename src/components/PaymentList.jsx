@@ -201,10 +201,10 @@ export default class PaymentList extends GenericListContainer {
               Paid
             </Link>
           </li>
-          {isAdmin()
+          {isAdmin() && false
             ? <li role="presentation">
                 <Link to="/payments/filter/distribute" activeClassName="active">
-                  Distribute
+                  Payout
                 </Link>
               </li>
             : null}
