@@ -1334,7 +1334,7 @@ export default class TaskForm extends ComponentWithModal {
             : null}
 
             <h4 style={{marginBottom: 30}}>
-              Which technologies do you want to use for this product?    
+              Which technologies do you want to use for this product?
             </h4>
 
           <SkillSelector
@@ -1453,24 +1453,28 @@ export default class TaskForm extends ComponentWithModal {
             When do you need the {work_type} done?
           </h4>
 
-          <div className="btn-choices choice-fork" role="group">
+          <div className="form-group">
+            <DateTimePicker
+              ref="deadline"
+              onChange={this.onDeadlineChange.bind(this)}
+              defaultValue={
+                      task.deadline
+                        ? new Date(moment.utc(task.deadline).format())
+                        : null
+                    }
+              value={
+                      this.state.deadline
+                        ? new Date(moment.utc(this.state.deadline).format())
+                        : null
+                    }
+              time={false}
+              style={{bottom: '-30%', marginRight:20}}
+            />
+          </div>
+
+        {/*<div className="btn-choices choice-fork" role="group">
             <div className="choice">
-              <DateTimePicker
-                ref="deadline"
-                onChange={this.onDeadlineChange.bind(this)}
-                defaultValue={
-                    task.deadline
-                      ? new Date(moment.utc(task.deadline).format())
-                      : null
-                  }
-                value={
-                    this.state.deadline
-                      ? new Date(moment.utc(this.state.deadline).format())
-                      : null
-                  }
-                time={false}
-                style={{bottom: '-30%', marginRight:20}}
-              />
+
             </div>
             <div className="choice">
                 <button
@@ -1483,7 +1487,7 @@ export default class TaskForm extends ComponentWithModal {
                   I’m not sure
                 </div>
               </div>
-          </div>
+          </div>*/}
       </div>
     );
 
@@ -1857,9 +1861,9 @@ export default class TaskForm extends ComponentWithModal {
             Do you want to work with specific Tunga developers?
           </label>
           <br />
-          <div className="btn-choices choice-fork" role="group">
+          <div className="btn-choices" role="group">
 
-            <div className="choice">
+            {/*<div className="choice">
               <button
                 type="button"
                 className="btn active">
@@ -1879,9 +1883,9 @@ export default class TaskForm extends ComponentWithModal {
               <div>
                 NO
               </div>
-            </div>
+            </div>*/}
 
-            {/*{TASK_VISIBILITY_CHOICES.map(visibility => {
+            {TASK_VISIBILITY_CHOICES.map(visibility => {
               return (
                 <button
                   key={visibility.id}
@@ -1894,7 +1898,7 @@ export default class TaskForm extends ComponentWithModal {
                   {visibility.name}
                 </button>
               );
-            })}*/}
+            })}
           </div>
           {this.state.visibility == VISIBILITY_CUSTOM
             ? <div style={{marginTop: '10px'}}>
@@ -2545,7 +2549,7 @@ export default class TaskForm extends ComponentWithModal {
         </div>
       </div>;
 
-    
+
     let paymentApprovalComp = (
       <div className="form-group">
         {Task.detail.error.create && Task.detail.error.create.payment_approved
@@ -2838,7 +2842,7 @@ export default class TaskForm extends ComponentWithModal {
             {
               title: 'Agreements',
               items: [deadlineComp],
-              requires: ['fee'],
+              //requires: ['fee'],
             },
           ];
         } else if (enabledWidgets[0] == 'call') {
@@ -2940,7 +2944,7 @@ export default class TaskForm extends ComponentWithModal {
           {
             title: 'Agreements',
             items: [deadlineComp],
-            requires: ['fee'],
+            //requires: ['fee'],
           },
           {
             title: `Who would you like to see your ${work_type}?`,
@@ -2951,7 +2955,7 @@ export default class TaskForm extends ComponentWithModal {
         if(project.pm) {
           sections = [
             ...sections,
-            
+
           ]
         }
 
