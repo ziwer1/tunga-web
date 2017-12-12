@@ -4,6 +4,7 @@ import momentLocalizer from 'react-widgets/lib/localizers/moment';
 import DateTimePicker from 'react-widgets/lib/DateTimePicker';
 
 import FieldError from './status/FieldError';
+import {isAdminOrProjectManager} from '../utils/auth';
 
 momentLocalizer(moment);
 
@@ -108,14 +109,16 @@ export default class MilestoneForm extends React.Component {
             />
           </div>
 
-          <div className="form-group">
-            <label className="control-label">
-              <input
-                defaultChecked={this.state.internal}
-                onChange={() => this.onInputCheck()}
-                type="checkbox"/> Internal Milestone
-            </label>
-          </div>
+          {isAdminOrProjectManager()?(
+            <div className="form-group">
+              <label className="control-label">
+                <input
+                  defaultChecked={this.state.internal}
+                  onChange={() => this.onInputCheck()}
+                  type="checkbox"/> Internal Milestone
+              </label>
+            </div>
+          ):null}
 
           <div className="text-center">
             <button type="submit" className="btn  ">

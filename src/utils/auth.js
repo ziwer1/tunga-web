@@ -22,6 +22,11 @@ export function getUserType() {
   return getUser().type || null;
 }
 
+export function isAdmin() {
+  let user = getUser();
+  return user.is_staff || user.is_superuser;
+}
+
 export function isDeveloper() {
   return getUser().is_developer;
 }
@@ -38,9 +43,8 @@ export function isAdminOrProjectOwner() {
   return isAdmin() || isProjectOwner();
 }
 
-export function isAdmin() {
-  let user = getUser();
-  return user.is_staff || user.is_superuser;
+export function isAdminOrProjectManager() {
+  return isAdmin() || isProjectManager();
 }
 
 export function openProfileWizard(options = {}) {
