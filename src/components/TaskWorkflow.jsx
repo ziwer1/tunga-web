@@ -30,7 +30,7 @@ import {getTaskKey} from '../utils/reducers';
 import confirm from '../utils/confirm';
 
 import {SOCIAL_PROVIDERS, ENDPOINT_TASK} from '../constants/Api';
-import {isAdmin, getUser, isProjectManager, isDeveloper} from '../utils/auth';
+import {isAdmin, getUser, isProjectManager, isDeveloper, isProjectOwner} from '../utils/auth';
 import {sendGAPageView} from '../utils/tracking';
 
 import {
@@ -224,13 +224,27 @@ export default class TaskWorkflow extends ComponentWithModal {
   }
 
   handleMarkPaid() {
-    const {TaskActions, Task} = this.props;
-    confirm('Confirm mark as paid').then(function() {
-      TaskActions.updateTask(Task.detail.task.id, {
-        paid: true,
-        paid_at: moment.utc().format(),
+    const {TaskActions, Task, task} = this.props;
+    if(task.invoice) {
+      confirm('Confirm mark as paid').then(function() {
+        TaskActions.updateTask(Task.detail.task.id, {
+          paid: true,
+          paid_at: moment.utc().format(),
+        });
       });
-    });
+    } else {
+      let wf = this;
+      const gotoInvoice = function () {
+        const {router} = wf.context;
+        router.replace(`/work/${task.id}/invoice`);
+      };
+
+      confirm(
+        'You need to generate an invoice first',
+        false,
+        {hideCancel: true}
+      ).then(gotoInvoice, gotoInvoice);
+    }
   }
 
   handleApproveDistribution() {
@@ -494,7 +508,9 @@ export default class TaskWorkflow extends ComponentWithModal {
         <div className="workflow-head clearfix">
           <div className="clearfix">
             <div className="pull-right hidden-xs hidden-sm">
-              <Link to="/work/new" className="btn btn-grey btn-create"><i className="fa fa-plus"/> Create a new task</Link>
+              {is_admin_or_owner_or_pm || isProjectOwner()?(
+                <Link to="/work/new" className="btn btn-grey btn-create"><i className="fa fa-plus"/> Create a new task</Link>
+              ):null}
               {is_admin_or_owner_or_pm
                 ? <span className="overview-dropdown">
                   <span className="dropdown">
@@ -705,9 +721,12 @@ export default class TaskWorkflow extends ComponentWithModal {
               </span>
                 : null}
 
-              <Link to={`/work/${task.id}/planning/${latestSprint && latestSprint.id?latestSprint.id:''}`} className="btn">
-                Planning
-              </Link>
+              {is_admin_or_owner_or_pm || (latestSprint && latestSprint.id)?(
+                <Link to={`/work/${task.id}/planning/${latestSprint && latestSprint.id?latestSprint.id:''}`}
+                      className="btn">
+                  Planning
+                </Link>
+              ):null}
 
               {is_admin_or_owner_or_pm ||
               task.is_admin ||
