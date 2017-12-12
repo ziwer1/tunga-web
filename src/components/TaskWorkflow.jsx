@@ -532,17 +532,29 @@ export default class TaskWorkflow extends ComponentWithModal {
                       task.closed &&
                       !task.paid &&
                       isAdmin()
-                        ? <li>
-                        <button
-                          type="button"
-                          className="btn"
-                          onClick={this.handleMarkPaid.bind(
+                        ? (
+                        task.payment_approved?(
+                          <li>
+                            <button
+                              type="button"
+                              className="btn"
+                              onClick={this.handleMarkPaid.bind(
                                               this,
                                             )}>
-                          Mark as paid
-                        </button>
-                      </li>
-                        : null,
+                              Mark as paid
+                            </button>
+                          </li>
+                        ): (
+                          <li>
+                            <Link
+                              to={`/work/${task.id}/edit/payment-approval/`}
+                              className="btn"
+                              id="payment-approval-btn">
+                              Approve payment
+                            </Link>
+                          </li>
+                        )
+                      ): null,
                     ]
                       : null}
                     {task.is_developer_ready &&
