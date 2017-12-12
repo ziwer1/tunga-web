@@ -2492,16 +2492,16 @@ export default class TaskForm extends ComponentWithModal {
 
     let participationComp =
       task.details && task.details.participation_shares.length
-        ? <div>
+        ? <div className="form-group">
+            <label className="control-label">Participation shares</label>
+            <blockquote className="highlight">
+              <strong>NOTE:</strong> Enter shares either as hours or
+              percentages
+            </blockquote>
             {task.details.participation_shares.map(item => {
               let user = item.participant.user;
               return (
-                <div key={item.participant.id} className="form-group">
-                  <label className="control-label">Participation shares</label>
-                  <blockquote className="highlight">
-                    <strong>NOTE:</strong> Enter shares either as hours or
-                    percentages
-                  </blockquote>
+                <div key={item.participant.id}>
                   <div>
                     <div className="list-group-item">
                       <div className="media">
