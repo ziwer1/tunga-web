@@ -116,7 +116,7 @@ export default class TaskForm extends ComponentWithModal {
       call_required: null,
       participant_updates: {},
       users: {},
-      skillNotRequired: false
+      skillRequired: null
     };
   }
 
@@ -316,7 +316,8 @@ export default class TaskForm extends ComponentWithModal {
           (Array.isArray(enabledWidgets) &&
             (enabledWidgets.indexOf('participation') == -1 &&
               enabledWidgets.indexOf('updates') == -1) &&
-          enabledWidgets.indexOf('payment-approval') == -1)
+          enabledWidgets.indexOf('payment-approval') == -1) &&
+          this.state.scope == TASK_SCOPE_TASK
         ) {
           router.replace(`/work/${Task.detail.task.id}?nr=true`);
         }
@@ -706,6 +707,8 @@ export default class TaskForm extends ComponentWithModal {
     if (key == 'scope') {
       if (value == TASK_SCOPE_TASK) {
         new_state.pm_required = false;
+      } else if (value == TASK_SCOPE_PROJECT && isAuthenticated()) {
+        new_state.pm_required = true;
       } else if (!task.id && (isProjectManager() || isAdmin())) {
         new_state.pm_required = false;
       }
@@ -726,16 +729,15 @@ export default class TaskForm extends ComponentWithModal {
     }
 
     if(key == 'skill_required'){
-      if(value == 1){
-        new_state.skillNotRequired = false;
+      new_state.skillRequired = value?true:false;
+      if(value || isAdmin() || isProjectManager()){
         shouldChangeStep = true;
-      }else if(value == 2){
-        new_state.skillNotRequired = true;
-        shouldChangeStep = true;
+      } else {
+        new_state.autoSave = true;
+        shouldChangeStep = false;
       }
     }
 
-    this.setState(new_state);
     if (
       ['scope', 'is_project', 'has_requirements', 'pm_required', 'includes_pm_fee'].indexOf(key) >
       -1
@@ -751,6 +753,8 @@ export default class TaskForm extends ComponentWithModal {
         shouldChangeStep = false;
       }
     }
+
+    this.setState(new_state);
 
     if (shouldChangeStep) {
       this.changeStep();
@@ -923,7 +927,7 @@ export default class TaskForm extends ComponentWithModal {
     const task = this.props.task || {};
 
     if (
-      (Task.detail.isSaved && ((!isAuthenticated() && !this.state.autoSave) || (isAuthenticated() && task.id))) ||
+      (Task.detail.isSaved && ((!isAuthenticated() && !this.state.autoSave) || (isAuthenticated() && (task.id || Task.detail.task.scope != TASK_SCOPE_TASK) ))) ||
       /\/(start|start-welcome|start-outsource|welcome)\/(finish|schedule|speed-up)\/.*\/complete$/.test(
         window.location.href,
       )
@@ -931,19 +935,35 @@ export default class TaskForm extends ComponentWithModal {
       return (
         <div>
           <div className="thank-you">
-            {isAuthenticated()?'Changes saved successfully!':'We will reach out to you shortly!'}<br />
+            {isAuthenticated()?(
+              Task.detail.task.scope != TASK_SCOPE_TASK?
+                'We will reach out to you soon to follow up on your project.':
+                'Changes saved successfully!'
+            ):'We will reach out to you shortly!'}<br />
             <i className="fa fa-check-circle status-icon" />
-            {!isAuthenticated() && phase != 'speed-up'
+            {(!isAuthenticated() && phase != 'speed-up') || (isAuthenticated() && Task.detail.task.scope != TASK_SCOPE_TASK)
               ? <div className="next-action">
-                  <span>
-                    <i className="tunga-icon-speed-up" /> Do you want to speed
-                    up the process by providing more details about your project?{' '}
-                  </span>
-                  <Link
-                    to={`/${urlPrefix}/speed-up/${Task.detail.task.id}`}
-                    className="btn">
-                    Speed up process
-                  </Link>
+                {(isAuthenticated() && Task.detail.task.scope != TASK_SCOPE_TASK)?(
+                  <div>
+                    <Link
+                      to={`/work/${Task.detail.task.id}`}
+                      className="btn">
+                      Go to workflow page
+                    </Link>
+                  </div>
+                ):(
+                  <div>
+                    <span>
+                      <i className="tunga-icon-speed-up" /> Do you want to speed
+                      up the process by providing more details about your project?{' '}
+                    </span>
+                    <Link
+                      to={`/${urlPrefix}/speed-up/${Task.detail.task.id}`}
+                      className="btn">
+                      Speed up process
+                    </Link>
+                  </div>
+                )}
                 </div>
               : null}
           </div>
@@ -1363,18 +1383,18 @@ export default class TaskForm extends ComponentWithModal {
         <div className="btn-choices choice-fork" role="group">
             {[
                 {
-                    id: 1,
+                    id: true,
                     name: 'Yes',
                     icon: 'tunga-icon-check',
                 },
                 {
-                    id: 2,
+                    id: false,
                     name: 'No',
                     icon: 'tunga-icon-cross',
                 },
             ].map(require_tech => {
                 return (
-                    <div key={require_tech.id} className="choice">
+                    <div key={`skill-required-${require_tech.id}`} className="choice">
                         <button
                             key={require_tech.id}
                             type="button"
@@ -1442,7 +1462,7 @@ export default class TaskForm extends ComponentWithModal {
     );
 
     let deadlineComp = (
-      <div>
+      <div className="form-group">
         {Task.detail.error.create && Task.detail.error.create.deadline
           ? <FieldError message={Task.detail.error.create.deadline} />
           : null}
@@ -1453,7 +1473,7 @@ export default class TaskForm extends ComponentWithModal {
             When do you need the {work_type} done?
           </h4>
 
-          <div className="form-group">
+          <div>
             <DateTimePicker
               ref="deadline"
               onChange={this.onDeadlineChange.bind(this)}
@@ -1468,7 +1488,6 @@ export default class TaskForm extends ComponentWithModal {
                         : null
                     }
               time={false}
-              style={{bottom: '-30%', marginRight:20}}
             />
           </div>
 
@@ -2998,8 +3017,6 @@ export default class TaskForm extends ComponentWithModal {
 
         if (is_project) {
 
-          var stepComps = [];
-
           sections = [
             ...sections,
             {
@@ -3009,10 +3026,11 @@ export default class TaskForm extends ComponentWithModal {
             {
               title: 'Requires Technical Skill',
               items: [skillChooseComp],
+              hideSubmit: true,
             },
           ];
 
-          if(!this.state.skillNotRequired) {
+          if(this.state.skillRequired) {
             sections = [
               ...sections,
               {
@@ -3023,13 +3041,33 @@ export default class TaskForm extends ComponentWithModal {
             ]
           }
 
-          sections = [
+          if (isAdmin()) {
+            sections = [
+              ...sections,
+              {
+                title: 'Select a project manager',
+                items: [pmComp],
+              },
+            ];
+          }
+
+          if (isAdmin() || isProjectManager()) {
+            sections = [
+              ...sections,
+              {
+                title: `Who would you like to see your ${work_type}?`,
+                items: [visibilityComp],
+              },
+            ];
+          }
+
+          /*sections = [
             ...sections,
             {
               title: 'Complete',
               items: [finalScreenComp],
             }
-          ];
+          ];*/
 
         } else {
           sections = [
@@ -3172,7 +3210,7 @@ export default class TaskForm extends ComponentWithModal {
       this.state.step < sections.length &&
       (current_section && !current_section.required && !canShowAll);
     let showSubmit =
-      (this.state.step == sections.length &&
+      (this.state.step == sections.length && (!current_section || !current_section.hideSubmit) &&
         (isAuthenticated() ||
           phase == 'speed-up' ||
           this.state.call_required)) ||
@@ -3268,7 +3306,7 @@ export default class TaskForm extends ComponentWithModal {
                   );
                 })}
 
-                {showPrev || showNext || showSubmit || true
+                {showPrev || showNext || showSubmit
                   ? <div className="nav text-center">
                       {showPrev
                         ? <button
