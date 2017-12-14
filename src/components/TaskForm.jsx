@@ -1406,7 +1406,7 @@ export default class TaskForm extends ComponentWithModal {
           ? <FieldError message={Task.detail.error.update.fee} />
           : null}
         <div className="form-group">
-          <label className="control-label">
+          <h4>
             What is{' '}
             {isAuthenticated() && (task.id || is_project_task)
               ? 'the fee'
@@ -1414,7 +1414,7 @@ export default class TaskForm extends ComponentWithModal {
             for this {work_type}?{isAuthenticated()
               ? ''
               : ' - (optional)'}
-          </label>
+          </h4>
           <div>
             <div className="input-group">
               <span className="input-group-addon">€</span>
