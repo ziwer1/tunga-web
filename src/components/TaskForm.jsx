@@ -2831,18 +2831,17 @@ export default class TaskForm extends ComponentWithModal {
         if (enabledWidgets[0] == 'complete-task') {
           sections = [
             {
-              title: 'Task description',
-              items: [deliverablesComp, stackDescComp, filesComp],
-            },
-            {
               title: `Basic details about the ${work_type}`,
               items: [titleComp, descComp],
               requires: ['title', 'description'],
             },
             {
+              title: 'Task description',
+              items: [deliverablesComp, stackDescComp, filesComp],
+            },
+            {
               title: 'Agreements',
               items: [deadlineComp],
-              //requires: ['fee'],
             },
           ];
         } else if (enabledWidgets[0] == 'call') {
@@ -2944,7 +2943,6 @@ export default class TaskForm extends ComponentWithModal {
           {
             title: 'Agreements',
             items: [deadlineComp],
-            //requires: ['fee'],
           },
           {
             title: `Who would you like to see your ${work_type}?`,
@@ -2955,7 +2953,10 @@ export default class TaskForm extends ComponentWithModal {
         if(project.pm) {
           sections = [
             ...sections,
-
+            {
+              title: 'Select a project manager',
+              items: [pmComp]
+            },
           ]
         }
 
@@ -3011,28 +3012,24 @@ export default class TaskForm extends ComponentWithModal {
             },
           ];
 
-          if(this.state.skillNotRequired){
-            sections = [
-            ...sections,
-            {
-              title: 'Complete',
-              items: [finalScreenComp],
-            }
-          ];
-          }else{
+          if(!this.state.skillNotRequired) {
             sections = [
               ...sections,
               {
                 title: `Tag skills or products that are relevant to this ${work_type}`,
                 items: [skillsComp],
                 requires: ['skills'],
-              },
-              {
-                title: 'Complete',
-                items: [finalScreenComp],
-              },
+              }
             ]
           }
+
+          sections = [
+            ...sections,
+            {
+              title: 'Complete',
+              items: [finalScreenComp],
+            }
+          ];
 
         } else {
           sections = [
