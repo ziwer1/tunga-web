@@ -622,6 +622,15 @@ export class LandingPage extends ComponentWithModal {
                             />
                           </a>
                         </li>
+                        <li>
+                          <a
+                            href="https://blog.tunga.io/our-developers-dont-want-aid-they-want-to-be-productive-4aba9173211e"
+                            target="_blank">
+                            <img
+                              src={require('../images/press/bnr.jpg')}
+                            />
+                          </a>
+                        </li>
                       </ul>
                     </div>
                   </Reveal>
