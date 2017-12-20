@@ -590,7 +590,7 @@ export default class TaskPay extends React.Component {
                               ? null
                               : <div className="next-action">
                                   <a
-                                    href={`${ENDPOINT_TASK}${task.id}/download/invoice/?format=pdf`}
+                                    href={`${ENDPOINT_TASK}${task.id}/download/invoice/?format=pdf&type=client`}
                                     target="_blank"
                                     className="btn">
                                     <i className="fa fa-download" /> Download
