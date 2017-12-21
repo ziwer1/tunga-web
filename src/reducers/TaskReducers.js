@@ -80,10 +80,13 @@ function task(state = {}, action) {
             : state.fee;
         return {
           ...state,
+          pay: invoice.fee,
           fee,
           payment_method: invoice.payment_method,
           btc_address: invoice.btc_address,
           withhold_tunga_fee: invoice.withhold_tunga_fee,
+          tax_rate: invoice.tax_rate,
+          tax_ratio: invoice.tax_ratio,
         };
       }
       return state;
