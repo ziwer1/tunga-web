@@ -1004,7 +1004,7 @@ export default class TaskWorkflow extends ComponentWithModal {
                 </div>
                   : null}
 
-                {task.is_project?(
+                {task.is_project || task.pm?(
                   <div>
                     {task.pm || isAdmin()?(
                       <div>Project Manager</div>
