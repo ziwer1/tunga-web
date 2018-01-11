@@ -569,20 +569,7 @@ export default class TaskWorkflow extends ComponentWithModal {
                       task.closed &&
                       isAdmin()
                         ? (
-                        task.paid?(
-                          task.distribution_approved?null:(
-                            <li>
-                              <button
-                                type="button"
-                                className="btn"
-                                onClick={this.handleApproveDistribution.bind(
-                                              this,
-                                            )}>
-                                Approve payout via Payoneer
-                              </button>
-                            </li>
-                          )
-                        ):(
+                        task.paid?null:(
                           task.payment_approved?(
                             <li>
                               <button
@@ -605,7 +592,23 @@ export default class TaskWorkflow extends ComponentWithModal {
                             </li>
                           )
                         )
-                      ):null
+                      ):null,
+                      task.is_developer_ready &&
+                      task.closed &&
+                      isAdmin() &&
+                      !task.distribution_approved
+                        ? (
+                          <li>
+                            <button
+                              type="button"
+                              className="btn"
+                              onClick={this.handleApproveDistribution.bind(
+                                this,
+                              )}>
+                              Approve payout via Payoneer
+                            </button>
+                          </li>
+                        ):null,
                     ]
                       : null}
                     {task.is_developer_ready &&
