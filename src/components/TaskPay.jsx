@@ -217,6 +217,11 @@ export default class TaskPay extends React.Component {
   }
 
   getTotalPayAmount() {
+    const {task, Task, multi_task_payment, MultiTaskPayment} = this.props;
+    const {invoice} = Task ? Task.detail.Invoice : {};
+    if(!multi_task_payment && invoice && invoice.exclude_payment_costs) {
+      return this.getInvoiceAmount();
+    }
     switch (this.getPaymentMethod()) {
       case TASK_PAYMENT_METHOD_STRIPE:
         return this.getInvoiceAmount() * 1.029 + 0.25; // 2.9% + 25c charge
@@ -706,16 +711,18 @@ export default class TaskPay extends React.Component {
                                   &euro; {parseNumber(this.getInvoiceAmount())}
                                 </td>
                               </tr>
-                              <tr>
-                                <td>Payment costs:</td>
-                                <td>
-                                  &euro;{' '}
-                                  {parseNumber(
-                                    this.getTotalPayAmount() -
-                                    this.getInvoiceAmount(),
-                                  )}
-                                </td>
-                              </tr>
+                              {!multi_task_payment && invoice && invoice.exclude_payment_costs?null:(
+                                <tr>
+                                  <td>Payment costs:</td>
+                                  <td>
+                                    &euro;{' '}
+                                    {parseNumber(
+                                      this.getTotalPayAmount() -
+                                      this.getInvoiceAmount(),
+                                    )}
+                                  </td>
+                                </tr>
+                              )}
                               <tr>
                                 <th>Subtotal:</th>
                                 <th>
