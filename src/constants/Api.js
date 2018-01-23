@@ -115,10 +115,10 @@ export const USER_TYPE_CHOICES = [
   {id: USER_TYPE_PROJECT_MANAGER, name: 'Project Manager'},
 ];
 
-export const DEVELOPER_FEE = 19;
-export const PM_FEE = 39;
-export const TUNGA_PERCENTAGE_DEVELOPER = 0.3421; // 34%
-export const TUNGA_PERCENTAGE_PM = 0.4871; // 56%
+export const DEVELOPER_FEE = 20;
+export const PM_FEE = 40;
+export const TUNGA_PERCENTAGE_DEVELOPER = 0.375; // 37.5%
+export const TUNGA_PERCENTAGE_PM = 1; // 100%
 
 export const PAYMENT_METHOD_BTC_WALLET = 'btc_wallet';
 export const PAYMENT_METHOD_BTC_ADDRESS = 'btc_address';

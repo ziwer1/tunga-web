@@ -2699,7 +2699,7 @@ export default class TaskForm extends ComponentWithModal {
                 type="number"
                 className="form-control"
                 ref="dev_rate"
-                placeholder="Developer Rate e.g 19"
+                placeholder="Developer Rate e.g 20"
                 onChange={this.onInputChange.bind(this, 'dev_rate')}
                 value={this.state.dev_rate ? parseNumber(this.state.dev_rate, false) : ''}
               />
@@ -2728,7 +2728,7 @@ export default class TaskForm extends ComponentWithModal {
                 type="number"
                 className="form-control"
                 ref="pm_rate"
-                placeholder="PM Rate e.g 39"
+                placeholder="PM Rate e.g 40"
                 onChange={this.onInputChange.bind(this, 'pm_rate')}
                 value={this.state.pm_rate ? parseNumber(this.state.pm_rate, false) : ''}
               />
@@ -2777,7 +2777,7 @@ export default class TaskForm extends ComponentWithModal {
           : null}
         <div className="form-group">
           <label className="control-label">
-            Tunga percentage for Developer fee (default 34.21%)
+            Tunga percentage for Developer fee (default 37.5%)
           </label>
           <div>
             <div className="input-group">
@@ -2785,7 +2785,7 @@ export default class TaskForm extends ComponentWithModal {
                 type="number"
                 className="form-control"
                 ref="tunga_percentage_dev"
-                placeholder="PM Time percentage e.g 34.21"
+                placeholder="PM Time percentage e.g 37.5"
                 onChange={this.onInputChange.bind(this, 'tunga_percentage_dev')}
                 value={this.state.tunga_percentage_dev ? parseNumber(this.state.tunga_percentage_dev, false) : ''}
               />
@@ -2806,7 +2806,7 @@ export default class TaskForm extends ComponentWithModal {
           : null}
         <div className="form-group">
           <label className="control-label">
-            Tunga percentage for PM fee  (default 48.71%)
+            Tunga percentage for PM fee  (default 100%)
           </label>
           <div>
             <div className="input-group">
@@ -2814,7 +2814,7 @@ export default class TaskForm extends ComponentWithModal {
                 type="number"
                 className="form-control"
                 ref="tunga_percentage_pm"
-                placeholder="PM Time percentage e.g 48.71"
+                placeholder="PM Time percentage e.g 100"
                 onChange={this.onInputChange.bind(this, 'tunga_percentage_pm')}
                 value={this.state.pm_time_percentage ? parseNumber(this.state.tunga_percentage_pm, false) : ''}
               />
