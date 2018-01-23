@@ -1,7 +1,9 @@
 import React, {Button} from 'react';
 import {Link} from 'react-router';
-import Avatar from './Avatar';
+import moment from 'moment';
+import _ from 'lodash';
 
+import Avatar from './Avatar';
 import MessageForm from './MessageForm';
 import ActivityList from './ActivityList';
 import SupportChannelMiniForm from '../components/SupportChannelMiniForm';
@@ -9,14 +11,63 @@ import SupportChannelMiniForm from '../components/SupportChannelMiniForm';
 import {getChannelKey} from '../utils/reducers';
 import {isAuthenticated} from '../utils/auth';
 import {CHANNEL_TYPES} from '../constants/Api';
+import {
+  openCalendlyWidget,
+} from '../utils/router';
 
 export default class ChatBox extends React.Component {
   constructor(){
-    super()
+    super();
     this.state = {
-      showEmailForm: false
+      showEmailForm: false,
+      showOfflineActions: false,
+      lastActivityChannel: null,
+      lastActivityCount: 0,
+      lastActivityAt: null
     }
   }
+
+  componentDidUpdate(prevProps, prevState) {
+    const {channel} = this.props;
+    let channelKey = getChannelKey(channel.id);
+    if(!isAuthenticated() && !_.isEqual(this.props.Channel.detail.activity.items[channelKey], prevProps.Channel.detail.activity.items[channelKey])) {
+      this.evaluateOfflineOptions();
+    }
+  }
+
+  evaluateOfflineOptions() {
+    const {channel, Channel} = this.props;
+    let activities = Channel.detail.activity.items[getChannelKey(channel.id)] || [];
+    if(activities.length) {
+      let hasSentEmail = Channel.detail.channel.object_id;
+      let lastActivity = activities[activities.length-1];
+      if(!hasSentEmail && lastActivity.activity && lastActivity.activity.sender && lastActivity.activity.sender.inquirer) {
+        let lastActivityAt = lastActivity.activity.created_at;
+        let minutesAgo = (moment.utc() - moment.utc(lastActivity.activity.created_at))/ (60*1000);
+        let offlineDelay = 5;
+        if(minutesAgo > offlineDelay) {
+          this.setState({
+            showOfflineActions: true,
+            lastActivityCount: activities.length,
+            lastActivityAt
+          });
+        } else {
+          let cb = this;
+          setTimeout(function () {
+            cb.evaluateOfflineOptions();
+          }, 60*1000);
+        }
+      } else {
+        this.setState({
+          showEmailForm: hasSentEmail,
+          showOfflineActions: hasSentEmail,
+          lastActivityCount: this.state.lastActivityCount || 1
+        });
+      }
+    }
+  }
+
+
   getView() {
     if (this.props.channelView) {
       return this.props.channelView;
@@ -94,20 +145,18 @@ export default class ChatBox extends React.Component {
             <p>Uh-oh, we are currently not online.</p>
             <p>We will reach out to you ASAP!</p>
             <div className="btn-group bubble-action" role="group">
-              <button type="button" className="btn btn-default pull-left">
-                <Link to='/call'>Schedule call </Link>
-              </button>
+              <button type="button" onClick={() => {openCalendlyWidget(); window.tungaCanOpenOverlay = false;}} className="btn btn-default pull-left">Schedule call </button>
               <button type="button" onClick={() => this.setState({showEmailForm: true})} className="btn btn-default pull-right">Contact me via email</button>
             </div>
           </div>
         )
-        // body: 'Uh-oh, we are currently not online.\nWe will reach out to you ASAP!',
       }
     }
   }
 
   onSendMessage(body, attachments) {
     const {channel, Channel, MessageActions, ChannelActions} = this.props;
+    var activities = Channel.detail.activity.items[getChannelKey(channel.id)] || [];
     MessageActions.createMessage({channel: channel.id, body}, attachments);
     if(channel.type == CHANNEL_TYPES.support && !Channel.chatStarted) {
       ChannelActions.recordChatStart();
@@ -130,18 +179,12 @@ export default class ChatBox extends React.Component {
         this.getInitMessage(),
         ...activities,
       ];
-      if (activities.length >= 2 && !isAuthenticated()) {
+      if (this.state.showOfflineActions && activities.length >= 2 && !isAuthenticated()) {
+        let offlineActionInsertIdx = this.state.lastActivityCount + 1;
         activities = [
-          ...activities.slice(0, 2),
-          this.getOfflineActionsActivity(),
-          ...activities.slice(2),
-        ];
-      }
-      if (activities.length >= 3 && !isAuthenticated() && this.state.showEmailForm) {
-        activities = [
-          ...activities.slice(0, 3),
-          this.getEmailForm(),
-          ...activities.slice(3),
+          ...activities.slice(0, offlineActionInsertIdx),
+          this.state.showEmailForm?this.getEmailForm():this.getOfflineActionsActivity(),
+          ...activities.slice(offlineActionInsertIdx),
         ];
       }
     }
