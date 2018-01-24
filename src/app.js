@@ -120,6 +120,7 @@ import MultiTaskPay from 'components/MultiTaskPay';
 import MultiTaskPayProcessing from 'components/MultiTaskPayProcessing';
 import QuizForm from 'components/QuizForm';
 import DeveloperProfile from 'components/DeveloperProfile';
+import TaskDocument from 'components/TaskDocument';
 
 let all_routes = (
   <Route>
@@ -284,6 +285,11 @@ let all_routes = (
               path="task/new/*"
               component={ProjectTaskForm}
               crumb="Add task"
+            />
+            <Route
+              path="documents"
+              component={TaskDocument}
+              crumb="Documents"
             />
             <Route path="integrations" crumb="Integrations">
               <IndexRedirect to="github" component={IntegrationList} />

@@ -66,6 +66,9 @@ export const UPDATE_TASK_RETURN_FAILED = 'UPDATE_TASK_RETURN_FAILED';
 export const MAKE_TASK_PAYMENT_START = 'MAKE_TASK_PAYMENT_START';
 export const MAKE_TASK_PAYMENT_SUCCESS = 'MAKE_TASK_PAYMENT_SUCCESS';
 export const MAKE_TASK_PAYMENT_FAILED = 'MAKE_TASK_PAYMENT_FAILED';
+export const CREATE_TASK_DOCUMENT_START = 'CREATE_TASK_DOCUMENT_START';
+export const CREATE_TASK_DOCUMENT_SUCCESS = 'CREATE_TASK_DOCUMENT_SUCCESS';
+export const CREATE_TASK_DOCUMENT_FAILED = 'CREATE_TASK_DOCUMENT_FAILED';
 
 export function createTask(task, attachments) {
   return dispatch => {
@@ -813,5 +816,65 @@ export function makeTaskPaymentFailed(error, provider) {
     type: MAKE_TASK_PAYMENT_FAILED,
     error,
     provider,
+  };
+}
+
+export function createTaskDocument(id, document_data, file) {
+  return dispatch => {
+    dispatch(createTaskDocumentStart(id));
+
+    var headers = {},
+      data = new FormData();
+
+    headers['Content-Type'] = 'multipart/form-data';
+
+    Object.keys(document_data).map(key => {
+      if (
+        (Array.isArray(document_data[key]) && document_data[key].length) ||
+        (!Array.isArray(document_data[key]) && document_data[key] != null)
+      ) {
+        data.append(key, document_data[key]);
+      }
+    });
+
+    data.append('file', file);
+
+    axios
+      .post(ENDPOINT_TASK + id + '/documents/', data, {headers})
+      .then(function(response) {
+        dispatch(createTaskDocumentSuccess(response.data));
+      })
+      .catch(function(error) {
+        dispatch(
+          createTaskDocumentFailed(error.response ? error.response.data : null),
+        );
+      });
+  };
+}
+
+export function createTaskDocumentStart(id) {
+  return {
+    type: CREATE_TASK_DOCUMENT_START,
+    id,
+  };
+}
+
+export function createTaskDocumentSuccess(response) {
+  sendGAEvent(
+    GA_EVENT_CATEGORIES.TASK,
+    GA_EVENT_ACTIONS.UPLOAD_DOCUMENT,
+    getGAUserType(getUser()),
+  );
+
+  return {
+    type: CREATE_TASK_DOCUMENT_SUCCESS,
+    document: response,
+  };
+}
+
+export function createTaskDocumentFailed(error) {
+  return {
+    type: CREATE_TASK_DOCUMENT_FAILED,
+    error,
   };
 }

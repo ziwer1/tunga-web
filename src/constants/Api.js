@@ -452,3 +452,13 @@ export const OFFER_ITEM_NAMES = {
   onboarding_special: 'Onboarding Special Offer',
   project: 'Dedicated Monitor & Troubleshooter',
 };
+
+export const TASK_DOCUMENT_TYPES = {
+  'estimate': 'Estimate',
+  'proposal': 'Proposal',
+  'planning': 'Planning',
+  'requirements': 'Requirements Document',
+  'wireframes': 'Wireframes',
+  'timeline': 'Timeline',
+  'other': 'Other'
+};

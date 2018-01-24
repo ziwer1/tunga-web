@@ -67,6 +67,7 @@ export const GA_EVENT_ACTIONS = {
   SEND: 'Send',
   PAY: 'Pay',
   START: 'Start',
+  UPLOAD_DOCUMENT: 'Upload Document'
 };
 
 export const GA_EVENT_LABELS = {

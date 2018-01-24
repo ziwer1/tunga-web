@@ -95,6 +95,11 @@ function task(state = {}, action) {
         return {...state, ...action.task, paid: true};
       }
       return state;
+    case TaskActions.CREATE_TASK_DOCUMENT_SUCCESS:
+      if (state.id == action.document.task) {
+        return {...state, documents: [...state.documents, action.document]};
+      }
+      return state;
     default:
       return state;
   }
@@ -234,12 +239,15 @@ function isSaving(state = false, action) {
   switch (action.type) {
     case TaskActions.CREATE_TASK_START:
     case TaskActions.UPDATE_TASK_START:
+    case TaskActions.CREATE_TASK_DOCUMENT_START:
       return true;
     case TaskActions.CREATE_TASK_SUCCESS:
     case TaskActions.CREATE_TASK_FAILED:
     case TaskActions.UPDATE_TASK_SUCCESS:
     case TaskActions.UPDATE_TASK_FAILED:
     case TaskActions.RETRIEVE_TASK_START:
+    case TaskActions.CREATE_TASK_DOCUMENT_SUCCESS:
+    case TaskActions.CREATE_TASK_DOCUMENT_FAILED:
     case CLEAR_VALIDATIONS:
       return false;
     default:
@@ -251,11 +259,14 @@ function isSaved(state = false, action) {
   switch (action.type) {
     case TaskActions.CREATE_TASK_SUCCESS:
     case TaskActions.UPDATE_TASK_SUCCESS:
+    case TaskActions.CREATE_TASK_DOCUMENT_SUCCESS:
       return true;
     case TaskActions.CREATE_TASK_START:
     case TaskActions.CREATE_TASK_FAILED:
     case TaskActions.UPDATE_TASK_START:
     case TaskActions.UPDATE_TASK_FAILED:
+    case TaskActions.CREATE_TASK_DOCUMENT_START:
+    case TaskActions.CREATE_TASK_DOCUMENT_FAILED:
     case PATH_CHANGE:
     case CLEAR_VALIDATIONS:
       return false;
@@ -331,6 +342,12 @@ function error(state = {}, action) {
     case TaskActions.MAKE_TASK_PAYMENT_START:
     case TaskActions.MAKE_TASK_PAYMENT_SUCCESS:
       return {...state, pay: null};
+    case TaskActions.CREATE_TASK_DOCUMENT_FAILED:
+      console.log('CREATE_TASK_DOCUMENT_FAILED:', action);
+      return {...state, document: action.error};
+    case TaskActions.CREATE_TASK_DOCUMENT_START:
+    case TaskActions.CREATE_TASK_DOCUMENT_SUCCESS:
+      return {...state, document: null};
     case CLEAR_VALIDATIONS:
       return {};
     default:

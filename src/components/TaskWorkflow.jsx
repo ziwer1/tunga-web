@@ -29,7 +29,7 @@ import {render_summary, nl_to_br} from '../utils/html';
 import {getTaskKey} from '../utils/reducers';
 import confirm from '../utils/confirm';
 
-import {SOCIAL_PROVIDERS, ENDPOINT_TASK} from '../constants/Api';
+import {SOCIAL_PROVIDERS, ENDPOINT_TASK, TASK_DOCUMENT_TYPES} from '../constants/Api';
 import {isAdmin, getUser, isProjectManager, isDeveloper, isProjectOwner} from '../utils/auth';
 import {sendGAPageView} from '../utils/tracking';
 
@@ -1138,7 +1138,14 @@ export default class TaskWorkflow extends ComponentWithModal {
                             Add a milestone
                           </Link>
                         </li>
-                          : null
+                          : null,
+                        <li>
+                          <Link
+                            to={`/work/${task.id}/documents`}
+                            className="btn">
+                            Upload documents
+                          </Link>
+                        </li>,
                       ]
                         : null}
                     </ul>
@@ -1349,6 +1356,25 @@ export default class TaskWorkflow extends ComponentWithModal {
                   </div>
                     : null}
                 </div>
+                  : null}
+
+                {task.documents && task.documents.length
+                  ? <div>
+                    <strong>Documents</strong>
+
+                    <div className="attachments">
+                      {task.documents.map(attachment => {
+                        return (
+                          <div key={attachment.id} className="file">
+                            <div>{TASK_DOCUMENT_TYPES[attachment.file_type]}</div>
+                            <a href={attachment.url} target="_blank">
+                              <i className="fa fa-download" /> {attachment.name}{' '}
+                            </a>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
                   : null}
               </div>
             </div>
