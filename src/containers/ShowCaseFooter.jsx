@@ -39,6 +39,7 @@ class ShowCaseFooter extends React.Component {
               <div id="tunga-logo-btm">
                 <img src={require('../images/logo_round.png')} />
               </div>
+              <p><a href="http://web.butterflyworks.org/">a butterfly works initiative</a></p>
               <div id="social-networks">
                 <a
                   target="_blank"

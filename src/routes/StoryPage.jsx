@@ -79,7 +79,7 @@ export default class StoryPage extends React.Component {
                 Being able to take control of and choose your own destiny is a
                 universal value. And it probably is disproportionately so among
                 software developers and startup entrepreneurs like ourselves.
-                Tunga is founded by not-for-profit design studio Butterfly Works
+                Tunga is founded by not-for-profit design studio <a href="http://web.butterflyworks.org/">Butterfly Works </a>
                 and long-time social entrepreneur Ernesto Spruyt. Our people
                 have all built a lifestyle not aimed at making as much money as
                 possible, but at allowing us to be free and keep control of our
@@ -88,7 +88,16 @@ export default class StoryPage extends React.Component {
                 rest of the world as well. In particular for the world’s youth,
                 because the youth has the future.
               </p>
-
+                <div className="partner-wrapper">
+                      <a
+                        href="http://web.butterflyworks.org/"
+                        target="_blank"
+                        title="Butterfly Works">
+                        <img
+                          src={require('../images/partners/butterfly-works-logo.png')}
+                        />
+                      </a>
+                </div>
               <div className="image-wrapper">
                 <img src={require('../images/story/uprise.jpg')} />
               </div>
