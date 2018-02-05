@@ -65,13 +65,13 @@ class Home extends React.Component {
         position: 'top',
         condition: Notification.notifications.requests,
       },
-      {
+      /*{
         title: 'Messages',
         text: 'Start conversations and check on your new messages',
         selector: '#inner-messages',
         position: 'top',
         condition: Notification.notifications.messages,
-      },
+      },*/
       {
         title: 'Running Tasks',
         text: 'View your on-going tasks',
@@ -156,7 +156,7 @@ class Home extends React.Component {
                     </Link>
                   </li>
                 : null}
-              {Notification.notifications.messages
+              {/*Notification.notifications.messages
                 ? <li id="inner-my-messages">
                     <Link to="/conversation">
                       <span className="icon">
@@ -169,7 +169,7 @@ class Home extends React.Component {
                       Messages
                     </Link>
                   </li>
-                : null}
+                : null*/}
               {Notification.notifications.tasks
                 ? <li id="inner-running-tasks">
                     <Link to="/work/filter/running">

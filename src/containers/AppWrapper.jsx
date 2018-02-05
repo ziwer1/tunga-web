@@ -93,12 +93,12 @@ export default class AppWrapper extends React.Component {
 
     steps = [
       ...steps,
-      {
+      /*{
         title: 'Messages',
         text: 'Start conversations and check on your new messages',
         selector: '#sidebar-messages',
         position: 'right',
-      },
+      },*/
       {
         title: 'Tribe',
         text:

@@ -85,7 +85,7 @@ class SideBar extends React.Component {
                   </Link>
                 </li>
               : null}
-            <li id="sidebar-messages">
+            {/*<li id="sidebar-messages">
               <Link to="/conversation" activeClassName="active">
                 <i className="menu-icon tunga-icon-message" />{' '}
                 <span>Messages</span>{' '}
@@ -95,7 +95,7 @@ class SideBar extends React.Component {
                     </span>
                   : null}
               </Link>
-            </li>
+            </li>*/}
             <li id="sidebar-tribe">
               <Link to="/people/filter/developers" activeClassName="active">
                 <i className="menu-icon tunga-icon-tribe" /> <span>Tribe</span>{' '}
