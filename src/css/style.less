@@ -1531,12 +1531,13 @@ form[name='compose'] {
   }
 
   .input-group-addon {
-    background: transparent;
-    padding-right: 0;
+    background: @inactive-grey none;
+    padding-right: 6px;
   }
 
   input.form-control {
-    background: transparent;
+    background: @inactive-grey none;
+    border-left-width: 0;
   }
 
   .results {
@@ -2560,8 +2561,8 @@ form[name='compose'] {
           }
 
           a.active {
-            color: @greyish-brown;
-            background-color: @inactive-grey;
+            color: @active-white;
+            background-color: @primary;
             text-decoration: none;
 
             .avatar {
