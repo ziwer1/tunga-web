@@ -37,10 +37,10 @@ export default class TaskDetail extends React.Component {
           : <div className="task-page">
               {task.can_apply
                 ? <div className="pull-right">
-                    <Link to={`/work/${task.id}/apply`} className="btn">
+                  {/*<Link to={`/work/${task.id}/apply`} className="btn">
                       Apply for this {work_type}
                     </Link>
-                  {/*<Link
+                    <Link
                       to={`/conversation/start/task/${task.id}`}
                       className="btn">
                       Send message

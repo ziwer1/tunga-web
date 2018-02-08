@@ -134,7 +134,7 @@ export default class TaskCard extends ComponentWithModal {
             </Linkify>
           </div>
           <div className="actions">
-            {isDeveloper()
+            {/*isDeveloper()
               ? <div className="row">
                   <div className="col-sm-12">
                     {task.can_apply
@@ -152,7 +152,7 @@ export default class TaskCard extends ComponentWithModal {
                             style={{visibility: 'hidden'}}
                           />}
                   </div>
-                  {/*task.can_apply
+                  {task.can_apply
                     ? <div className="col-sm-12">
                         <Link
                           to={`/conversation/start/task/${task.id}`}
@@ -160,9 +160,9 @@ export default class TaskCard extends ComponentWithModal {
                           Send message
                         </Link>
                       </div>
-                    : null*/}
+                    : null}
                 </div>
-              : null}
+              : null*/}
 
             {isProjectManager() || (isAdmin() && !task.is_developer_ready)
               ? <div className="row">
