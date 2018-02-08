@@ -15,6 +15,7 @@ import {
   PROGRESS_REPORT_STATUS_BEHIND_AND_STUCK,
   PROGRESS_EVENT_TYPE_CLIENT,
   PROGRESS_EVENT_TYPE_PM,
+  PROGRESS_EVENT_TYPE_CLIENT_MID_SPRINT
 } from '../constants/Api';
 import {getUser} from '../utils/auth';
 
@@ -113,6 +114,11 @@ export default class ProgressReportForm extends FormComponent {
     return milestone && milestone.type == PROGRESS_EVENT_TYPE_CLIENT;
   }
 
+  isClientMidSprintReport() {
+    const {milestone} = this.props;
+    return milestone && milestone.type == PROGRESS_EVENT_TYPE_CLIENT_MID_SPRINT;
+  }
+
   onInputChange(key, e) {
     var new_state = {};
     new_state[key] = e.target.value;
@@ -194,6 +200,8 @@ export default class ProgressReportForm extends FormComponent {
     var pm_communication = this.state.pm_communication;
     var stuck_details = this.state.stuck_details;
     var next_deadline_fail_reason = this.state.next_deadline_fail_reason;
+    var progress_satisfaction = this.state.next_deadline_fail_reason;
+    var rate_workflow = this.state.next_deadline_fail_reason;
 
     const {ProgressReportActions} = this.props;
     const progress_report = this.props.progress_report || {};
@@ -222,6 +230,8 @@ export default class ProgressReportForm extends FormComponent {
       next_deadline_fail_reason,
       stuck_reason,
       rate_deliverables,
+      progress_satisfaction,
+      rate_workflow
     };
     if (progress_report.id) {
       ProgressReportActions.updateProgressReport(
@@ -262,12 +272,12 @@ export default class ProgressReportForm extends FormComponent {
           role="form"
           ref="progress_report_form">
           <h4>
-            {this.isClientReport() ? 'Weekly Survey' : 'Progress Report'}
+            {this.isClientReport() || this.isClientMidSprintReport() ? 'Weekly Survey' : 'Progress Report'}
           </h4>
           <FormStatus
             loading={ProgressReport.detail.isSaving}
             success={ProgressReport.detail.isSaved}
-            message={`${this.isClientReport()
+            message={`${this.isClientReport() || this.isClientMidSprintReport()
               ? 'Weekly Survey'
               : 'Progress Report'} saved successfully`}
             error={
@@ -1237,6 +1247,166 @@ export default class ProgressReportForm extends FormComponent {
               </div>
             </div>
           </div>
+            : null}
+
+          {this.isClientMidSprintReport()
+            ? <div>
+              {ProgressReport.detail.error.create &&
+              ProgressReport.detail.error.create.progress_satisfaction
+                ? <FieldError
+                  message={
+                    ProgressReport.detail.error.create
+                      .progress_satisfaction
+                  }
+                />
+                : null}
+              {ProgressReport.detail.error.update &&
+              ProgressReport.detail.error.update.progress_satisfaction
+                ? <FieldError
+                  message={
+                    ProgressReport.detail.error.update
+                      .progress_satisfaction
+                  }
+                />
+                : null}
+              <div className="form-group">
+                <label className="control-label">
+                  Are you satisfied with how the project is currently going? *
+                </label>
+                <div>
+                  <div
+                    className="btn-group btn-choices select"
+                    role="group"
+                    aria-label="progress satisfaction">
+                    {[
+                      {id: 'yes', name: 'Yes'},
+                      {id: 'partly', name: 'Partly'},
+                      {id: 'no', name: 'No'},
+                    ].map(status => {
+                      return (
+                        <button
+                          key={status.id}
+                          type="button"
+                          className={
+                            'btn ' +
+                            (this.state.progress_satisfaction == status.id
+                              ? ' active'
+                              : '')
+                          }
+                          onClick={this.onStateValueChange.bind(
+                            this,
+                            'progress_satisfaction',
+                            status.id,
+                          )}>
+                          {status.name}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+
+              {ProgressReport.detail.error.create &&
+              ProgressReport.detail.error.create.rate_workflow
+                ? <FieldError
+                  message={
+                    ProgressReport.detail.error.create.rate_workflow
+                  }
+                />
+                : null}
+              {ProgressReport.detail.error.update &&
+              ProgressReport.detail.error.update.rate_workflow
+                ? <FieldError
+                  message={
+                    ProgressReport.detail.error.update.rate_workflow
+                  }
+                />
+                : null}
+              <div className="form-group">
+                <label className="control-label">
+                  How would you rate the current workflow on a scale from 1 to 5?
+                  *
+                </label>
+                <div>
+                  <div className="btn-group btn-choices select" role="group">
+                    {this.getRatingsMap(6).map(status => {
+                      return (
+                        <button
+                          key={status.id}
+                          type="button"
+                          className={
+                            'btn ' +
+                            (this.state.rate_workflow == status.id
+                              ? ' active'
+                              : '')
+                          }
+                          onClick={this.onStateValueChange.bind(
+                            this,
+                            'rate_workflow',
+                            status.id,
+                          )}>
+                          {status.name}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+
+              {ProgressReport.detail.error.create &&
+              ProgressReport.detail.error.create.pm_communication
+                ? <FieldError
+                  message={
+                    ProgressReport.detail.error.create.pm_communication
+                  }
+                />
+                : null}
+              {ProgressReport.detail.error.update &&
+              ProgressReport.detail.error.update.pm_communication
+                ? <FieldError
+                  message={
+                    ProgressReport.detail.error.update.pm_communication
+                  }
+                />
+                : null}
+              <div className="form-group">
+                <label className="control-label">
+                  Is the communication between you and the project
+                  manager/developer(s) going well? *
+                </label>
+                <div>
+                  <div
+                    className="btn-group btn-choices select"
+                    role="group"
+                    aria-label="PM communication">
+                    {[
+                      {id: true, name: 'Yes'},
+                      {id: false, name: 'No'},
+                    ].map(status => {
+                      return (
+                        <button
+                          key={status.id}
+                          type="button"
+                          className={
+                            'btn ' +
+                            (typeof this.state.pm_communication ==
+                            'boolean' &&
+                            this.state.pm_communication == status.id
+                              ? ' active'
+                              : '')
+                          }
+                          onClick={this.onPmCommunicationChange.bind(
+                            this,
+                            status.id,
+                          )}>
+                          {status.name}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            </div>
             : null}
 
           <div>

@@ -17,6 +17,7 @@ import {
   PROGRESS_EVENT_TYPE_COMPLETE,
   PROGRESS_EVENT_TYPE_PM,
   PROGRESS_EVENT_TYPE_CLIENT,
+  PROGRESS_EVENT_TYPE_CLIENT_MID_SPRINT
 } from '../constants/Api';
 import {
   isAuthenticated,
@@ -234,13 +235,13 @@ export default class ActivityList extends React.Component {
       case 'progress_event':
         if (
           isDeveloper() &&
-          [PROGRESS_EVENT_TYPE_PM, PROGRESS_EVENT_TYPE_CLIENT].indexOf(
+          [PROGRESS_EVENT_TYPE_PM, PROGRESS_EVENT_TYPE_CLIENT, PROGRESS_EVENT_TYPE_CLIENT_MID_SPRINT].indexOf(
             object.type,
           ) > -1
         ) {
           break;
         }
-        if (isProjectManager() && object.type == PROGRESS_EVENT_TYPE_CLIENT) {
+        if (isProjectManager() && [PROGRESS_EVENT_TYPE_CLIENT, PROGRESS_EVENT_TYPE_CLIENT_MID_SPRINT].indexOf(object.type) > -1) {
           break;
         }
         if (
@@ -279,7 +280,7 @@ export default class ActivityList extends React.Component {
                 {object.title ||
                   <span>
                     <i className="fa fa-flag-o" /> Scheduled{' '}
-                    {object.type == PROGRESS_EVENT_TYPE_CLIENT
+                    {[PROGRESS_EVENT_TYPE_CLIENT, PROGRESS_EVENT_TYPE_CLIENT_MID_SPRINT].indexOf(object.type) > -1
                       ? 'a weekly survey'
                       : 'an update'}
                   </span>}
@@ -294,7 +295,7 @@ export default class ActivityList extends React.Component {
       case 'progress_report':
         if (
           isDeveloper() &&
-          [PROGRESS_EVENT_TYPE_PM, PROGRESS_EVENT_TYPE_CLIENT].indexOf(
+          [PROGRESS_EVENT_TYPE_PM, PROGRESS_EVENT_TYPE_CLIENT, PROGRESS_EVENT_TYPE_CLIENT_MID_SPRINT].indexOf(
             object.details.event.type,
           ) > -1
         ) {
@@ -302,7 +303,7 @@ export default class ActivityList extends React.Component {
         }
         if (
           isProjectManager() &&
-          object.details.event.type == PROGRESS_EVENT_TYPE_CLIENT
+          [PROGRESS_EVENT_TYPE_CLIENT, PROGRESS_EVENT_TYPE_CLIENT_MID_SPRINT].indexOf(object.details.event.type) > -1
         ) {
           break;
         }
@@ -326,18 +327,18 @@ export default class ActivityList extends React.Component {
             <div>
               <p>
                 <i className="fa fa-newspaper-o" />{' '}
-                {object.details.event.type == PROGRESS_EVENT_TYPE_CLIENT
+                {[PROGRESS_EVENT_TYPE_CLIENT, PROGRESS_EVENT_TYPE_CLIENT_MID_SPRINT].indexOf(object.details.event.type) > -1
                   ? 'Weekly survey'
                   : 'Progress report'}:{' '}
               </p>
               <Link
                 to={`/work/${object.details.event
                   .task}/event/${object.event}/`}>
-                {object.details.event.type == PROGRESS_EVENT_TYPE_CLIENT
+                {[PROGRESS_EVENT_TYPE_CLIENT, PROGRESS_EVENT_TYPE_CLIENT_MID_SPRINT].indexOf(object.details.event.type) > -1
                   ? 'Weekly survey'
                   : object.details.event.title || 'Scheduled Update'}
               </Link>
-              {object.details.event.type == PROGRESS_EVENT_TYPE_CLIENT
+              {[PROGRESS_EVENT_TYPE_CLIENT, PROGRESS_EVENT_TYPE_CLIENT_MID_SPRINT].indexOf(object.details.event.type) > -1
                 ? null
                 : <div>
                     <div>

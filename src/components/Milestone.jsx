@@ -269,6 +269,18 @@ export default class Milestone extends React.Component {
                                   </div>
                                 </div>
                               : null}
+                            {typeof report.progress_satisfaction
+                              ? <div>
+                                <strong>
+                                  Are you satisfied with how the project is currently going?
+                                </strong>
+                                <div>
+                                    <span>
+                                      {report.progress_satisfaction}
+                                    </span>
+                                </div>
+                              </div>
+                              : null}
                             {report.accomplished
                               ? <div>
                                   <strong>
@@ -289,6 +301,14 @@ export default class Milestone extends React.Component {
                                     {report.rate_deliverables}/5
                                   </span>
                                 </p>
+                              : null}
+                            {report.rate_workflow
+                              ? <p>
+                                <strong>Rate Workflow: </strong>
+                                <span>
+                                    {report.rate_workflow}/5
+                                  </span>
+                              </p>
                               : null}
                             {report.uploads && report.uploads.length
                               ? <div>
