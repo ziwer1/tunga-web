@@ -152,7 +152,7 @@ export default class TaskCard extends ComponentWithModal {
                             style={{visibility: 'hidden'}}
                           />}
                   </div>
-                  {task.can_apply
+                  {/*task.can_apply
                     ? <div className="col-sm-12">
                         <Link
                           to={`/conversation/start/task/${task.id}`}
@@ -160,7 +160,7 @@ export default class TaskCard extends ComponentWithModal {
                           Send message
                         </Link>
                       </div>
-                    : null}
+                    : null*/}
                 </div>
               : null}
 

@@ -97,9 +97,9 @@ export default class User extends React.Component {
                 profileLink={false}
               />
               <div className="actions">
-                <Link to={`/conversation/start/${user.id}`} className="btn">
+                {/*<Link to={`/conversation/start/${user.id}`} className="btn">
                   Send message
-                </Link>
+                </Link>*/}
                 {user.can_connect
                   ? <button
                       type="button"
