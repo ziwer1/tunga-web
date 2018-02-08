@@ -18,8 +18,8 @@ class ConfirmDialog extends React.Component {
     let safe_options = options || {};
 
     return (
-      <Modal show={show} onHide={dismiss} bsStyle="md">
-        <Modal.Header closeButton />
+      <Modal show={show} onHide={dismiss} bsStyle="md" backdrop={options.mustRespond?'static':true} keyboard={!options.mustRespond}>
+        <Modal.Header closeButton={!options.mustRespond} />
         <Modal.Body>
           <p>
             {confirmation}

@@ -31,7 +31,7 @@ export default class AppWrapper extends React.Component {
             </p>
           </div>,
           false,
-          {ok: 'I agree', cancel: "I don't agree"}
+          {ok: 'I agree', cancel: "I don't agree", mustRespond: true}
         ).then(function() {
           AuthActions.updateAuthUser({
             agree_version: AGREEMENT_VERSION,
