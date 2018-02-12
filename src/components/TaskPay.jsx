@@ -273,7 +273,11 @@ export default class TaskPay extends React.Component {
         return amount * (1 - task.tunga_ratio_dev);
       }
     }
-    return amount + this.getTaxAmount();
+    return parseFloat(amount) + parseFloat(this.getTaxAmount());
+  }
+
+  getTotalPaymentPlusTax() {
+    return parseFloat(this.getTotalPayAmount()) + parseFloat(this.getTaxAmount());
   }
 
   getMulitTaskList() {
@@ -742,8 +746,7 @@ export default class TaskPay extends React.Component {
                                 <th>
                                   &euro;{' '}
                                   {parseNumber(
-                                    this.getTotalPayAmount() +
-                                    this.getTaxAmount(),
+                                    this.getTotalPaymentPlusTax(),
                                   )}
                                 </th>
                               </tr>
@@ -796,7 +799,7 @@ export default class TaskPay extends React.Component {
                                         image="https://tunga.io/icons/tunga_square.png"
                                         ComponentClass="span"
                                         panelLabel="Make Payment"
-                                        amount={this.getActualPayAmount() * 100}
+                                        amount={parseInt(parseFloat(this.getActualPayAmount()) * 100)}
                                         currency="EUR"
                                         stripeKey={__STRIPE_KEY__}
                                         locale="en"

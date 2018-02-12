@@ -408,9 +408,12 @@ const BottomContent = () => (
     <section>
       <div className="container">
         <div className="heading-1 text-center bold" style={{marginTop: 20, marginBottom: 40}}>
-          You are ready to source developers from a database to work on your task. 
-          If you need help you can always call us if you have questions. 
-          Explame text regarding the outcome/advise the give the visitor. MAX number of characters 350!<br/>
+          You are ready to source developers from a database to work on your task.
+          If you need help you can always call us if you have questions.
+          {/*
+          Explame text regarding the outcome/advise the give the visitor. MAX number of characters 350!
+          */}
+          <br/>
 
           <div className="row" style={{marginTop: 20}}>
             <div className="col-lg-4 col-lg-offset-4">
