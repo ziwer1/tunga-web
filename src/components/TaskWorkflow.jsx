@@ -596,6 +596,7 @@ export default class TaskWorkflow extends ComponentWithModal {
                       task.is_developer_ready &&
                       task.closed &&
                       isAdmin() &&
+                      task.payment_approved &&
                       !task.distribution_approved
                         ? (
                           <li>
