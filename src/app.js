@@ -4,6 +4,7 @@ import 'babel-polyfill'; // Add Promises polyfill to global environment
 import 'react-widgets/lib/less/react-widgets.less';
 import 'css/tour.scss';
 //import 'react-joyride/lib/react-joyride.scss';
+import 'Dante2/dist/DanteStyles.css';
 import 'css/style.less';
 
 import React from 'react';
@@ -121,6 +122,11 @@ import MultiTaskPayProcessing from 'components/MultiTaskPayProcessing';
 import QuizForm from 'components/QuizForm';
 import DeveloperProfile from 'components/DeveloperProfile';
 import TaskDocument from 'components/TaskDocument';
+import BlogContainer from "./containers/BlogContainer";
+import BlogDetailContainer from 'containers/BlogDetailContainer';
+import BlogForm from 'components/BlogForm';
+import BlogList from 'components/BlogList';
+import BlogDetail from 'components/BlogDetail';
 
 let all_routes = (
   <Route>
@@ -360,6 +366,15 @@ let all_routes = (
             <Route path="filter/:filter" component={MilestoneList} />
           </Route>
         </Route>
+        <Route path="blog/admin" component={BlogContainer}>
+          <IndexRoute component={BlogList} />
+          <Route path="new" component={BlogForm} />
+          <Route path="filter/:filter" component={BlogList} />
+          <Route path=":blogId" component={BlogDetailContainer}>
+            <IndexRedirect to="edit" />
+            <Route path="edit" component={BlogForm} />
+          </Route>
+        </Route>
         {/* End Auth Only Pages */}
       </Route>
 
@@ -388,6 +403,14 @@ let all_routes = (
         <Route path="support" component={SupportPageList} />
       </Route>
       {/* End Auth Only or Email Pages */}
+    </Route>
+
+    <Route path="blog" component={BlogContainer}>
+      <IndexRedirect to="admin" />
+      <Route path=":blogId" component={BlogDetailContainer}>
+        <IndexRoute component={BlogDetail} />
+      </Route>
+      <Redirect path="*" to="admin*" />
     </Route>
     <Route
       path="customer/help/:chatId"

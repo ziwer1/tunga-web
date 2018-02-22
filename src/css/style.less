@@ -3199,6 +3199,7 @@ form[name='compose'] {
   header {
     color: @active-white;
     min-height: 60%;
+    background-color: #555;
     background-image: url('../images/header.jpg');
     background-repeat: no-repeat;
     background-position: center;
@@ -5173,6 +5174,35 @@ form[name='compose'] {
       }
     }
   }
+}
+
+.showcase.blog-page {
+  header {
+    /*background-image: none;*/
+
+    .blog-header {
+      text-align: center;
+      padding-top: 40px;
+      padding-bottom: 40px;
+
+      h1 {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .blog-content {
+    background-color: @active-white;
+    color: @primary-text;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    min-height: 30vh;
+  }
+}
+
+.blog-form {
+  max-width: 700px;
+  margin: 0 auto;
 }
 
 form[name="estimate-form"] {

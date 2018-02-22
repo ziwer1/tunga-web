@@ -7,6 +7,7 @@ export const GET_NOTIFICATIONS_FAILED = 'GET_NOTIFICATIONS_FAILED';
 
 export function getNotifications() {
   return dispatch => {
+    return;
     dispatch(getNotificationsStart());
     axios
       .get(ENDPOINT_NOTIFICATION)

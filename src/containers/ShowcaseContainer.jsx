@@ -35,15 +35,15 @@ class ShowcaseContainer extends React.Component {
       /^\/tunga((\/|\?).*)?/gi.test(window.location.pathname)
         ? '/tunga'
         : '';
-    const {Auth} = this.props;
+    const {Auth, className, headerImage} = this.props;
 
     return (
-      <div className={'showcase ' + this.props.className}>
+      <div className={'showcase ' + className}>
         <header
           style={
             this.props.headerVideo
               ? {overflow: 'hidden', position: 'relative'}
-              : null
+              : headerImage && false?{backgroundImage: `url(${headerImage})`}:null
           }>
           {this.props.headerVideo
             ? <video
@@ -176,6 +176,7 @@ ShowcaseContainer.propTypes = {
   closeChat: React.PropTypes.bool,
   hasGlassNav: React.PropTypes.bool,
   autoOpenChat: React.PropTypes.bool,
+  backgroundImage: React.PropTypes.string
 };
 
 ShowcaseContainer.defaultProps = {
@@ -183,6 +184,7 @@ ShowcaseContainer.defaultProps = {
   closeChat: false,
   hasGlassNav: true,
   autoOpenChat: true,
+  headerImage: null
 };
 
 export default connect(ShowcaseContainer);

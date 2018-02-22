@@ -3,7 +3,7 @@ import {Link, IndexLink} from 'react-router';
 import Progress from './status/Progress';
 import LoadMore from './status/LoadMore';
 
-export default class SupportPageList extends React.Component {
+export default class SupportPageDetail extends React.Component {
   componentDidMount() {
     this.props.SupportActions.retrieveSupportPage(this.props.params.page);
   }

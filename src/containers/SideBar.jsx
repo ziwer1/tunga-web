@@ -128,6 +128,14 @@ class SideBar extends React.Component {
               </Link>
             </li>
               : null}
+            {isAdmin()
+              ? <li id="sidebar-estimate">
+                <Link to="/blog/admin" activeClassName="active">
+                  <i className="menu-icon fa fa-newspaper-o" />{' '}
+                  <span>Blog</span>
+                </Link>
+              </li>
+              : null}
 
             {Support.Section.list.sections.length && false
               ? <li
