@@ -73,7 +73,7 @@
     "coffee-script": "^1.10.0",
     "cross-env": "^3.1.4",
     "css-loader": "^0.26.1",
-    "ejs-compiled-loader": "^1.1.0",
+    "ejs-compiled-loader": "^2.2.0",
     "eslint": "^3.2.2",
     "eslint-config-google": "^0.7.1",
     "eslint-plugin-react": "^6.0.0",
