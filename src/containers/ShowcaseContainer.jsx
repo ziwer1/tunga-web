@@ -43,7 +43,7 @@ class ShowcaseContainer extends React.Component {
           style={
             this.props.headerVideo
               ? {overflow: 'hidden', position: 'relative'}
-              : headerImage && false?{backgroundImage: `url(${headerImage})`}:null
+              : headerImage?{backgroundImage: `url(${headerImage})`}:null
           }>
           {this.props.headerVideo
             ? <video

@@ -1,15 +1,15 @@
 import React from 'react';
 import {Dante, DanteEditor} from "Dante2/lib/index.js";
 
-import { Map, fromJS } from 'immutable'
-import DanteImagePopover from 'Dante2/lib/components/popovers/image.js'
-import DanteAnchorPopover from 'Dante2/lib/components/popovers/link.js'
-import DanteInlineTooltip from 'Dante2/lib/components/popovers/addButton.js'
-import DanteTooltip from 'Dante2/lib/components/popovers/toolTip.js'
-import ImageBlock from 'Dante2/lib/components/blocks/image.js'
-import EmbedBlock from 'Dante2/lib/components/blocks/embed.js'
-import VideoBlock from 'Dante2/lib/components/blocks/video.js'
-import PlaceholderBlock from 'Dante2/lib/components/blocks/placeholder.js'
+import { Map, fromJS } from 'immutable';
+import DanteImagePopover from 'Dante2/lib/components/popovers/image.js';
+import DanteAnchorPopover from 'Dante2/lib/components/popovers/link.js';
+import DanteInlineTooltip from 'Dante2/lib/components/popovers/addButton.js';
+import DanteTooltip from './DanteTooltip';
+import ImageBlock from 'Dante2/lib/components/blocks/image.js';
+import EmbedBlock from 'Dante2/lib/components/blocks/embed.js';
+import VideoBlock from 'Dante2/lib/components/blocks/video.js';
+import PlaceholderBlock from 'Dante2/lib/components/blocks/placeholder.js';
 
 import { resetBlockWithType, addNewBlockAt } from 'Dante2/lib/model/index.js';
 import { ENDPOINT_OEMBED, ENDPOINT_UPLOAD } from '../constants/Api';
@@ -283,10 +283,12 @@ export default class DanteWrapper extends React.Component {
   render(){
     const {content, read_only} = this.props;
     return(
-      <DanteEditor
-        content={content}
-        config={{...this.options, read_only}}
-      />
+      <div id='dante-instance-wrapper'>
+        <DanteEditor
+          content={content}
+          config={{...this.options, read_only}}
+        />
+      </div>
     )
   }
 }
