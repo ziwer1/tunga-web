@@ -36,16 +36,6 @@ export default class BlogForm extends ComponentWithModal {
       this.props.Blog.detail.isSaved &&
       !prevProps.Blog.detail.isSaved
     ) {
-      if (
-        !this.props.blog ||
-        this.props.blog != Blog.detail.blog.id
-      ) {
-        const {router} = this.context;
-        router.replace(
-          `/blog/admin/${Blog.detail.blog.id}`,
-        );
-      }
-
       this.setState({...Blog.detail.blog});
     }
 
@@ -133,119 +123,122 @@ export default class BlogForm extends ComponentWithModal {
           </li>
         </ol>
 
-        <FormStatus
-          loading={Blog.detail.isSaving}
-          success={Blog.detail.isSaved}
-          message="Blog saved successfully"
-          error={Blog.detail.error.create}
-        />
+        {Blog.detail.isSaved && !blog.id?(
+          <div className="thank-you">
+            Blog poscat saved successfully<br/>
+            <i className="fa fa-check-circle status-icon" />
+            <br/>
+            <Link
+              to={`/blog/admin/${Blog.detail.blog.id}/edit`}
+              className="btn" style={{marginTop: '20px'}}>
+              Continue editing
+            </Link>
+          </div>
+        ):(
+          <div>
+            <FormStatus
+              loading={Blog.detail.isSaving}
+              success={Blog.detail.isSaved}
+              message="Blog post saved successfully"
+              error={Blog.detail.error.create}
+            />
 
-        {Blog.detail.error.create && Blog.detail.error.create.message
-          ? <FieldError message={Blog.detail.error.create.message} />
-          : null}
-        {Blog.detail.error.update && Blog.detail.error.update.message
-          ? <FieldError message={Blog.detail.error.update.message} />
-          : null}
+            {Blog.detail.error.create && Blog.detail.error.create.message
+              ? <FieldError message={Blog.detail.error.create.message} />
+              : null}
+            {Blog.detail.error.update && Blog.detail.error.update.message
+              ? <FieldError message={Blog.detail.error.update.message} />
+              : null}
 
-        {Blog.detail.error.create &&
-        Blog.detail.error.create.title
-          ? <FieldError message={Blog.detail.error.create.title} />
-          : null}
-        {Blog.detail.error.update &&
-        Blog.detail.error.update.title
-          ? <FieldError message={Blog.detail.error.update.title} />
-          : null}
-        <div className="form-group">
-          <label className="control-label">Title *</label>
-          <input
-            className="form-control"
-            onChange={this.onInputChange.bind(this, 'title')}
-            value={this.state.title}
-            ref="title"
-            placeholder="Title"
-          />
-        </div>
-
-        {Blog.detail.error.create &&
-        Blog.detail.error.create.published
-          ? <FieldError message={Blog.detail.error.create.published} />
-          : null}
-        {Blog.detail.error.update &&
-        Blog.detail.error.update.published
-          ? <FieldError message={Blog.detail.error.update.published} />
-          : null}
-        <div className="form-group">
-          <div className="checkbox">
-            <label className="control-label">
+            {Blog.detail.error.create &&
+            Blog.detail.error.create.title
+              ? <FieldError message={Blog.detail.error.create.title} />
+              : null}
+            {Blog.detail.error.update &&
+            Blog.detail.error.update.title
+              ? <FieldError message={Blog.detail.error.update.title} />
+              : null}
+            <div className="form-group">
+              <label className="control-label">Title *</label>
               <input
-                type="checkbox"
-                ref="published"
-                checked={this.state.published}
-                onChange={this.onPublishedChange.bind(this)}
+                className="form-control"
+                onChange={this.onInputChange.bind(this, 'title')}
+                value={this.state.title}
+                ref="title"
+                placeholder="Title"
               />
-              Publish
-            </label>
-          </div>
-        </div>
-
-        <Dropzone
-          ref="dropzone"
-          className="dropzone"
-          multiple={false}
-          accept={'image/*'}
-          onDrop={this.onDrop.bind(this)}>
-          <div className="msg">
-            {id_doc
-              ? <div>
-                <img
-                  src={id_doc}
-                  style={{maxWidth: '100%', maxHeight: '300px'}}
-                />
-                {this.state.photo
-                  ? <p>
-                    {this.state.photo.name}
-                  </p>
-                  : null}
-              </div>
-              : <i
-                className="fa fa-cloud-upload fa-2x"
-                style={{marginTop: '30px'}}
-              />}
-            <div>
-              Drop an image here or click to select an image to upload.
             </div>
+
+            {Blog.detail.error.create &&
+            Blog.detail.error.create.published
+              ? <FieldError message={Blog.detail.error.create.published} />
+              : null}
+            {Blog.detail.error.update &&
+            Blog.detail.error.update.published
+              ? <FieldError message={Blog.detail.error.update.published} />
+              : null}
+            <div className="form-group">
+              <div className="checkbox">
+                <label className="control-label">
+                  <input
+                    type="checkbox"
+                    ref="published"
+                    checked={this.state.published}
+                    onChange={this.onPublishedChange.bind(this)}
+                  />
+                  Publish
+                </label>
+              </div>
+            </div>
+
+            <Dropzone
+              ref="dropzone"
+              className="dropzone"
+              multiple={false}
+              accept={'image/*'}
+              onDrop={this.onDrop.bind(this)}>
+              <div className="msg">
+                {id_doc
+                  ? <div>
+                    <img
+                      src={id_doc}
+                      style={{maxWidth: '100%', maxHeight: '300px'}}
+                    />
+                    {this.state.photo
+                      ? <p>
+                        {this.state.photo.name}
+                      </p>
+                      : null}
+                  </div>
+                  : <i
+                    className="fa fa-cloud-upload fa-2x"
+                    style={{marginTop: '30px'}}
+                  />}
+                <div>
+                  Drop an image here or click to select an image to upload.
+                </div>
+              </div>
+            </Dropzone>
+
+            {Blog.detail.error.create &&
+            Blog.detail.error.create.body
+              ? <FieldError message={Blog.detail.error.create.body} />
+              : null}
+            {Blog.detail.error.update &&
+            Blog.detail.error.update.body
+              ? <FieldError message={Blog.detail.error.update.body} />
+              : null}
+
+            <DanteWrapper onChange={this.onContentChange.bind(this)} content={this.parseContent()}/>
+
+            <button
+              type="button"
+              className="btn"
+              disabled={Blog.detail.isSaving} onClick={this.handleSubmit.bind(this)}>
+              Save
+            </button>
           </div>
-        </Dropzone>
-
-        {Blog.detail.error.create &&
-        Blog.detail.error.create.body
-          ? <FieldError message={Blog.detail.error.create.body} />
-          : null}
-        {Blog.detail.error.update &&
-        Blog.detail.error.update.body
-          ? <FieldError message={Blog.detail.error.update.body} />
-          : null}
-        {/*<div className="form-group">
-          <label className="control-label">Body *</label>
-          <textarea
-            className="form-control"
-            onChange={this.onInputChange.bind(this, 'body')}
-            value={this.state.body}
-            ref="body"
-            placeholder="Body"
-          />
-        </div>*/}
-
-        <div>
-          <DanteWrapper onChange={this.onContentChange.bind(this)} content={this.parseContent()}/>
-        </div>
-
-        <button
-          type="button"
-          className="btn"
-          disabled={Blog.detail.isSaving} onClick={this.handleSubmit.bind(this)}>
-          Save
-        </button>
+        )}
       </div>
     );
   }

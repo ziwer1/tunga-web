@@ -99,6 +99,8 @@ export const ENDPOINT_CONTACT_REQUEST = getEndpointUrl('contact-request/');
 export const ENDPOINT_SUPPORT_SECTION = getEndpointUrl('support/section/');
 export const ENDPOINT_SUPPORT_PAGE = getEndpointUrl('support/page/');
 export const ENDPOINT_MEDIUM = getEndpointUrl('medium/');
+export const ENDPOINT_OEMBED = getEndpointUrl('oembed/');
+export const ENDPOINT_UPLOAD = getEndpointUrl('upload/');
 export const ENDPOINT_MULTI_TASK_PAYMENT = getEndpointUrl(
   'multi-task-payment/',
 );

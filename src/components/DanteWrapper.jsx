@@ -11,14 +11,12 @@ import EmbedBlock from 'Dante2/lib/components/blocks/embed.js'
 import VideoBlock from 'Dante2/lib/components/blocks/video.js'
 import PlaceholderBlock from 'Dante2/lib/components/blocks/placeholder.js'
 
-import {
-  resetBlockWithType,
-  addNewBlockAt
-} from 'Dante2/lib/model/index.js'
+import { resetBlockWithType, addNewBlockAt } from 'Dante2/lib/model/index.js';
+import { ENDPOINT_OEMBED, ENDPOINT_UPLOAD } from '../constants/Api';
 
 // create base element
 var g=document.createElement('div');
-g.setAttribute("id", "app");
+g.setAttribute("id", "app-dante");
 document.body.appendChild(g);
 g.style.marginTop = "150px";
 
@@ -38,13 +36,14 @@ export default class DanteWrapper extends React.Component {
       options = {}
     }
     let defaultOptions = {};
+    const {content, read_only} = this.props;
+
     defaultOptions.el = 'app';
     defaultOptions.content = "";
     defaultOptions.read_only = false;
     defaultOptions.spellcheck = false;
-    defaultOptions.title_placeholder = "Title";
-    defaultOptions.body_placeholder = "Write your story";
-    // @defaultOptions.api_key = "86c28a410a104c8bb58848733c82f840"
+    defaultOptions.title_placeholder = read_only?'':"Title";
+    defaultOptions.body_placeholder = read_only?'':"Write your story";
 
     defaultOptions.widgets = [
       {
@@ -58,25 +57,25 @@ export default class DanteWrapper extends React.Component {
         wrapper_class: "graf graf--figure",
         selected_class: "is-selected is-mediaFocused",
         selectedFn: block => {
-          const { direction } = block.getData().toJS()
+          const { direction } = block.getData().toJS();
           switch (direction) {
             case "left":
-              return "graf--layoutOutsetLeft"
+              return "graf--layoutOutsetLeft";
             case "center":
-              return ""
+              return "";
             case "wide":
-              return "sectionLayout--fullWidth"
+              return "sectionLayout--fullWidth";
             case "fill":
-              return "graf--layoutFillWidth"
+              return "graf--layoutFillWidth";
           }
         },
         handleEnterWithoutText(ctx, block) {
-          const { editorState } = ctx.state
-          return ctx.onChange(addNewBlockAt(editorState, block.getKey()))
+          const { editorState } = ctx.state;
+          return ctx.onChange(addNewBlockAt(editorState, block.getKey()));
         },
         handleEnterWithText(ctx, block) {
-          const { editorState } = ctx.state
-          return ctx.onChange(addNewBlockAt(editorState, block.getKey()))
+          const { editorState } = ctx.state;
+          return ctx.onChange(addNewBlockAt(editorState, block.getKey()));
         },
         widget_options: {
           displayOnInlineTooltip: true,
@@ -84,7 +83,7 @@ export default class DanteWrapper extends React.Component {
           insert_block: "image"
         },
         options: {
-          upload_url: options.upload_url,
+          upload_url: ENDPOINT_UPLOAD, //options.upload_url,
           upload_headers: options.upload_headers,
           upload_formName: options.upload_formName,
           upload_callback: options.image_upload_callback,
@@ -107,16 +106,16 @@ export default class DanteWrapper extends React.Component {
           insert_block: "embed"
         },
         options: {
-          endpoint: `//api.embed.ly/1/extract?key=${ options.api_key }&url=`,
+          endpoint: `${ENDPOINT_OEMBED}?url=`, //`//api.embed.ly/1/extract?key=${ options.api_key }&url=`,
           placeholder: 'Paste a link to embed content from another site (e.g. Twitter) and press Enter'
         },
         handleEnterWithoutText(ctx, block) {
-          const { editorState } = ctx.state
-          return ctx.onChange(addNewBlockAt(editorState, block.getKey()))
+          const { editorState } = ctx.state;
+          return ctx.onChange(addNewBlockAt(editorState, block.getKey()));
         },
         handleEnterWithText(ctx, block) {
-          const { editorState } = ctx.state
-          return ctx.onChange(addNewBlockAt(editorState, block.getKey()))
+          const { editorState } = ctx.state;
+          return ctx.onChange(addNewBlockAt(editorState, block.getKey()));
         }
       }, {
         icon: 'video',
@@ -134,19 +133,19 @@ export default class DanteWrapper extends React.Component {
           insert_block: "video"
         },
         options: {
-          endpoint: `//api.embed.ly/1/oembed?key=${ options.api_key }&url=`,
+          endpoint: `${ENDPOINT_OEMBED}?url=`, //`//api.embed.ly/1/oembed?key=${ options.api_key }&url=`,
           placeholder: 'Paste a YouTube, Vine, Vimeo, or other video link, and press Enter',
           caption: 'Type caption for embed (optional)'
         },
 
         handleEnterWithoutText(ctx, block) {
-          const { editorState } = ctx.state
-          return ctx.onChange(addNewBlockAt(editorState, block.getKey()))
+          const { editorState } = ctx.state;
+          return ctx.onChange(addNewBlockAt(editorState, block.getKey()));
         },
 
         handleEnterWithText(ctx, block) {
-          const { editorState } = ctx.state
-          return ctx.onChange(addNewBlockAt(editorState, block.getKey()))
+          const { editorState } = ctx.state;
+          return ctx.onChange(addNewBlockAt(editorState, block.getKey()));
         }
       }, {
         renderable: true,
@@ -164,9 +163,9 @@ export default class DanteWrapper extends React.Component {
             provisory_text: block.getText(),
             endpoint: block.getData().get('endpoint'),
             type: block.getData().get('type')
-          }
+          };
 
-          return ctx.onChange(resetBlockWithType(editorState, data.type, data))
+          return ctx.onChange(resetBlockWithType(editorState, data.type, data));
         }
       }
     ];
@@ -243,7 +242,8 @@ export default class DanteWrapper extends React.Component {
       { className: 'graf--insertorderedlist', block: 'ordered-list-item' },
       { className: 'graf--code', block: 'code-block' },
       { className: 'graf--bold', block: 'BOLD' },
-      { className: 'graf--italic', block: 'ITALIC' }]
+      { className: 'graf--italic', block: 'ITALIC' }
+      ];
 
     defaultOptions.continuousBlocks = [
       "unstyled",
