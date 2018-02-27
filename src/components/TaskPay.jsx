@@ -557,13 +557,15 @@ export default class TaskPay extends React.Component {
                                   {payment_method.name}
                                 </button>
                               </div>
-                              <div
-                                className="col-md-6"
-                                dangerouslySetInnerHTML={{
-                                  __html: payment_method.meta,
-                                }}
-                                style={{paddingTop: '10px'}}
-                              />
+                              {task.exclude_payment_costs?null:(
+                                <div
+                                  className="col-md-6"
+                                  dangerouslySetInnerHTML={{
+                                    __html: payment_method.meta,
+                                  }}
+                                  style={{paddingTop: '10px'}}
+                                />
+                              )}
                             </div>
                           );
                         })}
