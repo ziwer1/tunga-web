@@ -738,7 +738,7 @@ export default class TaskWorkflow extends ComponentWithModal {
                 ? <span className="hidden-xs hidden-sm">
                 {is_admin_or_owner_or_pm || can_edit_shares
                   ? <span>
-                  {task.is_developer_ready && is_admin_or_owner_or_pm
+                  {/*task.is_developer_ready && is_admin_or_owner_or_pm
                     ? <Link
                     to={`/work/${task.id}/applications/`}
                     className="btn"
@@ -750,7 +750,7 @@ export default class TaskWorkflow extends ComponentWithModal {
                                 </span>
                       : null}
                   </Link>
-                    : null}
+                    : null*/}
                   {task.is_developer_ready &&
                   is_admin_or_owner_or_pm &&
                   task.is_project
