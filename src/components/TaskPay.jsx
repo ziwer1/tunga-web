@@ -827,7 +827,7 @@ export default class TaskPay extends React.Component {
                               TASK_PAYMENT_METHOD_BANK ||
                               !this.isPaymentApproved())
                               ? <a
-                                  href={`${ENDPOINT_TASK}${task.id}/download/invoice/?format=pdf`}
+                                  href={`${ENDPOINT_TASK}${task.id}/download/invoice/?format=pdf&type=client`}
                                   target="_blank"
                                   className={`btn ${this.isPaymentApproved()
                                     ? 'btn-alt'

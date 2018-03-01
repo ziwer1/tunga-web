@@ -148,9 +148,9 @@ export default class TaskWorkflow extends ComponentWithModal {
         next = `/work/${task.id}/edit/complete-task`;
       } else if (!task.payment_approved) {
         next = `/work/${task.id}/invoice`;
-      } else if (!task.participation || !task.participation.length) {
+      } /*else if (!task.participation || !task.participation.length) {
         next = `/work/${task.id}/applications`;
-      } else if (task.paid) {
+      }*/ else if (task.paid) {
         next = `/work/${task.id}/rate`;
       } else {
         next = `/work/${task.id}/pay`;
@@ -738,7 +738,7 @@ export default class TaskWorkflow extends ComponentWithModal {
                 ? <span className="hidden-xs hidden-sm">
                 {is_admin_or_owner_or_pm || can_edit_shares
                   ? <span>
-                  {task.is_developer_ready && is_admin_or_owner_or_pm
+                  {/*task.is_developer_ready && is_admin_or_owner_or_pm
                     ? <Link
                     to={`/work/${task.id}/applications/`}
                     className="btn"
@@ -750,7 +750,7 @@ export default class TaskWorkflow extends ComponentWithModal {
                                 </span>
                       : null}
                   </Link>
-                    : null}
+                    : null*/}
                   {task.is_developer_ready &&
                   is_admin_or_owner_or_pm &&
                   task.is_project
@@ -1337,15 +1337,19 @@ export default class TaskWorkflow extends ComponentWithModal {
                   <br />
                   {(isDeveloper() || isAdmin()) && task.participation && task.participation.length
                     ? <div>
-                    <a
-                      href={`${ENDPOINT_TASK}${task.id}/download/invoice/?format=pdf&type=developer`}
-                      target="_blank">
+                      {task.invoice.version > 1?null:(
+                        <div>
+                          <a
+                            href={`${ENDPOINT_TASK}${task.id}/download/invoice/?format=pdf&type=developer`}
+                            target="_blank">
                                             <span>
                                               <i className="fa fa-download" />{' '}
                                               Developer Invoice(s)
                                             </span>
-                    </a>
-                    <br />
+                          </a>
+                          <br />
+                        </div>
+                      )}
                     <a
                       href={`${ENDPOINT_TASK}${task.id}/download/invoice/?format=pdf&type=tunga`}
                       target="_blank">

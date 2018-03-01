@@ -872,8 +872,8 @@ export default class TaskForm extends ComponentWithModal {
       req_data.dev_rate = this.state.dev_rate;
       req_data.pm_rate = this.state.pm_rate;
       req_data.pm_time_percentage = this.state.pm_time_percentage;
-      req_data.tunga_percentage_dev = this.state.tunga_percentage_dev;
-      req_data.tunga_percentage_pm = this.state.tunga_percentage_pm;
+      req_data.dev_pay_rate = this.state.dev_pay_rate;
+      req_data.pm_pay_rate = this.state.pm_pay_rate;
       req_data.payment_approved = this.state.payment_approved;
     }
 
@@ -2578,7 +2578,13 @@ export default class TaskForm extends ComponentWithModal {
           ? <FieldError message={Task.detail.error.update.payment_approved} />
           : null}
         <div>
-          {((task.details && task.details.active_participants && task.details.active_participants.length > 0) || (this.state.tunga_percentage_dev == 100))?(
+          {(
+            (task.details && task.details.active_participants && task.details.active_participants.length > 0) ||
+            (
+              (!this.state.dev_pay_rate && this.state.tunga_percentage_dev == 100) ||
+              (this.state.dev_pay_rate == this.state.dev_rate)
+            )
+          )?(
             <div>
               <h4>Is this {work_type} ready for payment?</h4>
               <div className="btn-choices choice-fork" role="group">
@@ -2748,7 +2754,7 @@ export default class TaskForm extends ComponentWithModal {
           : null}
         <div className="form-group">
           <label className="control-label">
-            PM percentage (default 15%)
+            PM Time percentage (default 15%)
           </label>
           <div>
             <div className="input-group">
@@ -2769,27 +2775,27 @@ export default class TaskForm extends ComponentWithModal {
 
     let tungaDevPercentageComp = (
       <div>
-        {Task.detail.error.create && Task.detail.error.create.tunga_percentage_dev
-          ? <FieldError message={Task.detail.error.create.tunga_percentage_dev} />
+        {Task.detail.error.create && Task.detail.error.create.dev_pay_rate
+          ? <FieldError message={Task.detail.error.create.dev_pay_rate} />
           : null}
-        {Task.detail.error.update && Task.detail.error.update.tunga_percentage_dev
-          ? <FieldError message={Task.detail.error.update.tunga_percentage_dev} />
+        {Task.detail.error.update && Task.detail.error.update.dev_pay_rate
+          ? <FieldError message={Task.detail.error.update.dev_pay_rate} />
           : null}
         <div className="form-group">
           <label className="control-label">
-            Tunga percentage for Developer fee (default 37.5%)
+            Developer Payout Rate (in Euros - default EUR 12.5)
           </label>
           <div>
             <div className="input-group">
+              <span className="input-group-addon">€</span>
               <input
                 type="number"
                 className="form-control"
-                ref="tunga_percentage_dev"
-                placeholder="PM Time percentage e.g 37.5"
-                onChange={this.onInputChange.bind(this, 'tunga_percentage_dev')}
-                value={this.state.tunga_percentage_dev ? parseNumber(this.state.tunga_percentage_dev, false) : ''}
+                ref="dev_pay_rate"
+                placeholder="Developer Payout Rate e.g 12.5"
+                onChange={this.onInputChange.bind(this, 'dev_pay_rate')}
+                value={this.state.dev_pay_rate ? parseNumber(this.state.dev_pay_rate, false) : ''}
               />
-              <span className="input-group-addon">%</span>
             </div>
           </div>
         </div>
@@ -2798,27 +2804,27 @@ export default class TaskForm extends ComponentWithModal {
 
     let tungaPMPercentageComp = (
       <div>
-        {Task.detail.error.create && Task.detail.error.create.tunga_percentage_pm
-          ? <FieldError message={Task.detail.error.create.tunga_percentage_pm} />
+        {Task.detail.error.create && Task.detail.error.create.pm_pay_rate
+          ? <FieldError message={Task.detail.error.create.pm_pay_rate} />
           : null}
-        {Task.detail.error.update && Task.detail.error.update.tunga_percentage_pm
-          ? <FieldError message={Task.detail.error.update.tunga_percentage_pm} />
+        {Task.detail.error.update && Task.detail.error.update.pm_pay_rate
+          ? <FieldError message={Task.detail.error.update.pm_pay_rate} />
           : null}
         <div className="form-group">
           <label className="control-label">
-            Tunga percentage for PM fee  (default 100%)
+            PM Payout Rate (in Euros - default EUR 0)
           </label>
           <div>
             <div className="input-group">
+              <span className="input-group-addon">€</span>
               <input
                 type="number"
                 className="form-control"
-                ref="tunga_percentage_pm"
-                placeholder="PM Time percentage e.g 100"
-                onChange={this.onInputChange.bind(this, 'tunga_percentage_pm')}
-                value={this.state.pm_time_percentage ? parseNumber(this.state.tunga_percentage_pm, false) : ''}
+                ref="pm_pay_rate"
+                placeholder="PM Payout Rate e.g 0"
+                onChange={this.onInputChange.bind(this, 'pm_pay_rate')}
+                value={this.state.pm_time_percentage ? parseNumber(this.state.pm_pay_rate, false) : ''}
               />
-              <span className="input-group-addon">%</span>
             </div>
           </div>
         </div>
@@ -2907,17 +2913,17 @@ export default class TaskForm extends ComponentWithModal {
               {
                 items: [
                   <div>
-                    <h4>Hourly rates</h4>
+                    <h4>Client Rates</h4>
                     {devRateComp}
                     {this.state.includes_pm_fee?pmRateComp:null}
+                    {this.state.includes_pm_fee?pmPercentageComp:null}
                   </div>
                 ]
               },
               {
                 items: [
                   <div>
-                    <h4>Distribution percentages</h4>
-                    {this.state.includes_pm_fee?pmPercentageComp:null}
+                    <h4>Payout Rates</h4>
                     {tungaDevPercentageComp}
                     {this.state.includes_pm_fee?tungaPMPercentageComp:null}
                   </div>
