@@ -344,15 +344,19 @@ export default class PaymentList extends GenericListContainer {
                                     <br />
                                     {(isDeveloper() || isAdmin()) && task.participation && task.participation.length
                                       ? <div>
-                                          <a
-                                            href={`${ENDPOINT_TASK}${task.id}/download/invoice/?format=pdf&type=developer`}
-                                            target="_blank">
+                                        {task.invoice.version > 1?null:(
+                                          <span>
+                                            <a
+                                              href={`${ENDPOINT_TASK}${task.id}/download/invoice/?format=pdf&type=developer`}
+                                              target="_blank">
                                             <span>
                                               <i className="fa fa-download" />{' '}
                                               Developer Invoice(s)
                                             </span>
                                           </a>
                                           <br />
+                                          </span>
+                                        )}
                                           <a
                                             href={`${ENDPOINT_TASK}${task.id}/download/invoice/?format=pdf&type=tunga`}
                                             target="_blank">

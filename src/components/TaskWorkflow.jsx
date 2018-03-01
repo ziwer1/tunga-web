@@ -1337,15 +1337,19 @@ export default class TaskWorkflow extends ComponentWithModal {
                   <br />
                   {(isDeveloper() || isAdmin()) && task.participation && task.participation.length
                     ? <div>
-                    <a
-                      href={`${ENDPOINT_TASK}${task.id}/download/invoice/?format=pdf&type=developer`}
-                      target="_blank">
+                      {task.invoice.version > 1?null:(
+                        <div>
+                          <a
+                            href={`${ENDPOINT_TASK}${task.id}/download/invoice/?format=pdf&type=developer`}
+                            target="_blank">
                                             <span>
                                               <i className="fa fa-download" />{' '}
                                               Developer Invoice(s)
                                             </span>
-                    </a>
-                    <br />
+                          </a>
+                          <br />
+                        </div>
+                      )}
                     <a
                       href={`${ENDPOINT_TASK}${task.id}/download/invoice/?format=pdf&type=tunga`}
                       target="_blank">
