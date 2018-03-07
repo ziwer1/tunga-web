@@ -71,6 +71,45 @@ npm run watch:local
 Find API Documentation at https://tunga.io/api/docs/
 
 # Deployment
+
+## Automated
+
+### Sandbox
+1. Push changes to `develop` branch
+2. Run the following commands
+```
+npm run deploy:sandbox
+```
+or
+```
+cd .ansible
+ansible-playbook deploy.yml -i env/test
+```
+
+### Production
+1. Push changes to `master` branch
+2. Run the following commands
+```
+npm run deploy
+```
+or
+```
+cd .ansible
+ansible-playbook deploy.yml -i env/prod
+```
+
+
+## Manual
+
+### Sandbox
+1. run the following commands from project root
+```
+npm install
+npm run build:sandbox
+```
+2. copy contents of /build folder to webserver
+
+### Production
 1. run the following commands from project root
 ```
 npm install --production

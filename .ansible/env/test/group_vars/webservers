@@ -1,0 +1,5 @@
+repo: https://github.com/tunga-io/tunga-web.git
+branch: develop
+install_command: npm install
+build_command: npm run build:sandbox
+server_root: /srv/tunga/web_test/

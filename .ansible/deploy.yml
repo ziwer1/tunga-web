@@ -1,0 +1,24 @@
+- hosts: webservers
+  vars:
+    checkout_path: ~/deploy/tunga-web/
+  tasks:
+    - name: remove repo folder
+      file: path='{{ checkout_path }}' state=absent
+    - git:
+        repo: '{{ repo }}'
+        dest: '{{ checkout_path}}'
+        version: '{{ branch }}'
+    - name: install node dependencies
+      shell: '{{ install_command }}'
+      args:
+        chdir: '{{ checkout_path }}'
+    - name: build files for deployment
+      shell: '{{ build_command }}'
+      args:
+        chdir: '{{ checkout_path }}'
+    - name: copy files to web root
+      shell: 'rsync -av -R * {{ server_root }}'
+      args:
+        chdir: '{{ checkout_path }}build/'
+    - name: reload nginx
+      service: name=nginx state=reloaded
