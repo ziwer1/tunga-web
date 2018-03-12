@@ -154,7 +154,7 @@ export default class AppWrapper extends React.Component {
         onClick={this.handleAppClick.bind(this)}>
         <MetaTags title={meta_title} description={meta_description} />
 
-        <Joyride
+        {/*<Joyride
           ref="joyride"
           steps={steps}
           run={!__PRODUCTION__ || __PRERELEASE__}
@@ -163,7 +163,7 @@ export default class AppWrapper extends React.Component {
           type="continuous"
           showStepsProgress={true}
           showSkipButton={true}
-        />
+        />*/}
 
         <NavBar location={location} />
 

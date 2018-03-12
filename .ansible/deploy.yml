@@ -16,6 +16,8 @@
       shell: '{{ build_command }}'
       args:
         chdir: '{{ checkout_path }}'
+    - name: make sure web root exists
+      file: path='{{ server_root }}' state=directory
     - name: copy files to web root
       shell: 'rsync -av -R * {{ server_root }}'
       args:
