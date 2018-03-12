@@ -48,7 +48,7 @@ import "script!file.js";
 # Development
 1. run this command from project root
 
-To connect to the test/sandbox API at http://test.tunga.io/api/
+To connect to the test/sandbox API at http://sandbox.tunga.io/api/
 ```
 npm run watch
 ```
@@ -83,7 +83,7 @@ npm run deploy:sandbox
 or
 ```
 cd .ansible
-ansible-playbook deploy.yml -i env/test
+ansible-playbook deploy.yml -i env/sandbox
 ```
 
 ### Production

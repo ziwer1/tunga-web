@@ -12,7 +12,7 @@
     "prettier": "node ./scripts/prettier/index.js write-changed",
     "prettier-all": "node ./scripts/prettier/index.js write",
     "deploy": "cd .ansible && ansible-playbook deploy.yml -i env/prod && cd ..",
-    "deploy:sandbox": "cd .ansible && ansible-playbook deploy.yml -i env/test && cd ..",
+    "deploy:sandbox": "cd .ansible && ansible-playbook deploy.yml -i env/sandbox && cd ..",
     "test": "echo \"No unit tests and e2e tests yet\" && exit 0"
   },
   "version": "0.1.0",

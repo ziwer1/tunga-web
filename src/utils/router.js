@@ -97,6 +97,7 @@ export const TUNGA_DOMAINS = [
   'www.tunga.io',
   'test.tunga.io',
   'stage.tunga.io',
+  'sandbox.tunga.io'
 ];
 
 export function isTungaDomain() {

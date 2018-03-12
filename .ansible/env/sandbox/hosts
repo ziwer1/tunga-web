@@ -1,0 +1,2 @@
+[webservers]
+web_test ansible_ssh_host=sandbox.tunga.io ansible_ssh_port=54892
