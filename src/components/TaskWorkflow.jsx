@@ -494,7 +494,7 @@ export default class TaskWorkflow extends ComponentWithModal {
 
         {this.renderModalContent()}
 
-        <Joyride
+        {/*<Joyride
           ref="joyride_workflow"
           steps={steps}
           run={!__PRODUCTION__ || __PRERELEASE__}
@@ -503,7 +503,7 @@ export default class TaskWorkflow extends ComponentWithModal {
           type="continuous"
           showStepsProgress={true}
           showSkipButton={true}
-        />
+        />*/}
 
         <div className="workflow-head clearfix">
           <div className="clearfix">

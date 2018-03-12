@@ -98,7 +98,7 @@ class Home extends React.Component {
 
     return (
       <div className="home-page">
-        <Joyride
+        {/*<Joyride
           ref="joyride_home"
           steps={steps}
           run={!__PRODUCTION__ || __PRERELEASE__}
@@ -107,7 +107,7 @@ class Home extends React.Component {
           type="continuous"
           showStepsProgress={true}
           showSkipButton={true}
-        />
+        />*/}
 
         <div className="bg-wrapper">
           <img src={require(`../images/home/Image-${imageNumber}.jpg`)} />
