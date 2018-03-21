@@ -15,7 +15,7 @@ class TaskWizardLander extends LandingPage {
       ...this.state || {},
       title: (
         <span>
-          Discuss your project within<br />
+          Discuss your project within<br/>
           24 hours!
         </span>
       ),
@@ -53,101 +53,36 @@ class TaskWizardLander extends LandingPage {
             <h1>
               {isSkillPage && skill_page.welcome_header
                 ? <span
-                    dangerouslySetInnerHTML={{
-                      __html: nl_to_br(skill_page.welcome_header),
-                    }}
-                  />
+                  dangerouslySetInnerHTML={{
+                    __html: nl_to_br(skill_page.welcome_header),
+                  }}
+                />
                 : <span>
-                    Getting software projects done is hard.<br />
+                    Getting software projects done is hard.<br/>
                     We make it easy.
                   </span>}
             </h1>
             <div className="details">
               {isSkillPage && skill_page.welcome_sub_header
                 ? <span
-                    dangerouslySetInnerHTML={{
-                      __html: nl_to_br(skill_page.welcome_sub_header),
-                    }}
-                  />
+                  dangerouslySetInnerHTML={{
+                    __html: nl_to_br(skill_page.welcome_sub_header),
+                  }}
+                />
                 : <span>
                     Tunga enables you to have super-bright{' '}
-                    {this.getDLPDesc() || 'developers'} from Africa work on your
+                  {this.getDLPDesc() || 'developers'} from Africa work on your
                     software project in a productive, friendly and worthwhile
                     way.
                   </span>}
             </div>
-          </div>
-        </div>
-        <div className="col-sm-6 col-md-4">
-          <div className="task-wizard">
             <div>
-              {this.state.step == 1 && !this.getTaskId()
-                ? <h3
-                    className=""
-                    dangerouslySetInnerHTML={{
-                      __html: dlp_phrase
-                        ? `Start hiring ${dlp_phrase}`
-                        : 'Discuss your project!',
-                    }}
-                  />
-                : <div className="heading-3 text-center">
-                    {this.state.title}
-                  </div>}
-              <div>
-                <form
-                  name="task"
-                  role="form"
-                  ref="task_form"
-                  action={`${isTungaDomain()
-                    ? ''
-                    : 'https://tunga.io'}/start-welcome/`} onKeyUp={() => {window.tungaCanOpenOverlay = false; this.setState({closeChat: true})}}>
-                  <div className="form-group">
-                    <div className="row">
-                      <div className="col-xs-5">
-                        <input
-                          type="text"
-                          name="first_name"
-                          className="form-control"
-                          ref="first_name"
-                          required
-                          placeholder="First Name"
-                        />
-                      </div>
-                      <div className="col-xs-7">
-                        <input
-                          type="text"
-                          name="last_name"
-                          className="form-control"
-                          ref="last_name"
-                          required
-                          placeholder="Last Name"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="form-group">
-                    <div>
-                      <input
-                        type="email"
-                        name="email"
-                        className="form-control"
-                        ref="email"
-                        required
-                        placeholder="Email"
-                      />
-                    </div>
-                  </div>
-                  <button type="submit" className="btn cta-action">
-                    <span>
-                      <i className="tunga-icon-rocket fa-lg" />{' '}
-                    </span>Get me started!
-                  </button>
-                </form>
-              </div>
+              <a className="btn btn-callout btn-main-cta" href="/call/"><i
+                class="tunga-icon-rocket"></i>Schedule a call</a>
             </div>
-            <div className="clearfix" />
           </div>
         </div>
+
       </div>
     );
   }

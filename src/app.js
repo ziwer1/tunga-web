@@ -127,6 +127,7 @@ import BlogDetailContainer from 'containers/BlogDetailContainer';
 import BlogForm from 'components/BlogForm';
 import BlogList from 'components/BlogList';
 import BlogDetail from 'components/BlogDetail';
+import SkillPage from "./routes/SkillPage";
 
 let all_routes = (
   <Route>
@@ -141,8 +142,8 @@ let all_routes = (
     <Route unauthedOnly={true}>
       {/* No Auth Pages */}
       <Route path="welcome">
-        <IndexRoute component={TaskWizardLander} />
-        <Route path=":skill" component={TaskWizardLander} unauthedOnly={true} />
+        <IndexRoute component={SkillPage} />
+        <Route path=":skill" component={SkillPage} unauthedOnly={true} />
       </Route>
       <Route path="quiz">
         <IndexRoute component={QuizForm} />
