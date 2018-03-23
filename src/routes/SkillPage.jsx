@@ -187,13 +187,13 @@ class SkillPage extends React.Component {
             {isSkillPage
               ? <section id="pitch">
                 <div className="container">
-                  <div className="section-heading col-sm-8">
+                  <div className="col-sm-8">
                     {skill_page.pitch_header}
                   </div>
-                  <div className="section-heading col-sm-3">
+                  <div className="col-sm-8">
                     {skill_page.pitch_body}
                   </div>
-                  <div className="section-heading col-sm-8">
+                  <div className="col-sm-3">
                     <img src="#" alt="tunga_developer.jpg"/>
                   </div>
 
