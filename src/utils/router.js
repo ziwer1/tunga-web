@@ -93,6 +93,7 @@ export function openCalendlyWidget(url = CALENDLY_CALL_URL) {
 
 export const TUNGA_DOMAINS = [
   'localhost',
+  '127.0.0.1',
   'tunga.io',
   'www.tunga.io',
   'test.tunga.io',

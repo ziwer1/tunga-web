@@ -1,13 +1,12 @@
 import React from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {Link} from 'react-router';
 import Reveal from 'react-reveal';
 import ShowcaseContainer from '../containers/ShowcaseContainer';
 import ShowCaseFooter from '../containers/ShowCaseFooter';
 import MetaTags from '../components/MetaTags';
 
-import {isTungaDomain, openCalendlyWidget, showCallWidget,} from '../utils/router';
+import {openCalendlyWidget, showCallWidget,} from '../utils/router';
 
 
 import * as SkillPageActions from '../actions/SkillPageActions';
@@ -105,7 +104,7 @@ class SkillPage extends React.Component {
 
     return (
       <div className="row">
-        <div className="col-sm-10">
+        <div className="col-sm-offset-1 col-sm-10">
           <div className="pitch">
             <h1>
               {isSkillPage && skill_page.welcome_header
@@ -115,9 +114,9 @@ class SkillPage extends React.Component {
                   }}
                 />
                 : <h1>
-                    Getting software projects done is hard.<br/>
-                    We make it easy REALLY.
-                  </h1>}
+                  Getting software projects done is hard.<br/>
+                  We make it easy REALLY.
+                </h1>}
             </h1>
             <div className="details">
               {isSkillPage && skill_page.welcome_sub_header
@@ -127,15 +126,15 @@ class SkillPage extends React.Component {
                   }}
                 />
                 : <p>
-                    Tunga enables you to have super-bright{' '}
+                  Tunga enables you to have super-bright{' '}
                   {this.getDLPDesc() || 'developers'} from Africa work on your
-                    software project in a productive, friendly and worthwhile
-                    way.
-                  </p>}
+                  software project in a productive, friendly and worthwhile
+                  way.
+                </p>}
             </div>
             <div className="details">
               <a className="btn btn-callout btn-main-cta" href="/call/">
-                <i class="tunga-icon-rocket"/>Schedule a call</a>
+                <i className="tunga-icon-rocket"/>Schedule a call</a>
             </div>
           </div>
         </div>
@@ -187,14 +186,18 @@ class SkillPage extends React.Component {
             {isSkillPage
               ? <section id="pitch">
                 <div className="container">
-                  <div className="col-sm-8">
+                  <div className="col-sm-8 ">
                     {skill_page.pitch_header}
+                  </div>
+                  <div className="col-sm-5">
+                    <hr className="hr-tunga"/>
                   </div>
                   <div className="col-sm-8">
                     {skill_page.pitch_body}
                   </div>
                   <div className="col-sm-3">
-                    <img src="#" alt="tunga_developer.jpg"/>
+                    <img src={skill_page.pitch_image} alt="tunga_developer.jpg"
+                         style={{width: '300px', height: '300px'}}/>
                   </div>
 
                 </div>
@@ -311,188 +314,82 @@ class SkillPage extends React.Component {
                 </Reveal>
               </div>
             </section>
-            {isSkillPage
-              ? <div>
-                {skill_page.profiles && skill_page.profiles.length
-                  ? <section id="skill-profiles">
-                    <div className="container">
-                      <div className="row">
-                        {skill_page.profiles.map(profile => {
-                          console.log('profile', profile);
-                          return (
-                            <div className="col-sm-4">
-                              <div className="card user-card">
-                                <Avatar
-                                  src={profile.user.avatar_url}
-                                  size="xl"
-                                />
-                                <div className="name">
-                                  {profile.user.display_name}
-                                </div>
-                                <div>
-                                  {profile.user.profile &&
-                                  (profile.user.profile.city ||
-                                    profile.user.profile.country_name)
-                                    ? `${profile.user.profile
-                                      .city}, ${profile.user.profile
-                                      .country_name}`
-                                    : null}
-                                </div>
-                                <div className="skills">
-                                  {this.reorderProfileSkills(
-                                    profile.user.profile.skills,
-                                  )
-                                    .slice(0, 3)
-                                    .map(skill => {
-                                      return (
-                                        <span>
-                                                {skill.name}
-                                              </span>
-                                      );
-                                    })}
-                                </div>
-                                <div
-                                  className="intro"
-                                  dangerouslySetInnerHTML={{
-                                    __html: nl_to_br(profile.intro),
-                                  }}
-                                />
-                                <div>
-                                  <Link
-                                    to="/start"
-                                    className="btn btn-block">
-                                    Start working with{' '}
-                                    {profile.user.first_name}
-                                  </Link>
-                                </div>
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  </section>
-                  : null}
-                <section id="story">
-                  <div className="container">
-                    <div
-                      className="section-heading text-center"
-                      dangerouslySetInnerHTML={{
-                        __html: nl_to_br(skill_page.story_header),
-                      }}
-                    />
-                    <div
-                      className="readable"
-                      dangerouslySetInnerHTML={{
-                        __html: skill_page.story_body_one,
-                      }}
-                    />
-                  </div>
-                  <div
-                    id="story-interlude-one"
-                    style={
-                      skill_page.story_interlude_one_image
-                        ? {
-                          backgroundImage: `url(${skill_page.story_interlude_one_image})`,
-                        }
-                        : {}
-                    }>
-                    <div className="container">
-                      <div
-                        dangerouslySetInnerHTML={{
-                          __html: nl_to_br(
-                            skill_page.story_interlude_one_text,
-                          ),
-                        }}
-                      />
-                      <Link to="/start" className="cta">
-                        {skill_page.story_interlude_one_cta}
-                      </Link>
-                    </div>
-                  </div>
-                  <div className="container">
-                    <div
-                      className="readable"
-                      dangerouslySetInnerHTML={{
-                        __html: skill_page.story_body_two,
-                      }}
-                    />
+
+            <section>
+              <div className="container">
+                <div className="row skill-page">
+
+                  <div className="col-md-offset-2 col-md-8 section-heading">
+                    <p>{skill_page.content_header}</p>
                   </div>
 
-                  <div
-                    id="story-interlude-two"
-                    style={
-                      skill_page.story_interlude_two_image
-                        ? {
-                          backgroundImage: `url(${skill_page.story_interlude_two_image})`,
-                        }
-                        : {}
-                    }>
-                    <div className="container">
-                      <div
-                        dangerouslySetInnerHTML={{
-                          __html: nl_to_br(
-                            skill_page.story_interlude_two_text,
-                          ),
-                        }}
-                      />
-                    </div>
+                  <div className="col-md-offset-4 col-md-4 col-md-offset-4">
+                    <hr className="hr-tunga"/>
                   </div>
-                  <div className="container">
-                    <div
-                      className="readable"
+
+                  <div className="col-md-8">
+                    <p>{skill_page.content_sub_header}</p>
+                  </div>
+                  <div className="col-md-8">
+                    <p
                       dangerouslySetInnerHTML={{
-                        __html: skill_page.story_body_three,
-                      }}
-                    />
+                        __html: nl_to_br(skill_page.content),
+                      }}>
+
+                    </p>
                   </div>
-                </section>
+
+
+                </div>
               </div>
-              : <div>
-                <section id="how-we-verify">
-                  <div className="container">
-                    <Link to="/quality">How we verify our Developers</Link>
+            </section>
+            <section>
+              <div className="container">
+                <div className="row skill-page">
+
+                  <div className="col-md-offset-2 col-md-8 section-heading">
+                    <p>Where to find us</p>
                   </div>
-                </section>
-                <section id="clients-testmonial">
-                  <div className="container">
-                    <div className="section-heading text-center">
-                      What our clients say
-                    </div>
+
+                  <div className="col-md-offset-4 col-md-4 col-md-offset-5">
+                    <hr className="hr-tunga"/>
                   </div>
-                </section>
-                <section id="what-we-can-do">
-                  <div className="container">
-                    <div className="section-heading text-center">
-                      Our network expertise
-                    </div>
-                    <div>
+
+                  <div className="col-md-12">
+                    <div className="col-md-6">
+                      <p>
+                        <strong>Kampala office:</strong></p>
+                      <p>
+                        Design Hub Kampala, 5th Street, Industrial Area, Kampala, Uganda
+                      </p>
+                      <p>
+                        <strong>Amsterdam office:</strong>
+                      </p>
+                      <p>
+                        The Collab, Wibautstraat 131, 1091 GL Amsterdam, The Netherlands
+                      </p>
+
+                      <p>
+                        <strong>Lagos office:</strong></p>
+                      <p>
+                        Address, Street, postal code, Lagos, Nigeria
+                      </p>
+
+                      <p className="">hello@tunga.io</p>
+                      <div>
+                        <a className="btn btn-callout" href="/call/">
+                          <i class="tunga-icon-rocket"/>Schedule a call with us</a>
+                      </div>
 
                     </div>
+                    <div className="col-md-offset-1 col-md-5">
+                      <p>Right</p>
+                    </div>
                   </div>
-                </section>
-              </div>}
+                </div>
+              </div>
+            </section>
 
-            <div className="outsource-widget">
-              <div>Ready to outsource the right way?</div>
-              <form
-                name="task"
-                role="form"
-                ref="task_form"
-                action={`${isTungaDomain()
-                  ? ''
-                  : 'https://tunga.io'}/start-outsource/`}>
-                <input
-                  type="email"
-                  name="email"
-                  className="form-control"
-                  ref="email"
-                  required
-                  placeholder="Your email address"
-                />
-                <button className="btn">Go</button>
-              </form>
-            </div>
           </div>}
 
         <ShowCaseFooter/>
