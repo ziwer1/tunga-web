@@ -212,10 +212,12 @@ class SkillPage extends React.Component {
                   <div className="col-sm-8">
                     {skill_page.pitch_body}
                   </div>
-                  <div className="col-sm-3">
-                    <img src={skill_page.pitch_image} alt="tunga_developer.jpg"
-                         style={{width: '300px', height: '300px'}}/>
-                  </div>
+                  {skill_page.pitch_image ?
+                    <div className="col-sm-3">
+                      <img src={skill_page.pitch_image.url} alt="tunga_developer.jpg"
+                           style={{width: '300px', height: '300px'}}/>
+                    </div>
+                    : null}
 
                 </div>
               </section>
@@ -374,36 +376,36 @@ class SkillPage extends React.Component {
                               src={profile.user.avatar_url}
                               size="xl"
                             />
-                          </div>
-                          <div className="name">
-                            {profile.user.display_name}
-                          </div>
-                          <div>
-                            {profile.user.profile &&
-                            (profile.user.profile.city ||
-                              profile.user.profile.country_name)
-                              ? `${profile.user.profile
-                                .city}, ${profile.user.profile
-                                .country_name}`
-                              : null}
-                          </div>
-                          <div className="skills">
-                            {this.reorderProfileSkills(profile.user.profile.skills)
-                              .slice(0, 3)
-                              .map(skill => {
-                                return (
-                                  <span>
+                            <div className="name">
+                              {profile.user.display_name}
+                            </div>
+                            <div>
+                              {profile.user.profile &&
+                              (profile.user.profile.city ||
+                                profile.user.profile.country_name)
+                                ? `${profile.user.profile
+                                  .city}, ${profile.user.profile
+                                  .country_name}`
+                                : null}
+                            </div>
+                            <div className="skills">
+                              {this.reorderProfileSkills(profile.user.profile.skills)
+                                .slice(0, 3)
+                                .map(skill => {
+                                  return (
+                                    <span>
                                                 {skill.name}
                                               </span>
-                                );
-                              })}
+                                  );
+                                })}
+                            </div>
+                            <div
+                              className="intro"
+                              dangerouslySetInnerHTML={{
+                                __html: nl_to_br(profile.intro),
+                              }}
+                            />
                           </div>
-                          <div
-                            className="intro"
-                            dangerouslySetInnerHTML={{
-                              __html: nl_to_br(profile.intro),
-                            }}
-                          />
                         </div>
                       );
                     })}
