@@ -13,6 +13,7 @@ import * as SkillPageActions from '../actions/SkillPageActions';
 import {nl_to_br} from '../utils/html';
 
 import Progress from '../components/status/Progress';
+import {Button, Form, FormControl, FormGroup} from "react-bootstrap";
 
 class SkillPage extends React.Component {
   constructor(props) {
@@ -330,7 +331,7 @@ class SkillPage extends React.Component {
                   <div className="col-md-8">
                     <p>{skill_page.content_sub_header}</p>
                   </div>
-                  <div className="col-md-8">
+                  <div className="col-md-12">
                     <p
                       dangerouslySetInnerHTML={{
                         __html: nl_to_br(skill_page.content),
@@ -378,12 +379,28 @@ class SkillPage extends React.Component {
                       <p className="">hello@tunga.io</p>
                       <div>
                         <a className="btn btn-callout" href="/call/">
-                          <i class="tunga-icon-rocket"/>Schedule a call with us</a>
+                          Schedule a call with us</a>
                       </div>
 
                     </div>
                     <div className="col-md-offset-1 col-md-5">
-                      <p>Right</p>
+                      <Form>
+                        <FormGroup>
+                          <FormControl type="input" placeholder="Your Name"/>
+                        </FormGroup>
+                        <FormGroup>
+                          <FormControl type="input" placeholder="Your email address"/>
+                        </FormGroup>
+                        <FormGroup>
+                          <FormControl componentClass="textarea" placeholder="Type your message here"/>
+                        </FormGroup>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <div className="pull-right">
+                          <Button type="submit">Send</Button>
+                        </div>
+                      </Form>
                     </div>
                   </div>
                 </div>
