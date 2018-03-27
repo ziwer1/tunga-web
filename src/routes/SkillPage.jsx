@@ -14,6 +14,7 @@ import {nl_to_br} from '../utils/html';
 
 import Progress from '../components/status/Progress';
 import {Button, Form, FormControl, FormGroup} from "react-bootstrap";
+import Avatar from "../components/Avatar";
 
 class SkillPage extends React.Component {
   constructor(props) {
@@ -89,6 +90,21 @@ class SkillPage extends React.Component {
       'developers'}`;
     }
     return null;
+  }
+
+  reorderProfileSkills(skills) {
+    let isSkillPage = this.state.isSkillPage,
+      {SkillPage: {detail: {skill_page}}} = this.props;
+    if (isSkillPage && skill_page.keyword) {
+      let new_skills = [skill_page.skill];
+      skills.forEach(skill => {
+        if (skill.id != skill_page.skill.id) {
+          new_skills.push(skill);
+        }
+      });
+      return new_skills;
+    }
+    return skills;
   }
 
   getTaskId() {
@@ -344,6 +360,57 @@ class SkillPage extends React.Component {
                 </div>
               </div>
             </section>
+
+            {skill_page.profiles && skill_page.profiles.length
+              ? <section id="skill-profiles">
+                <div className="container">
+                  <div className="row">
+                    {skill_page.profiles.map(profile => {
+                      console.log('profile', profile);
+                      return (
+                        <div className="col-sm-4">
+                          <div className="card user-card">
+                            <Avatar
+                              src={profile.user.avatar_url}
+                              size="xl"
+                            />
+                          </div>
+                          <div className="name">
+                            {profile.user.display_name}
+                          </div>
+                          <div>
+                            {profile.user.profile &&
+                            (profile.user.profile.city ||
+                              profile.user.profile.country_name)
+                              ? `${profile.user.profile
+                                .city}, ${profile.user.profile
+                                .country_name}`
+                              : null}
+                          </div>
+                          <div className="skills">
+                            {this.reorderProfileSkills(profile.user.profile.skills)
+                              .slice(0, 3)
+                              .map(skill => {
+                                return (
+                                  <span>
+                                                {skill.name}
+                                              </span>
+                                );
+                              })}
+                          </div>
+                          <div
+                            className="intro"
+                            dangerouslySetInnerHTML={{
+                              __html: nl_to_br(profile.intro),
+                            }}
+                          />
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </section> : null}
+
             <section>
               <div className="container">
                 <div className="row skill-page">
