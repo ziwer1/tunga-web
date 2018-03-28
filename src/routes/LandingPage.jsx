@@ -30,6 +30,7 @@ import {
   GA_EVENT_ACTIONS,
   GA_EVENT_LABELS,
 } from '../utils/tracking';
+import {Button, Form, FormControl, FormGroup} from "react-bootstrap";
 
 const STEP_DETAILS = [
   {
@@ -68,9 +69,9 @@ class HowItWorks extends React.Component {
                         <span className="number">
                           {idx + 1}
                         </span>
-                        <i className={step.icon} />
+                        <i className={step.icon}/>
                       </div>
-                      <span dangerouslySetInnerHTML={{__html: step.title}} />
+                      <span dangerouslySetInnerHTML={{__html: step.title}}/>
                     </div>
                   </li>
                 );
@@ -87,8 +88,8 @@ const NETWORK_EXPERTISE = [
   {
     content: (
       <div>
-        Full stack capacity for web API development<br />
-        All popular JS frameworks<br />
+        Full stack capacity for web API development<br/>
+        All popular JS frameworks<br/>
         Backend development
       </div>
     ),
@@ -97,8 +98,8 @@ const NETWORK_EXPERTISE = [
   {
     content: (
       <div>
-        Excellent native app development<br />
-        Dedicated iOS and Android teams<br />
+        Excellent native app development<br/>
+        Dedicated iOS and Android teams<br/>
         App maintenance and improvements
       </div>
     ),
@@ -107,8 +108,8 @@ const NETWORK_EXPERTISE = [
   {
     content: (
       <div>
-        Dedicated project managers<br />
-        Daily updates from developers<br />
+        Dedicated project managers<br/>
+        Daily updates from developers<br/>
         Full overview of progress
       </div>
     ),
@@ -117,8 +118,8 @@ const NETWORK_EXPERTISE = [
   {
     content: (
       <div>
-        Easily customize your workflow<br />
-        with Slack, Trello, GDrive, Github<br />
+        Easily customize your workflow<br/>
+        with Slack, Trello, GDrive, Github<br/>
         on Tunga
       </div>
     ),
@@ -160,7 +161,7 @@ export class LandingPage extends ComponentWithModal {
     let lp = this;
 
     function displayOverlay() {
-      if(window.tungaCanOpenOverlay) {
+      if (window.tungaCanOpenOverlay) {
         lp.setState({showOverlay: true});
       }
     }
@@ -182,7 +183,7 @@ export class LandingPage extends ComponentWithModal {
     document.onkeypress = resetTimer;
     document.onscroll = resetTimer;
 
-    let updateBg = function() {
+    let updateBg = function () {
       let menuItemToggled = false;
       let windowWidth = $(window).innerWidth();
       let width = windowWidth / 2;
@@ -197,7 +198,7 @@ export class LandingPage extends ComponentWithModal {
       }
       $('.ribbon').css('borderWidth', `${height}px ${width}px 0`);
 
-      $(this).scroll(function() {
+      $(this).scroll(function () {
         var currentPos = $(this).scrollTop();
         var cta = $('header .btn-callout.btn-main-cta');
         if (!cta.size()) {
@@ -219,7 +220,7 @@ export class LandingPage extends ComponentWithModal {
         if (stats.size()) {
           var statsPos = $('footer').offset().top;
           if (currentPos >= statsPos - 800) {
-            stats.find('.stat').each(function(idx, elem) {
+            stats.find('.stat').each(function (idx, elem) {
               if (!lp.state.hasAnimatedNumbers) {
                 var numAnim = new CountUp(
                   $(elem).attr('id'),
@@ -277,7 +278,7 @@ export class LandingPage extends ComponentWithModal {
         }
       });
 
-      $('.navbar-toggle').click(function() {
+      $('.navbar-toggle').click(function () {
         if (windowWidth < 768) {
           var $navbar = $('.navbar-collapse');
           var _opened = $navbar.hasClass('in');
@@ -377,7 +378,7 @@ export class LandingPage extends ComponentWithModal {
       location &&
       location.query.dlp_desc &&
       ['developers', 'coders', 'programmers'].indexOf(location.query.dlp_desc) >
-        -1
+      -1
     ) {
       return location.query.dlp_desc;
     }
@@ -389,7 +390,7 @@ export class LandingPage extends ComponentWithModal {
     const desc = this.getDLPDesc();
     if (tag || desc) {
       return `${this.getDLPTag() || 'software'} ${this.getDLPDesc() ||
-        'developers'}`;
+      'developers'}`;
     }
     return null;
   }
@@ -417,47 +418,45 @@ export class LandingPage extends ComponentWithModal {
     return (
       <div>
         <div className="tunga-logo-top">
-          <img src={require('../images/logo_round.png')} />
+          <img src={require('../images/logo_round.png')}/>
         </div>
         <div
           className={`head-desc ${isSkillPage && this.getDLPTag().length > 7
             ? 'smaller'
-            : ''}`}>
-          <h1>
+            : 'pull-left'}`}>
+          <h1 className="pull-left">
             {isSkillPage && skill_page.welcome_header
               ? <span
-                  dangerouslySetInnerHTML={{
-                    __html: nl_to_br(skill_page.welcome_header),
-                  }}
-                />
+                dangerouslySetInnerHTML={{
+                  __html: nl_to_br(skill_page.welcome_header),
+                }}
+              />
               : <span>
-                  Getting software projects done is hard.<br />
-                  We make it easy.
+                 Unleasing Africa’s Tech Talent
                 </span>}
           </h1>
           <div className="details">
             {isSkillPage && skill_page.welcome_sub_header
               ? <span
-                  dangerouslySetInnerHTML={{
-                    __html: nl_to_br(skill_page.welcome_sub_header),
-                  }}
-                />
-              : <span>
-                  Tunga enables you to have super-bright{' '}
-                  {this.getDLPDesc() || 'developers'} from Africa work on your
-                  software project in a productive, friendly and worthwhile way.
+                dangerouslySetInnerHTML={{
+                  __html: nl_to_br(skill_page.welcome_sub_header),
+                }}
+              />
+              : <span className="pull-left">
+                  Small and large businesses from all over the world use Tunga
+                for hiring African software engineers to address their most
+                pressing software development needs.
+
                 </span>}
           </div>
-          <div>
-            <Link to="/start/" className="btn btn-callout btn-main-cta">
-              <i className="tunga-icon-rocket" />{' '}
-              {(isSkillPage && skill_page.welcome_cta) ||
-                (dlp_phrase
-                  ? `Start hiring ${dlp_phrase}`
-                  : 'Start your project')}
-            </Link>
+          <div className="details pull-left">
+            <a className="btn btn-callout btn-main-cta" href="/call/">
+              <i className="tunga-icon-rocket"/>Schedule a call</a>
           </div>
+
+
         </div>
+
       </div>
     );
   }
@@ -492,490 +491,587 @@ export class LandingPage extends ComponentWithModal {
     return (
       <ShowcaseContainer
         className={`landing-page ${this.state.pageClass} ${isSkillPage &&
-          'skill-page'}`}
+        'skill-page'}`}
         headerContent={this.renderHeaderContent()}
         headerVideo={false && this.state.showVideo}
         hasArrow={true}
         chatId={this.props.params ? this.props.params.chatId : null}
         closeChat={this.state.closeChat}>
-        <MetaTags title={meta_title} description={meta_description} />
+        <MetaTags title={meta_title} description={meta_description}/>
 
         {isRetrieving
-          ? <Progress />
+          ? <Progress/>
           : <div>
-              {isSkillPage
-                ? <section id="pitch">
-                    <div className="container text-center">
-                      <div className="section-heading">
-                        {skill_page.pitch_header}
+            {isSkillPage
+              ? <section id="pitch">
+                <div className="container text-center">
+                  <div className="section-heading">
+                    {skill_page.pitch_header}
+                  </div>
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: nl_to_br(skill_page.pitch_body),
+                    }}
+                  />
+
+
+                </div>
+              </section>
+              : <div>
+                <section id="platform-info">
+                  <div className="container">
+                    <div className="row">
+                      <div className="col-md-8">
+                        <div className="workflow">
+                          <div className="section-heading">
+                            Our unusual approach to software development
+                          </div>
+                          <p>
+                            Software projects often go wrong because of people
+                            misunderstanding each other. Tunga was founded by
+                            people from the hospitality sector to solve this
+                            problem with a simple idea: apply our human-centered
+                            mindset to the software development process and its actors.
+
+                            We work with a community of highly talented youths
+                            from several African countries, who are committed to
+                            go the extra mile for you. Why? Because we not only
+                            pay a lot of attention to our managers and developers
+                            growing a customer-focused attitude, we also do our utmost
+                            to address their needs by creating interesting and
+                            worthwhile work opportunities for them.
+
+                            Do you support our mission to create opportunities
+                            for African youths?
+                            Become a ‘Friend of Tunga’! For each client you refer
+                            to us we donate a sum to Bits Academy, a network of
+                            African schools that focus on giving quality and
+                            free IT-education to youths from less privileged backgrounds.
+
+
+                            <a
+                              href="#"
+                              onClick={this.onScheduleCall.bind(this)}>
+                              Talk with us
+                            </a>
+                          </p>
+                        </div>
                       </div>
+                      <div className="col-md-4">
+                        <img
+                          src={require('images/home/Tungadevelopercodingsection2.jpg')}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              </div>}
+
+            <section>
+              <div>
+                <div className="container">
+                  <div className="row skill-page">
+
+                    <div className="col-md-offset-2 col-md-8 section-heading">
+                      <p>Software development Tunga-style</p>
+                    </div>
+
+                    <div className="col-md-offset-4 col-md-4 col-md-offset-5">
+                      <hr className="hr-tunga"/>
+                    </div>
+
+                    <div className="col-lg-12">
+                      We have built a large pool of top African tech talent that
+                      can be deployed flexibly and rapidly to help you meet your
+                      specific software development needs.
+
+                    </div>
+
+                    <div className="col-lg-4">
+
+                      <p>We have built a large pool of top African tech talent
+                        that can be deployed flexibly and rapidly to help you
+                        meet your specific software development needs.
+                      </p>
+
+
+                    </div>
+                    <div className="col-lg-4">
+
+                      <p>
+                        Quality assured
+                        We have developed a unique, highly professional and
+                        effective way of working that enables clients and
+                        developers from any part of the world to collaborate efficiently.
+                      </p>
+
+                    </div>
+                    <div className="col-lg-4">
+
+
+                      <p>
+                        Affortable
+                        Our developers are for hire at a flat rate of EUR20 per hour.
+                        We calculate projects transparently and stick with that.
+                        No excuses, no discussions, no additional costs.
+                      </p>
+
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </section>
+            <section id="how-we-verify">
+              <div className="container">
+                <p className="">Meet our triving community of developers</p>
+                <p className="">Find out how we select our developers and meet some of our talented experts.</p>
+              </div>
+            </section>
+            <section id="press">
+              <div className="container ">
+                <Reveal effect="animated fadeInLeft">
+                  <div>
+                    <ul className="press-links">
+                      <li>
+                        <a
+                          href="http://www.bbc.co.uk/news/world-africa-38294998"
+                          target="_blank">
+                          <img src={require('../images/press/bbc.png')}/>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="https://www.youtube.com/watch?v=v9uRtYpZDQs"
+                          target="_blank">
+                          <img
+                            src={require('../images/press/campus-party.png')}
+                          />
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="https://www.oneworld.nl/startup-tunga-lanceert-pilot-programma-voor-nieuw-soort-freelance-platform"
+                          target="_blank">
+                          <img src={require('../images/press/OWlogo.png')}/>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="http://trendwatching.com/blog/featured-innovator-tunga/"
+                          target="_blank">
+                          <img
+                            src={require('../images/press/trend-watching.png')}
+                          />
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="https://soundcloud.com/african-tech-round-up/a-chat-with-ernesto-spruyt-of-tungaio?in=african-tech-round-up/sets/quick-chats"
+                          target="_blank">
+                          <img
+                            src={require('../images/press/African-Tech-Round-Up.png')}
+                          />
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="http://spendmatters.com/2016/04/01/tunga-wip-of-the-week/"
+                          target="_blank">
+                          <img
+                            src={require('../images/press/Spend-Matters.png')}
+                          />
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="https://www.nabc.nl/africa-business-news/5/technology/377/tunga-founder-ernesto-spruyt-we-create-21st-century-jobs-in-africa"
+                          target="_blank">
+                          <img
+                            src={require('../images/press/netherlands-african-business-council.png')}
+                          />
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="https://blog.tunga.io/our-developers-dont-want-aid-they-want-to-be-productive-4aba9173211e"
+                          target="_blank">
+                          <img
+                            src={require('../images/press/bnr.jpg')}
+                          />
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </Reveal>
+              </div>
+            </section>
+            {isSkillPage
+              ? <div>
+                {skill_page.profiles && skill_page.profiles.length
+                  ? <section id="skill-profiles">
+                    <div className="container">
+                      <div className="row">
+                        {skill_page.profiles.map(profile => {
+                          console.log('profile', profile);
+                          return (
+                            <div className="col-sm-4">
+                              <div className="card user-card">
+                                <Avatar
+                                  src={profile.user.avatar_url}
+                                  size="xl"
+                                />
+                                <div className="name">
+                                  {profile.user.display_name}
+                                </div>
+                                <div>
+                                  {profile.user.profile &&
+                                  (profile.user.profile.city ||
+                                    profile.user.profile.country_name)
+                                    ? `${profile.user.profile
+                                      .city}, ${profile.user.profile
+                                      .country_name}`
+                                    : null}
+                                </div>
+                                <div className="skills">
+                                  {this.reorderProfileSkills(
+                                    profile.user.profile.skills,
+                                  )
+                                    .slice(0, 3)
+                                    .map(skill => {
+                                      return (
+                                        <span>
+                                                {skill.name}
+                                              </span>
+                                      );
+                                    })}
+                                </div>
+                                <div
+                                  className="intro"
+                                  dangerouslySetInnerHTML={{
+                                    __html: nl_to_br(profile.intro),
+                                  }}
+                                />
+                                <div>
+                                  <Link
+                                    to="/start"
+                                    className="btn btn-block">
+                                    Start working with{' '}
+                                    {profile.user.first_name}
+                                  </Link>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </section>
+                  : null}
+                <HowItWorks/>
+                <section id="story">
+                  <div className="container">
+                    <div
+                      className="section-heading text-center"
+                      dangerouslySetInnerHTML={{
+                        __html: nl_to_br(skill_page.story_header),
+                      }}
+                    />
+                    <div
+                      className="readable"
+                      dangerouslySetInnerHTML={{
+                        __html: skill_page.story_body_one,
+                      }}
+                    />
+                  </div>
+                  <div
+                    id="story-interlude-one"
+                    style={
+                      skill_page.story_interlude_one_image
+                        ? {
+                          backgroundImage: `url(${skill_page.story_interlude_one_image})`,
+                        }
+                        : {}
+                    }>
+                    <div className="container">
                       <div
                         dangerouslySetInnerHTML={{
-                          __html: nl_to_br(skill_page.pitch_body),
+                          __html: nl_to_br(
+                            skill_page.story_interlude_one_text,
+                          ),
+                        }}
+                      />
+                      <Link to="/start" className="cta">
+                        {skill_page.story_interlude_one_cta}
+                      </Link>
+                    </div>
+                  </div>
+                  <div className="container">
+                    <div
+                      className="readable"
+                      dangerouslySetInnerHTML={{
+                        __html: skill_page.story_body_two,
+                      }}
+                    />
+                  </div>
+
+                  <div
+                    id="story-interlude-two"
+                    style={
+                      skill_page.story_interlude_two_image
+                        ? {
+                          backgroundImage: `url(${skill_page.story_interlude_two_image})`,
+                        }
+                        : {}
+                    }>
+                    <div className="container">
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: nl_to_br(
+                            skill_page.story_interlude_two_text,
+                          ),
                         }}
                       />
                     </div>
-                  </section>
-                : <div>
-                    <section id="platform-info">
-                      <div className="container">
-                        <div className="row">
-                          <div className="col-md-6">
-                            <div className="workflow">
-                              <div className="section-heading">
-                                How we make it easy
-                              </div>
-                              <p>
-                                Finding great developers is hard nowadays, it is
-                                a journey that often takes too much time and
-                                money. We're here to help. Tunga not only gives
-                                you flexible access to a community of highly
-                                committed developers and at affordable rates, we
-                                also have a simple process in place to make sure
-                                you can stay on top of quality and planning. We
-                                get that you want to have overview at all times
-                                over the progress of your project. That is why
-                                Tunga offers unique automated features that will
-                                allow you to smoothly build great products in a
-                                cost effective way. Triggered?{' '}
-                                <a
-                                  href="#"
-                                  onClick={this.onScheduleCall.bind(this)}>
-                                  Talk with us
-                                </a>
-                              </p>
-                            </div>
-                          </div>
-                          <div className="col-md-6">
-                            <img
-                              src={require('images/showcase/video-bg.png')}
-                              className="video-trigger"
-                              onClick={this.onPlayVideo.bind(this)}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </section>
-                    <HowItWorks />
-                  </div>}
-              <section id="press">
-                <div className="container ">
-                  <Reveal effect="animated fadeInLeft">
-                    <div>
-                      <ul className="press-links">
-                        <li>
-                          <a
-                            href="http://www.bbc.co.uk/news/world-africa-38294998"
-                            target="_blank">
-                            <img src={require('../images/press/bbc.png')} />
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            href="https://www.youtube.com/watch?v=v9uRtYpZDQs"
-                            target="_blank">
-                            <img
-                              src={require('../images/press/campus-party.png')}
-                            />
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            href="https://www.oneworld.nl/startup-tunga-lanceert-pilot-programma-voor-nieuw-soort-freelance-platform"
-                            target="_blank">
-                            <img src={require('../images/press/OWlogo.png')} />
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            href="http://trendwatching.com/blog/featured-innovator-tunga/"
-                            target="_blank">
-                            <img
-                              src={require('../images/press/trend-watching.png')}
-                            />
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            href="https://soundcloud.com/african-tech-round-up/a-chat-with-ernesto-spruyt-of-tungaio?in=african-tech-round-up/sets/quick-chats"
-                            target="_blank">
-                            <img
-                              src={require('../images/press/African-Tech-Round-Up.png')}
-                            />
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            href="http://spendmatters.com/2016/04/01/tunga-wip-of-the-week/"
-                            target="_blank">
-                            <img
-                              src={require('../images/press/Spend-Matters.png')}
-                            />
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            href="https://www.nabc.nl/africa-business-news/5/technology/377/tunga-founder-ernesto-spruyt-we-create-21st-century-jobs-in-africa"
-                            target="_blank">
-                            <img
-                              src={require('../images/press/netherlands-african-business-council.png')}
-                            />
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            href="https://blog.tunga.io/our-developers-dont-want-aid-they-want-to-be-productive-4aba9173211e"
-                            target="_blank">
-                            <img
-                              src={require('../images/press/bnr.jpg')}
-                            />
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </Reveal>
-                </div>
-              </section>
-              {isSkillPage
-                ? <div>
-                    {skill_page.profiles && skill_page.profiles.length
-                      ? <section id="skill-profiles">
-                          <div className="container">
-                            <div className="row">
-                              {skill_page.profiles.map(profile => {
-                                console.log('profile', profile);
-                                return (
-                                  <div className="col-sm-4">
-                                    <div className="card user-card">
-                                      <Avatar
-                                        src={profile.user.avatar_url}
-                                        size="xl"
-                                      />
-                                      <div className="name">
-                                        {profile.user.display_name}
-                                      </div>
-                                      <div>
-                                        {profile.user.profile &&
-                                        (profile.user.profile.city ||
-                                          profile.user.profile.country_name)
-                                          ? `${profile.user.profile
-                                              .city}, ${profile.user.profile
-                                              .country_name}`
-                                          : null}
-                                      </div>
-                                      <div className="skills">
-                                        {this.reorderProfileSkills(
-                                          profile.user.profile.skills,
-                                        )
-                                          .slice(0, 3)
-                                          .map(skill => {
-                                            return (
-                                              <span>
-                                                {skill.name}
-                                              </span>
-                                            );
-                                          })}
-                                      </div>
-                                      <div
-                                        className="intro"
-                                        dangerouslySetInnerHTML={{
-                                          __html: nl_to_br(profile.intro),
-                                        }}
-                                      />
-                                      <div>
-                                        <Link
-                                          to="/start"
-                                          className="btn btn-block">
-                                          Start working with{' '}
-                                          {profile.user.first_name}
-                                        </Link>
-                                      </div>
-                                    </div>
-                                  </div>
-                                );
-                              })}
-                            </div>
-                          </div>
-                        </section>
-                      : null}
-                    <HowItWorks />
-                    <section id="story">
-                      <div className="container">
-                        <div
-                          className="section-heading text-center"
-                          dangerouslySetInnerHTML={{
-                            __html: nl_to_br(skill_page.story_header),
-                          }}
-                        />
-                        <div
-                          className="readable"
-                          dangerouslySetInnerHTML={{
-                            __html: skill_page.story_body_one,
-                          }}
-                        />
-                      </div>
-                      <div
-                        id="story-interlude-one"
-                        style={
-                          skill_page.story_interlude_one_image
-                            ? {
-                                backgroundImage: `url(${skill_page.story_interlude_one_image})`,
-                              }
-                            : {}
-                        }>
-                        <div className="container">
-                          <div
-                            dangerouslySetInnerHTML={{
-                              __html: nl_to_br(
-                                skill_page.story_interlude_one_text,
-                              ),
-                            }}
-                          />
-                          <Link to="/start" className="cta">
-                            {skill_page.story_interlude_one_cta}
-                          </Link>
-                        </div>
-                      </div>
-                      <div className="container">
-                        <div
-                          className="readable"
-                          dangerouslySetInnerHTML={{
-                            __html: skill_page.story_body_two,
-                          }}
-                        />
-                      </div>
-
-                      <div
-                        id="story-interlude-two"
-                        style={
-                          skill_page.story_interlude_two_image
-                            ? {
-                                backgroundImage: `url(${skill_page.story_interlude_two_image})`,
-                              }
-                            : {}
-                        }>
-                        <div className="container">
-                          <div
-                            dangerouslySetInnerHTML={{
-                              __html: nl_to_br(
-                                skill_page.story_interlude_two_text,
-                              ),
-                            }}
-                          />
-                        </div>
-                      </div>
-                      <div className="container">
-                        <div
-                          className="readable"
-                          dangerouslySetInnerHTML={{
-                            __html: skill_page.story_body_three,
-                          }}
-                        />
-                      </div>
-                    </section>
                   </div>
-                : <div>
-                    <section id="how-we-verify">
-                      <div className="container">
-                        <Link to="/quality">How we verify our Developers</Link>
-                      </div>
-                    </section>
-                    <section id="clients-testmonial">
-                      <div className="container">
-                        <div className="section-heading text-center">
-                          What our clients say
-                        </div>
-                        <Slider
-                          className="testimonials-slider text-center"
-                          {...slider_settings}>
-                          {TESTIMONIALS.map(testimonial => {
-                            return (
-                              <div className="testimonial">
-                                <div className="body">
-                                  <div>
-                                    <i className="fa fa-quote-left pull-left" />
-                                    <span
-                                      dangerouslySetInnerHTML={{
-                                        __html: testimonial.message,
-                                      }}
-                                    />
-                                    <i className="fa fa-quote-right pull-right" />
-                                  </div>
-                                </div>
-                                <div
-                                  className="image"
-                                  style={{
-                                    backgroundImage: `url(${testimonial.image})`,
+                  <div className="container">
+                    <div
+                      className="readable"
+                      dangerouslySetInnerHTML={{
+                        __html: skill_page.story_body_three,
+                      }}
+                    />
+                  </div>
+                </section>
+              </div>
+              : <div>
+                <section id="how-we-verify">
+                  <div className="container">
+                    <Link to="/quality">How we verify our Developers</Link>
+                  </div>
+                </section>
+                <section id="clients-testmonial">
+                  <div className="container">
+                    <div className="section-heading text-center">
+                      What our clients say
+                    </div>
+                    <Slider
+                      className="testimonials-slider text-center"
+                      {...slider_settings}>
+                      {TESTIMONIALS.map(testimonial => {
+                        return (
+                          <div className="testimonial">
+                            <div className="body">
+                              <div>
+                                <i className="fa fa-quote-left pull-left"/>
+                                <span
+                                  dangerouslySetInnerHTML={{
+                                    __html: testimonial.message,
                                   }}
                                 />
-                                <div className="author">
-                                  {testimonial.name}
-                                </div>
-                                <div className="company">
-                                  {testimonial.company}
-                                </div>
+                                <i className="fa fa-quote-right pull-right"/>
                               </div>
-                            );
-                          })}
-                        </Slider>
+                            </div>
+                            <div
+                              className="image"
+                              style={{
+                                backgroundImage: `url(${testimonial.image})`,
+                              }}
+                            />
+                            <div className="author">
+                              {testimonial.name}
+                            </div>
+                            <div className="company">
+                              {testimonial.company}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </Slider>
+                  </div>
+                </section>
+                <section>
+                  <div className="container">
+                    <div className="row skill-page">
+
+                      <div className="col-md-offset-2 col-md-8 section-heading">
+                        <p>What we do best</p>
                       </div>
-                    </section>
-                    <section id="what-we-can-do">
-                      <div className="container">
-                        <div className="section-heading text-center">
-                          Our network expertise
-                        </div>
-                        <div>
-                          <div className="row">
-                            {NETWORK_EXPERTISE.map((step, idx) => {
-                              return (
-                                <div key={idx} className="col-sm-3">
-                                  <div
-                                    className={`${this.state.step == idx
-                                      ? 'active'
-                                      : ''} animated fadeInRight`}
-                                    style={{animationDelay: `${idx}s`}}>
-                                    <div className="icon">
-                                      <i className={step.icon} />
-                                    </div>
-                                    {step.content}
-                                  </div>
-                                </div>
-                              );
-                            })}
-                          </div>
-                        </div>
+
+                      <div className="col-md-offset-4 col-md-4 col-md-offset-5">
+                        <hr className="hr-tunga"/>
                       </div>
-                    </section>
-                    <section id="platform-stats">
-                      <div className="container">
-                        <div className="col-sm-offset-1 col-sm-4">
-                          <div
-                            id="stats-devs"
-                            className="highlight figure stat"
-                            data-number="154">
-                            154
-                          </div>
-                          <span className="desc">
-                            developers and project managers
-                          </span>
+                      <div className="col-lg-12">
+                        <div className="col-lg-4">
+                          <img src={require('../images/showcase/TungaMobileSkills.png')}/>
                         </div>
-                        <div className="col-sm-4">
-                          <div
-                            id="stats-skills"
-                            className="highlight figure stat"
-                            data-number="89">
-                            89
-                          </div>
-                          <span className="desc">
-                            different development skills available
-                          </span>
+                        <div className="col-lg-4">
+                          <img src={require('../images/showcase/TungaWebSkills.png')}/>
                         </div>
-                        <div className="col-sm-3">
-                          <div className="highlight figure">
-                            <span
-                              id="stats-code"
-                              className="stat"
-                              data-number="70">
-                              70
-                            </span>
-                            <span>k+</span>
-                          </div>
-                          <span className="desc">lines of code written</span>
+                        <div className="col-lg-4">
+                          <img src={require('../images/showcase/TungaOtherSkills.png')}/>
                         </div>
                       </div>
-                    </section>
-                  </div>}
-              <section
-                id="video-overlay"
-                className={this.state.play ? 'on' : ''}>
-                <div className="modal-backdrop fade in" />
-                <div className="video-close">
+
+                    </div>
+                  </div>
+                </section>
+
+                <section>
+                  <div className="container">
+                    <div className="row skill-page">
+
+                      <div className="col-md-offset-2 col-md-8 section-heading">
+                        <p>Where to find us</p>
+                      </div>
+
+                      <div className="col-md-offset-4 col-md-4 col-md-offset-5">
+                        <hr className="hr-tunga"/>
+                      </div>
+
+                      <div className="col-md-12">
+                        <div className="col-md-6">
+                          <p>
+                            <strong>Kampala office:</strong></p>
+                          <p>
+                            Design Hub Kampala, 5th Street, Industrial Area, Kampala, Uganda
+                          </p>
+                          <p>
+                            <strong>Amsterdam office:</strong>
+                          </p>
+                          <p>
+                            The Collab, Wibautstraat 131, 1091 GL Amsterdam, The Netherlands
+                          </p>
+
+                          <p>
+                            <strong>Lagos office:</strong></p>
+                          <p>
+                            Address, Street, postal code, Lagos, Nigeria
+                          </p>
+
+                          <p className="">hello@tunga.io</p>
+                          <div>
+                            <a className="btn btn-callout" href="/call/">
+                              Schedule a call with us</a>
+                          </div>
+
+                        </div>
+                        <div className="col-md-offset-1 col-md-5">
+                          <Form>
+                            <FormGroup>
+                              <FormControl type="input" placeholder="Your Name"/>
+                            </FormGroup>
+                            <FormGroup>
+                              <FormControl type="input" placeholder="Your email address"/>
+                            </FormGroup>
+                            <FormGroup>
+                              <FormControl componentClass="textarea" placeholder="Type your message here"/>
+                            </FormGroup>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <div className="pull-right">
+                              <Button type="submit">Send</Button>
+                            </div>
+                          </Form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+              </div>}
+            <section
+              id="video-overlay"
+              className={this.state.play ? 'on' : ''}>
+              <div className="modal-backdrop fade in"/>
+              <div className="video-close">
+                <button
+                  className="btn btn-borderless"
+                  title="Close"
+                  onClick={this.onCloseVideo.bind(this)}>
+                  <i className="fa fa-times fa-lg"/>
+                </button>
+              </div>
+              <div className="container">
+                <YouTube
+                  videoId="RVVtyapBmuo"
+                  opts={this.state.youtubeOpts}
+                  onReady={this.onVideoReady.bind(this)}
+                  onPause={this.onPauseVideo.bind(this)}
+                />
+              </div>
+            </section>
+
+            <section
+              id="landing-overlay"
+              className={this.state.showOverlay ? 'on' : ''}>
+              <div className="modal-backdrop fade in"/>
+              <div className="container">
+                <div className="landing-overlay-close">
                   <button
                     className="btn btn-borderless"
                     title="Close"
-                    onClick={this.onCloseVideo.bind(this)}>
-                    <i className="fa fa-times fa-lg" />
+                    onClick={this.onCloseOverlay.bind(this)}>
+                    <i className="fa fa-times fa-lg"/>
                   </button>
                 </div>
-                <div className="container">
-                  <YouTube
-                    videoId="RVVtyapBmuo"
-                    opts={this.state.youtubeOpts}
-                    onReady={this.onVideoReady.bind(this)}
-                    onPause={this.onPauseVideo.bind(this)}
-                  />
-                </div>
-              </section>
 
-              <section
-                id="landing-overlay"
-                className={this.state.showOverlay ? 'on' : ''}>
-                <div className="modal-backdrop fade in" />
-                <div className="container">
-                  <div className="landing-overlay-close">
-                    <button
-                      className="btn btn-borderless"
-                      title="Close"
+                <div className="row">
+                  <div>
+                    <h1>Start hiring great developers?</h1>
+                  </div>
+                  <div>
+                    <h3>
+                      Free quotes. Vetted Quality. Impact Sourcing. Daily
+                      progress report
+                    </h3>
+                  </div>
+                  <div>
+                    <Link
+                      to="/start/"
+                      className="btn btn-callout btn-main-cta"
+                      id="cta-discuss">
+                      <i className="tunga-icon-rocket"/>
+                      Start your project
+                    </Link>
+                  </div>
+                  <div>
+                    <Link
+                      to="/"
+                      id="interest_text"
                       onClick={this.onCloseOverlay.bind(this)}>
-                      <i className="fa fa-times fa-lg" />
-                    </button>
-                  </div>
-
-                  <div class="row">
-                    <div>
-                      <h1>Start hiring great developers?</h1>
-                    </div>
-                    <div>
-                      <h3>
-                        Free quotes. Vetted Quality. Impact Sourcing. Daily
-                        progress report
-                      </h3>
-                    </div>
-                    <div>
-                      <Link
-                        to="/start/"
-                        className="btn btn-callout btn-main-cta"
-                        id="cta-discuss">
-                        <i className="tunga-icon-rocket" />
-                        Start your project
-                      </Link>
-                    </div>
-                    <div>
-                      <Link
-                        to="/"
-                        id="interest_text"
-                        onClick={this.onCloseOverlay.bind(this)}>
-                        <h5>l'm not looking to hire experts today</h5>
-                      </Link>
-                    </div>
+                      <h5>l'm not looking to hire experts today</h5>
+                    </Link>
                   </div>
                 </div>
-              </section>
-
-              <div className="outsource-widget">
-                <div>Ready to outsource the right way?</div>
-                <form
-                  name="task"
-                  role="form"
-                  ref="task_form"
-                  action={`${isTungaDomain()
-                    ? ''
-                    : 'https://tunga.io'}/start-outsource/`}>
-                  <input
-                    type="email"
-                    name="email"
-                    className="form-control"
-                    ref="email"
-                    required
-                    placeholder="Your email address"
-                  />
-                  <button className="btn">Go</button>
-                </form>
               </div>
-            </div>}
+            </section>
 
-        <ShowCaseFooter />
+            <div className="outsource-widget">
+              <div>Ready to outsource the right way?</div>
+              <form
+                name="task"
+                role="form"
+                ref="task_form"
+                action={`${isTungaDomain()
+                  ? ''
+                  : 'https://tunga.io'}/start-outsource/`}>
+                <input
+                  type="email"
+                  name="email"
+                  className="form-control"
+                  ref="email"
+                  required
+                  placeholder="Your email address"
+                />
+                <button className="btn">Go</button>
+              </form>
+            </div>
+          </div>}
+
+        <ShowCaseFooter/>
       </ShowcaseContainer>
     );
   }

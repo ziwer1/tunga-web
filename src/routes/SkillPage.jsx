@@ -368,7 +368,6 @@ class SkillPage extends React.Component {
                 <div className="container">
                   <div className="row">
                     {skill_page.profiles.map(profile => {
-                      console.log('profile', profile);
                       return (
                         <div className="col-sm-4">
                           <div className="card user-card">
