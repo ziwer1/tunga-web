@@ -127,6 +127,8 @@ import BlogDetailContainer from 'containers/BlogDetailContainer';
 import BlogForm from 'components/BlogForm';
 import BlogList from 'components/BlogList';
 import BlogDetail from 'components/BlogDetail';
+import FriendOfTungaPage from 'routes/FriendsOfTunga';
+import FriendOfTungaRulesPage from 'routes/FriendsOfTungaRules';
 
 let all_routes = (
   <Route>
@@ -170,6 +172,8 @@ let all_routes = (
       <Route path="our-story" component={StoryPage} />
       <Route path="quality" component={QualityPage} />
       <Route path="pricing" component={PricingPage} />
+      <Route path="friends-of-tunga" component={FriendOfTungaPage} />
+      <Route path="friends-of-tunga-rules" component={FriendOfTungaRulesPage} />
       <Route path="press" component={LandingPage} />
       <Route path="FAQ" component={LandingPage} />
       <Route path="press" component={LandingPage} />

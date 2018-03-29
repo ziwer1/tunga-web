@@ -78,43 +78,25 @@ class FriendOfTungaPage extends ComponentWithModal {
                     <div className="col-md-8 ">
                         <p>Send your friends a personal e-mail with bart@tunga.io in cc. To make it easy for you, we made an example email that you can copy or use to draft your own e-mail.</p>
                         <div className="col-md-12  rectangle-form">
-                        <form className="form-horizontal "> 
-                            <div className=" col-md-8">                       
+                        <form className="form-horizontal">                        
                                 <div className="form-group">
                                     <label className="col-md-2 control-label">To CC</label>
                                     <div className="col-md-10">
-                                        <input type="text" className="form-control rectangle-field" name="emailcc" value="bart@tunga.io"/>  
-                                        <span className="pull-right"><img src={require('images/showcase/copyicon.png')}/></span>   
+                                        <input type="text" className="form-control rectangle-field" name="emailcc" placeholder="bart@tunga.io"/>   
                                     </div>                     
                                 </div>
                                 <div className="form-group">
                                     <label className="col-md-2 control-label ">Subject</label>
                                     <div className="col-md-10">
-                                        <input type="text" className="form-control rectangle-field" name="subject" value="Introduction to Tunga"/>
-                                        <span className="pull-right"><img src={require('images/showcase/copyicon.png')}/></span>    
+                                        <input type="text" className="form-control rectangle-field" name="subject" placeholder="subject"/>    
                                     </div>                    
                                 </div>
                                 <div className="form-group">   
-                                    <div className="col-md-10 col-md-offset-2">  
-                                                           
-                                        <textarea type="text" className="form-control rectangle-field" rows="10" name="emailcc">
-                                        <p> Hey,<span className="pull-right"><img src={require('images/showcase/copyicon.png')}/></span>  </p>                                        
-                                        <p>
-                                            I wanted to connect you with Bart Leijssenaar of Tunga (cc), which helps companies build 
-                                             software and find good developers. Their mission is to create tech jobs for African youths</p>. 
-                                        <p>I think this could be interesting for you and a contact would be mutually beneficial. I’ll let you guys take it from here.</p>   
-                                        </textarea> 
+                                    <div className="col-md-10 col-md-offset-2">                     
+                                        <textarea type="text" className="form-control rectangle-field" rows="10" name="emailcc" placeholder="Hey,I wanted to connect you with Bart Leijssenaar of Tunga (cc), which helps companies build software and find good developers. Their mission is to create tech jobs for African youths. I think this could be interesting for you and a contact would be mutually beneficial. I’ll let you guys take it from here."></textarea> 
                                     </div>                       
-                                </div>
-                                </div>                                
-                                <div className="col-md-4">
-                                    <select class="form-control">
-                                        <option selected><span className="pull-right"><img src={require('images/showcase/English.png')}/></span></option>
-                                        <option><span className="pull-right"><img src={require('images/showcase/Dutch.png')}/></span></option>
-                                    </select>
                                 </div>                            
                         </form>
-                       
                         </div>
                     </div>
                     <div className="col-md-4">
