@@ -26,7 +26,7 @@ class FriendOfTungaPage extends ComponentWithModal {
         <h2> Become a Friend of Tunga by referring leads to us. For each lead that becomes a paying customer we donate 5% up to EUR1,000 to <a href="">Bits Academy</a>, a network of schools that gives free tech education to African youths from less privileged backgrounds</h2>
         <h2 style={{ 'text-decoration':'underline'}}>
             <Link to="/friends-of-tunga-rules">
-            Schedule a call now
+               How it works in detail
            </Link>
         </h2>
       </div>
