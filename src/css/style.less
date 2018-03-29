@@ -73,6 +73,11 @@ textarea,
   }
 }
 
+.under-line{
+  width: 200px;
+  border: solid 3px #ee1f54;
+}
+
 blockquote {
   padding: 5px 10px;
   margin: 0 0 15px;
@@ -3190,7 +3195,7 @@ form[name='compose'] {
 
 .showcase {
   color: @showcase-text;
-  height: 100%;
+  // height: 100%;
 
   img {
     max-width: 100%;
@@ -3213,7 +3218,7 @@ form[name='compose'] {
       font-weight: 600;
       margin-bottom: 30px;
     }
-
+  
     > p {
       .font-size(1.8);
       font-weight: 300;
@@ -3335,9 +3340,9 @@ form[name='compose'] {
   }
 
   .btn-callout {
-    .font-size(1.4);
-    font-weight: 300;
-    padding: 8px 25px;
+    .font-size(1.7);
+    font-weight: 500;
+    padding: 14px 64px;
     margin-top: 20px;
   }
 
@@ -3360,6 +3365,11 @@ form[name='compose'] {
 
     #social {
       text-align: center;
+
+      .footer-address{
+        line-height:0.7;
+        padding:30px 0;
+      }
     }
 
     #tunga-logo-btm img {
@@ -3460,10 +3470,13 @@ form[name='compose'] {
           text-align: center;
           width: 100%;
           padding: 20px;
-          margin-bottom: 10px;
+          // margin-bottom: 10px;
           min-height: 100px;
           text-decoration: none;
           border-radius: 5px;
+            //background-color: #ffffff;
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+ 
 
           .icon {
             .font-size(9.0);
@@ -3539,8 +3552,26 @@ form[name='compose'] {
     border-radius: 5px;
   }
 
-  #contact-info {
-    text-align: center;
+  #contact-info {    
+    color: #ffffff;
+    text-align:left;
+    h4{
+      font-size:20px;
+      text-align:left;
+    }
+    
+    .list-info{
+      list-style-type:none;     
+      margin-left: -30px;  
+      a{
+        font-size: 14px;
+      }  
+ 
+    }
+    p{
+      padding-left:10px;
+      font-size: 14px;
+    }
   }
 
   #latest-from-blog {
@@ -4860,26 +4891,172 @@ form[name='compose'] {
   }
 }
 
+.showcase.friends-page{
+  background-color: @inactive-grey;
+
+  header {
+    min-height: 50%;    
+    height: 400px;
+    background-image: url('../images/showcase/Friends-of-Tunga.jpg');
+
+    div > 
+      {
+        h1{
+          font-weight: 500;
+          font-size:36px;
+          margin-bottom: 0;
+      }
+      h2{
+        font-size: 18px;
+        margin-bottom: 50px;
+      }
+ 
+    }
+  }
+
+  .content > .container{
+    padding-right:0;
+    padding-left:0;
+    
+        p{
+          font-size:16px;
+        } 
+        .rectangle{
+          height: 100px;
+          background-color: #ffffff;
+          box-shadow: 0 2px 4px 0 rgba(42, 42, 42, 0.5);
+          padding:10px 0;
+
+          .rectangle-icon{
+            width: 16.3px;
+            height: 2.5px;          
+            background-color: #777777;
+          }
+
+          .rectangle-text{
+            font-size: 16px;
+            font-weight: normal;          
+            font-style: normal;          
+            font-stretch: normal;          
+            line-height: normal;          
+            letter-spacing: -0.7px;          
+            text-align: left;          
+            color: #444444;          
+            color: var(--greyish-brown);
+          }
+        }
+        .rectangle-form{
+          height: 400px;
+          background-color: #ffffff;        
+          box-shadow: 0 2px 4px 0 rgba(42, 42, 42, 0.5);
+          padding:20px 30px 0 0;
+
+          .form-group{
+            margin-right:0px;
+          }
+          .rectangle-field{
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px 0 rgba(191, 191, 191, 0.5);
+          }
+         
+        }
+
+        .rectangle-share{       
+          height: 400px;          
+          background-color: #ffffff;          
+          box-shadow: 0 2px 4px 0 rgba(42, 42, 42, 0.5);
+          padding:20px;
+          margin-top:55px;
+
+          .rectangle-social{
+            height: 40px;          
+            border-radius: 3px;          
+            background-color: #007ab8;
+            padding:15px,10px;
+          }
+          .rectangle-post{
+
+          }
+
+        }
+      
+
+  }
+
+  section.friends-options {
+    background-color: @inactive-grey;
+    margin-bottom: 0;
+
+    
+ 
+  }
+}
+
+.showcase.friends-rule-page{
+  header {
+    min-height: 50%;    
+    height: 250px;
+    background-image: url('../images/showcase/friends-of-Tunga.jpg'); 
+    
+    div > 
+      {
+        h1{
+          letter-spacing: -0.5px;
+          margin-top:40px;
+      }
+    }
+ 
+  }
+  .content{ 
+     .container{
+     text-align:left;
+     font-size:16px;
+     padding:0px auto;
+     line-height:normal;
+    }
+  }
+}
+
 .showcase.pricing-page {
   background-color: @inactive-grey;
 
   header {
-    min-height: 50%;
+    min-height: 50%;    
     height: 400px;
     background-image: url('../images/showcase/pricing.jpg');
+
+    div > 
+      {
+        h1{
+          font-weight: 500;
+          font-size:36px;
+          margin-bottom: 0;
+      }
+      h2{
+        font-size: 18px;
+        margin-bottom: 80px;
+      }
+ 
+    }
+  }
+
+  .content > .container{
+    padding-right:0;
+    padding-left:0;
+
   }
 
   section.pricing-options {
     background-color: @inactive-grey;
     margin-bottom: 0;
 
-    > .container {
-      margin-bottom: -220px;
-    }
+    // > .container {
+    //   margin-bottom: -220px;
+    // }
 
     .pricing-table {
       position: relative;
-      top: -220px;
+     // top: 79px;
 
       .table-key {
         margin-top: 220px;
@@ -4897,6 +5074,7 @@ form[name='compose'] {
           padding: 0 10px;
         }
 
+       
         h2 {
           margin: 0 0 15px 0;
           padding: 10px 0 20px 0;
@@ -4904,12 +5082,13 @@ form[name='compose'] {
         }
 
         .perks {
-          margin-top: 25px;
+          margin-top: 20px;
           margin-bottom: 25px;
-          color: @primary;
+          // color: @primary;
+          text-align: center;
+          color: #323232;
           font-weight: 400;
           .font-size(1.6);
-
           .fa-times {
             color: @primary-text;
           }
@@ -4929,10 +5108,10 @@ form[name='compose'] {
       .tablekey,
       .perks {
         p {
-          padding: 5px 10px;
-          height: 45px;
+          padding: 3px 10px;
+          height: 30px;
           margin: 0;
-          line-height: 30px;
+          line-height: 25px;
 
           &:first-child,
           &:nth-child(10),
@@ -4952,13 +5131,16 @@ form[name='compose'] {
   }
 
   ul {
-    padding: 0;
+    //padding: 0;
 
     li {
+      
       .description {
-        min-height: 100px;
-
+        min-height: 100px;       
         p {
+          width:80%;
+          text-align:center;
+          margin:0 auto;
         }
       }
     }

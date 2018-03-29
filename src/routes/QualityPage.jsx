@@ -36,9 +36,27 @@ const STEP_DETAILS = [
 
 export default class QualityPage extends React.Component {
   renderHeaderContent() {
+
+    const divStyle={
+        'font-size': '18px',
+        'font-weight':' normal',
+        'font-style': 'normal',
+        'font-stretch': 'normal',
+        'line-height': 'normal',
+        'letter-spacing': 'normal',
+        'text-align': 'left',
+        color: '#ffffff',
+        'margin':'0px auto',
+    }
     return (
       <div>
         <h1>Our quality assurance program</h1>
+        <p style={divStyle}>We thoroughly select the brightest developers from the African continent. Tunga nourishes and constantly improve our community of developers by providing them with the tools and guidance they need to be even more successful.</p>
+        <p>
+          <Link to="/start/" className="btn btn-callout">
+            Schedule a call now
+           </Link>
+        </p>
       </div>
     );
   }
@@ -54,92 +72,12 @@ export default class QualityPage extends React.Component {
         <MetaTags title={meta_title} description={meta_description} />
 
         <div className="content">
-          <section>
-            <div className="container">
-              <div className="heading-2 text-center bold">
-                Tunga isn’t just a network of developers, Tunga is a community.<br />
-                We thoroughly select the brightest developers from the African
-                continent. Tunga nourish and constantly improve our community of
-                developers by providing them with the tools and guidance they
-                need to be even more successful.
-              </div>
-            </div>
-          </section>
-
-          <section id="press">
-            <div className="container ">
-              <Reveal effect="animated fadeInLeft">
-                <div>
-                  <ul className="press-links">
-                    <li>
-                      <a
-                        href="http://www.bbc.co.uk/news/world-africa-38294998"
-                        target="_blank">
-                        <img src={require('../images/press/bbc.png')} />
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="https://www.youtube.com/watch?v=v9uRtYpZDQs"
-                        target="_blank">
-                        <img
-                          src={require('../images/press/campus-party.png')}
-                        />
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="https://www.oneworld.nl/startup-tunga-lanceert-pilot-programma-voor-nieuw-soort-freelance-platform"
-                        target="_blank">
-                        <img src={require('../images/press/OWlogo.png')} />
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="http://trendwatching.com/blog/featured-innovator-tunga/"
-                        target="_blank">
-                        <img
-                          src={require('../images/press/trend-watching.png')}
-                        />
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="https://soundcloud.com/african-tech-round-up/a-chat-with-ernesto-spruyt-of-tungaio?in=african-tech-round-up/sets/quick-chats"
-                        target="_blank">
-                        <img
-                          src={require('../images/press/African-Tech-Round-Up.png')}
-                        />
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="http://spendmatters.com/2016/04/01/tunga-wip-of-the-week/"
-                        target="_blank">
-                        <img
-                          src={require('../images/press/Spend-Matters.png')}
-                        />
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="https://www.nabc.nl/africa-business-news/5/technology/377/tunga-founder-ernesto-spruyt-we-create-21st-century-jobs-in-africa"
-                        target="_blank">
-                        <img
-                          src={require('../images/press/netherlands-african-business-council.png')}
-                        />
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </Reveal>
-            </div>
-          </section>
 
           <section id="select-devs-section">
             <div className="container">
               <div className="section-heading text-center">
                 How we select the best developers
+                <hr className="under-line" />  
               </div>
             </div>
           </section>
@@ -226,16 +164,87 @@ export default class QualityPage extends React.Component {
                 </div>
               </div>
 
-              <div className="text-center">
+
+              {/* <div className="text-center">
                 <Link to="/start/" className="btn btn-callout btn-main-cta">
                   <i className="tunga-icon-rocket fa-lg" /> Get me started!
                 </Link>
-              </div>
+              </div> */}
+            </div>
+          </section>
+          
+          <section id="press">
+            <div className="container ">
+              <Reveal effect="animated fadeInLeft">
+                <div>
+                  <ul className="press-links">
+                    <li>
+                      <a
+                        href="http://www.bbc.co.uk/news/world-africa-38294998"
+                        target="_blank">
+                        <img src={require('../images/press/bbc.png')} />
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="https://www.youtube.com/watch?v=v9uRtYpZDQs"
+                        target="_blank">
+                        <img
+                          src={require('../images/press/campus-party.png')}
+                        />
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="https://www.oneworld.nl/startup-tunga-lanceert-pilot-programma-voor-nieuw-soort-freelance-platform"
+                        target="_blank">
+                        <img src={require('../images/press/OWlogo.png')} />
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="http://trendwatching.com/blog/featured-innovator-tunga/"
+                        target="_blank">
+                        <img
+                          src={require('../images/press/trend-watching.png')}
+                        />
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="https://soundcloud.com/african-tech-round-up/a-chat-with-ernesto-spruyt-of-tungaio?in=african-tech-round-up/sets/quick-chats"
+                        target="_blank">
+                        <img
+                          src={require('../images/press/African-Tech-Round-Up.png')}
+                        />
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="http://spendmatters.com/2016/04/01/tunga-wip-of-the-week/"
+                        target="_blank">
+                        <img
+                          src={require('../images/press/Spend-Matters.png')}
+                        />
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="https://www.nabc.nl/africa-business-news/5/technology/377/tunga-founder-ernesto-spruyt-we-create-21st-century-jobs-in-africa"
+                        target="_blank">
+                        <img
+                          src={require('../images/press/netherlands-african-business-council.png')}
+                        />
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </Reveal>
             </div>
           </section>
         </div>
 
-        <ShowCaseFooter />
+        <ShowCaseFooter/>
       </ShowcaseContainer>
     );
   }

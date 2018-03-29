@@ -10,224 +10,123 @@ import ShowCaseFooter from '../containers/ShowCaseFooter';
 import ComponentWithModal from '../components/ComponentWithModal';
 import MetaTags from '../components/MetaTags';
 
-import {
-  OFFER_REQUEST_ITEMS,
-  TASK_SCOPE_TASK,
-  TASK_SCOPE_PROJECT,
-} from '../constants/Api';
+import {OFFER_REQUEST_ITEMS, TASK_SCOPE_TASK, TASK_SCOPE_PROJECT} from '../constants/Api';
 import {openCalendlyWidget} from '../utils/router';
 
-let checkMark = <i className="fa fa-check" />;
+let checkMark = <i className="fa fa-check"/>;
 
-let crossMark = <i className="fa fa-times" />;
+let crossMark = <i className="fa fa-times"/>;
 
 const OFFER_DETAILS = [
   {
-    title: 'Tasks',
-    sub: 'Post your task on Tunga',
-    description: (
-      <div>
-        <p>Instant access to developers</p>
-        <p>Clean up your issue/features backlog</p>
-        <p>Get bugs squashed on the fly</p>
-      </div>
-    ),
-    icon: 'tunga-icon-do-it-yourself',
-    key: OFFER_REQUEST_ITEMS.self_guided,
-    cta: {
-      text: 'Get your task started',
-      link: `/start/?scope=${TASK_SCOPE_TASK}`,
-    },
-    perks: [
-      'FREE',
-      '€20/hr',
-      '< 8 hours',
-      '< 21 hours',
-      crossMark,
-      crossMark,
-      checkMark,
-      checkMark,
-      crossMark,
-      crossMark,
-      checkMark,
-      checkMark,
-      crossMark,
-    ],
-  },
-  {
     title: 'Projects',
-    sub: 'Post your project on Tunga',
-    description: (
-      <div>
-        <p>Have your app, website or service built</p>
-        <p>Get started quickly</p>
-        <p>No hefty fees</p>
-      </div>
+    description: ( 
+      <p>
+        Outsource entire software projects
+        Clean up your bugs/features backlog
+        Get started quickly
+      </p> 
     ),
-    icon: 'tunga-icon-intensive-guildance',
-    key: OFFER_REQUEST_ITEMS.onboarding,
-    cta: {
-      text: 'Get your project started',
-      link: `/start/?scope=${TASK_SCOPE_PROJECT}`,
-    },
     perks: [
-      'FREE',
+      'Development hours',
       '€20/hr',
-      '< 48 hours',
-      '> 3 months',
-      checkMark,
-      checkMark,
-      checkMark,
-      checkMark,
-      checkMark,
-      '€40/hr (optional)',
-      checkMark,
-      checkMark,
-      checkMark,
-    ],
-  },
-  {
-    title: 'Remote Team',
-    sub: 'Hire developers for your ongoing software need',
+      'Project management hours*',
+      '€40/hr',  
+      '*Project Management hours are Optional',
+    ]
+  }, {
+    title: 'Dedicated developers',
     description: (
-      <div>
-        <p>Integrate remote worker(s) in your team</p>
-        <p>Or build an entire remote team</p>
-        <p>Optional: let a Project manager coordinate</p>
-      </div>
-    ),
-    icon: 'tunga-icon-dedicated-monitor',
-    key: OFFER_REQUEST_ITEMS.project,
-    cta: {
-      text: 'Talk with us',
-      action: function() {
-        openCalendlyWidget();
-      },
-    },
+        <p>
+            Reinforce your team with remote developers
+            Full/part-time. Temporary/permanently.
+            Instant access to Africa’s best programmers
+        </p>
+    ), 
     perks: [
-      'FREE',
-      '€20/hr',
-      '< 5 days',
-      'Unlimited',
-      checkMark,
-      checkMark,
-      checkMark,
-      checkMark,
-      checkMark,
-      '€40/hr (optional)',
-      checkMark,
-      checkMark,
-      checkMark,
-    ],
-  },
+      'Development hours start',
+      '€19', 
+      '',
+      '',
+      'Schedule a call to find out more'
+    ]
+  }, {
+    title: 'Recruitment ',
+    description: (
+        <p>
+          Expand your team with African developers
+          Tap into our extensive developer network
+          Quickly find, select and recruit the best fit
+        </p>
+    ),
+    perks: [
+      'Custom pricing',
+      '',
+      '',  
+      '',    
+      'Schedule a call to find out more'
+    ]
+  }
 ];
 
 class PricingPage extends ComponentWithModal {
   renderHeaderContent() {
-    return (
+    return (     
       <div>
-        <h1>Flexible and affordable</h1>
-      </div>
-    );
-  }
-  //mobile
-  renderTableKey(){
-    return (
-      <div className="tablekey col-xs-8 hidden-lg hidden-md">
-        <p>Browse & Connect with developers</p>
-        <p>Hourly fee</p>
-        <p>Availability</p>
-        <p>Duration</p>
-        <p>Verified skills guarantee</p>
-        <p>Progress tracking</p>
-        <p>Quality tracking</p>
-        <p>Daily progress reports</p>
-        <p>Weekly progress reports</p>
-        <p>Dedicated Project Manager (optional)</p>
-        <p>Custom integrations (GitHub, Trello, Slack, GDrive)</p>
-        <p>Hassle free invoicing & payment</p>
-        <p>Agree on project sum beforehand</p>
-      </div>
-    );
-  }
-  //large devices
-  renderLgTableKey(){
-    return (
-      <div className="hidden-sm hidden-xs">
-        <p>Browse & Connect with developers</p>
-        <p>Hourly fee</p>
-        <p>Availability</p>
-        <p>Duration</p>
-        <p>Verified skills guarantee</p>
-        <p>Progress tracking</p>
-        <p>Quality tracking</p>
-        <p>Daily progress reports</p>
-        <p>Weekly progress reports</p>
-        <p>Dedicated Project Manager (optional)</p>
-        <p>Custom integrations (GitHub, Trello, Slack, GDrive)</p>
-        <p>Hassle free invoicing & payment</p>
-        <p>Agree on project sum beforehand</p>
+        <h1>High quality and service level at affordable fees</h1>
+        <h2>We calculate our fees transparently and stick with that. No excuses, no discussions, no additional costs</h2>
+        <p>
+          <Link to="/start/" className="btn btn-callout">
+            Schedule a call now
+           </Link>
+        </p>
       </div>
     );
   }
 
+ 
   render() {
     let meta_title = 'Tunga | Pricing';
-    let meta_description =
-      'Tunga offers flexible and affordable pricing. Choose from 3 different plans.';
+    let meta_description = 'Tunga offers flexible and affordable pricing. Choose from 3 different plans.';
 
     return (
       <ShowcaseContainer
         className="pricing-page"
         headerContent={this.renderHeaderContent()}>
-        <MetaTags title={meta_title} description={meta_description} />
+        <MetaTags title={meta_title} description={meta_description}/>
 
         <section className="pricing-options">
           <div className="container">
             <div className="pricing-table">
-              <div className="step-slider four-sm clearfix">
+              <div className="step-slider three-sm clearfix">
                 <ul>
-                  <li className="table-key">
+                  {/* <li className="table-key">
                     {this.renderLgTableKey()}
-                  </li>
+                  </li> */}
                   {OFFER_DETAILS.map((offer, idx) => {
                     return (
                       <li key={offer.key}>
                         <div className="slide">
-                          <h2>
+                          <h3>
                             {offer.title}
-                          </h2>
+                          </h3> 
+                          <hr className="under-line" />                    
                           <div className="description">
                             {offer.description}
                           </div>
                           <div className="clearfix perks">
-                            <div className="col-xs-4 col-lg-12">
-                              {offer.perks &&
-                              offer.perks.map(comp => {
-                                return (
-                                  <p>
-                                    {comp}
-                                  </p>
-                                );
-                              })}
+                            <div className="col-xs-12 col-md-12 col-lg-12">
+                              {offer.perks && offer
+                                .perks
+                                .map(comp => {
+                                  return (
+                                    <p>
+                                      {comp}
+                                    </p>
+                                  );
+                                })}
                             </div>
-                            {this.renderTableKey()}
-                          </div>
-                          <div>
-                            {offer.cta
-                              ? offer.cta.action
-                                ? <button
-                                    className="btn"
-                                    onClick={offer.cta.action.bind(this)}>
-                                    {offer.cta.text}
-                                  </button>
-                                : offer.cta.link
-                                  ? <Link to={offer.cta.link} className="btn">
-                                      {offer.cta.text}
-                                    </Link>
-                                  : null
-                              : null}
-                          </div>
+                          </div>      
                         </div>
                       </li>
                     );
@@ -236,8 +135,15 @@ class PricingPage extends ComponentWithModal {
               </div>
             </div>
           </div>
+          <div className="container">
+          <p className="text-center">
+          <Link to="/start/" className="btn btn-callout">
+            Schedule a call now
+           </Link>
+        </p>
+          </div>
         </section>
-        <ShowCaseFooter />
+        <ShowCaseFooter/>
       </ShowcaseContainer>
     );
   }
@@ -249,7 +155,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    UtilityActions: bindActionCreators(UtilityActions, dispatch),
+    UtilityActions: bindActionCreators(UtilityActions, dispatch)
   };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(PricingPage);
