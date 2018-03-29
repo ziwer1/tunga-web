@@ -64,18 +64,6 @@ class ShowcaseContainer extends React.Component {
               </video>
             : null}
           {this.props.headerVideo ? <div className="video-overlay" /> : null}
-          {this.props.hasArrow
-            ? <div className="arrow-overlay">
-                <div className="ribbon" />
-                <div
-                  className="pointer text-center"
-                  onClick={e => {
-                    $('body').animate({scrollTop: '+=300'});
-                  }}>
-                  show me how it works
-                </div>
-              </div>
-            : null}
           <Affix affixClassName="navbar-fixed-top" offsetTop={60}>
             <nav className={`navbar navbar-fixed-top ${this.props.hasGlassNav?'navbar-glass':''}`}>
               <div className="navbar-header">
@@ -105,15 +93,6 @@ class ShowcaseContainer extends React.Component {
                   </ul>
                 ):(
                   <ul className="nav navbar-nav navbar-right nav-actions">
-                    <li className="schedule">
-                      <a
-                        className="primary"
-                        onClick={() => {
-                        openCalendlyWidget();
-                      }}>
-                        <i className="fa fa-phone"/> Schedule a call with us
-                      </a>
-                    </li>
                     <li className="launch">
                       <Link className="primary" to="/start/">
                         <i className="tunga-icon-rocket fa-lg" /> Start your
@@ -156,10 +135,8 @@ class ShowcaseContainer extends React.Component {
               </div>
             </nav>
           </Affix>
-          <div className="content">
-            <div className="container">
+          <div className="container">
               {this.props.headerContent}
-            </div>
           </div>
         </header>
 

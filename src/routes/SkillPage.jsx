@@ -15,6 +15,7 @@ import {nl_to_br} from '../utils/html';
 import Progress from '../components/status/Progress';
 import {Button, Form, FormControl, FormGroup} from "react-bootstrap";
 import Avatar from "../components/Avatar";
+import {Link} from "react-router";
 
 class SkillPage extends React.Component {
   constructor(props) {
@@ -121,42 +122,44 @@ class SkillPage extends React.Component {
 
     return (
       <div className="row">
-        <div className="col-sm-offset-1 col-sm-10">
-          <div className="pitch">
-            <h1>
-              {isSkillPage && skill_page.welcome_header
-                ? <h1
-                  dangerouslySetInnerHTML={{
-                    __html: nl_to_br(skill_page.welcome_header),
-                  }}
-                />
-                : <h1>
-                  Getting software projects done is hard.<br/>
-                  We make it easy REALLY.
-                </h1>}
-            </h1>
-            <div className="details">
-              {isSkillPage && skill_page.welcome_sub_header
-                ? <p
-                  dangerouslySetInnerHTML={{
-                    __html: nl_to_br(skill_page.welcome_sub_header),
-                  }}
-                />
-                : <p>
-                  Tunga enables you to have super-bright{' '}
-                  {this.getDLPDesc() || 'developers'} from Africa work on your
-                  software project in a productive, friendly and worthwhile
-                  way.
-                </p>}
-            </div>
-            <div className="details">
-              <a className="btn btn-callout btn-main-cta" href="/call/">
-                <i className="tunga-icon-rocket"/>Schedule a call</a>
-            </div>
-          </div>
+        <div className="col-lg-10 skill-page skill-header">
+          {isSkillPage && skill_page.welcome_header
+            ? <h1
+              dangerouslySetInnerHTML={{
+                __html: nl_to_br(skill_page.welcome_header),
+              }}
+            />
+            : <h1>
+              Getting software projects done is hard.<br/>
+              We make it easy REALLY.
+            </h1>}
         </div>
+        <div className="col-sm-5 skill-page sub_header ">
+          {isSkillPage && skill_page.welcome_sub_header
+            ? <p
+              dangerouslySetInnerHTML={{
+                __html: nl_to_br(skill_page.welcome_sub_header),
+              }}
+            />
+            : <p>
+              Tunga enables you to have super-bright{' '}
+              {this.getDLPDesc() || 'developers'} from Africa work on your
+              software project in a productive, friendly and worthwhile
+              way.
+            </p>}
+        </div>
+        <div className="col-sm-12">
+          {/*clearing grid hack*/}
+        </div>
+        <div className="col-sm-5">
+          <div>
+            <a className="btn skill-page schedule_call" href="/call/">
+              Schedule a call</a>
+          </div>
 
+        </div>
       </div>
+
     );
   }
 
@@ -201,15 +204,17 @@ class SkillPage extends React.Component {
           ? <Progress/>
           : <div>
             {isSkillPage
-              ? <section id="pitch">
+              ? <section className="skill-page skill-pitch">
                 <div className="container">
-                  <div className="col-sm-8 ">
+                  <div className="col-sm-8 skill-page pitch_header">
                     {skill_page.pitch_header}
                   </div>
                   <div className="col-sm-5">
                     <hr className="hr-tunga"/>
                   </div>
-                  <div className="col-sm-8">
+                  <div className="col-sm-12">
+                  </div>
+                  <div className="col-sm-7 skill-page pitch_body">
                     {skill_page.pitch_body}
                   </div>
                   {skill_page.pitch_image ?
@@ -221,41 +226,8 @@ class SkillPage extends React.Component {
 
                 </div>
               </section>
-              : <div>
-                <section id="platform-info">
-                  <div className="container">
-                    <div className="row">
-                      <div className="col-md-6">
-                        <div className="workflow">
-                          <div className="section-heading">
-                            How we make it easy
-                          </div>
-                          <p>
-                            Finding great developers is hard nowadays, it is
-                            a journey that often takes too much time and
-                            money. We're here to help. Tunga not only gives
-                            you flexible access to a community of highly
-                            committed developers and at affordable rates, we
-                            also have a simple process in place to make sure
-                            you can stay on top of quality and planning. We
-                            get that you want to have overview at all times
-                            over the progress of your project. That is why
-                            Tunga offers unique automated features that will
-                            allow you to smoothly build great products in a
-                            cost effective way. Triggered?{' '}
-                            <a href="#">
-                              <p>Talk with us</p>
-                            </a>
-                          </p>
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                      </div>
-                    </div>
-                  </div>
-                </section>
-              </div>}
-            <section id="press">
+              : null}
+            <section id="press" className="skill-page">
               <div className="container ">
                 <Reveal effect="animated fadeInLeft">
                   <div>
@@ -334,11 +306,11 @@ class SkillPage extends React.Component {
               </div>
             </section>
 
-            <section>
+            <section className="skill-page skill_content">
               <div className="container">
                 <div className="row skill-page">
 
-                  <div className="col-md-offset-2 col-md-8 section-heading">
+                  <div className="col-md-offset-2 col-md-8 content_header">
                     <p>{skill_page.content_header}</p>
                   </div>
 
@@ -358,6 +330,11 @@ class SkillPage extends React.Component {
                     </p>
                   </div>
 
+                  <div className="col-md-12 skill-page content_schedule_call">
+                    <a className="btn btn-callout" href="/call/">
+                      Schedule a call with us</a>
+                  </div>
+
 
                 </div>
               </div>
@@ -370,33 +347,25 @@ class SkillPage extends React.Component {
                     {skill_page.profiles.map(profile => {
                       return (
                         <div className="col-sm-4">
-                          <div className="card user-card">
-                            <Avatar
-                              src={profile.user.avatar_url}
-                              size="xl"
-                            />
-                            <div className="name">
-                              {profile.user.display_name}
+                          <div className="col-sm-12 skill-page card user-card">
+                            <div className="skill-page skill-profile-avatar">
+                              <Avatar
+                                src={profile.user.avatar_url}
+                                size="large"
+                              />
                             </div>
-                            <div>
-                              {profile.user.profile &&
-                              (profile.user.profile.city ||
-                                profile.user.profile.country_name)
-                                ? `${profile.user.profile
-                                  .city}, ${profile.user.profile
-                                  .country_name}`
-                                : null}
-                            </div>
-                            <div className="skills">
-                              {this.reorderProfileSkills(profile.user.profile.skills)
-                                .slice(0, 3)
-                                .map(skill => {
-                                  return (
-                                    <span>
-                                                {skill.name}
-                                              </span>
-                                  );
-                                })}
+
+                            <div className="col-sm-12 skill-page skill-profile-name">
+                              <p><strong>{profile.user.display_name}</strong>
+                                <br/>
+                                {profile.user.profile &&
+                                (profile.user.profile.city ||
+                                  profile.user.profile.country_name)
+                                  ? `${profile.user.profile
+                                    .city}, ${profile.user.profile
+                                    .country_name}`
+                                  : null}
+                              </p>
                             </div>
                             <div
                               className="intro"
@@ -404,13 +373,104 @@ class SkillPage extends React.Component {
                                 __html: nl_to_br(profile.intro),
                               }}
                             />
+                            <div className="skill-page skill-profile-skills">
+                              {profile.user.profile && profile.user.profile.skills ?
+                                <div>
+                                  {this.reorderProfileSkills(profile.user.profile.skills)
+                                    .slice(0, 5)
+                                    .map(skill => {
+                                      return (
+                                        <span className="skill-profile-skills-items">
+                                                    {skill.name}
+                                                  </span>
+                                      );
+                                    })}
+                                </div> : null}
+
+                            </div>
+                            <div className="skill-page skill-profile-url">
+                              {profile.user.profile && profile.user.profile.skills ?
+                                <a href={'/developer/' + profile.user.username}>View full profile</a>
+                                : null}
+                            </div>
                           </div>
+
                         </div>
                       );
                     })}
                   </div>
                 </div>
-              </section> : null}
+              </section>
+              :
+              null}
+
+            <section id="story">
+              <div className="container">
+                <div
+                  className="section-heading text-center"
+                  dangerouslySetInnerHTML={{
+                    __html: nl_to_br(skill_page.story_header),
+                  }}
+                />
+                <div
+                  className="readable"
+                  dangerouslySetInnerHTML={{
+                    __html: skill_page.story_body_one,
+                  }}
+                />
+              </div>
+              <div
+                id="story-interlude-one" className="skill-page story_interlude"
+                style={
+                  skill_page.story_interlude_one_image
+                    ? {
+                      backgroundImage: `url(${skill_page.story_interlude_one_image})`,
+                    }
+                    : {}
+                }>
+                <div className="container">
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: nl_to_br(skill_page.story_interlude_one_text),
+                    }}
+                  />
+                </div>
+              </div>
+              <div className="container">
+                <div
+                  className="readable"
+                  dangerouslySetInnerHTML={{
+                    __html: skill_page.story_body_two,
+                  }}
+                />
+              </div>
+
+              <div
+                id="story-interlude-two" className="skill-page story_interlude"
+                style={
+                  skill_page.story_interlude_two_image
+                    ? {
+                      backgroundImage: `url(${skill_page.story_interlude_two_image})`,
+                    }
+                    : {}
+                }>
+                <div className="container">
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: nl_to_br(skill_page.story_interlude_two_text),
+                    }}
+                  />
+                </div>
+              </div>
+              <div className="container">
+                <div
+                  className="readable"
+                  dangerouslySetInnerHTML={{
+                    __html: skill_page.story_body_three,
+                  }}
+                />
+              </div>
+            </section>
 
             <section>
               <div className="container">
@@ -425,24 +485,22 @@ class SkillPage extends React.Component {
                   </div>
 
                   <div className="col-md-12">
-                    <div className="col-md-6">
+                    <div className="col-md-5">
                       <p>
-                        <strong>Kampala office:</strong></p>
-                      <p>
+                        <strong>Kampala office:</strong><br/>
                         Design Hub Kampala, 5th Street, Industrial Area, Kampala, Uganda
                       </p>
+                      <br/>
                       <p>
-                        <strong>Amsterdam office:</strong>
-                      </p>
-                      <p>
+                        <strong>Amsterdam office:</strong><br/>
                         The Collab, Wibautstraat 131, 1091 GL Amsterdam, The Netherlands
                       </p>
-
+                      <br/>
                       <p>
-                        <strong>Lagos office:</strong></p>
-                      <p>
+                        <strong>Lagos office:</strong><br/>
                         Address, Street, postal code, Lagos, Nigeria
                       </p>
+                      <br/>
 
                       <p className="">hello@tunga.io</p>
                       <div>
@@ -475,7 +533,8 @@ class SkillPage extends React.Component {
               </div>
             </section>
 
-          </div>}
+          </div>
+        }
 
         <ShowCaseFooter/>
       </ShowcaseContainer>
