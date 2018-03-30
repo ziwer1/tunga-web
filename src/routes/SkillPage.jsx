@@ -227,8 +227,8 @@ class SkillPage extends React.Component {
                 </div>
               </section>
               : null}
-            <section id="press" className="skill-page">
-              <div className="container ">
+            <section className="skill-page" id='press-landing'>
+              <div className="container">
                 <Reveal effect="animated fadeInLeft">
                   <div>
                     <ul className="press-links">
@@ -311,7 +311,7 @@ class SkillPage extends React.Component {
                 <div className="row skill-page">
 
                   <div className="col-md-offset-2 col-md-8 content_header">
-                    <p>{skill_page.content_header}</p>
+                    <h2>{skill_page.content_header}</h2>
                   </div>
 
                   <div className="col-md-offset-4 col-md-4 col-md-offset-4">
@@ -342,61 +342,61 @@ class SkillPage extends React.Component {
 
             {skill_page.profiles && skill_page.profiles.length
               ? <section id="skill-profiles" className="skill-page skill-profile">
-                  <div className='col-md-offset-4 row'>
-                    {skill_page.profiles.map(profile => {
-                      return (
-                        <div className="col-sm-3 skill-profile-border">
-                          <div className="col-sm-12 skill-page card user-card">
-                            <div className="skill-page skill-profile-avatar">
-                              <Avatar
-                                src={profile.user.avatar_url}
-                                size="large"
-                              />
-                            </div>
-
-                            <div className="col-sm-12 skill-page skill-profile-name">
-                              <p><strong>{profile.user.display_name}</strong>
-                                <br/>
-                                {profile.user.profile &&
-                                (profile.user.profile.city ||
-                                  profile.user.profile.country_name)
-                                  ? `${profile.user.profile
-                                    .city}, ${profile.user.profile
-                                    .country_name}`
-                                  : null}
-                              </p>
-                            </div>
-                            <div
-                              className="intro"
-                              dangerouslySetInnerHTML={{
-                                __html: nl_to_br(profile.intro),
-                              }}
+                <div className='col-md-offset-4 row'>
+                  {skill_page.profiles.map(profile => {
+                    return (
+                      <div className="col-sm-3 skill-profile-border">
+                        <div className="col-sm-12 skill-page card user-card">
+                          <div className="skill-page skill-profile-avatar">
+                            <Avatar
+                              src={profile.user.avatar_url}
+                              size="large"
                             />
-                            <div className="skill-page skill-profile-skills">
-                              {profile.user.profile && profile.user.profile.skills ?
-                                <div>
-                                  {this.reorderProfileSkills(profile.user.profile.skills)
-                                    .slice(0, 4)
-                                    .map(skill => {
-                                      return (
-                                        <span className="skill-profile-skills-items">
-                                                    {skill.name}
-                                                  </span>
-                                      );
-                                    })}
-                                </div> : null}
-
-                            </div>
-                            <div className="skill-page skill-profile-url">
-                              {profile.user.profile && profile.user.profile.skills ?
-                                <a href={'/developer/' + profile.user.username}>View full profile</a>
-                                : null}
-                            </div>
                           </div>
 
+                          <div className="col-sm-12 skill-page skill-profile-name">
+                            <p><strong>{profile.user.display_name}</strong>
+                              <br/>
+                              {profile.user.profile &&
+                              (profile.user.profile.city ||
+                                profile.user.profile.country_name)
+                                ? `${profile.user.profile
+                                  .city}, ${profile.user.profile
+                                  .country_name}`
+                                : null}
+                            </p>
+                          </div>
+                          <div
+                            className="intro"
+                            dangerouslySetInnerHTML={{
+                              __html: nl_to_br(profile.intro),
+                            }}
+                          />
+                          <div className="skill-page skill-profile-skills">
+                            {profile.user.profile && profile.user.profile.skills ?
+                              <div>
+                                {this.reorderProfileSkills(profile.user.profile.skills)
+                                  .slice(0, 4)
+                                  .map(skill => {
+                                    return (
+                                      <span className="skill-profile-skills-items">
+                                                    {skill.name}
+                                                  </span>
+                                    );
+                                  })}
+                              </div> : null}
+
+                          </div>
+                          <div className="skill-page skill-profile-url">
+                            {profile.user.profile && profile.user.profile.skills ?
+                              <a href={'/developer/' + profile.user.username}>View full profile</a>
+                              : null}
+                          </div>
                         </div>
-                      );
-                    })}
+
+                      </div>
+                    );
+                  })}
                 </div>
               </section>
               :
@@ -500,7 +500,7 @@ class SkillPage extends React.Component {
                       </p>
                       <br/>
 
-                      <p className="">hello@tunga.io</p>
+                      <Link href="mailto:hello@tunga.io">hello@tunga.io</Link>
                       <div>
                         <a className="btn btn-callout" href="/call/">
                           Schedule a call with us</a>
@@ -516,13 +516,14 @@ class SkillPage extends React.Component {
                           <FormControl type="input" placeholder="Your email address"/>
                         </FormGroup>
                         <FormGroup>
-                          <FormControl componentClass="textarea" placeholder="Type your message here"/>
+                          <FormControl style={{height: "100px",}} componentClass="textarea"
+                                       placeholder="Type your message here"/>
                         </FormGroup>
                         <br/>
                         <br/>
                         <br/>
                         <div className="pull-right">
-                          <Button type="submit">Send</Button>
+                          <Button className="btn btn-callout" type="submit">Send</Button>
                         </div>
                       </Form>
                     </div>

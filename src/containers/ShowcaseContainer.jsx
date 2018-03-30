@@ -2,7 +2,6 @@ import React from 'react';
 import {Link} from 'react-router';
 import {Affix} from 'react-overlays';
 
-import {openCalendlyWidget} from '../utils/router';
 import {isTungaDomain} from '../utils/router';
 
 import ChatWindow from '../containers/ChatWindow';

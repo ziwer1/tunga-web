@@ -3335,9 +3335,9 @@ form[name='compose'] {
   }
 
   .btn-callout {
-    .font-size(1.4);
-    font-weight: 300;
-    padding: 8px 25px;
+    .font-size(1.6);
+    font-weight: 350;
+    padding: 15px 30px;
     margin-top: 20px;
   }
 
@@ -3593,12 +3593,14 @@ form[name='compose'] {
     }
   }
 
-  #press {
+  #press-landing {
+
     display: flex;
     align-items: center;
     background-color: @inactive-grey;
 
     .press-links {
+      margin-top: 20px;
       list-style-type: none;
       padding-left: 0;
       text-align: center;
@@ -4030,115 +4032,6 @@ form[name='compose'] {
     background-color: @inactive-grey;
   }
 
-  #clients-testmonial {
-    background-color: @active-white;
-    /*min-height: 65%;*/
-    display: flex;
-    align-items: center;
-    max-width: 100%;
-    color: @primary-text;
-
-    .testimonials-slider {
-      .testimonial {
-        .font-size(1.2);
-        padding: 20px 15px 0;
-
-        .body {
-          position: relative;
-          color: @primary-text;
-          .font-size(1.2);
-          font-weight: 300;
-          padding: 10px 10px;
-          height: 110px;
-          background: @inactive-grey;
-          margin: 4px;
-          border-radius: 5px;
-
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-
-          [class*='fa-quote'] {
-            .font-size(1.8);
-            color: @active-grey;
-          }
-        }
-
-        .body::after {
-          border: 20px solid transparent;
-          border-top-color: @inactive-grey;
-          content: '';
-          position: absolute;
-          bottom: -30px;
-          left: 44%;
-        }
-
-        .image {
-          position: relative;
-          width: 80px;
-          height: 80px;
-          margin: 20px auto 10px;
-          overflow: hidden;
-          border-radius: 50%;
-          background-size: cover;
-          background-position: center;
-        }
-
-        .author {
-          font-weight: 400;
-        }
-
-        .company {
-          font-weight: 100;
-        }
-
-        &.slick-center {
-          .font-size(1.4);
-          padding-top: 0;
-
-          .body {
-            .font-size(1.4);
-            padding: 15px 15px;
-            height: 140px;
-          }
-
-          .image {
-            width: 100px;
-            height: 100px;
-          }
-        }
-      }
-
-      .slick-next,
-      .slick-prev {
-        height: 50px;
-      }
-
-      .slick-prev:before,
-      .slick-next:before {
-        font-family: 'FontAwesome';
-        .font-size(4.8);
-        color: @active-grey;
-      }
-
-      .slick-prev:before {
-        content: "\f104";
-      }
-
-      .slick-next:before {
-        content: "\f105";
-      }
-
-      .slick-dots li button::before {
-        color: @active-white;
-      }
-
-      .slick-slide.animated {
-        animation-duration: 1.5s;
-      }
-    }
-  }
-
   #video-overlay {
     position: fixed;
     top: 0;
@@ -4383,6 +4276,115 @@ form[name='compose'] {
   }
 }
 
+#clients-testmonial-landing-page {
+  background-color: @active-white;
+  /*min-height: 65%;*/
+  display: block;
+  align-items: center;
+  max-width: 100%;
+  color: @primary-text;
+
+  .testimonials-slider {
+    .testimonial-landing-page {
+      .font-size(1.2);
+      padding: 20px 15px 0;
+
+      .body {
+        position: relative;
+        color: @primary-text;
+        .font-size(1.2);
+        font-weight: 300;
+        padding: 10px 10px;
+        height: 110px;
+        background: @inactive-grey;
+        margin: 4px;
+        border-radius: 5px;
+
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        [class*='fa-quote'] {
+          .font-size(1.8);
+          color: @active-grey;
+        }
+      }
+
+      .body::after {
+        border: 20px solid transparent;
+        border-top-color: @inactive-grey;
+        content: '';
+        position: absolute;
+        bottom: -30px;
+        left: 44%;
+      }
+
+      .image {
+        position: relative;
+        width: 80px;
+        height: 80px;
+        margin: 20px auto 10px;
+        overflow: hidden;
+        border-radius: 50%;
+        background-size: cover;
+        background-position: center;
+      }
+
+      .author {
+        font-weight: 400;
+      }
+
+      .company {
+        font-weight: 100;
+      }
+
+      &.slick-center {
+        .font-size(1.4);
+        padding-top: 0;
+
+        .body {
+          .font-size(1.4);
+          padding: 15px 15px;
+          height: 140px;
+        }
+
+        .image {
+          width: 100px;
+          height: 100px;
+        }
+      }
+    }
+
+    .slick-next,
+    .slick-prev {
+      height: 50px;
+    }
+
+    .slick-prev:before,
+    .slick-next:before {
+      font-family: 'FontAwesome';
+      .font-size(4.8);
+      color: @active-grey;
+    }
+
+    .slick-prev:before {
+      content: "\f104";
+    }
+
+    .slick-next:before {
+      content: "\f105";
+    }
+
+    .slick-dots li button::before {
+      color: @active-white;
+    }
+
+    .slick-slide.animated {
+      animation-duration: 1.5s;
+    }
+  }
+}
+
 .verified {
   text-align: center;
   .font-size(1.7);
@@ -4426,6 +4428,7 @@ form[name='compose'] {
 
 .showcase.task-wizard-page {
   .font-size(1.4);
+  font-weight: 350;
   color: @primary-text;
 
   header {
@@ -5177,7 +5180,13 @@ form[name='compose'] {
 }
 
 .skill-page {
+
+  h2 {
+    font-size: 24px;
+    font-weight: 500;
+  }
   .section-heading {
+    margin-top: 30px;
     text-align: center;
 
   }
@@ -5192,10 +5201,9 @@ form[name='compose'] {
   }
 
   .skill-header {
+    .font-size(4.3);
     padding-top: 40px;
-
-    font-size: 55px;
-    font-weight: 500;
+    font-weight: 450;
     color: @active-white;
   }
   .skill-header h1 {
@@ -5205,7 +5213,7 @@ form[name='compose'] {
   .sub_header {
     color: @active-white;
     font-size: 18px;
-    font-weight: 400;
+    font-weight: 350;
     margin-bottom: 20px;
   }
 
@@ -5217,6 +5225,8 @@ form[name='compose'] {
     font-size: 20px;
     font-weight: 500;
     padding-top: 20px;
+    background-color: #ee1f54;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
   }
   .skill-pitch {
     margin-top: 77px;
@@ -5226,6 +5236,7 @@ form[name='compose'] {
     font-weight: 500;
   }
   .content_header {
+    margin-top: 40px;
     font-size: 24px;
     font-weight: 500;
     text-align: center;
@@ -5233,6 +5244,7 @@ form[name='compose'] {
 
   .pitch_body {
     margin-top: 40px;
+    margin-bottom: 60px;
   }
 
   .skill_content {
@@ -5241,17 +5253,13 @@ form[name='compose'] {
     padding-bottom: 40px;
   }
 
-  #press {
-    background-color: @active-white;
-  }
-
   .content_schedule_call {
     margin-top: 50px;
     text-align: center;
   }
 
   .card {
-    height: 340px;
+    height: 350px;
     background: @active-white;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.11);
     border: 1px solid #ececec;
@@ -5279,6 +5287,7 @@ form[name='compose'] {
   }
 
   .skill-profile-skills {
+    margin-top: 10px;
     height: 71px;
     text-align: center;
   }
@@ -5438,6 +5447,11 @@ form[name='compose'] {
     margin-top: 30px;
     margin-bottom: 30px;
   }
+  .case-studies{
+    text-align: center;
+    font-size: 16px;
+  }
+
 }
 
 .showcase.blog-page {

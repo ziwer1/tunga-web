@@ -306,6 +306,7 @@ export class LandingPage extends ComponentWithModal {
         closeChat={this.state.closeChat}>
         <MetaTags title={meta_title} description={meta_description}/>
 
+
         <section className="new-landing-page">
           <div className="col-lg-4 new-landing-page software-section">
             <p className="principle-heading">Effortless software project</p>
@@ -313,7 +314,7 @@ export class LandingPage extends ComponentWithModal {
             <div className="col-md-offset-2 col-sm-8">
               <p>Need an app or website? We can build software for you on-demand and
                 turn-key.
-                 </p>
+              </p>
             </div>
           </div>
           <div className="col-lg-4 new-landing-page developers-section">
@@ -321,7 +322,7 @@ export class LandingPage extends ComponentWithModal {
             <br/>
             <div className="col-md-offset-2 col-sm-8">
               <p>Use Tunga to quickly mobilize developers. Parttime or fulltime. Individuals or entire teams.
-                 </p>
+              </p>
             </div>
           </div>
           <div className="col-lg-4 new-landing-page recruitment-section">
@@ -330,7 +331,7 @@ export class LandingPage extends ComponentWithModal {
             <div className="col-md-offset-2 col-sm-8">
 
               <p>Tap into our network of top African software programmers to reinforce your own tech team.
-                </p>
+              </p>
             </div>
           </div>
         </section>
@@ -457,7 +458,7 @@ export class LandingPage extends ComponentWithModal {
           </div>
 
         </section>
-        <section id="press">
+        <section id="press-landing">
           <div className="container">
             <Reveal effect="animated fadeInLeft">
               <div>
@@ -535,47 +536,60 @@ export class LandingPage extends ComponentWithModal {
             </Reveal>
           </div>
         </section>
-        <section id="clients-testmonial">
-          <div className="container">
-            <div className="section-heading text-center">
-              What our clients say
-            </div>
-            <Slider
-              className="testimonials-slider text-center"
-              {...slider_settings}>
-              {TESTIMONIALS.map(testimonial => {
-                return (
-                  <div className="testimonial">
-                    <div className="body">
-                      <div>
-                        <i className="fa fa-quote-left pull-left"/>
-                        <span
-                          dangerouslySetInnerHTML={{
-                            __html: testimonial.message,
-                          }}
-                        />
-                        <i className="fa fa-quote-right pull-right"/>
-                      </div>
-                    </div>
-                    <div
-                      className="image"
-                      style={{
-                        backgroundImage: `url(${testimonial.image})`,
-                      }}
-                    />
-                    <div className="author">
-                      {testimonial.name}
-                    </div>
-                    <div className="company">
-                      {testimonial.company}
-                    </div>
-                  </div>
-                );
-              })}
-            </Slider>
+        <section>
+          <div className="col-lg-12">
+
           </div>
         </section>
         <section>
+          <div className="container new-landing-page">
+            <div className="col-md-offset-2 col-md-8 case-studies">
+              <p>Case Studies</p>
+            </div>
+
+            <div className="col-md-offset-4 col-md-4 col-md-offset-5">
+              <hr className="hr-tunga"/>
+            </div>
+            <div id="clients-testmonial-landing-page" className="col-sm-12">
+              <Slider
+                className="testimonials-slider text-center"
+                {...slider_settings}>
+                {TESTIMONIALS.map(testimonial => {
+                  return (
+                    <div className="testimonial-landing-page">
+                      <div className="body">
+                        <div>
+                          <i className="fa fa-quote-left pull-left"/>
+                          <span
+                            dangerouslySetInnerHTML={{
+                              __html: testimonial.message,
+                            }}
+                          />
+                          <i className="fa fa-quote-right pull-right"/>
+                        </div>
+                      </div>
+                      <div
+                        className="image"
+                        style={{
+                          backgroundImage: `url(${testimonial.image})`,
+                        }}
+                      />
+                      <div className="author">
+                        {testimonial.name}
+                      </div>
+                      <div className="company">
+                        {testimonial.company}
+                      </div>
+                    </div>
+                  );
+                })}
+              </Slider>
+
+            </div>
+
+          </div>
+        </section>
+        <section className="skill-page">
           <div className="container">
             <div className="row new-landing-page">
 
@@ -587,7 +601,7 @@ export class LandingPage extends ComponentWithModal {
                 <hr className="hr-tunga"/>
               </div>
               <div className="col-lg-12">
-                <div className="col-lg-4 what-do-best">
+                <div className="col-lg-4 what-we-do-best">
                   <img src={require('../images/showcase/TungaMobileSkills.png')}/>
                 </div>
                 <div className="col-lg-4">
@@ -626,7 +640,7 @@ export class LandingPage extends ComponentWithModal {
                 <hr className="hr-tunga"/>
               </div>
 
-              <div className="col-md-12">
+              <div className="col-md-12 skill-page-contact-us">
                 <div className="col-md-5">
                   <p>
                     <strong>Kampala office:</strong><br/>
