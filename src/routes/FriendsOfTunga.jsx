@@ -257,15 +257,15 @@ class FriendOfTungaPage extends ComponentWithModal {
                                                         : <img src={require('images/showcase/Dutch.png')}/>}<span
                                                         className="caret"
                                                         style={{
-                'transform': 'rotate(90deg)'
+                'transform': 'rotate(90deg)', 'color':'black'
             }}></span>
                                                 </a>
                                                 <ul className="dropdown-menu">
                                                     <li>
                                                         <a onClick={this.handleLangSelection}>
                                                             {this.state.isEngLangSelected
-                                                                ? <img src={require('images/showcase/Dutch.png')}/>
-                                                                : <img src={require('images/showcase/English.png')}/>}</a>
+                                                                ? <div><img src={require('images/showcase/Dutch.png')}/>Dutch</div>
+                                                                : <div><img src={require('images/showcase/English.png')}/>English</div>}</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -274,7 +274,11 @@ class FriendOfTungaPage extends ComponentWithModal {
                                 </div>
                             </div>
                             <div className="col-md-4">
-                                <div className="rectangle-share" style={{'margin-top':'94px'}}>
+                                <div
+                                    className="rectangle-share"
+                                    style={{
+                                    'margin-top': '94px'
+                                }}>
                                     <div className="row">
                                         <div className="col-md-12">
                                             <a
@@ -290,19 +294,41 @@ class FriendOfTungaPage extends ComponentWithModal {
                                         <div className="col-md-12">
                                             <div
                                                 style={{
-                                                'padding-bottom': '23px 20px 23px',
+                                                'padding-top': '15px',
                                                 'font-size': '16px'
                                             }}>
                                                 <b>LinkedIn Post:</b>
-                                                <span className="pull-right" style={{'margin-right':'18px'}} >
-                                                    <ul
+
+                                                {this.state.isEngLangSelected
+                                                    ? <span
+                                                            className="pull-right"
+                                                            style={{
+                                                            'margin-right': '18px'
+                                                        }}>
+                                                            <ul
+                                                                style={{
+                                                                'list-style-type': 'none'
+                                                            }}>
+                                                                <li><a onClick={this.handleLangSelection} ><img className="Bitmap" src={require('images/showcase/English.png')}/></a></li>
+                                                                <li><a onClick={this.handleLangSelection} ><img onClick={this.handleLangSelection} className="Bitmap" src={require('images/showcase/Dutch.png')}/></a></li>
+                                                            </ul>
+                                                        </span>
+
+                                                    : <span
+                                                        className="pull-right"
                                                         style={{
-                                                        'list-style-type': 'none'
+                                                        'margin-right': '18px'
                                                     }}>
-                                                        <li><img className="Bitmap" src={require('images/showcase/English.png')}/></li>
-                                                        <li><img className="Bitmap" src={require('images/showcase/Dutch.png')}/></li>
-                                                    </ul>
-                                                </span>
+                                                        <ul
+                                                            style={{
+                                                            'list-style-type': 'none'
+                                                        }}>
+                                                            <li><img onClick={this.handleLangSelection} className="Bitmap" src={require('images/showcase/Dutch.png')}/></li>
+                                                            <li><img onClick={this.handleLangSelection} className="Bitmap" src={require('images/showcase/English.png')}/></li>
+                                                        </ul>
+                                                    </span>
+}
+
                                             </div>
                                             <div className="rectangle-post">
                                                 <p
