@@ -342,10 +342,10 @@ class SkillPage extends React.Component {
 
             {skill_page.profiles && skill_page.profiles.length
               ? <section id="skill-profiles" className="skill-page skill-profile">
-                  <div className='row'>
+                  <div className='col-md-offset-4 row'>
                     {skill_page.profiles.map(profile => {
                       return (
-                        <div className="col-sm-4 skill-profile-border">
+                        <div className="col-sm-3 skill-profile-border">
                           <div className="col-sm-12 skill-page card user-card">
                             <div className="skill-page skill-profile-avatar">
                               <Avatar
@@ -376,7 +376,7 @@ class SkillPage extends React.Component {
                               {profile.user.profile && profile.user.profile.skills ?
                                 <div>
                                   {this.reorderProfileSkills(profile.user.profile.skills)
-                                    .slice(0, 5)
+                                    .slice(0, 4)
                                     .map(skill => {
                                       return (
                                         <span className="skill-profile-skills-items">
