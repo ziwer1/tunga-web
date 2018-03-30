@@ -577,7 +577,7 @@ export class LandingPage extends ComponentWithModal {
         </section>
         <section>
           <div className="container">
-            <div className="row skill-page">
+            <div className="row new-landing-page">
 
               <div className="col-md-offset-2 col-md-8 section-heading">
                 <p>What we do best</p>
@@ -587,7 +587,7 @@ export class LandingPage extends ComponentWithModal {
                 <hr className="hr-tunga"/>
               </div>
               <div className="col-lg-12">
-                <div className="col-lg-4">
+                <div className="col-lg-4 what-do-best">
                   <img src={require('../images/showcase/TungaMobileSkills.png')}/>
                 </div>
                 <div className="col-lg-4">
@@ -627,24 +627,22 @@ export class LandingPage extends ComponentWithModal {
               </div>
 
               <div className="col-md-12">
-                <div className="col-md-6">
+                <div className="col-md-5">
                   <p>
-                    <strong>Kampala office:</strong></p>
-                  <p>
+                    <strong>Kampala office:</strong><br/>
                     Design Hub Kampala, 5th Street, Industrial Area, Kampala, Uganda
                   </p>
+                  <br/>
                   <p>
-                    <strong>Amsterdam office:</strong>
-                  </p>
-                  <p>
+                    <strong>Amsterdam office:</strong><br/>
                     The Collab, Wibautstraat 131, 1091 GL Amsterdam, The Netherlands
                   </p>
-
+                  <br/>
                   <p>
-                    <strong>Lagos office:</strong></p>
-                  <p>
+                    <strong>Lagos office:</strong><br/>
                     Address, Street, postal code, Lagos, Nigeria
                   </p>
+                  <br/>
 
                   <p className="">hello@tunga.io</p>
                   <div>
