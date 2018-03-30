@@ -658,7 +658,7 @@ export class LandingPage extends ComponentWithModal {
                   </p>
                   <br/>
 
-                  <p className="">hello@tunga.io</p>
+                  <Link href="mailto:hello@tunga.io">hello@tunga.io</Link>
                   <div>
                     <a className="btn btn-callout" href="/call/">
                       Schedule a call with us</a>
@@ -674,13 +674,14 @@ export class LandingPage extends ComponentWithModal {
                       <FormControl type="input" placeholder="Your email address"/>
                     </FormGroup>
                     <FormGroup>
-                      <FormControl componentClass="textarea" placeholder="Type your message here"/>
+                      <FormControl style={{height: "100px",}} componentClass="textarea"
+                                   placeholder="Type your message here"/>
                     </FormGroup>
                     <br/>
                     <br/>
                     <br/>
                     <div className="pull-right">
-                      <Button type="submit">Send</Button>
+                      <Button className="btn btn-callout" type="submit">Send</Button>
                     </div>
                   </Form>
                 </div>
