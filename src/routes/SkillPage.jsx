@@ -404,7 +404,7 @@ class SkillPage extends React.Component {
               :
               null}
 
-            <section id="story">
+            <section id="story" className="skill-page story_interlude_one_image">
               <div className="container">
                 <div
                   className="section-heading text-center"

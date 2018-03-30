@@ -249,21 +249,26 @@ export class LandingPage extends ComponentWithModal {
         <div className="tunga-logo-top">
           <img src={require('../images/logo_round.png')}/>
         </div>
-        <div
-          className='pull-left'>
-          <h1 className="pull-left">
-            <span>Unleasing Africa’s Tech Talent</span>
-          </h1>
-          <div className="details">
-              <span className="pull-left">
-                  Small and large businesses from all over the world use Tunga
+        <div className='new-landing-page-showcase'>
+
+          <div className='new-landing-page landing-header'>
+            <h1>
+              Unleasing Africa’s Tech Talent
+            </h1>
+            <div className="col-sm-5 new-landing-page sub_header">
+              <p>
+                Small and large businesses from all over the world use Tunga
                 for hiring African software engineers to address their most
                 pressing software development needs.
-                </span>
-          </div>
-          <div className="details pull-left">
-            <a className="btn btn-callout btn-main-cta" href="/call/">
-              <i className="tunga-icon-rocket"/>Schedule a call</a>
+              </p>
+            </div>
+            <div className="col-sm-12">
+              {/*clearing grid hack*/}
+            </div>
+            <div className="col-lg-5">
+              <a className="btn new-landing-page schedule_call" href="/call/">
+                Schedule a call</a>
+            </div>
           </div>
         </div>
       </div>
@@ -292,8 +297,6 @@ export class LandingPage extends ComponentWithModal {
     };
 
     let meta_title = 'Tunga | Software outsourcing done right';
-    let meta_description = `Getting software projects done is hard. We make it easy.`;
-
     return (
       <ShowcaseContainer
         className={`landing-page`}
@@ -305,20 +308,30 @@ export class LandingPage extends ComponentWithModal {
 
         <section className="new-landing-page">
           <div className="col-lg-4 new-landing-page software-section">
-            <span>Effortless software project</span>
-            <p>Need an app or website? We can build software for you on-demand and
-              turn-key.
-              find out more </p>
+            <p className="principle-heading">Effortless software project</p>
+            <br/>
+            <div className="col-md-offset-2 col-sm-8">
+              <p>Need an app or website? We can build software for you on-demand and
+                turn-key.
+                 </p>
+            </div>
           </div>
           <div className="col-lg-4 new-landing-page developers-section">
-            <span>Dedicated developers</span>
-            <p>Use Tunga to quickly mobilize developers. Parttime or fulltime. Individuals or entire teams.
-              find out more </p>
+            <p className="principle-heading">Dedicated developers</p>
+            <br/>
+            <div className="col-md-offset-2 col-sm-8">
+              <p>Use Tunga to quickly mobilize developers. Parttime or fulltime. Individuals or entire teams.
+                 </p>
+            </div>
           </div>
           <div className="col-lg-4 new-landing-page recruitment-section">
-            <span>Recruitment services</span>
-            <p>Tap into our network of top African software programmers to reinforce your own tech team.
-              find out more</p>
+            <p className="principle-heading">Recruitment services</p>
+            <br/>
+            <div className="col-md-offset-2 col-sm-8">
+
+              <p>Tap into our network of top African software programmers to reinforce your own tech team.
+                </p>
+            </div>
           </div>
         </section>
 
@@ -382,9 +395,9 @@ export class LandingPage extends ComponentWithModal {
         <section>
           <div>
             <div className="container">
-              <div className="row skill-page">
+              <div className="row new-landing-page">
 
-                <div className="col-md-offset-2 col-md-8 section-heading">
+                <div className="col-md-offset-2 col-md-8 development-style-heading">
                   <p>Software development Tunga-style</p>
                 </div>
 
@@ -392,14 +405,14 @@ export class LandingPage extends ComponentWithModal {
                   <hr className="hr-tunga"/>
                 </div>
 
-                <div className="col-lg-12">
+                <div className="col-md-offset-2 col-lg-8 development-style">
                   We have built a large pool of top African tech talent that
                   can be deployed flexibly and rapidly to help you meet your
                   specific software development needs.
 
                 </div>
 
-                <div className="col-lg-4">
+                <div className="col-lg-4 development-style-item">
 
                   <img
                     src={require('images/showcase/result-oriented.png')}
@@ -412,7 +425,7 @@ export class LandingPage extends ComponentWithModal {
 
 
                 </div>
-                <div className="col-lg-4">
+                <div className="col-lg-4 development-style-item">
 
                   <img
                     src={require('images/showcase/quality-assured.png')}
@@ -425,7 +438,7 @@ export class LandingPage extends ComponentWithModal {
                   </p>
 
                 </div>
-                <div className="col-lg-4">
+                <div className="col-lg-4 development-style-item">
 
                   <img
                     src={require('images/showcase/affortable.png')}
@@ -445,7 +458,7 @@ export class LandingPage extends ComponentWithModal {
 
         </section>
         <section id="press">
-          <div className="container ">
+          <div className="container">
             <Reveal effect="animated fadeInLeft">
               <div>
                 <ul className="press-links">
@@ -591,11 +604,11 @@ export class LandingPage extends ComponentWithModal {
 
         <section className="skill-page">
           <div id="story-interlude-one" className="skill-page story_interlude"
-            style={{backgroundImage:`url(${require('../images/showcase/verification_new.jpg')},)`}}>
+               style={{backgroundImage: `url(${require('../images/showcase/verification_new.jpg')},)`}}>
             <div className="container">
               <div>
                 <p>Meet our triving community of developers</p>
-                <p>Meet our triving community of developers</p>
+                <span>Find out how we select our developers and meet some of our talented experts.</span>
               </div>
             </div>
           </div>
@@ -668,6 +681,8 @@ export class LandingPage extends ComponentWithModal {
         <ShowCaseFooter/>
       </ShowcaseContainer>
     );
+
+    let meta_description = `Getting software projects done is hard. We make it easy.`;
   }
 }
 
