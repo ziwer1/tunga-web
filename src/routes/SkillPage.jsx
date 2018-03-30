@@ -341,12 +341,11 @@ class SkillPage extends React.Component {
             </section>
 
             {skill_page.profiles && skill_page.profiles.length
-              ? <section id="skill-profiles">
-                <div className="container">
-                  <div className="row">
+              ? <section id="skill-profiles" className="skill-page skill-profile">
+                  <div className='row'>
                     {skill_page.profiles.map(profile => {
                       return (
-                        <div className="col-sm-4">
+                        <div className="col-sm-4 skill-profile-border">
                           <div className="col-sm-12 skill-page card user-card">
                             <div className="skill-page skill-profile-avatar">
                               <Avatar
@@ -398,7 +397,6 @@ class SkillPage extends React.Component {
                         </div>
                       );
                     })}
-                  </div>
                 </div>
               </section>
               :
@@ -484,7 +482,7 @@ class SkillPage extends React.Component {
                     <hr className="hr-tunga"/>
                   </div>
 
-                  <div className="col-md-12">
+                  <div className="col-md-12 skill-page-contact-us">
                     <div className="col-md-5">
                       <p>
                         <strong>Kampala office:</strong><br/>
