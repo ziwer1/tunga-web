@@ -76,12 +76,16 @@ class PricingPage extends ComponentWithModal {
         <h1>High quality and service level at affordable fees</h1>
         <h2>We calculate our fees transparently and stick with that. No excuses, no discussions, no additional costs</h2>
         <p>
-          <Link to="/start/" className="btn btn-callout">
+          <a onClick={this.onScheduleCall.bind(this)}  className="btn btn-callout">
             Schedule a call now
-           </Link>
+           </a>
         </p>
       </div>
     );
+  }
+
+  onScheduleCall() {
+    openCalendlyWidget();
   }
 
  
@@ -137,9 +141,9 @@ class PricingPage extends ComponentWithModal {
           </div>
           <div className="container">
           <p className="text-center">
-          <Link to="/start/" className="btn btn-callout">
+          <a onClick={this.onScheduleCall.bind(this)}  className="btn btn-callout">
             Schedule a call now
-           </Link>
+           </a>
         </p>
           </div>
         </section>

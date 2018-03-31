@@ -6,6 +6,7 @@ import YouTube from 'react-youtube';
 import ShowcaseContainer from '../containers/ShowcaseContainer';
 import MetaTags from '../components/MetaTags';
 import ShowCaseFooter from '../containers/ShowCaseFooter';
+import {openCalendlyWidget} from '../utils/router';
 
 const STEP_DETAILS = [
   {
@@ -53,13 +54,18 @@ export default class QualityPage extends React.Component {
         <h1>Our quality assurance program</h1>
         <p style={divStyle}>We thoroughly select the brightest developers from the African continent. Tunga nourishes and constantly improve our community of developers by providing them with the tools and guidance they need to be even more successful.</p>
         <p>
-          <Link to="/start/" className="btn btn-callout">
+          <a onClick={this.onScheduleCall.bind(this)}  className="btn btn-callout">
             Schedule a call now
-           </Link>
+           </a>
         </p>
       </div>
     );
   }
+
+  onScheduleCall() {
+    openCalendlyWidget();
+  }
+
 
   render() {
     let meta_title = 'Tunga | Quality';
