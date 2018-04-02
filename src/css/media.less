@@ -6,21 +6,23 @@
 
 /*XTRA-XTRA SMALL*/
 @media (max-width: 479px) {
-        .showcase.friends-page .content > .container .rectangle-form {
-          height:100%;
+  
+  .showcase.friends-page .content > .container .rectangle-form {
+          height:100% !important;
+         
+          .rectangle-copied{
+            text-align: center !important;
+          }
+          .col-md-1{
+            position: absolute !important;
+            top: 2px !important;
+            right: -3px !important;
+          
+          }
       
       }
 
-    .showcase.friends-page .content > .container .rectangle-form {
-      height: 100%;  
-
-      .col-md-1{
-        position: absolute;
-        top: 2px;
-        right: -3px;
-      
-      }
-    }
+ 
  
 
 .showcase.friends-page header div h2 {
@@ -191,10 +193,6 @@
       text-align: center;
    }
 
-   .rectangle-form{
-    height:100%;
-    margin-bottom: 12px;
-  }
   #contact-info {    
     color: #ffffff;
     text-align:center;
@@ -218,9 +216,14 @@
     .rectangle-form{
       height:100%;
       margin-bottom: 12px;
-    }
-    .rectangle-form .form-horizontal .form-group {
+
+      .rectangle-copied{
+        position: relative;
+         left: 30px;
+      }
+      .form-horizontal .form-group {
         margin-left: 30px;
+      }
     }
  
     #linkedInPost{
@@ -252,30 +255,57 @@
       }
     }
     .rectangle-form{
-      height:100%;;
-    }
-    .rectangle-form .form-horizontal .form-group {
-        margin-left: 30px;
+      // height:100% !important;
+      //margin-bottom: 12px;
+      .rectangle-copied{
+        position: relative;
+        left: 40px;
+      }
+      .form-horizontal
+         .form-group {
+           margin-left: 30px;         
+      }
+
+      .col-md-1{
+        position: absolute;
+        top: -20px;
+        right: 3px;
+       }
     }
  
     #linkedInPost{
       text-align: center;
     }
 
-    .rectangle-form{
-      height:100%;
-      margin-bottom: 12px;
-    }
+ 
   }
 }
 
 @media (min-width: 640px) {
   .showcase.friends-page .content > .container .rectangle-form {
     /* height: 440px; */
-    background-color: #ffffff;
-    box-shadow: 0 2px 4px 0 rgba(42, 42, 42, 0.5);
-    padding: 31px 30px 0 0;
-}
+      background-color: #ffffff;
+      box-shadow: 0 2px 4px 0 rgba(42, 42, 42, 0.5);
+      padding: 31px 30px 0 0;
+
+      // height:100% !important;
+      // margin-bottom: 12px;
+
+      .rectangle-copied{
+        position: relative;
+        left: 30px;
+      }
+      .form-horizontal .form-group
+      {
+             margin-left: 30px;
+      } 
+      .col-md-1{
+        position: absolute;
+        right: -55px;
+        top: 50px;
+      }
+
+    }
   .modal-md.modal-dialog {
     width: 500px;
     margin-top: 80px;
@@ -284,39 +314,42 @@
   .task-form-dialog,
   .task-form-dialog.modal-dialog {
     width: 1000px;
-  }
-
-  .rectangle-form{
-    height:100%;
-  }
-  .rectangle-form .form-horizontal .form-group {
-      margin-left: 30px;
-  }
+  } 
 
   #linkedInPost{
     text-align: center;
   }
-
-  .rectangle-form{
-    height:100%;
-    margin-bottom: 12px;
-  }
+ 
+ 
 }
 
 /*SMALL SCREENS*/
 @media (min-width: 768px) {
-
-
-
- .form-horizontal .control-label {
-    text-align: right;
-}
-  .showcase.friends-page .content > .container .rectangle-form {
-    /* height: 440px; */
-    background-color: #ffffff;
-    box-shadow: 0 2px 4px 0 rgba(42, 42, 42, 0.5);
-    padding: 31px 30px 0 0;
+  .showcase.friends-page .content > .container .rectangle-form 
+    {
+      background-color: #ffffff;
+      box-shadow: 0 2px 4px 0 rgba(42, 42, 42, 0.5);
+      padding: 31px 30px 0 0;
+      margin-bottom: 12px;
+      .rectangle-copied{
+        position: relative;
+        left: -1px;
+      }
+      .form-horizontal {
+        .control-label {
+          text-align: left;
+          }
+     
+       .col-md-1{
+          position: absolute;
+          top: 50px;
+          right: -30px;
+          
+         }
+      }      
+    
     }
+   
   .flex-row.row {
     display: flex;
     flex-wrap: wrap;
@@ -896,6 +929,7 @@
   }
 }
 
+
 /*MEDIUM SCREENS*/
 @media (min-width: 992px) {
   .main {
@@ -1083,6 +1117,7 @@
     .content {
       .container {
         max-width: 1000px;
+       
       }
     }
 
@@ -1221,6 +1256,22 @@
 
       .container {
         max-width: 1000px;
+
+          .friends-page.content 
+            > .container .rectangle-form{
+              .form-horizontal{
+              .rectangle-copied{
+                position: relative;
+                left: 20px;
+              }      
+      
+              .col-md-1{
+                position: absolute !important ;
+                right: -20px  !important ;
+                top: 30px !important ;
+              }
+         }
+        }
       }
     }
   }

@@ -7,6 +7,7 @@ import ShowcaseContainer from '../containers/ShowcaseContainer';
 import MetaTags from '../components/MetaTags';
 import ShowCaseFooter from '../containers/ShowCaseFooter';
 import {openCalendlyWidget} from '../utils/router';
+import axios from 'axios';
 
 const STEP_DETAILS = [
   {
@@ -36,6 +37,41 @@ const STEP_DETAILS = [
 ];
 
 export default class QualityPage extends React.Component {
+
+  constructor(){
+    super();
+
+    this.state ={
+      sender_name:'',
+      sender_email:'',
+      sender_msg: ''
+    }
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(e){
+    this.setState({[e.target.name]:e.target.value});
+  }
+
+  async handleSubmit(e){
+    // prevent refresh
+    e.preventDefault();
+
+  
+    const{ sender_name, sender_email, sender_msg} = this.state;
+
+    const form = await axios.post('http://localhost:8000/app/sendmail',{
+      sender_name,
+      sender_email,
+      sender_msg
+    })  .then(res => {
+      const{ sender_name, sender_email, sender_msg} = res.data;
+      this.setState({sender_name, sender_email, sender_msg});
+    });
+  }
+
   renderHeaderContent() {
 
     const divStyle={
@@ -66,6 +102,7 @@ export default class QualityPage extends React.Component {
     openCalendlyWidget();
   }
 
+ 
 
   render() {
     let meta_title = 'Tunga | Quality';
@@ -83,7 +120,7 @@ export default class QualityPage extends React.Component {
             <div className="container">
               <div className="section-heading text-center">
                 How we select the best developers
-                <hr className="under-line" />  
+                <hr className="under-line" style={{'width': '600px', 'border':' solid 2px #ee1f54'}} />  
               </div>
             </div>
           </section>
@@ -246,6 +283,92 @@ export default class QualityPage extends React.Component {
                   </ul>
                 </div>
               </Reveal>
+            </div>
+          </section>         
+          <section className="quality-cv">
+            <div className="container">
+              <div className="row">
+                <div className="col-md-4">
+                  <div className="career">
+                    <p className="text-center"><img src="http://placehold.it/76x80" className="img-circle "/></p>
+                    <p className="text-center"><b>Acellam Guy</b></p>
+                    <p className="text-center">Kampala, Uganda</p>
+                    <p className="">
+                       Lorem ipsum dolor sit amet, consectetur 
+                       adipiscing elit, sed do eiusmod tempor incididunt 
+                       ut labore et dolore magna aliqua.
+                       Ut enim ad minim veniam, quis nostrud exercitation</p>
+                       <p><a className="btn">.NET</a><a className="btn">Android</a><a className="btn">AngularJS</a></p>
+                      <p><a className="btn">CakePHP</a><a className="btn">Codeigniter</a><a className="btn">ExpressJS</a></p>
+                      <p className="text-center"><b><a href="">View full profile</a></b></p>
+                    </div>
+                </div>
+                <div className="col-md-4">
+                <div className="career">
+                    <p className="text-center"><img src="http://placehold.it/76x80" className="img-circle "/></p>
+                    <p className="text-center"><b>Example Developer</b></p>
+                    <p className="text-center">Kampala, Uganda</p>
+                    <p className="">
+                       Lorem ipsum dolor sit amet, consectetur 
+                       adipiscing elit, sed do eiusmod tempor incididunt 
+                       ut labore et dolore magna aliqua.
+                       Ut enim ad minim veniam, quis nostrud exercitation</p>
+                       <p><a className="btn">.NET</a><a className="btn">Android</a><a className="btn">AngularJS</a></p>
+                      <p><a className="btn">CakePHP</a><a className="btn">Codeigniter</a><a className="btn">ExpressJS</a></p>
+                      <p className="text-center"><b><a href="">View full profile</a></b></p>
+                      </div>
+                </div>
+                <div className="col-md-4">
+                <div className="career">
+                    <p className="text-center"><img src="http://placehold.it/76x80" className="img-circle "/></p>
+                    <p className="text-center"><b>Enock Emudde</b></p>
+                    <p className="text-center">Kampala, Uganda</p>
+                    <p className="">
+                       Lorem ipsum dolor sit amet, consectetur 
+                       adipiscing elit, sed do eiusmod tempor incididunt 
+                       ut labore et dolore magna aliqua.
+                       Ut enim ad minim veniam, quis nostrud exercitation</p>
+                       <p><a className="btn">.NET</a><a className="btn">Android</a><a className="btn">AngularJS</a></p>
+                      <p><a className="btn">CakePHP</a><a className="btn">Codeigniter</a><a className="btn">ExpressJS</a></p>
+                      <p className="text-center"><b><a href="">View full profile</a></b></p>
+                </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section>
+            <div className="container reach-us">
+              <div className="row">
+                <p className="text-center find-us"><b>Where to find us</b></p>
+                <hr className="under-line" />
+                <div className="col-md-6">
+                  <div className="address-info">
+                    <p>Kampala office:</p>
+                     <p>Design Hub Kampala, 5th Street, Industrial Area, Kampala, Uganda</p>
+                    </div>
+                    <div className="address-info">
+                    <p>Amsterdam office:</p>
+                     <p>The Collab, Wibautstraat 131, 1091 GL Amsterdam, The Netherlands</p>
+                    </div>
+                    <div className="address-info">
+                    <p>Lagos office:</p>
+                     <p>Address, Street, postal code, Lagos, Nigeria</p>
+                    </div>
+                    <div className="address-info">
+                     <p style={{'color':'#ee1f54'}}>hello@tunga.io</p>
+                     <p><a className="btn" onClick={this.onScheduleCall.bind(this)} >Schedule a call with us </a></p>
+                    </div>
+                </div>
+                <div className="col-md-6">
+                  <form role="form" onSubmit={this.handleSubmit} className="email-form">
+                    <input onChange={this.handleChange} className="form-control" name="sender_name" type="text" placeholder="Bart leijssenaar" />
+                    <input onChange={this.handleChange} className="form-control" name="sender_email" type="email" placeholder="Your email address" />
+                    <textarea  onChange={this.handleChange} className="form-control" name="sender_msg" type="text" rows="4" placeholder="Type your message here"/>
+                    <button type="submit" className="btn pull-right"> Send</button>
+                  </form>
+
+                </div>
+              </div>
             </div>
           </section>
         </div>

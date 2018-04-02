@@ -50,7 +50,7 @@ class FriendOfTungaPage extends ComponentWithModal {
                 <h2>
                     Become a Friend of Tunga by referring leads to us. For each lead that becomes a
                     paying customer we donate 5% up to EUR1,000 to
-                    <a href="https://www.bitacad.net/"> Bits Academy</a>, a network of schools that gives free tech education
+                    <a href="http://bitsacademy.org/"> Bits Academy</a>, a network of schools that gives free tech education
                     to African youths from less privileged backgrounds</h2>
                 <h2
                     style={{
@@ -209,7 +209,7 @@ class FriendOfTungaPage extends ComponentWithModal {
                     <section className="container">
                         <div className="col-md-12 no-padding">
                             <div className="col-md-8 ">
-                                <div className="col-md-12  rectangle-form" style={ this.state.isEngLangSelected ?{}:{'height':'500px'}}>
+                                <div className="col-md-12  rectangle-form" style={ this.state.isEngLangSelected ?{}:{'height':'550px'}}>
                                     <div hidden={this.state.isCopied} className="rectangle-copied pull-right">
                                         <p className="text-center">Copied</p>
                                     </div>
@@ -318,7 +318,7 @@ class FriendOfTungaPage extends ComponentWithModal {
                                 </div>
                             </div>
                             <div className="col-md-4">
-                                <div className="rectangle-share" style={ this.state.isEngLangSelected ?{}:{'height':'500px'}}>
+                                <div className="rectangle-share" style={ this.state.isEngLangSelected ?{}:{'height':'550px'}}>
                                     <div className="row">
                                         <div id="linkedInPost" className="col-md-12">
                                             <a
