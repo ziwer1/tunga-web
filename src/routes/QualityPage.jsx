@@ -9,6 +9,10 @@ import ShowCaseFooter from '../containers/ShowCaseFooter';
 import {openCalendlyWidget} from '../utils/router';
 import axios from 'axios';
 
+// const PORT = process.env.SERVER_PORT || 8080
+// const HOST = process.env.SERVER_HOST || window.location.host.split(':')[0]
+// const SERVER_URL =`http://${HOST}:${PORT}/send-mail`
+
 const STEP_DETAILS = [
   {
     title: '1. Screening Portfolio',
@@ -62,7 +66,7 @@ export default class QualityPage extends React.Component {
   
     const{ sender_name, sender_email, sender_msg} = this.state;
 
-    const form = await axios.post('http://localhost:8000/app/sendmail',{
+    const form = await axios.post('/api/sendmail',{
       sender_name,
       sender_email,
       sender_msg

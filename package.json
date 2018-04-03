@@ -18,9 +18,9 @@
         "test": "echo \"No unit tests and e2e tests yet\" && exit 0"
 
     },
+    "proxy": "http://localhost:3000",
     "version": "0.1.0",
     "license": "MIT",
-    "proxy": "http://localhost:8081",
     "dependencies": {
         "Dante2": "^0.4.3",
         "animate.css": "^3.5.2",
