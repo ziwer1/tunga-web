@@ -42,7 +42,7 @@ class ShowcaseContainer extends React.Component {
           style={
             this.props.headerVideo
               ? {overflow: 'hidden', position: 'relative'}
-              : headerImage?{backgroundImage: `url(${headerImage})`}:null
+              : headerImage?{backgroundImage: `url(require(${headerImage}))`}:null
           }>
           {this.props.headerVideo
             ? <video
@@ -92,14 +92,8 @@ class ShowcaseContainer extends React.Component {
                   </ul>
                 ):(
                   <ul className="nav navbar-nav navbar-right nav-actions">
-                    <li className="launch">
-                      <Link className="primary" to="/start/">
-                        <i className="tunga-icon-rocket fa-lg" /> Start your
-                        project
-                      </Link>
-                    </li>
                     <li>
-                      <Link to="/signin" activeClassName="active">
+                      <Link to="/signin" activeClassName="active" className="primary">
                         Login
                       </Link>
                     </li>

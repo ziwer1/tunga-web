@@ -2,7 +2,6 @@ import React from 'react';
 import {Link} from 'react-router';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import YouTube from 'react-youtube';
 import Slider from 'react-slick';
 import Reveal from 'react-reveal';
 
@@ -10,26 +9,11 @@ import ShowcaseContainer from '../containers/ShowcaseContainer';
 import ShowCaseFooter from '../containers/ShowCaseFooter';
 import ComponentWithModal from '../components/ComponentWithModal';
 import MetaTags from '../components/MetaTags';
-import Avatar from '../components/Avatar';
 
-import Progress from '../components/status/Progress';
-
-import {
-  showCallWidget,
-  openCalendlyWidget,
-  isTungaDomain,
-} from '../utils/router';
+import {openCalendlyWidget, showCallWidget,} from '../utils/router';
 import {TESTIMONIALS} from '../constants/data';
 
 import * as SkillPageActions from '../actions/SkillPageActions';
-import {nl_to_br} from '../utils/html';
-
-import {
-  sendGAEvent,
-  GA_EVENT_CATEGORIES,
-  GA_EVENT_ACTIONS,
-  GA_EVENT_LABELS,
-} from '../utils/tracking';
 import {Button, Form, FormControl, FormGroup} from "react-bootstrap";
 
 const STEP_DETAILS = [
@@ -271,6 +255,39 @@ export class LandingPage extends ComponentWithModal {
             </div>
           </div>
         </div>
+        <div className="new-landing-page-services">
+          <section className="new-landing-page">
+            <div className="col-lg-4 new-landing-page software-section">
+              <p className="principle-heading">Effortless software project</p>
+              <br/>
+              <div className="col-md-offset-2 col-sm-8">
+                <p>Need an app or website? We can build software for you on-demand and
+                  turn-key.
+                </p>
+              </div>
+            </div>
+            <div className="col-lg-4 new-landing-page developers-section">
+              <p className="principle-heading">Dedicated developers</p>
+              <br/>
+              <div className="col-md-offset-2 col-sm-8">
+                <p>Use Tunga to quickly mobilize developers. Parttime or fulltime. Individuals or entire teams.
+                </p>
+              </div>
+            </div>
+            <div className="col-lg-4 new-landing-page recruitment-section">
+              <p className="principle-heading">Recruitment services</p>
+              <br/>
+              <div className="col-md-offset-2 col-sm-8">
+
+                <p>Tap into our network of top African software programmers to reinforce your own tech team.
+                </p>
+              </div>
+            </div>
+          </section>
+
+
+        </div>
+
       </div>
     );
   }
@@ -299,42 +316,13 @@ export class LandingPage extends ComponentWithModal {
     let meta_title = 'Tunga | Software outsourcing done right';
     return (
       <ShowcaseContainer
-        className={`landing-page`}
+        className={`new-landing-page`}
         headerContent={this.renderHeaderContent()}
         hasArrow={true}
         chatId={this.props.params ? this.props.params.chatId : null}
         closeChat={this.state.closeChat}>
         <MetaTags title={meta_title} description={meta_description}/>
 
-
-        <section className="new-landing-page">
-          <div className="col-lg-4 new-landing-page software-section">
-            <p className="principle-heading">Effortless software project</p>
-            <br/>
-            <div className="col-md-offset-2 col-sm-8">
-              <p>Need an app or website? We can build software for you on-demand and
-                turn-key.
-              </p>
-            </div>
-          </div>
-          <div className="col-lg-4 new-landing-page developers-section">
-            <p className="principle-heading">Dedicated developers</p>
-            <br/>
-            <div className="col-md-offset-2 col-sm-8">
-              <p>Use Tunga to quickly mobilize developers. Parttime or fulltime. Individuals or entire teams.
-              </p>
-            </div>
-          </div>
-          <div className="col-lg-4 new-landing-page recruitment-section">
-            <p className="principle-heading">Recruitment services</p>
-            <br/>
-            <div className="col-md-offset-2 col-sm-8">
-
-              <p>Tap into our network of top African software programmers to reinforce your own tech team.
-              </p>
-            </div>
-          </div>
-        </section>
 
         <section id="platform-info" className="new-landing-page">
           <div className="col-md-8">
@@ -458,6 +446,16 @@ export class LandingPage extends ComponentWithModal {
           </div>
 
         </section>
+
+        <section className="new-landing-page-meeting-developers" style={{backgroundImage: `url(${require('../images/showcase/verification_new.jpg')},)`}}>
+
+          <div>
+            <p>Meet our triving community of developers</p>
+            <p>Find out how we select our developers and meet some of our talented experts.
+            </p>
+          </div>
+
+        </section>
         <section id="press-landing">
           <div className="container">
             <Reveal effect="animated fadeInLeft">
@@ -578,7 +576,7 @@ export class LandingPage extends ComponentWithModal {
                         {testimonial.name}
                       </div>
                       <div className="company">
-                        {testimonial.company}
+                        <p>{testimonial.position} {testimonial.company}</p>
                       </div>
                     </div>
                   );
@@ -589,11 +587,77 @@ export class LandingPage extends ComponentWithModal {
 
           </div>
         </section>
-        <section className="skill-page">
+        <section id="partners">
           <div className="container">
-            <div className="row new-landing-page">
-
-              <div className="col-md-offset-2 col-md-8 section-heading">
+            <div className="new-landing-page-supported-by">
+              <p>Supported By:</p>
+            </div>
+            <Reveal effect="animated fadeInLeft">
+              <div>
+                <ul className="partner-links">
+                  <li>
+                    <a
+                      href="http://www.butterflyworks.org/"
+                      target="_blank"
+                      title="Butterfly Works">
+                      <img
+                        src={require('../images/partners/butterfly-works-logo.png')}
+                      />
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="https://www.dioraphte.nl/en/"
+                      target="_blank"
+                      title="Dioraphte">
+                      <img
+                        src={require('../images/partners/dioraphte.jpg')}
+                      />
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="https://www.oxfam.org/"
+                      target="_blank"
+                      title="Oxfam">
+                      <img src={require('../images/partners/oxfam.png')}/>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="http://www.doen.nl/about-doen/general.htm"
+                      target="_blank"
+                      title="the DOEN Foundation">
+                      <img src={require('../images/partners/DOEN.gif')}/>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="https://www.edukans.nl/"
+                      target="_blank"
+                      title="Edukans">
+                      <img src={require('../images/partners/edukans.jpg')}/>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="https://www.triodos.com/"
+                      target="_blank"
+                      title="Triodos Bank">
+                      <img
+                        src={require('../images/partners/triodos-bank.png')}
+                      />
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+        <section className="what-we-do-best">
+          <div className="container ">
+            <div className="row">
+              <div className="col-md-offset-2 col-md-8 what-we-do-best-heading">
                 <p>What we do best</p>
               </div>
 
@@ -601,7 +665,7 @@ export class LandingPage extends ComponentWithModal {
                 <hr className="hr-tunga"/>
               </div>
               <div className="col-lg-12">
-                <div className="col-lg-4 what-we-do-best">
+                <div className="col-lg-4">
                   <img src={require('../images/showcase/TungaMobileSkills.png')}/>
                 </div>
                 <div className="col-lg-4">
@@ -616,17 +680,6 @@ export class LandingPage extends ComponentWithModal {
           </div>
         </section>
 
-        <section className="skill-page">
-          <div id="story-interlude-one" className="skill-page story_interlude"
-               style={{backgroundImage: `url(${require('../images/showcase/verification_new.jpg')},)`}}>
-            <div className="container">
-              <div>
-                <p>Meet our triving community of developers</p>
-                <span>Find out how we select our developers and meet some of our talented experts.</span>
-              </div>
-            </div>
-          </div>
-        </section>
 
         <section>
           <div className="container">
@@ -654,7 +707,7 @@ export class LandingPage extends ComponentWithModal {
                   <br/>
                   <p>
                     <strong>Lagos office:</strong><br/>
-                    Address, Street, postal code, Lagos, Nigeria
+                    32 Barikisu Iyede street, Yaba, Lagos, Nigeria
                   </p>
                   <br/>
 
