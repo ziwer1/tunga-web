@@ -32,3 +32,5 @@ build
 tmp
 .idea
 .vscode
+.DS_Store
+.ansible/*.retry
