@@ -4,7 +4,7 @@ import 'babel-polyfill'; // Add Promises polyfill to global environment
 import 'react-widgets/lib/less/react-widgets.less';
 import 'css/tour.scss';
 //import 'react-joyride/lib/react-joyride.scss';
-import 'Dante2/dist/DanteStyles.css';
+//import 'Dante2/dist/DanteStyles.css';
 import 'css/style.less';
 
 import React from 'react';
