@@ -16,7 +16,6 @@
         "deploy": "cd .ansible && ansible-playbook deploy.yml -i env/prod && cd ..",
         "deploy:sandbox": "cd .ansible && ansible-playbook deploy.yml -i env/sandbox && cd ..",
         "test": "echo \"No unit tests and e2e tests yet\" && exit 0"
-
     },
     "proxy": "http://localhost:3000",
     "version": "0.1.0",
