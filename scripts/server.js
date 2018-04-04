@@ -37,7 +37,7 @@ app.post('/api/sendmail', (req, res) => {
                                 <tbody><tr>
                                     <td align="left" style="color: #888888; font-size: 16px; font-family: 'Fira Sans', sans-serif !important; line-height: 24px;">
                                         <p style="line-height: 24px; margin-bottom:15px;">
-                                        ${req.body.sender_name},
+                                        I am ${req.body.sender_name},
                                         </p>
                                         <p style="line-height: 24px;margin-bottom:15px;">
                                         ${req.body.sender_msg}  
@@ -69,8 +69,8 @@ app.post('/api/sendmail', (req, res) => {
             port: 465,
             secure: true,
             auth: {
-                user: 'Email',
-                pass: 'Your PassWord'
+                user: 'Your email',
+                pass: 'pass'
             }
         });
 

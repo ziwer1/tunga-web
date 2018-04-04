@@ -132,7 +132,7 @@ export default class StoryPage extends React.Component {
             <div className="container">
               <div className="section-heading text-center">
                 Our Mission: 21st Century Jobs for African Youths
-                <hr className="under-line" style={{width:'683px'}}/>
+                <hr className="under-line" style={{width:'683px',}}/>
               </div>
               <p>
               That’s why in 2015 we embarked on a mission to create 21st century jobs for African youths. With the support of institutions like Dioraphte, Oxfam, the DOEN Foundation, Edukans and Triodos Bank we started Tunga. To help talented African youths get access to the cool tech jobs that define this generation. So that they can become independent and make their mark in the international economic marketplace.

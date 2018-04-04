@@ -71,7 +71,7 @@ export default class QualityPage extends React.Component {
       sender_email,
       sender_msg
     })  .then(res => {
-      const{ sender_name, sender_email, sender_msg} = res.data;
+      const{ sender_name, sender_email, sender_msg} ='';
       this.setState({sender_name, sender_email, sender_msg});
     });
   }
