@@ -37,8 +37,7 @@ class FriendOfTungaPage extends ComponentWithModal {
             .bind(this);
         this.state = {
             isCopied: true,
-            isEngLangSelected: true,
-            isExpanded: false
+            isEngLangSelected: true
         };
     }
 
@@ -67,14 +66,13 @@ class FriendOfTungaPage extends ComponentWithModal {
         );
     }
 
-    handleHover() {}
 
     handleLangSelection() {
         this.setState(prevState => ({
             isEngLangSelected: !prevState.isEngLangSelected
         }));
     }
-
+ 
     handleCopyEmail(e) {
         e.preventDefault();
         var text = document.getElementById('email');
@@ -103,7 +101,7 @@ class FriendOfTungaPage extends ComponentWithModal {
 
     handleCopyText(e) {
         e.preventDefault();
-        var text = document.getElementById('text');
+        var text = document.getElementById('text-to-Copy');
         var range = document.createRange();
 
         range.selectNode(text);
@@ -161,7 +159,7 @@ class FriendOfTungaPage extends ComponentWithModal {
                                     <div className="text-container">
                                         <p>
                                             <b>Companies large and small
-                                            </b>that want to develop their app or website</p>
+                                            </b> that want to develop their app or website</p>
                                     </div>
                                 </div>
                             </div>
@@ -174,8 +172,8 @@ class FriendOfTungaPage extends ComponentWithModal {
                                         src={require('images/showcase/software teams.png')}/></div>
                                     <div className="text-container">
                                         <p>
-                                            <b>Software teams</b>
-                                            that have trouble finding flexible access to good developers</p>
+                                            <b>Software teams </b>
+                                             that have trouble finding flexible access to good developers</p>
                                     </div>
                                 </div>
                             </div>
@@ -188,8 +186,8 @@ class FriendOfTungaPage extends ComponentWithModal {
                                         src={require('images/showcase/Startups.png')}/></div>
                                     <div className="text-container">
                                         <p>
-                                            <b>Startups and innovation teams
-                                            </b>that need to build a prototype or MVP</p>
+                                            <b>Startups and innovation teams 
+                                            </b> that need to build a prototype or MVP</p>
                                     </div>
                                 </div>
                             </div>
@@ -211,7 +209,7 @@ class FriendOfTungaPage extends ComponentWithModal {
                         <div className="col-md-12 no-padding">
                             <div className="col-md-8 ">
                                 <div
-                                    className={`col-md-12  rectangle-form ${ this.state.isEngLangSelected ? '': ' add-height'}`} >
+                                    className={`col-md-12  rectangle-form ${ this.state.isEngLangSelected ? '': ''}`} >
                                     <div hidden={this.state.isCopied} className="rectangle-copied pull-right">
                                         <p className="text-center">Copied</p>
                                     </div>
@@ -252,7 +250,7 @@ class FriendOfTungaPage extends ComponentWithModal {
                                                             <a onClick={this.handleCopyText}><img src={require('images/showcase/copyicon.png')}/></a>
                                                         </div>
                                                         {this.state.isEngLangSelected
-                                                            ? <div id="text">
+                                                            ? <p id="text-to-Copy">
                                                                     <p>Hey,</p>
 
                                                                     <p>I wanted to connect you with Bart Leijssenaar of Tunga (cc), which helps
@@ -262,8 +260,8 @@ class FriendOfTungaPage extends ComponentWithModal {
 
                                                                     <p>
                                                                         I’ll let you guys take it from here.</p>
-                                                                </div>
-                                                            : <div id="text">
+                                                                </p>
+                                                            : <p id="text-to-Copy">
                                                                 <p>Hallo,</p>
 
                                                                 <p>Ik wilde je verbinden met Bart Leijssenaar van Tunga (cc), die bedrijven
@@ -273,7 +271,7 @@ class FriendOfTungaPage extends ComponentWithModal {
                                                                     voordelig zijn.</p>
 
                                                                 <p>Ik laat jullie het van hier afhalen.</p>
-                                                            </div>
+                                                            </p>
 }
 
                                                     </div>
@@ -308,7 +306,7 @@ class FriendOfTungaPage extends ComponentWithModal {
                                 </div>
                             </div>
                             <div className="col-md-4">
-                                <div className={`rectangle-share ${ this.state.isEngLangSelected ? '': ' add-height'}`}>
+                                <div className={`rectangle-share ${ this.state.isEngLangSelected ? '': ''}`}>
                                     <div className="row">
                                         <div id="linkedInPost" className="col-md-12">
                                             <a
