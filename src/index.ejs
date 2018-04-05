@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
 
-    <meta name="description" content="<%= htmlWebpackPlugin.options.site.description %>" data-react-helmet="true"/>
-    <title><%= htmlWebpackPlugin.options.site.title %></title>
+    <meta name="description" content="<%= htmlWebpackPlugin.options.site.description %>" data-react-helmet="true" />
+    <title>
+        <%= htmlWebpackPlugin.options.site.title %>
+    </title>
 
     <link rel="icon" href="https://tunga.io/favicon.ico">
     <link rel="icon" sizes="192x192" href="https://tunga.io/icons/Tunga_iconx192.png">
@@ -35,17 +38,17 @@
     <meta name="msapplication-square310x310logo" content="https://tunga.io/icons/Tunga_iconx310.png" />
 
     <!-- Open Graph Tags -->
-    <meta property="fb:app_id" content="<%= htmlWebpackPlugin.options.site.fb_app_id %>"  data-react-helmet="true"/>
-    <meta property="og:title" content="<%= htmlWebpackPlugin.options.site.title %>"  data-react-helmet="true"/>
-    <meta property="og:description" content="<%= htmlWebpackPlugin.options.site.description %>"  data-react-helmet="true"/>
-    <meta property="og:image" content="<%= htmlWebpackPlugin.options.site.images.hero %>"  data-react-helmet="true"/>
+    <meta property="fb:app_id" content="<%= htmlWebpackPlugin.options.site.fb_app_id %>" data-react-helmet="true" />
+    <meta property="og:title" content="<%= htmlWebpackPlugin.options.site.title %>" data-react-helmet="true" />
+    <meta property="og:description" content="<%= htmlWebpackPlugin.options.site.description %>" data-react-helmet="true" />
+    <meta property="og:image" content="<%= htmlWebpackPlugin.options.site.images.hero %>" data-react-helmet="true" />
 
     <!-- Twitter Card Tags -->
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@tunga_io" />
-    <meta name="twitter:title" content="<%= htmlWebpackPlugin.options.site.title %>"  data-react-helmet="true"/>
-    <meta name="twitter:description" content="<%= htmlWebpackPlugin.options.site.description %>"  data-react-helmet="true"/>
-    <meta name="twitter:image" content="<%= htmlWebpackPlugin.options.site.images.hero %>"  data-react-helmet="true"/>
+    <meta name="twitter:title" content="<%= htmlWebpackPlugin.options.site.title %>" data-react-helmet="true" />
+    <meta name="twitter:description" content="<%= htmlWebpackPlugin.options.site.description %>" data-react-helmet="true" />
+    <meta name="twitter:image" content="<%= htmlWebpackPlugin.options.site.images.hero %>" data-react-helmet="true" />
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
@@ -70,18 +73,17 @@
     <script src="https://calendly.com/assets/external/widget.js" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/1.8.5/countUp.min.js"></script>
     <script src="https://cdn.ravenjs.com/3.15.0/raven.min.js" crossorigin="anonymous"></script>
+    <script src="https://smtpjs.com/v2/smtp.js"></script>
 
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrNZwL5sT-XOZC9iCT-Z0Vaa7EDcs-Cfc&callback=initMap"
-  type="text/javascript"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrNZwL5sT-XOZC9iCT-Z0Vaa7EDcs-Cfc&callback=initMap" type="text/javascript"></script>
     <script type="text/javascript">
-      function initMap() {
-      }
+        function initMap() {}
     </script>
 
     <%- include analytics.ejs %>
 
-    <!-- HTML5 shim, Respond.js, es5-shim and console shim for IE8 support of HTML5 elements, media queries, ES5 syntax and console -->
-    <!--[if lt IE 9]>
+        <!-- HTML5 shim, Respond.js, es5-shim and console shim for IE8 support of HTML5 elements, media queries, ES5 syntax and console -->
+        <!--[if lt IE 9]>
 
     <script>
         (function(global) {
@@ -107,7 +109,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.3.1/es5-sham.min.js"></script>
     <![endif]-->
 </head>
+
 <body>
     <div id="content"></div>
 </body>
+
 </html>

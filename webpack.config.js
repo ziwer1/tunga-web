@@ -19,7 +19,7 @@ module.exports = {
         filename: '[name].js?v='+ common_config.hash,
         library: ['[name]'],
         pathInfo: true
-    },
+    },   
     module: {
         loaders: [
             { test: /\.coffee$/, loader: 'coffee-loader' },
@@ -56,6 +56,7 @@ module.exports = {
         historyApiFallback: true,
         hot: true,
         inline: true,
-        progress: true
-    }
+        progress: true           
+    } 
+    
 };

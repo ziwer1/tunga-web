@@ -6,6 +6,78 @@
 
 /*XTRA-XTRA SMALL*/
 @media (max-width: 479px) {
+  
+  .showcase.friends-page .content
+   >.container 
+      .rectangle-form {
+           height:100% !important;         
+            .rectangle-copied{
+              text-align: center !important;
+            }
+            .col-md-1{
+              position: absolute !important;
+              top: 2px !important;
+              right: -3px !important;            
+          }      
+ }
+ &.our-story-page {
+   header{
+        background-image: url('../images/showcase/OurStoryDevelopersWorking.jpg') !important;
+        object-fit: contain;
+ 
+    #story-header{
+      >h1{
+        font-size: 40px !important;
+      }
+    }
+  .content {
+    section {
+      .section-heading{
+        .under-line{
+          width: 100%;
+        }
+      }
+ 
+    }
+  }
+} 
+}
+
+&.quality-page{
+  header{
+    background-image: url('../images/showcase/QualityTungadevelopersmeetingmob.jpg') !important;
+    object-fit: contain;
+  #quality-header{
+    >h1{
+      font-size: 40px !important;
+    }
+     > p#sub-heading{
+          br{
+              display: none !important;
+            }
+          }
+    > p > a.btn-callout {
+      top: 81% !important;
+     }
+  }
+  }
+}
+ 
+ 
+
+.showcase.friends-page header{
+  #friends-header > 
+      {
+        h1{
+          font-size: 35px !important;          
+         
+      }
+
+      br{
+        display: none;
+      }
+     }
+    }
   .showcase {
     section {
       .media {
@@ -19,6 +91,14 @@
         .media-object {
           margin: 10px auto;
         }
+      }
+      #linkedInPost{
+        text-align: center;
+      }
+
+      .rectangle-form{
+        height:100%;
+        margin-bottom: 12px;
       }
     }
   }
@@ -60,9 +140,50 @@
       }
     }
   }
+  .showcase.pricing-page {  
+    header{  
+      background-image: url('../images/showcase/PricingTungadevelopersatwork.jpg') !important;
+      #pricing-header{
+        >h1{
+          font-size: 40px !important;
+        }
+   
+      }
+    }
+    .content > .container{
+      padding-right:15px;
+      padding-left:15px;
+      margin-right:auto;
+      margin-left:auto;
+    }
+
+ 
+  }
+
+  .showcase.friends-rule-page {  
+    header{  
+      background-image: url('../images/showcase/BitsacademyTungamobile.jpg') !important;
+      background-size: cover !important;
+      margin-bottom:  10px !important;
+
+      h1{
+        font-size:40px !important;
+      }
+    }
+  }
+
+ 
+ 
 }
 
 @media only screen and (max-width: 767px) {
+  .showcase.friends-page .content > .container .rectangle-form {
+    /*height: 440px; */
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px 0 rgba(42, 42, 42, 0.5);
+    padding: 31px 30px 0 0;
+}
+
   .showcase {
     .navbar {
       .navbar-toggle {
@@ -72,6 +193,7 @@
         margin-bottom: 0;
       }
     }
+
 
     &.landing-page {
       .navbar {
@@ -112,11 +234,58 @@
         box-shadow: 0 2px 4px 0 rgba(0,0,0,.5);
       }
     }
+
+  #linkedInPost{
+      text-align: center;
+   }
+
+  #contact-info {    
+    color: #ffffff;
+    text-align:center;
+    h4{
+      font-size:20px;
+      text-align:center;
+    }
+    ul{
+      list-style-type:none;        
+      a{
+        font-size: 14px;
+      }   
+     
+    }
+
+    p{
+      font-size: 14px;
+    }
+  }
+
+    .rectangle-form{
+      height:100%;
+      margin-bottom: 12px;
+
+      .rectangle-copied{
+        position: relative;
+         left: 30px;
+      }
+      .form-horizontal .form-group {
+        margin-left: 30px;
+      }
+    }
+ 
+    #linkedInPost{
+      text-align: center;
+    }
   }
 }
 
 /*XTRA SMALL*/
 @media (min-width: 448px) {
+  .showcase.friends-page .content > .container .rectangle-form {
+    /* height: 440px; */
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px 0 rgba(42, 42, 42, 0.5);
+    padding: 31px 30px 0 0;
+}
   .showcase {
     header {
       background-image: url("../images/header.jpg?max-width=768");
@@ -131,10 +300,80 @@
         background-image: url("../images/footer.jpg?max-width=768");
       }
     }
+    .rectangle-form{
+      // height:100% !important;
+      //margin-bottom: 12px;
+      .rectangle-copied{
+        position: relative;
+        left: 40px;
+      }
+      .form-horizontal
+         .form-group {
+           margin-left: 30px;         
+      }
+
+      .col-md-1{
+        position: absolute;
+        top: -20px;
+        right: 3px;
+       }
+    }
+ 
+    #linkedInPost{
+      text-align: center;
+    }
+
+    
+  &.quality-page
+  {
+        #quality-header{
+        > p#sub-heading{
+          br{
+            display: none;
+          }
+        }
+      }
+      #select-devs-section
+      {
+          .section-heading{
+            hr{
+              width: 100%;
+              border:solid 2px #ee1f54;
+            }
+          }
+          
+        }
+      }
+
+ 
   }
 }
 
 @media (min-width: 640px) {
+  .showcase.friends-page .content > .container .rectangle-form {
+    /* height: 440px; */
+      background-color: #ffffff;
+      box-shadow: 0 2px 4px 0 rgba(42, 42, 42, 0.5);
+      padding: 31px 30px 0 0;
+
+      // height:100% !important;
+      // margin-bottom: 12px;
+
+      .rectangle-copied{
+        position: relative;
+        left: 30px;
+      }
+      .form-horizontal .form-group
+      {
+             margin-left: 30px;
+      } 
+      .col-md-1{
+        position: absolute;
+        right: -55px;
+        top: 50px;
+      }
+
+    }
   .modal-md.modal-dialog {
     width: 500px;
     margin-top: 80px;
@@ -143,11 +382,63 @@
   .task-form-dialog,
   .task-form-dialog.modal-dialog {
     width: 1000px;
+  } 
+
+  #linkedInPost{
+    text-align: center;
   }
+
+  &.quality-page #select-devs-section
+  {
+       .section-heading{
+         hr{
+           width: 600px !important;
+           border:solid 2px #ee1f54;
+         }
+       }
+      
+ }
+
+ 
+ 
 }
 
 /*SMALL SCREENS*/
 @media (min-width: 768px) {
+
+  .showcase #contact-info
+   {
+      text-align: center;
+      h4 {
+        font-size: 20px;
+        text-align: center;
+        }
+   }
+  .showcase.friends-page .content > .container .rectangle-form 
+    {
+      background-color: #ffffff;
+      box-shadow: 0 2px 4px 0 rgba(42, 42, 42, 0.5);
+      padding: 31px 30px 0 0;
+      margin-bottom: 12px;
+      .rectangle-copied{
+        position: relative;
+        left: -1px;
+      }
+      .form-horizontal {
+        .control-label {
+          text-align: left;
+          }
+     
+       .col-md-1{
+          position: absolute;
+          top: 50px;
+          right: -30px;
+          
+         }
+      }      
+    
+    }
+   
   .flex-row.row {
     display: flex;
     flex-wrap: wrap;
@@ -253,6 +544,7 @@
       }
     }
   }
+
 
   /*.workflow-head {
     .title {
@@ -488,6 +780,23 @@
       }
     }
 
+    &.quality-page{
+      #quality-header{
+        >h1{
+        //  font-size: 40px !important;
+        }
+        > p#sub-heading{
+          br{
+            display: none;
+          }
+        }
+        
+        > p > a.btn-callout {
+          top: 410px !important;
+         }
+      }
+    }
+
     &.quality-page,
     &.pricing-page {
       .step-slider {
@@ -501,6 +810,8 @@
           }
         }
       }
+
+      
     }
 
     &.task-wizard-page {
@@ -647,6 +958,8 @@
         }
       }
     }
+
+    
   }
 
   .btn-choices.choice-fork {
@@ -838,10 +1151,20 @@
   }
 }
 
+
 /*MEDIUM SCREENS*/
 @media (min-width: 992px) {
   .main {
     padding: 50px 60px 20px 80px;
+  }
+
+  .showcase #contact-info
+  {
+     text-align: left;
+     h4 {
+       font-size: 20px;
+       text-align: left;
+       }
   }
 
   .dashboard {
@@ -1025,6 +1348,7 @@
     .content {
       .container {
         max-width: 1000px;
+       
       }
     }
 
@@ -1113,10 +1437,30 @@
     &.our-story-page {
       .content {
         section {
+          .section-heading{
+            .under-line{
+              //width: 100%;
+            }
+          }
           .container {
             max-width: 970px;
           }
         }
+      }
+    }
+    &.quality-page{
+      #quality-header{
+        >h1{
+        //  font-size: 40px !important;
+        }
+        > p#sub-heading{
+           br{
+             display: block !important;
+            }
+         } 
+        > p > a.btn-callout {
+          top: 360px !important;
+         }
       }
     }
   }
@@ -1163,6 +1507,22 @@
 
       .container {
         max-width: 1000px;
+
+          .friends-page.content 
+            > .container .rectangle-form{
+              .form-horizontal{
+              .rectangle-copied{
+                position: relative;
+                left: 20px;
+              }      
+      
+              .col-md-1{
+                position: absolute !important ;
+                right: -20px  !important ;
+                top: 30px !important ;
+              }
+         }
+        }
       }
     }
   }

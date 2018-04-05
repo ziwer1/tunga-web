@@ -63,6 +63,18 @@ class ShowcaseContainer extends React.Component {
               </video>
             : null}
           {this.props.headerVideo ? <div className="video-overlay" /> : null}
+          {this.props.hasArrow
+            ? <div className="arrow-overlay">
+              <div className="ribbon"/>
+              <div
+                className="pointer text-center"
+                onClick={e => {
+                  $('body').animate({scrollTop: '+=300'});
+                }}>
+                show me how it works
+              </div>
+            </div>
+            : null}
           <Affix affixClassName="navbar-fixed-top" offsetTop={60}>
             <nav className={`navbar navbar-fixed-top ${this.props.hasGlassNav?'navbar-glass':''}`}>
               <div className="navbar-header">
@@ -116,6 +128,11 @@ class ShowcaseContainer extends React.Component {
                     <li>
                       <Link to={`${pathPrefix}/pricing`} activeClassName="active">
                         Pricing
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to={`${pathPrefix}/friends-of-tunga`} activeClassName="active">
+                        Friends Of Tunga
                       </Link>
                     </li>
                     <li>
