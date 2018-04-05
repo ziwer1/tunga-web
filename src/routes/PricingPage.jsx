@@ -72,12 +72,12 @@ const OFFER_DETAILS = [
 class PricingPage extends ComponentWithModal {
   renderHeaderContent() {
     return (     
-      <div>
+      <div id="pricing-header">
         <h1>High quality and service level at affordable fees</h1>
-        <h2>We calculate our fees transparently and stick with that. No excuses, no discussions, no additional costs</h2>
+        <p id="sub-heading">We calculate our fees transparently and stick with that. No excuses, no discussions, no additional costs</p>
         <p>
           <a onClick={this.onScheduleCall.bind(this)}  className="btn btn-callout">
-            Schedule a call now
+            Schedule a call
            </a>
         </p>
       </div>
@@ -140,11 +140,11 @@ class PricingPage extends ComponentWithModal {
             </div>
           </div>
           <div className="container">
-          <p className="text-center">
-          <a onClick={this.onScheduleCall.bind(this)}  className="btn btn-callout">
-            Schedule a call now
-           </a>
-        </p>
+              <p className="text-center">
+                <a onClick={this.onScheduleCall.bind(this)}  className="btn btn-callout-bottom">
+                  Schedule a call
+                </a>
+            </p>
           </div>
         </section>
         <ShowCaseFooter/>

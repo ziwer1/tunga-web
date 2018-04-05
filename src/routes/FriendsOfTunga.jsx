@@ -32,7 +32,9 @@ class FriendOfTungaPage extends ComponentWithModal {
         this.handleShareLinkedInPost = this
             .handleShareLinkedInPost
             .bind(this);
-        this.handleHover = this.handleHover.bind(this);
+        this.handleHover = this
+            .handleHover
+            .bind(this);
         this.state = {
             isCopied: true,
             isEngLangSelected: true,
@@ -42,31 +44,30 @@ class FriendOfTungaPage extends ComponentWithModal {
 
     renderHeaderContent() {
         return (
-            <div>
+            <div id="friends-header">
                 <h1>Help Us Create Tech Jobs for
                     <br/>
                     African Youths
                 </h1>
-                <h2>
+                <p id="sub-heading">
                     Become a Friend of Tunga by referring leads to us. For each lead that becomes a
-                    paying customer we donate 5% up to EUR1,000 to
-                    <a href="http://bitsacademy.org/"> Bits Academy</a>, a network of schools that gives free tech education
-                    to African youths from less privileged backgrounds</h2>
-                <h2
-                    style={{
-                    'text-decoration': 'underline'
-                }}>
+                    paying customer we donate 5% up
+                    <br/>to EUR1,000 to
+                    <a href="http://bitsacademy.org/">
+                        Bits Academy</a>, a network of schools that gives free tech education to African
+                    youths from less
+                    <br/>
+                    privileged backgrounds</p>
+                <p id="link">
                     <Link to="/friends-of-tunga-rules">
                         How it works in detail
                     </Link>
-                </h2>
+                </p>
             </div>
         );
     }
 
-    handleHover(){
-
-    }
+    handleHover() {}
 
     handleLangSelection() {
         this.setState(prevState => ({
@@ -147,7 +148,7 @@ class FriendOfTungaPage extends ComponentWithModal {
                 <MetaTags title={meta_title} description={meta_description}/>
                 <div className="content">
                     <section className="container">
-                        <p className="text-center">
+                        <p className="text-center who-we-are">
                             <b>Who are we looking for?</b>
                         </p>
                         <div className="col-md-12 no-padding">
@@ -209,7 +210,8 @@ class FriendOfTungaPage extends ComponentWithModal {
                     <section className="container">
                         <div className="col-md-12 no-padding">
                             <div className="col-md-8 ">
-                                <div className="col-md-12  rectangle-form" style={ this.state.isEngLangSelected ?{}:{'height':'550px'}}>
+                                <div
+                                    className={`col-md-12  rectangle-form ${ this.state.isEngLangSelected ? '': ' add-height'}`} >
                                     <div hidden={this.state.isCopied} className="rectangle-copied pull-right">
                                         <p className="text-center">Copied</p>
                                     </div>
@@ -218,14 +220,10 @@ class FriendOfTungaPage extends ComponentWithModal {
                                             <div className="form-group">
                                                 <label className="col-md-2 control-label">{this.state.isEngLangSelected
                                                         ? 'To CC'
-                                                        :'Aan CC' }</label>
+                                                        : 'Aan CC'}</label>
                                                 <div className="col-md-10">
                                                     <div className="rectangle-subject">
-                                                        <div
-                                                            className="rectangle-copy pull-right"
-                                                            style={{
-                                                            'margin-right': '21px'
-                                                        }}>
+                                                        <div className="rectangle-copy pull-right">
                                                             <a onClick={this.handleCopyEmail}><img src={require('images/showcase/copyicon.png')}/></a>
                                                         </div>
                                                         <p id="email">bart@tunga.io</p>
@@ -238,11 +236,7 @@ class FriendOfTungaPage extends ComponentWithModal {
                                                         : 'Onderwerpen'}</label>
                                                 <div className="col-md-10">
                                                     <div className="rectangle-subject">
-                                                        <div
-                                                            className="rectangle-copy pull-right"
-                                                            style={{
-                                                            'margin-right': '21px'
-                                                        }}>
+                                                        <div className="rectangle-copy pull-right">
                                                             <a onClick={this.handleCopySubject}><img src={require('images/showcase/copyicon.png')}/></a>
                                                         </div>
                                                         <p id="subject">{this.state.isEngLangSelected
@@ -254,7 +248,7 @@ class FriendOfTungaPage extends ComponentWithModal {
                                             <div className="form-group">
                                                 <div className="col-md-10 col-md-offset-2">
                                                     <div className="rectangle-field">
-                                                        <div className="rectangle-copy pull-right">
+                                                        <div className="rectangle-copy-2 pull-right">
                                                             <a onClick={this.handleCopyText}><img src={require('images/showcase/copyicon.png')}/></a>
                                                         </div>
                                                         {this.state.isEngLangSelected
@@ -290,25 +284,21 @@ class FriendOfTungaPage extends ComponentWithModal {
                                         <div className="col-md-1">
                                             <div className="btn-group">
                                                 <a
-                                                  
                                                     className="dropdown-toggle"
                                                     data-toggle="dropdown"
                                                     aria-haspopup="true"
-                                                  
                                                     aria-expanded="false">
                                                     {this.state.isEngLangSelected
                                                         ? <img src={require('images/showcase/English.png')}/>
                                                         : <img src={require('images/showcase/Dutch.png')}/>}<span
-                                                        className="caret"
-                                                        style={{                                                        
-                                                        'color': 'black'
-                                                    }}></span>
+                                                        className="caret form"
+                                                        ></span>
                                                 </a>
-                                                <ul className="dropdown-menu" style={{ 'min-width':'80px'}}>
+                                                <ul className="dropdown-menu drop-menu">
                                                     <li>
                                                         <a onClick={this.handleLangSelection}>
                                                             {this.state.isEngLangSelected
-                                                                ?  <div><img src={require('images/showcase/Dutch.png')}/></div> 
+                                                                ? <div><img src={require('images/showcase/Dutch.png')}/></div>
                                                                 : <div><img src={require('images/showcase/English.png')}/></div>}</a>
                                                     </li>
                                                 </ul>
@@ -318,7 +308,7 @@ class FriendOfTungaPage extends ComponentWithModal {
                                 </div>
                             </div>
                             <div className="col-md-4">
-                                <div className="rectangle-share" style={ this.state.isEngLangSelected ?{}:{'height':'550px'}}>
+                                <div className={`rectangle-share ${ this.state.isEngLangSelected ? '': ' add-height'}`}>
                                     <div className="row">
                                         <div id="linkedInPost" className="col-md-12">
                                             <a
@@ -326,23 +316,13 @@ class FriendOfTungaPage extends ComponentWithModal {
                                                 className="rectangle-social text-center col-md-9">
                                                 <b>Share this post on LinkedIn</b>
                                             </a>
-                                            <span
-                                                style={{
-                                                'padding-left': '15px'
-                                            }}><img src={require('images/showcase/Linkedin.png')} alt="icon"/></span>
+                                            <span><img src={require('images/showcase/Linkedin.png')} alt="icon"/></span>
                                         </div>
                                         <div className="col-md-12">
-                                            <div
-                                                style={{
-                                                'padding-top': '15px',
-                                                'font-size': '16px'
-                                            }}>
+                                            <div  id="post-container">
                                                 <b>LinkedIn Post:</b>
                                                 <div
-                                                    className="btn-group  pull-right"
-                                                    style={{
-                                                    'margin-right': '23px'
-                                                }}>
+                                                    className="btn-group  pull-right">
                                                     <a
                                                         className="dropdown-toggle"
                                                         data-toggle="dropdown"
@@ -350,39 +330,25 @@ class FriendOfTungaPage extends ComponentWithModal {
                                                         aria-expanded="true">
                                                         {this.state.isEngLangSelected
                                                             ? <span className="pull-right">
-                                                                    <ul
-                                                                        style={{
-                                                                        'list-style-type': 'none'
-                                                                    }}>
-                                                                        <li  id="English"  >
+                                                                    <ul className="lang-list">
+                                                                        <li id="English">
                                                                             <a ><img className="Bitmap" src={require('images/showcase/English.png')}/></a>
                                                                         </li>
-                                                                        <li  id="Dutch" >
+                                                                        <li id="Dutch">
                                                                             <a ><img className="Bitmap" src={require('images/showcase/Dutch.png')}/></a>
                                                                         </li>
                                                                     </ul>
                                                                 </span>
 
                                                             : <span className="pull-right">
-                                                                <ul
-                                                                    style={{
-                                                                    'list-style-type': 'none'
-                                                                }}>
-                                                                    <li id="Dutch" ><img className="Bitmap" src={require('images/showcase/Dutch.png')}/></li>
-                                                                    <li id="English" ><img className="Bitmap" src={require('images/showcase/English.png')}/></li>
+                                                                <ul className="lang-list">
+                                                                    <li id="Dutch"><img className="Bitmap" src={require('images/showcase/Dutch.png')}/></li>
+                                                                    <li id="English"><img className="Bitmap" src={require('images/showcase/English.png')}/></li>
                                                                 </ul>
                                                             </span>
-}<span
-                                                            className="caret"
-                                                            style={{
-                
-                'color': 'black',
-                'position': 'absolute',
-                'left': '67px',
-                'top': '10px'
-            }}></span>
+}<span className="caret social"></span>
                                                     </a>
-                                                    <ul className="dropdown-menu no-padding" style={{ 'min-width':'80px'}}>
+                                                    <ul className="dropdown-menu no-padding drop-menu">
                                                         <li>
                                                             <a onClick={this.handleLangSelection}>
                                                                 {this.state.isEngLangSelected
@@ -393,11 +359,8 @@ class FriendOfTungaPage extends ComponentWithModal {
                                                 </div>
                                             </div>
                                             {this.state.isEngLangSelected
-                                                ? <div className="rectangle-post" >
-                                                        <p
-                                                            style={{
-                                                            'padding': '18px 23px 11px 19px'
-                                                        }}>
+                                                ? <div className="rectangle-post">
+                                                        <div className="div-container">
                                                             <p>
                                                                 Trouble finding good developers or looking to build an app? Please check out
                                                                 this great initiative called Tunga .
@@ -408,14 +371,11 @@ class FriendOfTungaPage extends ComponentWithModal {
                                                                 network of schools that gives free tech education to African youths from less
                                                                 privileged backgrounds
                                                             </p>
-                                                        </p>
+                                                        </div>
                                                     </div>
 
                                                 : <div className="rectangle-post">
-                                                    <p
-                                                        style={{
-                                                        'padding': '18px 23px 11px 19px'
-                                                    }}>
+                                                    <div className="div-container">
                                                         <p>
                                                             Problemen met het vinden van goede ontwikkelaars of het bouwen van een app?
                                                             Bekijk dit geweldige initiatief genaamd Tunga.
@@ -426,7 +386,7 @@ class FriendOfTungaPage extends ComponentWithModal {
                                                             Academy, een netwerk van scholen die gratis technologieonderwijs geven aan
                                                             Afrikaanse jongeren met een minder bevoorrechte achtergrond
                                                         </p>
-                                                    </p>
+                                                    </div>
                                                 </div>
 }
 

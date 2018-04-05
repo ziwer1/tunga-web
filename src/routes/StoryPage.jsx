@@ -6,6 +6,7 @@ import YouTube from 'react-youtube';
 import ShowcaseContainer from '../containers/ShowcaseContainer';
 import MetaTags from '../components/MetaTags';
 import ShowCaseFooter from '../containers/ShowCaseFooter';
+import {openCalendlyWidget} from '../utils/router';
 
 import {
   sendGAEvent,
@@ -49,19 +50,24 @@ export default class StoryPage extends React.Component {
     }
   }
 
+  onScheduleCall() {
+    openCalendlyWidget();
+  }
+
+
   renderHeaderContent() {
     return (
-      <div>
+      <div id="story-header">
         <h1>
           Our journey to unleash <br /> Africa’s tech talent
         </h1>
-        <p style={{ 'text-size':'18px'}}>
+        <p id="sub-heading">
           Our Mission: 21st Century Jobs for African Youths
         </p>
         <p>
-          <Link to="/start/" className="btn btn-callout">
-            Schedule a call now
-           </Link>
+          <a onClick={this.onScheduleCall} className="btn btn-callout">
+            Schedule a call
+           </a>
         </p>
       </div>
     );
@@ -82,7 +88,7 @@ export default class StoryPage extends React.Component {
             <div className="container">
               <div className="section-heading text-center">
                 Our Dream: Equal Opportunity for All Youths
-                <hr className="under-line" style={{width:'683px'}}/>
+                <hr className="under-line"/>
               </div>
               <p id="text">
                   Being able to take control of and choose your own destiny is a universal value. 
@@ -110,7 +116,7 @@ export default class StoryPage extends React.Component {
             <div className="container">
               <div className="section-heading text-center">
                 The Problem: African Youths Don’t Have The Same Opportunities
-                <hr className="under-line" style={{width:'683px'}}/>
+                <hr className="under-line"/>
               </div>
               <p id="text">
               But the reality is that in many parts of the world, the opportunity 
@@ -132,7 +138,7 @@ export default class StoryPage extends React.Component {
             <div className="container">
               <div className="section-heading text-center">
                 Our Mission: 21st Century Jobs for African Youths
-                <hr className="under-line" style={{width:'683px',}}/>
+                <hr className="under-line"/>
               </div>
               <p id="text" >
               That’s why in 2015 we embarked on a mission to create 21st century jobs for African youths. With the support of institutions like Dioraphte, Oxfam, the DOEN Foundation, Edukans and Triodos Bank we started Tunga. To help talented African youths get access to the cool tech jobs that define this generation. So that they can become independent and make their mark in the international economic marketplace.
@@ -196,7 +202,7 @@ export default class StoryPage extends React.Component {
               <div className="section-heading text-center">
                 Our Solution: Link African Software Developers<br /> to
                 International Teams and Projects
-                <hr className="under-line" style={{width:'683px'}}/>
+                <hr className="under-line"/>
               </div>
               <p id="text">
               We believe in the power of business to transform society. And probably the most attractive area for creating high skilled jobs and skills development for today’s ambitious youths is software development. As production methods from the open source community are increasingly being adopted in the industry, software is often already being produced in virtual teams. At the same time, there is a huge shortage of software developers around the world, resulting in an infinite demand for software development skills. So Tunga was set up as a platform to remove all barriers for these youths to participate in international software teams and projects.
@@ -216,7 +222,7 @@ export default class StoryPage extends React.Component {
             <div className="container">
               <div className="section-heading text-center">
                 Impact Sourcing - (Software) Outsourcing Done Right
-                <hr className="under-line" style={{width:'683px'}}/>
+                <hr className="under-line" />
               </div>
               <p id="text">
               Tunga is not a traditional software outsourcing platform. Our way of working is called Impact Sourcing: the deployment of workers from low-employment areas into the processes of businesses worldwide either through outsourcing or by setting up remote or virtual teams using digital technology. It aims to provide higher-income employment and access to new income opportunities to workers that otherwise might not be employed in that particular sector. For example, people in rural areas or in slums, people without access to education or educated individuals in areas of high unemployment.
@@ -236,7 +242,7 @@ export default class StoryPage extends React.Component {
             <div className="container">
               <div className="section-heading text-center">
                 Why Africa: Tackling Huge Youth Unemployment
-                <hr className="under-line" style={{width:'683px'}}/>
+                <hr className="under-line"/>
               </div>
               <p id="text">
 
@@ -260,7 +266,7 @@ export default class StoryPage extends React.Component {
             <div className="container">
               <div className="section-heading text-center">
                 Our Human-Centered Approach Cuts Both Ways
-                <hr className="under-line" style={{width:'683px'}}/>
+                <hr className="under-line" />
               </div>
               <p id="text">
                Our way of working allows us to do software outsourcing better than traditional players in the market. 

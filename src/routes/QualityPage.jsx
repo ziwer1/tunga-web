@@ -7,11 +7,6 @@ import ShowcaseContainer from '../containers/ShowcaseContainer';
 import MetaTags from '../components/MetaTags';
 import ShowCaseFooter from '../containers/ShowCaseFooter';
 import {openCalendlyWidget} from '../utils/router';
-import axios from 'axios';
-
-// const PORT = process.env.SERVER_PORT || 8080
-// const HOST = process.env.SERVER_HOST || window.location.host.split(':')[0]
-// const SERVER_URL =`http://${HOST}:${PORT}/send-mail`
 
 const STEP_DETAILS = [
   {
@@ -42,60 +37,14 @@ const STEP_DETAILS = [
 
 export default class QualityPage extends React.Component {
 
-  constructor(){
-    super();
-
-    this.state ={
-      sender_name:'',
-      sender_email:'',
-      sender_msg: ''
-    }
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleChange(e){
-    this.setState({[e.target.name]:e.target.value});
-  }
-
-  async handleSubmit(e){
-    // prevent refresh
-    e.preventDefault();
-
-  
-    const{ sender_name, sender_email, sender_msg} = this.state;
-
-    const form = await axios.post('/api/sendmail',{
-      sender_name,
-      sender_email,
-      sender_msg
-    })  .then(res => {
-      const{ sender_name, sender_email, sender_msg} ='';
-      this.setState({sender_name, sender_email, sender_msg});
-    });
-  }
-
   renderHeaderContent() {
-
-    const divStyle={
-        'font-size': '18px',
-        'font-weight':' normal',
-        'font-style': 'normal',
-        'font-stretch': 'normal',
-        'line-height': 'normal',
-        'letter-spacing': 'normal',
-        'text-align': 'left',
-        color: '#ffffff',
-        'margin':'0px auto',
-    }
     return (
-      <div>
+      <div id="quality-header">
         <h1>Our quality assurance program</h1>
-        <p style={divStyle}>We thoroughly select the brightest developers from the African continent. Tunga nourishes and constantly improve our community of developers by providing them with the tools and guidance they need to be even more successful.</p>
+        <p id="sub-heading">We thoroughly select the brightest developers from the African continent. Tunga nourishes and constantly <br /> improve our community of developers by providing them with the tools and guidance they <br />need to be even more successful.</p>
         <p>
           <a onClick={this.onScheduleCall.bind(this)}  className="btn btn-callout">
-            Schedule a call now
+            Schedule a call
            </a>
         </p>
       </div>
@@ -124,7 +73,7 @@ export default class QualityPage extends React.Component {
             <div className="container">
               <div className="section-heading text-center">
                 How we select the best developers
-                <hr className="under-line" style={{'width': '600px', 'border':' solid 2px #ee1f54'}} />  
+                <hr className="under-line"/>  
               </div>
             </div>
           </section>
@@ -364,10 +313,10 @@ export default class QualityPage extends React.Component {
                     </div>
                 </div>
                 <div className="col-md-6">
-                  <form role="form" onSubmit={this.handleSubmit} className="email-form">
-                    <input onChange={this.handleChange} className="form-control" name="sender_name" type="text" placeholder="Bart leijssenaar" />
-                    <input onChange={this.handleChange} className="form-control" name="sender_email" type="email" placeholder="Your email address" />
-                    <textarea  onChange={this.handleChange} className="form-control" name="sender_msg" type="text" rows="4" placeholder="Type your message here"/>
+                  <form role="form" className="email-form">
+                    <input className="form-control" name="sender_name" type="text" placeholder="Bart leijssenaar" />
+                    <input className="form-control" name="sender_email" type="email" placeholder="Your email address" />
+                    <textarea  className="form-control" name="sender_msg" type="text" rows="4" placeholder="Type your message here"/>
                     <button type="submit" className="btn pull-right"> Send</button>
                   </form>
 
