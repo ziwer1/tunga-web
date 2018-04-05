@@ -32,9 +32,9 @@ class FriendOfTungaPage extends ComponentWithModal {
         this.handleShareLinkedInPost = this
             .handleShareLinkedInPost
             .bind(this);
-        this.handleHover = this
+        /*this.handleHover = this
             .handleHover
-            .bind(this);
+            .bind(this);*/
         this.state = {
             isCopied: true,
             isEngLangSelected: true
@@ -51,7 +51,7 @@ class FriendOfTungaPage extends ComponentWithModal {
                 <p id="sub-heading">
                     Become a Friend of Tunga by referring leads to us. For each lead that becomes a
                     paying customer we donate 5% up
-                    <br/>to EUR1,000 to
+                    <br/>to EUR 1,000 to
                     <a href="http://bitsacademy.org/">
                         Bits Academy</a>, a network of schools that gives free tech education to African
                     youths from less
@@ -72,7 +72,7 @@ class FriendOfTungaPage extends ComponentWithModal {
             isEngLangSelected: !prevState.isEngLangSelected
         }));
     }
- 
+
     handleCopyEmail(e) {
         e.preventDefault();
         var text = document.getElementById('email');
@@ -186,7 +186,7 @@ class FriendOfTungaPage extends ComponentWithModal {
                                         src={require('images/showcase/Startups.png')}/></div>
                                     <div className="text-container">
                                         <p>
-                                            <b>Startups and innovation teams 
+                                            <b>Startups and innovation teams
                                             </b> that need to build a prototype or MVP</p>
                                     </div>
                                 </div>
@@ -344,7 +344,8 @@ class FriendOfTungaPage extends ComponentWithModal {
                                                                     <li id="English"><img className="Bitmap" src={require('images/showcase/English.png')}/></li>
                                                                 </ul>
                                                             </span>
-}<span className="caret social"></span>
+                                                        }
+                                                        <span className="caret social"/>
                                                     </a>
                                                     <ul className="dropdown-menu no-padding drop-menu">
                                                         <li>
