@@ -5452,6 +5452,13 @@ form[name='compose'] {
     .side-pic {
       display: none;
     }
+
+    .btn-callout {
+      width: 100%;
+      display: block;
+      .font-size(1.4);
+      padding: 8px 10px;
+    }
   }
 
   #development-style {
@@ -5505,10 +5512,9 @@ form[name='compose'] {
   }
 
   .what-we-do-best {
-    margin-top: 30px;
-    background-color: #fafafa;
+    background-color: @section-bg;
     display: flex;
-    margin-bottom: 30px;
+    padding-bottom: 81px;
 
     .skill {
       text-align: center;
@@ -5517,6 +5523,11 @@ form[name='compose'] {
     img {
       margin-top: 50px;
       margin-bottom: 50px;
+    }
+
+    .btn-callout {
+      .font-size(1.4);
+      padding: 8px 10px;
     }
   }
 
@@ -5533,6 +5544,36 @@ form[name='compose'] {
     margin-bottom: 45px;
   }
 
+  #contact-us {
+    .font-size(1.6);
+    padding-bottom: 90px;
+
+    .section-heading-hr {
+      margin-bottom: 60px;
+    }
+
+    form {
+      margin-top: 40px;
+    }
+
+    .form-control {
+      height: 40px;
+      line-height: 40px;
+      box-shadow: 0 2px 4px 0 rgba(193, 193, 193, 0.5);
+    }
+
+    textarea {
+      min-height: 115px;
+    }
+
+    p {
+      margin-bottom: 10px;
+    }
+
+    .btn-callout {
+      padding: 13px 20px;
+    }
+  }
 }
 
 .showcase.blog-page {

@@ -371,7 +371,7 @@ export class LandingPage extends ComponentWithModal {
                 <p>
                   Do you support our mission to create opportunities
                   for African youths?
-                  Become a ‘Friend of Tunga’! For each client you refer
+                  Become a <Link to="/friends-of-tunga">'Friend of Tunga'!</Link> For each client you refer
                   to us we donate a sum to Bits Academy, a network of
                   African schools that focus on giving quality and
                   free IT-education to youths from less privileged backgrounds.
@@ -381,6 +381,11 @@ export class LandingPage extends ComponentWithModal {
                         onClick={this.onScheduleCall.bind(this)}>
                   Find out what we can do for you
                 </button>
+
+                <Link className="btn btn-callout visible-xs"
+                      to="/friends-of-tunga">
+                  Become a friend of Tunga
+                </Link>
               </div>
             </div>
           </div>
@@ -658,38 +663,41 @@ export class LandingPage extends ComponentWithModal {
                   <img src={require('../images/showcase/TungaOtherSkills.png')}/>
                 </div>
               </div>
-
+            </div>
+            <div className="text-center">
+              <button className="btn btn-callout"
+                      onClick={this.onScheduleCall.bind(this)}>
+                Find out what we can do for you
+              </button>
             </div>
           </div>
         </section>
 
-        <section>
+        <section id="contact-us">
           <div className="container">
-            <div className="row skill-page">
+            <div className="row">
               <SectionHeading >Where to find us</SectionHeading>
 
-              <div className="skill-page-contact-us">
+              <div>
                 <div className="col-md-5">
                   <p>
                     <strong>Kampala office:</strong><br/>
                     Design Hub Kampala, 5th Street, Industrial Area, Kampala, Uganda
                   </p>
-                  <br/>
                   <p>
                     <strong>Amsterdam office:</strong><br/>
                     The Collab, Wibautstraat 131, 1091 GL Amsterdam, The Netherlands
                   </p>
-                  <br/>
                   <p>
                     <strong>Lagos office:</strong><br/>
                     32 Barikisu Iyede street, Yaba, Lagos, Nigeria
                   </p>
-                  <br/>
 
                   <Link href="mailto:hello@tunga.io">hello@tunga.io</Link>
                   <div>
-                    <a className="btn btn-callout" href="/call/">
-                      Schedule a call with us</a>
+                    <button className="btn btn-callout" to="/call">
+                      Schedule a call with us
+                    </button>
                   </div>
 
                 </div>
@@ -702,12 +710,9 @@ export class LandingPage extends ComponentWithModal {
                       <FormControl type="input" placeholder="Your email address"/>
                     </FormGroup>
                     <FormGroup>
-                      <FormControl style={{height: "100px",}} componentClass="textarea"
+                      <FormControl componentClass="textarea"
                                    placeholder="Type your message here"/>
                     </FormGroup>
-                    <br/>
-                    <br/>
-                    <br/>
                     <div className="pull-right">
                       <Button className="btn btn-callout" type="submit">Send</Button>
                     </div>
