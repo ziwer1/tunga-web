@@ -131,6 +131,9 @@ class ShowcaseContainer extends React.Component {
           <div className="container">
               {this.props.headerContent}
           </div>
+          <div>
+            {this.props.freeHeaderSection}
+          </div>
         </header>
 
         {this.props.children}

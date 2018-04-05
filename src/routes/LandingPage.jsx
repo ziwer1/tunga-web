@@ -37,6 +37,19 @@ const STEP_DETAILS = [
 
 let overlayTimer = null;
 
+class SectionHeading extends React.Component {
+  render() {
+    return (
+      <div>
+        <div className="section-heading">
+          {this.props.children}
+        </div>
+        <div className="section-heading-hr"/>
+      </div>
+    );
+  }
+}
+
 export class LandingPage extends ComponentWithModal {
   constructor(props) {
     super(props);
@@ -55,6 +68,7 @@ export class LandingPage extends ComponentWithModal {
   }
 
   componentDidMount() {
+    let lp = this;
     if (showCallWidget(this.props.routes)) {
       openCalendlyWidget();
     }
@@ -70,7 +84,7 @@ export class LandingPage extends ComponentWithModal {
         clearTimeout(overlayTimer);
       }
       if (window.tungaCanOpenOverlay) {
-        overlayTimer = setTimeout(displayOverlay, __PRODUCTION__ ? 45000 : 6000);
+        overlayTimer = setTimeout(displayOverlay, __PRODUCTION__ ? 45000 : 60*60*1000);
       }
     }
 
@@ -235,7 +249,7 @@ export class LandingPage extends ComponentWithModal {
         </div>
         <div className='new-landing-page-showcase'>
 
-          <div className='new-landing-page landing-header'>
+          <div className='landing-header'>
             <h1>
               Unleasing Africa’s Tech Talent
             </h1>
@@ -250,45 +264,49 @@ export class LandingPage extends ComponentWithModal {
               {/*clearing grid hack*/}
             </div>
             <div className="col-lg-5">
-              <a className="btn new-landing-page schedule_call" href="/call/">
-                Schedule a call</a>
+              <Link className="btn schedule_call" to="/call/">
+                Schedule a call</Link>
             </div>
           </div>
         </div>
-        <div className="new-landing-page-services">
-          <section className="new-landing-page">
-            <div className="col-lg-4 new-landing-page software-section">
-              <p className="principle-heading">Effortless software project</p>
-              <br/>
-              <div className="col-md-offset-2 col-sm-8">
-                <p>Need an app or website? We can build software for you on-demand and
-                  turn-key.
-                </p>
-              </div>
-            </div>
-            <div className="col-lg-4 new-landing-page developers-section">
-              <p className="principle-heading">Dedicated developers</p>
-              <br/>
-              <div className="col-md-offset-2 col-sm-8">
-                <p>Use Tunga to quickly mobilize developers. Parttime or fulltime. Individuals or entire teams.
-                </p>
-              </div>
-            </div>
-            <div className="col-lg-4 new-landing-page recruitment-section">
-              <p className="principle-heading">Recruitment services</p>
-              <br/>
-              <div className="col-md-offset-2 col-sm-8">
+      </div>
+    );
+  }
 
-                <p>Tap into our network of top African software programmers to reinforce your own tech team.
-                </p>
-              </div>
+  renderFreeHeaderSection() {
+    return (
+      <section id="services">
+        <div className="service">
+          <div className="wrapper">
+            <div className="headline">Effortless software project</div>
+            <div>
+              Need an app or website? We can build software for you on-demand and
+              turn-key.
+              <Link to="">find out more</Link>
             </div>
-          </section>
-
-
+          </div>
         </div>
 
-      </div>
+        <div className="service">
+          <div className="wrapper">
+            <div className="headline">Dedicated developers</div>
+            <div>
+              Use Tunga to quickly mobilize developers. Parttime or fulltime. Individuals or entire teams.
+              <Link to="">find out more</Link>
+            </div>
+          </div>
+        </div>
+
+        <div className="service">
+          <div className="wrapper">
+            <div className="headline">Recruitment services</div>
+            <div>
+              Tap into our network of top African software programmers to reinforce your own tech team.
+              <Link to="">find out more</Link>
+            </div>
+          </div>
+        </div>
+      </section>
     );
   }
 
@@ -318,33 +336,29 @@ export class LandingPage extends ComponentWithModal {
       <ShowcaseContainer
         className={`new-landing-page`}
         headerContent={this.renderHeaderContent()}
+        freeHeaderSection={this.renderFreeHeaderSection()}
         hasArrow={true}
         chatId={this.props.params ? this.props.params.chatId : null}
         closeChat={this.state.closeChat}>
         <MetaTags title={meta_title} description={meta_description}/>
 
-
-        <section id="platform-info" className="new-landing-page">
+        <section id="unique-approach" className="clearfix">
           <div className="col-md-8">
-            <div className="col-md-offset-3">
-              <div className="approach-heading">
+            <div className="approach-body">
+              <SectionHeading>
                 Our unusual approach to software development
-              </div>
+              </SectionHeading>
 
-              <div className="col-md-6">
-                <hr className="hr-tunga"/>
-              </div>
-
-              <div className="col-md-8 approach-body">
+              <div>
                 <p>
                   Software projects often go wrong because of people
                   misunderstanding each other. Tunga was founded by
                   people from the hospitality sector to solve this
                   problem with a simple idea: apply our human-centered
                   mindset to the software development process and its actors.
+                </p>
 
-                  <br/>
-
+                <p>
                   We work with a community of highly talented youths
                   from several African countries, who are committed to
                   go the extra mile for you. Why? Because we not only
@@ -352,109 +366,95 @@ export class LandingPage extends ComponentWithModal {
                   growing a customer-focused attitude, we also do our utmost
                   to address their needs by creating interesting and
                   worthwhile work opportunities for them.
+                </p>
 
-                  <br/>
-
+                <p>
                   Do you support our mission to create opportunities
                   for African youths?
                   Become a ‘Friend of Tunga’! For each client you refer
                   to us we donate a sum to Bits Academy, a network of
                   African schools that focus on giving quality and
                   free IT-education to youths from less privileged backgrounds.
-
-
-                  <a
-                    href="#"
-                    onClick={this.onScheduleCall.bind(this)}>
-                    Talk with us
-                  </a>
                 </p>
 
+                <button className="btn btn-callout"
+                        onClick={this.onScheduleCall.bind(this)}>
+                  Find out what we can do for you
+                </button>
               </div>
-
             </div>
           </div>
-          <div className="col-md-4 side-pic">
-            <img
-              src={require('images/home/Tungadevelopercodingsection2.jpg')}
-            />
-          </div>
+          <div className="col-md-4 side-pic"/>
         </section>
 
-        <section>
+        <section id="development-style">
           <div>
             <div className="container">
-              <div className="row new-landing-page">
+              <div className="row">
 
-                <div className="col-md-offset-2 col-md-8 development-style-heading">
-                  <p>Software development Tunga-style</p>
-                </div>
+                <SectionHeading>Software development Tunga-style</SectionHeading>
 
-                <div className="col-md-offset-4 col-md-4 col-md-offset-5">
-                  <hr className="hr-tunga"/>
-                </div>
-
-                <div className="col-md-offset-2 col-lg-8 development-style">
+                <div className="development-style-pitch">
                   We have built a large pool of top African tech talent that
                   can be deployed flexibly and rapidly to help you meet your
                   specific software development needs.
-
                 </div>
 
-                <div className="col-lg-4 development-style-item">
+                <div className="development-style-cases">
+                  <div className="case">
 
-                  <img
-                    src={require('images/showcase/result-oriented.png')}
-                  />
+                    <img
+                      src={require('images/showcase/result-oriented.png')}
+                    />
 
-                  <p>Result-oriented
-                    We pay a lot of attention to scoping your project and working out the technical details. Then we go
-                    all the way to deliver them.
-                  </p>
+                    <p>
+                      <div className="bold">Result-oriented</div>
+                      We pay a lot of attention to scoping your project and working out the technical details. Then we go
+                      all the way to deliver them.
+                    </p>
 
 
+                  </div>
+                  <div className="case">
+
+                    <img
+                      src={require('images/showcase/quality-assured.png')}
+                    />
+                    <p>
+                      <div className="bold">Quality assured</div>
+                      We have developed a unique, highly professional and
+                      effective way of working that enables clients and
+                      developers from any part of the world to collaborate efficiently.
+                    </p>
+
+                  </div>
+                  <div className="case">
+
+                    <img
+                      src={require('images/showcase/affortable.png')}
+                    />
+                    <p>
+                      <div className="bold">Affortable</div>
+                      Our developers are for hire at a flat rate of EUR20 per hour.
+                      We calculate projects transparently and stick with that.
+                      No excuses, no discussions, no additional costs.
+                    </p>
+
+                  </div>
                 </div>
-                <div className="col-lg-4 development-style-item">
 
-                  <img
-                    src={require('images/showcase/quality-assured.png')}
-                  />
-                  <p>
-                    Quality assured
-                    We have developed a unique, highly professional and
-                    effective way of working that enables clients and
-                    developers from any part of the world to collaborate efficiently.
-                  </p>
-
-                </div>
-                <div className="col-lg-4 development-style-item">
-
-                  <img
-                    src={require('images/showcase/affortable.png')}
-                  />
-                  <p>
-                    Affortable
-                    Our developers are for hire at a flat rate of EUR20 per hour.
-                    We calculate projects transparently and stick with that.
-                    No excuses, no discussions, no additional costs.
-                  </p>
-
-                </div>
               </div>
 
             </div>
           </div>
-
         </section>
 
-        <section className="new-landing-page-meeting-developers" style={{backgroundImage: `url(${require('../images/showcase/verification_new.jpg')},)`}}>
-
+        <section id="meet-developers">
           <div>
-            <p>Meet our triving community of developers</p>
+            <div className="headline">Meet our thriving community of developers</div>
             <p>Find out how we select our developers and meet some of our talented experts.
             </p>
           </div>
-
         </section>
         <section id="press-landing">
           <div className="container">
@@ -534,21 +534,10 @@ export class LandingPage extends ComponentWithModal {
             </Reveal>
           </div>
         </section>
-        <section>
-          <div className="col-lg-12">
-
-          </div>
-        </section>
-        <section>
-          <div className="container new-landing-page">
-            <div className="col-md-offset-2 col-md-8 case-studies">
-              <p>Case Studies</p>
-            </div>
-
-            <div className="col-md-offset-4 col-md-4 col-md-offset-5">
-              <hr className="hr-tunga"/>
-            </div>
-            <div id="clients-testmonial-landing-page" className="col-sm-12">
+        <section id="case-studies">
+          <div className="container">
+            <SectionHeading>Case Studies</SectionHeading>
+            <div id="clients-testmonial-landing-page">
               <Slider
                 className="testimonials-slider text-center"
                 {...slider_settings}>
@@ -590,7 +579,7 @@ export class LandingPage extends ComponentWithModal {
         <section id="partners">
           <div className="container">
             <div className="new-landing-page-supported-by">
-              <p>Supported By:</p>
+              Supported By:
             </div>
             <Reveal effect="animated fadeInLeft">
               <div>
@@ -657,21 +646,15 @@ export class LandingPage extends ComponentWithModal {
         <section className="what-we-do-best">
           <div className="container ">
             <div className="row">
-              <div className="col-md-offset-2 col-md-8 what-we-do-best-heading">
-                <p>What we do best</p>
-              </div>
-
-              <div className="col-md-offset-4 col-md-4 col-md-offset-5">
-                <hr className="hr-tunga"/>
-              </div>
-              <div className="col-lg-12">
-                <div className="col-lg-4">
+              <SectionHeading>What we do best</SectionHeading>
+              <div className="row">
+                <div className="col-md-4 skill">
                   <img src={require('../images/showcase/TungaMobileSkills.png')}/>
                 </div>
-                <div className="col-lg-4">
+                <div className="col-md-4 skill">
                   <img src={require('../images/showcase/TungaWebSkills.png')}/>
                 </div>
-                <div className="col-lg-4">
+                <div className="col-md-4 skill">
                   <img src={require('../images/showcase/TungaOtherSkills.png')}/>
                 </div>
               </div>
@@ -680,20 +663,12 @@ export class LandingPage extends ComponentWithModal {
           </div>
         </section>
 
-
         <section>
           <div className="container">
             <div className="row skill-page">
+              <SectionHeading >Where to find us</SectionHeading>
 
-              <div className="col-md-offset-2 col-md-8 section-heading">
-                <p>Where to find us</p>
-              </div>
-
-              <div className="col-md-offset-4 col-md-4 col-md-offset-5">
-                <hr className="hr-tunga"/>
-              </div>
-
-              <div className="col-md-12 skill-page-contact-us">
+              <div className="skill-page-contact-us">
                 <div className="col-md-5">
                   <p>
                     <strong>Kampala office:</strong><br/>

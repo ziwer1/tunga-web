@@ -5337,192 +5337,202 @@ form[name='compose'] {
   }
 }
 
-.new-landing-page-showcase {
-  height: 500px;
-  padding-top: 60px;
-}
-
 .showcase.new-landing-page {
+
   header {
-
     background-color: #555;
-    background-image: url('../images/showcase/Tungadevelopersworkinginkampala.jpg');
-    min-height: 100%;
+    background-image: url('../images/showcase/welcome-header-mobile.jpg');
+    min-height: 80%;
     display: flex;
+    flex-direction: column;
   }
-}
 
-.new-landing-page-services {
-  display: flex;
-  width: max-content;
-  margin-left: -300px;
-  margin-top: 35px;
-}
-
-.new-landing-page {
+  .new-landing-page-showcase {
+    padding: 0 25px 50px;
+    .clearfix();
+  }
 
   .landing-header {
-    font-size: 55px;
-    font-weight: 500;
-    color: @active-white;
-  }
-  .landing-header h1 {
-    line-height: 50px;
+
+    h1 {
+      .font-size(2.7);
+      font-weight: 500;
+      color: @active-white;
+      line-height: 50px;
+    }
   }
 
   .sub_header {
     color: @active-white;
-    font-size: 18px;
-    font-weight: 400;
+    .font-size(0.9);
+    font-weight: 500;
     margin-bottom: 30px;
   }
 
   .schedule_call {
-    height: 70px;
-    width: 260px;
+    height: 31px;
+    width: 109px;
     text-align: center;
     vertical-align: middle;
-    font-size: 20px;
+    .font-size(1.0);
     font-weight: 500;
-    padding-top: 20px;
     border-radius: 5px;
-    background-color: #ee1f54;
+    padding-top: 9px;
+    background-color: @primary;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
   }
-  .software-section {
-    color: #444444;
-    height: 200px;
-    background-color: rgba(250, 250, 250, 0.9);
-    text-align: center;
-    span {
-      font-size: 24px;
-      font-weight: 500;
-    }
-    p {
-      font-size: 16px;
-    }
-  }
-  .developers-section {
-    color: #444444;
-    height: 200px;
-    background-color: rgba(234, 234, 234, 0.9);
-    text-align: center;
-    p {
-      font-size: 16px;
-    }
-  }
-  .recruitment-section {
-    color: #444444;
-    height: 200px;
-    background-color: rgba(217, 217, 217, 0.9);
-    text-align: center;
-    p {
-      font-size: 16px;
-      width: 300px;
-    }
+
+  section {
+    padding-left: 20px;
+    padding-right: 20px;
   }
 
-  .principle-heading {
-    margin-top: 30px;
-    font-size: 24px !important;
+  .section-heading {
+    text-align: center;
+    .font-size(2.4);
     font-weight: 500;
+    color: @header-text;
+    margin-top: 80px;
+    margin-bottom: 28px;
+  }
+
+  .section-heading-hr {
+    display: block;
+    width: 200px;
+    margin: 0 auto 50px;
+    height: 3px;
+    background-color: @primary;
+  }
+
+  #services {
+    padding-left: 0;
+    padding-right: 0;
+
+    .service {
+      color: #444;
+      background-color: rgba(250, 250, 250, 0.9);
+      height: 100px;
+      padding: 0 31px;
+
+      .wrapper {
+        .font-size(0.8);
+        font-weight: 300;
+        width: 300px;
+        padding-top: 19px;
+        margin: 0 auto;
+
+        .headline {
+          .font-size(1.4);
+          font-weight: 500;
+          margin-bottom: 6px;
+        }
+
+        a {
+          display: block;
+        }
+      }
+
+      &:nth-child(2) {
+        background-color: rgba(234, 234, 234, 0.9);
+      }
+
+      &:last-child {
+        background-color: rgba(217, 217, 217, 0.9);
+      }
+    }
+  }
+
+  #unique-approach {
+    .approach-body {
+      .font-size(1.0);
+
+      .clearfix();
+    }
+
+    .side-pic {
+      display: none;
+    }
+  }
+
+  #development-style {
     text-align: center;
+    .font-size(1.6);
+    background-color: @section-bg;
 
+    .development-style-pitch {
+      max-width: 785px;
+      text-align: center;
+      margin: 0 auto 31px;
+    }
+
+    .development-style-cases {
+      display: inline-block;
+      margin: 0 auto 50px;
+      .clearfix();
+
+      .case {
+        text-align: center;
+        letter-spacing: -0.7px;
+
+        img {
+          margin-top: 30px;
+          margin-bottom: 30px;
+        }
+      }
+    }
   }
 
-  .side-pic {
-    height: 640px;
-  }
-
-  .approach-heading {
+  #meet-developers {
+    display: flex;
+    justify-content: center;
+    .font-size(1.1);
     font-weight: bold;
-    font-size: 3.2rem;
-    margin-bottom: 0;
-    margin-top: 30px;
+    color: #fff;
+    height: 270px;
+    padding: 99px 12px 0;
+    background-color: @section-bg;
+    background-image: url(../images/showcase/verification_new.jpg);
+
+    .headline {
+      .font-size(1.5);
+      font-weight: bold;
+      text-align: center;
+    }
+
+    > div {
+      text-align: center;
+    }
   }
 
-  .approach-body {
-    font-size: 16px;
-    padding-top: 10px;
-  }
-
-  .development-style-heading {
-    text-align: center;
-    font-weight: bold;
-    font-size: 3.2rem;
-    margin-bottom: 0;
-    margin-top: 30px;
-
-  }
-
-  .development-style {
-    font-size: 16px;
-    text-align: center;
-  }
-
-  .development-style-item {
-    font-size: 16px;
-    text-align: center;
-    margin-bottom: 50px;
-  }
-  .development-style-item img {
-    margin-top: 30px;
-    margin-bottom: 30px;
-  }
   .what-we-do-best {
     margin-top: 30px;
     background-color: #fafafa;
     display: flex;
     margin-bottom: 30px;
-  }
-  .what-we-do-best img {
-    margin-top: 50px;
-    margin-bottom: 50px;
-  }
 
-  .what-we-do-best-heading {
-    text-align: center;
-    font-weight: bold;
-    font-size: 3.2rem;
-    margin-bottom: 10px;
-    margin-top: 30px;
-
-  }
-
-  .new-landing-page-meeting-developers {
-    margin-top: 30px;
-    padding-top: 100px;
-    background-color: #fafafa;
-    display: flex;
-    height: 300px;
-    div {
+    .skill {
       text-align: center;
-
     }
-    p {
-      font-size: 30px;
-      font-weight: 500;
-      text-align: center;
-      color: #ffffff;
+
+    img {
+      margin-top: 50px;
+      margin-bottom: 50px;
     }
   }
 
-  .case-studies {
-    text-align: center;
-    font-weight: bold;
-    font-size: 3.2rem;
-    margin-bottom: 30px;
-    margin-top: 20px;
+  #partners {
+    padding-top: 68px;
+    padding-bottom: 84px;
   }
 
-}
+  .new-landing-page-supported-by {
+    text-align: center;
+    .font-size(2.0);
+    font-weight: 400;
+    margin-top: 0;
+    margin-bottom: 45px;
+  }
 
-.new-landing-page-supported-by {
-  text-align: center;
-  font-weight: bold;
-  font-size: 3.2rem;
-  margin-bottom: 20px;
-  margin-top: 20px;
 }
 
 .showcase.blog-page {

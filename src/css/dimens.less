@@ -11,3 +11,15 @@
 @screen-md-min: @screen-sm-max;
 @screen-md-max: ~"@{screen-lg-bp}px";
 @screen-lg-min: @screen-md-max;
+
+.clearfix {
+  *zoom: 1;
+  &:before,
+  &:after {
+    display: table;
+    content: "";
+  }
+  &:after {
+    clear: both;
+  }
+}

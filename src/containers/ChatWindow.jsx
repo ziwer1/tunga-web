@@ -62,7 +62,7 @@ class ChatWindow extends React.Component {
         setTimeout(function() {
           cw.setState({open: true});
           ChannelActions.recordAutoOpenChatSuccess();
-        }, __PRODUCTION__ ? 10000 : 3000);
+        }, __PRODUCTION__ ? 10000 : 30*60*1000);
       }
     }
     this.setState({channel, open});
