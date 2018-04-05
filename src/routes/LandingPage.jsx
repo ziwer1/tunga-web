@@ -264,8 +264,9 @@ export class LandingPage extends ComponentWithModal {
               {/*clearing grid hack*/}
             </div>
             <div className="col-lg-5">
-              <Link className="btn schedule_call" to="/call/">
-                Schedule a call</Link>
+              <btn className="btn schedule_call"
+                   onClick={this.onScheduleCall.bind(this)}>
+                Schedule a call</btn>
             </div>
           </div>
         </div>
@@ -695,7 +696,8 @@ export class LandingPage extends ComponentWithModal {
 
                   <Link href="mailto:hello@tunga.io">hello@tunga.io</Link>
                   <div>
-                    <button className="btn btn-callout" to="/call">
+                    <button className="btn btn-callout"
+                            onClick={this.onScheduleCall.bind(this)}>
                       Schedule a call with us
                     </button>
                   </div>
