@@ -19,7 +19,7 @@ import {
 export default class FriendOfTungaRulesPage extends React.Component {
     renderHeaderContent() {
         return (
-            <div>
+            <div className="showcase-header">
                 <h1> The program in detail</h1>
             </div>
         );
