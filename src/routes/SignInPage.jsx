@@ -10,106 +10,108 @@ import ShowcaseContainer from '../containers/ShowcaseContainer';
 import MetaTags from '../components/MetaTags';
 
 class SignIn extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleSubmit(e) {
-    e.preventDefault();
-    var username = this.refs.username.value.trim();
-    var password = this.refs.password.value.trim();
-    if (!password || !username) {
-      return;
+    constructor(props) {
+        super(props);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    this.props.AuthActions.authenticate({
-      username,
-      password,
-    });
-    return;
-  }
+    handleSubmit(e) {
+        e.preventDefault();
+        var username = this.refs.username.value.trim();
+        var password = this.refs.password.value.trim();
+        if (!password || !username) {
+            return;
+        }
 
-  renderHeaderContent() {
-    const {Auth} = this.props;
+        this.props.AuthActions.authenticate({
+            username,
+            password,
+        });
+        return;
+    }
 
-    return (
-      <div>
-        <form onSubmit={this.handleSubmit} name="signin" role="signin">
-          <p className="text-center">Sign in with</p>
+    renderHeaderContent() {
+        const {Auth} = this.props;
 
-          <SocialSignIn />
+        return (
+            <div>
+                <form onSubmit={this.handleSubmit} name="signin" role="signin">
+                    <p className="text-center">Sign in with</p>
 
-          <p className="text-center">or</p>
+                    <SocialSignIn />
 
-          {Auth.isAuthenticating ? <Progress /> : ''}
-          {Auth.error.auth
-            ? <Error
-                message={
-                  Auth.error.auth.non_field_errors ||
-                  "Sorry, we couldn't log you in. Please try again."
-                }
-              />
-            : ''}
+                    <p className="text-center">or</p>
 
-          <div className="form-group">
-            <label className="control-label" htmlFor="username">
-              Username or Email
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              name="username"
-              ref="username"
-              required
-              placeholder="Username or Email"
-            />
-          </div>
+                    {Auth.isAuthenticating ? <Progress /> : ''}
+                    {Auth.error.auth ? (
+                        <Error
+                            message={
+                                Auth.error.auth.non_field_errors ||
+                                "Sorry, we couldn't log you in. Please try again."
+                            }
+                        />
+                    ) : (
+                        ''
+                    )}
 
-          <div className="form-group">
-            <label className="control-label" htmlFor="pwd">
-              Password
-            </label>
-            <input
-              type="password"
-              className="form-control"
-              name="pwd"
-              ref="password"
-              required
-              placeholder="Password"
-            />
-          </div>
+                    <div className="form-group">
+                        <label className="control-label" htmlFor="username">
+                            Username or Email
+                        </label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            name="username"
+                            ref="username"
+                            required
+                            placeholder="Username or Email"
+                        />
+                    </div>
 
-          <div className="clearfix">
-            <Link to="/reset-password" className="forgot_passwd">
-              Forgot Password?
-            </Link>
+                    <div className="form-group">
+                        <label className="control-label" htmlFor="pwd">
+                            Password
+                        </label>
+                        <input
+                            type="password"
+                            className="form-control"
+                            name="pwd"
+                            ref="password"
+                            required
+                            placeholder="Password"
+                        />
+                    </div>
 
-            <button
-              type="submit"
-              className="btn pull-right"
-              disabled={Auth.isAuthenticating}>
-              Sign In
-            </button>
-          </div>
-        </form>
-      </div>
-    );
-  }
+                    <div className="clearfix">
+                        <Link to="/reset-password" className="forgot_passwd">
+                            Forgot Password?
+                        </Link>
 
-  render() {
-    let meta_title = 'Tunga | Sign In';
-    let meta_description =
-      'Sign In to hire skilled African developers ready work on your software project.';
+                        <button
+                            type="submit"
+                            className="btn pull-right"
+                            disabled={Auth.isAuthenticating}>
+                            Sign In
+                        </button>
+                    </div>
+                </form>
+            </div>
+        );
+    }
 
-    return (
-      <ShowcaseContainer
-        className="auth-page"
-        headerContent={this.renderHeaderContent()}>
-        <MetaTags title={meta_title} description={meta_description} />
-      </ShowcaseContainer>
-    );
-  }
+    render() {
+        let meta_title = 'Tunga | Sign In';
+        let meta_description =
+            'Sign In to hire skilled African developers ready work on your software project.';
+
+        return (
+            <ShowcaseContainer
+                className="auth-page"
+                headerContent={this.renderHeaderContent()}>
+                <MetaTags title={meta_title} description={meta_description} />
+            </ShowcaseContainer>
+        );
+    }
 }
 
 export default connect(SignIn);

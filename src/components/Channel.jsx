@@ -11,226 +11,257 @@ import {getChannelKey} from '../utils/reducers';
 import {isAuthenticated, isAdmin, isDeveloper} from '../utils/auth';
 
 export default class Channel extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {filters: null};
-  }
-
-  componentWillMount() {
-    this.intervals = [];
-  }
-
-  componentDidMount() {
-    const {channelId, ChannelActions} = this.props;
-
-    if (channelId) {
-      ChannelActions.retrieveChannel(channelId);
-      ChannelActions.listChannelActivity(channelId);
-
-      this.setInterval(this.getNewMessages.bind(this), 10000);
+    constructor(props) {
+        super(props);
+        this.state = {filters: null};
     }
-  }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.channelId != prevProps.channelId && this.props.channelId) {
-      const {ChannelActions} = this.props;
-      ChannelActions.retrieveChannel(this.props.channelId);
-      ChannelActions.listChannelActivity(this.props.channelId);
+    componentWillMount() {
+        this.intervals = [];
     }
-  }
 
-  componentWillUnmount() {
-    this.intervals.map(clearInterval);
-  }
+    componentDidMount() {
+        const {channelId, ChannelActions} = this.props;
 
-  setInterval() {
-    this.intervals.push(setInterval.apply(null, arguments));
-  }
+        if (channelId) {
+            ChannelActions.retrieveChannel(channelId);
+            ChannelActions.listChannelActivity(channelId);
 
-  getView() {
-    if (this.props.channelView) {
-      return this.props.channelView;
-    }
-    return null;
-  }
-
-  getNewMessages() {
-    const {channelId, Channel, ChannelActions, search, filters} = this.props;
-    let channel_key = getChannelKey(channelId);
-    if (channelId && !Channel.detail.activity.isFetching[channel_key]) {
-      var since = 0;
-      const channel_activity_items = Channel.detail.activity.items[channel_key];
-      if (channel_activity_items && channel_activity_items.length) {
-        since = channel_activity_items[channel_activity_items.length - 1].id;
-        if (since === undefined || since === null) {
-          [...channel_activity_items].reverse().some(item => {
-            if (item.id) {
-              since = item.id;
-            }
-            return item.id;
-          });
+            this.setInterval(this.getNewMessages.bind(this), 10000);
         }
-      }
-      ChannelActions.listChannelActivity(channelId, {
-        since,
-        ...filters,
-        search,
-        ...this.state.filters,
-      });
     }
-  }
 
-  onSendMessage(body, attachments) {
-    const {MessageActions, Channel, ChannelActions} = this.props;
-    const {channel} = Channel.detail;
-    MessageActions.createMessage({channel: channel.id, body}, attachments);
-  }
+    componentDidUpdate(prevProps, prevState) {
+        if (
+            this.props.channelId != prevProps.channelId &&
+            this.props.channelId
+        ) {
+            const {ChannelActions} = this.props;
+            ChannelActions.retrieveChannel(this.props.channelId);
+            ChannelActions.listChannelActivity(this.props.channelId);
+        }
+    }
 
-  onUpload(files) {
-    const {Channel, ChannelActions} = this.props;
-    const {channel} = Channel.detail;
-    ChannelActions.updateChannel(channel.id, null, files);
-  }
+    componentWillUnmount() {
+        this.intervals.map(clearInterval);
+    }
 
-  onSearch(filters) {
-    this.setState({filters});
-    const {Channel, ChannelActions} = this.props;
-    const {channel} = Channel.detail;
-    ChannelActions.listChannelActivity(channel.id, filters);
-  }
+    setInterval() {
+        this.intervals.push(setInterval.apply(null, arguments));
+    }
 
-  getCurrentChannel() {
-    const {channelId, Channel} = this.props;
-    const {channels} = Channel.list;
-    return channels[channelId] || {};
-  }
+    getView() {
+        if (this.props.channelView) {
+            return this.props.channelView;
+        }
+        return null;
+    }
 
-  renderChildren() {
-    return React.Children.map(
-      this.props.children,
-      function(child) {
-        return React.cloneElement(child, {
-          Channel: this.props.Channel,
-          Message: this.props.Message,
-          channel: this.getCurrentChannel(),
-          channelView: this.props.channelView,
-          ChannelActions: this.props.ChannelActions,
-          MessageActions: this.props.MessageActions,
-        });
-      }.bind(this),
-    );
-  }
+    getNewMessages() {
+        const {
+            channelId,
+            Channel,
+            ChannelActions,
+            search,
+            filters,
+        } = this.props;
+        let channel_key = getChannelKey(channelId);
+        if (channelId && !Channel.detail.activity.isFetching[channel_key]) {
+            var since = 0;
+            const channel_activity_items =
+                Channel.detail.activity.items[channel_key];
+            if (channel_activity_items && channel_activity_items.length) {
+                since =
+                    channel_activity_items[channel_activity_items.length - 1]
+                        .id;
+                if (since === undefined || since === null) {
+                    [...channel_activity_items].reverse().some(item => {
+                        if (item.id) {
+                            since = item.id;
+                        }
+                        return item.id;
+                    });
+                }
+            }
+            ChannelActions.listChannelActivity(channelId, {
+                since,
+                ...filters,
+                search,
+                ...this.state.filters,
+            });
+        }
+    }
 
-  render() {
-    const {channelId, Channel} = this.props;
-    let channel = this.getCurrentChannel();
-    let channel_key = getChannelKey(channelId);
+    onSendMessage(body, attachments) {
+        const {MessageActions, Channel, ChannelActions} = this.props;
+        const {channel} = Channel.detail;
+        MessageActions.createMessage({channel: channel.id, body}, attachments);
+    }
 
-    return Channel.detail.isRetrieving[channel_key]
-      ? <Progress />
-      : channel.id
-        ? <div className="chatbox">
-            <div
-              className={`chatbox-top clearfix ${channel.type ==
-              CHANNEL_TYPES.support
-                ? 'support'
-                : ''}`}>
-              {channel.type == CHANNEL_TYPES.support
-                ? <div>
-                    Hi there, we are Tunga. How can we help?
-                    <div className="avatars">
-                      <Avatar
-                        size="medium"
-                        src={require('../images/chat/bart.jpg')}
-                      />
-                      <Avatar
-                        size="medium"
-                        src={require('../images/chat/domieck.jpg')}
-                      />
-                      <Avatar
-                        size="medium"
-                        src={require('../images/chat/elijah.jpg')}
-                      />
-                    </div>
-                  </div>
-                : <div>
-                    <div
-                      className={`chat-actions ${!isAuthenticated() ||
-                      (channel.type == CHANNEL_TYPES.support && !isAdmin())
-                        ? ''
-                        : 'pull-right'}`}>
-                      {channel.type == CHANNEL_TYPES.support
-                        ? null
-                        : <div
-                            className="btn-group btn-choices select pull-right"
-                            role="group">
-                            {isDeveloper() &&
-                            channel.type == CHANNEL_TYPES.developer
-                              ? null
-                              : <div
-                                  className="dropdown"
-                                  style={{display: 'inline-block'}}>
-                                  <button
-                                    className="btn btn-borderless dropdown-toggle"
-                                    type="button"
-                                    id="chat-overflow"
-                                    data-toggle="dropdown"
-                                    aria-haspopup="true"
-                                    aria-expanded="true">
-                                    <i className="fa fa-ellipsis-v" />
-                                  </button>
-                                  <ul
-                                    className="dropdown-menu dropdown-menu-right"
-                                    aria-labelledby="chat-overflow">
-                                    <li>
-                                      <Link
-                                        id="edit-channel"
-                                        to={`/conversation/${channel.id}/edit`}>
-                                        <i className="fa fa-pencil-square-o" />{' '}
-                                        Edit
-                                      </Link>
-                                    </li>
-                                    <li>
-                                      <Link
-                                        id="channel-people"
-                                        to={`/conversation/${channel.id}/people`}>
-                                        <i className="glyphicon glyphicon-user" />{' '}
-                                        People
-                                      </Link>
-                                    </li>
-                                  </ul>
-                                </div>}
-                          </div>}
-                      {['messages', null].indexOf(this.getView() > -1)
-                        ? <div className="pull-right">
-                            <SearchBox
-                              placeholder="Search messages"
-                              onSearch={this.onSearch.bind(this)}
-                              count={
-                                Channel.detail.activity.count[channel_key] || 0
-                              }
-                              custom_class="search-box-group-custom"
-                            />
-                          </div>
-                        : null}
-                    </div>
-                    {isAuthenticated() && channel.type != CHANNEL_TYPES.support
-                      ? <div className="media">
-                          <div className="media-left">
-                            {channel.user
-                              ? <Avatar src={channel.user.avatar_url} />
-                              : null}
-                          </div>
-                          <div className="media-body">
-                            <ChannelInfo channel={channel} />
-                          </div>
+    onUpload(files) {
+        const {Channel, ChannelActions} = this.props;
+        const {channel} = Channel.detail;
+        ChannelActions.updateChannel(channel.id, null, files);
+    }
+
+    onSearch(filters) {
+        this.setState({filters});
+        const {Channel, ChannelActions} = this.props;
+        const {channel} = Channel.detail;
+        ChannelActions.listChannelActivity(channel.id, filters);
+    }
+
+    getCurrentChannel() {
+        const {channelId, Channel} = this.props;
+        const {channels} = Channel.list;
+        return channels[channelId] || {};
+    }
+
+    renderChildren() {
+        return React.Children.map(
+            this.props.children,
+            function(child) {
+                return React.cloneElement(child, {
+                    Channel: this.props.Channel,
+                    Message: this.props.Message,
+                    channel: this.getCurrentChannel(),
+                    channelView: this.props.channelView,
+                    ChannelActions: this.props.ChannelActions,
+                    MessageActions: this.props.MessageActions,
+                });
+            }.bind(this),
+        );
+    }
+
+    render() {
+        const {channelId, Channel} = this.props;
+        let channel = this.getCurrentChannel();
+        let channel_key = getChannelKey(channelId);
+
+        return Channel.detail.isRetrieving[channel_key] ? (
+            <Progress />
+        ) : channel.id ? (
+            <div className="chatbox">
+                <div
+                    className={`chatbox-top clearfix ${
+                        channel.type == CHANNEL_TYPES.support ? 'support' : ''
+                    }`}>
+                    {channel.type == CHANNEL_TYPES.support ? (
+                        <div>
+                            Hi there, we are Tunga. How can we help?
+                            <div className="avatars">
+                                <Avatar
+                                    size="medium"
+                                    src={require('../images/chat/bart.jpg')}
+                                />
+                                <Avatar
+                                    size="medium"
+                                    src={require('../images/chat/domieck.jpg')}
+                                />
+                                <Avatar
+                                    size="medium"
+                                    src={require('../images/chat/elijah.jpg')}
+                                />
+                            </div>
                         </div>
-                      : null}
-                    <div className="clearfix" />
-                  </div>}
+                    ) : (
+                        <div>
+                            <div
+                                className={`chat-actions ${
+                                    !isAuthenticated() ||
+                                    (channel.type == CHANNEL_TYPES.support &&
+                                        !isAdmin())
+                                        ? ''
+                                        : 'pull-right'
+                                }`}>
+                                {channel.type ==
+                                CHANNEL_TYPES.support ? null : (
+                                    <div
+                                        className="btn-group btn-choices select pull-right"
+                                        role="group">
+                                        {isDeveloper() &&
+                                        channel.type ==
+                                            CHANNEL_TYPES.developer ? null : (
+                                            <div
+                                                className="dropdown"
+                                                style={{
+                                                    display: 'inline-block',
+                                                }}>
+                                                <button
+                                                    className="btn btn-borderless dropdown-toggle"
+                                                    type="button"
+                                                    id="chat-overflow"
+                                                    data-toggle="dropdown"
+                                                    aria-haspopup="true"
+                                                    aria-expanded="true">
+                                                    <i className="fa fa-ellipsis-v" />
+                                                </button>
+                                                <ul
+                                                    className="dropdown-menu dropdown-menu-right"
+                                                    aria-labelledby="chat-overflow">
+                                                    <li>
+                                                        <Link
+                                                            id="edit-channel"
+                                                            to={`/conversation/${
+                                                                channel.id
+                                                            }/edit`}>
+                                                            <i className="fa fa-pencil-square-o" />{' '}
+                                                            Edit
+                                                        </Link>
+                                                    </li>
+                                                    <li>
+                                                        <Link
+                                                            id="channel-people"
+                                                            to={`/conversation/${
+                                                                channel.id
+                                                            }/people`}>
+                                                            <i className="glyphicon glyphicon-user" />{' '}
+                                                            People
+                                                        </Link>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
+                                {['messages', null].indexOf(
+                                    this.getView() > -1,
+                                ) ? (
+                                    <div className="pull-right">
+                                        <SearchBox
+                                            placeholder="Search messages"
+                                            onSearch={this.onSearch.bind(this)}
+                                            count={
+                                                Channel.detail.activity.count[
+                                                    channel_key
+                                                ] || 0
+                                            }
+                                            custom_class="search-box-group-custom"
+                                        />
+                                    </div>
+                                ) : null}
+                            </div>
+                            {isAuthenticated() &&
+                            channel.type != CHANNEL_TYPES.support ? (
+                                <div className="media">
+                                    <div className="media-left">
+                                        {channel.user ? (
+                                            <Avatar
+                                                src={channel.user.avatar_url}
+                                            />
+                                        ) : null}
+                                    </div>
+                                    <div className="media-body">
+                                        <ChannelInfo channel={channel} />
+                                    </div>
+                                </div>
+                            ) : null}
+                            <div className="clearfix" />
+                        </div>
+                    )}
+                </div>
+                {channel.id ? this.renderChildren() : null}
             </div>
-            {channel.id ? this.renderChildren() : null}
-          </div>
-        : null;
-  }
+        ) : null;
+    }
 }

@@ -10,7 +10,7 @@
         "watch": "cross-env BUILD_DEV=1 webpack-dev-server --hot --inline --progress --colors",
         "lint": "node ./scripts/tasks/eslint.js",
         "prettier": "node ./scripts/prettier/index.js write-changed",
-        "prettier-all": "node ./scripts/prettier/index.js write",
+        "prettier:all": "node ./scripts/prettier/index.js write",
         "deploy": "cd .ansible && ansible-playbook deploy.yml -i env/prod && cd ..",
         "deploy:sandbox": "cd .ansible && ansible-playbook deploy.yml -i env/sandbox && cd ..",
         "test": "echo \"No unit tests and e2e tests yet\" && exit 0"
@@ -88,6 +88,8 @@
         "less": "^2.5.3",
         "less-loader": "^2.2.1",
         "node-sass": "^4.7.2",
+        "nodemon": "^1.17.3",
+        "npm-run-all": "^4.1.2",
         "open-browser-webpack-plugin": "0.0.3",
         "prettier": "^1.5.2",
         "redux-logger": "^2.6.1",

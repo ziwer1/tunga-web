@@ -15,13 +15,13 @@ var spawn = require('child_process').spawn;
 var extension = process.platform === 'win32' ? '.cmd' : '';
 
 spawn(path.join('node_modules', '.bin', 'eslint' + extension), ['.'], {
-  // Allow colors to pass through
-  stdio: 'inherit',
+    // Allow colors to pass through
+    stdio: 'inherit',
 }).on('close', function(code) {
-  if (code !== 0) {
-    console.error('Lint failed');
-  }
+    if (code !== 0) {
+        console.error('Lint failed');
+    }
 
-  console.log('Lint passed');
-  process.exit(code);
+    console.log('Lint passed');
+    process.exit(code);
 });

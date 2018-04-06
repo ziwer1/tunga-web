@@ -3,23 +3,23 @@
 @screen-md-bp: 992;
 @screen-lg-bp: 1200;
 
-@screen-xxs-max: ~"@{screen-xs-bp}px";
+@screen-xxs-max: ~'@{screen-xs-bp}px';
 @screen-xs-min: @screen-xxs-max;
-@screen-xs-max: ~"@{screen-sm-bp}px";
+@screen-xs-max: ~'@{screen-sm-bp}px';
 @screen-sm-min: @screen-xs-max;
-@screen-sm-max: ~"@{screen-md-bp}px";
+@screen-sm-max: ~'@{screen-md-bp}px';
 @screen-md-min: @screen-sm-max;
-@screen-md-max: ~"@{screen-lg-bp}px";
+@screen-md-max: ~'@{screen-lg-bp}px';
 @screen-lg-min: @screen-md-max;
 
 .clearfix {
-  *zoom: 1;
-  &:before,
-  &:after {
-    display: table;
-    content: "";
-  }
-  &:after {
-    clear: both;
-  }
+    *zoom: 1;
+    &:before,
+    &:after {
+        display: table;
+        content: '';
+    }
+    &:after {
+        clear: both;
+    }
 }

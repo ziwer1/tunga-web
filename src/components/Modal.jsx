@@ -7,74 +7,72 @@ import store from '../store';
 import {runOptimizely} from '../utils/html';
 
 class ModalWrapper extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {showModal: true};
-  }
-
-  componentDidMount() {
-    runOptimizely();
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    runOptimizely();
-  }
-
-  open() {
-    this.setState({showModal: true});
-  }
-
-  close() {
-    this.setState({showModal: false});
-
-    const {dismiss} = this.props;
-    if (dismiss) {
-      dismiss();
+    constructor(props) {
+        super(props);
+        this.state = {showModal: true};
     }
-  }
 
-  renderChildren() {
-    return React.Children.map(
-      this.props.children,
-      function(child) {
-        return React.cloneElement(child, {
-          close: this.close.bind(this),
-        });
-      }.bind(this),
-    );
-  }
+    componentDidMount() {
+        runOptimizely();
+    }
 
-  render() {
-    const {options} = this.props;
+    componentDidUpdate(prevProps, prevState) {
+        runOptimizely();
+    }
 
-    return (
-      <Modal
-        show={this.state.showModal}
-        onHide={this.close.bind(this)}
-        bsStyle={options && options.bsStyle ? options.bsStyle : 'md'}
-        dialogClassName={options && options.className}>
-        <Modal.Header closeButton />
-        <Modal.Body>
-          {this.renderChildren()}
-        </Modal.Body>
-      </Modal>
-    );
-  }
+    open() {
+        this.setState({showModal: true});
+    }
+
+    close() {
+        this.setState({showModal: false});
+
+        const {dismiss} = this.props;
+        if (dismiss) {
+            dismiss();
+        }
+    }
+
+    renderChildren() {
+        return React.Children.map(
+            this.props.children,
+            function(child) {
+                return React.cloneElement(child, {
+                    close: this.close.bind(this),
+                });
+            }.bind(this),
+        );
+    }
+
+    render() {
+        const {options} = this.props;
+
+        return (
+            <Modal
+                show={this.state.showModal}
+                onHide={this.close.bind(this)}
+                bsStyle={options && options.bsStyle ? options.bsStyle : 'md'}
+                dialogClassName={options && options.className}>
+                <Modal.Header closeButton />
+                <Modal.Body>{this.renderChildren()}</Modal.Body>
+            </Modal>
+        );
+    }
 }
 
 const createModal = (Component, show, dismiss, options) => {
-  const wrapper = document
-    .getElementById('content')
-    .appendChild(document.createElement('div'));
+    const wrapper = document
+        .getElementById('content')
+        .appendChild(document.createElement('div'));
 
-  ReactDOM.render(
-    <Provider store={store}>
-      <ModalWrapper show={show} dismiss={dismiss} options={options}>
-        {Component}
-      </ModalWrapper>
-    </Provider>,
-    wrapper,
-  );
+    ReactDOM.render(
+        <Provider store={store}>
+            <ModalWrapper show={show} dismiss={dismiss} options={options}>
+                {Component}
+            </ModalWrapper>
+        </Provider>,
+        wrapper,
+    );
 };
 
 export default createModal;

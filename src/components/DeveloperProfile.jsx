@@ -10,95 +10,101 @@ import MetaTags from '../components/MetaTags';
 import ShowCaseFooter from '../containers/ShowCaseFooter';
 
 export default class DeveloperProfile extends React.Component {
-
-  componentDidMount(){
-    this.props.UserActions.retrieveUser(this.props.params.userId);
-    this.initMap();
-  }
-
-  initMap() {
-    var mapTimer = null;
-    function createMap() {
-      try {
-        if(google && google.maps) {
-          var uluru = {lat: 0.3476, lng: 32.5825};
-          var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 12,
-            center: uluru
-          });
-          var marker = new google.maps.Marker({
-            position: uluru,
-            map: map
-          });
-          if(mapTimer) {
-            clearInterval(mapTimer);
-          }
-        } else {
-          mapTimer = setInterval(createMap, 1000);
-        }
-      } catch (e) {
-        mapTimer = setInterval(createMap, 1000);
-      }
+    componentDidMount() {
+        this.props.UserActions.retrieveUser(this.props.params.userId);
+        this.initMap();
     }
-    createMap();
-  }
 
-  flattenSkills(skills) {
-    return (skills || []).map(skill => {
-      return skill.name;
-    });
-  }
+    initMap() {
+        var mapTimer = null;
+        function createMap() {
+            try {
+                if (google && google.maps) {
+                    var uluru = {lat: 0.3476, lng: 32.5825};
+                    var map = new google.maps.Map(
+                        document.getElementById('map'),
+                        {
+                            zoom: 12,
+                            center: uluru,
+                        },
+                    );
+                    var marker = new google.maps.Marker({
+                        position: uluru,
+                        map: map,
+                    });
+                    if (mapTimer) {
+                        clearInterval(mapTimer);
+                    }
+                } else {
+                    mapTimer = setInterval(createMap, 1000);
+                }
+            } catch (e) {
+                mapTimer = setInterval(createMap, 1000);
+            }
+        }
+        createMap();
+    }
 
-  onApprove(status) {
-    const {User, UserActions} = this.props;
-    const {user} = User.detail;
+    flattenSkills(skills) {
+        return (skills || []).map(skill => {
+            return skill.name;
+        });
+    }
 
-    UserActions.updateUser(user.id, {verified: status});
-  }
+    onApprove(status) {
+        const {User, UserActions} = this.props;
+        const {user} = User.detail;
 
-  renderHeaderContent() {
-    const {User} = this.props;
-    const {user} = User.detail;
+        UserActions.updateUser(user.id, {verified: status});
+    }
 
-    console.log('User Profile',  user);
+    renderHeaderContent() {
+        const {User} = this.props;
+        const {user} = User.detail;
 
-    return (
-      <div>
-        <h1>{user.display_name}</h1>
-        <h2>{user.profile?user.profile.location:''}</h2>
-        <div className="profile-div">
-          <img className="profile-image" src={user.image} />
-        </div>
-      </div>
-    );
-  }
+        console.log('User Profile', user);
 
-  render() {
-    let meta_title = 'Tunga | Developer profile';
-    let meta_description = 'Developer Awesomeness';
+        return (
+            <div>
+                <h1>{user.display_name}</h1>
+                <h2>{user.profile ? user.profile.location : ''}</h2>
+                <div className="profile-div">
+                    <img className="profile-image" src={user.image} />
+                </div>
+            </div>
+        );
+    }
 
-    const {Auth, User} = this.props;
-    const {user} = User.detail;
-    const profile = user.profile || {};
+    render() {
+        let meta_title = 'Tunga | Developer profile';
+        let meta_description = 'Developer Awesomeness';
 
-    return (
-      <ShowcaseContainer
-        className="developer-profile-page"
-        headerContent={this.renderHeaderContent()}>
-        <MetaTags title={meta_title} description={meta_description} />
+        const {Auth, User} = this.props;
+        const {user} = User.detail;
+        const profile = user.profile || {};
 
-        {(isAdmin() || isProjectManager())?(
-          <div className="text-center" style={{paddingTop: '20px'}}>
-            <button className="btn" onClick={this.onApprove.bind(this, !user.verified)}>{user.verified?'A':'Disa'}pprove</button>
-            {/*
+        return (
+            <ShowcaseContainer
+                className="developer-profile-page"
+                headerContent={this.renderHeaderContent()}>
+                <MetaTags title={meta_title} description={meta_description} />
+
+                {isAdmin() || isProjectManager() ? (
+                    <div className="text-center" style={{paddingTop: '20px'}}>
+                        <button
+                            className="btn"
+                            onClick={this.onApprove.bind(this, !user.verified)}>
+                            {user.verified ? 'A' : 'Disa'}pprove
+                        </button>
+                        {/*
              <span className="verified"><i className="fa fa-check-circle"/> Verified</span>
             */}
-          </div>
-        ):null}
+                    </div>
+                ) : null}
 
-        <div className="content">
-          <section>
-            {/*
+                <div className="content">
+                    <section>
+                        {/*
             <div className="arrow">
             <button type="button" className="btn btn-borderless nav-btn prev-btn pull-left">
               <i className="fa fa-chevron-left"/>
@@ -110,131 +116,263 @@ export default class DeveloperProfile extends React.Component {
             </button>
             </div>
              */}
-            <div className="container">
-              <div className="col-container">
-                <div className="col developer-card bio-content">
-                  <div className="bio-text">
-                    <Linkify properties={{target: '_blank'}}>
-                      {profile.bio}
-                    </Linkify>
-                  </div>
-                  <div className="bio-languages">
-                    {profile.skills && profile.skills.length?(
-                      <div>
-                        <div>
-                          {profile.skills.slice(0,3).map(skill => {
-                            return (
-                              <Link to={`/people/skill/${skill.slug}`} className="btn btn-bio">{skill.name}</Link>
-                            );
-                          })}
+                        <div className="container">
+                            <div className="col-container">
+                                <div className="col developer-card bio-content">
+                                    <div className="bio-text">
+                                        <Linkify
+                                            properties={{target: '_blank'}}>
+                                            {profile.bio}
+                                        </Linkify>
+                                    </div>
+                                    <div className="bio-languages">
+                                        {profile.skills &&
+                                        profile.skills.length ? (
+                                            <div>
+                                                <div>
+                                                    {profile.skills
+                                                        .slice(0, 3)
+                                                        .map(skill => {
+                                                            return (
+                                                                <Link
+                                                                    to={`/people/skill/${
+                                                                        skill.slug
+                                                                    }`}
+                                                                    className="btn btn-bio">
+                                                                    {skill.name}
+                                                                </Link>
+                                                            );
+                                                        })}
+                                                </div>
+                                                {profile.skills.length > 3 ? (
+                                                    <div>
+                                                        {profile.skills
+                                                            .slice(3, 6)
+                                                            .map(skill => {
+                                                                return (
+                                                                    <Link
+                                                                        to={`/people/skill/${
+                                                                            skill.slug
+                                                                        }`}
+                                                                        className="btn btn-bio">
+                                                                        {
+                                                                            skill.name
+                                                                        }
+                                                                    </Link>
+                                                                );
+                                                            })}
+                                                    </div>
+                                                ) : null}
+                                            </div>
+                                        ) : null}
+                                    </div>
+                                </div>
+                                <div
+                                    className="col developer-card map"
+                                    id="map">
+                                    <div />
+                                </div>
+                            </div>
+
+                            <div className="col-container">
+                                <div className="col developer-card other-content">
+                                    <div className="heading-2 bold">
+                                        Experience
+                                    </div>
+                                    {(user.work || []).map(work => {
+                                        return (
+                                            <div className="info-block">
+                                                <p className="info-header">
+                                                    {work.company}{' '}
+                                                    <span className="period">
+                                                        {
+                                                            work.start_month_display
+                                                        }/{work.start_year} -{' '}
+                                                        {!work.end_month &&
+                                                        !work.end_year
+                                                            ? 'Present'
+                                                            : `${
+                                                                  work.end_month_display
+                                                              }/${
+                                                                  work.end_year
+                                                              }`}
+                                                    </span>
+                                                </p>
+                                                <p className="info-title">
+                                                    {work.position}
+                                                </p>
+                                                <Linkify
+                                                    properties={{
+                                                        target: '_blank',
+                                                    }}>
+                                                    {work.details}
+                                                </Linkify>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                                <div className="col developer-card other-content">
+                                    <div className="heading-2 bold">
+                                        Skillset
+                                    </div>
+                                    {profile.skills_details &&
+                                    profile.skills_details.language ? (
+                                        <div className="info-block">
+                                            <p className="info-header">
+                                                Languages
+                                            </p>
+                                            <p>
+                                                {this.flattenSkills(
+                                                    profile.skills_details
+                                                        .language,
+                                                ).join(', ')}
+                                            </p>
+                                        </div>
+                                    ) : null}
+                                    {profile.skills_details &&
+                                    profile.skills_details.framework ? (
+                                        <div className="info-block">
+                                            <p className="info-header">
+                                                Frameworks
+                                            </p>
+                                            <p>
+                                                {this.flattenSkills(
+                                                    profile.skills_details
+                                                        .framework,
+                                                ).join(', ')}
+                                            </p>
+                                        </div>
+                                    ) : null}
+                                    {profile.skills_details &&
+                                    profile.skills_details.platform ? (
+                                        <div className="info-block">
+                                            <p className="info-header">
+                                                Platforms
+                                            </p>
+                                            <p>
+                                                {this.flattenSkills(
+                                                    profile.skills_details
+                                                        .platform,
+                                                ).join(', ')}
+                                            </p>
+                                        </div>
+                                    ) : null}
+                                    {profile.skills_details &&
+                                    profile.skills_details.library ? (
+                                        <div className="info-block">
+                                            <p className="info-header">
+                                                Libraries
+                                            </p>
+                                            <p>
+                                                {this.flattenSkills(
+                                                    profile.skills_details
+                                                        .library,
+                                                ).join(', ')}
+                                            </p>
+                                        </div>
+                                    ) : null}
+                                    {profile.skills_details &&
+                                    profile.skills_details.storage ? (
+                                        <div className="info-block">
+                                            <p className="info-header">
+                                                Storage
+                                            </p>
+                                            <p>
+                                                {this.flattenSkills(
+                                                    profile.skills_details
+                                                        .storage,
+                                                ).join(', ')}
+                                            </p>
+                                        </div>
+                                    ) : null}
+                                    {profile.skills_details &&
+                                    profile.skills_details.api ? (
+                                        <div className="info-block">
+                                            <p className="info-header">
+                                                3rd party APIs
+                                            </p>
+                                            <p>
+                                                {this.flattenSkills(
+                                                    profile.skills_details.api,
+                                                ).join(', ')}
+                                            </p>
+                                        </div>
+                                    ) : null}
+                                    {profile.skills_details &&
+                                    profile.skills_details.other ? (
+                                        <div className="info-block">
+                                            <p className="info-header">
+                                                Miscellaneous
+                                            </p>
+                                            <p>
+                                                {this.flattenSkills(
+                                                    profile.skills_details
+                                                        .other,
+                                                ).join(', ')}
+                                            </p>
+                                        </div>
+                                    ) : null}
+                                </div>
+                                <div className="col developer-card other-content">
+                                    <div className="heading-2 bold">
+                                        Education
+                                    </div>
+                                    {(user.education || []).map(education => {
+                                        return (
+                                            <div className="info-block">
+                                                <p className="info-header">
+                                                    {education.institution}{' '}
+                                                    <span className="period">
+                                                        {
+                                                            education.start_month_display
+                                                        }/{education.start_year}{' '}
+                                                        -{' '}
+                                                        {!education.end_month &&
+                                                        !education.end_year
+                                                            ? 'Present'
+                                                            : `${
+                                                                  education.end_month_display
+                                                              }/${
+                                                                  education.end_year
+                                                              }`}
+                                                    </span>
+                                                </p>
+                                                <p className="info-title">
+                                                    {education.award}
+                                                </p>
+                                                <Linkify
+                                                    properties={{
+                                                        target: '_blank',
+                                                    }}>
+                                                    {education.details}
+                                                </Linkify>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+
+                            <div className="text-center">
+                                <Link
+                                    to={
+                                        Auth.isAuthenticated
+                                            ? '/work/new/'
+                                            : '/start/'
+                                    }
+                                    className="btn btn-callout btn-main-cta">
+                                    Hire {user.first_name}
+                                </Link>
+                            </div>
                         </div>
-                        {profile.skills.length > 3?(
-                          <div>
-                            {profile.skills.slice(3,6).map(skill => {
-                              return (
-                                <Link to={`/people/skill/${skill.slug}`} className="btn btn-bio">{skill.name}</Link>
-                              );
-                            })}
-                          </div>
-                        ):null}
-                      </div>
-                    ):null}
-                  </div>
+                    </section>
                 </div>
-                <div className="col developer-card map" id="map">
-                  <div>
-                  </div>
+                <div className="text-center">
+                    <small>
+                        &copy; {moment().format('YYYY')} Tunga.io &mdash; All
+                        rights reserved.
+                    </small>
                 </div>
-              </div>
-
-              <div className="col-container">
-                <div className="col developer-card other-content">
-                  <div className="heading-2 bold">Experience</div>
-                  {(user.work || []).map(work => {
-                    return (
-                      <div className="info-block">
-                        <p className="info-header">{work.company} <span className="period">{work.start_month_display}/{work.start_year} - {!work.end_month && !work.end_year?'Present':`${work.end_month_display}/${work.end_year}`}</span></p>
-                        <p className="info-title">{work.position}</p>
-                        <Linkify properties={{target: '_blank'}}>{work.details}</Linkify>
-                      </div>
-                    );
-                  })}
-                </div>
-                <div className="col developer-card other-content">
-                  <div className="heading-2 bold">Skillset</div>
-                  {profile.skills_details && profile.skills_details.language?(
-                    <div className="info-block">
-                      <p className="info-header">Languages</p>
-                      <p>{this.flattenSkills(profile.skills_details.language).join(', ')}</p>
-                    </div>
-                  ):null}
-                  {profile.skills_details && profile.skills_details.framework?(
-                    <div className="info-block">
-                      <p className="info-header">Frameworks</p>
-                      <p>{this.flattenSkills(profile.skills_details.framework).join(', ')}</p>
-                    </div>
-                  ):null}
-                  {profile.skills_details && profile.skills_details.platform?(
-                    <div className="info-block">
-                      <p className="info-header">Platforms</p>
-                      <p>{this.flattenSkills(profile.skills_details.platform).join(', ')}</p>
-                    </div>
-                  ):null}
-                  {profile.skills_details && profile.skills_details.library?(
-                    <div className="info-block">
-                      <p className="info-header">Libraries</p>
-                      <p>{this.flattenSkills(profile.skills_details.library).join(', ')}</p>
-                    </div>
-                  ):null}
-                  {profile.skills_details && profile.skills_details.storage?(
-                    <div className="info-block">
-                      <p className="info-header">Storage</p>
-                      <p>{this.flattenSkills(profile.skills_details.storage).join(', ')}</p>
-                    </div>
-                  ):null}
-                  {profile.skills_details && profile.skills_details.api?(
-                    <div className="info-block">
-                      <p className="info-header">3rd party APIs</p>
-                      <p>{this.flattenSkills(profile.skills_details.api).join(', ')}</p>
-                    </div>
-                  ):null}
-                  {profile.skills_details && profile.skills_details.other?(
-                    <div className="info-block">
-                      <p className="info-header">Miscellaneous</p>
-                      <p>{this.flattenSkills(profile.skills_details.other).join(', ')}</p>
-                    </div>
-                  ):null}
-                </div>
-                <div className="col developer-card other-content">
-                  <div className="heading-2 bold">Education</div>
-                  {(user.education || []).map(education => {
-                    return (
-                      <div className="info-block">
-                        <p className="info-header">{education.institution} <span className="period">{education.start_month_display}/{education.start_year} - {!education.end_month && !education.end_year?'Present':`${education.end_month_display}/${education.end_year}`}</span></p>
-                        <p className="info-title">{education.award}</p>
-                        <Linkify properties={{target: '_blank'}}>{education.details}</Linkify>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              <div className="text-center">
-                <Link to={Auth.isAuthenticated?"/work/new/":"/start/"} className="btn btn-callout btn-main-cta">
-                  Hire {user.first_name}
-                </Link>
-              </div>
-
-            </div>
-          </section>
-        </div>
-        <div className="text-center">
-          <small>
-            &copy; {moment().format('YYYY')} Tunga.io &mdash; All rights
-            reserved.
-          </small>
-        </div>
-      </ShowcaseContainer>
-    );
-  }
+            </ShowcaseContainer>
+        );
+    }
 }

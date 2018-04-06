@@ -7,101 +7,109 @@ import Avatar from './Avatar';
 import {getUser} from '../utils/auth';
 
 export default class ProfilePicture extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {photo: null};
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  componentDidMount() {
-    this.props.ProfileActions.retrieveProfile();
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.Profile.isSaved.user && !prevProps.Profile.isSaved.user) {
-      this.setState({photo: null});
+    constructor(props) {
+        super(props);
+        this.state = {photo: null};
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
-  }
 
-  onDrop(files) {
-    this.setState({photo: files[0]});
-  }
+    componentDidMount() {
+        this.props.ProfileActions.retrieveProfile();
+    }
 
-  onClickOpen() {
-    this.refs.dropzone.open();
-  }
+    componentDidUpdate(prevProps, prevState) {
+        if (
+            this.props.Profile.isSaved.user &&
+            !prevProps.Profile.isSaved.user
+        ) {
+            this.setState({photo: null});
+        }
+    }
 
-  handleSubmit(e) {
-    e.preventDefault();
+    onDrop(files) {
+        this.setState({photo: files[0]});
+    }
 
-    const image = this.state.photo;
-    const {ProfileActions} = this.props;
+    onClickOpen() {
+        this.refs.dropzone.open();
+    }
 
-    ProfileActions.updateAuthUser({image});
-    return;
-  }
+    handleSubmit(e) {
+        e.preventDefault();
 
-  render() {
-    const {Profile} = this.props;
-    let prof_pic = this.state.photo
-      ? this.state.photo.preview
-      : getUser().avatar_url;
+        const image = this.state.photo;
+        const {ProfileActions} = this.props;
 
-    return (
-      <div>
-        {Profile.isRetrieving
-          ? <Progress />
-          : <form
-              onSubmit={this.handleSubmit}
-              name="profile"
-              role="form"
-              ref="profile_form">
-              <FormStatus
-                loading={Profile.isSaving.user}
-                success={Profile.isSaved.user}
-                message={'Profile picture saved'}
-                error={Profile.error.user}
-              />
+        ProfileActions.updateAuthUser({image});
+        return;
+    }
 
-              {Profile.error.user
-                ? <FieldError message="Uploaded file should be an image (png, jpg, jpeg or gif) and must be less than 2MB" />
-                : null}
+    render() {
+        const {Profile} = this.props;
+        let prof_pic = this.state.photo
+            ? this.state.photo.preview
+            : getUser().avatar_url;
 
-              <Dropzone
-                ref="dropzone"
-                className="dropzone"
-                multiple={false}
-                accept={'image/*'}
-                onDrop={this.onDrop.bind(this)}>
-                <div className="msg">
-                  {prof_pic
-                    ? <div>
-                        <Avatar src={prof_pic} size="xxl" />
-                        {this.state.photo
-                          ? <p>
-                              {this.state.photo.name}
-                            </p>
-                          : null}
-                      </div>
-                    : <i
-                        className="fa fa-cloud-upload fa-2x"
-                        style={{marginTop: '30px'}}
-                      />}
-                  <div>
-                    Drop an image here or click to select an image to upload.
-                  </div>
-                </div>
-              </Dropzone>
+        return (
+            <div>
+                {Profile.isRetrieving ? (
+                    <Progress />
+                ) : (
+                    <form
+                        onSubmit={this.handleSubmit}
+                        name="profile"
+                        role="form"
+                        ref="profile_form">
+                        <FormStatus
+                            loading={Profile.isSaving.user}
+                            success={Profile.isSaved.user}
+                            message={'Profile picture saved'}
+                            error={Profile.error.user}
+                        />
 
-              <button
-                type="submit"
-                className="btn  pull-right"
-                disabled={Profile.isSaving.user || !this.state.photo}>
-                Upload
-              </button>
-              <div className="clearfix" />
-            </form>}
-      </div>
-    );
-  }
+                        {Profile.error.user ? (
+                            <FieldError message="Uploaded file should be an image (png, jpg, jpeg or gif) and must be less than 2MB" />
+                        ) : null}
+
+                        <Dropzone
+                            ref="dropzone"
+                            className="dropzone"
+                            multiple={false}
+                            accept={'image/*'}
+                            onDrop={this.onDrop.bind(this)}>
+                            <div className="msg">
+                                {prof_pic ? (
+                                    <div>
+                                        <Avatar src={prof_pic} size="xxl" />
+                                        {this.state.photo ? (
+                                            <p>{this.state.photo.name}</p>
+                                        ) : null}
+                                    </div>
+                                ) : (
+                                    <i
+                                        className="fa fa-cloud-upload fa-2x"
+                                        style={{marginTop: '30px'}}
+                                    />
+                                )}
+                                <div>
+                                    Drop an image here or click to select an
+                                    image to upload.
+                                </div>
+                            </div>
+                        </Dropzone>
+
+                        <button
+                            type="submit"
+                            className="btn  pull-right"
+                            disabled={
+                                Profile.isSaving.user || !this.state.photo
+                            }>
+                            Upload
+                        </button>
+                        <div className="clearfix" />
+                    </form>
+                )}
+            </div>
+        );
+    }
 }

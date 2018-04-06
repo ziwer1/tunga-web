@@ -4,15 +4,15 @@ import {connect} from 'react-redux';
 import * as AuthActions from '../../actions/AuthActions';
 
 function mapStateToProps(state) {
-  return {Auth: state.Auth};
+    return {Auth: state.Auth};
 }
 
 function mapDispatchToProps(dispatch) {
-  return {
-    AuthActions: bindActionCreators(AuthActions, dispatch),
-  };
+    return {
+        AuthActions: bindActionCreators(AuthActions, dispatch),
+    };
 }
 
 export default function connectToAuth(component) {
-  return connect(mapStateToProps, mapDispatchToProps)(component);
+    return connect(mapStateToProps, mapDispatchToProps)(component);
 }

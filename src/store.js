@@ -9,16 +9,20 @@ var enabled_middleware = [thunk, routerMiddleware(browserHistory)];
 var compose_args = [];
 
 if (!__PRODUCTION__) {
-  const logger = createLogger({collapsed: true, level: 'info', duration: true});
-  enabled_middleware.push(logger);
-  compose_args.push(
-    window.devToolsExtension ? window.devToolsExtension() : f => f,
-  );
+    const logger = createLogger({
+        collapsed: true,
+        level: 'info',
+        duration: true,
+    });
+    enabled_middleware.push(logger);
+    compose_args.push(
+        window.devToolsExtension ? window.devToolsExtension() : f => f,
+    );
 }
 
 let store = createStore(
-  TungaApp,
-  compose(applyMiddleware(...enabled_middleware), ...compose_args),
+    TungaApp,
+    compose(applyMiddleware(...enabled_middleware), ...compose_args),
 );
 
 export default store;

@@ -6,79 +6,75 @@ import {connect} from 'react-redux';
 import * as NavActions from '../actions/NavActions';
 
 class LargeModal extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {showModal: false, title: null};
-  }
-
-  componentDidMount() {
-    this.toggle(this.props.show);
-    this.setState({title: this.props.title});
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.show != this.props.show) {
-      this.toggle(this.props.show);
+    constructor(props) {
+        super(props);
+        this.state = {showModal: false, title: null};
     }
 
-    if (prevProps.title != this.props.title) {
-      this.setState({title: this.props.title});
-    }
-  }
-
-  toggle(open = false) {
-    if (open) {
-      this.open();
-    } else {
-      this.close();
-    }
-  }
-
-  close() {
-    this.setState({showModal: false});
-    if (this.props.onHide) {
-      this.props.onHide();
+    componentDidMount() {
+        this.toggle(this.props.show);
+        this.setState({title: this.props.title});
     }
 
-    const {NavActions} = this.props;
-    NavActions.reportPathChange(null, null);
-  }
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.show != this.props.show) {
+            this.toggle(this.props.show);
+        }
 
-  open() {
-    this.setState({showModal: true});
-  }
+        if (prevProps.title != this.props.title) {
+            this.setState({title: this.props.title});
+        }
+    }
 
-  render() {
-    const {modalSize, bsStyle, className} = this.props;
-    return (
-      <Modal
-        show={this.state.showModal}
-        onHide={this.close.bind(this)}
-        bsSize={modalSize}
-        bsStyle={bsStyle}
-        dialogClassName={className}>
-        <Modal.Header closeButton>
-          {this.state.title
-            ? <Modal.Title>
-                {this.state.title}
-              </Modal.Title>
-            : null}
-        </Modal.Header>
-        <Modal.Body>
-          {this.props.children}
-        </Modal.Body>
-      </Modal>
-    );
-  }
+    toggle(open = false) {
+        if (open) {
+            this.open();
+        } else {
+            this.close();
+        }
+    }
+
+    close() {
+        this.setState({showModal: false});
+        if (this.props.onHide) {
+            this.props.onHide();
+        }
+
+        const {NavActions} = this.props;
+        NavActions.reportPathChange(null, null);
+    }
+
+    open() {
+        this.setState({showModal: true});
+    }
+
+    render() {
+        const {modalSize, bsStyle, className} = this.props;
+        return (
+            <Modal
+                show={this.state.showModal}
+                onHide={this.close.bind(this)}
+                bsSize={modalSize}
+                bsStyle={bsStyle}
+                dialogClassName={className}>
+                <Modal.Header closeButton>
+                    {this.state.title ? (
+                        <Modal.Title>{this.state.title}</Modal.Title>
+                    ) : null}
+                </Modal.Header>
+                <Modal.Body>{this.props.children}</Modal.Body>
+            </Modal>
+        );
+    }
 }
 
 function mapStateToProps(state) {
-  return {};
+    return {};
 }
 
 function mapDispatchToProps(dispatch) {
-  return {
-    NavActions: bindActionCreators(NavActions, dispatch),
-  };
+    return {
+        NavActions: bindActionCreators(NavActions, dispatch),
+    };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(LargeModal);

@@ -1,0 +1,23 @@
+{
+    "restartable": "rs",
+    "verbose": true,
+    "execMap": {
+        "js": "node --harmony"
+    },
+    "ignore": [
+        "node_modules",
+        "build",
+        "src/images"
+    ],
+    "events": {
+        "restart": "npm run prettier"
+    },
+    "watch": [
+        "src"
+    ],
+    "env": {
+        "NODE_ENV": "development"
+    },
+    "ext": "js jsx json less",
+    "exec": "npm run prettier"
+}
