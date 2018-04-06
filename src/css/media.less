@@ -1015,7 +1015,7 @@
 
         .sub_header {
             .font-size(1.8);
-            font-weight: 400;
+            font-weight: 300;
             margin-bottom: 30px;
         }
 
@@ -1023,6 +1023,7 @@
             height: 70px;
             width: 260px;
             .font-size(2);
+            font-weight: 300;
             padding-top: 20px;
         }
 
@@ -1106,6 +1107,27 @@
         #contact-us {
             form {
                 margin-top: 0;
+            }
+        }
+    }
+
+    .showcase.pricing-page {
+        #pricing-options {
+
+            .pricing-slides {
+                display: inline-block;
+
+                .slide {
+                    float: left;
+                    width: 360px;
+                    height: 420px;
+                    margin-right: 20px;
+                    margin-bottom: 0;
+
+                    &:last-child {
+                        margin-right: 0;
+                    }
+                }
             }
         }
     }

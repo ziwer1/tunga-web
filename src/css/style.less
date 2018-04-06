@@ -3394,7 +3394,7 @@ form[name='compose'] {
 
             .btn-callout {
                 .font-size(1.8);
-                font-weight: 500;
+                font-weight: 300;
                 height: 60px;
                 line-height: 30px;
                 width: 260px;
@@ -5345,138 +5345,76 @@ form[name='compose'] {
     header {
         min-height: 50%;
         background-image: url('../images/showcase/PricingwebTungadevelopersatwork.jpg');
-        height: 500px;
-        object-fit: contain;
         margin-bottom: 80px;
 
-        #pricing-header {
-            > h1 {
-                top: 120px;
-                font-size: 55px;
-                font-weight: 500;
-                font-style: normal;
-                font-stretch: normal;
-                line-height: normal;
-                letter-spacing: -0.5px;
-                text-align: left;
-                color: #ffffff;
-                margin-bottom: 5px;
-            }
+        #pricing-header.showcase-header {
 
-            > p#sub-heading {
-                position: relative;
-                top: 5px;
-                font-size: 18px;
-                font-weight: normal;
-                font-style: normal;
-                font-stretch: normal;
-                line-height: normal;
-                letter-spacing: normal;
-                text-align: left;
-                color: #ffffff;
-            }
+        }
+    }
 
-            > p > a.btn-callout {
-                position: absolute;
-                top: 372px;
-                border-radius: 5px;
-                background-color: #ee1f54;
+    section {
+        background-color: @inactive-grey;
+    }
+
+    #pricing-options {
+        display: block;
+        text-align: center;
+
+        .pricing-slides {
+            .clearfix();
+
+            .slide {
+                padding: 25px 0;
                 box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
-                padding: 12px 67px 19px 61px;
-                font-size: 18px;
-                color: #ffffff;
+                margin-bottom: 20px;
+                text-align: center;
+                .font-size(1.4);
+                font-weight: 500;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+
+                .section-heading {
+                    margin-top: 0;
+                    margin-bottom: 20px;
+                }
+
+                .section-heading-hr {
+                    max-width: 200px;
+                    margin: 0 auto 18px;
+                }
+
+                .description {
+                    height: 106px;
+                    max-width: 290px;
+                    margin: 0 auto;
+                }
+
+                .perks {
+                    .font-size(2.0);
+                    height: 150px;
+                    line-height: 1;
+                }
+
+                .disclaimer {
+
+                }
             }
         }
     }
 
-    section.pricing-options {
-        background-color: @inactive-grey;
-        margin-bottom: 0;
+    #pricing-action {
+        padding-top: 50px;
+        padding-bottom: 80px;
 
-        > .container {
-            .btn-callout-bottom {
-                border-radius: 5px;
-                background-color: #ee1f54;
-                box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
-                padding: 12px 67px 19px 61px;
-                font-size: 18px;
-                color: #ffffff;
-            }
-        }
-
-        .pricing-table {
-            position: relative;
-            // top: 79px;
-
-            .table-key {
-                margin-top: 220px;
-                text-align: left;
-
-                p {
-                    line-height: 15px !important;
-                }
-            }
-
-            .slide {
-                padding: 20px 0;
-
-                > * {
-                    padding: 0 10px;
-                }
-
-                h2 {
-                    margin: 0 0 15px 0;
-                    padding: 10px 0 20px 0;
-                    border-bottom: 1px @inactive-grey solid;
-                }
-
-                .perks {
-                    margin-top: 20px;
-                    margin-bottom: 25px;
-                    // color: @primary;
-                    text-align: center;
-                    color: #323232;
-                    font-weight: 400;
-                    .font-size(1.6);
-
-                    .fa-times {
-                        color: @primary-text;
-                    }
-                }
-            }
-            .tablekey {
-                p {
-                    color: @showcase-text !important;
-                    font-weight: 300 !important;
-                    font-size: 1.4rem !important;
-                    padding-left: 0px !important;
-                    text-align: left;
-                }
-            }
-
-            .table-key,
-            .tablekey,
-            .perks {
-                p {
-                    padding: 3px 10px;
-                    height: 30px;
-                    margin: 0;
-                    line-height: 25px;
-
-                    &:first-child,
-                    &:nth-child(10),
-                    &:nth-child(12),
-                    &:nth-child(13) {
-                        height: 45px;
-                        /*line-height: 40px;*/
-                    }
-
-                    &:nth-child(11) {
-                        height: 50px;
-                        /*line-height: 50px;*/
-                    }
-                }
-            }
+        .btn-callout {
+            .font-size(2.0);
+            font-weight: 500;
+            height: 60px;
+            line-height: 30px;
+            width: 260px;
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
         }
     }
 
@@ -6000,7 +5938,7 @@ form[name='compose'] {
     .sub_header {
         color: @active-white;
         .font-size(0.9);
-        font-weight: 500;
+        font-weight: 300;
         margin-bottom: 30px;
     }
 
@@ -6010,7 +5948,7 @@ form[name='compose'] {
         text-align: center;
         vertical-align: middle;
         .font-size(1);
-        font-weight: 500;
+        font-weight: 300;
         border-radius: 5px;
         padding-top: 9px;
         background-color: @primary;

@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 import * as UtilityActions from '../actions/UtilityActions';
 import ShowcaseContainer from '../containers/ShowcaseContainer';
 import ShowCaseFooter from '../containers/ShowCaseFooter';
+import SectionHeading from '../components/SectionHeading';
 
 import ComponentWithModal from '../components/ComponentWithModal';
 import MetaTags from '../components/MetaTags';
@@ -26,8 +27,9 @@ const OFFER_DETAILS = [
         title: 'Projects',
         description: (
             <p>
-                Outsource entire software projects Clean up your bugs/features
-                backlog Get started quickly
+                Outsource entire software projects<br/>
+                Clean up your bugs/features<br/>
+                backlog Get started quickly<br/>
             </p>
         ),
         perks: [
@@ -35,25 +37,25 @@ const OFFER_DETAILS = [
             '€20/hr',
             'Project management hours*',
             '€40/hr',
-            '*Project Management hours are Optional',
         ],
+        disclaimer: '* Project Management hours are Optional'
     },
     {
         title: 'Dedicated developers',
         description: (
             <p>
-                Reinforce your team with remote developers Full/part-time.
-                Temporary/permanently. Instant access to Africa’s best
-                programmers
+                Reinforce your team with remote developers <br/>
+                Full/part-time. Temporary/permanently.<br/>
+                Instant access to Africa’s best programmers
             </p>
         ),
         perks: [
+            '',
             'Development hours start',
             '€19',
-            '',
-            '',
-            'Schedule a call to find out more',
+            ''
         ],
+        disclaimer: '* Schedule a call to find out more'
     },
     {
         title: 'Recruitment ',
@@ -64,19 +66,19 @@ const OFFER_DETAILS = [
             </p>
         ),
         perks: [
+            '',
             'Custom pricing',
             '',
-            '',
-            '',
-            'Schedule a call to find out more',
+            ''
         ],
+        disclaimer: '* Schedule a call to find out more'
     },
 ];
 
 class PricingPage extends ComponentWithModal {
     renderHeaderContent() {
         return (
-            <div id="pricing-header">
+            <div id="pricing-header" className="showcase-header">
                 <h1>High quality and service level at affordable fees</h1>
                 <p id="sub-heading">
                     We calculate our fees transparently and stick with that. No
@@ -108,54 +110,47 @@ class PricingPage extends ComponentWithModal {
                 headerContent={this.renderHeaderContent()}>
                 <MetaTags title={meta_title} description={meta_description} />
 
-                <section className="pricing-options">
+                <section id="pricing-options">
                     <div className="container">
-                        <div className="pricing-table">
-                            <div className="step-slider three-sm clearfix">
-                                <ul>
-                                    {/* <li className="table-key">
-                    {this.renderLgTableKey()}
-                  </li> */}
-                                    {OFFER_DETAILS.map((offer, idx) => {
-                                        return (
-                                            <li key={offer.key}>
-                                                <div className="slide">
-                                                    <h3>{offer.title}</h3>
-                                                    <hr className="under-line" />
-                                                    <div className="description">
-                                                        {offer.description}
-                                                    </div>
-                                                    <div className="clearfix perks">
-                                                        <div className="col-xs-12 col-md-12 col-lg-12">
-                                                            {offer.perks &&
-                                                                offer.perks.map(
-                                                                    comp => {
-                                                                        return (
-                                                                            <p>
-                                                                                {
-                                                                                    comp
-                                                                                }
-                                                                            </p>
-                                                                        );
-                                                                    },
-                                                                )}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        );
-                                    })}
-                                </ul>
-                            </div>
+                        <div className="pricing-slides">
+                            {OFFER_DETAILS.map((offer, idx) => {
+                                return (
+                                    <div key={offer.key} className="slide">
+                                        <SectionHeading>{offer.title}</SectionHeading>
+                                        <div className="description">
+                                            {offer.description}
+                                        </div>
+                                        <div className="perks">
+                                            <div>
+                                                {offer.perks &&
+                                                offer.perks.map(
+                                                    comp => {
+                                                        return (
+                                                            <p>
+                                                                {
+                                                                    comp
+                                                                }
+                                                            </p>
+                                                        );
+                                                    },
+                                                )}
+                                            </div>
+                                        </div>
+                                        <div className="disclaimer">{offer.disclaimer}</div>
+                                    </div>
+                                );
+                            })}
                         </div>
                     </div>
+                </section>
+                <section id="pricing-action">
                     <div className="container">
                         <p className="text-center">
-                            <a
+                            <button
                                 onClick={this.onScheduleCall.bind(this)}
-                                className="btn btn-callout-bottom">
+                                className="btn btn-callout">
                                 Schedule a call
-                            </a>
+                            </button>
                         </p>
                     </div>
                 </section>

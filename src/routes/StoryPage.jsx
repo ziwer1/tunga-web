@@ -57,7 +57,7 @@ export default class StoryPage extends React.Component {
 
     renderHeaderContent() {
         return (
-            <div id="story-header">
+            <div id="story-header" className="showcase-header">
                 <h1>
                     Our journey to unleash <br /> Africa’s tech talent
                 </h1>
