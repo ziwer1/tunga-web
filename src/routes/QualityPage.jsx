@@ -16,19 +16,23 @@ let sampleDevProfile = {
     user: {
         display_name: 'Example Developer',
         profile: {
-            city: 'Kampala', country_name: 'Uganda',
+            city: 'Kampala',
+            country_name: 'Uganda',
             skills: [
-                {name: '.NET'}, {name: 'Android'}, {name: 'AngularJS'},
-                {name: 'CakePHP'}, {name: 'CodeIgniter'}, {name: 'Express.js'}
+                {name: '.NET'},
+                {name: 'Android'},
+                {name: 'AngularJS'},
+                {name: 'CakePHP'},
+                {name: 'CodeIgniter'},
+                {name: 'Express.js'},
             ],
-        }
+        },
     },
-    intro: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do\neiusmod tempor incididunt ut labore\net dolore magna aliqua. Ut enim ad\nminim veniam, quis nostrud\nexercitation',
+    intro:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do\neiusmod tempor incididunt ut labore\net dolore magna aliqua. Ut enim ad\nminim veniam, quis nostrud\nexercitation',
 };
 
-const PROFILES = [
-    sampleDevProfile, sampleDevProfile, sampleDevProfile
-];
+const PROFILES = [sampleDevProfile, sampleDevProfile, sampleDevProfile];
 
 export default class QualityPage extends React.Component {
     renderHeaderContent() {
@@ -276,10 +280,14 @@ export default class QualityPage extends React.Component {
                                         <div>
                                             {profile.user.profile &&
                                             (profile.user.profile.city ||
-                                                profile.user.profile.country_name)
-                                                ? `${profile.user.profile
-                                                    .city}, ${profile.user.profile
-                                                    .country_name}`
+                                                profile.user.profile
+                                                    .country_name)
+                                                ? `${
+                                                      profile.user.profile.city
+                                                  }, ${
+                                                      profile.user.profile
+                                                          .country_name
+                                                  }`
                                                 : null}
                                         </div>
                                         <div
@@ -294,8 +302,8 @@ export default class QualityPage extends React.Component {
                                                 .map(skill => {
                                                     return (
                                                         <span>
-                                                {skill.name}
-                                              </span>
+                                                            {skill.name}
+                                                        </span>
                                                     );
                                                 })}
                                         </div>
@@ -313,7 +321,7 @@ export default class QualityPage extends React.Component {
                     </section>
                 </div>
 
-                <ShowCaseFooter showContactUs={true}/>
+                <ShowCaseFooter showContactUs={true} />
             </ShowcaseContainer>
         );
     }

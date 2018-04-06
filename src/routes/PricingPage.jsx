@@ -27,9 +27,9 @@ const OFFER_DETAILS = [
         title: 'Projects',
         description: (
             <p>
-                Outsource entire software projects<br/>
-                Clean up your bugs/features<br/>
-                backlog Get started quickly<br/>
+                Outsource entire software projects<br />
+                Clean up your bugs/features<br />
+                backlog Get started quickly<br />
             </p>
         ),
         perks: [
@@ -38,24 +38,19 @@ const OFFER_DETAILS = [
             'Project management hours*',
             '€40/hr',
         ],
-        disclaimer: '* Project Management hours are Optional'
+        disclaimer: '* Project Management hours are Optional',
     },
     {
         title: 'Dedicated developers',
         description: (
             <p>
-                Reinforce your team with remote developers <br/>
-                Full/part-time. Temporary/permanently.<br/>
+                Reinforce your team with remote developers <br />
+                Full/part-time. Temporary/permanently.<br />
                 Instant access to Africa’s best programmers
             </p>
         ),
-        perks: [
-            '',
-            'Development hours start',
-            '€19',
-            ''
-        ],
-        disclaimer: '* Schedule a call to find out more'
+        perks: ['', 'Development hours start', '€19', ''],
+        disclaimer: '* Schedule a call to find out more',
     },
     {
         title: 'Recruitment ',
@@ -65,13 +60,8 @@ const OFFER_DETAILS = [
                 developer network Quickly find, select and recruit the best fit
             </p>
         ),
-        perks: [
-            '',
-            'Custom pricing',
-            '',
-            ''
-        ],
-        disclaimer: '* Schedule a call to find out more'
+        perks: ['', 'Custom pricing', '', ''],
+        disclaimer: '* Schedule a call to find out more',
     },
 ];
 
@@ -116,27 +106,23 @@ class PricingPage extends ComponentWithModal {
                             {OFFER_DETAILS.map((offer, idx) => {
                                 return (
                                     <div key={offer.key} className="slide">
-                                        <SectionHeading>{offer.title}</SectionHeading>
+                                        <SectionHeading>
+                                            {offer.title}
+                                        </SectionHeading>
                                         <div className="description">
                                             {offer.description}
                                         </div>
                                         <div className="perks">
                                             <div>
                                                 {offer.perks &&
-                                                offer.perks.map(
-                                                    comp => {
-                                                        return (
-                                                            <p>
-                                                                {
-                                                                    comp
-                                                                }
-                                                            </p>
-                                                        );
-                                                    },
-                                                )}
+                                                    offer.perks.map(comp => {
+                                                        return <p>{comp}</p>;
+                                                    })}
                                             </div>
                                         </div>
-                                        <div className="disclaimer">{offer.disclaimer}</div>
+                                        <div className="disclaimer">
+                                            {offer.disclaimer}
+                                        </div>
                                     </div>
                                 );
                             })}

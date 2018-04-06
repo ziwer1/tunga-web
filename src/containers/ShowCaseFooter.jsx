@@ -7,7 +7,7 @@ import {Button, Form, FormControl, FormGroup} from 'react-bootstrap';
 
 import * as UtilityActions from '../actions/UtilityActions';
 import SectionHeading from '../components/SectionHeading';
-import {openCalendlyWidget} from "../utils/router";
+import {openCalendlyWidget} from '../utils/router';
 
 class ShowCaseFooter extends React.Component {
     componentDidMount() {
@@ -45,27 +45,29 @@ class ShowCaseFooter extends React.Component {
                     <section id="contact-us">
                         <div className="container">
                             <div className="row">
-                                <SectionHeading>Where to find us</SectionHeading>
+                                <SectionHeading>
+                                    Where to find us
+                                </SectionHeading>
 
                                 <div>
                                     <div className="col-md-5">
                                         <p>
                                             <strong>Kampala office:</strong>
-                                            <br/>
+                                            <br />
                                             Design Hub Kampala, 5th Street,
                                             Industrial Area, Kampala, Uganda
                                         </p>
                                         <p>
                                             <strong>Amsterdam office:</strong>
-                                            <br/>
-                                            The Collab, Wibautstraat 131, 1091 GL
-                                            Amsterdam, The Netherlands
+                                            <br />
+                                            The Collab, Wibautstraat 131, 1091
+                                            GL Amsterdam, The Netherlands
                                         </p>
                                         <p>
                                             <strong>Lagos office:</strong>
-                                            <br/>
-                                            32 Barikisu Iyede street, Yaba, Lagos,
-                                            Nigeria
+                                            <br />
+                                            32 Barikisu Iyede street, Yaba,
+                                            Lagos, Nigeria
                                         </p>
 
                                         <Link href="mailto:hello@tunga.io">
@@ -82,7 +84,11 @@ class ShowCaseFooter extends React.Component {
                                         </div>
                                     </div>
                                     <div className="col-md-offset-1 col-md-5">
-                                        <form onSubmit={(e) => {e.preventDefault(); return false;}}>
+                                        <form
+                                            onSubmit={e => {
+                                                e.preventDefault();
+                                                return false;
+                                            }}>
                                             <FormGroup>
                                                 <FormControl
                                                     type="input"
@@ -131,28 +137,28 @@ class ShowCaseFooter extends React.Component {
                                         href="https://www.linkedin.com/company/tunga"
                                         id="fb"
                                         title="LinkedIn">
-                                        <i className="fa fa-linkedin"/>
+                                        <i className="fa fa-linkedin" />
                                     </a>
                                     <a
                                         target="_blank"
                                         href="https://www.facebook.com/tunga.io"
                                         id="fb"
                                         title="Facebook">
-                                        <i className="fa fa-facebook"/>
+                                        <i className="fa fa-facebook" />
                                     </a>
                                     <a
                                         target="_blank"
                                         href="https://twitter.com/tunga_io"
                                         id="twitter"
                                         title="Twitter">
-                                        <i className="fa fa-twitter"/>
+                                        <i className="fa fa-twitter" />
                                     </a>
                                     <a
                                         target="_blank"
                                         href="https://blog.tunga.io"
                                         id="medium"
                                         title="Medium">
-                                        <i className="fa fa-medium"/>
+                                        <i className="fa fa-medium" />
                                     </a>
                                 </div>
                                 <div className="footer-address">
@@ -173,7 +179,9 @@ class ShowCaseFooter extends React.Component {
                                         <a href="/story">Our Story</a>
                                     </li>
                                     <li>
-                                        <a href="https://blog.tunga.io/">Blog</a>
+                                        <a href="https://blog.tunga.io/">
+                                            Blog
+                                        </a>
                                     </li>
                                     <li>
                                         <a>Effortless Software project</a>
@@ -229,18 +237,22 @@ class ShowCaseFooter extends React.Component {
                                 <h4>Latest from our blog</h4>
                                 <ul className="list-unstyled">
                                     {Utility.posts.length
-                                        ? Utility.posts.slice(0, 4).map(article => {
-                                            return (
-                                                <li>
-                                                    <a
-                                                        target="_blank"
-                                                        href={article.url}>
-                                                        <i className="fa fa-angle-right"/>{' '}
-                                                        {article.title}
-                                                    </a>
-                                                </li>
-                                            );
-                                        })
+                                        ? Utility.posts
+                                              .slice(0, 4)
+                                              .map(article => {
+                                                  return (
+                                                      <li>
+                                                          <a
+                                                              target="_blank"
+                                                              href={
+                                                                  article.url
+                                                              }>
+                                                              <i className="fa fa-angle-right" />{' '}
+                                                              {article.title}
+                                                          </a>
+                                                      </li>
+                                                  );
+                                              })
                                         : null}
                                 </ul>
                             </div>

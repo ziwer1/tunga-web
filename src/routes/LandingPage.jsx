@@ -16,7 +16,6 @@ import {TESTIMONIALS} from '../constants/data';
 
 import * as SkillPageActions from '../actions/SkillPageActions';
 
-
 let overlayTimer = null;
 
 export class LandingPage extends ComponentWithModal {
@@ -683,7 +682,7 @@ export class LandingPage extends ComponentWithModal {
                         </div>
                     </div>
                 </section>
-                <ShowCaseFooter showContactUs={true}/>
+                <ShowCaseFooter showContactUs={true} />
             </ShowcaseContainer>
         );
     }

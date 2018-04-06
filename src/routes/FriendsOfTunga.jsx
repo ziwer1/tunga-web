@@ -113,9 +113,12 @@ class FriendOfTungaPage extends ComponentWithModal {
                 </h1>
                 <p id="sub-heading">
                     Become a Friend of Tunga by referring leads to us. For each
-                    lead that becomes a paying customer we donate 5% up to EUR 1,000 to <a href="http://bitsacademy.org/" target="_blank">Bits Academy</a>, a
-                    network of schools that gives free tech education to African
-                    youths from less privileged backgrounds
+                    lead that becomes a paying customer we donate 5% up to EUR
+                    1,000 to{' '}
+                    <a href="http://bitsacademy.org/" target="_blank">
+                        Bits Academy
+                    </a>, a network of schools that gives free tech education to
+                    African youths from less privileged backgrounds
                 </p>
                 <p id="link">
                     <Link to="/friends-of-tunga-rules">
@@ -154,9 +157,11 @@ class FriendOfTungaPage extends ComponentWithModal {
                                         </div>
                                         <div className="text-container">
                                             <p>
-                                                <strong>Companies large and small</strong>{' '}
-                                                that want to develop their app or
-                                                website
+                                                <strong>
+                                                    Companies large and small
+                                                </strong>{' '}
+                                                that want to develop their app
+                                                or website
                                             </p>
                                         </div>
                                     </div>
@@ -173,8 +178,9 @@ class FriendOfTungaPage extends ComponentWithModal {
                                         <div className="text-container">
                                             <p>
                                                 <strong>Software teams </strong>
-                                                that have trouble finding flexible
-                                                access to good developers
+                                                that have trouble finding
+                                                flexible access to good
+                                                developers
                                             </p>
                                         </div>
                                     </div>
@@ -190,9 +196,12 @@ class FriendOfTungaPage extends ComponentWithModal {
                                         </div>
                                         <div className="text-container">
                                             <p>
-                                                <strong>Startups and innovation teams</strong>{' '}
-                                                that need to build a prototype or
-                                                MVP
+                                                <strong>
+                                                    Startups and innovation
+                                                    teams
+                                                </strong>{' '}
+                                                that need to build a prototype
+                                                or MVP
                                             </p>
                                         </div>
                                     </div>
@@ -202,10 +211,11 @@ class FriendOfTungaPage extends ComponentWithModal {
 
                         <div className="container">
                             <div className="middle-content-box">
-                                Send your friends a personal e-mail with <a href="mailto:bart@tunga.io">bart@tunga.io</a> in cc. To make it easy for
-                                you, we made an example email that you
-                                can copy or use to draft your own
-                                e-mail.
+                                Send your friends a personal e-mail with{' '}
+                                <a href="mailto:bart@tunga.io">bart@tunga.io</a>{' '}
+                                in cc. To make it easy for you, we made an
+                                example email that you can copy or use to draft
+                                your own e-mail.
                             </div>
                         </div>
                     </section>
@@ -216,12 +226,16 @@ class FriendOfTungaPage extends ComponentWithModal {
                                 <div className="col-md-8">
                                     <div
                                         className={`rectangle-form ${
-                                            this.state.isEngLangSelected ? '' : ''
-                                            }`}>
+                                            this.state.isEngLangSelected
+                                                ? ''
+                                                : ''
+                                        }`}>
                                         <div
                                             hidden={this.state.isCopied}
                                             className="rectangle-copied pull-right">
-                                            <p className="text-center">Copied</p>
+                                            <p className="text-center">
+                                                Copied
+                                            </p>
                                         </div>
                                         <form className="form-horizontal">
                                             <div className="col-md-11">
@@ -300,73 +314,98 @@ class FriendOfTungaPage extends ComponentWithModal {
                                                                     <p>Hey,</p>
 
                                                                     <p>
-                                                                        I wanted to
-                                                                        connect you
-                                                                        with Bart
+                                                                        I wanted
+                                                                        to
+                                                                        connect
+                                                                        you with
+                                                                        Bart
                                                                         Leijssenaar
                                                                         of Tunga
-                                                                        (cc), which
+                                                                        (cc),
+                                                                        which
                                                                         helps
                                                                         companies
                                                                         build
-                                                                        software and
-                                                                        find good
+                                                                        software
+                                                                        and find
+                                                                        good
                                                                         developers.
                                                                         Their
-                                                                        mission is
-                                                                        to create
-                                                                        tech jobs
-                                                                        for African
-                                                                        youths. I
-                                                                        think this
+                                                                        mission
+                                                                        is to
+                                                                        create
+                                                                        tech
+                                                                        jobs for
+                                                                        African
+                                                                        youths.
+                                                                        I think
+                                                                        this
                                                                         could be
                                                                         interesting
-                                                                        for you and
-                                                                        a contact
+                                                                        for you
+                                                                        and a
+                                                                        contact
                                                                         would be
                                                                         mutually
                                                                         beneficial.
                                                                     </p>
 
                                                                     <p>
-                                                                        I’ll let you
-                                                                        guys take it
-                                                                        from here.
+                                                                        I’ll let
+                                                                        you guys
+                                                                        take it
+                                                                        from
+                                                                        here.
                                                                     </p>
                                                                 </p>
                                                             ) : (
                                                                 <p id="text-to-Copy">
-                                                                    <p>Hallo,</p>
+                                                                    <p>
+                                                                        Hallo,
+                                                                    </p>
 
                                                                     <p>
-                                                                        Ik wilde je
+                                                                        Ik wilde
+                                                                        je
                                                                         verbinden
                                                                         met Bart
                                                                         Leijssenaar
-                                                                        van Tunga
-                                                                        (cc), die
+                                                                        van
+                                                                        Tunga
+                                                                        (cc),
+                                                                        die
                                                                         bedrijven
-                                                                        helpt met
-                                                                        het bouwen
-                                                                        van software
+                                                                        helpt
+                                                                        met het
+                                                                        bouwen
+                                                                        van
+                                                                        software
                                                                         en het
-                                                                        vinden van
+                                                                        vinden
+                                                                        van
                                                                         goede
                                                                         ontwikkelaars.
-                                                                        Hun missie
+                                                                        Hun
+                                                                        missie
                                                                         is het
-                                                                        creëren van
+                                                                        creëren
+                                                                        van
                                                                         technische
-                                                                        banen voor
+                                                                        banen
+                                                                        voor
                                                                         Afrikaanse
-                                                                        jongeren. Ik
-                                                                        denk dat dit
+                                                                        jongeren.
+                                                                        Ik denk
+                                                                        dat dit
                                                                         interessant
-                                                                        voor je zou
-                                                                        kunnen zijn
-                                                                        en een
-                                                                        contact zou
-                                                                        voor beide
+                                                                        voor je
+                                                                        zou
+                                                                        kunnen
+                                                                        zijn en
+                                                                        een
+                                                                        contact
+                                                                        zou voor
+                                                                        beide
                                                                         partijen
                                                                         voordelig
                                                                         zijn.
@@ -374,8 +413,9 @@ class FriendOfTungaPage extends ComponentWithModal {
 
                                                                     <p>
                                                                         Ik laat
-                                                                        jullie het
-                                                                        van hier
+                                                                        jullie
+                                                                        het van
+                                                                        hier
                                                                         afhalen.
                                                                     </p>
                                                                 </p>
@@ -435,27 +475,31 @@ class FriendOfTungaPage extends ComponentWithModal {
                                 <div className="col-md-4">
                                     <div
                                         className={`rectangle-share ${
-                                            this.state.isEngLangSelected ? '' : ''
-                                            }`}>
+                                            this.state.isEngLangSelected
+                                                ? ''
+                                                : ''
+                                        }`}>
                                         <div className="row">
                                             <div
                                                 id="linkedInPost"
                                                 className="col-md-12">
                                                 <a
                                                     onClick={
-                                                        this.handleShareLinkedInPost
+                                                        this
+                                                            .handleShareLinkedInPost
                                                     }
                                                     className="rectangle-social text-center col-md-9">
                                                     <b>
-                                                        Share this post on LinkedIn
+                                                        Share this post on
+                                                        LinkedIn
                                                     </b>
                                                 </a>
                                                 <span>
-                                                <img
-                                                    src={require('images/showcase/Linkedin.png')}
-                                                    alt="icon"
-                                                />
-                                            </span>
+                                                    <img
+                                                        src={require('images/showcase/Linkedin.png')}
+                                                        alt="icon"
+                                                    />
+                                                </span>
                                             </div>
                                             <div className="col-md-12">
                                                 <div id="post-container">
@@ -469,42 +513,42 @@ class FriendOfTungaPage extends ComponentWithModal {
                                                             {this.state
                                                                 .isEngLangSelected ? (
                                                                 <span className="pull-right">
-                                                                <ul className="lang-list">
-                                                                    <li id="English">
-                                                                        <a>
-                                                                            <img
-                                                                                className="Bitmap"
-                                                                                src={require('images/showcase/English.png')}
-                                                                            />
-                                                                        </a>
-                                                                    </li>
-                                                                    <li id="Dutch">
-                                                                        <a>
+                                                                    <ul className="lang-list">
+                                                                        <li id="English">
+                                                                            <a>
+                                                                                <img
+                                                                                    className="Bitmap"
+                                                                                    src={require('images/showcase/English.png')}
+                                                                                />
+                                                                            </a>
+                                                                        </li>
+                                                                        <li id="Dutch">
+                                                                            <a>
+                                                                                <img
+                                                                                    className="Bitmap"
+                                                                                    src={require('images/showcase/Dutch.png')}
+                                                                                />
+                                                                            </a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </span>
+                                                            ) : (
+                                                                <span className="pull-right">
+                                                                    <ul className="lang-list">
+                                                                        <li id="Dutch">
                                                                             <img
                                                                                 className="Bitmap"
                                                                                 src={require('images/showcase/Dutch.png')}
                                                                             />
-                                                                        </a>
-                                                                    </li>
-                                                                </ul>
-                                                            </span>
-                                                            ) : (
-                                                                <span className="pull-right">
-                                                                <ul className="lang-list">
-                                                                    <li id="Dutch">
-                                                                        <img
-                                                                            className="Bitmap"
-                                                                            src={require('images/showcase/Dutch.png')}
-                                                                        />
-                                                                    </li>
-                                                                    <li id="English">
-                                                                        <img
-                                                                            className="Bitmap"
-                                                                            src={require('images/showcase/English.png')}
-                                                                        />
-                                                                    </li>
-                                                                </ul>
-                                                            </span>
+                                                                        </li>
+                                                                        <li id="English">
+                                                                            <img
+                                                                                className="Bitmap"
+                                                                                src={require('images/showcase/English.png')}
+                                                                            />
+                                                                        </li>
+                                                                    </ul>
+                                                                </span>
                                                             )}
                                                             <span className="caret social" />
                                                         </a>
@@ -534,32 +578,37 @@ class FriendOfTungaPage extends ComponentWithModal {
                                                         </ul>
                                                     </div>
                                                 </div>
-                                                {this.state.isEngLangSelected ? (
+                                                {this.state
+                                                    .isEngLangSelected ? (
                                                     <div className="rectangle-post">
                                                         <div className="div-container">
                                                             <p>
-                                                                Trouble finding good
-                                                                developers or
-                                                                looking to build an
-                                                                app? Please check
-                                                                out this great
-                                                                initiative called
-                                                                Tunga .
+                                                                Trouble finding
+                                                                good developers
+                                                                or looking to
+                                                                build an app?
+                                                                Please check out
+                                                                this great
+                                                                initiative
+                                                                called Tunga .
                                                             </p>
                                                             <p>
                                                                 If you send me a
                                                                 message I can
-                                                                connect you to them
-                                                                by e-mail. For every
-                                                                paying customer I
-                                                                refer to them they
+                                                                connect you to
+                                                                them by e-mail.
+                                                                For every paying
+                                                                customer I refer
+                                                                to them they
                                                                 donate 5% up to
                                                                 EUR1,000 to Bits
-                                                                Academy, a network
-                                                                of schools that
+                                                                Academy, a
+                                                                network of
+                                                                schools that
                                                                 gives free tech
-                                                                education to African
-                                                                youths from less
+                                                                education to
+                                                                African youths
+                                                                from less
                                                                 privileged
                                                                 backgrounds
                                                             </p>
@@ -569,30 +618,38 @@ class FriendOfTungaPage extends ComponentWithModal {
                                                     <div className="rectangle-post">
                                                         <div className="div-container">
                                                             <p>
-                                                                Problemen met het
-                                                                vinden van goede
-                                                                ontwikkelaars of het
-                                                                bouwen van een app?
-                                                                Bekijk dit geweldige
-                                                                initiatief genaamd
-                                                                Tunga.
+                                                                Problemen met
+                                                                het vinden van
+                                                                goede
+                                                                ontwikkelaars of
+                                                                het bouwen van
+                                                                een app? Bekijk
+                                                                dit geweldige
+                                                                initiatief
+                                                                genaamd Tunga.
                                                             </p>
                                                             <p>
                                                                 Als u mij een
-                                                                bericht stuurt, kan
-                                                                ik u via e-mail met
-                                                                hen verbinden. Voor
-                                                                elke betalende klant
-                                                                die ik verwijs,
-                                                                geven ze 5% tot
-                                                                maximaal EUR1.000
-                                                                aan Bits Academy,
+                                                                bericht stuurt,
+                                                                kan ik u via
+                                                                e-mail met hen
+                                                                verbinden. Voor
+                                                                elke betalende
+                                                                klant die ik
+                                                                verwijs, geven
+                                                                ze 5% tot
+                                                                maximaal
+                                                                EUR1.000 aan
+                                                                Bits Academy,
                                                                 een netwerk van
-                                                                scholen die gratis
+                                                                scholen die
+                                                                gratis
                                                                 technologieonderwijs
-                                                                geven aan Afrikaanse
+                                                                geven aan
+                                                                Afrikaanse
                                                                 jongeren met een
-                                                                minder bevoorrechte
+                                                                minder
+                                                                bevoorrechte
                                                                 achtergrond
                                                             </p>
                                                         </div>

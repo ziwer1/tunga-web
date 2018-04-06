@@ -10,4 +10,3 @@ export default class SectionHeading extends React.Component {
         );
     }
 }
-
