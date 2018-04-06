@@ -9,12 +9,12 @@ import ShowcaseContainer from '../containers/ShowcaseContainer';
 import ShowCaseFooter from '../containers/ShowCaseFooter';
 import ComponentWithModal from '../components/ComponentWithModal';
 import MetaTags from '../components/MetaTags';
+import SectionHeading from '../components/SectionHeading';
 
 import {openCalendlyWidget, showCallWidget} from '../utils/router';
 import {TESTIMONIALS} from '../constants/data';
 
 import * as SkillPageActions from '../actions/SkillPageActions';
-import {Button, Form, FormControl, FormGroup} from 'react-bootstrap';
 
 const STEP_DETAILS = [
     {
@@ -37,17 +37,6 @@ const STEP_DETAILS = [
 ];
 
 let overlayTimer = null;
-
-class SectionHeading extends React.Component {
-    render() {
-        return (
-            <div>
-                <div className="section-heading">{this.props.children}</div>
-                <div className="section-heading-hr" />
-            </div>
-        );
-    }
-}
 
 export class LandingPage extends ComponentWithModal {
     constructor(props) {
@@ -334,6 +323,8 @@ export class LandingPage extends ComponentWithModal {
         };
 
         let meta_title = 'Tunga | Software outsourcing done right';
+        let meta_description = `Getting software projects done is hard. We make it easy.`;
+
         return (
             <ShowcaseContainer
                 className={`new-landing-page`}
@@ -711,84 +702,9 @@ export class LandingPage extends ComponentWithModal {
                         </div>
                     </div>
                 </section>
-                <section id="contact-us">
-                    <div className="container">
-                        <div className="row">
-                            <SectionHeading>Where to find us</SectionHeading>
-
-                            <div>
-                                <div className="col-md-5">
-                                    <p>
-                                        <strong>Kampala office:</strong>
-                                        <br />
-                                        Design Hub Kampala, 5th Street,
-                                        Industrial Area, Kampala, Uganda
-                                    </p>
-                                    <p>
-                                        <strong>Amsterdam office:</strong>
-                                        <br />
-                                        The Collab, Wibautstraat 131, 1091 GL
-                                        Amsterdam, The Netherlands
-                                    </p>
-                                    <p>
-                                        <strong>Lagos office:</strong>
-                                        <br />
-                                        32 Barikisu Iyede street, Yaba, Lagos,
-                                        Nigeria
-                                    </p>
-
-                                    <Link href="mailto:hello@tunga.io">
-                                        hello@tunga.io
-                                    </Link>
-                                    <div>
-                                        <button
-                                            className="btn btn-callout"
-                                            onClick={this.onScheduleCall.bind(
-                                                this,
-                                            )}>
-                                            Schedule a call with us
-                                        </button>
-                                    </div>
-                                </div>
-                                <div className="col-md-offset-1 col-md-5">
-                                    <Form>
-                                        <FormGroup>
-                                            <FormControl
-                                                type="input"
-                                                placeholder="Your Name"
-                                            />
-                                        </FormGroup>
-                                        <FormGroup>
-                                            <FormControl
-                                                type="input"
-                                                placeholder="Your email address"
-                                            />
-                                        </FormGroup>
-                                        <FormGroup>
-                                            <FormControl
-                                                componentClass="textarea"
-                                                placeholder="Type your message here"
-                                            />
-                                        </FormGroup>
-                                        <div className="pull-right">
-                                            <Button
-                                                className="btn btn-callout"
-                                                type="submit">
-                                                Send
-                                            </Button>
-                                        </div>
-                                    </Form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                }
-                <ShowCaseFooter />
+                <ShowCaseFooter showContactUs={true}/>
             </ShowcaseContainer>
         );
-
-        let meta_description = `Getting software projects done is hard. We make it easy.`;
     }
 }
 

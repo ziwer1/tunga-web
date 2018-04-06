@@ -3227,61 +3227,6 @@ form[name='compose'] {
     color: @showcase-text;
     height: 100%;
 
-    img {
-        max-width: 100%;
-    }
-
-    header {
-        color: @active-white;
-        min-height: 60%;
-        background-color: #555;
-        background-image: url('../images/header.jpg');
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: cover;
-        padding-top: 70px;
-        position: relative;
-
-        h1 {
-            .font-size(5.2);
-            line-height: 42px;
-            font-weight: 600;
-            margin-bottom: 30px;
-        }
-
-        > p {
-            .font-size(1.8);
-            font-weight: 300;
-            line-height: 22px;
-        }
-
-        .email-widget {
-            max-width: 450px;
-            margin: 20px 0;
-
-            .form-control,
-            .btn {
-                height: 30px;
-            }
-        }
-    }
-
-    .btn-callout.btn-main-cta,
-    .btn-main-cta {
-        .font-size(2.2);
-        padding: 10px 20px;
-        margin: 20px 2px;
-
-        .fa.fa-rocket,
-        .tunga-icon-rocket {
-            display: inline-block;
-            margin-right: 10px;
-            .font-size(3);
-            position: relative;
-            top: 6px;
-        }
-    }
-
     .navbar,
     .navbar.navbar-fixed-top {
         min-height: 50px;
@@ -3349,6 +3294,115 @@ form[name='compose'] {
         .navbar-form {
             box-shadow: none !important;
         }
+    }
+
+    .nav-actions {
+        .schedule {
+            display: none;
+        }
+
+        &.show-launch {
+            .launch {
+                /*display: block !important;*/
+            }
+        }
+    }
+
+    &.task-wizard-page {
+        .nav-actions {
+            .schedule {
+                display: block;
+            }
+
+            .launch {
+                display: none;
+            }
+        }
+    }
+
+    &.landing-page,
+    &.lander {
+        .nav-actions {
+            .schedule {
+                display: block;
+            }
+
+            .launch {
+                display: none;
+            }
+        }
+    }
+
+    img {
+        max-width: 100%;
+    }
+
+    header {
+        color: @active-white;
+        min-height: 60%;
+        background-color: #555;
+        background-image: url('../images/header.jpg');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        padding-top: 70px;
+        position: relative;
+
+        h1 {
+            .font-size(5.2);
+            line-height: 42px;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        > p {
+            .font-size(1.8);
+            font-weight: 300;
+            line-height: 22px;
+        }
+
+        .email-widget {
+            max-width: 450px;
+            margin: 20px 0;
+
+            .form-control,
+            .btn {
+                height: 30px;
+            }
+        }
+    }
+
+    .btn-callout.btn-main-cta,
+    .btn-main-cta {
+        .font-size(2.2);
+        padding: 10px 20px;
+        margin: 20px 2px;
+
+        .fa.fa-rocket,
+        .tunga-icon-rocket {
+            display: inline-block;
+            margin-right: 10px;
+            .font-size(3);
+            position: relative;
+            top: 6px;
+        }
+    }
+
+    .section-heading {
+        text-align: center;
+        .font-size(2.4);
+        font-weight: 500;
+        color: @header-text;
+        margin-top: 80px;
+        margin-bottom: 28px;
+    }
+
+    .section-heading-hr {
+        display: block;
+        width: 200px;
+        margin: 0 auto 50px;
+        height: 3px;
+        background-color: @primary;
     }
 
     .learn-more {
@@ -3690,43 +3744,35 @@ form[name='compose'] {
             animation-duration: 1.5s;
         }
     }
-}
 
-.showcase {
-    .nav-actions {
-        .schedule {
-            display: none;
+    #contact-us {
+        .font-size(1.6);
+        padding-bottom: 90px;
+
+        .section-heading-hr {
+            margin-bottom: 60px;
         }
 
-        &.show-launch {
-            .launch {
-                /*display: block !important;*/
-            }
+        form {
+            margin-top: 40px;
         }
-    }
 
-    &.task-wizard-page {
-        .nav-actions {
-            .schedule {
-                display: block;
-            }
-
-            .launch {
-                display: none;
-            }
+        .form-control {
+            height: 40px;
+            line-height: 40px;
+            box-shadow: 0 2px 4px 0 rgba(193, 193, 193, 0.5);
         }
-    }
 
-    &.landing-page,
-    &.lander {
-        .nav-actions {
-            .schedule {
-                display: block;
-            }
+        textarea {
+            min-height: 115px;
+        }
 
-            .launch {
-                display: none;
-            }
+        p {
+            margin-bottom: 10px;
+        }
+
+        .btn-callout {
+            padding: 13px 20px;
         }
     }
 }
@@ -6040,23 +6086,6 @@ form[name='compose'] {
         padding-right: 20px;
     }
 
-    .section-heading {
-        text-align: center;
-        .font-size(2.4);
-        font-weight: 500;
-        color: @header-text;
-        margin-top: 80px;
-        margin-bottom: 28px;
-    }
-
-    .section-heading-hr {
-        display: block;
-        width: 200px;
-        margin: 0 auto 50px;
-        height: 3px;
-        background-color: @primary;
-    }
-
     #services {
         padding-left: 0;
         padding-right: 0;
@@ -6195,37 +6224,6 @@ form[name='compose'] {
         font-weight: 400;
         margin-top: 0;
         margin-bottom: 45px;
-    }
-
-    #contact-us {
-        .font-size(1.6);
-        padding-bottom: 90px;
-
-        .section-heading-hr {
-            margin-bottom: 60px;
-        }
-
-        form {
-            margin-top: 40px;
-        }
-
-        .form-control {
-            height: 40px;
-            line-height: 40px;
-            box-shadow: 0 2px 4px 0 rgba(193, 193, 193, 0.5);
-        }
-
-        textarea {
-            min-height: 115px;
-        }
-
-        p {
-            margin-bottom: 10px;
-        }
-
-        .btn-callout {
-            padding: 13px 20px;
-        }
     }
 }
 

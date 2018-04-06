@@ -68,7 +68,7 @@ class ShowcaseContainer extends React.Component {
                     {this.props.headerVideo ? (
                         <div className="video-overlay" />
                     ) : null}
-                    {this.props.hasArrow ? (
+                    {this.props.hasArrow && false? (
                         <div className="arrow-overlay">
                             <div className="ribbon" />
                             <div
@@ -193,6 +193,7 @@ ShowcaseContainer.propTypes = {
     hasGlassNav: React.PropTypes.bool,
     autoOpenChat: React.PropTypes.bool,
     backgroundImage: React.PropTypes.string,
+    hasArrow: React.PropTypes.bool,
 };
 
 ShowcaseContainer.defaultProps = {
@@ -201,6 +202,7 @@ ShowcaseContainer.defaultProps = {
     hasGlassNav: true,
     autoOpenChat: true,
     headerImage: null,
+    hasArrow: false
 };
 
 export default connect(ShowcaseContainer);
