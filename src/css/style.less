@@ -3399,7 +3399,7 @@ form[name='compose'] {
 
     .section-heading-hr {
         display: block;
-        width: 200px;
+        max-width: 200px;
         margin: 0 auto 50px;
         height: 3px;
         background-color: @primary;
@@ -4881,70 +4881,40 @@ form[name='compose'] {
     header {
         background-image: url('../images/showcase/Africandeveloperworkingmobileweb.jpg');
         min-height: 50%;
-        height: 500px;
-        object-fit: contain;
-        margin-bottom: 80px;
 
         #story-header {
-            > h1 {
-                top: 120px;
-                font-size: 55px;
+            margin-bottom: 70px;
+
+            h1 {
+                .font-size(5.5);
                 font-weight: 500;
-                font-style: normal;
-                font-stretch: normal;
-                line-height: normal;
+                line-height: 1;
                 letter-spacing: -0.5px;
                 text-align: left;
-                color: #ffffff;
-                margin-bottom: 5px;
+                color: @active-white;
+                margin-top: 100px;
+                margin-bottom: 15px;
             }
 
-            > p#sub-heading {
-                position: relative;
-                top: 5px;
-                font-size: 18px;
-                font-weight: normal;
-                font-style: normal;
-                font-stretch: normal;
-                line-height: normal;
-                letter-spacing: normal;
-                text-align: left;
+            #sub-heading {
+                .font-size(1.8);
+                font-weight: 300;
                 color: #ffffff;
+                margin-bottom: 60px;
             }
 
-            > p > a.btn-callout {
-                position: absolute;
-                top: 372px;
-                border-radius: 5px;
-                background-color: #ee1f54;
-                box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
-                padding: 12px 67px 19px 61px;
-                font-size: 18px;
-                color: #ffffff;
+            .btn-callout {
+                .font-size(1.8);
+                font-weight: 500;
+                height: 60px;
+                line-height: 30px;
+                width: 260px;
             }
         }
     }
 
-    .section-heading {
-        font-size: 24px;
-        .under-line {
-            width: 683px;
-            border: solid 2px #ee1f54;
-            margin-bottom: 53px;
-        }
-    }
-
-    p#text {
-        margin: 20px 0;
-        font-size: 16px;
-        font-weight: normal;
-        font-style: normal;
-        font-stretch: normal;
-        line-height: normal;
-        letter-spacing: -0.7px;
-        text-align: left;
-        color: #444444;
-        color: var(--greyish-brown);
+    .section-heading-hr {
+        max-width: 600px;
     }
 
     .image-wrapper {
@@ -4968,6 +4938,10 @@ form[name='compose'] {
 
     ol {
         padding-left: 14px;
+    }
+
+    section {
+        padding-bottom: 20px;
     }
 
     section:nth-child(even) {

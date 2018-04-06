@@ -6,8 +6,9 @@ import YouTube from 'react-youtube';
 import ShowcaseContainer from '../containers/ShowcaseContainer';
 import MetaTags from '../components/MetaTags';
 import ShowCaseFooter from '../containers/ShowCaseFooter';
-import {openCalendlyWidget} from '../utils/router';
+import SectionHeading from '../components/SectionHeading';
 
+import {openCalendlyWidget} from '../utils/router';
 import {
     sendGAEvent,
     GA_EVENT_CATEGORIES,
@@ -87,10 +88,9 @@ export default class StoryPage extends React.Component {
                 <div className="content">
                     <section>
                         <div className="container">
-                            <div className="section-heading text-center">
+                            <SectionHeading>
                                 Our Dream: Equal Opportunity for All Youths
-                                <hr className="under-line" />
-                            </div>
+                            </SectionHeading>
                             <p id="text">
                                 Being able to take control of and choose your
                                 own destiny is a universal value. And it
@@ -133,11 +133,10 @@ export default class StoryPage extends React.Component {
 
                     <section>
                         <div className="container">
-                            <div className="section-heading text-center">
+                            <SectionHeading>
                                 The Problem: African Youths Don’t Have The Same
                                 Opportunities
-                                <hr className="under-line" />
-                            </div>
+                            </SectionHeading>
                             <p id="text">
                                 But the reality is that in many parts of the
                                 world, the opportunity you have to determine
@@ -165,11 +164,10 @@ export default class StoryPage extends React.Component {
 
                     <section id="partners">
                         <div className="container">
-                            <div className="section-heading text-center">
+                            <SectionHeading>
                                 Our Mission: 21st Century Jobs for African
                                 Youths
-                                <hr className="under-line" />
-                            </div>
+                            </SectionHeading>
                             <p id="text">
                                 That’s why in 2015 we embarked on a mission to
                                 create 21st century jobs for African youths.
@@ -186,11 +184,10 @@ export default class StoryPage extends React.Component {
 
                     <section>
                         <div className="container">
-                            <div className="section-heading text-center">
+                            <SectionHeading>
                                 Our Solution: Link African Software Developers<br />{' '}
                                 to International Teams and Projects
-                                <hr className="under-line" />
-                            </div>
+                            </SectionHeading>
                             <p id="text">
                                 We believe in the power of business to transform
                                 society. And probably the most attractive area
@@ -220,11 +217,10 @@ export default class StoryPage extends React.Component {
 
                     <section>
                         <div className="container">
-                            <div className="section-heading text-center">
+                            <SectionHeading>
                                 Impact Sourcing - (Software) Outsourcing Done
                                 Right
-                                <hr className="under-line" />
-                            </div>
+                            </SectionHeading>
                             <p id="text">
                                 Tunga is not a traditional software outsourcing
                                 platform. Our way of working is called Impact
@@ -255,10 +251,9 @@ export default class StoryPage extends React.Component {
 
                     <section>
                         <div className="container">
-                            <div className="section-heading text-center">
+                            <SectionHeading>
                                 Why Africa: Tackling Huge Youth Unemployment
-                                <hr className="under-line" />
-                            </div>
+                            </SectionHeading>
                             <p id="text">
                                 Tunga’s clients come from all over the world,
                                 but our developers exclusively come from Africa.
@@ -288,10 +283,9 @@ export default class StoryPage extends React.Component {
 
                     <section>
                         <div className="container">
-                            <div className="section-heading text-center">
+                            <SectionHeading>
                                 Our Human-Centered Approach Cuts Both Ways
-                                <hr className="under-line" />
-                            </div>
+                            </SectionHeading>
                             <p id="text">
                                 Our way of working allows us to do software
                                 outsourcing better than traditional players in
