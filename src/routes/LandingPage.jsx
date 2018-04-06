@@ -16,25 +16,6 @@ import {TESTIMONIALS} from '../constants/data';
 
 import * as SkillPageActions from '../actions/SkillPageActions';
 
-const STEP_DETAILS = [
-    {
-        title: 'Tell us what you want to build.',
-        icon: 'tunga-icon-how-needs',
-    },
-    {
-        title: 'Tunga matches developers with objectively verified skills.',
-        icon: 'tunga-icon-how-matches',
-    },
-    {
-        title:
-            'Developers start working in your workflow or set one up for you.',
-        icon: 'tunga-icon-how-workflow',
-    },
-    {
-        title: 'Get daily feedback reports on progress & quality.',
-        icon: 'tunga-icon-how-feedback',
-    },
-];
 
 let overlayTimer = null;
 

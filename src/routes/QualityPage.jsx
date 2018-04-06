@@ -7,34 +7,27 @@ import ShowcaseContainer from '../containers/ShowcaseContainer';
 import MetaTags from '../components/MetaTags';
 import ShowCaseFooter from '../containers/ShowCaseFooter';
 import SectionHeading from '../components/SectionHeading';
+import Avatar from '../components/Avatar';
 
 import {openCalendlyWidget} from '../utils/router';
+import {nl_to_br} from '../utils/html';
 
-const STEP_DETAILS = [
-    {
-        title: '1. Screening Portfolio',
-        description:
-            'The first thing that we do is screening the CV, references, recent projects of the applicant. If the experience of the developer meets our standard we invite them to a remote interview with one of our senior developers or project coordinators. During this interview, we assess their English proficiency level and communication skills.',
-        icon: 'tunga-icon-soft-skills',
+let sampleDevProfile = {
+    user: {
+        display_name: 'Example Developer',
+        profile: {
+            city: 'Kampala', country_name: 'Uganda',
+            skills: [
+                {name: '.NET'}, {name: 'Android'}, {name: 'AngularJS'},
+                {name: 'CakePHP'}, {name: 'CodeIgniter'}, {name: 'Express.js'}
+            ],
+        }
     },
-    {
-        title: '2. Soft skills',
-        description:
-            '                  When a developer has successfully passed the first stage of our program we assess our developers on several "soft skills". Such as communication skills, management of expectations, work ethics, stress management and time management. At Tunga, we believe that soft skills are as much or more important than software development skills.',
-        icon: 'tunga-icon-coding-skills',
-    },
-    {
-        title: '3. Coding Skills',
-        description:
-            'When a developer passed all our assessments he or she gets to work on a first project on Tunga. For the first couple of projects the developers work under the guidance of a senior Tunga developer to ensure great collaboration between you and the developer(s).',
-        icon: 'tunga-icon-teamwork',
-    },
-    {
-        title: '4. Guidance Program',
-        description:
-            'When a developer passed all our assessments he or she gets to work on the first project on Tunga. For the first couple of projects, the developers work under the guidance of a senior Tunga developer to ensure great collaboration between you and the developer(s) and that all our developer produce top notch products.',
-        icon: 'tunga-icon-teamwork',
-    },
+    intro: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do\neiusmod tempor incididunt ut labore\net dolore magna aliqua. Ut enim ad\nminim veniam, quis nostrud\nexercitation',
+};
+
+const PROFILES = [
+    sampleDevProfile, sampleDevProfile, sampleDevProfile
 ];
 
 export default class QualityPage extends React.Component {
@@ -267,127 +260,55 @@ export default class QualityPage extends React.Component {
                             </Reveal>
                         </div>
                     </section>
-                    <section className="quality-cv">
-                        <div className="container">
-                            <div className="row">
-                                <div className="col-md-4">
-                                    <div className="career">
-                                        <p className="text-center">
-                                            <img
-                                                src="http://placehold.it/76x80"
-                                                className="img-circle "
-                                            />
-                                        </p>
-                                        <p className="text-center">
-                                            <b>Acellam Guy</b>
-                                        </p>
-                                        <p className="text-center">
-                                            Kampala, Uganda
-                                        </p>
-                                        <p className="">
-                                            Lorem ipsum dolor sit amet,
-                                            consectetur adipiscing elit, sed do
-                                            eiusmod tempor incididunt ut labore
-                                            et dolore magna aliqua. Ut enim ad
-                                            minim veniam, quis nostrud
-                                            exercitation
-                                        </p>
-                                        <p>
-                                            <a className="btn">.NET</a>
-                                            <a className="btn">Android</a>
-                                            <a className="btn">AngularJS</a>
-                                        </p>
-                                        <p>
-                                            <a className="btn">CakePHP</a>
-                                            <a className="btn">Codeigniter</a>
-                                            <a className="btn">ExpressJS</a>
-                                        </p>
-                                        <p className="text-center">
-                                            <b>
-                                                <a href="">View full profile</a>
-                                            </b>
-                                        </p>
+
+                    <section id="skill-profiles">
+                        <div className="profile-cards">
+                            {PROFILES.map(profile => {
+                                return (
+                                    <div className="card user-card">
+                                        <Avatar
+                                            src={profile.user.avatar_url}
+                                            size="large"
+                                        />
+                                        <div className="name">
+                                            {profile.user.display_name}
+                                        </div>
+                                        <div>
+                                            {profile.user.profile &&
+                                            (profile.user.profile.city ||
+                                                profile.user.profile.country_name)
+                                                ? `${profile.user.profile
+                                                    .city}, ${profile.user.profile
+                                                    .country_name}`
+                                                : null}
+                                        </div>
+                                        <div
+                                            className="intro"
+                                            dangerouslySetInnerHTML={{
+                                                __html: nl_to_br(profile.intro),
+                                            }}
+                                        />
+                                        <div className="skills">
+                                            {profile.user.profile.skills
+                                                .slice(0, 6)
+                                                .map(skill => {
+                                                    return (
+                                                        <span>
+                                                {skill.name}
+                                              </span>
+                                                    );
+                                                })}
+                                        </div>
+                                        <div>
+                                            <Link
+                                                to="/start"
+                                                className="profile-link">
+                                                View full profile
+                                            </Link>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="col-md-4">
-                                    <div className="career">
-                                        <p className="text-center">
-                                            <img
-                                                src="http://placehold.it/76x80"
-                                                className="img-circle "
-                                            />
-                                        </p>
-                                        <p className="text-center">
-                                            <b>Example Developer</b>
-                                        </p>
-                                        <p className="text-center">
-                                            Kampala, Uganda
-                                        </p>
-                                        <p className="">
-                                            Lorem ipsum dolor sit amet,
-                                            consectetur adipiscing elit, sed do
-                                            eiusmod tempor incididunt ut labore
-                                            et dolore magna aliqua. Ut enim ad
-                                            minim veniam, quis nostrud
-                                            exercitation
-                                        </p>
-                                        <p>
-                                            <a className="btn">.NET</a>
-                                            <a className="btn">Android</a>
-                                            <a className="btn">AngularJS</a>
-                                        </p>
-                                        <p>
-                                            <a className="btn">CakePHP</a>
-                                            <a className="btn">Codeigniter</a>
-                                            <a className="btn">ExpressJS</a>
-                                        </p>
-                                        <p className="text-center">
-                                            <b>
-                                                <a href="">View full profile</a>
-                                            </b>
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className="col-md-4">
-                                    <div className="career">
-                                        <p className="text-center">
-                                            <img
-                                                src="http://placehold.it/76x80"
-                                                className="img-circle "
-                                            />
-                                        </p>
-                                        <p className="text-center">
-                                            <b>Enock Emudde</b>
-                                        </p>
-                                        <p className="text-center">
-                                            Kampala, Uganda
-                                        </p>
-                                        <p className="">
-                                            Lorem ipsum dolor sit amet,
-                                            consectetur adipiscing elit, sed do
-                                            eiusmod tempor incididunt ut labore
-                                            et dolore magna aliqua. Ut enim ad
-                                            minim veniam, quis nostrud
-                                            exercitation
-                                        </p>
-                                        <p>
-                                            <a className="btn">.NET</a>
-                                            <a className="btn">Android</a>
-                                            <a className="btn">AngularJS</a>
-                                        </p>
-                                        <p>
-                                            <a className="btn">CakePHP</a>
-                                            <a className="btn">Codeigniter</a>
-                                            <a className="btn">ExpressJS</a>
-                                        </p>
-                                        <p className="text-center">
-                                            <b>
-                                                <a href="">View full profile</a>
-                                            </b>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
+                                );
+                            })}
                         </div>
                     </section>
                 </div>

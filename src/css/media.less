@@ -995,6 +995,14 @@
         }
     }
 
+    .showcase{
+        #contact-us {
+            form {
+                margin-top: 0;
+            }
+        }
+    }
+
     .showcase.new-landing-page {
         header {
             background-image: url('../images/showcase/welcome-header.jpg');
@@ -1103,12 +1111,6 @@
                 text-align: center;
             }
         }
-
-        #contact-us {
-            form {
-                margin-top: 0;
-            }
-        }
     }
 
     .showcase.pricing-page {
@@ -1122,6 +1124,26 @@
                     width: 360px;
                     height: 420px;
                     margin-right: 20px;
+                    margin-bottom: 0;
+
+                    &:last-child {
+                        margin-right: 0;
+                    }
+                }
+            }
+        }
+    }
+
+    .showcase.quality-page {
+        #skill-profiles {
+            .profile-cards {
+                display: inline-block;
+
+                .card,
+                .card.user-card {
+                    float: left;
+                    width: 360px;
+                    margin-right: 40px;
                     margin-bottom: 0;
 
                     &:last-child {
