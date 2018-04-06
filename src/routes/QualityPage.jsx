@@ -6,6 +6,8 @@ import YouTube from 'react-youtube';
 import ShowcaseContainer from '../containers/ShowcaseContainer';
 import MetaTags from '../components/MetaTags';
 import ShowCaseFooter from '../containers/ShowCaseFooter';
+import SectionHeading from '../components/SectionHeading';
+
 import {openCalendlyWidget} from '../utils/router';
 
 const STEP_DETAILS = [
@@ -38,7 +40,7 @@ const STEP_DETAILS = [
 export default class QualityPage extends React.Component {
     renderHeaderContent() {
         return (
-            <div id="quality-header">
+            <div id="quality-header" className="showcase-header">
                 <h1>Our quality assurance program</h1>
                 <p id="sub-heading">
                     We thoroughly select the brightest developers from the
@@ -75,10 +77,9 @@ export default class QualityPage extends React.Component {
                 <div className="content">
                     <section id="select-devs-section">
                         <div className="container">
-                            <div className="section-heading text-center">
+                            <SectionHeading>
                                 How we select the best developers
-                                <hr className="under-line" />
-                            </div>
+                            </SectionHeading>
                         </div>
                     </section>
 
@@ -389,85 +390,9 @@ export default class QualityPage extends React.Component {
                             </div>
                         </div>
                     </section>
-                    <section>
-                        <div className="container reach-us">
-                            <div className="row">
-                                <p className="text-center find-us">
-                                    <b>Where to find us</b>
-                                </p>
-                                <hr className="under-line" />
-                                <div className="col-md-6">
-                                    <div className="address-info">
-                                        <p>Kampala office:</p>
-                                        <p>
-                                            Design Hub Kampala, 5th Street,
-                                            Industrial Area, Kampala, Uganda
-                                        </p>
-                                    </div>
-                                    <div className="address-info">
-                                        <p>Amsterdam office:</p>
-                                        <p>
-                                            The Collab, Wibautstraat 131, 1091
-                                            GL Amsterdam, The Netherlands
-                                        </p>
-                                    </div>
-                                    <div className="address-info">
-                                        <p>Lagos office:</p>
-                                        <p>
-                                            Address, Street, postal code, Lagos,
-                                            Nigeria
-                                        </p>
-                                    </div>
-                                    <div className="address-info">
-                                        <p style={{color: '#ee1f54'}}>
-                                            hello@tunga.io
-                                        </p>
-                                        <p>
-                                            <a
-                                                className="btn"
-                                                onClick={this.onScheduleCall.bind(
-                                                    this,
-                                                )}>
-                                                Schedule a call with us{' '}
-                                            </a>
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className="col-md-6">
-                                    <form role="form" className="email-form">
-                                        <input
-                                            className="form-control"
-                                            name="sender_name"
-                                            type="text"
-                                            placeholder="Bart leijssenaar"
-                                        />
-                                        <input
-                                            className="form-control"
-                                            name="sender_email"
-                                            type="email"
-                                            placeholder="Your email address"
-                                        />
-                                        <textarea
-                                            className="form-control"
-                                            name="sender_msg"
-                                            type="text"
-                                            rows="4"
-                                            placeholder="Type your message here"
-                                        />
-                                        <button
-                                            type="submit"
-                                            className="btn pull-right">
-                                            {' '}
-                                            Send
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
                 </div>
 
-                <ShowCaseFooter />
+                <ShowCaseFooter showContactUs={true}/>
             </ShowcaseContainer>
         );
     }

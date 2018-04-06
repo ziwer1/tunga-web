@@ -3370,6 +3370,36 @@ form[name='compose'] {
                 height: 30px;
             }
         }
+
+        .showcase-header {
+            margin-bottom: 70px;
+
+            h1 {
+                .font-size(5.5);
+                font-weight: 500;
+                line-height: 1;
+                letter-spacing: -0.5px;
+                text-align: left;
+                color: @active-white;
+                margin-top: 100px;
+                margin-bottom: 15px;
+            }
+
+            #sub-heading {
+                .font-size(1.8);
+                font-weight: 300;
+                color: #ffffff;
+                margin-bottom: 60px;
+            }
+
+            .btn-callout {
+                .font-size(1.8);
+                font-weight: 500;
+                height: 60px;
+                line-height: 30px;
+                width: 260px;
+            }
+        }
     }
 
     .btn-callout.btn-main-cta,
@@ -4882,34 +4912,8 @@ form[name='compose'] {
         background-image: url('../images/showcase/Africandeveloperworkingmobileweb.jpg');
         min-height: 50%;
 
-        #story-header {
+        #story-header.showcase-header {
             margin-bottom: 70px;
-
-            h1 {
-                .font-size(5.5);
-                font-weight: 500;
-                line-height: 1;
-                letter-spacing: -0.5px;
-                text-align: left;
-                color: @active-white;
-                margin-top: 100px;
-                margin-bottom: 15px;
-            }
-
-            #sub-heading {
-                .font-size(1.8);
-                font-weight: 300;
-                color: #ffffff;
-                margin-bottom: 60px;
-            }
-
-            .btn-callout {
-                .font-size(1.8);
-                font-weight: 500;
-                height: 60px;
-                line-height: 30px;
-                width: 260px;
-            }
         }
     }
 
@@ -5498,47 +5502,9 @@ form[name='compose'] {
     header {
         min-height: 50%;
         background-image: url('../images/showcase/QualityTungadevelopersmeeting.jpg');
-        height: 500px;
-        object-fit: contain;
-        margin-bottom: 80px;
 
-        #quality-header {
-            > h1 {
-                top: 120px;
-                font-size: 55px;
-                font-weight: 500;
-                font-style: normal;
-                font-stretch: normal;
-                line-height: normal;
-                letter-spacing: -0.5px;
-                text-align: left;
-                color: #ffffff;
-                margin-bottom: 5px;
-            }
-
-            > p#sub-heading {
-                position: relative;
-                top: 10px;
-                font-size: 18px;
-                font-weight: normal;
-                font-style: normal;
-                font-stretch: normal;
-                line-height: normal;
-                letter-spacing: normal;
-                text-align: left;
-                color: #ffffff;
-            }
-
-            > p > a.btn-callout {
-                position: absolute;
-                top: 360px;
-                border-radius: 5px;
-                background-color: #ee1f54;
-                box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
-                padding: 12px 67px 19px 61px;
-                font-size: 18px;
-                color: #ffffff;
-            }
+        #quality-header.showcase-header {
+            margin-bottom: 80px;
         }
     }
 
@@ -5575,25 +5541,7 @@ form[name='compose'] {
     }
 
     section {
-        padding-top: 20px;
-        padding-bottom: 20px;
         background-color: @active-white !important;
-
-        &:first-child {
-            padding-top: 60px;
-            padding-bottom: 30px;
-        }
-
-        &#select-devs-section {
-            padding-top: 40px;
-            padding-bottom: 29px;
-
-            .section-heading {
-                font-weight: bold;
-                font-size: 3.2rem;
-                margin-bottom: 0;
-            }
-        }
 
         .media {
             .media-object {
@@ -5604,6 +5552,15 @@ form[name='compose'] {
 
         ol {
             padding-left: 10px;
+        }
+    }
+
+    #select-devs-section {
+        padding-top: 40px;
+        padding-bottom: 29px;
+
+        .section-heading-hr {
+            max-width: 400px;
         }
     }
 
@@ -5631,9 +5588,10 @@ form[name='compose'] {
                 }
 
                 h1 {
-                    margin-top: 0;
-                    font-weight: bold;
                     .font-size(2.2);
+                    font-weight: 500;
+                    color: @header-text;
+                    margin-top: 0;
                 }
 
                 .number {
@@ -5772,6 +5730,10 @@ form[name='compose'] {
         padding-right: 50px;
         margin-top: 70px;
         margin-bottom: 50px;
+    }
+
+    #press {
+        margin-bottom: 80px;
     }
 }
 
