@@ -82,7 +82,7 @@ class ShowCaseFooter extends React.Component {
                                         </div>
                                     </div>
                                     <div className="col-md-offset-1 col-md-5">
-                                        <Form>
+                                        <form onSubmit={(e) => {e.preventDefault(); return false;}}>
                                             <FormGroup>
                                                 <FormControl
                                                     type="input"
@@ -108,7 +108,7 @@ class ShowCaseFooter extends React.Component {
                                                     Send
                                                 </Button>
                                             </div>
-                                        </Form>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
