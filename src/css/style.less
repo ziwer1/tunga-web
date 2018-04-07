@@ -5017,17 +5017,16 @@ form[name='compose'] {
             #sub-heading {
                 max-width: 848px;
                 .font-size(1.6);
-                line-height: 1;
             }
 
             #link {
                 .font-size(1.6);
-                line-height: 1;
                 text-decoration: underline;
             }
 
             a {
                 color: @active-white;
+                text-decoration: underline;
             }
         }
     }
@@ -5035,6 +5034,11 @@ form[name='compose'] {
     section {
         background-color: @section-bg;
         .font-size(1.6);
+
+        .middle-content-box {
+            max-width: 730px;
+            margin-bottom: 20px;
+        }
     }
 
     #who-we-are {
@@ -5093,10 +5097,185 @@ form[name='compose'] {
                 }
             }
         }
+    }
 
-        .middle-content-box {
-            max-width: 730px;
-            margin-bottom: 20px;
+    #referral {
+        text-align: center;
+        padding-bottom: 80px;
+
+        .referral-widgets {
+            .clearfix();
+            text-align: left;
+
+            .lang-list {
+                .clearfix();
+                float: right;
+
+                .flags {
+                    float: right;
+
+                    img {
+                        display: none;
+                        width: 26px;
+                        height: 20px;
+                        margin-bottom: 8px;
+                        cursor: pointer;
+                        opacity: 0.63;
+                    }
+                }
+
+                .controls {
+                    float: right;
+                    .font-size(2);
+                    margin-left: 7px;
+
+                    .fa {
+                        cursor: pointer;
+                    }
+
+                    .open {
+                        display: none;
+                    }
+                }
+
+                &.open {
+                    .flags {
+                        img {
+                            display: block;
+                        }
+                    }
+
+                    .controls {
+                        .closed {
+                            display: none;
+                        }
+
+                        .open {
+                            display: block;
+                        }
+                    }
+                }
+
+                &.en {
+                    .flags {
+                        img.en {
+                            display: block;
+                            opacity: 1;
+                        }
+                    }
+                }
+
+                &.nl {
+                    .flags {
+                        img.nl {
+                            display: block;
+                            opacity: 1;
+                        }
+                    }
+                }
+            }
+
+            .cc-email {
+                min-height: 494px;
+                box-shadow: 0 2px 4px 0 rgba(42, 42, 42, 0.5);
+                padding: 30px 20px;
+                background-color: @active-white;
+                margin-bottom: 20px;
+
+                .cc-email-widget {
+                    .clearfix();
+                    max-width: 550px;
+
+                    .item {
+                        min-height: 50px;
+                        margin-bottom: 10px;
+                    }
+
+                    .meta {
+                        float: left;
+                        font-weight: 500;
+                        margin-right: 10px;
+
+                        .item {
+                            line-height: 50px;
+                        }
+                    }
+
+                    .values {
+                        float: left;
+
+                        .item {
+                            .clearfix();
+                            padding: 15px 25px;
+                            line-height: 20px;
+                            box-shadow: 0 2px 4px 0 rgba(191, 191, 191, 0.5);
+
+                            .fa {
+                                float: right;
+                                cursor: pointer;
+                                .font-size(1.7);
+                                line-height: 20px;
+                            }
+
+                            &.body {
+                                min-height: 305px;
+                                padding: 24px 25px;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .linkedin-share {
+                min-height: 494px;
+                background-color: #ffffff;
+                box-shadow: 0 2px 4px 0 rgba(42, 42, 42, 0.5);
+                padding: 30px 20px;
+
+                .linkedin-share-widget {
+                    margin-bottom: 23px;
+                    .clearfix();
+
+                    .btn {
+                        width: 240px;
+                        height: 40px;
+                        line-height: 40px;
+                        padding: 0;
+                        color: @active-white;
+                        background-color: @linkedin;
+                        border-color: @linkedin;
+                        margin: 0;
+
+                        &:hover,
+                        &:focus,
+                        &:active {
+                            color: @active-white;
+                            background-color: @linkedin;
+                            border-color: @linkedin;
+                            outline-width: 0;
+                        }
+                    }
+
+                    .fa {
+                        float: right;
+                        color: @linkedin;
+                        .font-size(4.5);
+                    }
+                }
+
+                .share-title {
+                    height: 50px;
+                    .font-size(1.6);
+                    font-weight: 500;
+                }
+
+                .share-text {
+                    padding: 18px 19px;
+                    box-shadow: 0 2px 4px 0 rgba(191, 191, 191, 0.5);
+                    line-height: 20px;
+                    min-height: 316px;
+                }
+            }
         }
     }
 

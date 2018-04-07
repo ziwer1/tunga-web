@@ -1154,23 +1154,15 @@
     }
 
     .showcase.friends-page {
-        #who-we-are {
-            .looking-for-options {
-                display: inline-block;
+        #referral {
+            .referral-widgets {
+                .cc-email {
+                    padding-left: 46px;
+                    padding-right: 28px;
+                }
 
-                .option {
-                    float: left;
-                    width: 360px;
-                    margin-right: 20px;
-                    margin-bottom: 0;
-
-                    &:last-child {
-                        margin-right: 0;
-                    }
-
-                    .first-content-box {
-                        height: 100px;
-                    }
+                .linkedin-share {
+                    padding: 30px 28px;
                 }
             }
         }
@@ -1485,12 +1477,6 @@
             }
         }
     }
-
-    .showcase.friends-page {
-        .container {
-            max-width: 1140px;
-        }
-    }
 }
 
 /*LARGE SCREENS*/
@@ -1517,6 +1503,66 @@
 
             #contact-us {
                 background-image: url('../images/footer.jpg?max-width=1600');
+            }
+        }
+    }
+
+    .showcase.friends-page {
+        .content {
+            .container {
+                max-width: 1140px;
+            }
+        }
+
+        #who-we-are {
+            .container {
+                max-width: 100%;
+            }
+
+            .looking-for-options {
+                display: inline-block;
+
+                .option {
+                    float: left;
+                    width: 360px;
+                    margin-right: 20px;
+                    margin-bottom: 0;
+
+                    &:last-child {
+                        margin-right: 0;
+                    }
+
+                    .first-content-box {
+                        height: 100px;
+                    }
+                }
+            }
+        }
+
+        #referral {
+            .referral-widgets {
+                .cc-email {
+                    float: left;
+                    min-width: 730px;
+                    padding-left: 46px;
+                    padding-right: 28px;
+                    margin-right: 20px;
+                    margin-bottom: 0;
+
+                    .cc-email-widget {
+                        .values {
+                            float: left;
+                            max-width: 474px;
+                            width: 87%;
+                        }
+                    }
+                }
+
+                .linkedin-share {
+                    float: left;
+                    width: 350px;
+                    padding: 30px 28px;
+                }
             }
         }
     }
