@@ -442,7 +442,7 @@ export default class LandingPage extends ComponentWithModal {
                                         />
 
                                         <p>
-                                            <div className="bold">
+                                            <div className="title">
                                                 Result-oriented
                                             </div>
                                             We pay a lot of attention to scoping
@@ -456,7 +456,7 @@ export default class LandingPage extends ComponentWithModal {
                                             src={require('images/showcase/quality-assured.png')}
                                         />
                                         <p>
-                                            <div className="bold">
+                                            <div className="title">
                                                 Quality assured
                                             </div>
                                             We have developed a unique, highly
@@ -471,7 +471,7 @@ export default class LandingPage extends ComponentWithModal {
                                             src={require('images/showcase/affortable.png')}
                                         />
                                         <p>
-                                            <div className="bold">
+                                            <div className="title">
                                                 Affortable
                                             </div>
                                             Our developers are for hire at a
@@ -488,9 +488,9 @@ export default class LandingPage extends ComponentWithModal {
                 </section>
                 <section id="meet-developers">
                     <div>
-                        <div className="headline">
+                        <Link to='/quality' className="headline">
                             Meet our thriving community of developers
-                        </div>
+                        </Link>
                         <p>
                             Find out how we select our developers and meet some
                             of our talented experts.

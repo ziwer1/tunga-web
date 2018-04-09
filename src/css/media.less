@@ -1139,7 +1139,7 @@
             height: 300px;
             padding: 104px 0 0;
 
-            .headline {
+            .headline, a.headline {
                 .font-size(3);
                 font-weight: 500;
                 text-align: center;
@@ -1180,6 +1180,35 @@
 
                 .linkedin-share {
                     padding: 30px 28px;
+                }
+            }
+        }
+    }
+
+    .showcase {
+        footer {
+            text-align: center;
+
+            .sections {
+                display: inline-block;
+                .clearfix();
+
+                .section {
+                    float: left;
+                    width: 270px;
+
+                    &:first-child {
+                        margin-right: 86px;
+                    }
+
+                    &:last-child {
+                        width: auto;
+                        max-width: 270px;
+                    }
+                }
+
+                #latest-from-blog {
+                    text-align: left;
                 }
             }
         }
@@ -1455,6 +1484,29 @@
                     text-align: right;
                 }
             }
+
+            #contact-us {
+                text-align: center;
+
+                .contact-sections {
+                    text-align: center;
+                    display: inline-block;
+
+                    .section {
+                        float: left;
+                        text-align: left;
+
+                        &:first-child {
+                            max-width: 470px;
+                            margin-right: 50px;
+                        }
+
+                        &:last-child {
+                            width: 410px;
+                        }
+                    }
+                }
+            }
         }
 
         &.landing-page {
@@ -1483,6 +1535,7 @@
                 }
             }
             #contact-us {
+                text-align: center;
                 background-image: url('../images/footer.jpg?max-width=1200');
             }
             #latest-from-blog {

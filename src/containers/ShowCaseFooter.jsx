@@ -43,88 +43,84 @@ class ShowCaseFooter extends React.Component {
             <div>
                 {showContactUs ? (
                     <section id="contact-us">
-                        <div className="container">
-                            <div className="row">
-                                <SectionHeading>
-                                    Where to find us
-                                </SectionHeading>
+                        <SectionHeading>
+                            Where to find us
+                        </SectionHeading>
 
+                        <div className="contact-sections">
+                            <div className="section">
+                                <p>
+                                    <strong>Kampala office:</strong>
+                                    <br />
+                                    Design Hub Kampala, 5th Street,
+                                    Industrial Area, Kampala, Uganda
+                                </p>
+                                <p>
+                                    <strong>Amsterdam office:</strong>
+                                    <br />
+                                    The Collab, Wibautstraat 131, 1091
+                                    GL Amsterdam, The Netherlands
+                                </p>
+                                <p>
+                                    <strong>Lagos office:</strong>
+                                    <br />
+                                    32 Barikisu Iyede street, Yaba,
+                                    Lagos, Nigeria
+                                </p>
+
+                                <Link href="mailto:hello@tunga.io">
+                                    hello@tunga.io
+                                </Link>
                                 <div>
-                                    <div className="col-md-5">
-                                        <p>
-                                            <strong>Kampala office:</strong>
-                                            <br />
-                                            Design Hub Kampala, 5th Street,
-                                            Industrial Area, Kampala, Uganda
-                                        </p>
-                                        <p>
-                                            <strong>Amsterdam office:</strong>
-                                            <br />
-                                            The Collab, Wibautstraat 131, 1091
-                                            GL Amsterdam, The Netherlands
-                                        </p>
-                                        <p>
-                                            <strong>Lagos office:</strong>
-                                            <br />
-                                            32 Barikisu Iyede street, Yaba,
-                                            Lagos, Nigeria
-                                        </p>
-
-                                        <Link href="mailto:hello@tunga.io">
-                                            hello@tunga.io
-                                        </Link>
-                                        <div>
-                                            <button
-                                                className="btn btn-callout"
-                                                onClick={this.onScheduleCall.bind(
-                                                    this,
-                                                )}>
-                                                Schedule a call with us
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-offset-1 col-md-5">
-                                        <form
-                                            onSubmit={e => {
-                                                e.preventDefault();
-                                                return false;
-                                            }}>
-                                            <FormGroup>
-                                                <FormControl
-                                                    type="input"
-                                                    placeholder="Your Name"
-                                                />
-                                            </FormGroup>
-                                            <FormGroup>
-                                                <FormControl
-                                                    type="input"
-                                                    placeholder="Your email address"
-                                                />
-                                            </FormGroup>
-                                            <FormGroup>
-                                                <FormControl
-                                                    componentClass="textarea"
-                                                    placeholder="Type your message here"
-                                                />
-                                            </FormGroup>
-                                            <div className="pull-right">
-                                                <Button
-                                                    className="btn btn-callout"
-                                                    type="submit">
-                                                    Send
-                                                </Button>
-                                            </div>
-                                        </form>
-                                    </div>
+                                    <button
+                                        className="btn btn-callout"
+                                        onClick={this.onScheduleCall.bind(
+                                            this,
+                                        )}>
+                                        Schedule a call with us
+                                    </button>
                                 </div>
+                            </div>
+                            <div className="section">
+                                <form
+                                    onSubmit={e => {
+                                        e.preventDefault();
+                                        return false;
+                                    }}>
+                                    <FormGroup>
+                                        <FormControl
+                                            type="input"
+                                            placeholder="Your Name"
+                                        />
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <FormControl
+                                            type="input"
+                                            placeholder="Your email address"
+                                        />
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <FormControl
+                                            componentClass="textarea"
+                                            placeholder="Type your message here"
+                                        />
+                                    </FormGroup>
+                                    <div className="pull-right">
+                                        <Button
+                                            className="btn btn-callout"
+                                            type="submit">
+                                            Send
+                                        </Button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </section>
                 ) : null}
                 <footer>
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-md-3" id="social">
+                    <div className="sections">
+                        <div className="section">
+                            <div id="social">
                                 <div id="tunga-logo-btm">
                                     <img
                                         src={require('../images/logo_round.png')}
@@ -162,106 +158,112 @@ class ShowCaseFooter extends React.Component {
                                     </a>
                                 </div>
                                 <div className="footer-address">
-                                    <p>Wibauttstraat 131</p>
+                                    <p>Wibautstraat 131</p>
                                     <p>Amsterdam, The Netherlands</p>
-                                    <p>hello@tunga.io</p>
-                                    <p>+31615955194</p>
-                                    <p>Schedule a call with us</p>
+                                    <p>
+                                        <a href="mailto:hello@tunga.io">hello@tunga.io</a>
+                                    </p>
+                                    <p>
+                                        <a href="tel:+31615955194">+31615955194</a>
+                                    </p>
+                                    <p>
+                                        <Link to="/call" onClick={this.onScheduleCall.bind(this)}>
+                                            Schedule a call with us
+                                        </Link>
+                                    </p>
                                 </div>
                             </div>
-                            <div className="col-md-3" id="contact-info">
-                                <h4>Top Pages</h4>
-                                <ul className="list-info">
-                                    <li>
-                                        <a href="/pricing">Pricing</a>
-                                    </li>
-                                    <li>
-                                        <a href="/story">Our Story</a>
-                                    </li>
-                                    <li>
-                                        <a href="https://blog.tunga.io/">
-                                            Blog
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a>Effortless Software project</a>
-                                    </li>
-                                    <li>
-                                        <a>Dedicated Developers</a>
-                                    </li>
-                                    <li>
-                                        <a>Recruitment Services</a>
-                                    </li>
-                                    <li>
-                                        <a>iOS Developers</a>
-                                    </li>
-                                    <li>
-                                        <a>African Developers</a>
-                                    </li>
-                                    <li>
-                                        <a>Remote Teams</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div className="col-md-3" id="contact-info">
-                                <h4>Contact & legal information</h4>
-                                <ul className="list-info">
-                                    <li>
-                                        <a
-                                            href="https://tunga.io/privacy"
-                                            target="_blank">
-                                            Privacy Policy
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a
-                                            href="https://tunga.io/agreement"
-                                            target="_blank">
-                                            Terms and Conditions
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a
-                                            href="https://tunga.io/code-of-conduct"
-                                            target="_blank">
-                                            Code of Conduct
-                                        </a>
-                                    </li>
-                                </ul>
+                        </div>
+                        <div className="section" id="contact-info">
+                            <h4>Top Pages</h4>
+                            <ul className="list-info">
+                                <li>
+                                    <a href="/pricing">Pricing</a>
+                                </li>
+                                <li>
+                                    <a href="/story">Our Story</a>
+                                </li>
+                                <li>
+                                    <a href="https://blog.tunga.io/">
+                                        Blog
+                                    </a>
+                                </li>
+                                <li>
+                                    <a>Effortless Software project</a>
+                                </li>
+                                <li>
+                                    <a>Dedicated Developers</a>
+                                </li>
+                                <li>
+                                    <a>Recruitment Services</a>
+                                </li>
+                                <li>
+                                    <a>iOS Developers</a>
+                                </li>
+                                <li>
+                                    <a>African Developers</a>
+                                </li>
+                                <li>
+                                    <a>Remote Teams</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div className="section" id="contact-info">
+                            <h4>Legal information</h4>
+                            <ul className="list-info">
+                                <li>
+                                    <a
+                                        href="https://tunga.io/privacy"
+                                        target="_blank">
+                                        Privacy Policy
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        href="https://tunga.io/agreement"
+                                        target="_blank">
+                                        Terms and Conditions
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        href="https://tunga.io/code-of-conduct"
+                                        target="_blank">
+                                        Code of Conduct
+                                    </a>
+                                </li>
+                            </ul>
 
-                                <div>
-                                    <p>KVK: NL21746292</p>
-                                </div>
-                            </div>
-                            <div className="col-md-3" id="latest-from-blog">
-                                <h4>Latest from our blog</h4>
-                                <ul className="list-unstyled">
-                                    {Utility.posts.length
-                                        ? Utility.posts
-                                              .slice(0, 4)
-                                              .map(article => {
-                                                  return (
-                                                      <li>
-                                                          <a
-                                                              target="_blank"
-                                                              href={
-                                                                  article.url
-                                                              }>
-                                                              <i className="fa fa-angle-right" />{' '}
-                                                              {article.title}
-                                                          </a>
-                                                      </li>
-                                                  );
-                                              })
-                                        : null}
-                                </ul>
+                            <div>
+                                KVK: NL21746292
                             </div>
                         </div>
-                        <div className="row">
-                            <p className="text-center">
-                                2018 Tunga BV - All rights reserved
-                            </p>
+                        <div className="section" id="latest-from-blog">
+                            <h4>Latest from our blog</h4>
+                            <ul className="list-unstyled">
+                                {Utility.posts.length
+                                    ? Utility.posts
+                                        .slice(0, 4)
+                                        .map(article => {
+                                            return (
+                                                <li>
+                                                    <a
+                                                        target="_blank"
+                                                        href={
+                                                            article.url
+                                                        }>
+                                                        <i className="fa fa-angle-right" />{' '}
+                                                        {article.title}
+                                                    </a>
+                                                </li>
+                                            );
+                                        })
+                                    : null}
+                            </ul>
                         </div>
+                    </div>
+                    <div className="text-center">
+                        2018 Tunga BV - All rights reserved
                     </div>
                 </footer>
             </div>

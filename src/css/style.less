@@ -3386,8 +3386,13 @@ form[name='compose'] {
                 line-height: 30px;
                 width: 260px;
                 margin-top: 0;
+                box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
             }
         }
+    }
+
+    .btn-callout {
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
     }
 
     .btn-callout.btn-main-cta,
@@ -3458,7 +3463,7 @@ form[name='compose'] {
         .font-size(1.4);
 
         h4 {
-            font-size: 18px;
+            .font-size(1.8);
         }
 
         #social {
@@ -3525,6 +3530,16 @@ form[name='compose'] {
                 .fa {
                     color: @active-white;
                 }
+            }
+        }
+
+        #latest-from-blog {
+            text-align: center;
+
+            li {
+                padding: 2px 0;
+                max-height: 40px;
+                overflow: hidden;
             }
         }
     }
@@ -3662,24 +3677,16 @@ form[name='compose'] {
 
         .list-info {
             list-style-type: none;
-            margin-left: -30px;
+            padding-left: 0;
+
             a {
-                font-size: 14px;
+                .font-size(1.4);
             }
         }
+
         p {
-            padding-left: 10px;
-            font-size: 14px;
-        }
-    }
 
-    #latest-from-blog {
-        text-align: center;
-
-        li {
-            padding: 2px 0;
-            max-height: 40px;
-            overflow: hidden;
+            .font-size(1.4);
         }
     }
 
@@ -3848,6 +3855,7 @@ form[name='compose'] {
             margin-bottom: 60px;
         }
 
+
         form {
             margin-top: 40px;
         }
@@ -3868,6 +3876,7 @@ form[name='compose'] {
 
         .btn-callout {
             padding: 13px 20px;
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
         }
     }
 }
@@ -4497,6 +4506,7 @@ form[name='compose'] {
                 color: @primary-text;
                 .font-size(1.1);
                 font-weight: 300;
+                text-align: left;
                 padding: 10px 10px;
                 height: 160px;
                 background: @inactive-grey;
@@ -4631,7 +4641,7 @@ form[name='compose'] {
 
 .showcase.task-wizard-page {
     .font-size(1.4);
-    font-weight: 350;
+    font-weight: 300;
     color: @primary-text;
 
     header {
@@ -4985,6 +4995,14 @@ form[name='compose'] {
         }
     }
 
+    section {
+        padding-bottom: 80px;
+    }
+
+    section:nth-child(even) {
+        background-color: @inactive-grey;
+    }
+
     .section-heading-hr {
         max-width: 600px;
     }
@@ -5010,14 +5028,6 @@ form[name='compose'] {
 
     ol {
         padding-left: 14px;
-    }
-
-    section {
-        padding-bottom: 20px;
-    }
-
-    section:nth-child(even) {
-        background-color: @inactive-grey;
     }
 
     .video-wrapper {
@@ -5435,7 +5445,7 @@ form[name='compose'] {
                 margin-bottom: 20px;
                 text-align: center;
                 .font-size(1.4);
-                font-weight: 500;
+                font-weight: 300;
 
                 &:last-child {
                     margin-bottom: 0;
@@ -5558,8 +5568,6 @@ form[name='compose'] {
     }
 
     #select-devs-section {
-        padding-top: 40px;
-        padding-bottom: 29px;
 
         .section-heading-hr {
             max-width: 400px;
@@ -6099,6 +6107,12 @@ form[name='compose'] {
             .font-size(1);
 
             .clearfix();
+
+            .section-heading-hr {
+                margin-left: 0;
+                max-width: 420px;
+                margin-bottom: 40px;
+            }
         }
 
         .side-pic {
@@ -6110,6 +6124,7 @@ form[name='compose'] {
             display: block;
             .font-size(1.4);
             padding: 8px 10px;
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
         }
     }
 
@@ -6133,6 +6148,11 @@ form[name='compose'] {
                 text-align: center;
                 letter-spacing: -0.7px;
 
+                .title {
+                    color: @primary-text;
+                    font-weight: 500;
+                }
+
                 img {
                     margin-top: 30px;
                     margin-bottom: 30px;
@@ -6146,13 +6166,14 @@ form[name='compose'] {
         justify-content: center;
         .font-size(1.1);
         font-weight: bold;
-        color: #fff;
+        color: @active-white;
         height: 270px;
         padding: 99px 12px 0;
         background-color: @section-bg;
         background-image: url(../images/showcase/verification_new.jpg);
 
-        .headline {
+        .headline, a.headline {
+            color: @active-white;
             .font-size(1.5);
             font-weight: bold;
             text-align: center;
@@ -6180,6 +6201,7 @@ form[name='compose'] {
         .btn-callout {
             .font-size(1.4);
             padding: 8px 10px;
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
         }
     }
 
@@ -6194,6 +6216,16 @@ form[name='compose'] {
         font-weight: 400;
         margin-top: 0;
         margin-bottom: 45px;
+    }
+
+    #press-landing {
+        padding-top: 60px;
+        padding-bottom: 60px;
+
+        .press-links {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
     }
 
     &.new-skill-page {
