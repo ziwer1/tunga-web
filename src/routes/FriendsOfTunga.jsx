@@ -62,13 +62,24 @@ class FriendOfTungaPage extends ComponentWithModal {
         this.state = {
             lang: 'en',
             langClass: '',
-            isCopied: true,
-            isEngLangSelected: true,
+            copied: null,
         };
     }
 
     onSelectLanguage(lang) {
         this.setState({lang, langClass: ''});
+    }
+
+    setCopied(field) {
+        this.setState({copied: field});
+        let fot = this;
+
+        // Clear message after 3 seconds
+        setTimeout(() => {
+            if(fot.state.copied === field) {
+                this.setState({copied: null});
+            }
+        }, 3000);
     }
 
     getLinkedInShareLink() {
@@ -262,7 +273,10 @@ class FriendOfTungaPage extends ComponentWithModal {
                                                         localeText.email.subject
                                                     }>
                                                     <div>
-                                                        <i className="fa fa-clone" />
+                                                        {this.state.copied === 'email_cc'?(
+                                                            <div className="copied">Copied</div>
+                                                        ):null}
+                                                        <i className="fa fa-clone" onClick={this.setCopied.bind(this, 'email_cc')}/>
                                                         bart@tunga.io
                                                     </div>
                                                 </CopyToClipboard>
@@ -273,7 +287,10 @@ class FriendOfTungaPage extends ComponentWithModal {
                                                         localeText.email.subject
                                                     }>
                                                     <div>
-                                                        <i className="fa fa-clone" />
+                                                        {this.state.copied === 'email_subject'?(
+                                                            <div className="copied">Copied</div>
+                                                        ):null}
+                                                        <i className="fa fa-clone" onClick={this.setCopied.bind(this, 'email_subject')}/>
                                                         {
                                                             localeText.email
                                                                 .subject
@@ -287,7 +304,10 @@ class FriendOfTungaPage extends ComponentWithModal {
                                                         localeText.email.body
                                                     }>
                                                     <div>
-                                                        <i className="fa fa-clone" />
+                                                        {this.state.copied === 'email_body'?(
+                                                            <div className="copied">Copied</div>
+                                                        ):null}
+                                                        <i className="fa fa-clone" onClick={this.setCopied.bind(this, 'email_body')}/>
                                                         <div
                                                             dangerouslySetInnerHTML={{
                                                                 __html: nl_to_br(
@@ -318,13 +338,24 @@ class FriendOfTungaPage extends ComponentWithModal {
                                         {this.renderLanguageWidget()}
                                     </div>
                                     <div className="share-text">
-                                        <div
-                                            dangerouslySetInnerHTML={{
-                                                __html: nl_to_br(
-                                                    localeText.linkedin,
-                                                ),
-                                            }}
-                                        />
+                                        <CopyToClipboard
+                                            text={
+                                                localeText.linkedin
+                                            }>
+                                            <div>
+                                                {this.state.copied === 'linkedin'?(
+                                                    <div className="copied">Copied</div>
+                                                ):null}
+                                                <i className="fa fa-clone" onClick={this.setCopied.bind(this, 'linkedin')}/>
+                                                <div
+                                                    dangerouslySetInnerHTML={{
+                                                        __html: nl_to_br(
+                                                            localeText.linkedin,
+                                                        ),
+                                                    }}
+                                                />
+                                            </div>
+                                        </CopyToClipboard>
                                     </div>
                                 </div>
                             </div>

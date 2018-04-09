@@ -5243,6 +5243,28 @@ form[name='compose'] {
                 }
             }
 
+            .fa.fa-clone {
+                float: right;
+                cursor: pointer;
+                .font-size(1.7);
+                line-height: 20px;
+            }
+
+            .copied {
+                position: absolute;
+                right: 0;
+                top: -20px;
+                display: inline-block;
+                min-width: 66px;
+                height: 30px;
+                line-height: 30px;
+                text-align: center;
+                border-radius: 3px;
+                background-color: @section-bg;
+                border: solid 0.5px #777777;
+                box-shadow: 0 2px 4px 0 rgba(216, 216, 216, 0.5);
+            }
+
             .cc-email {
                 min-height: 494px;
                 box-shadow: 0 2px 4px 0 rgba(42, 42, 42, 0.5);
@@ -5274,20 +5296,18 @@ form[name='compose'] {
 
                         .item {
                             .clearfix();
+                            position: relative;
                             padding: 15px 25px;
                             line-height: 20px;
                             box-shadow: 0 2px 4px 0 rgba(191, 191, 191, 0.5);
 
-                            .fa {
-                                float: right;
-                                cursor: pointer;
-                                .font-size(1.7);
-                                line-height: 20px;
-                            }
-
                             &.body {
                                 min-height: 305px;
                                 padding: 24px 25px;
+
+                                .copied {
+                                    top: -10px;
+                                }
                             }
                         }
                     }
@@ -5338,6 +5358,7 @@ form[name='compose'] {
                 }
 
                 .share-text {
+                    position: relative;
                     padding: 18px 19px;
                     box-shadow: 0 2px 4px 0 rgba(191, 191, 191, 0.5);
                     line-height: 20px;
@@ -5357,61 +5378,6 @@ form[name='compose'] {
 
     #cc-widgets {
         padding-bottom: 80px;
-    }
-
-    .rectangle-share {
-        height: 440px;
-        background-color: #ffffff;
-        box-shadow: 0 2px 4px 0 rgba(42, 42, 42, 0.5);
-        padding: 20px;
-
-        .rectangle-social {
-            height: 40px;
-            font-size: 14px;
-            border-radius: 3px;
-            background-color: #007ab8;
-            padding: 10px;
-            color: #ffffff;
-            text-decoration: none;
-        }
-
-        .rectangle-post {
-            background-color: #ffffff;
-            box-shadow: 0 2px 4px 0 rgba(191, 191, 191, 0.5);
-
-            .div-container {
-                padding: 18px 23px 11px 19px;
-            }
-        }
-
-        span.caret.social {
-            color: black;
-            position: absolute;
-            left: 67px;
-            top: 10px;
-        }
-
-        #linkedInPost > span {
-            padding-left: 15px;
-        }
-
-        #post-container {
-            padding-top: 15px;
-            font-size: 16px;
-
-            div.btn-group.pull-right {
-                margin-right: 23px;
-            }
-
-            ul.lang-list {
-                list-style-type: none;
-            }
-        }
-    }
-
-    .friends-options {
-        background-color: @inactive-grey;
-        margin-bottom: 0;
     }
 }
 
