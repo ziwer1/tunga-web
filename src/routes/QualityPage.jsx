@@ -37,15 +37,15 @@ const PROFILES = [sampleDevProfile, sampleDevProfile, sampleDevProfile];
 export default class QualityPage extends React.Component {
     renderHeaderContent() {
         return (
-            <div id="quality-header" className="showcase-header">
+            <div className="showcase-header">
                 <h1>Our quality assurance program</h1>
-                <p id="sub-heading">
+                <div className="sub-header">
                     We thoroughly select the brightest developers from the
                     African continent. Tunga nourishes and constantly <br />{' '}
                     improve our community of developers by providing them with
                     the tools and guidance they <br />need to be even more
                     successful.
-                </p>
+                </div>
                 <p>
                     <a
                         onClick={this.onScheduleCall.bind(this)}

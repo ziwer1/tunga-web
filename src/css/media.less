@@ -21,8 +21,8 @@
         header {
             background-image: url('../images/showcase/OurStoryDevelopersWorking.jpg') !important;
 
-            #story-header {
-                > h1 {
+            .showcase-header {
+                h1 {
                     font-size: 40px !important;
                 }
             }
@@ -41,16 +41,18 @@
     &.quality-page {
         header {
             background-image: url('../images/showcase/QualityTungadevelopersmeetingmobile.jpg') !important;
-            #quality-header {
-                > h1 {
+            .showcase-header {
+                h1 {
                     font-size: 40px !important;
                 }
-                > p#sub-heading {
+
+                .sub-header {
                     br {
                         display: none !important;
                     }
                 }
-                > p > a.btn-callout {
+
+                .btn-callout {
                     top: 81% !important;
                 }
             }
@@ -58,7 +60,7 @@
     }
 
     .showcase.friends-page header {
-        #friends-header >  {
+        .showcase-header  {
             h1 {
                 font-size: 35px !important;
             }
@@ -133,8 +135,8 @@
     .showcase.pricing-page {
         header {
             background-image: url('../images/showcase/PricingTungadevelopersatwork.jpg') !important;
-            #pricing-header {
-                > h1 {
+            .showcase-header {
+                h1 {
                     font-size: 40px !important;
                 }
             }
@@ -305,8 +307,8 @@
         }
 
         &.quality-page {
-            #quality-header {
-                > p#sub-heading {
+            .showcase-header {
+                .sub-header {
                     br {
                         display: none;
                     }
@@ -744,17 +746,18 @@
         }
 
         &.quality-page {
-            #quality-header {
-                > h1 {
+            .showcase-header {
+                h1 {
                     //  font-size: 40px !important;
                 }
-                > p#sub-heading {
+
+                .sub-header {
                     br {
                         display: none;
                     }
                 }
 
-                > p > a.btn-callout {
+                .btn-callout {
                     top: 410px !important;
                 }
             }
@@ -1006,6 +1009,32 @@
     .showcase.new-landing-page {
         header {
             background-image: url('../images/showcase/welcome-header.jpg');
+
+            .showcase-header {
+                margin-bottom: 130px;
+                padding-left: 0;
+                padding-right: 0;
+
+                h1 {
+                    .font-size(5.5);
+                    font-weight: 500;
+                    line-height: 50px;
+                }
+
+                .sub-header {
+                    max-width: 466px;
+                    .font-size(1.8);
+                }
+
+                .btn-callout {
+                    min-width: 260px;
+                    height: 70px;
+                    .font-size(2);
+                    font-weight: 300;
+                    line-height: 40px;
+                    padding: 15px 30px;
+                }
+            }
         }
 
         .new-landing-page-showcase {
@@ -1028,11 +1057,16 @@
         }
 
         .schedule_call {
-            height: 70px;
             width: 260px;
+            height: 70px;
             .font-size(2);
             font-weight: 300;
             padding-top: 20px;
+        }
+
+        section {
+            padding-left: 0;
+            padding-right: 0;
         }
 
         #services {
@@ -1403,6 +1437,25 @@
             }
         }
 
+        &.new-landing-page {
+            #pitch {
+                .pitch-text {
+                    float: left;
+                    width: 65%;
+                    max-width: 530px;
+                    padding-bottom: 0;
+                }
+
+                .pitch-image {
+                    float: right;
+                    width: 35%;
+                    min-width: 300px;
+                    margin-top: 80px;
+                    text-align: right;
+                }
+            }
+        }
+
         &.landing-page {
             header {
                 background-image: url('../images/showcase/Africandeveloperworking.jpg?max-width=1200');
@@ -1462,16 +1515,19 @@
             }
         }
         &.quality-page {
-            #quality-header {
-                > h1 {
+            .showcase-header {
+                h1 {
                     //  font-size: 40px !important;
                 }
-                > p#sub-heading {
+
+                .sub-header
+                {
                     br {
                         display: block !important;
                     }
                 }
-                > p > a.btn-callout {
+
+                .btn-callout {
                     top: 360px !important;
                 }
             }

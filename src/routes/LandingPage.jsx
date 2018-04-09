@@ -1,7 +1,5 @@
 import React from 'react';
 import {Link} from 'react-router';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
 import Slider from 'react-slick';
 import Reveal from 'react-reveal';
 
@@ -14,11 +12,13 @@ import SectionHeading from '../components/SectionHeading';
 import {openCalendlyWidget, showCallWidget} from '../utils/router';
 import {TESTIMONIALS} from '../constants/data';
 
-import * as SkillPageActions from '../actions/SkillPageActions';
 
 let overlayTimer = null;
 
-export class LandingPage extends ComponentWithModal {
+export default class LandingPage extends ComponentWithModal {
+
+    static pageClass = '';
+
     constructor(props) {
         super(props);
         this.state = {
@@ -29,7 +29,6 @@ export class LandingPage extends ComponentWithModal {
             showVideo: true,
             youtubeOpts: {height: '360px'},
             hasAnimatedNumbers: false,
-            isSkillPage: false,
             showOverlay: false,
             closeChat: false,
         };
@@ -97,26 +96,6 @@ export class LandingPage extends ComponentWithModal {
                         navActions.addClass('show-launch');
                     } else {
                         navActions.removeClass('show-launch');
-                    }
-                }
-
-                var stats = $('#platform-stats');
-                if (stats.size()) {
-                    var statsPos = $('footer').offset().top;
-                    if (currentPos >= statsPos - 800) {
-                        stats.find('.stat').each(function(idx, elem) {
-                            if (!lp.state.hasAnimatedNumbers) {
-                                var numAnim = new CountUp(
-                                    $(elem).attr('id'),
-                                    0,
-                                    parseInt($(elem).attr('data-number')),
-                                );
-                                numAnim.start();
-                            }
-                        });
-                        lp.setState({hasAnimatedNumbers: true});
-                    } else if (currentPos <= statsPos - 1300) {
-                        lp.setState({hasAnimatedNumbers: false});
                     }
                 }
 
@@ -200,30 +179,21 @@ export class LandingPage extends ComponentWithModal {
     renderHeaderContent() {
         return (
             <div>
-                <div className="tunga-logo-top">
-                    <img src={require('../images/logo_round.png')} />
-                </div>
-                <div className="new-landing-page-showcase">
-                    <div className="landing-header">
-                        <h1>Unleasing Africa’s Tech Talent</h1>
-                        <div className="col-sm-5 new-landing-page sub_header">
-                            <p>
-                                Small and large businesses from all over the
-                                world use Tunga for hiring African software
-                                engineers to address their most pressing
-                                software development needs.
-                            </p>
-                        </div>
-                        <div className="col-sm-12">
-                            {/*clearing grid hack*/}
-                        </div>
-                        <div className="col-lg-5">
-                            <btn
-                                className="btn schedule_call"
-                                onClick={this.onScheduleCall.bind(this)}>
-                                Schedule a call
-                            </btn>
-                        </div>
+                <div id="lander-header" className="showcase-header">
+                    <h1>
+                        Unleasing Africa’s Tech Talent
+                    </h1>
+                    <div className="sub-header">
+                        Small and large businesses from all over the
+                        world use Tunga for hiring African software
+                        engineers to address their most pressing
+                        software development needs.
+                    </div>
+                    <div>
+                        <button onClick={this.onScheduleCall}
+                            className="btn btn-callout">
+                            Schedule a call
+                        </button>
                     </div>
                 </div>
             </div>
@@ -271,7 +241,94 @@ export class LandingPage extends ComponentWithModal {
         );
     }
 
-    render() {
+    renderPressSection() {
+        return (
+            <section id="press-landing">
+                <div className="container">
+                    <Reveal effect="animated fadeInLeft">
+                        <div>
+                            <ul className="press-links">
+                                <li>
+                                    <a
+                                        href="http://www.bbc.co.uk/news/world-africa-38294998"
+                                        target="_blank">
+                                        <img
+                                            src={require('../images/press/bbc.png')}
+                                        />
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        href="https://www.youtube.com/watch?v=v9uRtYpZDQs"
+                                        target="_blank">
+                                        <img
+                                            src={require('../images/press/campus-party.png')}
+                                        />
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        href="https://www.oneworld.nl/startup-tunga-lanceert-pilot-programma-voor-nieuw-soort-freelance-platform"
+                                        target="_blank">
+                                        <img
+                                            src={require('../images/press/OWlogo.png')}
+                                        />
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        href="http://trendwatching.com/blog/featured-innovator-tunga/"
+                                        target="_blank">
+                                        <img
+                                            src={require('../images/press/trend-watching.png')}
+                                        />
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        href="https://soundcloud.com/african-tech-round-up/a-chat-with-ernesto-spruyt-of-tungaio?in=african-tech-round-up/sets/quick-chats"
+                                        target="_blank">
+                                        <img
+                                            src={require('../images/press/African-Tech-Round-Up.png')}
+                                        />
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        href="http://spendmatters.com/2016/04/01/tunga-wip-of-the-week/"
+                                        target="_blank">
+                                        <img
+                                            src={require('../images/press/Spend-Matters.png')}
+                                        />
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        href="https://www.nabc.nl/africa-business-news/5/technology/377/tunga-founder-ernesto-spruyt-we-create-21st-century-jobs-in-africa"
+                                        target="_blank">
+                                        <img
+                                            src={require('../images/press/netherlands-african-business-council.png')}
+                                        />
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        href="https://blog.tunga.io/our-developers-dont-want-aid-they-want-to-be-productive-4aba9173211e"
+                                        target="_blank">
+                                        <img
+                                            src={require('../images/press/bnr.jpg')}
+                                        />
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </Reveal>
+                </div>
+            </section>
+        );
+    }
+
+    renderMainContent() {
         let slider_settings = {
             dots: true,
             arrows: true,
@@ -302,18 +359,8 @@ export class LandingPage extends ComponentWithModal {
             ],
         };
 
-        let meta_title = 'Tunga | Software outsourcing done right';
-        let meta_description = `Getting software projects done is hard. We make it easy.`;
-
         return (
-            <ShowcaseContainer
-                className={`new-landing-page`}
-                headerContent={this.renderHeaderContent()}
-                freeHeaderSection={this.renderFreeHeaderSection()}
-                hasArrow={true}
-                chatId={this.props.params ? this.props.params.chatId : null}
-                closeChat={this.state.closeChat}>
-                <MetaTags title={meta_title} description={meta_description} />
+            <div>
                 <section id="unique-approach" className="clearfix">
                     <div className="col-md-8">
                         <div className="approach-body">
@@ -450,88 +497,7 @@ export class LandingPage extends ComponentWithModal {
                         </p>
                     </div>
                 </section>
-                <section id="press-landing">
-                    <div className="container">
-                        <Reveal effect="animated fadeInLeft">
-                            <div>
-                                <ul className="press-links">
-                                    <li>
-                                        <a
-                                            href="http://www.bbc.co.uk/news/world-africa-38294998"
-                                            target="_blank">
-                                            <img
-                                                src={require('../images/press/bbc.png')}
-                                            />
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a
-                                            href="https://www.youtube.com/watch?v=v9uRtYpZDQs"
-                                            target="_blank">
-                                            <img
-                                                src={require('../images/press/campus-party.png')}
-                                            />
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a
-                                            href="https://www.oneworld.nl/startup-tunga-lanceert-pilot-programma-voor-nieuw-soort-freelance-platform"
-                                            target="_blank">
-                                            <img
-                                                src={require('../images/press/OWlogo.png')}
-                                            />
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a
-                                            href="http://trendwatching.com/blog/featured-innovator-tunga/"
-                                            target="_blank">
-                                            <img
-                                                src={require('../images/press/trend-watching.png')}
-                                            />
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a
-                                            href="https://soundcloud.com/african-tech-round-up/a-chat-with-ernesto-spruyt-of-tungaio?in=african-tech-round-up/sets/quick-chats"
-                                            target="_blank">
-                                            <img
-                                                src={require('../images/press/African-Tech-Round-Up.png')}
-                                            />
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a
-                                            href="http://spendmatters.com/2016/04/01/tunga-wip-of-the-week/"
-                                            target="_blank">
-                                            <img
-                                                src={require('../images/press/Spend-Matters.png')}
-                                            />
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a
-                                            href="https://www.nabc.nl/africa-business-news/5/technology/377/tunga-founder-ernesto-spruyt-we-create-21st-century-jobs-in-africa"
-                                            target="_blank">
-                                            <img
-                                                src={require('../images/press/netherlands-african-business-council.png')}
-                                            />
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a
-                                            href="https://blog.tunga.io/our-developers-dont-want-aid-they-want-to-be-productive-4aba9173211e"
-                                            target="_blank">
-                                            <img
-                                                src={require('../images/press/bnr.jpg')}
-                                            />
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </Reveal>
-                    </div>
-                </section>
+                {this.renderPressSection()}
                 <section id="case-studies">
                     <div className="container">
                         <SectionHeading>Case Studies</SectionHeading>
@@ -548,7 +514,7 @@ export class LandingPage extends ComponentWithModal {
                                                     <span
                                                         dangerouslySetInnerHTML={{
                                                             __html:
-                                                                testimonial.message,
+                                                            testimonial.message,
                                                         }}
                                                     />
                                                     <i className="fa fa-quote-right pull-right" />
@@ -559,7 +525,7 @@ export class LandingPage extends ComponentWithModal {
                                                 style={{
                                                     backgroundImage: `url(${
                                                         testimonial.image
-                                                    })`,
+                                                        })`,
                                                 }}
                                             />
                                             <div className="author">
@@ -682,20 +648,30 @@ export class LandingPage extends ComponentWithModal {
                         </div>
                     </div>
                 </section>
+            </div>
+        );
+    }
+
+    render() {
+
+        let meta_title = 'Tunga | Software outsourcing done right';
+        let meta_description = `Getting software projects done is hard. We make it easy.`;
+
+        return (
+            <ShowcaseContainer
+                className={`new-landing-page ${this.state.pageClass || ''}`}
+                headerContent={this.renderHeaderContent()}
+                freeHeaderSection={this.renderFreeHeaderSection()}
+                hasArrow={true}
+                chatId={this.props.params ? this.props.params.chatId : null}
+                closeChat={this.state.closeChat}>
+                <MetaTags title={meta_title} description={meta_description} />
+
+                {this.renderMainContent()}
+
                 <ShowCaseFooter showContactUs={true} />
             </ShowcaseContainer>
         );
     }
 }
 
-function mapStateToProps(state) {
-    return {Auth: state.Auth, SkillPage: state.SkillPage};
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        SkillPageActions: bindActionCreators(SkillPageActions, dispatch),
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(LandingPage);

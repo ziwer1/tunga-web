@@ -57,13 +57,13 @@ export default class StoryPage extends React.Component {
 
     renderHeaderContent() {
         return (
-            <div id="story-header" className="showcase-header">
+            <div className="showcase-header">
                 <h1>
                     Our journey to unleash <br /> Africa’s tech talent
                 </h1>
-                <p id="sub-heading">
+                <div className="sub-header">
                     Our Mission: 21st Century Jobs for African Youths
-                </p>
+                </div>
                 <p>
                     <a
                         onClick={this.onScheduleCall}

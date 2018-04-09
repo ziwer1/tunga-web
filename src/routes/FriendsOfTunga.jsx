@@ -117,13 +117,13 @@ class FriendOfTungaPage extends ComponentWithModal {
 
     renderHeaderContent() {
         return (
-            <div id="friends-header" className="showcase-header">
+            <div className="showcase-header">
                 <h1>
                     Help Us Create Tech Jobs for
                     <br />
                     African Youths
                 </h1>
-                <p id="sub-heading">
+                <div className="sub-header">
                     Become a Friend of Tunga by referring leads to us. For each
                     lead that becomes a paying customer we donate 5% up to EUR
                     1,000 to{' '}
@@ -131,12 +131,12 @@ class FriendOfTungaPage extends ComponentWithModal {
                         Bits Academy
                     </a>, a network of schools that gives free tech education to
                     African youths from less privileged backgrounds
-                </p>
-                <p id="link">
+                </div>
+                <div id="link">
                     <Link to="/friends-of-tunga-rules">
                         How it works in detail
                     </Link>
-                </p>
+                </div>
             </div>
         );
     }

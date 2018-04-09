@@ -114,7 +114,7 @@ import QuoteForm from 'components/QuoteForm';
 import QuoteDetail from 'components/QuoteDetail';
 import TaskWizard from 'routes/TaskWizard';
 import StoryPage from 'routes/StoryPage';
-import TaskWizardLander from 'routes/TaskWizardLander';
+//import TaskWizardLander from 'routes/TaskWizardLander';
 import MultiTaskPaymentContainer from 'containers/MultiTaskPaymentContainer';
 import MultiTaskPaymentDetailContainer from 'containers/MultiTaskPaymentDetailContainer';
 import MultiTaskPay from 'components/MultiTaskPay';

@@ -66,14 +66,19 @@ const OFFER_DETAILS = [
 ];
 
 class PricingPage extends ComponentWithModal {
+
+    onScheduleCall() {
+        openCalendlyWidget();
+    }
+
     renderHeaderContent() {
         return (
-            <div id="pricing-header" className="showcase-header">
+            <div className="showcase-header">
                 <h1>High quality and service level at affordable fees</h1>
-                <p id="sub-heading">
+                <div className="sub-header">
                     We calculate our fees transparently and stick with that. No
                     excuses, no discussions, no additional costs
-                </p>
+                </div>
                 <p>
                     <a
                         onClick={this.onScheduleCall.bind(this)}
@@ -83,10 +88,6 @@ class PricingPage extends ComponentWithModal {
                 </p>
             </div>
         );
-    }
-
-    onScheduleCall() {
-        openCalendlyWidget();
     }
 
     render() {
