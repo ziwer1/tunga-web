@@ -1,14 +1,8 @@
 import React from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import Reveal from 'react-reveal';
 import {Link} from 'react-router';
-import {Button, Form, FormControl, FormGroup} from 'react-bootstrap';
 
-import ShowcaseContainer from '../containers/ShowcaseContainer';
-import ShowCaseFooter from '../containers/ShowCaseFooter';
-import MetaTags from '../components/MetaTags';
-import Progress from '../components/status/Progress';
 import Avatar from '../components/Avatar';
 import LandingPage from '../routes/LandingPage';
 import SectionHeading from '../components/SectionHeading';
@@ -16,7 +10,6 @@ import SectionHeading from '../components/SectionHeading';
 import * as SkillPageActions from '../actions/SkillPageActions';
 
 import {nl_to_br} from '../utils/html';
-import {openCalendlyWidget, showCallWidget} from '../utils/router';
 
 class SkillPage extends LandingPage {
 
@@ -101,7 +94,7 @@ class SkillPage extends LandingPage {
         return (
             <div id="lander-header" className="skill-header showcase-header">
                 <h1>
-                    {skill_page.welcome_header || 'Unleasing Africa’s Tech Talent'}
+                    {skill_page.welcome_header || 'Unleashing Africa’s Tech Talent'}
                 </h1>
                 <div className="sub-header">
                     {skill_page.welcome_sub_header || (

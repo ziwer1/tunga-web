@@ -181,7 +181,7 @@ export default class LandingPage extends ComponentWithModal {
             <div>
                 <div id="lander-header" className="showcase-header">
                     <h1>
-                        Unleasing Africa’s Tech Talent
+                        Unleashing Africa’s Tech Talent
                     </h1>
                     <div className="sub-header">
                         Small and large businesses from all over the
