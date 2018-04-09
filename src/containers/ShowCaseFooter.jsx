@@ -176,7 +176,7 @@ class ShowCaseFooter extends React.Component {
                         </div>
                         <div className="section" id="contact-info">
                             <h4>Top Pages</h4>
-                            <ul className="list-info">
+                            <ul>
                                 <li>
                                     <a href="/pricing">Pricing</a>
                                 </li>

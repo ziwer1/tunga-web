@@ -3466,6 +3466,11 @@ form[name='compose'] {
             .font-size(1.8);
         }
 
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
         #social {
             text-align: center;
 
@@ -3483,25 +3488,12 @@ form[name='compose'] {
             color: @primary;
         }
 
-        p,
         a {
-            font-size: 12px;
-            font-weight: 100;
             color: @active-white;
-        }
 
-        a:hover {
-            color: #a0a0a0;
-            text-decoration: none;
-        }
-
-        form {
-            margin-top: 16px;
-        }
-
-        small {
-            font-size: 10px;
-            font-weight: 100;
+            &:hover, &:focus, &:active {
+                color: @active-white;
+            }
         }
 
         #social-networks {
@@ -3531,6 +3523,19 @@ form[name='compose'] {
                     color: @active-white;
                 }
             }
+        }
+
+        #contact-info {
+            text-align: left;
+            h4 {
+                font-size: 20px;
+                text-align: left;
+            }
+
+            ul {
+                margin-bottom: 15px;
+            }
+
         }
 
         #latest-from-blog {
@@ -3665,29 +3670,6 @@ form[name='compose'] {
         opacity: 0.9;
         padding: 20px;
         border-radius: 5px;
-    }
-
-    #contact-info {
-        color: #ffffff;
-        text-align: left;
-        h4 {
-            font-size: 20px;
-            text-align: left;
-        }
-
-        .list-info {
-            list-style-type: none;
-            padding-left: 0;
-
-            a {
-                .font-size(1.4);
-            }
-        }
-
-        p {
-
-            .font-size(1.4);
-        }
     }
 
     .outsource-widget {
