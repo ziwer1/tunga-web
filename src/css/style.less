@@ -3763,6 +3763,83 @@ form[name='compose'] {
         }
     }
 
+    #skill-profiles {
+        text-align: center;
+        padding-left: 15px;
+        padding-right: 15px;
+
+        .profile-cards {
+            display: inline-block;
+            .clearfix();
+
+            .card,
+            .card.user-card {
+                border-radius: 0;
+                text-align: center;
+                .font-size(1.4);
+                background-color: @active-white;
+                border: solid 1px #ececec;
+                box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.11);
+                padding: 16px 32px;
+                margin-bottom: 20px;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+
+                .name {
+                    .font-size(1.6);
+                    font-weight: bold;
+                    margin-top: 15px;
+                }
+
+                .location {
+                    .font-size(1.4);
+                    font-weight: 300;
+                    height: 20px;
+                }
+
+                .skills {
+                    text-align: left;
+                    margin-bottom: 15px;
+                    min-height: 60px;
+
+                    span {
+                        display: inline-block;
+                        .font-size(1.4);
+                        font-weight: 300;
+                        color: @active-white;
+                        background: @primary none;
+                        border-color: @primary;
+                        outline-color: @primary;
+                        padding: 3px 10px;
+                        margin: 2px;
+                        border-radius: 5px;
+                        text-shadow: none;
+                    }
+                }
+
+                .intro {
+                    margin: 15px 0;
+                    min-height: 60px;
+                    .font-size(1.2);
+                    text-align: left;
+                }
+
+                .btn {
+                    padding: 5px 15px;
+                    border-radius: 2px;
+                }
+
+                a.profile-link {
+                    color: @header-text;
+                    .font-size(1.4);
+                    font-weight: 500;
+                }
+            }
+        }
+    }
+
     #contact-us {
         .font-size(1.6);
         padding-bottom: 90px;
@@ -5694,81 +5771,6 @@ form[name='compose'] {
     #press {
         margin-bottom: 80px;
     }
-
-    #skill-profiles {
-        text-align: center;
-        padding-left: 15px;
-        padding-right: 15px;
-
-        .profile-cards {
-            display: inline-block;
-            .clearfix();
-
-            .card,
-            .card.user-card {
-                border-radius: 0;
-                text-align: center;
-                .font-size(1.4);
-                background-color: @active-white;
-                border: solid 1px #ececec;
-                box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.11);
-                padding: 16px 32px;
-                margin-bottom: 20px;
-
-                &:last-child {
-                    margin-bottom: 0;
-                }
-
-                .name {
-                    .font-size(1.6);
-                    font-weight: bold;
-                    margin-top: 15px;
-                }
-
-                .location {
-                    .font-size(1.4);
-                    font-weight: 300;
-                }
-
-                .skills {
-                    text-align: left;
-                    margin-bottom: 15px;
-
-                    span {
-                        display: inline-block;
-                        .font-size(1.4);
-                        font-weight: 300;
-                        color: @active-white;
-                        background: @primary none;
-                        border-color: @primary;
-                        outline-color: @primary;
-                        padding: 3px 10px;
-                        margin: 2px;
-                        border-radius: 5px;
-                        text-shadow: none;
-                    }
-                }
-
-                .intro {
-                    margin: 15px 0;
-                    min-height: 60px;
-                    .font-size(1.2);
-                    text-align: left;
-                }
-
-                .btn {
-                    padding: 5px 15px;
-                    border-radius: 2px;
-                }
-
-                a.profile-link {
-                    color: @header-text;
-                    .font-size(1.4);
-                    font-weight: 500;
-                }
-            }
-        }
-    }
 }
 
 .showcase.auth-page {
@@ -6237,6 +6239,10 @@ form[name='compose'] {
             background-color: @active-white;
             padding-bottom: 50px;
         }
+
+        #skill-profiles {
+            padding: 80px 15px 71px;
+        }
     }
 
     #pitch {
@@ -6268,43 +6274,6 @@ form[name='compose'] {
         }
     }
 
-    #skill-profiles {
-        .card,
-        .card.user-card {
-            text-align: center;
-            .font-size(1.4);
-
-            .name {
-                .font-size(1.8);
-                font-weight: bold;
-            }
-
-            .skills {
-                margin: 10px 0;
-
-                span {
-                    display: inline-block;
-                    color: @active-white;
-                    background-color: @primary;
-                    padding: 5px 15px;
-                    margin: 0 2px;
-                    border-radius: 2px;
-                }
-            }
-
-            .intro {
-                padding: 10px 0;
-                line-height: 15px;
-                min-height: 90px;
-            }
-
-            .btn {
-                padding: 5px 15px;
-                border-radius: 2px;
-            }
-        }
-    }
-
     #story {
         .font-size(1.5);
         text-align: left;
@@ -6318,14 +6287,14 @@ form[name='compose'] {
             margin-bottom: 40px;
         }
 
-        h3 {
-
+        h2 {
+            .font-size(1.4);
         }
 
         img {
             display: block;
             max-width: 100%;
-            margin: 15px auto;
+            margin: 30px auto !important;
         }
 
         .btn-callout {

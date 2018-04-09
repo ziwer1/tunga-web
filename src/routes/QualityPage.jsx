@@ -277,7 +277,7 @@ export default class QualityPage extends React.Component {
                                         <div className="name">
                                             {profile.user.display_name}
                                         </div>
-                                        <div>
+                                        <div className="location">
                                             {profile.user.profile &&
                                             (profile.user.profile.city ||
                                                 profile.user.profile
@@ -297,7 +297,7 @@ export default class QualityPage extends React.Component {
                                             }}
                                         />
                                         <div className="skills">
-                                            {profile.user.profile.skills
+                                            {(profile.user.profile.skills || [])
                                                 .slice(0, 6)
                                                 .map(skill => {
                                                     return (
