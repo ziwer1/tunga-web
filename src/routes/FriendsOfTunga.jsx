@@ -76,7 +76,7 @@ class FriendOfTungaPage extends ComponentWithModal {
 
         // Clear message after 3 seconds
         setTimeout(() => {
-            if(fot.state.copied === field) {
+            if (fot.state.copied === field) {
                 this.setState({copied: null});
             }
         }, 3000);
@@ -175,7 +175,7 @@ class FriendOfTungaPage extends ComponentWithModal {
                                     <div className="option">
                                         <div className="first-content-box">
                                             <div className="img-container">
-                                                <i className="tunga-icon-building"/>
+                                                <i className="tunga-icon-building" />
                                             </div>
                                             <div className="text-container">
                                                 <p>
@@ -192,7 +192,7 @@ class FriendOfTungaPage extends ComponentWithModal {
                                     <div className="option">
                                         <div className="first-content-box">
                                             <div className="img-container">
-                                                <i className="tunga-icon-team-thick"/>
+                                                <i className="tunga-icon-team-thick" />
                                             </div>
                                             <div className="text-container">
                                                 <p>
@@ -209,7 +209,7 @@ class FriendOfTungaPage extends ComponentWithModal {
                                     <div className="option">
                                         <div className="first-content-box">
                                             <div className="img-container">
-                                                <i className="tunga-icon-rocket-side-thick"/>
+                                                <i className="tunga-icon-rocket-side-thick" />
                                             </div>
                                             <div className="text-container">
                                                 <p>
@@ -261,10 +261,19 @@ class FriendOfTungaPage extends ComponentWithModal {
                                                         localeText.email.subject
                                                     }>
                                                     <div>
-                                                        {this.state.copied === 'email_cc'?(
-                                                            <div className="copied">Copied</div>
-                                                        ):null}
-                                                        <i className="tunga-icon-copy" onClick={this.setCopied.bind(this, 'email_cc')}/>
+                                                        {this.state.copied ===
+                                                        'email_cc' ? (
+                                                            <div className="copied">
+                                                                Copied
+                                                            </div>
+                                                        ) : null}
+                                                        <i
+                                                            className="tunga-icon-copy"
+                                                            onClick={this.setCopied.bind(
+                                                                this,
+                                                                'email_cc',
+                                                            )}
+                                                        />
                                                         bart@tunga.io
                                                     </div>
                                                 </CopyToClipboard>
@@ -275,10 +284,19 @@ class FriendOfTungaPage extends ComponentWithModal {
                                                         localeText.email.subject
                                                     }>
                                                     <div>
-                                                        {this.state.copied === 'email_subject'?(
-                                                            <div className="copied">Copied</div>
-                                                        ):null}
-                                                        <i className="tunga-icon-copy" onClick={this.setCopied.bind(this, 'email_subject')}/>
+                                                        {this.state.copied ===
+                                                        'email_subject' ? (
+                                                            <div className="copied">
+                                                                Copied
+                                                            </div>
+                                                        ) : null}
+                                                        <i
+                                                            className="tunga-icon-copy"
+                                                            onClick={this.setCopied.bind(
+                                                                this,
+                                                                'email_subject',
+                                                            )}
+                                                        />
                                                         {
                                                             localeText.email
                                                                 .subject
@@ -292,10 +310,19 @@ class FriendOfTungaPage extends ComponentWithModal {
                                                         localeText.email.body
                                                     }>
                                                     <div>
-                                                        {this.state.copied === 'email_body'?(
-                                                            <div className="copied">Copied</div>
-                                                        ):null}
-                                                        <i className="tunga-icon-copy" onClick={this.setCopied.bind(this, 'email_body')}/>
+                                                        {this.state.copied ===
+                                                        'email_body' ? (
+                                                            <div className="copied">
+                                                                Copied
+                                                            </div>
+                                                        ) : null}
+                                                        <i
+                                                            className="tunga-icon-copy"
+                                                            onClick={this.setCopied.bind(
+                                                                this,
+                                                                'email_body',
+                                                            )}
+                                                        />
                                                         <div
                                                             dangerouslySetInnerHTML={{
                                                                 __html: nl_to_br(
@@ -327,14 +354,21 @@ class FriendOfTungaPage extends ComponentWithModal {
                                     </div>
                                     <div className="share-text">
                                         <CopyToClipboard
-                                            text={
-                                                localeText.linkedin
-                                            }>
+                                            text={localeText.linkedin}>
                                             <div>
-                                                {this.state.copied === 'linkedin'?(
-                                                    <div className="copied">Copied</div>
-                                                ):null}
-                                                <i className="tunga-icon-copy" onClick={this.setCopied.bind(this, 'linkedin')}/>
+                                                {this.state.copied ===
+                                                'linkedin' ? (
+                                                    <div className="copied">
+                                                        Copied
+                                                    </div>
+                                                ) : null}
+                                                <i
+                                                    className="tunga-icon-copy"
+                                                    onClick={this.setCopied.bind(
+                                                        this,
+                                                        'linkedin',
+                                                    )}
+                                                />
                                                 <div
                                                     dangerouslySetInnerHTML={{
                                                         __html: nl_to_br(

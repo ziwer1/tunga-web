@@ -12,7 +12,6 @@ import * as SkillPageActions from '../actions/SkillPageActions';
 import {nl_to_br} from '../utils/html';
 
 class SkillPage extends LandingPage {
-
     constructor(props) {
         super(props);
         this.state = {pageClass: 'new-skill-page'};
@@ -87,22 +86,23 @@ class SkillPage extends LandingPage {
                 SkillPage: {detail: {skill_page, isRetrieving, error}},
             } = this.props;
 
-        if(error.retrieve) {
+        if (error.retrieve) {
             return super.renderHeaderContent();
         }
 
         return (
             <div id="lander-header" className="skill-header showcase-header">
                 <h1>
-                    {skill_page.welcome_header || 'Unleashing Africa’s Tech Talent'}
+                    {skill_page.welcome_header ||
+                        'Unleashing Africa’s Tech Talent'}
                 </h1>
                 <div className="sub-header">
                     {skill_page.welcome_sub_header || (
                         <div>
-                            Small and large businesses from all over the
-                            world use Tunga for hiring African software
-                            engineers to address their most pressing
-                            software development needs.
+                            Small and large businesses from all over the world
+                            use Tunga for hiring African software engineers to
+                            address their most pressing software development
+                            needs.
                         </div>
                     )}
                 </div>
@@ -123,7 +123,7 @@ class SkillPage extends LandingPage {
                 SkillPage: {detail: {skill_page, isRetrieving, error}},
             } = this.props;
 
-        if(error.retrieve) {
+        if (error.retrieve) {
             return super.renderFreeHeaderSection();
         }
         return null;
@@ -135,7 +135,7 @@ class SkillPage extends LandingPage {
                 SkillPage: {detail: {skill_page, isRetrieving, error}},
             } = this.props;
 
-        if(error.retrieve) {
+        if (error.retrieve) {
             return super.renderMainContent();
         }
         return (
@@ -152,11 +152,11 @@ class SkillPage extends LandingPage {
                                 }}
                             />
                         </div>
-                        {skill_page.pitch_image?(
+                        {skill_page.pitch_image ? (
                             <div className="pitch-image">
-                                <img src={skill_page.pitch_image}/>
+                                <img src={skill_page.pitch_image} />
                             </div>
-                        ):null}
+                        ) : null}
                     </div>
                 </section>
 
@@ -177,9 +177,9 @@ class SkillPage extends LandingPage {
                             }}
                         />
 
-                        {skill_page.content_image?(
-                            <img src={skill_page.content_image}/>
-                        ):null}
+                        {skill_page.content_image ? (
+                            <img src={skill_page.content_image} />
+                        ) : null}
 
                         <div
                             className="readable"
@@ -195,78 +195,85 @@ class SkillPage extends LandingPage {
                             }}
                         />
                         <div>
-                            <button onClick={this.onScheduleCall}
-                                    className="btn btn-callout">
+                            <button
+                                onClick={this.onScheduleCall}
+                                className="btn btn-callout">
                                 Schedule a call with us
                             </button>
                         </div>
                     </div>
                 </section>
-                {skill_page.profiles && skill_page.profiles.length
-                    ? (
-                        <section id="skill-profiles">
-                            <div className="profile-cards">
-                                {skill_page.profiles.map(profile => {
-                                    return (
-                                        <div className="card user-card">
-                                            <Avatar
-                                                src={profile.user.avatar_url}
-                                                size="large"
-                                            />
-                                            <div className="name">
-                                                {profile.user.display_name}
-                                            </div>
-                                            <div className="location">
-                                                {profile.user.profile &&
-                                                (profile.user.profile.city ||
-                                                    profile.user.profile
-                                                        .country_name)
-                                                    ? `${
-                                                        profile.user.profile.city
-                                                        }, ${
-                                                        profile.user.profile
-                                                            .country_name
-                                                        }`
-                                                    : null}
-                                            </div>
-                                            <div
-                                                className="intro"
-                                                dangerouslySetInnerHTML={{
-                                                    __html: nl_to_br(profile.intro),
-                                                }}
-                                            />
-                                            <div className="skills">
-                                                {(profile.user.profile?this.reorderProfileSkills(profile.user.profile.skills):[])
-                                                    .slice(0, 6)
-                                                    .map(skill => {
-                                                        return (
-                                                            <span>
+                {skill_page.profiles && skill_page.profiles.length ? (
+                    <section id="skill-profiles">
+                        <div className="profile-cards">
+                            {skill_page.profiles.map(profile => {
+                                return (
+                                    <div className="card user-card">
+                                        <Avatar
+                                            src={profile.user.avatar_url}
+                                            size="large"
+                                        />
+                                        <div className="name">
+                                            {profile.user.display_name}
+                                        </div>
+                                        <div className="location">
+                                            {profile.user.profile &&
+                                            (profile.user.profile.city ||
+                                                profile.user.profile
+                                                    .country_name)
+                                                ? `${
+                                                      profile.user.profile.city
+                                                  }, ${
+                                                      profile.user.profile
+                                                          .country_name
+                                                  }`
+                                                : null}
+                                        </div>
+                                        <div
+                                            className="intro"
+                                            dangerouslySetInnerHTML={{
+                                                __html: nl_to_br(profile.intro),
+                                            }}
+                                        />
+                                        <div className="skills">
+                                            {(profile.user.profile
+                                                ? this.reorderProfileSkills(
+                                                      profile.user.profile
+                                                          .skills,
+                                                  )
+                                                : []
+                                            )
+                                                .slice(0, 6)
+                                                .map(skill => {
+                                                    return (
+                                                        <span>
                                                             {skill.name}
                                                         </span>
-                                                        );
-                                                    })}
-                                            </div>
-                                            <div>
-                                                <Link
-                                                    to="/start"
-                                                    className="profile-link">
-                                                    View full profile
-                                                </Link>
-                                            </div>
+                                                    );
+                                                })}
                                         </div>
-                                    );
-                                })}
-                            </div>
-                        </section>
-                    )
-                    : null}
+                                        <div>
+                                            <Link
+                                                to="/start"
+                                                className="profile-link">
+                                                View full profile
+                                            </Link>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </section>
+                ) : null}
                 <section
                     id="story-interlude-one"
                     style={
                         skill_page.story_interlude_one_image
                             ? {
-                                backgroundImage: `url(${skill_page.story_interlude_one_image})`,
-                            }
+                                  backgroundImage: `url(${
+                                      skill_page.story_interlude_one_image
+                                  })`,
+                              }
                             : {}
                     }>
                     <div className="container">
@@ -277,11 +284,11 @@ class SkillPage extends LandingPage {
                                 ),
                             }}
                         />
-                        {skill_page.story_interlude_one_cta?(
+                        {skill_page.story_interlude_one_cta ? (
                             <Link to="/start" className="cta">
                                 {skill_page.story_interlude_one_cta}
                             </Link>
-                        ):null}
+                        ) : null}
                     </div>
                 </section>
                 {/*
@@ -308,8 +315,6 @@ class SkillPage extends LandingPage {
             </div>
         );
     }
-
-
 }
 
 function mapStateToProps(state) {

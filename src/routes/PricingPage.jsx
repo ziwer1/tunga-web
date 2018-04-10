@@ -66,7 +66,6 @@ const OFFER_DETAILS = [
 ];
 
 class PricingPage extends ComponentWithModal {
-
     onScheduleCall() {
         openCalendlyWidget();
     }

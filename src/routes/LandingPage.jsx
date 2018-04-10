@@ -12,11 +12,9 @@ import SectionHeading from '../components/SectionHeading';
 import {openCalendlyWidget, showCallWidget} from '../utils/router';
 import {TESTIMONIALS} from '../constants/data';
 
-
 let overlayTimer = null;
 
 export default class LandingPage extends ComponentWithModal {
-
     static pageClass = '';
 
     constructor(props) {
@@ -180,17 +178,15 @@ export default class LandingPage extends ComponentWithModal {
         return (
             <div>
                 <div id="lander-header" className="showcase-header">
-                    <h1>
-                        Unleashing Africa’s Tech Talent
-                    </h1>
+                    <h1>Unleashing Africa’s Tech Talent</h1>
                     <div className="sub-header">
-                        Small and large businesses from all over the
-                        world use Tunga for hiring African software
-                        engineers to address their most pressing
-                        software development needs.
+                        Small and large businesses from all over the world use
+                        Tunga for hiring African software engineers to address
+                        their most pressing software development needs.
                     </div>
                     <div>
-                        <button onClick={this.onScheduleCall}
+                        <button
+                            onClick={this.onScheduleCall}
                             className="btn btn-callout">
                             Schedule a call
                         </button>
@@ -211,7 +207,11 @@ export default class LandingPage extends ComponentWithModal {
                         <div>
                             Need an app or website? We can build software for
                             you on-demand and turn-key.
-                            <Link to="/call" onClick={this.onScheduleCall.bind(this)}>find out more</Link>
+                            <Link
+                                to="/call"
+                                onClick={this.onScheduleCall.bind(this)}>
+                                find out more
+                            </Link>
                         </div>
                     </div>
                 </div>
@@ -222,7 +222,11 @@ export default class LandingPage extends ComponentWithModal {
                         <div>
                             Use Tunga to quickly mobilize developers. Parttime
                             or fulltime. Individuals or entire teams.
-                            <Link to="/call" onClick={this.onScheduleCall.bind(this)}>find out more</Link>
+                            <Link
+                                to="/call"
+                                onClick={this.onScheduleCall.bind(this)}>
+                                find out more
+                            </Link>
                         </div>
                     </div>
                 </div>
@@ -233,7 +237,11 @@ export default class LandingPage extends ComponentWithModal {
                         <div>
                             Tap into our network of top African software
                             programmers to reinforce your own tech team.
-                            <Link to="/call" onClick={this.onScheduleCall.bind(this)}>find out more</Link>
+                            <Link
+                                to="/call"
+                                onClick={this.onScheduleCall.bind(this)}>
+                                find out more
+                            </Link>
                         </div>
                     </div>
                 </div>
@@ -437,8 +445,7 @@ export default class LandingPage extends ComponentWithModal {
 
                                 <div className="development-style-cases">
                                     <div className="case">
-
-                                        <i className="icon tunga-icon-file-search"/>
+                                        <i className="icon tunga-icon-file-search" />
 
                                         <p>
                                             <div className="title">
@@ -451,8 +458,7 @@ export default class LandingPage extends ComponentWithModal {
                                         </p>
                                     </div>
                                     <div className="case">
-
-                                        <i className="icon tunga-icon-team"/>
+                                        <i className="icon tunga-icon-team" />
 
                                         <p>
                                             <div className="title">
@@ -466,7 +472,7 @@ export default class LandingPage extends ComponentWithModal {
                                         </p>
                                     </div>
                                     <div className="case">
-                                        <i className="icon tunga-icon-money-loop"/>
+                                        <i className="icon tunga-icon-money-loop" />
                                         <p>
                                             <div className="title">
                                                 Affortable
@@ -485,7 +491,7 @@ export default class LandingPage extends ComponentWithModal {
                 </section>
                 <section id="meet-developers">
                     <div>
-                        <Link to='/quality' className="headline">
+                        <Link to="/quality" className="headline">
                             Meet our thriving community of developers
                         </Link>
                         <p>
@@ -511,7 +517,7 @@ export default class LandingPage extends ComponentWithModal {
                                                     <span
                                                         dangerouslySetInnerHTML={{
                                                             __html:
-                                                            testimonial.message,
+                                                                testimonial.message,
                                                         }}
                                                     />
                                                     <i className="fa fa-quote-right pull-right" />
@@ -522,7 +528,7 @@ export default class LandingPage extends ComponentWithModal {
                                                 style={{
                                                     backgroundImage: `url(${
                                                         testimonial.image
-                                                        })`,
+                                                    })`,
                                                 }}
                                             />
                                             <div className="author">
@@ -650,7 +656,6 @@ export default class LandingPage extends ComponentWithModal {
     }
 
     render() {
-
         let meta_title = 'Tunga | Software outsourcing done right';
         let meta_description = `Getting software projects done is hard. We make it easy.`;
 
@@ -671,4 +676,3 @@ export default class LandingPage extends ComponentWithModal {
         );
     }
 }
-

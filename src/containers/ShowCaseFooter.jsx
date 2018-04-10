@@ -49,9 +49,7 @@ class ShowCaseFooter extends React.Component {
             <div>
                 {showContactUs ? (
                     <section id="contact-us">
-                        <SectionHeading>
-                            Where to find us
-                        </SectionHeading>
+                        <SectionHeading>Where to find us</SectionHeading>
 
                         <div className="contact-sections">
                             <div className="section">
@@ -65,14 +63,14 @@ class ShowCaseFooter extends React.Component {
                                     <p>
                                         <strong>Amsterdam office:</strong>
                                         <br />
-                                        The Collab, Wibautstraat 131, 1091
-                                        GL Amsterdam, The Netherlands
+                                        The Collab, Wibautstraat 131, 1091 GL
+                                        Amsterdam, The Netherlands
                                     </p>
                                     <p>
                                         <strong>Lagos office:</strong>
                                         <br />
-                                        32 Barikisu Iyede street, Yaba,
-                                        Lagos, Nigeria
+                                        32 Barikisu Iyede street, Yaba, Lagos,
+                                        Nigeria
                                     </p>
 
                                     <Link href="mailto:hello@tunga.io">
@@ -90,40 +88,70 @@ class ShowCaseFooter extends React.Component {
                                 </div>
                             </div>
                             <div className="section">
-                                <form ref="contact_form" onSubmit={this.sendEmail.bind(this)}>
-                                    {Utility.contact.isSent?(
-                                        <Success message="We've received your message and we'll get back to you shortly."/>
-                                    ):null}
-                                    {Utility.contact && Utility.contact.error?(
-                                        <Error message={Utility.contact.error.message || "Please fix the errors below and try again."}/>
-                                    ):null}
+                                <form
+                                    ref="contact_form"
+                                    onSubmit={this.sendEmail.bind(this)}>
+                                    {Utility.contact.isSent ? (
+                                        <Success message="We've received your message and we'll get back to you shortly." />
+                                    ) : null}
+                                    {Utility.contact &&
+                                    Utility.contact.error ? (
+                                        <Error
+                                            message={
+                                                Utility.contact.error.message ||
+                                                'Please fix the errors below and try again.'
+                                            }
+                                        />
+                                    ) : null}
 
-                                    {Utility.contact.error && Utility.contact.error.fullname?(
-                                        <FieldError message={Utility.contact.error.fullname}/>
-                                    ):null}
+                                    {Utility.contact.error &&
+                                    Utility.contact.error.fullname ? (
+                                        <FieldError
+                                            message={
+                                                Utility.contact.error.fullname
+                                            }
+                                        />
+                                    ) : null}
                                     <FormGroup>
-                                        <input type="text" ref="fullname" className="form-control" required
+                                        <input
+                                            type="text"
+                                            ref="fullname"
+                                            className="form-control"
+                                            required
                                             placeholder="Your Name"
                                         />
                                     </FormGroup>
 
-                                    {Utility.contact.error && Utility.contact.error.email?(
-                                        <FieldError message={Utility.contact.error.email}/>
-                                    ):null}
+                                    {Utility.contact.error &&
+                                    Utility.contact.error.email ? (
+                                        <FieldError
+                                            message={
+                                                Utility.contact.error.email
+                                            }
+                                        />
+                                    ) : null}
                                     <FormGroup>
-                                        <input type="text" ref="email"
-                                               className="form-control"
-                                               placeholder="Your email address" required
+                                        <input
+                                            type="text"
+                                            ref="email"
+                                            className="form-control"
+                                            placeholder="Your email address"
+                                            required
                                         />
                                     </FormGroup>
 
-                                    {Utility.contact.error && Utility.contact.error.body?(
-                                        <FieldError message={Utility.contact.error.body}/>
-                                    ):null}
+                                    {Utility.contact.error &&
+                                    Utility.contact.error.body ? (
+                                        <FieldError
+                                            message={Utility.contact.error.body}
+                                        />
+                                    ) : null}
                                     <FormGroup>
-                                        <textarea ref="body"
-                                                  className="form-control"
-                                            placeholder="Type your message here" required
+                                        <textarea
+                                            ref="body"
+                                            className="form-control"
+                                            placeholder="Type your message here"
+                                            required
                                         />
                                     </FormGroup>
                                     <div className="pull-right">
@@ -182,13 +210,21 @@ class ShowCaseFooter extends React.Component {
                                     <p>Wibautstraat 131</p>
                                     <p>Amsterdam, The Netherlands</p>
                                     <p>
-                                        <a href="mailto:hello@tunga.io">hello@tunga.io</a>
+                                        <a href="mailto:hello@tunga.io">
+                                            hello@tunga.io
+                                        </a>
                                     </p>
                                     <p>
-                                        <a href="tel:+31615955194">+31615955194</a>
+                                        <a href="tel:+31615955194">
+                                            +31615955194
+                                        </a>
                                     </p>
                                     <p>
-                                        <Link to="/call" onClick={this.onScheduleCall.bind(this)}>
+                                        <Link
+                                            to="/call"
+                                            onClick={this.onScheduleCall.bind(
+                                                this,
+                                            )}>
                                             Schedule a call with us
                                         </Link>
                                     </p>
@@ -205,9 +241,7 @@ class ShowCaseFooter extends React.Component {
                                     <a href="/story">Our Story</a>
                                 </li>
                                 <li>
-                                    <a href="https://blog.tunga.io/">
-                                        Blog
-                                    </a>
+                                    <a href="https://blog.tunga.io/">Blog</a>
                                 </li>
                                 <li>
                                     <a>Effortless Software project</a>
@@ -255,30 +289,24 @@ class ShowCaseFooter extends React.Component {
                                 </li>
                             </ul>
 
-                            <div>
-                                KVK: NL21746292
-                            </div>
+                            <div>KVK: NL21746292</div>
                         </div>
                         <div className="section" id="latest-from-blog">
                             <h4>Latest from our blog</h4>
                             <ul className="list-unstyled">
                                 {Utility.posts.length
-                                    ? Utility.posts
-                                        .slice(0, 4)
-                                        .map(article => {
-                                            return (
-                                                <li>
-                                                    <a
-                                                        target="_blank"
-                                                        href={
-                                                            article.url
-                                                        }>
-                                                        <i className="fa fa-angle-right" />{' '}
-                                                        {article.title}
-                                                    </a>
-                                                </li>
-                                            );
-                                        })
+                                    ? Utility.posts.slice(0, 4).map(article => {
+                                          return (
+                                              <li>
+                                                  <a
+                                                      target="_blank"
+                                                      href={article.url}>
+                                                      <i className="fa fa-angle-right" />{' '}
+                                                      {article.title}
+                                                  </a>
+                                              </li>
+                                          );
+                                      })
                                     : null}
                             </ul>
                         </div>
