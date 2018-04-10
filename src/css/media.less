@@ -1000,6 +1000,12 @@
 
     .showcase {
         #contact-us {
+            .section {
+                .contact-info {
+                    margin-top: 90px;
+                }
+            }
+
             form {
                 margin-top: 0;
             }
@@ -1116,20 +1122,6 @@
                 display: inline-block;
                 .font-size(1.6);
                 padding: 12px 20px;
-            }
-        }
-
-        #development-style {
-            .development-style-cases {
-                .case {
-                    float: left;
-                    max-width: 302px;
-                    margin-right: 60px;
-
-                    &:last-child {
-                        margin-right: 0;
-                    }
-                }
             }
         }
 
@@ -1507,6 +1499,20 @@
                     text-align: right;
                 }
             }
+
+            #development-style {
+                .development-style-cases {
+                    .case {
+                        float: left;
+                        max-width: 302px;
+                        margin-right: 20px;
+
+                        &:last-child {
+                            margin-right: 0;
+                        }
+                    }
+                }
+            }
         }
 
         &.landing-page {
@@ -1672,6 +1678,16 @@
                     float: left;
                     width: 350px;
                     padding: 30px 28px;
+                }
+            }
+        }
+    }
+
+    .showcase.new-landing-page {
+        #development-style {
+            .development-style-cases {
+                .case {
+                    margin-right: 60px;
                 }
             }
         }

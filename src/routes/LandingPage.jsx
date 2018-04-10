@@ -437,9 +437,8 @@ export default class LandingPage extends ComponentWithModal {
 
                                 <div className="development-style-cases">
                                     <div className="case">
-                                        <img
-                                            src={require('images/showcase/result-oriented.png')}
-                                        />
+
+                                        <i className="icon tunga-icon-file-search"/>
 
                                         <p>
                                             <div className="title">
@@ -452,9 +451,9 @@ export default class LandingPage extends ComponentWithModal {
                                         </p>
                                     </div>
                                     <div className="case">
-                                        <img
-                                            src={require('images/showcase/quality-assured.png')}
-                                        />
+
+                                        <i className="icon tunga-icon-team"/>
+
                                         <p>
                                             <div className="title">
                                                 Quality assured
@@ -467,9 +466,7 @@ export default class LandingPage extends ComponentWithModal {
                                         </p>
                                     </div>
                                     <div className="case">
-                                        <img
-                                            src={require('images/showcase/affortable.png')}
-                                        />
+                                        <i className="icon tunga-icon-money-loop"/>
                                         <p>
                                             <div className="title">
                                                 Affortable

@@ -49,28 +49,30 @@ class ShowCaseFooter extends React.Component {
 
                         <div className="contact-sections">
                             <div className="section">
-                                <p>
-                                    <strong>Kampala office:</strong>
-                                    <br />
-                                    Design Hub Kampala, 5th Street,
-                                    Industrial Area, Kampala, Uganda
-                                </p>
-                                <p>
-                                    <strong>Amsterdam office:</strong>
-                                    <br />
-                                    The Collab, Wibautstraat 131, 1091
-                                    GL Amsterdam, The Netherlands
-                                </p>
-                                <p>
-                                    <strong>Lagos office:</strong>
-                                    <br />
-                                    32 Barikisu Iyede street, Yaba,
-                                    Lagos, Nigeria
-                                </p>
+                                <div className="contact-info">
+                                    <p>
+                                        <strong>Kampala office:</strong>
+                                        <br />
+                                        Design Hub Kampala, 5th Street,
+                                        Industrial Area, Kampala, Uganda
+                                    </p>
+                                    <p>
+                                        <strong>Amsterdam office:</strong>
+                                        <br />
+                                        The Collab, Wibautstraat 131, 1091
+                                        GL Amsterdam, The Netherlands
+                                    </p>
+                                    <p>
+                                        <strong>Lagos office:</strong>
+                                        <br />
+                                        32 Barikisu Iyede street, Yaba,
+                                        Lagos, Nigeria
+                                    </p>
 
-                                <Link href="mailto:hello@tunga.io">
-                                    hello@tunga.io
-                                </Link>
+                                    <Link href="mailto:hello@tunga.io">
+                                        hello@tunga.io
+                                    </Link>
+                                </div>
                                 <div>
                                     <button
                                         className="btn btn-callout"

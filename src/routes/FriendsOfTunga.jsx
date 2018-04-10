@@ -175,11 +175,7 @@ class FriendOfTungaPage extends ComponentWithModal {
                                     <div className="option">
                                         <div className="first-content-box">
                                             <div className="img-container">
-                                                <img
-                                                    height="50"
-                                                    width="50"
-                                                    src={require('images/showcase/Companies large and small.png')}
-                                                />
+                                                <i className="tunga-icon-building"/>
                                             </div>
                                             <div className="text-container">
                                                 <p>
@@ -196,11 +192,7 @@ class FriendOfTungaPage extends ComponentWithModal {
                                     <div className="option">
                                         <div className="first-content-box">
                                             <div className="img-container">
-                                                <img
-                                                    height="50"
-                                                    width="50"
-                                                    src={require('images/showcase/software teams.png')}
-                                                />
+                                                <i className="tunga-icon-team-thick"/>
                                             </div>
                                             <div className="text-container">
                                                 <p>
@@ -217,11 +209,7 @@ class FriendOfTungaPage extends ComponentWithModal {
                                     <div className="option">
                                         <div className="first-content-box">
                                             <div className="img-container">
-                                                <img
-                                                    height="50"
-                                                    width="50"
-                                                    src={require('images/showcase/Startups.png')}
-                                                />
+                                                <i className="tunga-icon-rocket-side-thick"/>
                                             </div>
                                             <div className="text-container">
                                                 <p>
@@ -276,7 +264,7 @@ class FriendOfTungaPage extends ComponentWithModal {
                                                         {this.state.copied === 'email_cc'?(
                                                             <div className="copied">Copied</div>
                                                         ):null}
-                                                        <i className="fa fa-clone" onClick={this.setCopied.bind(this, 'email_cc')}/>
+                                                        <i className="tunga-icon-copy" onClick={this.setCopied.bind(this, 'email_cc')}/>
                                                         bart@tunga.io
                                                     </div>
                                                 </CopyToClipboard>
@@ -290,7 +278,7 @@ class FriendOfTungaPage extends ComponentWithModal {
                                                         {this.state.copied === 'email_subject'?(
                                                             <div className="copied">Copied</div>
                                                         ):null}
-                                                        <i className="fa fa-clone" onClick={this.setCopied.bind(this, 'email_subject')}/>
+                                                        <i className="tunga-icon-copy" onClick={this.setCopied.bind(this, 'email_subject')}/>
                                                         {
                                                             localeText.email
                                                                 .subject
@@ -307,7 +295,7 @@ class FriendOfTungaPage extends ComponentWithModal {
                                                         {this.state.copied === 'email_body'?(
                                                             <div className="copied">Copied</div>
                                                         ):null}
-                                                        <i className="fa fa-clone" onClick={this.setCopied.bind(this, 'email_body')}/>
+                                                        <i className="tunga-icon-copy" onClick={this.setCopied.bind(this, 'email_body')}/>
                                                         <div
                                                             dangerouslySetInnerHTML={{
                                                                 __html: nl_to_br(
@@ -346,7 +334,7 @@ class FriendOfTungaPage extends ComponentWithModal {
                                                 {this.state.copied === 'linkedin'?(
                                                     <div className="copied">Copied</div>
                                                 ):null}
-                                                <i className="fa fa-clone" onClick={this.setCopied.bind(this, 'linkedin')}/>
+                                                <i className="tunga-icon-copy" onClick={this.setCopied.bind(this, 'linkedin')}/>
                                                 <div
                                                     dangerouslySetInnerHTML={{
                                                         __html: nl_to_br(

@@ -5140,12 +5140,17 @@ form[name='compose'] {
                     .img-container {
                         display: inline-block;
                         padding: 20px 20px 30px 20px;
+                        .font-size(5.0);
+                        line-height: 50px;
+                        color: #777;
+                        text-align: center;
+                        width: 100px;
                     }
 
                     .text-container {
                         position: absolute;
                         left: 102px;
-                        top: -5px;
+                        top: 5px;
                         padding-top: 20px;
                         padding-right: 20px;
                         .font-size(1.4);
@@ -5235,11 +5240,13 @@ form[name='compose'] {
                 }
             }
 
-            .fa.fa-clone {
+            .fa.fa-clone, .tunga-icon-copy {
                 float: right;
                 cursor: pointer;
                 .font-size(1.7);
                 line-height: 20px;
+                color: #444;
+                font-weight: 700;
             }
 
             .copied {
@@ -6141,6 +6148,14 @@ form[name='compose'] {
                 img {
                     margin-top: 30px;
                     margin-bottom: 30px;
+                    height: 70px;
+                }
+
+                .icon {
+                    display: block;
+                    color: @primary;
+                    .font-size(7.0);
+                    margin: 30px auto;
                 }
             }
         }
