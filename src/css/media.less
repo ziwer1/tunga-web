@@ -1077,7 +1077,7 @@
                 padding: 0;
 
                 .wrapper {
-                    .font-size(1.5);
+                    .font-size(1.4);
                     padding-top: 34px;
 
                     .headline {
@@ -1100,7 +1100,7 @@
                 max-width: 623px;
                 float: right;
                 margin-right: 129px;
-                .font-size(1.6);
+                .font-size(1.4);
             }
 
             .side-pic {
@@ -1467,6 +1467,29 @@
             }
         }
 
+        #contact-us {
+            text-align: center;
+
+            .contact-sections {
+                text-align: center;
+                display: inline-block;
+
+                .section {
+                    float: left;
+                    text-align: left;
+
+                    &:first-child {
+                        max-width: 470px;
+                        margin-right: 50px;
+                    }
+
+                    &:last-child {
+                        width: 410px;
+                    }
+                }
+            }
+        }
+
         &.new-landing-page {
             #pitch {
                 .pitch-text {
@@ -1482,29 +1505,6 @@
                     min-width: 300px;
                     margin-top: 80px;
                     text-align: right;
-                }
-            }
-
-            #contact-us {
-                text-align: center;
-
-                .contact-sections {
-                    text-align: center;
-                    display: inline-block;
-
-                    .section {
-                        float: left;
-                        text-align: left;
-
-                        &:first-child {
-                            max-width: 470px;
-                            margin-right: 50px;
-                        }
-
-                        &:last-child {
-                            width: 410px;
-                        }
-                    }
                 }
             }
         }
