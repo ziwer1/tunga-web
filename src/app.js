@@ -141,16 +141,15 @@ let all_routes = (
             <IndexRoute component={DeveloperProfile} />
             <Route path=":userId" component={DeveloperProfile} />
         </Route>
+        <Route path="welcome">
+            <IndexRoute component={LandingPage} />
+            <Route
+                path=":skill"
+                component={SkillPage}
+            />
+        </Route>
         <Route unauthedOnly={true}>
             {/* No Auth Pages */}
-            <Route path="welcome">
-                <IndexRoute component={SkillPage} />
-                <Route
-                    path=":skill"
-                    component={SkillPage}
-                    unauthedOnly={true}
-                />
-            </Route>
             <Route path="quiz">
                 <IndexRoute component={QuizForm} />
                 <Route path="*" component={QuizForm} />
@@ -481,7 +480,7 @@ let all_routes = (
             component={LandingPage}
             unauthedOnly={true}
         />
-        <Route path=":skill" component={SkillPage} unauthedOnly={true} />
+        <Route path=":skill" component={SkillPage} />
         <Redirect path="*" to="home" />
     </Route>
 );
