@@ -2,11 +2,15 @@ import React from 'react';
 import {Link} from 'react-router';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import moment from 'moment';
-import {Button, Form, FormControl, FormGroup} from 'react-bootstrap';
+import {Button, FormGroup} from 'react-bootstrap';
+
+import SectionHeading from '../components/SectionHeading';
+import Success from '../components/status/Success';
+import Error from '../components/status/Error';
+import FieldError from '../components/status/FieldError';
 
 import * as UtilityActions from '../actions/UtilityActions';
-import SectionHeading from '../components/SectionHeading';
+
 import {openCalendlyWidget} from '../utils/router';
 
 class ShowCaseFooter extends React.Component {
@@ -30,9 +34,11 @@ class ShowCaseFooter extends React.Component {
 
     sendEmail(e) {
         e.preventDefault();
+        const fullname = this.refs.fullname.value.trim();
         const email = this.refs.email.value.trim();
+        const body = this.refs.body.value.trim();
         const {UtilityActions} = this.props;
-        UtilityActions.sendContactRequest({email});
+        UtilityActions.sendContactRequest({fullname, email, body});
         return;
     }
 
@@ -84,27 +90,40 @@ class ShowCaseFooter extends React.Component {
                                 </div>
                             </div>
                             <div className="section">
-                                <form
-                                    onSubmit={e => {
-                                        e.preventDefault();
-                                        return false;
-                                    }}>
+                                <form ref="contact_form" onSubmit={this.sendEmail.bind(this)}>
+                                    {Utility.contact.isSent?(
+                                        <Success message="We've received your message and we'll get back to you shortly."/>
+                                    ):null}
+                                    {Utility.contact && Utility.contact.error?(
+                                        <Error message={Utility.contact.error.message || "Please fix the errors below and try again."}/>
+                                    ):null}
+
+                                    {Utility.contact.error && Utility.contact.error.fullname?(
+                                        <FieldError message={Utility.contact.error.fullname}/>
+                                    ):null}
                                     <FormGroup>
-                                        <FormControl
-                                            type="input"
+                                        <input type="text" ref="fullname" className="form-control" required
                                             placeholder="Your Name"
                                         />
                                     </FormGroup>
+
+                                    {Utility.contact.error && Utility.contact.error.email?(
+                                        <FieldError message={Utility.contact.error.email}/>
+                                    ):null}
                                     <FormGroup>
-                                        <FormControl
-                                            type="input"
-                                            placeholder="Your email address"
+                                        <input type="text" ref="email"
+                                               className="form-control"
+                                               placeholder="Your email address" required
                                         />
                                     </FormGroup>
+
+                                    {Utility.contact.error && Utility.contact.error.body?(
+                                        <FieldError message={Utility.contact.error.body}/>
+                                    ):null}
                                     <FormGroup>
-                                        <FormControl
-                                            componentClass="textarea"
-                                            placeholder="Type your message here"
+                                        <textarea ref="body"
+                                                  className="form-control"
+                                            placeholder="Type your message here" required
                                         />
                                     </FormGroup>
                                     <div className="pull-right">
