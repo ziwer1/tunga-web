@@ -68,7 +68,7 @@ class SkillPage extends LandingPage {
     reorderProfileSkills(skills) {
         let isSkillPage = this.state.isSkillPage,
             {SkillPage: {detail: {skill_page}}} = this.props;
-        if (skills && isSkillPage && skill_page.keyword) {
+        if (skills && isSkillPage && skill_page.keyword && skill_page.skill) {
             let new_skills = [skill_page.skill];
             skills.forEach(skill => {
                 if (skill.id != skill_page.skill.id) {

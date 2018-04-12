@@ -3457,10 +3457,83 @@ form[name='compose'] {
     }
 
     footer {
-        padding: 45px 0;
+        padding: 45px 15px;
         background-color: #202020;
         color: @active-white;
         .font-size(1.4);
+
+        .sections {
+            .section {
+                margin-bottom: 20px;
+
+                &.social {
+                    text-align: center;
+
+                    .tunga-logo-btm {
+                        img {
+                            width: 100px;
+                        }
+                    }
+
+                    .social-networks {
+                        margin-top: 20px;
+
+                        a:first-child {
+                            margin-left: 0;
+                        }
+
+                        a:last-child {
+                            margin-right: 0;
+                        }
+
+                        a {
+                            display: inline-block;
+                            text-align: center;
+                            font-size: 18px;
+                            color: @active-white;
+                            width: 40px;
+                            height: 40px;
+                            padding-top: 6px;
+                            border: 1px solid @active-white;
+                            border-radius: 50%;
+                            margin: 0 5px;
+
+                            .fa {
+                                color: @active-white;
+                            }
+                        }
+                    }
+
+                    .footer-address {
+                        line-height: 0.7;
+                        padding: 30px 0;
+                    }
+                }
+
+                &.footer-info {
+                    text-align: left;
+                    h4 {
+                        .font-size(2.0);
+                        text-align: left;
+                    }
+
+                    ul {
+                        margin-bottom: 15px;
+                    }
+                }
+
+                &.latest-from-blog {
+                    text-align: left;
+                    margin-bottom: 0;
+
+                    li {
+                        padding: 2px 0;
+                        max-height: 40px;
+                        overflow: hidden;
+                    }
+                }
+            }
+        }
 
         h4 {
             .font-size(1.8);
@@ -3469,19 +3542,6 @@ form[name='compose'] {
         ul {
             list-style-type: none;
             padding-left: 0;
-        }
-
-        #social {
-            text-align: center;
-
-            .footer-address {
-                line-height: 0.7;
-                padding: 30px 0;
-            }
-        }
-
-        #tunga-logo-btm img {
-            width: 100px;
         }
 
         .fa {
@@ -3495,57 +3555,6 @@ form[name='compose'] {
             &:focus,
             &:active {
                 color: @active-white;
-            }
-        }
-
-        #social-networks {
-            margin-top: 20px;
-
-            a:first-child {
-                margin-left: 0;
-            }
-
-            a:last-child {
-                margin-right: 0;
-            }
-
-            a {
-                display: inline-block;
-                text-align: center;
-                font-size: 18px;
-                color: @active-white;
-                width: 40px;
-                height: 40px;
-                padding-top: 6px;
-                border: 1px solid @active-white;
-                border-radius: 50%;
-                margin: 0 5px;
-
-                .fa {
-                    color: @active-white;
-                }
-            }
-        }
-
-        #contact-info {
-            text-align: left;
-            h4 {
-                font-size: 20px;
-                text-align: left;
-            }
-
-            ul {
-                margin-bottom: 15px;
-            }
-        }
-
-        #latest-from-blog {
-            text-align: center;
-
-            li {
-                padding: 2px 0;
-                max-height: 40px;
-                overflow: hidden;
             }
         }
     }
@@ -3832,6 +3841,8 @@ form[name='compose'] {
 
     #contact-us {
         .font-size(1.4);
+        padding-left: 15px;
+        padding-right: 15px;
         padding-bottom: 90px;
 
         .section-heading-hr {
@@ -6226,6 +6237,10 @@ form[name='compose'] {
     &.new-skill-page {
         header {
             min-height: 80%;
+        }
+
+        .container {
+            max-width: 1000px;
         }
 
         .section-heading-hr {

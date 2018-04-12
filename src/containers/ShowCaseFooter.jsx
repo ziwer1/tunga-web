@@ -168,15 +168,15 @@ class ShowCaseFooter extends React.Component {
                 ) : null}
                 <footer>
                     <div className="sections">
-                        <div className="section">
-                            <div id="social">
-                                <div id="tunga-logo-btm">
+                        <div className="section social">
+                            <div>
+                                <div className="tunga-logo-btm">
                                     <img
                                         src={require('../images/logo_round.png')}
                                     />
                                 </div>
-                                {/* <p><a href="http://web.butterflyworks.org/">a butterfly works initiative</a></p> */}
-                                <div id="social-networks">
+                                <p><a href="http://web.butterflyworks.org/">a butterfly works initiative</a></p>
+                                <div className="social-networks">
                                     <a
                                         target="_blank"
                                         href="https://www.linkedin.com/company/tunga"
@@ -231,84 +231,90 @@ class ShowCaseFooter extends React.Component {
                                 </div>
                             </div>
                         </div>
-                        <div className="section" id="contact-info">
-                            <h4>Top Pages</h4>
-                            <ul>
-                                <li>
-                                    <a href="/pricing">Pricing</a>
-                                </li>
-                                <li>
-                                    <a href="/story">Our Story</a>
-                                </li>
-                                <li>
-                                    <a href="https://blog.tunga.io/">Blog</a>
-                                </li>
-                                <li>
-                                    <a>Effortless Software project</a>
-                                </li>
-                                <li>
-                                    <a>Dedicated Developers</a>
-                                </li>
-                                <li>
-                                    <a>Recruitment Services</a>
-                                </li>
-                                <li>
-                                    <a>iOS Developers</a>
-                                </li>
-                                <li>
-                                    <a>African Developers</a>
-                                </li>
-                                <li>
-                                    <a>Remote Teams</a>
-                                </li>
-                            </ul>
+                        <div className="section footer-info">
+                            <div>
+                                <h4>Top Pages</h4>
+                                <ul>
+                                    <li>
+                                        <a href="/pricing">Pricing</a>
+                                    </li>
+                                    <li>
+                                        <a href="/story">Our Story</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://blog.tunga.io/">Blog</a>
+                                    </li>
+                                    <li>
+                                        <a>Effortless Software project</a>
+                                    </li>
+                                    <li>
+                                        <a>Dedicated Developers</a>
+                                    </li>
+                                    <li>
+                                        <a>Recruitment Services</a>
+                                    </li>
+                                    <li>
+                                        <a>iOS Developers</a>
+                                    </li>
+                                    <li>
+                                        <a>African Developers</a>
+                                    </li>
+                                    <li>
+                                        <a>Remote Teams</a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
-                        <div className="section" id="contact-info">
-                            <h4>Legal information</h4>
-                            <ul className="list-info">
-                                <li>
-                                    <a
-                                        href="https://tunga.io/privacy"
-                                        target="_blank">
-                                        Privacy Policy
-                                    </a>
-                                </li>
-                                <li>
-                                    <a
-                                        href="https://tunga.io/agreement"
-                                        target="_blank">
-                                        Terms and Conditions
-                                    </a>
-                                </li>
-                                <li>
-                                    <a
-                                        href="https://tunga.io/code-of-conduct"
-                                        target="_blank">
-                                        Code of Conduct
-                                    </a>
-                                </li>
-                            </ul>
+                        <div className="section footer-info">
+                            <div>
+                                <h4>Legal information</h4>
+                                <ul className="list-info">
+                                    <li>
+                                        <a
+                                            href="https://tunga.io/privacy"
+                                            target="_blank">
+                                            Privacy Policy
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a
+                                            href="https://tunga.io/agreement"
+                                            target="_blank">
+                                            Terms and Conditions
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a
+                                            href="https://tunga.io/code-of-conduct"
+                                            target="_blank">
+                                            Code of Conduct
+                                        </a>
+                                    </li>
+                                </ul>
 
-                            <div>KVK: NL21746292</div>
+                                <div>KVK: NL21746292</div>
+                            </div>
                         </div>
-                        <div className="section" id="latest-from-blog">
-                            <h4>Latest from our blog</h4>
-                            <ul className="list-unstyled">
-                                {Utility.posts.length
-                                    ? Utility.posts.slice(0, 4).map(article => {
-                                          return (
-                                              <li>
-                                                  <a
-                                                      target="_blank"
-                                                      href={article.url}>
-                                                      <i className="fa fa-angle-right" />{' '}
-                                                      {article.title}
-                                                  </a>
-                                              </li>
-                                          );
-                                      })
-                                    : null}
-                            </ul>
+                        <div className="section latest-from-blog">
+                            <div>
+                                <h4>Latest from our blog</h4>
+                                <ul className="list-unstyled">
+                                    {Utility.posts.length
+                                        ? Utility.posts.slice(0, 4).map(article => {
+                                            return (
+                                                <li>
+                                                    <a
+                                                        target="_blank"
+                                                        href={article.url}>
+                                                        <i className="fa fa-angle-right" />{' '}
+                                                        {article.title}
+                                                    </a>
+                                                </li>
+                                            );
+                                        })
+                                        : null}
+                                </ul>
+                            </div>
                         </div>
                     </div>
                     <div className="text-center">

@@ -230,25 +230,6 @@
             text-align: center;
         }
 
-        #contact-info {
-            color: #ffffff;
-            text-align: center;
-            h4 {
-                font-size: 20px;
-                text-align: center;
-            }
-            ul {
-                list-style-type: none;
-                a {
-                    font-size: 14px;
-                }
-            }
-
-            p {
-                font-size: 14px;
-            }
-        }
-
         .rectangle-form {
             height: 100%;
             margin-bottom: 12px;
@@ -381,13 +362,6 @@
 
 /*SMALL SCREENS*/
 @media (min-width: 768px) {
-    .showcase #contact-info {
-        text-align: center;
-        h4 {
-            font-size: 20px;
-            text-align: center;
-        }
-    }
     .showcase.friends-page .content > .container .rectangle-form {
         background-color: #ffffff;
         box-shadow: 0 2px 4px 0 rgba(42, 42, 42, 0.5);
@@ -1006,14 +980,15 @@
 
     .showcase {
         #contact-us {
-            .section {
-                .contact-info {
-                    margin-bottom: 70px;
-                }
-            }
+            text-align: center;
 
-            form {
-                margin-top: 0;
+            .contact-sections {
+                text-align: center;
+                display: inline-block;
+
+                .section {
+                    text-align: left;
+                }
             }
         }
     }
@@ -1196,21 +1171,16 @@
                 .clearfix();
 
                 .section {
-                    float: left;
-                    width: 270px;
+                    .clearfix();
 
-                    &:first-child {
-                        margin-right: 86px;
+                    &.footer-info {
+                        float: left;
+                        width: 270px;
                     }
 
-                    &:last-child {
-                        width: auto;
-                        max-width: 270px;
+                    &.latest-from-blog {
+                        clear: both;
                     }
-                }
-
-                #latest-from-blog {
-                    text-align: left;
                 }
             }
         }
@@ -1221,14 +1191,6 @@
 @media (min-width: 992px) {
     .main {
         padding: 50px 60px 20px 80px;
-    }
-
-    .showcase #contact-info {
-        text-align: left;
-        h4 {
-            font-size: 20px;
-            text-align: left;
-        }
     }
 
     .dashboard {
@@ -1472,6 +1434,14 @@
         #contact-us {
             text-align: center;
 
+            form {
+                margin-top: 0;
+            }
+
+            .contact-info {
+                margin-bottom: 70px;
+            }
+
             .contact-sections {
                 text-align: center;
                 display: inline-block;
@@ -1487,6 +1457,32 @@
 
                     &:last-child {
                         width: 410px;
+                    }
+                }
+            }
+        }
+
+        footer {
+            .sections {
+                display: inline-block;
+                .clearfix();
+
+                .section {
+                    float: left;
+                    width: 270px;
+                    .clearfix();
+
+                    &:first-child {
+                        margin-right: 86px;
+                    }
+
+                    &:last-child {
+                        width: auto;
+                        max-width: 270px;
+                    }
+
+                    &.latest-from-blog {
+                        clear: none;
                     }
                 }
             }
@@ -1553,9 +1549,6 @@
             #contact-us {
                 text-align: center;
                 background-image: url('../images/footer.jpg?max-width=1200');
-            }
-            #latest-from-blog {
-                text-align: left;
             }
         }
 
