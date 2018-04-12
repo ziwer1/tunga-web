@@ -580,7 +580,6 @@ export default class TaskWorkflow extends ComponentWithModal {
                                                               )}
                                                           </li>
                                                       ) : null,
-                                                      task.is_developer_ready &&
                                                       task.closed &&
                                                       !task.paid &&
                                                       is_admin_or_owner_or_pm ? (
@@ -644,8 +643,7 @@ export default class TaskWorkflow extends ComponentWithModal {
                                                       ) : null,
                                                   ]
                                                 : null}
-                                            {task.is_developer_ready &&
-                                            !is_project_task &&
+                                            {!is_project_task &&
                                             is_admin_or_owner_or_pm ? (
                                                 <li>
                                                     <Link
@@ -677,8 +675,7 @@ export default class TaskWorkflow extends ComponentWithModal {
                                                 </li>
                                             ) : null}
 
-                                            {task.is_developer_ready &&
-                                            !task.closed ? (
+                                            {!task.closed ? (
                                                 <li>
                                                     <button
                                                         type="button"
