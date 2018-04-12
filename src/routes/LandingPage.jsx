@@ -208,8 +208,7 @@ export default class LandingPage extends ComponentWithModal {
                             Need an app or website? We can build software for
                             you on-demand and turn-key.
                             <Link
-                                to="/call"
-                                onClick={this.onScheduleCall.bind(this)}>
+                                to="/effortless-software-projects">
                                 find out more
                             </Link>
                         </div>
@@ -223,8 +222,7 @@ export default class LandingPage extends ComponentWithModal {
                             Use Tunga to quickly mobilize developers. Parttime
                             or fulltime. Individuals or entire teams.
                             <Link
-                                to="/call"
-                                onClick={this.onScheduleCall.bind(this)}>
+                                to="/dedicated-developers">
                                 find out more
                             </Link>
                         </div>
@@ -238,8 +236,7 @@ export default class LandingPage extends ComponentWithModal {
                             Tap into our network of top African software
                             programmers to reinforce your own tech team.
                             <Link
-                                to="/call"
-                                onClick={this.onScheduleCall.bind(this)}>
+                                to="/it-recruitment">
                                 find out more
                             </Link>
                         </div>
