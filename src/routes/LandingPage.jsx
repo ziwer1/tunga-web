@@ -426,62 +426,58 @@ export default class LandingPage extends ComponentWithModal {
                     <div className="col-md-4 side-pic" />
                 </section>
                 <section id="development-style">
-                    <div>
-                        <div className="container">
-                            <div className="row">
-                                <SectionHeading>
-                                    Software development Tunga-style
-                                </SectionHeading>
+                    <div className="row">
+                        <SectionHeading>
+                            Software development Tunga-style
+                        </SectionHeading>
 
-                                <div className="development-style-pitch">
-                                    We have built a large pool of top African
-                                    tech talent that can be deployed flexibly
-                                    and rapidly to help you meet your specific
-                                    software development needs.
-                                </div>
+                        <div className="development-style-pitch">
+                            We have built a large pool of top African
+                            tech talent that can be deployed flexibly
+                            and rapidly to help you meet your specific
+                            software development needs.
+                        </div>
 
-                                <div className="development-style-cases">
-                                    <div className="case">
-                                        <i className="icon tunga-icon-file-search" />
+                        <div className="development-style-cases">
+                            <div className="case">
+                                <i className="icon tunga-icon-file-search" />
 
-                                        <p>
-                                            <div className="title">
-                                                Result-oriented
-                                            </div>
-                                            We pay a lot of attention to scoping
-                                            your project and working out the
-                                            technical details. Then we go all
-                                            the way to deliver them.
-                                        </p>
+                                <p>
+                                    <div className="title">
+                                        Result-oriented
                                     </div>
-                                    <div className="case">
-                                        <i className="icon tunga-icon-team" />
+                                    We pay a lot of attention to scoping
+                                    your project and working out the
+                                    technical details. Then we go all
+                                    the way to deliver them.
+                                </p>
+                            </div>
+                            <div className="case">
+                                <i className="icon tunga-icon-team" />
 
-                                        <p>
-                                            <div className="title">
-                                                Quality assured
-                                            </div>
-                                            We have developed a unique, highly
-                                            professional and effective way of
-                                            working that enables clients and
-                                            developers from any part of the
-                                            world to collaborate efficiently.
-                                        </p>
+                                <p>
+                                    <div className="title">
+                                        Quality assured
                                     </div>
-                                    <div className="case">
-                                        <i className="icon tunga-icon-money-loop" />
-                                        <p>
-                                            <div className="title">
-                                                Affortable
-                                            </div>
-                                            Our developers are for hire at a
-                                            flat rate of EUR20 per hour. We
-                                            calculate projects transparently and
-                                            stick with that. No excuses, no
-                                            discussions, no additional costs.
-                                        </p>
+                                    We have developed a unique, highly
+                                    professional and effective way of
+                                    working that enables clients and
+                                    developers from any part of the
+                                    world to collaborate efficiently.
+                                </p>
+                            </div>
+                            <div className="case">
+                                <i className="icon tunga-icon-money-loop" />
+                                <p>
+                                    <div className="title">
+                                        Affortable
                                     </div>
-                                </div>
+                                    Our developers are for hire at a
+                                    flat rate of EUR20 per hour. We
+                                    calculate projects transparently and
+                                    stick with that. No excuses, no
+                                    discussions, no additional costs.
+                                </p>
                             </div>
                         </div>
                     </div>

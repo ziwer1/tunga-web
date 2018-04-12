@@ -16,20 +16,29 @@ import {nl_to_br} from '../utils/html';
 class SkillPage extends LandingPage {
     constructor(props) {
         super(props);
-        this.state = {pageClass: 'new-skill-page'};
+        this.state = {pageClass: ''};
     }
 
     componentDidMount() {
         super.componentDidMount();
 
+        let lp = this;
         let skill = this.getDLPTag();
         if (skill) {
             const {SkillPageActions} = this.props;
             this.setState({isSkillPage: true});
             SkillPageActions.retrieveSkillPage(skill);
         }
+    }
 
-        let lp = this;
+    componentDidUpdate(prevProps, prevState) {
+        if(super.componentDidUpdate) {
+            super.componentDidUpdate(prevProps, prevState);
+        }
+
+        if(this.props.SkillPage.detail.skill_page.keyword !== prevProps.SkillPage.detail.skill_page.keyword) {
+            this.setState({pageClass: 'new-skill-page'});
+        }
     }
 
     getDLPTag() {
