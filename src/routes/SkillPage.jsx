@@ -2,6 +2,7 @@ import React from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {Link} from 'react-router';
+import striptags from 'striptags';
 
 import Avatar from '../components/Avatar';
 import LandingPage from '../routes/LandingPage';
@@ -142,11 +143,11 @@ class SkillPage extends LandingPage {
                 SkillPage: {detail: {skill_page, isRetrieving, error}},
             } = this.props;
 
-        let meta_title = `Tunga | ${(skill_page && skill_page.welcome_header) ||
-                "Unleashing Africa's Tech Talent"}`,
-            meta_description = `${(skill_page &&
+        let meta_title = `Tunga | ${(striptags(skill_page && skill_page.welcome_header) ||
+                "Unleashing Africa's Tech Talent")}`,
+            meta_description = `${striptags((skill_page &&
                 skill_page.welcome_sub_header) ||
-                'Small and large businesses from all over the world use Tunga for hiring African software engineers to address their most pressing software development needs.'}`;
+                'Small and large businesses from all over the world use Tunga for hiring African software engineers to address their most pressing software development needs.')}`;
 
         return (
             <MetaTags
