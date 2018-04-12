@@ -96,8 +96,10 @@ class SkillPage extends LandingPage {
                     {skill_page.welcome_header ||
                         'Unleashing Africa’s Tech Talent'}
                 </h1>
-                <div className="sub-header">
-                    {skill_page.welcome_sub_header || (
+                <div className="sub-header" >
+                    {(<div dangerouslySetInnerHTML={{
+                        __html: nl_to_br(skill_page.welcome_sub_header),
+                    }}/>) || (
                         <div>
                             Small and large businesses from all over the world
                             use Tunga for hiring African software engineers to
