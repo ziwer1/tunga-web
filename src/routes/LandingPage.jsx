@@ -655,10 +655,15 @@ export default class LandingPage extends ComponentWithModal {
         );
     }
 
-    render() {
-        let meta_title = 'Tunga | Software outsourcing done right';
-        let meta_description = `Getting software projects done is hard. We make it easy.`;
+    renderMetaTags() {
+        let meta_title = "Tunga | Unleashing Africa's Tech Talent",
+            meta_description =
+                'Small and large businesses from all over the world use Tunga for hiring African software engineers to address their most pressing software development needs.';
 
+        return <MetaTags title={meta_title} description={meta_description} />;
+    }
+
+    render() {
         return (
             <ShowcaseContainer
                 className={`new-landing-page ${this.state.pageClass || ''}`}
@@ -667,7 +672,7 @@ export default class LandingPage extends ComponentWithModal {
                 hasArrow={true}
                 chatId={this.props.params ? this.props.params.chatId : null}
                 closeChat={this.state.closeChat}>
-                <MetaTags title={meta_title} description={meta_description} />
+                {this.renderMetaTags()}
 
                 {this.renderMainContent()}
 

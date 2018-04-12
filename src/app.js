@@ -143,10 +143,7 @@ let all_routes = (
         </Route>
         <Route path="welcome">
             <IndexRoute component={LandingPage} />
-            <Route
-                path=":skill"
-                component={SkillPage}
-            />
+            <Route path=":skill" component={SkillPage} />
         </Route>
         <Route unauthedOnly={true}>
             {/* No Auth Pages */}

@@ -6,6 +6,7 @@ import {Link} from 'react-router';
 import Avatar from '../components/Avatar';
 import LandingPage from '../routes/LandingPage';
 import SectionHeading from '../components/SectionHeading';
+import MetaTags from '../components/MetaTags';
 
 import * as SkillPageActions from '../actions/SkillPageActions';
 
@@ -96,10 +97,14 @@ class SkillPage extends LandingPage {
                     {skill_page.welcome_header ||
                         'Unleashing Africa’s Tech Talent'}
                 </h1>
-                <div className="sub-header" >
-                    {(<div dangerouslySetInnerHTML={{
-                        __html: nl_to_br(skill_page.welcome_sub_header),
-                    }}/>) || (
+                <div className="sub-header">
+                    {(
+                        <div
+                            dangerouslySetInnerHTML={{
+                                __html: nl_to_br(skill_page.welcome_sub_header),
+                            }}
+                        />
+                    ) || (
                         <div>
                             Small and large businesses from all over the world
                             use Tunga for hiring African software engineers to
@@ -131,6 +136,27 @@ class SkillPage extends LandingPage {
         return null;
     }
 
+    renderMetaTags() {
+        let dlp_phrase = this.getDLPPhrase(),
+            {
+                SkillPage: {detail: {skill_page, isRetrieving, error}},
+            } = this.props;
+
+        let meta_title = `Tunga | ${(skill_page && skill_page.welcome_header) ||
+                "Unleashing Africa's Tech Talent"}`,
+            meta_description = `${(skill_page &&
+                skill_page.welcome_sub_header) ||
+                'Small and large businesses from all over the world use Tunga for hiring African software engineers to address their most pressing software development needs.'}`;
+
+        return (
+            <MetaTags
+                title={meta_title}
+                description={meta_description}
+                keywords={skill_page.meta_keywords}
+            />
+        );
+    }
+
     renderMainContent() {
         let dlp_phrase = this.getDLPPhrase(),
             {
@@ -156,7 +182,7 @@ class SkillPage extends LandingPage {
                         </div>
                         {skill_page.pitch_image ? (
                             <div className="pitch-image">
-                                <img src={skill_page.pitch_image} />
+                                <img src={skill_page.pitch_image} alt={skill_page.pitch_image_alt_text}/>
                             </div>
                         ) : null}
                     </div>

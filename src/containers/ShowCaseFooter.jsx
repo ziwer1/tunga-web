@@ -175,7 +175,11 @@ class ShowCaseFooter extends React.Component {
                                         src={require('../images/logo_round.png')}
                                     />
                                 </div>
-                                <p><a href="http://web.butterflyworks.org/">a butterfly works initiative</a></p>
+                                <p>
+                                    <a href="http://web.butterflyworks.org/">
+                                        a butterfly works initiative
+                                    </a>
+                                </p>
                                 <div className="social-networks">
                                     <a
                                         target="_blank"
@@ -242,7 +246,9 @@ class ShowCaseFooter extends React.Component {
                                         <a href="/story">Our Story</a>
                                     </li>
                                     <li>
-                                        <a href="https://blog.tunga.io/">Blog</a>
+                                        <a href="https://blog.tunga.io/">
+                                            Blog
+                                        </a>
                                     </li>
                                     <li>
                                         <a>Effortless Software project</a>
@@ -300,18 +306,22 @@ class ShowCaseFooter extends React.Component {
                                 <h4>Latest from our blog</h4>
                                 <ul className="list-unstyled">
                                     {Utility.posts.length
-                                        ? Utility.posts.slice(0, 4).map(article => {
-                                            return (
-                                                <li>
-                                                    <a
-                                                        target="_blank"
-                                                        href={article.url}>
-                                                        <i className="fa fa-angle-right" />{' '}
-                                                        {article.title}
-                                                    </a>
-                                                </li>
-                                            );
-                                        })
+                                        ? Utility.posts
+                                              .slice(0, 4)
+                                              .map(article => {
+                                                  return (
+                                                      <li>
+                                                          <a
+                                                              target="_blank"
+                                                              href={
+                                                                  article.url
+                                                              }>
+                                                              <i className="fa fa-angle-right" />{' '}
+                                                              {article.title}
+                                                          </a>
+                                                      </li>
+                                                  );
+                                              })
                                         : null}
                                 </ul>
                             </div>

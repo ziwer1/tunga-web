@@ -3,7 +3,7 @@ import Helmet from 'react-helmet';
 
 export default class MetaTags extends React.Component {
     render() {
-        const {title, description} = this.props;
+        const {title, description, keywords} = this.props;
 
         return (
             <Helmet>
@@ -17,6 +17,8 @@ export default class MetaTags extends React.Component {
 
                 <meta name="twitter:title" content={title} />
                 <meta name="twitter:description" content={description} />
+
+                {keywords ? <meta name="keywords" content={keywords} /> : null}
             </Helmet>
         );
     }
