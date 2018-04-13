@@ -265,7 +265,7 @@ export default class QualityPage extends React.Component {
                         </div>
                     </section>
 
-                    <section id="skill-profiles">
+                    {/*<section id="skill-profiles">
                         <div className="profile-cards">
                             {PROFILES.map(profile => {
                                 return (
@@ -319,6 +319,7 @@ export default class QualityPage extends React.Component {
                             })}
                         </div>
                     </section>
+                   */}
                 </div>
 
                 <ShowCaseFooter showContactUs={true} />
