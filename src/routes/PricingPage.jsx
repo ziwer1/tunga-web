@@ -1,5 +1,4 @@
 import React from 'react';
-import {Link} from 'react-router';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
@@ -10,33 +9,33 @@ import SectionHeading from '../components/SectionHeading';
 
 import ComponentWithModal from '../components/ComponentWithModal';
 import MetaTags from '../components/MetaTags';
-
-import {
-    OFFER_REQUEST_ITEMS,
-    TASK_SCOPE_TASK,
-    TASK_SCOPE_PROJECT,
-} from '../constants/Api';
 import {openCalendlyWidget} from '../utils/router';
 
-let checkMark = <i className="fa fa-check" />;
+let checkMark = <i className="fa fa-check"/>;
 
-let crossMark = <i className="fa fa-times" />;
+let crossMark = <i className="fa fa-times"/>;
 
 const OFFER_DETAILS = [
     {
         title: 'Projects',
         description: (
             <p>
-                Outsource entire software projects<br />
-                Clean up your bugs/features<br />
-                backlog Get started quickly<br />
+                Outsource entire software projects<br/>
+                Clean up your bugs/features<br/>
+                backlog Get started quickly<br/>
             </p>
         ),
         perks: [
-            'Development hours',
-            '€20/hr',
+            'Frontend development',
+            '€23/hr',
+            'Backend development/Devops',
+            '€26/hr',
+            'Specialty skill',
+            '€30/hr',
+            'Consultancy/Technical analysis',
+            '€45/hr',
             'Project management hours*',
-            '€40/hr',
+            '€30/hr',
         ],
         disclaimer: '* Project Management hours are Optional',
     },
@@ -44,12 +43,21 @@ const OFFER_DETAILS = [
         title: 'Dedicated developers',
         description: (
             <p>
-                Reinforce your team with remote developers <br />
-                Full/part-time. Temporary/permanently.<br />
+                Reinforce your team with remote developers <br/>
+                Full/part-time. Temporary/permanently.<br/>
                 Instant access to Africa’s best programmers
             </p>
         ),
-        perks: ['', 'Development hours start', '€19', ''],
+        perks: [
+            'Frontend development',
+            '€23/hr',
+            'Backend development/Devops',
+            '€26/hr',
+            'Specialty skill',
+            '€30/hr',
+            'Full stack development',
+            '€23/hr',
+        ],
         disclaimer: '* Schedule a call to find out more',
     },
     {
@@ -73,7 +81,7 @@ class PricingPage extends ComponentWithModal {
     renderHeaderContent() {
         return (
             <div className="showcase-header">
-                <h1>High quality and service level at affordable fees</h1>
+                <h1>High quality and service level at Affordable fees</h1>
                 <div className="sub-header">
                     We calculate our fees transparently and stick with that. No
                     excuses, no discussions, no additional costs
@@ -98,7 +106,7 @@ class PricingPage extends ComponentWithModal {
             <ShowcaseContainer
                 className="pricing-page"
                 headerContent={this.renderHeaderContent()}>
-                <MetaTags title={meta_title} description={meta_description} />
+                <MetaTags title={meta_title} description={meta_description}/>
 
                 <section id="pricing-options">
                     <div className="container">
@@ -115,9 +123,9 @@ class PricingPage extends ComponentWithModal {
                                         <div className="perks">
                                             <div>
                                                 {offer.perks &&
-                                                    offer.perks.map(comp => {
-                                                        return <p>{comp}</p>;
-                                                    })}
+                                                offer.perks.map(comp => {
+                                                    return <p>{comp}</p>;
+                                                })}
                                             </div>
                                         </div>
                                         <div className="disclaimer">
@@ -140,7 +148,7 @@ class PricingPage extends ComponentWithModal {
                         </p>
                     </div>
                 </section>
-                <ShowCaseFooter />
+                <ShowCaseFooter/>
             </ShowcaseContainer>
         );
     }
@@ -155,4 +163,5 @@ function mapDispatchToProps(dispatch) {
         UtilityActions: bindActionCreators(UtilityActions, dispatch),
     };
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(PricingPage);
