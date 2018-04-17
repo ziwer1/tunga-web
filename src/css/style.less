@@ -1611,12 +1611,15 @@ form[name='compose'] {
 .btn-group.open .caret {
     transform: rotate(90deg);
 }
+
 .btn-group.pull-right.open .caret {
     transform: rotate(90deg);
 }
+
 .btn-group:hover > .dropdown-menu {
     display: block;
 }
+
 .btn-group:hover > .caret {
     transform: rotate(90deg);
 }
@@ -4107,8 +4110,7 @@ form[name='compose'] {
     }
 
     #how-we-verify {
-        background: #333 url('../images/showcase/verification_new.jpg')
-            no-repeat scroll center;
+        background: #333 url('../images/showcase/verification_new.jpg') no-repeat scroll center;
         background-size: cover;
         height: 300px;
         text-align: center;
@@ -5466,10 +5468,26 @@ form[name='compose'] {
                 }
 
                 .perks {
-                    .font-size(2);
-                    height: 290px;
+                    font-size: 15px;
+                    height: 150px;
                     font-weight: 500;
                     line-height: 1;
+
+                    table {
+                        width: 350px;
+                    }
+                    .perk-service {
+                        text-align: left;
+                        padding-left: 30px;
+                    }
+                    .perk-fee {
+                        text-align: right;
+                    }
+                    .perk-custom {
+                        font-size: 18px;
+                        text-align: center;
+                        width: 350px;
+                    }
                 }
 
                 .disclaimer {

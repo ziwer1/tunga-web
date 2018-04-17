@@ -26,16 +26,11 @@ const OFFER_DETAILS = [
             </p>
         ),
         perks: [
-            'Frontend development',
-            '€23/hr',
-            'Backend development/Devops',
-            '€26/hr',
-            'Specialty skill',
-            '€30/hr',
-            'Consultancy/Technical analysis',
-            '€45/hr',
-            'Project management hours*',
-            '€30/hr',
+            {service: 'Frontend development', fee: "€23,-"},
+            {service: 'Backend development/Devops', fee: "€26,-"},
+            {service: 'Specialty skill', fee: "€30,-"},
+            {service: 'Project management', fee: "€40,-"},
+            {service: 'Consultancy/Technical analysis', fee: "€40,-"},
         ],
         disclaimer: '* Project Management hours are Optional',
     },
@@ -49,14 +44,10 @@ const OFFER_DETAILS = [
             </p>
         ),
         perks: [
-            'Frontend development',
-            '€23/hr',
-            'Backend development/Devops',
-            '€26/hr',
-            'Specialty skill',
-            '€30/hr',
-            'Full stack development',
-            '€23/hr',
+            {service: 'Frontend development', fee: "€23,-"},
+            {service: 'Backend development/Devops', fee: "€26,-"},
+            {service: 'Specialty skill', fee: "€30,-"},
+            {service: 'Full stack development', fee: "€26,-"},
         ],
         disclaimer: '* Schedule a call to find out more',
     },
@@ -68,7 +59,13 @@ const OFFER_DETAILS = [
                 developer network Quickly find, select and recruit the best fit
             </p>
         ),
-        perks: ['', 'Custom pricing', '', ''],
+        perks: [
+            // '', 'Custom pricing', '', ''
+            {service: '', fee: ""},
+            {service: '', fee: ""},
+            {service: '', fee: ""},
+            {custom: 'Custom Pricing Solution'},
+        ],
         disclaimer: '* Schedule a call to find out more',
     },
 ];
@@ -81,7 +78,7 @@ class PricingPage extends ComponentWithModal {
     renderHeaderContent() {
         return (
             <div className="showcase-header">
-                <h1>High quality and service level at Affordable fees</h1>
+                <h1>High quality and service level at affordable fees</h1>
                 <div className="sub-header">
                     We calculate our fees transparently and stick with that. No
                     excuses, no discussions, no additional costs
@@ -121,12 +118,19 @@ class PricingPage extends ComponentWithModal {
                                             {offer.description}
                                         </div>
                                         <div className="perks">
-                                            <div>
+                                            <table>
                                                 {offer.perks &&
                                                 offer.perks.map(comp => {
-                                                    return <p>{comp}</p>;
+                                                    return <tr>
+                                                        <td className='perk-service'><p>{comp.service}</p></td>
+                                                        <td className='perk-service'><p>{comp.fee}</p></td>
+                                                        {comp && comp.custom ?
+                                                            <td className='perk-custom'><p>{comp.custom}</p></td>
+                                                            : null}
+
+                                                    </tr>;
                                                 })}
-                                            </div>
+                                            </table>
                                         </div>
                                         <div className="disclaimer">
                                             {offer.disclaimer}
