@@ -143,11 +143,16 @@ export default class ProgressReportForm extends FormComponent {
 
     onDrop(attachments) {
         var current = this.state.attachments;
+        console.log('attachments: ', attachments);
         this.setState({attachments: current.concat(attachments)});
     }
 
     onAddAttachment() {
         this.refs.dropzone.open();
+    }
+
+    onClearAttachments(attachments) {
+        this.setState({attachments: []});
     }
 
     onTaskStartChange(date) {
@@ -738,6 +743,24 @@ export default class ProgressReportForm extends FormComponent {
                                 </textarea>
                             </div>
 
+                            {ProgressReport.detail.error.create &&
+                            ProgressReport.detail.error.create.uploads ? (
+                                <FieldError
+                                    message={
+                                        ProgressReport.detail.error.create
+                                            .uploads
+                                    }
+                                />
+                            ) : null}
+                            {ProgressReport.detail.error.update &&
+                            ProgressReport.detail.error.update.uploads ? (
+                                <FieldError
+                                    message={
+                                        ProgressReport.detail.error.update
+                                            .uploads
+                                    }
+                                />
+                            ) : null}
                             <div className="form-group">
                                 <label className="control-label">Files</label>
                                 <div>
@@ -774,6 +797,16 @@ export default class ProgressReportForm extends FormComponent {
                                         <i className="fa fa-upload" /> Upload
                                         files
                                     </button>
+                                    {this.state.attachments && this.state.attachments.length?(
+                                        <button
+                                            type="button"
+                                            className="btn btn-alt"
+                                            onClick={this.onClearAttachments.bind(
+                                                this,
+                                            )}>
+                                            <i className="fa fa-trash-o" /> Clear files
+                                        </button>
+                                    ):null}
                                 </div>
                             </div>
 
