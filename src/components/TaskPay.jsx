@@ -999,7 +999,7 @@ export default class TaskPay extends React.Component {
                                                         this,
                                                     )}>
                                                     <i className="fa fa-pencil" />{' '}
-                                                    Change Payment Method
+                                                    Update Invoice
                                                 </button>
                                             </div>
                                         </div>
