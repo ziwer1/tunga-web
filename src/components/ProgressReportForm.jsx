@@ -245,6 +245,7 @@ export default class ProgressReportForm extends FormComponent {
             ProgressReportActions.updateProgressReport(
                 progress_report.id,
                 progress_report_info,
+                attachments,
             );
         } else {
             ProgressReportActions.createProgressReport(
