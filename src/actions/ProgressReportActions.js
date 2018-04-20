@@ -29,7 +29,7 @@ export function createProgressReport(progress_report, attachments) {
     return dispatch => {
         dispatch(createProgressReportStart(progress_report));
 
-        var headers = {},
+        let headers = {},
             data = progress_report;
         if (attachments.length) {
             headers['Content-Type'] = 'multipart/form-data';
@@ -168,11 +168,34 @@ export function retrieveProgressReportFailed(error) {
     };
 }
 
-export function updateProgressReport(id, data) {
+export function updateProgressReport(id, progress_report, attachments) {
     return dispatch => {
         dispatch(updateProgressReportStart(id));
+
+        let headers = {},
+            data = progress_report;
+        if (attachments.length) {
+            headers['Content-Type'] = 'multipart/form-data';
+
+            data = new FormData();
+            Object.keys(progress_report).map((key, idx) => {
+                if (
+                    (Array.isArray(progress_report[key]) &&
+                        progress_report[key].length) ||
+                    (!Array.isArray(progress_report[key]) &&
+                        progress_report[key] != null)
+                ) {
+                    data.append(key, progress_report[key]);
+                }
+            });
+
+            attachments.map((file, idx) => {
+                data.append('file' + idx, file);
+            });
+        }
+
         axios
-            .patch(ENDPOINT_PROGRESS_REPORT + id + '/', data)
+            .patch(ENDPOINT_PROGRESS_REPORT + id + '/', data, {headers})
             .then(function(response) {
                 dispatch(updateProgressReportSuccess(response.data));
             })

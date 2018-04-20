@@ -844,7 +844,7 @@ export default class TaskWorkflow extends ComponentWithModal {
                                                     id="make-payment-btn">
                                                     {task.payment_approved
                                                         ? 'Make payment'
-                                                        : 'Generate Invoice'}
+                                                        : 'Manage Invoice'}
                                                 </Link>
                                             ) : null}
                                             {can_rate ? (

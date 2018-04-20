@@ -2,6 +2,7 @@ import React from 'react';
 import Dropzone from 'react-dropzone';
 import Progress from './status/Progress';
 import FormStatus from './status/FormStatus';
+import FieldError from './status/FieldError';
 import Avatar from './Avatar';
 
 import {getUser} from '../utils/auth';
