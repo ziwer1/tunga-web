@@ -28,11 +28,11 @@ const OFFER_DETAILS = [
         perks: [
             {service: 'Frontend development', fee: "€23,-"},
             {service: 'Backend development/Devops', fee: "€26,-"},
-            {service: 'Specialty skill', fee: "€30,-"},
+            {service: 'Specialty skill (rates start at)', fee: "€30,-"},
             {service: 'Project management', fee: "€40,-"},
             {service: 'Consultancy/Technical analysis', fee: "€45,-"},
         ],
-        disclaimer: '* Schedule a call to find out more',
+        disclaimer: '* all above prices are hourly rates',
     },
     {
         title: 'Dedicated developers',
@@ -49,7 +49,7 @@ const OFFER_DETAILS = [
             {service: 'Full stack development', fee: "€26,-"},
             {service: 'Specialty skill', fee: "€30,-"},
         ],
-        disclaimer: '* Schedule a call to find out more',
+        disclaimer: '* all above prices are hourly rates',
     },
     {
         title: 'Recruitment ',
