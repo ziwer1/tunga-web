@@ -7,10 +7,12 @@ import {isAdmin, isProjectManager} from '../utils/auth';
 
 import ShowcaseContainer from '../containers/ShowcaseContainer';
 import MetaTags from '../components/MetaTags';
+import Avatar from '../components/Avatar';
 import ShowCaseFooter from '../containers/ShowCaseFooter';
 
 export default class DeveloperProfile extends React.Component {
-    componentDidMount() {
+
+    componentDidMount(){
         this.props.UserActions.retrieveUser(this.props.params.userId);
         this.initMap();
     }
@@ -19,20 +21,17 @@ export default class DeveloperProfile extends React.Component {
         var mapTimer = null;
         function createMap() {
             try {
-                if (google && google.maps) {
+                if(google && google.maps) {
                     var uluru = {lat: 0.3476, lng: 32.5825};
-                    var map = new google.maps.Map(
-                        document.getElementById('map'),
-                        {
-                            zoom: 12,
-                            center: uluru,
-                        },
-                    );
+                    var map = new google.maps.Map(document.getElementById('map'), {
+                        zoom: 12,
+                        center: uluru
+                    });
                     var marker = new google.maps.Marker({
                         position: uluru,
-                        map: map,
+                        map: map
                     });
-                    if (mapTimer) {
+                    if(mapTimer) {
                         clearInterval(mapTimer);
                     }
                 } else {
@@ -62,14 +61,12 @@ export default class DeveloperProfile extends React.Component {
         const {User} = this.props;
         const {user} = User.detail;
 
-        console.log('User Profile', user);
-
         return (
-            <div>
+            <div className="profile-details">
                 <h1>{user.display_name}</h1>
-                <h2>{user.profile ? user.profile.location : ''}</h2>
-                <div className="profile-div">
-                    <img className="profile-image" src={user.image} />
+                <h2>{user.profile?user.profile.location:''}</h2>
+                <div >
+                    <Avatar src={user.image} size="xxl"/>
                 </div>
             </div>
         );
@@ -89,18 +86,16 @@ export default class DeveloperProfile extends React.Component {
                 headerContent={this.renderHeaderContent()}>
                 <MetaTags title={meta_title} description={meta_description} />
 
-                {isAdmin() || isProjectManager() ? (
+                {(isAdmin() || isProjectManager())?(
                     <div className="text-center" style={{paddingTop: '20px'}}>
-                        <button
-                            className="btn"
-                            onClick={this.onApprove.bind(this, !user.verified)}>
-                            {user.verified ? 'A' : 'Disa'}pprove
+                        <button className={`btn ${user.verified?'btn-alt':''}`} onClick={this.onApprove.bind(this, !user.verified)}>
+                            <i className={`fa fa-${user.verified?'times':'check-circle'}`}/> {user.verified?'Disa':'A'}pprove
                         </button>
                         {/*
              <span className="verified"><i className="fa fa-check-circle"/> Verified</span>
             */}
                     </div>
-                ) : null}
+                ):null}
 
                 <div className="content">
                     <section>
@@ -120,232 +115,105 @@ export default class DeveloperProfile extends React.Component {
                             <div className="col-container">
                                 <div className="col developer-card bio-content">
                                     <div className="bio-text">
-                                        <Linkify
-                                            properties={{target: '_blank'}}>
+                                        <Linkify properties={{target: '_blank'}}>
                                             {profile.bio}
                                         </Linkify>
                                     </div>
                                     <div className="bio-languages">
-                                        {profile.skills &&
-                                        profile.skills.length ? (
+                                        {profile.skills && profile.skills.length?(
                                             <div>
                                                 <div>
-                                                    {profile.skills
-                                                        .slice(0, 3)
-                                                        .map(skill => {
+                                                    {profile.skills.slice(0,3).map(skill => {
+                                                        return (
+                                                            <Link to={`/people/skill/${skill.slug}`} className="btn btn-bio">{skill.name}</Link>
+                                                        );
+                                                    })}
+                                                </div>
+                                                {profile.skills.length > 3?(
+                                                    <div>
+                                                        {profile.skills.slice(3,6).map(skill => {
                                                             return (
-                                                                <Link
-                                                                    to={`/people/skill/${
-                                                                        skill.slug
-                                                                    }`}
-                                                                    className="btn btn-bio">
-                                                                    {skill.name}
-                                                                </Link>
+                                                                <Link to={`/people/skill/${skill.slug}`} className="btn btn-bio">{skill.name}</Link>
                                                             );
                                                         })}
-                                                </div>
-                                                {profile.skills.length > 3 ? (
-                                                    <div>
-                                                        {profile.skills
-                                                            .slice(3, 6)
-                                                            .map(skill => {
-                                                                return (
-                                                                    <Link
-                                                                        to={`/people/skill/${
-                                                                            skill.slug
-                                                                        }`}
-                                                                        className="btn btn-bio">
-                                                                        {
-                                                                            skill.name
-                                                                        }
-                                                                    </Link>
-                                                                );
-                                                            })}
                                                     </div>
-                                                ) : null}
+                                                ):null}
                                             </div>
-                                        ) : null}
+                                        ):null}
                                     </div>
                                 </div>
-                                <div
-                                    className="col developer-card map"
-                                    id="map">
-                                    <div />
+                                <div className="col developer-card map" id="map">
+                                    <div>
+                                    </div>
                                 </div>
                             </div>
 
                             <div className="col-container">
                                 <div className="col developer-card other-content">
-                                    <div className="heading-2 bold">
-                                        Experience
-                                    </div>
+                                    <div className="heading-2 bold">Experience</div>
                                     {(user.work || []).map(work => {
                                         return (
                                             <div className="info-block">
-                                                <p className="info-header">
-                                                    {work.company}{' '}
-                                                    <span className="period">
-                                                        {
-                                                            work.start_month_display
-                                                        }/{work.start_year} -{' '}
-                                                        {!work.end_month &&
-                                                        !work.end_year
-                                                            ? 'Present'
-                                                            : `${
-                                                                  work.end_month_display
-                                                              }/${
-                                                                  work.end_year
-                                                              }`}
-                                                    </span>
-                                                </p>
-                                                <p className="info-title">
-                                                    {work.position}
-                                                </p>
-                                                <Linkify
-                                                    properties={{
-                                                        target: '_blank',
-                                                    }}>
-                                                    {work.details}
-                                                </Linkify>
+                                                <p className="info-header">{work.company} <span className="period">{work.start_month_display}/{work.start_year} - {!work.end_month && !work.end_year?'Present':`${work.end_month_display}/${work.end_year}`}</span></p>
+                                                <p className="info-title">{work.position}</p>
+                                                <Linkify properties={{target: '_blank'}}>{work.details}</Linkify>
                                             </div>
                                         );
                                     })}
                                 </div>
                                 <div className="col developer-card other-content">
-                                    <div className="heading-2 bold">
-                                        Skillset
-                                    </div>
-                                    {profile.skills_details &&
-                                    profile.skills_details.language ? (
+                                    <div className="heading-2 bold">Skillset</div>
+                                    {profile.skills_details && profile.skills_details.language?(
                                         <div className="info-block">
-                                            <p className="info-header">
-                                                Languages
-                                            </p>
-                                            <p>
-                                                {this.flattenSkills(
-                                                    profile.skills_details
-                                                        .language,
-                                                ).join(', ')}
-                                            </p>
+                                            <p className="info-header">Languages</p>
+                                            <p>{this.flattenSkills(profile.skills_details.language).join(', ')}</p>
                                         </div>
-                                    ) : null}
-                                    {profile.skills_details &&
-                                    profile.skills_details.framework ? (
+                                    ):null}
+                                    {profile.skills_details && profile.skills_details.framework?(
                                         <div className="info-block">
-                                            <p className="info-header">
-                                                Frameworks
-                                            </p>
-                                            <p>
-                                                {this.flattenSkills(
-                                                    profile.skills_details
-                                                        .framework,
-                                                ).join(', ')}
-                                            </p>
+                                            <p className="info-header">Frameworks</p>
+                                            <p>{this.flattenSkills(profile.skills_details.framework).join(', ')}</p>
                                         </div>
-                                    ) : null}
-                                    {profile.skills_details &&
-                                    profile.skills_details.platform ? (
+                                    ):null}
+                                    {profile.skills_details && profile.skills_details.platform?(
                                         <div className="info-block">
-                                            <p className="info-header">
-                                                Platforms
-                                            </p>
-                                            <p>
-                                                {this.flattenSkills(
-                                                    profile.skills_details
-                                                        .platform,
-                                                ).join(', ')}
-                                            </p>
+                                            <p className="info-header">Platforms</p>
+                                            <p>{this.flattenSkills(profile.skills_details.platform).join(', ')}</p>
                                         </div>
-                                    ) : null}
-                                    {profile.skills_details &&
-                                    profile.skills_details.library ? (
+                                    ):null}
+                                    {profile.skills_details && profile.skills_details.library?(
                                         <div className="info-block">
-                                            <p className="info-header">
-                                                Libraries
-                                            </p>
-                                            <p>
-                                                {this.flattenSkills(
-                                                    profile.skills_details
-                                                        .library,
-                                                ).join(', ')}
-                                            </p>
+                                            <p className="info-header">Libraries</p>
+                                            <p>{this.flattenSkills(profile.skills_details.library).join(', ')}</p>
                                         </div>
-                                    ) : null}
-                                    {profile.skills_details &&
-                                    profile.skills_details.storage ? (
+                                    ):null}
+                                    {profile.skills_details && profile.skills_details.storage?(
                                         <div className="info-block">
-                                            <p className="info-header">
-                                                Storage
-                                            </p>
-                                            <p>
-                                                {this.flattenSkills(
-                                                    profile.skills_details
-                                                        .storage,
-                                                ).join(', ')}
-                                            </p>
+                                            <p className="info-header">Storage</p>
+                                            <p>{this.flattenSkills(profile.skills_details.storage).join(', ')}</p>
                                         </div>
-                                    ) : null}
-                                    {profile.skills_details &&
-                                    profile.skills_details.api ? (
+                                    ):null}
+                                    {profile.skills_details && profile.skills_details.api?(
                                         <div className="info-block">
-                                            <p className="info-header">
-                                                3rd party APIs
-                                            </p>
-                                            <p>
-                                                {this.flattenSkills(
-                                                    profile.skills_details.api,
-                                                ).join(', ')}
-                                            </p>
+                                            <p className="info-header">3rd party APIs</p>
+                                            <p>{this.flattenSkills(profile.skills_details.api).join(', ')}</p>
                                         </div>
-                                    ) : null}
-                                    {profile.skills_details &&
-                                    profile.skills_details.other ? (
+                                    ):null}
+                                    {profile.skills_details && profile.skills_details.other?(
                                         <div className="info-block">
-                                            <p className="info-header">
-                                                Miscellaneous
-                                            </p>
-                                            <p>
-                                                {this.flattenSkills(
-                                                    profile.skills_details
-                                                        .other,
-                                                ).join(', ')}
-                                            </p>
+                                            <p className="info-header">Miscellaneous</p>
+                                            <p>{this.flattenSkills(profile.skills_details.other).join(', ')}</p>
                                         </div>
-                                    ) : null}
+                                    ):null}
                                 </div>
                                 <div className="col developer-card other-content">
-                                    <div className="heading-2 bold">
-                                        Education
-                                    </div>
+                                    <div className="heading-2 bold">Education</div>
                                     {(user.education || []).map(education => {
                                         return (
                                             <div className="info-block">
-                                                <p className="info-header">
-                                                    {education.institution}{' '}
-                                                    <span className="period">
-                                                        {
-                                                            education.start_month_display
-                                                        }/{education.start_year}{' '}
-                                                        -{' '}
-                                                        {!education.end_month &&
-                                                        !education.end_year
-                                                            ? 'Present'
-                                                            : `${
-                                                                  education.end_month_display
-                                                              }/${
-                                                                  education.end_year
-                                                              }`}
-                                                    </span>
-                                                </p>
-                                                <p className="info-title">
-                                                    {education.award}
-                                                </p>
-                                                <Linkify
-                                                    properties={{
-                                                        target: '_blank',
-                                                    }}>
-                                                    {education.details}
-                                                </Linkify>
+                                                <p className="info-header">{education.institution} <span className="period">{education.start_month_display}/{education.start_year} - {!education.end_month && !education.end_year?'Present':`${education.end_month_display}/${education.end_year}`}</span></p>
+                                                <p className="info-title">{education.award}</p>
+                                                <Linkify properties={{target: '_blank'}}>{education.details}</Linkify>
                                             </div>
                                         );
                                     })}
@@ -353,23 +221,18 @@ export default class DeveloperProfile extends React.Component {
                             </div>
 
                             <div className="text-center">
-                                <Link
-                                    to={
-                                        Auth.isAuthenticated
-                                            ? '/work/new/'
-                                            : '/start/'
-                                    }
-                                    className="btn btn-callout btn-main-cta">
+                                <Link to={Auth.isAuthenticated?"/work/new/":"/start/"} className="btn btn-callout btn-main-cta">
                                     Hire {user.first_name}
                                 </Link>
                             </div>
+
                         </div>
                     </section>
                 </div>
                 <div className="text-center">
                     <small>
-                        &copy; {moment().format('YYYY')} Tunga.io &mdash; All
-                        rights reserved.
+                        &copy; {moment().format('YYYY')} Tunga.io &mdash; All rights
+                        reserved.
                     </small>
                 </div>
             </ShowcaseContainer>
