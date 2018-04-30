@@ -36,17 +36,17 @@ const L10N_RESOURCES = {
     nl: {
         flag: '../images/showcase/Dutch.png',
         linkedin:
-            'Problemen met het vinden van goede ontwikkelaars of het bouwen van een app? Bekijk dit geweldige initiatief genaamd Tunga.\n' +
+            'Ben je op zoek naar goede software developers of heb je plannen voor het bouwen van een app? Dan moet je zeker even de website van Tunga bekijken [hyperlink].\n' +
             '\n' +
-            'Als u mij een bericht stuurt, kan ik u via e-mail met hen verbinden. Voor elke betalende klant die ik verwijs, geven ze 5% tot maximaal EUR1.000 aan Bits Academy, een netwerk van scholen die gratis technologieonderwijs geven aan Afrikaanse jongeren met een minder bevoorrechte achtergrond',
+            'Als je me een berichtje stuurt dan kan ik je rechtstreeks met ze in contact brengen. Voor iedere betalende klant die ik doorstuur doneren zij 5% tot max EUR1,000 aan Bits Academy, een netwerk van scholen die gratis opleiding bieden aan Afrikaanse jongeren met een minder bevoorrechte achtergrond.\n',
         email: {
-            subject: 'Introductie tot Tunga',
+            subject: 'Introductie Tunga',
             body:
-                'Hallo,\n' +
+                'Hi,\n' +
                 '\n' +
-                'Ik wilde je verbinden met Bart Leijssenaar van Tunga (cc), die bedrijven helpt met het bouwen van software en het vinden van goede ontwikkelaars. Hun missie is het creëren van technische banen voor Afrikaanse jongeren. Ik denk dat dit interessant voor je zou kunnen zijn en een contact zou voor beide partijen voordelig zijn.\n' +
+                'Ik wil je bij deze even in contact brengen met Bart Leijssenaar van Tunga (cc). Zij helpen bedrijven om software te bouwen en goede programmeurs te vinden. Hun missie is het creëren van IT banen voor Afrikaanse jongeren. Ik denk dat een kennismaking interessant voor je kan zijn en wederzijds voordeel kan opleveren.\n' +
                 '\n' +
-                'Ik laat jullie het van hier afhalen.',
+                'Ik laat het verder even aan jullie om opvolging te geven.\n',
             meta: {
                 cc: 'Aan CC:',
                 subject: 'Onderwerpen',

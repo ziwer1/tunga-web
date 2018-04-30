@@ -26,11 +26,12 @@ Follow the following coding guidelines when contributing:
 * For security, keep sensitive data (e.g passwords, API keys and OAuth secrets) out of the repo.
 * All source code goes into `/src`
 * Follow the style guide defined in [.editorconfig](https://github.com/tunga-io/tunga-web/blob/master/.editorconfig)
-* Actions, Reducers, Components, Containers and Routes (top level React Router components) go into respective - and appropriately named - directories.
-* Keep most app logic out of app.js and in respective reducers and components.
-* Use [Redux](https://redux.js.org/) to manage app state and data flow as much as possible.
-* index.ejs is a template, refrain from editing (except when adding global libraries served via a CDN)
 * Leverage [ES6/ES2015](https://babeljs.io/docs/learn-es2015/) features in your code
+* index.ejs is a template, refrain from editing (except when adding global libraries served via a CDN)
+* Actions, Reducers, Components, Containers and Routes (top level React Router components) go into respective - and appropriately named - directories.
+* Use [Redux](https://redux.js.org/) to manage app state and data flow as much as possible.
+* Keep most app logic out of app.js and in respective reducers and components.
+* Use containers only to connect to Redux store and pass on the state as props to children.
 * Use \_\_DEV\_\_ and \_\_PRODUCTION\_\__ predefined globals to filter code the should only be added in development and testing
 * Use WebPack's [DefinePlugin](https://webpack.js.org/plugins/define-plugin/) to define global constants e.g public keys
 * Import modules using either ES6 imports
