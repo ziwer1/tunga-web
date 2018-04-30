@@ -21,25 +21,25 @@ const OFFER_DETAILS = [
         description: (
             <p>
                 Outsource entire software projects<br/>
-                Clean up your bugs/features<br/>
-                backlog Get started quickly<br/>
+                Clean up your bugs/features backlog<br/>
+                Get started quickly<br/>
             </p>
         ),
         perks: [
             {service: 'Frontend development', fee: "€23,-"},
             {service: 'Backend development/Devops', fee: "€26,-"},
-            {service: 'Specialty skill', fee: "€30,-"},
+            {service: 'Specialty skill (rates start at)', fee: "€30,-"},
             {service: 'Project management', fee: "€40,-"},
             {service: 'Consultancy/Technical analysis', fee: "€45,-"},
         ],
-        disclaimer: '* Schedule a call to find out more',
+        disclaimer: '* all above prices are hourly rates',
     },
     {
         title: 'Dedicated developers',
         description: (
             <p>
                 Reinforce your team with remote developers <br/>
-                Full/part-time. Temporary/permanently.<br/>
+                Full/part-time. Temporary/permanently<br/>
                 Instant access to Africa’s best programmers
             </p>
         ),
@@ -49,19 +49,19 @@ const OFFER_DETAILS = [
             {service: 'Full stack development', fee: "€26,-"},
             {service: 'Specialty skill', fee: "€30,-"},
         ],
-        disclaimer: '* Schedule a call to find out more',
+        disclaimer: '* all above prices are hourly rates',
     },
     {
         title: 'Recruitment ',
         description: (
             <p>
-                Expand your team with African developers Tap into our extensive
-                developer network Quickly find, select and recruit the best fit
+                Expand your team with African developers <br/>
+                Tap into our extensive developer network <br/>
+                Quickly find, select and recruit the best fit <br/>
             </p>
         ),
         perks: [
             // '', 'Custom pricing', '', ''
-            {service: '', fee: ""},
             {service: '', fee: ""},
             {service: '', fee: ""},
             {custom: 'Custom Pricing Solution'},
@@ -122,14 +122,16 @@ class PricingPage extends ComponentWithModal {
                                                 {offer.perks &&
                                                 offer.perks.map(comp => {
                                                     return <tr>
-                                                        <td className='perk-service'><p>{comp.service}</p></td>
-                                                        <td className='perk-service'><p>{comp.fee}</p></td>
+                                                        <div>
+                                                            <td className='perk-service'><p>{comp.service}</p></td>
+                                                            <td className='perk-fee'><p>{comp.fee}</p></td>
+                                                        </div>
                                                         {comp && comp.custom ?
                                                             <td className='perk-custom'><p>{comp.custom}</p></td>
                                                             : null}
-
                                                     </tr>;
                                                 })}
+
                                             </table>
                                         </div>
                                         <div className="disclaimer">
