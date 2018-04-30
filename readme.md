@@ -10,41 +10,6 @@ npm install
 ```
 2. Install [ImageMagick](https://www.imagemagick.org/script/download.php)
 
-# Coding Guide
-* Built with [React,js](https://facebook.github.io/react/) and [Redux](http://redux.js.org/)
-* All source code goes into /src
-* Actions, Reducers, Components and Containers go in respective directories
-* App Logic goes in app.js
-* index.html is a template, refrain from editing (except when adding global libraries served via a CDN)
-* Leverage [ES6/ES2015](https://babeljs.io/docs/learn-es2015/) features in your code
-* Use [axios](https://github.com/mzabriskie/axios) for networking
-* Use \_\_DEV\_\_ , \_\_PRERELEASE\_\_ and \_\_PRODUCTION\_\__ predefined globals to filter code the should only be added in development and testing
-
-#### Importing modules
-Use either ES6 imports
-```
-import MyAction from 'actions/MyAction';
-```
-
-Or CommonJS imports
-```
-MyAction = require('actions/MyAction');
-```
-
-#### Importing Style sheets
-Add this to app.js
-```
-import 'css/style.css';
-import 'css/style.less';
-```
-
-#### Importing non NPM scripts
-Add this to app.js
-```
-import "script!file.js";
-```
-
-
 # Development
 1. run this command from project root
 
