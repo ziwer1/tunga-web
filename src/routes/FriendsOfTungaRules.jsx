@@ -33,7 +33,7 @@ export default class FriendOfTungaRulesPage extends React.Component {
             <ShowcaseContainer
                 className="friends-rule-page"
                 headerContent={this.renderHeaderContent()}>
-                <MetaTags title={meta_title} description={meta_description} />
+                <MetaTags title={meta_title} description={meta_description}/>
                 <div className="content">
                     <section>
                         <div className="container">
@@ -51,7 +51,7 @@ export default class FriendOfTungaRulesPage extends React.Component {
                                 sector.
                             </p>
                             <p class="text">
-                                Do you support this mission? Then you help us
+                                Do you support this mission? Then you can help us
                                 directly as a company by referring leads to us.
                                 On top of that, for each referral that becomes a
                                 paying customer we donate 5% up to EUR1,000 to
@@ -60,7 +60,7 @@ export default class FriendOfTungaRulesPage extends React.Component {
                                 privileged backgrounds. We have come up with
                                 this mechanism to improve access to tech jobs
                                 for those youths who need it most, so that we
-                                can do more to achieve our mission
+                                can do more to achieve our mission.
                             </p>
                             <p>
                                 <b>The program rules</b>
@@ -70,7 +70,7 @@ export default class FriendOfTungaRulesPage extends React.Component {
                                 in a referral e-mail.
                             </p>
                             <p class="text">
-                                - On the program page we have created some tools
+                                - On the <a href="/friends-of-tunga/">program page</a> we have created some tools
                                 to make this easier for you.
                             </p>
                             <p class="text">
@@ -137,7 +137,7 @@ export default class FriendOfTungaRulesPage extends React.Component {
                         </div>
                     </section>
                 </div>
-                <ShowCaseFooter />
+                <ShowCaseFooter/>
             </ShowcaseContainer>
         );
     }

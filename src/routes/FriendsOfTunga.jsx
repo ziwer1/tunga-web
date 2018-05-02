@@ -36,7 +36,7 @@ const L10N_RESOURCES = {
     nl: {
         flag: '../images/showcase/Dutch.png',
         linkedin:
-            'Ben je op zoek naar goede software developers of heb je plannen voor het bouwen van een app? Dan moet je zeker even de website van Tunga bekijken [hyperlink].\n' +
+            'Ben je op zoek naar goede software developers of heb je plannen voor het bouwen van een app? Dan moet je zeker even de website van Tunga bekijken.\n' +
             '\n' +
             'Als je me een berichtje stuurt dan kan ik je rechtstreeks met ze in contact brengen. Voor iedere betalende klant die ik doorstuur doneren zij 5% tot max EUR1,000 aan Bits Academy, een netwerk van scholen die gratis opleiding bieden aan Afrikaanse jongeren met een minder bevoorrechte achtergrond.\n',
         email: {
