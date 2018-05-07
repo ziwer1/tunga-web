@@ -553,7 +553,6 @@ export default class TaskWorkflow extends ComponentWithModal {
                                             aria-labelledby="chat-overflow">
                                             {is_admin_or_owner_or_pm
                                                 ? [
-                                                      task.is_developer_ready &&
                                                       !task.closed &&
                                                       is_admin_or_owner_or_pm ? (
                                                           <li>
@@ -595,7 +594,6 @@ export default class TaskWorkflow extends ComponentWithModal {
                                                               </button>
                                                           </li>
                                                       ) : null,
-                                                      task.is_developer_ready &&
                                                       task.closed &&
                                                       isAdmin() ? (
                                                           task.paid ? null : task.payment_approved ? (
@@ -624,7 +622,6 @@ export default class TaskWorkflow extends ComponentWithModal {
                                                               </li>
                                                           )
                                                       ) : null,
-                                                      task.is_developer_ready &&
                                                       task.closed &&
                                                       isAdmin() &&
                                                       task.payment_approved &&
@@ -657,8 +654,7 @@ export default class TaskWorkflow extends ComponentWithModal {
                                                 </li>
                                             ) : null}
 
-                                            {task.is_developer_ready &&
-                                            can_edit_shares &&
+                                            {can_edit_shares &&
                                             task.details &&
                                             task.details.participation &&
                                             task.details.participation
@@ -803,21 +799,7 @@ export default class TaskWorkflow extends ComponentWithModal {
                                     {is_admin_or_owner_or_pm ||
                                     can_edit_shares ? (
                                         <span>
-                                            {/*task.is_developer_ready && is_admin_or_owner_or_pm
-                    ? <Link
-                    to={`/work/${task.id}/applications/`}
-                    className="btn"
-                    id="view-applications-btn">
-                    View applications{' '}
-                    {new_applications
-                      ? <span className="badge">
-                                  {new_applications}
-                                </span>
-                      : null}
-                  </Link>
-                    : null*/}
-                                            {task.is_developer_ready &&
-                                            is_admin_or_owner_or_pm &&
+                                            {is_admin_or_owner_or_pm &&
                                             task.is_project ? (
                                                 <Link
                                                     to={`/work/${
@@ -916,8 +898,7 @@ export default class TaskWorkflow extends ComponentWithModal {
                             )}
                         </div>
 
-                        {task.is_developer_ready &&
-                        !task.payment_approved &&
+                        {!task.payment_approved &&
                         !task.paid &&
                         task.is_participant &&
                         task.my_participation &&
@@ -1377,8 +1358,7 @@ export default class TaskWorkflow extends ComponentWithModal {
                                                                   Add skills
                                                               </Link>
                                                           </li>,
-                                                          task.is_developer_ready &&
-                                                          !task.parent ? (
+                                                        !task.parent ? (
                                                               <li>
                                                                   <Link
                                                                       to={`/work/${
