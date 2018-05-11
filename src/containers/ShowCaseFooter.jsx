@@ -298,7 +298,6 @@ class ShowCaseFooter extends React.Component {
                                     </li>
                                 </ul>
 
-                                <div>KVK: NL21746292</div>
                             </div>
                         </div>
                         <div className="section latest-from-blog">
