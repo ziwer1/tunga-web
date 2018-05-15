@@ -85,9 +85,8 @@ export default class FriendOfTungaRulesPage extends React.Component {
                             </p>
                             <p>
                                 - For each referral that becomes a paying
-                                customer Tunga commits to supporting Bits
-                                Academy, which provides free tech education to
-                                African youths.
+                                customer Tunga commits to supporting WeAreBits,
+                                which provides free tech education to African youths.
                             </p>
                             <p>
                                 - WeAreBits for now is run as a project by
