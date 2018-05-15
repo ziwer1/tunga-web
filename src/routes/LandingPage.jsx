@@ -470,7 +470,7 @@ export default class LandingPage extends ComponentWithModal {
                                 <i className="icon tunga-icon-money-loop" />
                                 <p>
                                     <div className="title">
-                                        Affortable
+                                        Affordable
                                     </div>
                                     Our developers are for hire at a
                                     flat rate. We
