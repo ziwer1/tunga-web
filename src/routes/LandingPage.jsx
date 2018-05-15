@@ -202,7 +202,7 @@ export default class LandingPage extends ComponentWithModal {
                 <div className="service">
                     <div className="wrapper">
                         <div className="headline">
-                            Effortless software project
+                            Effortless software projects
                         </div>
                         <div>
                             Need an app or website? We can build software for
@@ -403,7 +403,7 @@ export default class LandingPage extends ComponentWithModal {
                                         'Friend of Tunga'!
                                     </Link>{' '}
                                     For each client you refer to us we donate a
-                                    sum to Bits Academy, a network of African
+                                    sum to WeAreBits, a network of African
                                     schools that focus on giving quality and
                                     free IT-education to youths from less
                                     privileged backgrounds.
@@ -473,7 +473,7 @@ export default class LandingPage extends ComponentWithModal {
                                         Affortable
                                     </div>
                                     Our developers are for hire at a
-                                    flat rate of EUR20 per hour. We
+                                    flat rate. We
                                     calculate projects transparently and
                                     stick with that. No excuses, no
                                     discussions, no additional costs.

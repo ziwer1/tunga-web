@@ -18,7 +18,7 @@ const L10N_RESOURCES = {
         linkedin:
             'Trouble finding good developers or looking to build an app? Please check out this great initiative called Tunga .\n' +
             '\n' +
-            'If you send me a message I can connect you to them by e-mail. For every paying customer I refer to them they donate 5% up to EUR1,000 to Bits Academy, a network of schools that gives free tech education to African youths from less privileged backgrounds',
+            'If you send me a message I can connect you to them by e-mail. For every paying customer I refer to them they donate 5% up to EUR1,000 to WeAreBits, a network of schools that gives free tech education to African youths from less privileged backgrounds',
         email: {
             subject: 'Introduction to Tunga',
             body:
@@ -38,7 +38,7 @@ const L10N_RESOURCES = {
         linkedin:
             'Ben je op zoek naar goede software developers of heb je plannen voor het bouwen van een app? Dan moet je zeker even de website van Tunga bekijken.\n' +
             '\n' +
-            'Als je me een berichtje stuurt dan kan ik je rechtstreeks met ze in contact brengen. Voor iedere betalende klant die ik doorstuur doneren zij 5% tot max EUR1,000 aan Bits Academy, een netwerk van scholen die gratis opleiding bieden aan Afrikaanse jongeren met een minder bevoorrechte achtergrond.\n',
+            'Als je me een berichtje stuurt dan kan ik je rechtstreeks met ze in contact brengen. Voor iedere betalende klant die ik doorstuur doneren zij 5% tot max EUR1,000 aan WeAreBits, een netwerk van scholen die gratis opleiding bieden aan Afrikaanse jongeren met een minder bevoorrechte achtergrond.\n',
         email: {
             subject: 'Introductie Tunga',
             body:
@@ -139,7 +139,7 @@ class FriendOfTungaPage extends ComponentWithModal {
                     lead that becomes a paying customer we donate 5% up to EUR
                     1,000 to{' '}
                     <a href="http://bitsacademy.org/" target="_blank">
-                        Bits Academy
+                        WeAreBits
                     </a>, a network of schools that gives free tech education to
                     African youths from less privileged backgrounds
                 </div>

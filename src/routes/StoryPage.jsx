@@ -147,7 +147,7 @@ export default class StoryPage extends React.Component {
                                 <a
                                     href="http://bitsacademy.org/"
                                     target="_blank">
-                                    Bits Academy school network
+                                    WeAreBits school network
                                 </a>{' '}
                                 we met many young Africans that are as brilliant
                                 and skilled as their counterparts from other

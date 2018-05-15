@@ -251,7 +251,7 @@ class ShowCaseFooter extends React.Component {
                                         </a>
                                     </li>
                                     <li>
-                                        <a>Effortless Software project</a>
+                                        <a>Effortless Software projects</a>
                                     </li>
                                     <li>
                                         <a>Dedicated Developers</a>
