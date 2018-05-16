@@ -15,8 +15,8 @@ module.exports = {
             hash: true,
             timestamp: unixTimestamp,
             site: {
-                title: 'Tunga | Software outsourcing done right',
-                description: "Software outsourcing done right. Flexible access to top African software developers. Verified skills matching. Easy communication. Impact sourcing. Quality monitoring.",
+                title: "Tunga | Unleashing Africa's Tech Talent",
+                description: "Small and large businesses from all over the world use Tunga for hiring African software engineers to address their most pressing software development needs.",
                 images: {
                     hero: 'https://tunga.io/icons/tunga_hero.png'
                 },
