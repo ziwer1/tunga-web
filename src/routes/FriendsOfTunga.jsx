@@ -83,11 +83,7 @@ class FriendOfTungaPage extends ComponentWithModal {
     }
 
     getLinkedInShareLink() {
-        return `https://www.linkedin.com/shareArticle?mini=true&url=https://tunga.io&title=${encodeURIComponent(
-            'Friends Of Tunga',
-        )}&summary=${encodeURIComponent(
-            L10N_RESOURCES[this.state.lang].linkedin,
-        )}&source=tunga.io`;
+        return `https://www.linkedin.com/shareArticle?mini=true&url=https://tunga.io?latest&source=tunga.io`;
     }
 
     renderLanguageWidget() {
