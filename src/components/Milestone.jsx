@@ -302,7 +302,7 @@ export default class Milestone extends React.Component {
                                                 </div>
                                             </div>
                                         ) : null}
-                                        {typeof report.progress_satisfaction ? (
+                                        {typeof report.progress_satisfaction == 'boolean' ? (
                                             <div>
                                                 <strong>
                                                     Are you satisfied with how
