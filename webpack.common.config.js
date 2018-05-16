@@ -18,7 +18,7 @@ module.exports = {
                 title: "Tunga | Unleashing Africa's Tech Talent",
                 description: "Small and large businesses from all over the world use Tunga for hiring African software engineers to address their most pressing software development needs.",
                 images: {
-                    hero: 'https://tunga.io/icons/tunga_hero.png'
+                    hero: 'https://tunga.io/icons/tunga_hero_devs_working.jpg'
                 },
                 colors: {
                     primary: '#f41152'
