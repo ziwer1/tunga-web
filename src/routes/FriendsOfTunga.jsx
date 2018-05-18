@@ -254,9 +254,7 @@ class FriendOfTungaPage extends ComponentWithModal {
                                         <div className="values">
                                             <div className="item">
                                                 <CopyToClipboard
-                                                    text={
-                                                        localeText.email.subject
-                                                    }>
+                                                    text='bart@tunga.io'>
                                                     <div>
                                                         {/*this.state.copied ===
                                                         'email_cc' ? (
