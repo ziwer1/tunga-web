@@ -246,27 +246,27 @@ class ShowCaseFooter extends React.Component {
                                         <a href="/story">Our Story</a>
                                     </li>
                                     <li>
-                                        <a href="https://blog.tunga.io/">
+                                        <a href="https://blog.tunga.io/" target="_blank">
                                             Blog
                                         </a>
                                     </li>
                                     <li>
-                                        <a>Effortless Software projects</a>
+                                        <a href="/effortless-software-projects">Effortless Software projects</a>
                                     </li>
                                     <li>
-                                        <a>Dedicated Developers</a>
+                                        <a href="/dedicated-developers">Dedicated Developers</a>
                                     </li>
                                     <li>
-                                        <a>Recruitment Services</a>
+                                        <a href="/IT-recruitment">Recruitment Services</a>
                                     </li>
                                     <li>
-                                        <a>iOS Developers</a>
+                                        <a href="/hire-ios-developers">iOS Developers</a>
                                     </li>
                                     <li>
-                                        <a>African Developers</a>
+                                        <a href="/african-software-developers">African Developers</a>
                                     </li>
                                     <li>
-                                        <a>Remote Teams</a>
+                                        <a href="/remote-developers">Remote Teams</a>
                                     </li>
                                 </ul>
                             </div>
