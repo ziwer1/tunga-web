@@ -3,6 +3,7 @@ import {Link} from 'react-router';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import CopyToClipboard from 'react-copy-to-clipboard';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import * as UtilityActions from '../actions/UtilityActions';
 import ShowcaseContainer from '../containers/ShowcaseContainer';
@@ -79,7 +80,7 @@ class FriendOfTungaPage extends ComponentWithModal {
             if (fot.state.copied === field) {
                 this.setState({copied: null});
             }
-        }, 3000);
+        }, 5000);
     }
 
     getLinkedInShareLink() {
@@ -257,19 +258,27 @@ class FriendOfTungaPage extends ComponentWithModal {
                                                         localeText.email.subject
                                                     }>
                                                     <div>
-                                                        {this.state.copied ===
+                                                        {/*this.state.copied ===
                                                         'email_cc' ? (
                                                             <div className="copied">
                                                                 Copied
                                                             </div>
-                                                        ) : null}
-                                                        <i
-                                                            className="tunga-icon-copy"
-                                                            onClick={this.setCopied.bind(
-                                                                this,
-                                                                'email_cc',
-                                                            )}
-                                                        />
+                                                        ) : null*/}
+                                                        <OverlayTrigger
+                                                            placement="top"
+                                                            overlay={
+                                                                <Tooltip id="tooltip">
+                                                                    <strong>Cop{this.state.copied === 'email_cc'?'ied':'y'}</strong>
+                                                                </Tooltip>
+                                                            }>
+                                                            <i
+                                                                className="tunga-icon-copy"
+                                                                onClick={this.setCopied.bind(
+                                                                    this,
+                                                                    'email_cc',
+                                                                )}
+                                                            />
+                                                        </OverlayTrigger>
                                                         bart@tunga.io
                                                     </div>
                                                 </CopyToClipboard>
@@ -280,19 +289,28 @@ class FriendOfTungaPage extends ComponentWithModal {
                                                         localeText.email.subject
                                                     }>
                                                     <div>
-                                                        {this.state.copied ===
+                                                        {/*this.state.copied ===
                                                         'email_subject' ? (
                                                             <div className="copied">
                                                                 Copied
                                                             </div>
-                                                        ) : null}
-                                                        <i
-                                                            className="tunga-icon-copy"
-                                                            onClick={this.setCopied.bind(
-                                                                this,
-                                                                'email_subject',
-                                                            )}
-                                                        />
+                                                        ) : null*/}
+
+                                                        <OverlayTrigger
+                                                            placement="top"
+                                                            overlay={
+                                                                <Tooltip id="tooltip">
+                                                                    <strong>Cop{this.state.copied === 'email_subject'?'ied':'y'}</strong>
+                                                                </Tooltip>
+                                                            }>
+                                                            <i
+                                                                className="tunga-icon-copy"
+                                                                onClick={this.setCopied.bind(
+                                                                    this,
+                                                                    'email_subject',
+                                                                )}
+                                                            />
+                                                        </OverlayTrigger>
                                                         {
                                                             localeText.email
                                                                 .subject
@@ -306,19 +324,27 @@ class FriendOfTungaPage extends ComponentWithModal {
                                                         localeText.email.body
                                                     }>
                                                     <div>
-                                                        {this.state.copied ===
+                                                        {/*this.state.copied ===
                                                         'email_body' ? (
                                                             <div className="copied">
                                                                 Copied
                                                             </div>
-                                                        ) : null}
-                                                        <i
-                                                            className="tunga-icon-copy"
-                                                            onClick={this.setCopied.bind(
-                                                                this,
-                                                                'email_body',
-                                                            )}
-                                                        />
+                                                        ) : null*/}
+                                                        <OverlayTrigger
+                                                            placement="top"
+                                                            overlay={
+                                                                <Tooltip id="tooltip">
+                                                                    <strong>Cop{this.state.copied === 'email_body'?'ied':'y'}</strong>
+                                                                </Tooltip>
+                                                            }>
+                                                            <i
+                                                                className="tunga-icon-copy"
+                                                                onClick={this.setCopied.bind(
+                                                                    this,
+                                                                    'email_body',
+                                                                )}
+                                                            />
+                                                        </OverlayTrigger>
                                                         <div
                                                             dangerouslySetInnerHTML={{
                                                                 __html: nl_to_br(
@@ -352,19 +378,27 @@ class FriendOfTungaPage extends ComponentWithModal {
                                         <CopyToClipboard
                                             text={localeText.linkedin}>
                                             <div>
-                                                {this.state.copied ===
+                                                {/*this.state.copied ===
                                                 'linkedin' ? (
                                                     <div className="copied">
                                                         Copied
                                                     </div>
-                                                ) : null}
-                                                <i
-                                                    className="tunga-icon-copy"
-                                                    onClick={this.setCopied.bind(
-                                                        this,
-                                                        'linkedin',
-                                                    )}
-                                                />
+                                                ) : null*/}
+                                                <OverlayTrigger
+                                                    placement="top"
+                                                    overlay={
+                                                        <Tooltip id="tooltip">
+                                                            <strong>Cop{this.state.copied === 'linkedin'?'ied':'y'}</strong>
+                                                        </Tooltip>
+                                                    }>
+                                                    <i
+                                                        className="tunga-icon-copy"
+                                                        onClick={this.setCopied.bind(
+                                                            this,
+                                                            'linkedin',
+                                                        )}
+                                                    />
+                                                </OverlayTrigger>
                                                 <div
                                                     dangerouslySetInnerHTML={{
                                                         __html: nl_to_br(
