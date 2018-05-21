@@ -64,7 +64,7 @@ export default class LandingPage extends ComponentWithModal {
         document.onkeypress = resetTimer;
         document.onscroll = resetTimer;
 
-        let updateBg = function() {
+        let updateBg = function () {
             let menuItemToggled = false;
             let windowWidth = $(window).innerWidth();
             let width = windowWidth / 2;
@@ -79,7 +79,7 @@ export default class LandingPage extends ComponentWithModal {
             }
             $('.ribbon').css('borderWidth', `${height}px ${width}px 0`);
 
-            $(this).scroll(function() {
+            $(this).scroll(function () {
                 var currentPos = $(this).scrollTop();
                 var cta = $('header .btn-callout.btn-main-cta');
                 if (!cta.size()) {
@@ -125,7 +125,7 @@ export default class LandingPage extends ComponentWithModal {
                 }
             });
 
-            $('.navbar-toggle').click(function() {
+            $('.navbar-toggle').click(function () {
                 if (windowWidth < 768) {
                     var $navbar = $('.navbar-collapse');
                     var _opened = $navbar.hasClass('in');
@@ -300,15 +300,6 @@ export default class LandingPage extends ComponentWithModal {
                                 </li>
                                 <li>
                                     <a
-                                        href="http://spendmatters.com/2016/04/01/tunga-wip-of-the-week/"
-                                        target="_blank">
-                                        <img
-                                            src={require('../images/press/Spend-Matters.png')}
-                                        />
-                                    </a>
-                                </li>
-                                <li>
-                                    <a
                                         href="https://www.nabc.nl/africa-business-news/5/technology/377/tunga-founder-ernesto-spruyt-we-create-21st-century-jobs-in-africa"
                                         target="_blank">
                                         <img
@@ -322,6 +313,60 @@ export default class LandingPage extends ComponentWithModal {
                                         target="_blank">
                                         <img
                                             src={require('../images/press/bnr.jpg')}
+                                        />
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        href="https://www.telegraaf.nl/nieuws/1876342/podium-voor-afrikaans-it-talent"
+                                        target="_blank">
+                                        <img style={{height: '25px',}}
+                                             src={require('../images/press/Telegraaf.png')}
+                                        />
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        href="https://www.sprout.nl/artikel/startup-van-de-week/deze-nederlandse-startup-laat-websites-en-apps-bouwen-door-afrikaanse"
+                                        target="_blank">
+                                        <img style={{height: '25px',}}
+                                             src={require('../images/press/sprout.png')}
+                                        />
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        href="https://www.gsma.com/mobilefordevelopment/programme/ecosystem-accelerator/three-takeaways-africa-technology-business-forum/"
+                                        target="_blank">
+                                        <img
+                                            src={require('../images/press/Gsma.png')}
+                                        />
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        href="https://www.social-enterprise.nl/wie-doen-het/tunga/"
+                                        target="_blank">
+                                        <img
+                                            src={require('../images/press/social-enterprise.png')}
+                                        />
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        href="https://soundcloud.com/boostznl/10-van-idee-tot-app-hoe-doe-je-dat-zonder-it-kennis-en-groot-budget"
+                                        target="_blank">
+                                        <img
+                                            src={require('../images/press/Boostz-logo.png')}
+                                        />
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        href="https://socreatie.nl/ernesto-spruyt-afrikaanse-programmeurs-inhuren-via-tunga/"
+                                        target="_blank">
+                                        <img style={{height: '40px',}}
+                                            src={require('../images/press/socreatie.png')}
                                         />
                                     </a>
                                 </li>
@@ -423,7 +468,7 @@ export default class LandingPage extends ComponentWithModal {
                             </div>
                         </div>
                     </div>
-                    <div className="col-md-4 side-pic" />
+                    <div className="col-md-4 side-pic"/>
                 </section>
                 <section id="development-style">
                     <div className="row">
@@ -440,7 +485,7 @@ export default class LandingPage extends ComponentWithModal {
 
                         <div className="development-style-cases">
                             <div className="case">
-                                <i className="icon tunga-icon-file-search" />
+                                <i className="icon tunga-icon-file-search"/>
 
                                 <p>
                                     <div className="title">
@@ -453,7 +498,7 @@ export default class LandingPage extends ComponentWithModal {
                                 </p>
                             </div>
                             <div className="case">
-                                <i className="icon tunga-icon-team" />
+                                <i className="icon tunga-icon-team"/>
 
                                 <p>
                                     <div className="title">
@@ -467,7 +512,7 @@ export default class LandingPage extends ComponentWithModal {
                                 </p>
                             </div>
                             <div className="case">
-                                <i className="icon tunga-icon-money-loop" />
+                                <i className="icon tunga-icon-money-loop"/>
                                 <p>
                                     <div className="title">
                                         Affordable
@@ -506,14 +551,14 @@ export default class LandingPage extends ComponentWithModal {
                                         <div className="testimonial-landing-page">
                                             <div className="body">
                                                 <div>
-                                                    <i className="fa fa-quote-left pull-left" />
+                                                    <i className="fa fa-quote-left pull-left"/>
                                                     <span
                                                         dangerouslySetInnerHTML={{
                                                             __html:
-                                                                testimonial.message,
+                                                            testimonial.message,
                                                         }}
                                                     />
-                                                    <i className="fa fa-quote-right pull-right" />
+                                                    <i className="fa fa-quote-right pull-right"/>
                                                 </div>
                                             </div>
                                             <div
@@ -521,7 +566,7 @@ export default class LandingPage extends ComponentWithModal {
                                                 style={{
                                                     backgroundImage: `url(${
                                                         testimonial.image
-                                                    })`,
+                                                        })`,
                                                 }}
                                             />
                                             <div className="author">
@@ -653,7 +698,7 @@ export default class LandingPage extends ComponentWithModal {
             meta_description =
                 'Small and large businesses from all over the world use Tunga for hiring African software engineers to address their most pressing software development needs.';
 
-        return <MetaTags title={meta_title} description={meta_description} />;
+        return <MetaTags title={meta_title} description={meta_description}/>;
     }
 
     render() {
@@ -669,7 +714,7 @@ export default class LandingPage extends ComponentWithModal {
 
                 {this.renderMainContent()}
 
-                <ShowCaseFooter showContactUs={true} />
+                <ShowCaseFooter showContactUs={true}/>
             </ShowcaseContainer>
         );
     }
