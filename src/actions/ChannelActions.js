@@ -1,4 +1,6 @@
 import axios from 'axios';
+import moment from 'moment';
+
 import {ENDPOINT_CHANNEL, ENDPOINT_DIRECT_CHANNEL} from '../constants/Api';
 
 import {
@@ -8,6 +10,7 @@ import {
     getGAUserType,
 } from '../utils/tracking';
 import {getUser} from '../utils/auth';
+import { setLastChatAutoOpenAt } from '../utils/helpers';
 
 export const CREATE_CHANNEL_START = 'CREATE_CHANNEL_START';
 export const CREATE_CHANNEL_SUCCESS = 'CREATE_CHANNEL_SUCCESS';
@@ -662,6 +665,9 @@ export function listMoreChannelActivityFailed(error, id) {
 }
 
 export function recordAutoOpenChatSuccess() {
+
+    setLastChatAutoOpenAt(moment.utc().format());
+
     return {
         type: AUTO_OPEN_CHAT_SUCCESS,
     };

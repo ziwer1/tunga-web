@@ -1,5 +1,6 @@
 import React from 'react';
 import {Button, OverlayTrigger, Tooltip} from 'react-bootstrap';
+import moment from 'moment';
 
 import ChannelView from '../components/Channel';
 import ChatBox from '../components/ChatBox';
@@ -13,6 +14,8 @@ import {
     isProjectOwner,
     getUser,
 } from '../utils/auth';
+
+import { getLastChatAutoOpenAt } from '../utils/helpers';
 
 export function resizeOverviewBox() {
     var w_h = $(window).height();
@@ -56,13 +59,19 @@ class ChatWindow extends React.Component {
         }
 
         if (!isAuthenticated()) {
+            let lastChatAutoOpenAt = moment.utc(getLastChatAutoOpenAt() || 'invalid'),
+                endOfLastMonth = moment.utc().subtract(1, 'month').endOf('month'),
+                twoWeeksAgo = moment.utc().subtract(2, 'week');
+
+            let canOpenChat = (!lastChatAutoOpenAt.isValid()) || (lastChatAutoOpenAt.isValid() && lastChatAutoOpenAt < endOfLastMonth && lastChatAutoOpenAt < twoWeeksAgo);
+
             const {autoOpen, Channel, ChannelActions} = this.props;
-            if (autoOpen && !Channel.hasAutoOpenedChat) {
+            if (autoOpen && canOpenChat && !Channel.hasAutoOpenedChat) {
                 let cw = this;
                 setTimeout(function() {
                     cw.setState({open: true});
                     ChannelActions.recordAutoOpenChatSuccess();
-                }, __PRODUCTION__ ? 10000 : 30 * 60 * 1000);
+                }, __PRODUCTION__ ? 10 * 1000 : 3 * 1000);
             }
         }
         this.setState({channel, open});
@@ -72,7 +81,7 @@ class ChatWindow extends React.Component {
         resizeOverviewBox();
         $(window).resize(resizeOverviewBox);
 
-        this.setInterval(this.getNewMessages.bind(this), 10000);
+        this.setInterval(this.getNewMessages.bind(this), 10 * 1000);
 
         const {ChannelActions} = this.props;
 

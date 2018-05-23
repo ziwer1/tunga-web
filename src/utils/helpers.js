@@ -1,5 +1,6 @@
 import numeral from 'numeral';
 import _ from 'lodash';
+import * as Cookies from 'js-cookie';
 
 export function isInt(n) {
     return parseInt(n) === n;
@@ -52,4 +53,12 @@ export function serializeMilestones(milestones) {
     });
 
     return result;
+}
+
+export function setLastChatAutoOpenAt(date) {
+    Cookies.set('tunga_chat_auto_open_at', date, { expires: 31 });
+}
+
+export function getLastChatAutoOpenAt() {
+    return Cookies.get('tunga_chat_auto_open_at');
 }
