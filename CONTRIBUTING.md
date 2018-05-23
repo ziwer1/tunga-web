@@ -1,7 +1,7 @@
 # Contributing
 These are the general guidelines to follow when contributing to Tunga web client development.
 
-* Follow the [readme](https://github.com/tunga-io/tunga-api/blob/master/readme.md) for instructions on setting up your development environment.
+* Follow the [readme](https://github.com/tunga-io/tunga-web/blob/master/readme.md) for instructions on setting up your development environment.
 * Follow industry best practices for [ES6](http://es6-features.org/), [React.js](https://reactjs.org/) and [Redux](https://redux.js.org/) for issues not addressed in this document.
 
 ## Sending a Pull Request
