@@ -137,6 +137,14 @@ let all_routes = (
         <Route path="agreement" component={Agreement} />
         <Route path="privacy" component={PrivacyPolicy} />
         <Route path="code-of-conduct" component={CodeOfConduct} />
+        <Route path="our-story" component={StoryPage} />
+        <Route path="quality" component={QualityPage} />
+        <Route path="pricing" component={PricingPage} />
+        <Route path="friends-of-tunga" component={FriendOfTungaPage} />
+        <Route
+            path="friends-of-tunga-rules"
+            component={FriendOfTungaRulesPage}
+        />
         <Route path="developer" component={UserPage}>
             <IndexRoute component={DeveloperProfile} />
             <Route path=":userId" component={DeveloperProfile} />
@@ -170,17 +178,6 @@ let all_routes = (
                 <Route path="*" component={TaskWizard} />
             </Route>
             <Route path="call" component={LandingPage} showCallWidget={true} />
-            <Route path="our-story" component={StoryPage} />
-            <Route path="quality" component={QualityPage} />
-            <Route path="pricing" component={PricingPage} />
-            <Route path="friends-of-tunga" component={FriendOfTungaPage} />
-            <Route
-                path="friends-of-tunga-rules"
-                component={FriendOfTungaRulesPage}
-            />
-            <Route path="press" component={LandingPage} />
-            <Route path="FAQ" component={LandingPage} />
-            <Route path="press" component={LandingPage} />
             <Route path="signin" component={SignInPage} />
             <Route path="signup">
                 <IndexRedirect to="/signin" />

@@ -129,45 +129,43 @@ class ShowcaseContainer extends React.Component {
                                         </li>
                                     </ul>
                                 )}
-                                {Auth.isAuthenticated ? null : (
-                                    <ul className="nav navbar-nav navbar-left nav-main">
-                                        <li>
-                                            <Link
-                                                to={`${pathPrefix}/our-story`}
-                                                activeClassName="active">
-                                                Our Story
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link
-                                                to={`${pathPrefix}/quality`}
-                                                activeClassName="active">
-                                                Quality
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link
-                                                to={`${pathPrefix}/pricing`}
-                                                activeClassName="active">
-                                                Pricing
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link
-                                                to={`${pathPrefix}/friends-of-tunga`}
-                                                activeClassName="active">
-                                                Friends Of Tunga
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <a
-                                                href="https://blog.tunga.io"
-                                                target="_blank">
-                                                Blog
-                                            </a>
-                                        </li>
-                                    </ul>
-                                )}
+                                <ul className="nav navbar-nav navbar-left nav-main">
+                                    <li>
+                                        <Link
+                                            to={`${pathPrefix}/our-story`}
+                                            activeClassName="active">
+                                            Our Story
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link
+                                            to={`${pathPrefix}/quality`}
+                                            activeClassName="active">
+                                            Quality
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link
+                                            to={`${pathPrefix}/pricing`}
+                                            activeClassName="active">
+                                            Pricing
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link
+                                            to={`${pathPrefix}/friends-of-tunga`}
+                                            activeClassName="active">
+                                            Friends Of Tunga
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <a
+                                            href="https://blog.tunga.io"
+                                            target="_blank">
+                                            Blog
+                                        </a>
+                                    </li>
+                                </ul>
                             </div>
                         </nav>
                     </Affix>
