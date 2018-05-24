@@ -54,7 +54,14 @@ import 'css/style.less';
 ```
 import "script!file.js";
 ```
+
 * Leverage [Less](http://lesscss.org/) for leaner CSS styling and avoid inline styles in JSX
 * Use [axios](https://github.com/mzabriskie/axios) for networking
+
+## Style guide & Screens
+
+* Find the styleguide here: https://drive.google.com/open?id=0B5csl9fqrXOCZm1iTE93Nlp2a3c (if you cant access the drive folder, please ask to access it.)
+
+* The designs will be delivered to you via Zeplin and Invision. Please make sure you are familiar have access to both tools. You can ask Bart to gain access.
 
 Thank you for contributing!
