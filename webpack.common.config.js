@@ -26,6 +26,7 @@ module.exports = {
                 fb_app_id: '518348818336672',
                 optimizely_id: process.env.NODE_ENV?(process.env.NODE_ENV == 'production' && process.env.ANALYTICS_ENV != "development"?'8175822119':'8182460702'):'',
                 ga_tracker: process.env.NODE_ENV?(process.env.NODE_ENV == 'production'?(process.env.ANALYTICS_ENV == "development"?'UA-102018659-1':'UA-70644715-1'):''):'',
+                gtm_tracker: process.env.NODE_ENV?(process.env.NODE_ENV == 'production'?(process.env.ANALYTICS_ENV == "development"?'GTM-KKS9DVD':'GTM-PDS4Q4'):''):'',
                 enable_tracking: process.env.NODE_ENV == 'production' && process.env.ANALYTICS_ENV != "development"
             }
         }),
