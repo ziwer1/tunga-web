@@ -20,7 +20,7 @@ class ConfirmDialog extends React.Component {
             dismiss,
             cancel,
             confirmation,
-            options,
+            options
         } = this.props;
         let safe_options = options || {};
 
@@ -31,9 +31,11 @@ class ConfirmDialog extends React.Component {
                 bsStyle="md"
                 backdrop={options.mustRespond ? 'static' : true}
                 keyboard={!options.mustRespond}>
-                <Modal.Header closeButton={!options.mustRespond} />
+                <Modal.Header closeButton={!options.mustRespond}>
+                    {options.heading || ''}
+                </Modal.Header>
                 <Modal.Body>
-                    <p>{confirmation}</p>
+                    <div>{confirmation}</div>
                     {options.isPrompt ? (
                         <div className="form-group">
                             <textarea

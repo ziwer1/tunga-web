@@ -15,11 +15,11 @@ import {parseNumber} from '../utils/helpers';
 import {getTaskTypeUrl, getScopeUrl} from '../utils/tracking';
 
 export function setEditToken(token) {
-    Cookies.set('tunga_task_edit_token', token);
+    Cookies.set('taskEditToken', token);
 }
 
 export function getEditToken() {
-    return Cookies.get('tunga_task_edit_token');
+    return Cookies.get('taskEditToken');
 }
 
 export function parse_task_status(task) {

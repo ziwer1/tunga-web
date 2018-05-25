@@ -19,9 +19,19 @@ import {
     requiresAuthOrEmail,
     isTungaDomain,
 } from '../utils/router';
+import confirm from '../utils/confirm';
+
+import {getUser} from "../utils/auth";
+import { COOKIE_OPTIONS } from "../utils/tracking";
+
 
 class App extends React.Component {
     shouldRender = true;
+
+    constructor(props) {
+        super(props);
+        this.state = {cookies: {}};
+    }
 
     getChildContext() {
         const {router} = this.context;
@@ -160,6 +170,53 @@ class App extends React.Component {
         }
     }
 
+    onAcceptCookies() {
+
+    }
+
+    onChangeConsentValue(key) {
+    }
+
+    onCookieSettings() {
+        let self = this;
+        confirm(
+            <div>
+                {COOKIE_OPTIONS.map(category => {
+                    let categoryId = category[0];
+                    return (
+                        <div className="form-group">
+                            <div className="checkbox">
+                                <label className="control-label">
+                                    <input
+                                        type="checkbox"
+                                        checked={category[3] || self.state.cookies[categoryId]}
+                                        disabled={category[4]}
+                                        onChange={self.onChangeConsentValue.bind(
+                                            self, categoryId
+                                        )}
+                                    />
+                                    {category[1]}
+                                </label>
+                            </div>
+                            <div>
+                                {category[2]}
+                            </div>
+                        </div>
+                    );
+                })}
+            </div>,
+            false,
+            {ok: 'Save Settings', mustRespond: false, heading: (<h3>Cookie Settings</h3>)},
+        ).then(
+            function() {
+
+            },
+            function() {
+
+            },
+        );
+    }
+
     renderChildren() {
         return React.Children.map(
             this.props.children,
@@ -210,6 +267,19 @@ class App extends React.Component {
                         {this.renderChildren()}
                     </div>
                 )}
+                {/*
+                <div id="cookie-consent" className="clearfix">
+                    <div className="consent-actions pull-right">
+                        <button className="btn btn-borderless" onClick={this.onCookieSettings.bind(this)}>Cookie Settings</button>
+                        <button className="btn">Got it!</button>
+                    </div>
+                    <div>
+                        We use cookies to offer you a better browsing experience, analyze site traffic, personalize content, assist with our promotional and marketing efforts and and provide content from third parties.
+                        Read about how we use cookies and how you can control them by clicking "Cookie Settings."
+                        If you continue to use this site, you consent to our use of cookies.
+                    </div>
+                </div>
+                */}
             </div>
         );
     }

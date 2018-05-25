@@ -8,6 +8,7 @@ import {
     TASK_SCOPE_PROJECT,
     TASK_SCOPE_ONGOING,
 } from '../constants/Api';
+import * as Cookies from "js-cookie";
 
 export const TWITTER_SIGNUP_EVENT_CODE = __PRODUCTION__ ? 'nve6f' : null;
 
@@ -169,4 +170,50 @@ export function getScopeUrl(type) {
         default:
             return null;
     }
+}
+
+export const COOKIE_OPTIONS = [
+    [
+        'essential', 'Essential Website Cookies',
+        'These cookies are strictly necessary to provide you with services available through our website and to use some of its features, such as logging in, filling forms and setting your privacy settings.\nBecause these cookies are strictly necessary to deliver the website, you cannot refuse them without impacting how our website functions.',
+        true, true,
+        [
+            ['Tunga', 'https://tunga.io', 'These cookies are strictly necessary to provide you with services through Tunga', ['sessionid', 'csrftoken', 'taskEditToken', 'cookieConsent', 'cookieConsentClosedAt']],
+            ['Google Tag Manager', 'https://www.google.com/analytics/tag-manager/', 'This cookie is associated with Google Tag Manager which we use to load scripts into our website pages.', ['_dc_gtm_UA-70644715-1']]
+        ]
+    ],
+    [
+        'perf_func', 'Performance and Functionality Cookies',
+        'These cookies are used to enhance the performance and functionality of our websites but are non-essential to their use. However, without these cookies, certain functionality may become unavailable.',
+        true, false,
+        [
+            ['Tunga', 'https://tunga.io', 'These cookies are used to enhance the performance and functionality of our website but are not essential to its use.', ['chatAutoOpenAt']],
+        ]
+    ],
+    [
+        'analytics_custom', 'Analytics and Customization Cookies', 'These cookies collect information that is used either in aggregate form to help us understand how our website is being used or how effective our marketing campaigns are, or to help us customize our website for you in order to enhance your experience.',
+        true, false,
+        [
+            ['Google Analytics', 'https://analytics.google.com/analytics/web/', 'Google Analytics gathers information allowing us to understand interactions with our websites and ultimately refine that experience to better serve you.', ['_gat', '_ga', '_gid']],
+            ['Hotjar', 'https://www.hotjar.com/', 'Hotjar gathers information allowing us to understand interactions with our websites and ultimately refine that experience to better serve you.', ['_hj*']],
+            ['Optimizely', 'https://www.optimizely.com/', 'Optimizely is a testing and experimentation platform that helps us uncover customer insights and create optimal web experiences.', ['optimizelyDomainTestCookie', 'optimizelyEndUserId']],
+        ]
+    ],
+    [
+        'target_advert', 'Targeting and Advertising Cookies',
+        'These cookies are used to make advertising messages more relevant to you and your interests. They also perform functions like preventing the same ad from continuously reappearing, ensuring that ads are properly displayed, and in some cases selecting advertisements that are based on your interests.',
+        true, false
+    ]
+];
+
+export function setCookieConsent(consentDetails) {
+    Cookies.set('cookieConsent', `${moment.utc().format()}|${consentDetails}`, { expires: 365 });
+}
+
+export function getCookieConsent() {
+    return Cookies.get('cookieConsent');
+}
+
+export function removeCookieConsent() {
+    Cookies.remove('cookieConsent');
 }

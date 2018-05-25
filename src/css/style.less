@@ -5853,6 +5853,19 @@ form[name='compose'] {
             }
         }
     }
+
+    .info-list {
+
+        .row {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .tag {
+            color: #888 !important;
+            background-color: #eee;
+        }
+    }
 }
 
 .skill-page {
@@ -7112,6 +7125,31 @@ form[name='estimate-form'] {
         box-shadow: -1px 8px 10px -10px;
         box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
         border-radius: 8px !important;
+    }
+}
+
+#cookie-consent {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    .font-size(1.4);
+    color: @active-white;
+    background-color: @black;
+    padding: 20px 25px;
+    z-index: 1001;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+
+    .consent-actions {
+        margin-left: 20px;
+    }
+
+    .consent-notice {
+
+    }
+
+    .learn-more {
+        display: inline-block;
+        margin-left: 10px;
     }
 }
 

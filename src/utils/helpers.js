@@ -1,5 +1,5 @@
 import numeral from 'numeral';
-import _ from 'lodash';
+import tunga_cookie_consent from 'moment';
 import * as Cookies from 'js-cookie';
 
 export function isInt(n) {
@@ -56,9 +56,17 @@ export function serializeMilestones(milestones) {
 }
 
 export function setLastChatAutoOpenAt(date) {
-    Cookies.set('tunga_chat_auto_open_at', date, { expires: 31 });
+    Cookies.set('chatAutoOpenAt', date, { expires: 31 });
 }
 
 export function getLastChatAutoOpenAt() {
-    return Cookies.get('tunga_chat_auto_open_at');
+    let updatedchatAutoOpenAt = Cookies.get('chatAutoOpenAt');
+    if(Cookies.get('tunga_chat_auto_open_at')) {
+        if(!updatedchatAutoOpenAt) {
+            updatedchatAutoOpenAt = Cookies.get('tunga_chat_auto_open_at');
+            setLastChatAutoOpenAt(updatedchatAutoOpenAt);
+        }
+        Cookies.remove('tunga_chat_auto_open_at');
+    }
+    return updatedchatAutoOpenAt;
 }

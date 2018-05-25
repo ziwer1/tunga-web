@@ -277,22 +277,19 @@ class ShowCaseFooter extends React.Component {
                                 <ul className="list-info">
                                     <li>
                                         <a
-                                            href="https://tunga.io/privacy"
-                                            target="_blank">
+                                            href="https://tunga.io/privacy">
                                             Privacy Policy
                                         </a>
                                     </li>
                                     <li>
                                         <a
-                                            href="https://tunga.io/agreement"
-                                            target="_blank">
+                                            href="https://tunga.io/agreement">
                                             Terms and Conditions
                                         </a>
                                     </li>
                                     <li>
                                         <a
-                                            href="https://tunga.io/code-of-conduct"
-                                            target="_blank">
+                                            href="https://tunga.io/code-of-conduct">
                                             Code of Conduct
                                         </a>
                                     </li>

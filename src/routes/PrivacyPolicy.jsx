@@ -1,8 +1,51 @@
 import React from 'react';
+import _ from 'lodash';
 
 import ShowcaseContainer from '../containers/ShowcaseContainer';
 import ShowCaseFooter from '../containers/ShowCaseFooter';
 import MetaTags from '../components/MetaTags';
+import { COOKIE_OPTIONS } from "../utils/tracking";
+
+const DATA_SHARING = _.orderBy([
+    [
+        'HubSpot', 'https://www.hubspot.com/', (
+        <div>
+            HubSpot is CRM (Customer Relation Management) software we use to manage our interactions with current and potential customers.<br/>
+            We store data about companies and contacts and our direct communication history like e-mails and meeting notes with these contacts.
+        </div>
+        ), ['First and last name', 'email']
+    ],
+    [
+        'Exact', 'https://www.exact.com/', 'We use Exact for accounting and financial compliance.', ['First and last name', 'email', 'tunga unique identifier']
+    ],
+    [
+        'Google Analytics', 'https://analytics.google.com/analytics/web/', 'We use Google Analytics to monitor statistical data about the use of our application.', ['Anonymous IP address']
+    ],
+    [
+        'Hotjar', 'https://www.hotjar.com/', 'We use Google Analytics to monitor statistical data about the use of our application.', ['Anonymous IP address']
+    ],
+    [
+        'Mailchimp', 'https://mailchimp.com/', 'We use Mailchimp to send our newsletter and information about events to users who have subscribed to these kinds of notifications.', ['First and last name', 'email']
+    ],
+    [
+        'Mandrill', 'https://www.mandrill.com/', 'We use Mandrill to send emails in a safe and reliable way.', ['First and last name', 'email', 'email content']
+    ],
+    [
+        'Stripe', 'https://stripe.com/', 'We use Stripe to process payments for work performed on our platform.', ['email'],
+    ],
+    [
+        'Payoneer', 'https://www.payoneer.com/', 'We use Payoneer to pay freelancers. Only developer personal data is shared with Payoneer.', ['First and last name', 'email', 'tunga unique identifier']
+    ],
+    [
+        'Calendly', 'https://calendly.com/', 'We use Calendly widget to schedule meetings. Your data is only shared with Calendly when you use the widget.', ['First and last name', 'email']
+    ],
+    [
+        'Optimizely', 'https://www.optimizely.com/', 'We use Optimizely to perform experiments that help us improve the platform.', ['Anonymous IP address']
+    ],
+    [
+        'Snitcher', 'https://www.snitcher.com/', 'We use Snitcher to tell us which companies are visiting our website, and what they do on the website.', ['IP address']
+    ]
+]);
 
 export default class PrivacyPolicy extends React.Component {
     renderHeaderContent() {
@@ -205,6 +248,28 @@ export default class PrivacyPolicy extends React.Component {
                     </li>
                 </ul>
 
+                <h3 id="personal-data">Personal data shared with third parties</h3>
+                These are the third party service providers that we may directly share your personal data with.
+                <div className="info-list">
+                    {DATA_SHARING.map(service => {
+                        return (
+                            <div className="row">
+                                <div className="col-md-6">
+                                    <a href={service[1]}>{service[0]}</a>
+                                    <div>{service[2]}</div>
+                                </div>
+                                <div className="col-md-6">
+                                    {service[3].map(item => {
+                                        return(
+                                            <span className="tag">{item}</span>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
+
                 <h3>Change or delete personally identifiable information</h3>
 
                 <p>
@@ -240,8 +305,9 @@ export default class PrivacyPolicy extends React.Component {
                     constitute your acceptance of any revised privacy policy.
                 </p>
 
-                <h3>Cookies</h3>
+                <h3 id="cookies">Cookies</h3>
 
+                {/*
                 <p>
                     We use cookies to, among other things, persist your current
                     session so you don't have to re-enter your credentials each
@@ -256,6 +322,12 @@ export default class PrivacyPolicy extends React.Component {
                     operating correctly or as efficiently as if they were
                     allowed.
                 </p>
+                */}
+
+                <p>
+                    A cookie is a small piece of data (text file) that a website – when visited by a user – asks your browser to store on your device in order to remember information about you, such as your login information.
+                    Those cookies which are set by us and called first party cookies. We also use third party cookies – which are cookies from a domain different than the domain of the website you are visiting – for analytics, measuring performance and to assist in our advertising and marketing efforts.
+                </p>
 
                 <p>
                     We may use third-party advertising companies to serve ads on
@@ -265,6 +337,40 @@ export default class PrivacyPolicy extends React.Component {
                     these third parties collect via cookies and action tags is
                     completely anonymous.
                 </p>
+
+                <p>
+                    The specific types of first and third party cookies served through our Websites and the purposes they perform are described in further detail below:
+                </p>
+
+                <div>
+                    {COOKIE_OPTIONS.map(category => {
+                        return (
+                            <div>
+                                <h4>{category[1]}</h4>
+                                <p>{category[2]}</p>
+                                <div className="info-list">
+                                    {(category[5] || []).map(service => {
+                                        return (
+                                            <div className="row">
+                                                <div className="col-md-6">
+                                                    <a href={service[1]}>{service[0]}</a>
+                                                    <div>{service[2]}</div>
+                                                </div>
+                                                <div className="col-md-6">
+                                                    {service[3].map(item => {
+                                                        return(
+                                                            <span className="tag">{item}</span>
+                                                        );
+                                                    })}
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
 
                 <h3>Security</h3>
 
