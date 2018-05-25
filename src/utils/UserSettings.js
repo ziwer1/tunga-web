@@ -27,10 +27,21 @@ export const TASK_INVITATION_RESPONSE_EMAIL = 'task_invitation_response_email';
 export const TASK_PROGRESS_REPORT_REMINDER_EMAIL =
     'task_progress_report_reminder_email';
 export const TASK_ACTIVITY_UPDATE_EMAIL = 'task_activity_update_email';
+export const NEW_TASK_PROGRESS_REPORT_EMAIL = 'new_task_progress_report_email';
+export const TASK_SURVEY_REMINDER_EMAIL = 'task_survey_reminder_email';
 
 // Payments
 export const PAYMENT_REQUEST_EMAIL = 'payment_request_email';
 export const PAYMENT_UPDATE_EMAIL = 'payment_update_email';
+
+// Email campaigns
+export const NEWSLETTER_EMAIL = 'newsletter_email';
+export const EVENT_EMAIL = 'event_email';
+
+// Cookies
+export const COOKIE_PERFORMANCE_FUNCTIONALITY = 'cookie_performance_functionality';
+export const COOKIE_ANALYTICS_CUSTOMIZATION = 'cookie_analytics_customization';
+export const COOKIE_TARGETING_ADVERTISING = 'cookie_targeting_advertising';
 
 export const VISIBILITY_SETTINGS = [
     {name: PROFILE_VISIBILITY, label: 'Profile visibility'},
@@ -41,6 +52,46 @@ export const VISIBILITY_SETTINGS = [
 const notify_buttons = {on: 'send an email', off: 'notifications only'};
 
 export const SWITCH_SETTINGS = [
+    {
+        name: TASK_PROGRESS_REPORT_REMINDER_EMAIL,
+        label: 'Email reminders about project progress updates.'
+    },
+    {
+        name: TASK_SURVEY_REMINDER_EMAIL,
+        label: 'Email reminders about project progress surveys.'
+    },
+    {
+        name: NEW_TASK_PROGRESS_REPORT_EMAIL,
+        label: 'Email notifications about new progress reports.'
+    },
+    {
+        name: NEW_TASK_INVITATION_EMAIL,
+        label: 'Invitation to a task'
+    },
+    {
+        name: TASK_INVITATION_RESPONSE_EMAIL,
+        label: 'Email notifications about task invitation responses from developers.'
+    },
+    {
+        name: TASK_ACTIVITY_UPDATE_EMAIL,
+        label: 'Emails about project activity e.g comments from developers and project managers'
+    },
+
+
+    {
+        name: NEWSLETTER_EMAIL,
+        label: 'Email newsletters from Tunga'
+    },
+    {
+        name: EVENT_EMAIL,
+        label: 'Emails about interesting events fom Tunga'
+    },
+
+
+
+
+
+
     {name: DAILY_UPDATE_EMAIL, label: 'Daily update e-mail'},
     {
         name: DIRECT_MESSAGES_EMAIL,
@@ -72,10 +123,13 @@ export const SWITCH_SETTINGS = [
     {
         name: NEW_TEAM_INVITATION_EMAIL,
         label: 'Invitation to join a team',
-        buttons: notify_buttons,
     },
     // dev end
-    {name: NEW_TASK_EMAIL, label: 'New task created', buttons: notify_buttons}, //dev
+    {
+        name: NEW_TASK_EMAIL,
+        label: 'New task created',
+        buttons: notify_buttons
+    }, //dev
     {
         name: NEW_TASK_APPLICATION_EMAIL,
         label: 'New application for a task',
@@ -86,27 +140,7 @@ export const SWITCH_SETTINGS = [
         label: 'Task application accepted or rejected',
         buttons: notify_buttons,
     }, //owner
-    {
-        name: NEW_TASK_INVITATION_EMAIL,
-        label: 'Invitation to a task',
-        buttons: notify_buttons,
-    }, //owner
-    {
-        name: TASK_INVITATION_RESPONSE_EMAIL,
-        label: 'Task invitation accepted or rejected',
-        buttons: notify_buttons,
-    }, //owner
-    {
-        name: TASK_PROGRESS_REPORT_REMINDER_EMAIL,
-        label:
-            'Reminders about upcoming reports for milestones and scheduled updates',
-        buttons: notify_buttons,
-    },
-    {
-        name: TASK_ACTIVITY_UPDATE_EMAIL,
-        label: 'Task activity updates',
-        buttons: notify_buttons,
-    },
+
     {
         name: PAYMENT_REQUEST_EMAIL,
         label: 'Payment requests',
@@ -118,3 +152,4 @@ export const SWITCH_SETTINGS = [
         buttons: notify_buttons,
     }, //dev
 ];
+
