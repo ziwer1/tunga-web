@@ -1,3 +1,6 @@
+import moment from 'moment';
+import * as Cookies from "js-cookie";
+
 import {
     USER_TYPE_PROJECT_OWNER,
     USER_TYPE_DEVELOPER,
@@ -8,7 +11,6 @@ import {
     TASK_SCOPE_PROJECT,
     TASK_SCOPE_ONGOING,
 } from '../constants/Api';
-import * as Cookies from "js-cookie";
 
 export const TWITTER_SIGNUP_EVENT_CODE = __PRODUCTION__ ? 'nve6f' : null;
 
@@ -207,7 +209,7 @@ export const COOKIE_OPTIONS = [
 ];
 
 export function setCookieConsent(consentDetails) {
-    Cookies.set('cookieConsent', `${moment.utc().format()}|${consentDetails}`, { expires: 365 });
+    Cookies.set('cookieConsent', `${moment.utc().format()}|${consentDetails.join('|')}`, { expires: 365 });
 }
 
 export function getCookieConsent() {
@@ -216,4 +218,30 @@ export function getCookieConsent() {
 
 export function removeCookieConsent() {
     Cookies.remove('cookieConsent');
+}
+
+export function setCookieConsentCloseAt() {
+    Cookies.set('cookieConsentClosedAt', moment.utc().format(), { expires: 365 });
+}
+
+export function getCookieConsentCloseAt() {
+    return Cookies.get('cookieConsentClosedAt');
+}
+
+export function parseDefaultConsents() {
+    let currentConsents = [], currentConsentCookie = getCookieConsent();
+    if(currentConsentCookie) {
+        currentConsentCookie.split('|').forEach((category, idx) => {
+            if(idx !== 0 && !moment.utc(category).isValid()) {
+                currentConsents.push(category);
+            }
+        })
+    } else {
+        COOKIE_OPTIONS.forEach(category => {
+            if(category[3] && !category[4]) {
+                currentConsents.push(category[0]);
+            }
+        });
+    }
+    return currentConsents;
 }
