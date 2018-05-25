@@ -3,7 +3,6 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import Progress from '../components/status/Progress';
-import CookieSettings from '../components/CookieSettings';
 
 import * as AuthActions from '../actions/AuthActions';
 import * as NavActions from '../actions/NavActions';
@@ -20,11 +19,9 @@ import {
     requiresAuthOrEmail,
     isTungaDomain,
 } from '../utils/router';
-import confirm from '../utils/confirm';
 
 import {
-    getCookieConsentCloseAt, setCookieConsentCloseAt, getCookieConsent,
-    parseDefaultConsents, setCookieConsent
+    getCookieConsentCloseAt, setCookieConsentCloseAt, getCookieConsent, openCookieConsentPopUp
 } from "../utils/tracking";
 
 
@@ -33,7 +30,7 @@ class App extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {cookieConsents: parseDefaultConsents(), showConsentAlert: !getCookieConsentCloseAt() && !getCookieConsent()};
+        this.state = {showConsentAlert: !getCookieConsentCloseAt() && !getCookieConsent()};
     }
 
     getChildContext() {
@@ -178,25 +175,11 @@ class App extends React.Component {
         this.setState({showConsentAlert: !getCookieConsentCloseAt() && !getCookieConsent()});
     }
 
-    onConsentChange(consents) {
-        this.setState({cookieConsents: consents});
-    }
-
     onCookieSettings() {
         let self = this;
-        confirm(
-            <CookieSettings onChange={this.onConsentChange.bind(this)}/>,
-            false,
-            {ok: 'Save Settings', mustRespond: false, heading: (<h3>Cookie Settings</h3>)},
-        ).then(
-            function() {
-                setCookieConsent(self.state.cookieConsents);
-                self.onCloseCookieConsent();
-            },
-            function() {
-
-            },
-        );
+        openCookieConsentPopUp(consents => {
+            self.setState({showConsentAlert: !getCookieConsentCloseAt() && !getCookieConsent()});
+        });
     }
 
     renderChildren() {

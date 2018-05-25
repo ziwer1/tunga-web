@@ -1,12 +1,11 @@
 import React from 'react';
 import Progress from './../components/status/Progress';
 import FormStatus from './../components/status/FormStatus';
-import VisibilitySetting from './../components/VisibilitySetting';
 import SwitchSetting from './../components/SwitchSetting';
 import connect from '../utils/connectors/SettingsConnector';
 
 import * as UserSettings from '../utils/UserSettings';
-import {TASK_INVITATION_RESPONSE_EMAIL} from "../utils/UserSettings";
+import {openCookieConsentPopUp} from "../utils/tracking";
 
 class Settings extends React.Component {
     constructor(props) {
@@ -20,12 +19,12 @@ class Settings extends React.Component {
         SettingsActions.retrieveSettings();
     }
 
-    onVisibilitySettingChange(setting) {
-        this.setState({visibility: {...this.state.visibility, ...setting}});
-    }
-
     onSwitchSettingChange(setting) {
         this.setState({switches: {...this.state.switches, ...setting}});
+    }
+
+    onCookieSettings() {
+        openCookieConsentPopUp();
     }
 
     handleSubmit(e) {
@@ -85,38 +84,19 @@ class Settings extends React.Component {
                                 }
                             />
 
-                            {/*Auth.user.is_developer ? null : (
-                                <div>
-                                    <h4 className="title">Privacy settings</h4>
-                                    {UserSettings.VISIBILITY_SETTINGS.map(
-                                        setting => {
-                                            return (
-                                                <div
-                                                    key={setting.name}
-                                                    className="form-group row">
-                                                    <div className="col-md-3">
-                                                        {setting.label}
-                                                    </div>
-                                                    <div className="col-md-9">
-                                                        <VisibilitySetting
-                                                            name={setting.name}
-                                                            visibility={
-                                                                settings
-                                                                    .visibility[
-                                                                    setting.name
-                                                                ]
-                                                            }
-                                                            onChange={this.onVisibilitySettingChange.bind(
-                                                                this,
-                                                            )}
-                                                        />
-                                                    </div>
-                                                </div>
-                                            );
-                                        },
-                                    )}
-                                </div>
-                            )*/}
+                            <div style={{marginTop: '20px', marginBottom: '30px'}}>
+                                <h4 className="title">Cookie Settings</h4>
+
+                                <p>
+                                    Learn more about how we use cookies from the "Cookies" section of our <a href="https://tunga.io/privacy/#cookies">Privacy Policy.</a>
+                                </p>
+
+                                <p>
+                                    You can opt-out of specific cookie categories (except essential website cookies) by clicking on the “Cookie Settings” button below:
+                                </p>
+
+                                <button className="btn" onClick={this.onCookieSettings.bind(this)}>Cookie Settings</button>
+                            </div>
 
                             <h4 className="title">Promotional Email Settings</h4>
                             {UserSettings.SWITCH_SETTINGS.map(setting => {

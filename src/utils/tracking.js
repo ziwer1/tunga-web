@@ -1,5 +1,8 @@
+import React from 'react';
 import moment from 'moment';
 import * as Cookies from "js-cookie";
+
+import CookieSettings from '../components/CookieSettings';
 
 import {
     USER_TYPE_PROJECT_OWNER,
@@ -11,6 +14,7 @@ import {
     TASK_SCOPE_PROJECT,
     TASK_SCOPE_ONGOING,
 } from '../constants/Api';
+import confirm from "./confirm";
 
 export const TWITTER_SIGNUP_EVENT_CODE = __PRODUCTION__ ? 'nve6f' : null;
 
@@ -244,4 +248,32 @@ export function parseDefaultConsents() {
         });
     }
     return currentConsents;
+}
+
+export function openCookieConsentPopUp(onSave, onCancel) {
+    let cookieConsents = parseDefaultConsents();
+
+    function onConsentChange(consents) {
+        cookieConsents = consents;
+    }
+
+    confirm(
+        <CookieSettings onChange={onConsentChange}/>,
+        false,
+        {ok: 'Save Settings', mustRespond: false, heading: (<h3>Cookie Settings</h3>)},
+    ).then(
+        function() {
+            setCookieConsent(cookieConsents);
+            setCookieConsentCloseAt();
+
+            if(onSave) {
+                onSave(cookieConsents);
+            }
+        },
+        function() {
+            if(onCancel) {
+                onCancel();
+            }
+        },
+    );
 }

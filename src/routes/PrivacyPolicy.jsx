@@ -4,7 +4,7 @@ import _ from 'lodash';
 import ShowcaseContainer from '../containers/ShowcaseContainer';
 import ShowCaseFooter from '../containers/ShowCaseFooter';
 import MetaTags from '../components/MetaTags';
-import { COOKIE_OPTIONS } from "../utils/tracking";
+import {COOKIE_OPTIONS, getCookieConsent, getCookieConsentCloseAt, openCookieConsentPopUp} from "../utils/tracking";
 
 const DATA_SHARING = _.orderBy([
     [
@@ -48,6 +48,11 @@ const DATA_SHARING = _.orderBy([
 ]);
 
 export default class PrivacyPolicy extends React.Component {
+
+    onCookieSettings() {
+        openCookieConsentPopUp();
+    }
+
     renderHeaderContent() {
         return (
             <div className="content">
@@ -371,6 +376,12 @@ export default class PrivacyPolicy extends React.Component {
                         );
                     })}
                 </div>
+
+                <p>
+                    You can opt-out of each cookie category (except essential website cookies) by clicking on the “Cookie Settings” button below:
+                </p>
+
+                <button className="btn" onClick={this.onCookieSettings.bind(this)}>Cookie Settings</button>
 
                 <h3>Security</h3>
 
