@@ -43,7 +43,7 @@ const DATA_SHARING = _.orderBy([
         'Optimizely', 'https://www.optimizely.com/', 'We use Optimizely to perform experiments that help us improve the platform.', ['Anonymous IP address']
     ],
     [
-        'Snitcher', 'https://www.snitcher.com/', 'We use Snitcher to tell us which companies are visiting our website, and what they do on the website.', ['IP address']
+        'Snitcher', 'https://www.snitcher.com/', 'We use Snitcher to tell us which companies are visiting our website, and what they do on the website. It is important to note, that Snitcher does not identify individual visitors, only companies and other organizations (e.g universities).', ['IP address']
     ]
 ]);
 

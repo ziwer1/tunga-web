@@ -55,7 +55,7 @@ export default class CookieSettings extends React.Component {
                         </div>
                     );
                 })}
-                Learn more from the "Cookies" section of our <a href="/privacy/#cookies">Privacy Policy.</a>
+                Learn more from the "Cookies" section of our <a href="https://tunga.io/privacy/#cookies">Privacy Policy.</a>
             </div>
         );
     }
