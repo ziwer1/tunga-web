@@ -1,33 +1,15 @@
 import axios from 'axios';
-import * as Cookies from 'js-cookie';
 
 axios.defaults.xsrfCookieName = 'csrftoken';
 axios.defaults.xsrfHeaderName = 'X-CSRFToken';
 axios.defaults.withCredentials = true;
 
-$.ajaxSetup({
-    beforeSend: function(xhr, settings) {
-        function csrfSafeMethod(method) {
-            // these HTTP methods do not require CSRF protection
-            return /^(GET|HEAD|OPTIONS|TRACE)$/.test(method);
-        }
-
-        if (!csrfSafeMethod(settings.type)) {
-            xhr.setRequestHeader('X-CSRFToken', Cookies.get('csrftoken'));
-        }
-    },
-    xhrFields: {
-        withCredentials: true,
-    },
-});
-
-var BACKEND_PATH =
+let BACKEND_PATH =
     __BACKEND_ROOT_URL__ || (__PRODUCTION__ ? '/' : 'http://sandbox.tunga.io/');
-var API_PATH = 'api/';
-var SOCIAL_LOGIN_PATH = 'accounts/social/';
+let API_PATH = 'api/';
+let SOCIAL_LOGIN_PATH = 'accounts/social/';
 
-const API_ROOT = BACKEND_PATH + API_PATH;
-export default API_ROOT;
+export const API_ROOT = BACKEND_PATH + API_PATH;
 
 export const SOCIAL_LOGIN_PREFIX = BACKEND_PATH + SOCIAL_LOGIN_PATH;
 

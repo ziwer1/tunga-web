@@ -133,7 +133,7 @@ import SkillPage from './routes/SkillPage';
 
 let all_routes = (
     <Route>
-        <IndexRoute component={LandingPage} unauthedOnly={true} />
+        <IndexRoute component={LandingPage} />
         <Route path="agreement" component={Agreement} />
         <Route path="privacy" component={PrivacyPolicy} />
         <Route path="code-of-conduct" component={CodeOfConduct} />
@@ -141,6 +141,7 @@ let all_routes = (
         <Route path="quality" component={QualityPage} />
         <Route path="pricing" component={PricingPage} />
         <Route path="friends-of-tunga" component={FriendOfTungaPage} />
+        <Route path="call" component={LandingPage} showCallWidget={true} />
         <Route
             path="friends-of-tunga-rules"
             component={FriendOfTungaRulesPage}
@@ -177,7 +178,6 @@ let all_routes = (
                 <Route path=":phase/:taskId/*" component={TaskWizard} />
                 <Route path="*" component={TaskWizard} />
             </Route>
-            <Route path="call" component={LandingPage} showCallWidget={true} />
             <Route path="signin" component={SignInPage} />
             <Route path="signup">
                 <IndexRedirect to="/signin" />
