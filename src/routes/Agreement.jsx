@@ -899,7 +899,7 @@ export default class Agreement extends React.Component {
     }
 
     render() {
-        let meta_title = 'Tunga | Terms and Conditions';
+        let meta_title = 'Tunga | User Agreement';
         let meta_description =
             'This User Agreement contains the terms & conditions that apply to the usage of the Tunga Website and Services.';
 

@@ -284,7 +284,7 @@ class ShowCaseFooter extends React.Component {
                                     <li>
                                         <a
                                             href="https://tunga.io/agreement">
-                                            Terms and Conditions
+                                            User Agreement
                                         </a>
                                     </li>
                                     <li>

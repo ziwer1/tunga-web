@@ -84,7 +84,7 @@ class Settings extends React.Component {
                                 }
                             />
 
-                            <div style={{marginTop: '20px', marginBottom: '30px'}}>
+                            <div className="section">
                                 <h4 className="title">Cookie Settings</h4>
 
                                 <p>
@@ -98,74 +98,101 @@ class Settings extends React.Component {
                                 <button className="btn" onClick={this.onCookieSettings.bind(this)}>Cookie Settings</button>
                             </div>
 
-                            <h4 className="title">Promotional Email Settings</h4>
-                            {UserSettings.SWITCH_SETTINGS.map(setting => {
-                                if (promotional_email_switches.indexOf(setting.name) === -1) {
-                                    return null;
-                                }
-                                return (
-                                    <div
-                                        key={setting.name}
-                                        className="form-group row">
-                                        <div className="col-md-7">
-                                            {setting.label}
+                            <div className="section">
+                                <h4 className="title">Promotional Email Settings</h4>
+                                {UserSettings.SWITCH_SETTINGS.map(setting => {
+                                    if (promotional_email_switches.indexOf(setting.name) === -1) {
+                                        return null;
+                                    }
+                                    return (
+                                        <div
+                                            key={setting.name}
+                                            className="form-group">
+                                            <div className="row">
+                                                <div className="col-md-7">
+                                                    {setting.label}
+                                                </div>
+                                                <div className="col-md-5">
+                                                    <SwitchSetting
+                                                        name={setting.name}
+                                                        status={
+                                                            settings.switches[
+                                                                setting.name
+                                                                ]
+                                                        }
+                                                        buttons={setting.buttons}
+                                                        onChange={this.onSwitchSettingChange.bind(
+                                                            this,
+                                                        )}
+                                                    />
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className="col-md-5">
-                                            <SwitchSetting
-                                                name={setting.name}
-                                                status={
-                                                    settings.switches[
-                                                        setting.name
-                                                        ]
-                                                }
-                                                buttons={setting.buttons}
-                                                onChange={this.onSwitchSettingChange.bind(
-                                                    this,
-                                                )}
-                                            />
-                                        </div>
-                                    </div>
-                                );
-                            })}
+                                    );
+                                })}
+                            </div>
 
-                            <h4 className="title">Transactional Email Settings</h4>
-                            {UserSettings.SWITCH_SETTINGS.map(setting => {
-                                if (transactional_switches.indexOf(setting.name) === -1) {
-                                    return null;
-                                }
-                                return (
-                                    <div
-                                        key={setting.name}
-                                        className="form-group row">
-                                        <div className="col-md-7">
-                                            {setting.label}
+                            <div className="section">
+                                <h4 className="title">Transactional Email Settings</h4>
+                                {UserSettings.SWITCH_SETTINGS.map(setting => {
+                                    if (transactional_switches.indexOf(setting.name) === -1) {
+                                        return null;
+                                    }
+                                    return (
+                                        <div
+                                            key={setting.name}
+                                            className="form-group">
+                                            <div className="row">
+                                                <div className="col-md-7">
+                                                    {setting.label}
+                                                </div>
+                                                <div className="col-md-5">
+                                                    <SwitchSetting
+                                                        name={setting.name}
+                                                        status={
+                                                            settings.switches[
+                                                                setting.name
+                                                                ]
+                                                        }
+                                                        buttons={setting.buttons}
+                                                        onChange={this.onSwitchSettingChange.bind(
+                                                            this,
+                                                        )}
+                                                    />
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className="col-md-5">
-                                            <SwitchSetting
-                                                name={setting.name}
-                                                status={
-                                                    settings.switches[
-                                                        setting.name
-                                                    ]
-                                                }
-                                                buttons={setting.buttons}
-                                                onChange={this.onSwitchSettingChange.bind(
-                                                    this,
-                                                )}
-                                            />
-                                        </div>
-                                    </div>
-                                );
-                            })}
+                                    );
+                                })}
 
-                            <button
-                                type="button"
-                                className="btn "
-                                disabled={Settings.isSaving}
-                                onClick={this.handleSubmit}>
-                                Save Changes
-                            </button>
-                            <div className="clearfix" />
+                                <div className="clearfix">
+                                    <button
+                                        type="button"
+                                        className="btn "
+                                        disabled={Settings.isSaving}
+                                        onClick={this.handleSubmit}>
+                                        Save Changes
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div className="section agreements">
+                                <h4 className="title">Agreements and Policies</h4>
+                                <ul>
+                                    {[
+                                        ['/privacy', 'Privacy Policy'],
+                                        ['/agreement', 'User Agreement'],
+                                        ['/code-of-conduct', 'Code of Conduct']
+                                    ].map(link => {
+                                        return (
+                                            <li>
+                                                <a href={link[0]}>{link[1]}</a>
+                                            </li>
+                                        );
+                                    })}
+                                </ul>
+                            </div>
+
                         </div>
                     </div>
                 )}
