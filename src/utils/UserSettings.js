@@ -84,7 +84,7 @@ export const SWITCH_SETTINGS = [
     },
     {
         name: EVENT_EMAIL,
-        label: 'Emails about interesting events fom Tunga'
+        label: 'Emails about interesting events from Tunga'
     },
 
 
