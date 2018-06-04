@@ -22,6 +22,7 @@
   })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
   ga('create', '<%= htmlWebpackPlugin.options.site.ga_tracker %>', 'auto');
+  ga('set', 'anonymizeIP', true);
 </script>
 <% } %>
 <% if (htmlWebpackPlugin.options.site.enable_tracking) { %>
