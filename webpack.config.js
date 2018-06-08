@@ -11,7 +11,8 @@ module.exports = {
     cache: true,
     entry: {
         vendor: ['babel-polyfill', 'react', 'react-dom', 'react-router', 'redux', 'react-redux'],
-        app: path.join(srcPath, 'app.js')
+        app: path.join(srcPath, 'app.js'),
+        guide: path.join(srcPath, 'guide/app.js')
     },
     output: {
         path: path.join(__dirname, 'build'),
@@ -19,7 +20,7 @@ module.exports = {
         filename: '[name].js?v='+ common_config.hash,
         library: ['[name]'],
         pathInfo: true
-    },   
+    },
     module: {
         loaders: [
             { test: /\.coffee$/, loader: 'coffee-loader' },
@@ -44,6 +45,7 @@ module.exports = {
     plugins: [
         common_config.plugins.chunkVendorPlugin,
         common_config.plugins.HTMLInjectPlugin,
+        common_config.plugins.StyleGuideInjectPlugin,
         common_config.plugins.noErrorsPlugin,
         new OpenBrowserPlugin({}),
         common_config.plugins.magicGlobalsPlugin,
@@ -56,7 +58,6 @@ module.exports = {
         historyApiFallback: true,
         hot: true,
         inline: true,
-        progress: true           
-    } 
-    
+        progress: true
+    }
 };

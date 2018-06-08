@@ -10,6 +10,7 @@ module.exports = {
         chunkVendorPlugin: new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js?v='+ unixTimestamp),
         HTMLInjectPlugin: new HtmlWebpackPlugin({
             inject: true,
+            chunks: ['vendor', 'app'],
             template: 'src/index.ejs',
             env: process.env.NODE_ENV || 'development',
             hash: true,
@@ -28,6 +29,23 @@ module.exports = {
                 ga_tracker: process.env.NODE_ENV?(process.env.NODE_ENV == 'production'?(process.env.ANALYTICS_ENV == "development"?'UA-102018659-1':'UA-70644715-1'):''):'',
                 gtm_tracker: process.env.NODE_ENV?(process.env.NODE_ENV == 'production'?(process.env.ANALYTICS_ENV == "development"?'GTM-KKS9DVD':'GTM-PDS4Q4'):''):'',
                 enable_tracking: process.env.NODE_ENV == 'production' && process.env.ANALYTICS_ENV != "development"
+            }
+        }),
+        StyleGuideInjectPlugin: new HtmlWebpackPlugin({
+            inject: true,
+            chunks: ['vendor', 'guide'],
+            template: 'src/guide/index.ejs',
+            filename: 'guide.html',
+            timestamp: unixTimestamp,
+            site: {
+                title: 'Tunga | Style Guide',
+                description: 'Style guide for Tunga',
+                images: {
+                    hero: 'https://tunga.io/icons/tunga_hero_devs_working.jpg'
+                },
+                colors: {
+                    primary: '#f41152'
+                },
             }
         }),
         noErrorsPlugin: new webpack.NoErrorsPlugin(),

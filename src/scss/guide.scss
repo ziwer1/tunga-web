@@ -1,0 +1,44 @@
+@import "./tunga";
+
+@mixin sub-section {
+    margin-bottom: 20px;
+
+    > h4 {
+        border-left: 3px $brand-color solid;
+        padding-left: 5px;
+        margin-bottom: 10px;
+    }
+}
+
+.section {
+    margin-bottom: 20px;
+
+    &.detailed {
+        > div {
+            @include sub-section;
+        }
+
+        .form-control, .input-group:not(.input-search) {
+            max-width: 600px;
+        }
+    }
+
+    > h2 {
+        border-left: 5px $brand-color solid;
+        padding-left: 10px;
+        margin-bottom: 15px;
+    }
+
+    div {
+        margin-bottom: 5px;
+    }
+
+    [class^='tunga-icon-'],
+    [class*=' tunga-icon-'] {
+
+    }
+
+    .sub-section {
+        @include sub-section;
+    }
+}
