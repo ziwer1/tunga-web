@@ -11,7 +11,7 @@
 }
 
 .section {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 
     &.detailed {
         > div {
@@ -29,16 +29,30 @@
         margin-bottom: 15px;
     }
 
-    div {
+    > div {
         margin-bottom: 5px;
-    }
-
-    [class^='tunga-icon-'],
-    [class*=' tunga-icon-'] {
-
     }
 
     .sub-section {
         @include sub-section;
     }
 }
+
+.color {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    margin-right: 10px;
+
+    @each $color, $value in $color-palette {
+        &.color-#{$color} {
+            background-color: $value;
+        }
+    }
+}
+
+.hex {
+    display: inline-block;
+    width: 60px;
+}
+

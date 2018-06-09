@@ -1,30 +1,52 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import jsxToString from 'jsx-to-string';
+import _ from 'lodash';
 
+import Icon from '../../components/core/Icon';
 import Button from '../../components/core/Button';
 import Input from '../../components/core/Input';
 import InputGroup from '../../components/core/InputGroup';
 import CustomInputGroup from '../../components/core/CustomInputGroup';
 import TextArea from '../../components/core/TextArea';
+import Avatar from '../../components/core/Avatar';
+
+let avatarUrl = require('../images/deadpool.jpg');
 
 export default class StyleGuide extends React.Component {
 
-    renderAndDocument(component) {
+    document(component, showComponent=true, showHTML=false) {
         return (
             <div>
-                <div>
-                    <h6>Component:</h6>
-                    <code>
-                        {jsxToString(component)}
-                    </code>
-                </div>
-                <div>
-                    <h6>HTML:</h6>
-                    <code>
-                        {ReactDOMServer.renderToStaticMarkup(component)}
-                    </code>
-                </div>
+                {showComponent?(
+                    <div>
+                        {showComponent && showHTML?(
+                            <h6>Component:</h6>
+                        ):null}
+                        <code>
+                            {jsxToString(component)}
+                        </code>
+                    </div>
+                ):null}
+                {showHTML?(
+                    <div>
+                        {showComponent && showHTML?(
+                            <h6>HTML:</h6>
+                        ):null}
+                        <code>
+                            {ReactDOMServer.renderToStaticMarkup(component)}
+                        </code>
+                    </div>
+                ):null}
+            </div>
+        );
+    }
+
+    renderAndDocument(component, showHTML=false, extraDocs=null) {
+        return (
+            <div>
+                {this.document(component, true, showHTML)}
+                {extraDocs || null}
                 <div>
                     {component}
                 </div>
@@ -35,6 +57,27 @@ export default class StyleGuide extends React.Component {
     render() {
         return (
             <div className="container">
+                <div className="section">
+                    <h2>Colors</h2>
+                    {[
+                        ['black', '#444'],
+                        ['white', '#fff'],
+                        ['pink', '#ee1f54'],
+                        ['lightest-grey', '#fafafa'],
+                        ['light-grey', '#f8f8f8'],
+                        ['dark-grey', '#888'],
+                        ['green', '#40bb56'],
+                        ['orange', '#ff7904'],
+                        ['red', '#e93232']
+                    ].map(color => {
+                        return (
+                            <div>
+                                <span className={`color color-${color[0]}`}/> <span className="hex">{color[1]}</span> | <span className="name">{_.upperFirst(color[0].split('-').join(' '))}</span>
+                            </div>
+                        );
+                    })}
+                </div>
+
                 <div className="section">
                     <h2>Typography</h2>
                     <div className="sub-section">
@@ -79,57 +122,67 @@ export default class StyleGuide extends React.Component {
                     </div>
                 </div>
 
-                <div className="section">
+                <div className="section detailed">
                     <h2>Icon sizes</h2>
-                    <div>
-                        <i className="tg-ic-check tunga-ic-sz-navbar"/> .tunga-ic-sz-navbar
-                    </div>
-                    <div>
-                        <i className="tg-ic-check tunga-ic-sz-sidebar"/> .tunga-ic-sz-sidebar
-                    </div>
-                    <div>
-                        <i className="tg-ic-check tunga-ic-sz-topbar"/> .tunga-ic-sz-topbar
-                    </div>
-                    <div>
-                        <i className="tg-ic-check tunga-ic-sz-main-sm"/> .tunga-ic-sz-main-sm
-                    </div>
-                    <div>
-                        <i className="tg-ic-check tunga-ic-sz-main"/> .tunga-ic-sz-main
-                    </div>
-                    <div>
-                        <i className="tg-ic-check tunga-ic-sz-main-lg"/> .tunga-ic-sz-main-lg
-                    </div>
-                    <div>
-                        <i className="tg-ic-check tunga-ic-sz-main-xlg"/> .tunga-ic-sz-main-xlg
-                    </div>
-                    <div>
-                        <i className="tg-ic-check tunga-ic-sz-webfunnel"/> .tunga-ic-sz-webfunnel
-                    </div>
-                    <div>
-                        <i className="tg-ic-check tunga-ic-sz-card"/> .tunga-ic-sz-card
-                    </div>
+                    {[
+                        'navbar', 'sidebar', 'topbar',
+                        'webfunnel', 'card',
+                        ['main-sm', 'Main Small', ['sm']],
+                        'main',
+                        ['main-lg', 'Main Large', ['lg']],
+                        ['main-xl', 'Main Extra Large', ['xl', 'main-xlg']],
+                    ].map(icon => {
+                        let iconName = icon,
+                            sizeTitle = icon, aliases = null;
+                        if(Array.isArray(icon)) {
+                            iconName = icon[0];
+                            sizeTitle = icon[1];
+                            aliases = icon[2];
+                        }
+
+                        let extraDoc = null;
+
+                        if(aliases) {
+                            extraDoc = (
+                                <div>
+                                    <h6>Aliases:</h6>
+                                    {aliases.map(alias => {
+                                        return (
+                                            this.document(
+                                                <Icon name="check" size={alias}/>
+                                            )
+                                        );
+                                    })}
+                                </div>
+                            );
+                        }
+
+                        return (
+                            <div>
+                                <h4>{_.upperFirst(sizeTitle)}</h4>
+                                {this.renderAndDocument(
+                                    <Icon name="check" size={iconName}/>,
+                                    true, extraDoc
+                                )}
+                            </div>
+                        );
+                    })}
                 </div>
 
                 <div className="section detailed">
                     <h2>Buttons</h2>
-                    <div>
-                        <h4>Primary Button</h4>
-                        {this.renderAndDocument(
-                            <Button variant="primary">Primary Button</Button>
-                        )}
-                    </div>
-                    <div>
-                        <h4>Negative Button</h4>
-                        {this.renderAndDocument(
-                            <Button variant="negative">Negative Button</Button>
-                        )}
-                    </div>
-                    <div>
-                        <h4>Skill Button</h4>
-                        {this.renderAndDocument(
-                            <Button variant="skill">Skill</Button>
-                        )}
-                    </div>
+                    {[
+                        'primary', 'negative', 'skill'
+                    ].map(button => {
+                        return (
+                            <div>
+                                <h4>{_.upperFirst(button)} Button</h4>
+                                {this.renderAndDocument(
+                                    <Button variant={button}>{_.upperFirst(button)} Button</Button>
+                                )}
+                            </div>
+                        );
+                    })}
                 </div>
 
                 <div className="section detailed">
@@ -140,62 +193,76 @@ export default class StyleGuide extends React.Component {
                             <Input placeholder="Placeholder"/>
                         )}
                     </div>
-                    <div>
-                        <h4>Personal Information Input</h4>
-                        {this.renderAndDocument(
-                            <CustomInputGroup widget="personal"/>
-                        )}
-                    </div>
-                    <div>
-                        <h4>Password Input</h4>
-                        {this.renderAndDocument(
-                            <CustomInputGroup widget="password"/>
-                        )}
-                    </div>
-                    <div>
-                        <h4>Phone Number Input</h4>
-                        {this.renderAndDocument(
-                            <CustomInputGroup widget="tel"/>
-                        )}
-                    </div>
-                    <div>
-                        <h4>Address Input</h4>
-                        {this.renderAndDocument(
-                            <CustomInputGroup widget="address"/>
-                        )}
-                    </div>
-                    <div>
-                        <h4>URL Input</h4>
-                        {this.renderAndDocument(
-                            <CustomInputGroup widget="url"/>
-                        )}
-                    </div>
+                    {[
+                        ['personal', 'Personal Information Input'],
+                        ['password', 'Password Input'],
+                        ['tel', 'Phone Number Input'],
+                        ['address', 'Address Input'],
+                        ['url', 'URL Input'],
+                        ['message', 'Message Input'],
+                        ['search', 'Search Input'],
+                        ['search-plain', 'Search Input Plain'],
+                        ['password', 'Password Input'],
+                    ].map(input => {
+                        let inputProps = {};
+                        if(input[0]) {
+                            inputProps.widget = input[0];
+                        }
+                        if(input[2]) {
+                            inputProps.placeholder = input[2];
+                        }
 
-                    <div>
-                        <h4>Message Input</h4>
-                        {this.renderAndDocument(
-                            <CustomInputGroup widget="message"/>
-                        )}
-                    </div>
-                    <div>
-                        <h4>Search Input</h4>
-                        {this.renderAndDocument(
-                            <CustomInputGroup widget="search"/>
-                        )}
-                    </div>
-                    <div>
-                        <h4>Search Input Plain (No brand colors)</h4>
-                        {this.renderAndDocument(
-                            <CustomInputGroup widget="search-plain"/>
-                        )}
-                    </div>
+                        return (
+                            <div>
+                                <h4>{input[1]}</h4>
+                                {this.renderAndDocument(
+                                    <CustomInputGroup {...inputProps}/>
+                                )}
+                            </div>
+                        );
+                    })}
+
                     <div>
                         <h4>TextArea</h4>
                         {this.renderAndDocument(
                             <TextArea placeholder="Type message here"/>
                         )}
                     </div>
-                    <div></div>
+                </div>
+
+                <div className="section detailed">
+                    <h2>Avatars</h2>
+                    {[
+                        ['xs', avatarUrl, 'Extra Small (20px)'],
+                        ['sm', avatarUrl, 'Small (30px)'],
+                        [null, avatarUrl, 'Default (40px)'],
+                        ['md', avatarUrl, 'Medium (60px)'],
+                        ['lg', avatarUrl, 'Large (80px)'],
+                        ['xl', avatarUrl, 'Extra Large (100px)'],
+                        ['xxl', avatarUrl, 'Extra Large (120px)'],
+                        [null, null, 'Missing Image'],
+                        [null, avatarUrl, 'Notification Badge', {badge: 5}],
+                    ].map(avatar => {
+                        let avatarProps = {};
+                        if(avatar[0]) {
+                            avatarProps.size = avatar[0];
+                        }
+                        if(avatar[1]) {
+                            avatarProps.image = avatar[1];
+                        }
+                        if(avatar[3]) {
+                            avatarProps = {...avatarProps, ...avatar[3]};
+                        }
+
+                        return (
+                            <div>
+                                <h4>{avatar[2]}</h4>
+                                {this.renderAndDocument(
+                                    <Avatar {...avatarProps}/>
+                                )}
+                            </div>
+                        );
+                    })}
                 </div>
             </div>
         );

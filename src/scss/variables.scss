@@ -1,15 +1,27 @@
-$brand-color: #ed134d;
+@import "./functions";
+
+// Colors
+$color-palette: (
+    'black': #444,
+    'white': #fff,
+    'pink': #ee1f54,
+    'lightest-grey': #fafafa,
+    'light-grey': #f8f8f8,
+    'dark-grey': #888,
+    'green': #40bb56,
+    'orange': #ff7904,
+    'red': #e93232
+);
+
+@function get-color($key) {
+    @return map-get($color-palette, $key);
+}
+
+// Variables
+$brand-color: get-color('pink');
 
 $font-weight-thin: 100;
 $font-weight-medium: 500;
-
-@function px-to-rem($pixels) {
-    @return 1rem * ($pixels/16);
-}
-
-@function px-to-line-height($pixels) {
-    @return ($pixels/16);
-}
 
 // Bootstrap overrides
 $theme-colors: (
@@ -20,7 +32,7 @@ $font-size-lg: px-to-rem(18);
 $font-size-normal: px-to-rem(14);
 $font-size-sm: px-to-rem(12);
 
-$input-btn-padding-y: px-to-rem(8);
+$input-btn-padding-y: px-to-rem(7);
 $input-btn-padding-x: px-to-rem(20);
 
 $input-bg: #f8f8f8;
