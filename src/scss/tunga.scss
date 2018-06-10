@@ -80,14 +80,19 @@ body {
     font-size: px-to-rem(30);
 }
 
+.tunga-ic-sz-sm,
+.tunga-ic-sz-main-sm {
+    font-size: px-to-rem(15);
+}
+
 .tunga-ic-sz-icon,
 .tunga-ic-sz-main {
     font-size: px-to-rem(20);
 }
 
-.tunga-ic-sz-sm,
-.tunga-ic-sz-main-sm {
-    font-size: px-to-rem(15);
+.tunga-ic-sz-md,
+.tunga-ic-sz-main-md {
+    font-size: px-to-rem(30);
 }
 
 .tunga-ic-sz-lg,
@@ -124,6 +129,12 @@ body {
     min-width: 77px;
 }
 
+.btn-icon {
+    color: $brand-color;
+    background-color: transparent;
+    @include button-size(0, 0, $font-size-normal, $line-height-base, 0);
+}
+
 .btn-xl {
     @include button-size($input-btn-padding-y-xl, $input-btn-padding-x-xl, $font-size-xl, $line-height-xl, $border-radius-lg);
 }
@@ -157,7 +168,7 @@ body {
         &.input-search-branded {
             .input-group-text, .form-control {
                 background-color: rgba(206, 19, 79, 0.9);
-                color: #fff;
+                color: get-color('white');
             }
         }
 
@@ -314,6 +325,12 @@ body {
     margin: 10px auto 0;
     max-width: 500px;
 
+    .rw-calendar-grid {
+        th {
+            text-align: center;
+        }
+    }
+
     .rw-header .rw-btn-view {
         background-color: get-color('light-grey');
     }
@@ -340,6 +357,74 @@ body {
     .rw-empty-cell {
         height: 36px;
         background-color: get-color('white');
+    }
+}
+
+// Uploads
+
+.upload-input {
+    .dropzone {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        text-align: center;
+        min-height: 200px;
+        border: 2px dashed get-color('dark-grey');
+        padding: 20px;
+        margin: 5px auto 10px;
+        border-radius: 8px;
+        cursor: pointer;
+
+        &.hidden {
+            display: none;
+        }
+
+        &:hover {
+            border-color: get-color('blue');
+        }
+
+        > * {
+            width: 100%;
+            text-align: center;
+        }
+
+        img {
+            max-width: 100%;
+            max-height: 300px;
+        }
+
+        .filename {
+            font-weight: $font-weight-normal;
+            margin: 5px auto;
+        }
+
+        .help {
+            margin-top: 20px;
+        }
+    }
+
+    .file-list {
+        margin-bottom: 5px;
+
+        .file-item {
+            display: inline-block;
+            padding: 5px 10px;
+            margin-right: 10px;
+            background-color: get-color('light-grey');
+            border-radius: 6px;
+
+            .btn {
+                font-size: $font-size-sm;
+                background-color: transparent;
+                padding: 0 2px;
+                margin-left: 5px;
+
+                &:hover, &:focus, &:active {
+                    color: $brand-color;
+                    outline: none;
+                }
+            }
+        }
     }
 }
 

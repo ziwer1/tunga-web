@@ -3,6 +3,7 @@ import ReactDOMServer from 'react-dom/server';
 import jsxToString from 'jsx-to-string';
 import _ from 'lodash';
 import {DateTimePicker, Calendar} from 'react-widgets';
+import moment from "moment/moment";
 
 import Icon from '../../components/core/Icon';
 import Button from '../../components/core/Button';
@@ -11,7 +12,7 @@ import InputGroup from '../../components/core/InputGroup';
 import CustomInputGroup from '../../components/core/CustomInputGroup';
 import TextArea from '../../components/core/TextArea';
 import Avatar from '../../components/core/Avatar';
-import moment from "moment/moment";
+import Upload from '../../components/core/Upload';
 import momentLocalizer from "react-widgets/lib/localizers/moment";
 
 let avatarUrl = require('../images/deadpool.jpg');
@@ -177,11 +178,13 @@ export default class StyleGuide extends React.Component {
                     <h2>Icon sizes</h2>
                     {[
                         'navbar', 'sidebar', 'topbar',
-                        'webfunnel', 'card',
-                        ['main-sm', 'Main Small', ['sm']],
-                        'main',
-                        ['main-lg', 'Main Large', ['lg']],
-                        ['main-xl', 'Main Extra Large', ['xl', 'main-xlg']],
+                        ['showcase', 'Showcase', ['webfunnel']],
+                        'card',
+                        ['sm', 'Small', ['main-sm']],
+                        ['icon', 'Icon', ['main']],
+                        ['md', 'Medium', ['main-md']],
+                        ['lg', 'Large', ['main-lg']],
+                        ['xl', 'Extra Large', ['main-xl', 'main-xlg']],
                     ].map(icon => {
                         let iconName = icon,
                             sizeTitle = icon, aliases = null;
@@ -326,6 +329,10 @@ export default class StyleGuide extends React.Component {
                         )}
                     </div>
 
+                    <div>
+                        <code>&lt;DateTimePicker&gt;</code> and <code>&lt;Calendar&gt;</code> components are from the thirdparty <a target="_blank" href="https://jquense.github.io/react-widgets/api/DateTimePicker/">React Widgets</a> library.
+                    </div>
+
                     {[
                         ['DateTimePicker', true, true],
                         ['DatePicker', true, false],
@@ -348,6 +355,35 @@ export default class StyleGuide extends React.Component {
                             <Calendar/>, false, null, 'Calendar'
                         )}
                     </div>
+
+                    {[
+                        [null, 'Upload'],
+                        [null, 'Multiple File Upload', {multiple: true}],
+                        ['image', 'Image Upload'],
+                        ['image', 'Multiple Image Upload', {multiple: true}],
+                        [null, 'Upload Button Small', {widget: 'button', size: 'sm'}],
+                        [null, 'Upload Button', {widget: 'button'}],
+                        [null, 'Upload Button Large', {widget: 'button', size: 'lg'}],
+                        [null, 'Upload Icon', {widget: 'icon'}],
+                        [null, 'Upload Icon Large', {widget: 'icon', size: 'lg'}],
+                    ].map(upload => {
+                        let uploadProps = {};
+                        if(upload[0]) {
+                            uploadProps.type = upload[0];
+                        }
+                        if(upload[2]) {
+                            uploadProps = {...uploadProps, ...upload[2]};
+                        }
+
+                        return (
+                            <div>
+                                <h4>{upload[1]}</h4>
+                                {this.renderAndDocument(
+                                    <Upload {...uploadProps}/>
+                                )}
+                            </div>
+                        );
+                    })}
                 </div>
 
                 <div className="section detailed">

@@ -10,7 +10,8 @@ $color-palette: (
     'dark-grey': #888,
     'green': #40bb56,
     'orange': #ff7904,
-    'red': #e93232
+    'red': #e93232,
+    'blue': #009eff
 );
 
 @function get-color($key) {

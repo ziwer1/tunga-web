@@ -13,10 +13,21 @@ export default class Button extends React.Component {
         variant: 'primary'
     };
 
+    addEventListeners() {
+        let eventHandlers = {};
+        ['onClick'].map(handler => {
+            if(this.props[handler]) {
+                eventHandlers[handler] = this.props[handler];
+            }
+        });
+        return eventHandlers;
+    }
+
     render() {
         return (
             <button type={this.props.type || 'button'}
-                    className={`btn ${this.props.variant?`btn-${this.props.variant}`:''} ${this.props.className || ''} ${this.props.size ?`btn-${this.props.size}`:''}`}>
+                    className={`btn btn-${this.props.variant || 'primary'} ${this.props.className || ''} ${this.props.size ?`btn-${this.props.size}`:''}`}
+                    {...this.addEventListeners()}>
                 {this.props.children}
             </button>
         );
