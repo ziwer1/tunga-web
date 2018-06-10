@@ -1,6 +1,7 @@
 import React from 'react';
 
 import InputGroup from './InputGroup';
+import {filterEventProps} from "./utils";
 
 const CUSTOM_INPUTS = {
     search: {
@@ -74,7 +75,7 @@ export default class CustomInputGroup extends React.Component {
 
     render() {
         return (
-            <InputGroup {...this.getProperties()}/>
+            <InputGroup {...this.getProperties()} {...filterEventProps(this.props)}/>
         );
     }
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Input from './Input';
+import {filterEventProps} from "./utils";
 
 export default class InputGroup extends React.Component {
     static propTypes = {
@@ -37,8 +38,7 @@ export default class InputGroup extends React.Component {
                     type={this.props.type}
                     className="form-control"
                     size={this.props.size}
-                    placeholder={this.props.placeholder}
-                />
+                    placeholder={this.props.placeholder} {...filterEventProps(this.props)}/>
                 {this.props.append?(
                     <span className="input-group-prepend">
                         {this.props.isAppendText?(

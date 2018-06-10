@@ -1,5 +1,7 @@
 import React from 'react';
 
+import {addEventListeners, BUTTON_EVENTS} from './utils';
+
 export default class Button extends React.Component {
     static propTypes = {
         type: React.PropTypes.string,
@@ -13,21 +15,11 @@ export default class Button extends React.Component {
         variant: 'primary'
     };
 
-    addEventListeners() {
-        let eventHandlers = {};
-        ['onClick'].map(handler => {
-            if(this.props[handler]) {
-                eventHandlers[handler] = this.props[handler];
-            }
-        });
-        return eventHandlers;
-    }
-
     render() {
         return (
             <button type={this.props.type || 'button'}
                     className={`btn btn-${this.props.variant || 'primary'} ${this.props.className || ''} ${this.props.size ?`btn-${this.props.size}`:''}`}
-                    {...this.addEventListeners()}>
+                    {...addEventListeners(BUTTON_EVENTS, this.props)}>
                 {this.props.children}
             </button>
         );

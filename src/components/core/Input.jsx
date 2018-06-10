@@ -1,4 +1,5 @@
 import React from 'react';
+import {addEventListeners, INPUT_EVENTS} from "./utils";
 
 export default class Input extends React.Component {
     static propTypes = {
@@ -16,7 +17,7 @@ export default class Input extends React.Component {
         return (
             <input type={this.props.type || 'text'}
                    className={`form-control ${this.props.className || ''} ${this.props.size?`form-control-${this.props.size}`:''}`}
-                   placeholder={this.props.placeholder}/>
+                   placeholder={this.props.placeholder} {...addEventListeners(INPUT_EVENTS, this.props)}/>
         );
     }
 }
