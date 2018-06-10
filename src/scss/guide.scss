@@ -18,7 +18,7 @@
             @include sub-section;
         }
 
-        .form-control, .input-group:not(.input-search) {
+        .form-control, .input-group:not(.input-search), .rw-widget {
             max-width: 600px;
         }
     }
@@ -30,11 +30,15 @@
     }
 
     > div {
-        margin-bottom: 5px;
+        margin-bottom: 10px;
     }
 
     .sub-section {
         @include sub-section;
+
+        > div {
+            margin-bottom: 10px;
+        }
     }
 }
 

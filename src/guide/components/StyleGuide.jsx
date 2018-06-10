@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import jsxToString from 'jsx-to-string';
 import _ from 'lodash';
+import {DateTimePicker, Calendar} from 'react-widgets';
 
 import Icon from '../../components/core/Icon';
 import Button from '../../components/core/Button';
@@ -10,12 +11,21 @@ import InputGroup from '../../components/core/InputGroup';
 import CustomInputGroup from '../../components/core/CustomInputGroup';
 import TextArea from '../../components/core/TextArea';
 import Avatar from '../../components/core/Avatar';
+import moment from "moment/moment";
+import momentLocalizer from "react-widgets/lib/localizers/moment";
 
 let avatarUrl = require('../images/deadpool.jpg');
 
+momentLocalizer(moment);
+
 export default class StyleGuide extends React.Component {
 
-    document(component, showComponent=true, showHTML=false) {
+    document(component, showComponent=true, showHTML=false, componentName=null) {
+        let options = {};
+        if(componentName) {
+            options.displayName = componentName;
+        }
+
         return (
             <div>
                 {showComponent?(
@@ -24,7 +34,7 @@ export default class StyleGuide extends React.Component {
                             <h6>Component:</h6>
                         ):null}
                         <code>
-                            {jsxToString(component)}
+                            {jsxToString(component, options)}
                         </code>
                     </div>
                 ):null}
@@ -42,10 +52,10 @@ export default class StyleGuide extends React.Component {
         );
     }
 
-    renderAndDocument(component, showHTML=false, extraDocs=null) {
+    renderAndDocument(component, showHTML=false, extraDocs=null, componentName=null) {
         return (
             <div>
-                {this.document(component, true, showHTML)}
+                {this.document(component, true, showHTML, componentName)}
                 {extraDocs || null}
                 <div>
                     {component}
@@ -57,6 +67,7 @@ export default class StyleGuide extends React.Component {
     render() {
         return (
             <div className="container">
+                <h1>Style & Component Guide</h1>
                 <div className="section">
                     <h2>Colors</h2>
                     {[
@@ -87,38 +98,78 @@ export default class StyleGuide extends React.Component {
 
                     <div className="sub-section">
                         <h4>Weight</h4>
-                        <div className="font-weight-thin">Thin (100 | .font-weight-thin)</div>
-                        <div className="font-weight-light">Light (300 | .font-weight-light) - Default font weight</div>
-                        <div className="font-weight-normal">Regular (400 | .font-weight-normal)</div>
-                        <div className="font-weight-medium">Regular (500 | .font-weight-medium) - Default for headings</div>
-                        <div className="font-weight-bold">Bold (700 | .font-weight-bold)</div>
+                        {this.renderAndDocument(
+                            <div className="font-weight-thin">Thin (100 | .font-weight-thin)</div>
+                        )}
+                        {this.renderAndDocument(
+                            <div className="font-weight-light">Light (300 | .font-weight-light) - Default font weight</div>
+                        )}
+                        {this.renderAndDocument(
+                            <div className="font-weight-normal">Regular (400 | .font-weight-normal)</div>
+                        )}
+                        {this.renderAndDocument(
+                            <div className="font-weight-medium">Regular (500 | .font-weight-medium) - Default for headings</div>
+                        )}
+                        {this.renderAndDocument(
+                            <div className="font-weight-bold">Bold (700 | .font-weight-bold)</div>
+                        )}
                     </div>
 
                     <div className="sub-section">
                         <h4>HTML Headings</h4>
-                        <h1>h1 (2.5 rem)</h1>
-                        <h2>h2 (2.0 rem)</h2>
-                        <h3>h3 (1.75 rem)</h3>
-                        <div><h4>h4 (1.5 rem)</h4></div>
-                        <h5>h5 (1.25 rem)</h5>
-                        <h6>h6 (1 rem)</h6>
+                        {this.renderAndDocument(
+                            <h1>h1 (2.5 rem)</h1>
+                        )}
+                        {this.renderAndDocument(
+                            <h2>h2 (2.0 rem)</h2>
+                        )}
+                        {this.renderAndDocument(
+                            <h3>h3 (1.75 rem)</h3>
+                        )}
+                        {this.renderAndDocument(
+                            <h4>h4 (1.5 rem)</h4>
+                        )}
+                        {this.renderAndDocument(
+                            <h5>h5 (1.25 rem)</h5>
+                        )}
+                        {this.renderAndDocument(
+                            <h6>h6 (1 rem)</h6>
+                        )}
                     </div>
 
                     <div className="sub-section">
                         <h4>Custom headings</h4>
-                        <div className="showcase-title">Showcase title (.showcase-title)</div>
-                        <div className="showcase-section-title">Showcase section title (.showcase-section-title)</div>
-                        <div className="page-title">Page title (.page-title)</div>
-                        <div className="page-sub-title">Page sub title (.page-sub-title)</div>
-                        <div className="pop-up-title">Pop up title (.pop-up-title)</div>
+                        {this.renderAndDocument(
+                            <div className="showcase-title">Showcase title</div>
+                        )}
+                        {this.renderAndDocument(
+                            <div className="showcase-section-title">Showcase section title</div>
+                        )}
+                        {this.renderAndDocument(
+                            <div className="page-title">Page title</div>
+                        )}
+                        {this.renderAndDocument(
+                            <div className="page-sub-title">Page sub title</div>
+                        )}
+                        {this.renderAndDocument(
+                            <div className="pop-up-title">Pop up title</div>
+                        )}
                     </div>
 
                     <div className="sub-section">
                         <h4>Text</h4>
-                        <div className="text text-sm">Small text (.text.text-sm)</div>
-                        <div className="text">Normal text (.text) - Default text size</div>
-                        <div className="text text-lg">Large text (.text.text-lg)</div>
-                        <div className="showcase-desc">Showcase description (.showcase-desc)</div>
+                        {this.renderAndDocument(
+                            <div className="text text-sm">Small text</div>
+                        )}
+                        {this.renderAndDocument(
+                            <div className="text">Normal text - Default text size</div>
+                        )}
+                        {this.renderAndDocument(
+                            <div className="text text-lg">Large text</div>
+                        )}
+                        {this.renderAndDocument(
+                            <div className="showcase-desc">Showcase description</div>
+                        )}
                     </div>
                 </div>
 
@@ -162,7 +213,7 @@ export default class StyleGuide extends React.Component {
                                 <h4>{_.upperFirst(sizeTitle)}</h4>
                                 {this.renderAndDocument(
                                     <Icon name="check" size={iconName}/>,
-                                    true, extraDoc
+                                    false, extraDoc
                                 )}
                             </div>
                         );
@@ -172,13 +223,46 @@ export default class StyleGuide extends React.Component {
                 <div className="section detailed">
                     <h2>Buttons</h2>
                     {[
-                        'primary', 'negative', 'skill'
+                        [null, 'Small', {size: 'sm'}],
+                        [null, 'Default'],
+                        [null, 'Large', {size: 'lg'}],
+                        [null, 'Extra Large', {size: 'xl'}],
+                        [null, 'Extra Extra Large', {size: 'xxl'}],
+                        'negative',
+                        'skill',
+                        'outline-primary', 'outline-negative'
                     ].map(button => {
+                        let buttonProps = {},
+                            buttonName = button,
+                            buttonTitle = null;
+
+                        if(button) {
+                            if(Array.isArray(button)) {
+                                if(button[0]) {
+                                    buttonProps.variant = button[0];
+                                }
+                                buttonName = button[1];
+                                buttonTitle = button[1];
+                                if(button[2]) {
+                                    buttonProps = {...buttonProps, ...button[2]};
+                                }
+                            } else {
+                                buttonProps.variant = button;
+                                buttonTitle =_.upperFirst(button);
+                            }
+                        }
+
+                        function cleanName(name) {
+                            return name.split('-').map(str => {
+                                return _.upperFirst(str);
+                            }).join(' ');
+                        }
+
                         return (
                             <div>
-                                <h4>{_.upperFirst(button)} Button</h4>
+                                <h4>{cleanName(buttonTitle)}</h4>
                                 {this.renderAndDocument(
-                                    <Button variant={button}>{_.upperFirst(button)} Button</Button>
+                                    <Button {...buttonProps}>{cleanName(buttonName)}</Button>, true
                                 )}
                             </div>
                         );
@@ -187,29 +271,42 @@ export default class StyleGuide extends React.Component {
 
                 <div className="section detailed">
                     <h2>Inputs</h2>
-                    <div>
-                        <h4>Default Input</h4>
-                        {this.renderAndDocument(
-                            <Input placeholder="Placeholder"/>
-                        )}
-                    </div>
+
                     {[
-                        ['personal', 'Personal Information Input'],
-                        ['password', 'Password Input'],
-                        ['tel', 'Phone Number Input'],
-                        ['address', 'Address Input'],
+                        ['Small', {size: 'sm'}],
+                        ['Default'],
+                        ['Large', {size: 'lg'}]
+                    ].map(input => {
+                        return (
+                            <div>
+                                <h4>{input[0]}</h4>
+                                {this.renderAndDocument(
+                                    <Input {...(input[1] || {})} placeholder="Placeholder"/>
+                                )}
+                            </div>
+                        );
+                    })}
+
+                    {[
+                        ['personal', 'Personal Information'],
+                        ['password', 'Password'],
+                        ['tel', 'Phone Number'],
+                        ['address', 'Address'],
                         ['url', 'URL Input'],
-                        ['message', 'Message Input'],
-                        ['search', 'Search Input'],
-                        ['search-plain', 'Search Input Plain'],
-                        ['password', 'Password Input'],
+                        ['message', 'Message'],
+                        ['search', 'Search'],
+                        ['search-plain', 'Search Plain'],
                     ].map(input => {
                         let inputProps = {};
+
                         if(input[0]) {
                             inputProps.widget = input[0];
                         }
                         if(input[2]) {
                             inputProps.placeholder = input[2];
+                        }
+                        if(input[3]) {
+                            inputProps = {...inputProps, ...input[2]};
                         }
 
                         return (
@@ -228,6 +325,29 @@ export default class StyleGuide extends React.Component {
                             <TextArea placeholder="Type message here"/>
                         )}
                     </div>
+
+                    {[
+                        ['DateTimePicker', true, true],
+                        ['DatePicker', true, false],
+                        ['TimePicker', false, true],
+                    ].map(picker => {
+                        return (
+                            <div>
+                                <h4>{picker[0]}</h4>
+                                {this.renderAndDocument(
+                                    <DateTimePicker calendar={picker[1]} time={picker[2]}/>,
+                                    false, null, 'DateTimePicker'
+                                )}
+                            </div>
+                        );
+                    })}
+
+                    <div>
+                        <h4>Calendar</h4>
+                        {this.renderAndDocument(
+                            <Calendar/>, false, null, 'Calendar'
+                        )}
+                    </div>
                 </div>
 
                 <div className="section detailed">
@@ -239,7 +359,7 @@ export default class StyleGuide extends React.Component {
                         ['md', avatarUrl, 'Medium (60px)'],
                         ['lg', avatarUrl, 'Large (80px)'],
                         ['xl', avatarUrl, 'Extra Large (100px)'],
-                        ['xxl', avatarUrl, 'Extra Large (120px)'],
+                        ['xxl', avatarUrl, 'Extra Extra Large (120px)'],
                         [null, null, 'Missing Image'],
                         [null, avatarUrl, 'Notification Badge', {badge: 5}],
                     ].map(avatar => {

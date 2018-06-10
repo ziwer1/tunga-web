@@ -111,12 +111,25 @@ body {
 
 // Buttons
 .btn-negative {
-    @include button-variant(#888888, #888888);
+    @include button-variant(get-color('dark-grey'), get-color('dark-grey'));
+}
+
+.btn-outline-negative {
+    @include button-outline-variant(get-color('dark-grey'), get-color('white'));
 }
 
 .btn-skill {
     @include button-variant($brand-color, $brand-color);
-    @include button-size(6px, 25px, $font-size-base, px-to-line-height(18), $btn-border-radius);
+    @include button-size($input-btn-padding-y-sm, $input-btn-padding-x-sm, $font-size-sm, $line-height-sm, $btn-border-radius-sm);
+    min-width: 77px;
+}
+
+.btn-xl {
+    @include button-size($input-btn-padding-y-xl, $input-btn-padding-x-xl, $font-size-xl, $line-height-xl, $border-radius-lg);
+}
+
+.btn-xxl {
+    @include button-size($input-btn-padding-y-xxl, $input-btn-padding-x-xxl, $font-size-xxl, $line-height-xxl, $border-radius-lg);
 }
 
 // Input
@@ -267,12 +280,67 @@ body {
     }
 }
 
-
+// Badge
 .badge {
     color: $brand-color;
     background-color: get-color('white');
     border: 1px $brand-color solid;
     border-radius: 50%;
+}
+
+// React Widgets
+.rw-widget {
+    border-radius: 5px;
+    border-width: 0 !important;
+
+    input {
+        background-color: get-color('light-grey');
+        height: 40px;
+    }
+
+    > .rw-select {
+        background-color: get-color('light-grey');
+        border-width: 0;
+    }
+}
+
+.rw-datetimepicker {
+    > .rw-select {
+        border-radius: 0 5px 5px 0;
+    }
+}
+
+.rw-calendar {
+    margin: 10px auto 0;
+    max-width: 500px;
+
+    .rw-header .rw-btn-view {
+        background-color: get-color('light-grey');
+    }
+
+    .rw-btn {
+        &:hover,
+        &:focus,
+        &:active {
+            color: $brand-color;
+            background-color: get-color('white') !important;
+            border-color: $brand-color;
+        }
+
+        &.rw-state-selected,
+        &.rw-state-selected:hover,
+        &.rw-state-selected:active,
+        &.rw-state-selected:focus {
+            color: get-color('white');
+            background-color: $brand-color !important;
+            border-color: $brand-color;
+        }
+    }
+
+    .rw-empty-cell {
+        height: 36px;
+        background-color: get-color('white');
+    }
 }
 
 @import "./breakpoints";

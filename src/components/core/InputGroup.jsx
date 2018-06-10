@@ -10,7 +10,8 @@ export default class InputGroup extends React.Component {
         prepend: React.PropTypes.object,
         append: React.PropTypes.object,
         isPrependText: React.PropTypes.bool,
-        isAppendText: React.PropTypes.bool
+        isAppendText: React.PropTypes.bool,
+        size: React.PropTypes.string,
     };
 
     static defaultProps = {
@@ -35,6 +36,7 @@ export default class InputGroup extends React.Component {
                 <Input
                     type={this.props.type}
                     className="form-control"
+                    size={this.props.size}
                     placeholder={this.props.placeholder}
                 />
                 {this.props.append?(

@@ -5,6 +5,7 @@ export default class Input extends React.Component {
         type: React.PropTypes.string,
         className: React.PropTypes.string,
         placeholder: React.PropTypes.string,
+        size: React.PropTypes.string,
     };
 
     static defaultProps = {
@@ -13,7 +14,9 @@ export default class Input extends React.Component {
 
     render() {
         return (
-            <input type={this.props.type || 'text'} className={`form-control ${this.props.className || ''}`} placeholder={this.props.placeholder}/>
+            <input type={this.props.type || 'text'}
+                   className={`form-control ${this.props.className || ''} ${this.props.size?`form-control-${this.props.size}`:''}`}
+                   placeholder={this.props.placeholder}/>
         );
     }
 }

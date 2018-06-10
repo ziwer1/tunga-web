@@ -1,6 +1,7 @@
 import 'babel-polyfill'; // Add Promises polyfill to global environment
 
 //Import local css
+import 'react-widgets/lib/less/react-widgets.less';
 import '../scss/guide.scss';
 
 import React from 'react';
