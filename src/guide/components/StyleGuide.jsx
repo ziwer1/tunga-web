@@ -202,6 +202,15 @@ export default class StyleGuide extends React.Component {
 
                         <div className="section detailed">
                             <h2 id="idIcons">Icon sizes</h2>
+
+                            <div>
+                                Checkout <a target="_blank" href="http://resources.tunga.io/tunga-assets/icons/latest/demo.html">http://resources.tunga.io/tunga-assets/icons/latest/demo.html</a> for a list of all available icons and their name.
+
+                                <div>
+                                    <blockquote>NOTE: </blockquote> Our custom <code>&lt;Icon&gt;</code> component takes an abbreviated name of the icon.
+                                    e.g <code>check</code> instead of <code>tg-ic-check</code> or <code>search</code> instead <code>tg-ic-search</code>
+                                </div>
+                            </div>
                             {[
                                 'navbar', 'sidebar', 'topbar',
                                 ['showcase', 'Showcase', ['webfunnel']],
