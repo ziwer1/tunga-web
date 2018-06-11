@@ -1,6 +1,8 @@
 # Contributing
 These are the general guidelines to follow when contributing to Tunga web client development.
 
+Contributions that don't follow recommendations in this guide may not be reviewed or accepted.
+
 * Follow the [readme](https://github.com/tunga-io/tunga-web/blob/master/readme.md) for instructions on setting up your development environment.
 * Follow industry best practices for [ES6](http://es6-features.org/), [React.js](https://reactjs.org/) and [Redux](https://redux.js.org/) for issues not addressed in this document.
 
@@ -58,10 +60,33 @@ import "script!file.js";
 * Leverage [Less](http://lesscss.org/) for leaner CSS styling and avoid inline styles in JSX
 * Use [axios](https://github.com/mzabriskie/axios) for networking
 
-## Style guide & Screens
+## Icons
+We use a custom icon font to implement. 
 
-* Find the styleguide here: https://drive.google.com/open?id=0B5csl9fqrXOCZm1iTE93Nlp2a3c (if you cant access the drive folder, please ask to access it.)
+Find available icons here: http://resources.tunga.io/tunga-assets/icons/latest/demo.html
 
-* The designs will be delivered to you via Zeplin and Invision. Please make sure you are familiar have access to both tools. You can ask Bart to gain access.
+Refer to the `Icons` section of our [Style & Component guide](http://sandbox.tunga.io/guide.html) to see how to use icons and size.
+
+In case an icon in the design is missing from the icon font library, do one of the following: 
+* contact @davidsemakula or @bartleijssenaar 
+* create an issue here: https://github.com/tunga-io/tunga-assets/issues
+* send a pull request to: https://github.com/tunga-io/tunga-assets/
+
+## Style & Component Guide
+
+Find the Style & Component guide here: http://sandbox.tunga.io/guide.html
+
+
+## Screen Designs
+The designs will be delivered to you via [Zeplin](https://zeplin.io/) or [Invision](https://www.invisionapp.com/). Please make sure you are familiar with and have access to both tools.
+
+You can ask @bartleijssenaar to give you access.
+
+## Data Dictionary and API docs
+You can find information about entities, their corresponding attributes and related endpoints from our Data dictionary documentation here: http://resources.tunga.io/docs/data-dictionary
+
+## Available public resources
+You can find links to all our available public resource here: http://resources.tunga.io/
+
 
 Thank you for contributing!

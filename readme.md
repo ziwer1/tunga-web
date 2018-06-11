@@ -32,8 +32,12 @@ npm run watch:local
 
 [Redux DevTools Extension](https://github.com/zalmoxisus/redux-devtools-extension)
 
-# Documentation
-Find API Documentation at https://tunga.io/api/docs/
+# Contributing
+You can find our contribution guide here: https://github.com/tunga-io/tunga-web/blob/master/CONTRIBUTING.md
+
+It's important to read if you want to contribute to this repo. 
+
+Contributions that don't follow recommendations in our contribution guide may not be reviewed or accepted.
 
 # Deployment
 
