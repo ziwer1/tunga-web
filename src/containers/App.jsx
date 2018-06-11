@@ -53,7 +53,7 @@ class App extends React.Component {
         if (
             !this.getSkill(props) &&
             !isTungaDomain() &&
-            !/^\/?((welcome|our-story|quality|pricing)\/?)?(\?.*|$)/.test(path)
+            !/^\/?((welcome|our-story|quality|pricing|friends-of-tunga|friends-of-tunga-rules)\/?)?(\?.*|$)/.test(path)
         ) {
             this.shouldRender = false;
             window.location.href = `https://tunga.io${path}`;
