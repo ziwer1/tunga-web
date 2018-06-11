@@ -53,7 +53,7 @@ export default class StyleGuide extends React.Component {
         );
     }
 
-    renderAndDocument(component, showHTML=false, extraDocs=null, componentName=null) {
+    renderAndDocument(component, showHTML=false, componentName=null, extraDocs=null) {
         return (
             <div>
                 {this.document(component, true, showHTML, componentName)}
@@ -203,7 +203,7 @@ export default class StyleGuide extends React.Component {
                                     {aliases.map(alias => {
                                         return (
                                             this.document(
-                                                <Icon name="check" size={alias}/>
+                                                <Icon name="check" size={alias}/>, true, false, 'Icon'
                                             )
                                         );
                                     })}
@@ -216,7 +216,7 @@ export default class StyleGuide extends React.Component {
                                 <h4>{_.upperFirst(sizeTitle)}</h4>
                                 {this.renderAndDocument(
                                     <Icon name="check" size={iconName}/>,
-                                    false, extraDoc
+                                    false, 'Icon', extraDoc
                                 )}
                             </div>
                         );
@@ -265,7 +265,8 @@ export default class StyleGuide extends React.Component {
                             <div>
                                 <h4>{cleanName(buttonTitle)}</h4>
                                 {this.renderAndDocument(
-                                    <Button {...buttonProps}>{cleanName(buttonName)}</Button>, true
+                                    <Button {...buttonProps}>{cleanName(buttonName)}</Button>,
+                                    true, 'Button'
                                 )}
                             </div>
                         );
@@ -284,7 +285,8 @@ export default class StyleGuide extends React.Component {
                             <div>
                                 <h4>{input[0]}</h4>
                                 {this.renderAndDocument(
-                                    <Input {...(input[1] || {})} placeholder="Placeholder"/>
+                                    <Input {...(input[1] || {})} placeholder="Placeholder"/>,
+                                    false, 'Input'
                                 )}
                             </div>
                         );
@@ -316,7 +318,8 @@ export default class StyleGuide extends React.Component {
                             <div>
                                 <h4>{input[1]}</h4>
                                 {this.renderAndDocument(
-                                    <CustomInputGroup {...inputProps}/>
+                                    <CustomInputGroup {...inputProps}/>,
+                                    false, 'CustomInputGroup'
                                 )}
                             </div>
                         );
@@ -325,7 +328,8 @@ export default class StyleGuide extends React.Component {
                     <div>
                         <h4>TextArea</h4>
                         {this.renderAndDocument(
-                            <TextArea placeholder="Type message here"/>
+                            <TextArea placeholder="Type message here"/>,
+                            false, 'TextArea'
                         )}
                     </div>
 
@@ -343,7 +347,7 @@ export default class StyleGuide extends React.Component {
                                 <h4>{picker[0]}</h4>
                                 {this.renderAndDocument(
                                     <DateTimePicker calendar={picker[1]} time={picker[2]}/>,
-                                    false, null, 'DateTimePicker'
+                                    false, 'DateTimePicker'
                                 )}
                             </div>
                         );
@@ -352,7 +356,7 @@ export default class StyleGuide extends React.Component {
                     <div>
                         <h4>Calendar</h4>
                         {this.renderAndDocument(
-                            <Calendar/>, false, null, 'Calendar'
+                            <Calendar/>, false, 'Calendar'
                         )}
                     </div>
 
@@ -379,7 +383,7 @@ export default class StyleGuide extends React.Component {
                             <div>
                                 <h4>{upload[1]}</h4>
                                 {this.renderAndDocument(
-                                    <Upload {...uploadProps}/>
+                                    <Upload {...uploadProps}/>, false, 'Upload'
                                 )}
                             </div>
                         );
@@ -414,7 +418,7 @@ export default class StyleGuide extends React.Component {
                             <div>
                                 <h4>{avatar[2]}</h4>
                                 {this.renderAndDocument(
-                                    <Avatar {...avatarProps}/>
+                                    <Avatar {...avatarProps}/>, false, 'Avatar'
                                 )}
                             </div>
                         );
