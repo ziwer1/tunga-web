@@ -49,13 +49,13 @@ const CUSTOM_INPUTS = {
 
 export default class CustomInputGroup extends React.Component {
     static propTypes = {
-        widget: React.PropTypes.string,
+        variant: React.PropTypes.string,
         className: React.PropTypes.string,
         placeholder: React.PropTypes.string,
     };
 
     static defaultProps = {
-        widget: null
+        variant: null
     };
 
     cleanProps() {
@@ -70,7 +70,7 @@ export default class CustomInputGroup extends React.Component {
     }
 
     getProperties() {
-        return {...(CUSTOM_INPUTS[this.props.widget] || {}), ...this.cleanProps()}
+        return {...(CUSTOM_INPUTS[this.props.variant] || {}), ...this.cleanProps()}
     }
 
     render() {

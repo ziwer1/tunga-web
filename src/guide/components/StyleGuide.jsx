@@ -341,7 +341,7 @@ export default class StyleGuide extends React.Component {
                                 let inputProps = {};
 
                                 if(input[0]) {
-                                    inputProps.widget = input[0];
+                                    inputProps.variant = input[0];
                                 }
                                 if(input[2]) {
                                     inputProps.placeholder = input[2];
@@ -401,11 +401,11 @@ export default class StyleGuide extends React.Component {
                                 [null, 'Multiple File Upload', {multiple: true}],
                                 ['image', 'Image Upload'],
                                 ['image', 'Multiple Image Upload', {multiple: true}],
-                                [null, 'Upload Button Small', {widget: 'button', size: 'sm'}],
-                                [null, 'Upload Button', {widget: 'button'}],
-                                [null, 'Upload Button Large', {widget: 'button', size: 'lg'}],
-                                [null, 'Upload Icon', {widget: 'icon'}],
-                                [null, 'Upload Icon Large', {widget: 'icon', size: 'lg'}],
+                                [null, 'Upload Button Small', {variant: 'button', size: 'sm'}],
+                                [null, 'Upload Button', {variant: 'button'}],
+                                [null, 'Upload Button Large', {variant: 'button', size: 'lg'}],
+                                [null, 'Upload Icon', {variant: 'icon'}],
+                                [null, 'Upload Icon Large', {variant: 'icon', size: 'lg'}],
                             ].map(upload => {
                                 let uploadProps = {};
                                 if(upload[0]) {

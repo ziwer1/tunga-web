@@ -133,6 +133,10 @@ body {
     color: $brand-color;
     background-color: transparent;
     @include button-size(0, 0, $font-size-normal, $line-height-base, 0);
+
+    &:focus {
+        box-shadow: none;
+    }
 }
 
 .btn-choice {

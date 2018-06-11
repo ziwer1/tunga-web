@@ -14,7 +14,7 @@ const UPLOAD_TYPES = {
 export default class Upload extends React.Component {
 
     static propTypes = {
-        widget: React.PropTypes.string,
+        variant: React.PropTypes.string,
         type: React.PropTypes.string,
         className: React.PropTypes.string,
         placeholder: React.PropTypes.string,
@@ -26,7 +26,7 @@ export default class Upload extends React.Component {
     };
 
     static defaultProps = {
-        widget: 'dropzone',
+        variant: 'dropzone',
         type: 'file',
         multiple: false,
         max: 0
@@ -71,7 +71,7 @@ export default class Upload extends React.Component {
     render() {
         return (
             <div className={`upload-input ${this.props.className || ''}`}>
-                {this.state.files.length && (this.props.widget !== 'dropzone' || this.props.multiple)?(
+                {this.state.files.length && (this.props.variant !== 'dropzone' || this.props.multiple)?(
                     <div className="file-list">
                         {this.state.files.map(file => {
                             return (
@@ -86,7 +86,7 @@ export default class Upload extends React.Component {
 
                 <Dropzone
                     ref="dropzone"
-                    className={`dropzone ${this.props.widget === 'dropzone'?'':'hidden'}`}
+                    className={`dropzone ${this.props.variant === 'dropzone'?'':'hidden'}`}
                     multiple={this.props.multiple}
                     {...this.getProperties()}
                     onDrop={this.onDrop.bind(this)}>
@@ -112,13 +112,13 @@ export default class Upload extends React.Component {
                     </div>
                 </Dropzone>
 
-                {['button', 'icon'].indexOf(this.props.widget) > -1?(
-                    <Button variant={this.props.widget === 'icon'?'icon':null}
-                            size={this.props.widget === 'button'?(this.props.size || 'md'):null}
+                {['button', 'icon'].indexOf(this.props.variant) > -1?(
+                    <Button variant={this.props.variant === 'icon'?'icon':null}
+                            size={this.props.variant === 'button'?(this.props.size || 'md'):null}
                             onClick={this.onUpload.bind(this)}>
-                        <Icon name={this.props.icon || (this.props.widget === 'icon'?'add':'upload')}
-                              size={this.props.widget === 'icon'?(this.props.size || 'md'):null}/>
-                        {this.props.widget === 'button'?' Upload':''}
+                        <Icon name={this.props.icon || (this.props.variant === 'icon'?'add':'upload')}
+                              size={this.props.variant === 'icon'?(this.props.size || 'md'):null}/>
+                        {this.props.variant === 'button'?' Upload':''}
                     </Button>
 
                 ):null}
