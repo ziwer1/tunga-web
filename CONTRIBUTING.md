@@ -82,10 +82,11 @@ The designs will be delivered to you via [Zeplin](https://zeplin.io/) or [Invisi
 
 You can ask @bartleijssenaar to give you access.
 
-# Data Dictionary and API docs
+## Data Dictionary and API docs
 You can find information about entities, their corresponding attributes and related endpoints from our Data dictionary documentation here: http://resources.tunga.io/docs/data-dictionary
 
-# Available public resources
+## Available public resources
+You can find links to all our available public resource here: http://resources.tunga.io/
 
 
 Thank you for contributing!
