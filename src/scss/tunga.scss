@@ -135,12 +135,38 @@ body {
     @include button-size(0, 0, $font-size-normal, $line-height-base, 0);
 }
 
+.btn-choice {
+    color: get-color('black');
+    background-color: transparent;
+    @include padding-x(px-to-rem(12));
+    border-bottom: 2px #e1e1e1 solid;
+    border-radius: 0;
+    box-shadow: none;
+
+    &.active {
+        border-bottom-color: $brand-color;
+        box-shadow: none;
+    }
+}
+
 .btn-xl {
     @include button-size($input-btn-padding-y-xl, $input-btn-padding-x-xl, $font-size-xl, $line-height-xl, $border-radius-lg);
 }
 
 .btn-xxl {
     @include button-size($input-btn-padding-y-xxl, $input-btn-padding-x-xxl, $font-size-xxl, $line-height-xxl, $border-radius-lg);
+}
+
+.btn-group {
+    &.choice-group {
+        .btn {
+            box-shadow: none !important;
+
+            &.btn-choice {
+                margin-right: px-to-rem(10);
+            }
+        }
+    }
 }
 
 // Input

@@ -27,6 +27,7 @@ $font-weight-medium: 500;
 // Bootstrap overrides
 $theme-colors: (
     "primary": $brand-color,
+    "secondary": get-color('dark-grey')
 );
 
 $font-size-normal: px-to-rem(14);

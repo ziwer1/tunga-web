@@ -4,6 +4,7 @@ import jsxToString from 'jsx-to-string';
 import _ from 'lodash';
 import {DateTimePicker, Calendar} from 'react-widgets';
 import moment from "moment/moment";
+import momentLocalizer from "react-widgets/lib/localizers/moment";
 
 import Icon from '../../components/core/Icon';
 import Button from '../../components/core/Button';
@@ -11,13 +12,13 @@ import Input from '../../components/core/Input';
 import InputGroup from '../../components/core/InputGroup';
 import CustomInputGroup from '../../components/core/CustomInputGroup';
 import TextArea from '../../components/core/TextArea';
-import Avatar from '../../components/core/Avatar';
 import Upload from '../../components/core/Upload';
-import momentLocalizer from "react-widgets/lib/localizers/moment";
-
-let avatarUrl = require('../images/deadpool.jpg');
+import ChoiceGroup from '../../components/core/ChoiceGroup';
+import Avatar from '../../components/core/Avatar';
 
 momentLocalizer(moment);
+
+let avatarUrl = require('../images/deadpool.jpg');
 
 export default class StyleGuide extends React.Component {
 
@@ -207,7 +208,7 @@ export default class StyleGuide extends React.Component {
                                 Checkout <a target="_blank" href="http://resources.tunga.io/tunga-assets/icons/latest/demo.html">http://resources.tunga.io/tunga-assets/icons/latest/demo.html</a> for a list of all available icons and their name.
 
                                 <div>
-                                    <blockquote>NOTE: </blockquote> Our custom <code>&lt;Icon&gt;</code> component takes an abbreviated name of the icon.
+                                    <strong>NOTE: </strong> Our custom <code>&lt;Icon&gt;</code> component takes an abbreviated name of the icon.
                                     e.g <code>check</code> instead of <code>tg-ic-check</code> or <code>search</code> instead <code>tg-ic-search</code>
                                 </div>
                             </div>
@@ -266,9 +267,9 @@ export default class StyleGuide extends React.Component {
                                 [null, 'Large', {size: 'lg'}],
                                 [null, 'Extra Large', {size: 'xl'}],
                                 [null, 'Extra Extra Large', {size: 'xxl'}],
-                                'negative',
+                                'secondary',
                                 'skill',
-                                'outline-primary', 'outline-negative'
+                                'outline-primary', 'outline-secondary'
                             ].map(button => {
                                 let buttonProps = {},
                                     buttonName = button,
@@ -423,6 +424,41 @@ export default class StyleGuide extends React.Component {
                                     </div>
                                 );
                             })}
+
+                            {[
+                                [null, 'Choice Group'],
+                                ['primary', 'Choice Group Primary'],
+                                ['outline-primary', 'Choice Group Outline Primary'],
+                                ['secondary', 'Choice Group Secondary'],
+                                ['outline-secondary', 'Choice Outline Group Secondary'],
+                            ].map(input => {
+                                let inputProps = {};
+
+                                if(input[0]) {
+                                    inputProps.variant = input[0];
+                                }
+
+                                if(input[2]) {
+                                    inputProps = {...inputProps, ...input[2]};
+                                }
+
+                                let choices = [
+                                    [1, 'One'],
+                                    [2, 'Two'],
+                                    [3, 'Three']
+                                ];
+
+                                return (
+                                    <div>
+                                        <h4>{input[1]}</h4>
+                                        {this.renderAndDocument(
+                                            <ChoiceGroup {...inputProps}
+                                                         choices={choices} selected={2}/>,
+                                            false, 'ChoiceGroup'
+                                        )}
+                                    </div>
+                                );
+                            })}
                         </div>
 
                         <div className="section detailed">
@@ -437,6 +473,7 @@ export default class StyleGuide extends React.Component {
                                 ['xxl', avatarUrl, 'Extra Extra Large (120px)'],
                                 [null, null, 'Missing Image'],
                                 [null, avatarUrl, 'Notification Badge', {badge: 5}],
+                                [null, avatarUrl, 'Title', {title: 'Deadpool'}],
                             ].map(avatar => {
                                 let avatarProps = {};
                                 if(avatar[0]) {
