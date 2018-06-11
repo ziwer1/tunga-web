@@ -1,5 +1,21 @@
 @import "./tunga";
 
+nav {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-normal;
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        position: fixed;
+
+        a {
+            color: $brand-color;
+        }
+    }
+}
+
 @mixin sub-section {
     margin-bottom: 20px;
 
