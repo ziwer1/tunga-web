@@ -105,3 +105,7 @@ export const TUNGA_DOMAINS = [
 export function isTungaDomain() {
     return TUNGA_DOMAINS.indexOf(window.location.hostname) > -1;
 }
+
+export function proxySafeUrl(path) {
+    return `${isTungaDomain()?'':'/tunga'}${path}`;
+}
