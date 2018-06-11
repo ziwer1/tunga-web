@@ -427,7 +427,9 @@ export default class StyleGuide extends React.Component {
 
                             {[
                                 [null, 'Choice Group'],
-                                ['primary', 'Choice Group Primary'],
+                                ['primary', 'Choice Group Primary Small', {size: 'sm'}],
+                                ['primary', 'Choice Group Primary Default'],
+                                ['primary', 'Choice Group Primary Large', {size: 'lg'}],
                                 ['outline-primary', 'Choice Group Outline Primary'],
                                 ['secondary', 'Choice Group Secondary'],
                                 ['outline-secondary', 'Choice Outline Group Secondary'],

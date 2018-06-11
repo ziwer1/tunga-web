@@ -43,7 +43,11 @@ export default class ChoiceGroup extends React.Component {
             <div className={`btn-group choice-group ${this.props.className || ''}`}>
                 {this.props.choices.map(choice => {
                     return (
-                        <Button variant={this.props.variant || 'choice'} className={`${this.state.selected === choice[0]?'active':''}`} {...filterEventProps(this.props)} onClick={this.onChange.bind(this, choice[0])}>{choice[1]}</Button>
+                        <Button variant={this.props.variant || 'choice'}
+                                size={this.props.size}
+                                className={`${this.state.selected === choice[0]?'active':''}`}
+                                {...filterEventProps(this.props)}
+                                onClick={this.onChange.bind(this, choice[0])}>{choice[1]}</Button>
                     );
                 })}
             </div>

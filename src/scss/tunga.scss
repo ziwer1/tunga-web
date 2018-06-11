@@ -115,14 +115,6 @@ body {
 }
 
 // Buttons
-.btn-negative {
-    @include button-variant(get-color('dark-grey'), get-color('dark-grey'));
-}
-
-.btn-outline-negative {
-    @include button-outline-variant(get-color('dark-grey'), get-color('white'));
-}
-
 .btn-skill {
     @include button-variant($brand-color, $brand-color);
     @include button-size($input-btn-padding-y-sm, $input-btn-padding-x-sm, $font-size-sm, $line-height-sm, $btn-border-radius-sm);
