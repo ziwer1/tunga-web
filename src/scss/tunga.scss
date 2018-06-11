@@ -145,25 +145,40 @@ body {
 
 // Input
 .input-group {
+    border-radius: $input-border-radius;
+
+    &.state-focus {
+        box-shadow: 0 0 0 .2rem rgba(0, 158, 255, 0.3);
+    }
+
     .input-group-text {
-        @include padding-y(px-to-rem(12));
+        @include padding(px-to-rem(12));
+    }
+
+    .form-control {
+        box-shadow: none;
+
+        &:first-child {
+            padding-right: px-to-rem(6);
+        }
+
+        &:last-child {
+            padding-left: px-to-rem(6);
+        }
     }
 
     .btn {
         @include padding-y(px-to-rem(6));
         background-color: $input-bg;
-    }
-
-    .form-control:first-child {
-        padding-right: px-to-rem(12);
-    }
-
-    .form-control:last-child {
-        padding-left: px-to-rem(12);
+        box-shadow: none;
     }
 
     &.input-search {
         max-width: 220px;
+
+        &.state-focus {
+            box-shadow: none;
+        }
 
         &.input-search-branded {
             .input-group-text, .form-control {
@@ -303,6 +318,11 @@ body {
 .rw-widget {
     border-radius: 5px;
     border-width: 0 !important;
+    box-shadow: 0 2px 4px 0 rgba(204, 204, 204, 0.5);
+
+    &.rw-state-focus {
+        box-shadow: 0 0 0 .2rem rgba(0, 158, 255, 0.3) !important;
+    }
 
     input {
         background-color: get-color('light-grey');

@@ -20,9 +20,18 @@ export default class InputGroup extends React.Component {
         isAppendText: true
     };
 
+    constructor(props) {
+        super(props);
+        this.state = {focus: false};
+    }
+
+    onChangeFocus(focus) {
+        this.setState({focus});
+    }
+
     render() {
         return (
-            <div className={`input-group ${this.props.className || ''}`}>
+            <div className={`input-group ${this.props.className || ''} ${this.state.focus?'state-focus':''}`}>
                 {this.props.prepend?(
                     <span className="input-group-prepend">
                         {this.props.isPrependText?(
@@ -38,7 +47,10 @@ export default class InputGroup extends React.Component {
                     type={this.props.type}
                     className="form-control"
                     size={this.props.size}
-                    placeholder={this.props.placeholder} {...filterEventProps(this.props)}/>
+                    placeholder={this.props.placeholder}
+                    {...filterEventProps(this.props)}
+                    onFocus={this.onChangeFocus.bind(this, true)}
+                    onBlur={this.onChangeFocus.bind(this, false)}/>
                 {this.props.append?(
                     <span className="input-group-prepend">
                         {this.props.isAppendText?(
