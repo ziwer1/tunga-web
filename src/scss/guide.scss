@@ -1,6 +1,10 @@
 @import "./tunga";
 
-nav {
+body {
+    padding-top: 70px;
+}
+
+nav#side-nav {
     font-size: $font-size-lg;
     font-weight: $font-weight-normal;
 

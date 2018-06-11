@@ -168,6 +168,7 @@ body {
 // Input
 .input-group {
     border-radius: $input-border-radius;
+    box-shadow: $input-box-shadow;
 
     &.state-focus {
         box-shadow: 0 0 0 .2rem rgba(0, 158, 255, 0.3);
@@ -197,6 +198,7 @@ body {
 
     &.input-search {
         max-width: 220px;
+        box-shadow: none;
 
         &.state-focus {
             box-shadow: none;
@@ -340,7 +342,7 @@ body {
 .rw-widget {
     border-radius: 5px;
     border-width: 0 !important;
-    box-shadow: 0 2px 4px 0 rgba(204, 204, 204, 0.5);
+    box-shadow: $input-box-shadow;
 
     &.rw-state-focus {
         box-shadow: 0 0 0 .2rem rgba(0, 158, 255, 0.3) !important;
@@ -403,14 +405,13 @@ body {
 }
 
 // Uploads
-
 .upload-input {
     .dropzone {
         display: flex;
         flex-direction: row;
         align-items: center;
         text-align: center;
-        min-height: 200px;
+        min-height: 130px;
         border: 2px dashed get-color('dark-grey');
         padding: 20px;
         margin: 5px auto 10px;
@@ -441,7 +442,7 @@ body {
         }
 
         .help {
-            margin-top: 20px;
+            margin-top: 10px;
         }
     }
 
@@ -464,6 +465,83 @@ body {
                 &:hover, &:focus, &:active {
                     color: $brand-color;
                     outline: none;
+                }
+            }
+        }
+    }
+}
+
+// Navbar
+.navbar {
+    @include padding-y(0);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+
+    .navbar-brand {
+        color: get-color('white');
+        margin: 0;
+        padding: 0;
+
+        img {
+            height: 50px;
+        }
+    }
+
+    .navbar-nav {
+        .input-search {
+            @include padding-y(px-to-rem(10));
+        }
+
+        > li {
+            > a {
+                color: get-color('white');
+                background-color: $brand-color;
+                line-height: 50px;
+                @include padding-x(px-to-rem(10));
+
+                &:hover, &:focus {
+                    text-decoration: none;
+                }
+
+                .caret {
+                    margin-left: 5px;
+                }
+            }
+
+            .dropdown-menu {
+                min-width: 190px;
+                left: auto;
+                right: 0;
+                margin-top: 0;
+                @include padding-y(0);
+                box-shadow: 0 2px 4px 0 rgba(204, 204, 204, 0.5);
+
+                &.dropdown-account {
+                    min-width: 100px;
+
+                    > li > a,
+                    > li > a:hover,
+                    > li > a:active {
+                        color: get-color('black');
+                        @include padding-y(px-to-rem(10));
+                        @include padding-x(px-to-rem(14));
+
+                        &:hover, &:focus {
+                            color: $brand-color;
+                        }
+                    }
+                }
+
+                > li > a,
+                > li > a:hover,
+                > li > a:active {
+                    display: block;
+                    color: $brand-color;
+                    @include padding-y(px-to-rem(5));
+                    @include padding-x(px-to-rem(10));
+
+                    &:hover, &:focus {
+                        text-decoration: none;
+                    }
                 }
             }
         }
