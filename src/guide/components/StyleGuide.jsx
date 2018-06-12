@@ -107,7 +107,7 @@ export default class StyleGuide extends React.Component {
                                 {[
                                     ['black', '#444'],
                                     ['white', '#fff'],
-                                    ['pink', '#ee1f54'],
+                                    ['pink', '#ed134d'],
                                     ['lightest-grey', '#fafafa'],
                                     ['light-grey', '#f8f8f8'],
                                     ['dark-grey', '#888'],
