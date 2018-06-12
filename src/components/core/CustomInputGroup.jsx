@@ -70,7 +70,16 @@ export default class CustomInputGroup extends React.Component {
     }
 
     getProperties() {
-        return {...(CUSTOM_INPUTS[this.props.variant] || {}), ...this.cleanProps()}
+        let variantProps = CUSTOM_INPUTS[this.props.variant] || {},
+            overrideProps = this.cleanProps();
+
+        return {
+            ...variantProps,
+            ...overrideProps,
+            ...{
+                className: `${variantProps.className || ''} ${overrideProps.className || ''}`
+            }
+        }
     }
 
     render() {
