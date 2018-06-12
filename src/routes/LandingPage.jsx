@@ -9,7 +9,7 @@ import ComponentWithModal from '../components/ComponentWithModal';
 import MetaTags from '../components/MetaTags';
 import SectionHeading from '../components/SectionHeading';
 
-import {openCalendlyWidget, showCallWidget} from '../utils/router';
+import {openCalendlyWidget, proxySafeUrl, showCallWidget} from '../utils/router';
 import {TESTIMONIALS} from '../constants/data';
 
 let overlayTimer = null;
@@ -208,7 +208,7 @@ export default class LandingPage extends ComponentWithModal {
                             Need an app or website? We can build software for
                             you on-demand and turn-key.
                             <Link
-                                to="/effortless-software-projects">
+                                to={proxySafeUrl('/effortless-software-projects')}>
                                 find out more
                             </Link>
                         </div>
@@ -222,7 +222,7 @@ export default class LandingPage extends ComponentWithModal {
                             Use Tunga to quickly mobilize developers. Parttime
                             or fulltime. Individuals or entire teams.
                             <Link
-                                to="/dedicated-developers">
+                                to={proxySafeUrl('/dedicated-developers')}>
                                 find out more
                             </Link>
                         </div>
@@ -236,7 +236,7 @@ export default class LandingPage extends ComponentWithModal {
                             Tap into our network of top African software
                             programmers to reinforce your own tech team.
                             <Link
-                                to="/it-recruitment">
+                                to={proxySafeUrl('/it-recruitment')}>
                                 find out more
                             </Link>
                         </div>

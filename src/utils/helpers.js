@@ -19,6 +19,18 @@ export function truncateWords(sentence, number = 25) {
     return all_words.splice(0, number).join(' ') + (has_more ? ' ...' : '');
 }
 
+export function safeParseJSON(data) {
+    let json = data;
+    if(typeof json === 'string') {
+        try {
+            json = JSON.parse(json);
+        } catch (e) {
+            console.error('Failed to parse JSON');
+        }
+    }
+    return json;
+}
+
 export function getItemsList(ids, itemsMap) {
     if (Array.isArray(ids) && ids.length) {
         return ids.map(id => {

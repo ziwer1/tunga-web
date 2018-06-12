@@ -4,14 +4,15 @@ import {PATH_CHANGE} from '../actions/NavActions';
 import {LOGOUT_SUCCESS} from '../actions/AuthActions';
 import {CLEAR_VALIDATIONS} from '../actions/UtilityActions';
 import {getIds} from '../utils/reducers';
+import {safeParseJSON} from '../utils/helpers';
 
 function skill_page(state = {}, action) {
     switch (action.type) {
         case SkillPageActions.CREATE_SKILL_PAGE_SUCCESS:
         case SkillPageActions.RETRIEVE_SKILL_PAGE_SUCCESS:
-            return action.skill_page;
+            return safeParseJSON(action.skill_page);
         case SkillPageActions.UPDATE_SKILL_PAGE_SUCCESS:
-            return {...state, ...action.skill_page};
+            return {...state, ...safeParseJSON(action.skill_page)};
         case SkillPageActions.DELETE_SKILL_PAGE_SUCCESS:
         case SkillPageActions.RETRIEVE_SKILL_PAGE_START:
         case SkillPageActions.RETRIEVE_SKILL_PAGE_FAILED:

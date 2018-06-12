@@ -5,13 +5,13 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken';
 axios.defaults.withCredentials = true;
 
 let BACKEND_PATH =
-    __BACKEND_ROOT_URL__ || (__PRODUCTION__ ? '/' : 'http://sandbox.tunga.io/');
+    __BACKEND_ROOT_URL__ || (__PRODUCTION__ ? (/butterflyworks\.org/ig.test(window.location.hostname)?'https://tunga.io/':'/') : 'http://sandbox.tunga.io/');
 let API_PATH = 'api/';
 let SOCIAL_LOGIN_PATH = 'accounts/social/';
 
-export const API_ROOT = BACKEND_PATH + API_PATH;
+export const API_ROOT = `${BACKEND_PATH}${API_PATH}`;
 
-export const SOCIAL_LOGIN_PREFIX = BACKEND_PATH + SOCIAL_LOGIN_PATH;
+export const SOCIAL_LOGIN_PREFIX = `${BACKEND_PATH}${SOCIAL_LOGIN_PATH}`;
 
 function createSocialLoginUrl(provider) {
     return SOCIAL_LOGIN_PREFIX + provider + '/';

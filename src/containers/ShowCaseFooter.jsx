@@ -11,7 +11,8 @@ import FieldError from '../components/status/FieldError';
 
 import * as UtilityActions from '../actions/UtilityActions';
 
-import {openCalendlyWidget} from '../utils/router';
+import {openCalendlyWidget, proxySafeUrl} from '../utils/router';
+import {safeParseJSON} from "../utils/helpers";
 
 class ShowCaseFooter extends React.Component {
     componentDidMount() {
@@ -240,10 +241,10 @@ class ShowCaseFooter extends React.Component {
                                 <h4>Top Pages</h4>
                                 <ul>
                                     <li>
-                                        <a href="/pricing">Pricing</a>
+                                        <a href={safeParseJSON('/pricing')}>Pricing</a>
                                     </li>
                                     <li>
-                                        <a href="/story">Our Story</a>
+                                        <a href={safeParseJSON('/our-story')}>Our Story</a>
                                     </li>
                                     <li>
                                         <a href="https://blog.tunga.io/" target="_blank">
@@ -251,22 +252,22 @@ class ShowCaseFooter extends React.Component {
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="/effortless-software-projects">Effortless Software projects</a>
+                                        <a href={safeParseJSON('/effortless-software-projects')}>Effortless Software projects</a>
                                     </li>
                                     <li>
-                                        <a href="/dedicated-developers">Dedicated Developers</a>
+                                        <a href={safeParseJSON('/dedicated-developers')}>Dedicated Developers</a>
                                     </li>
                                     <li>
-                                        <a href="/IT-recruitment">Recruitment Services</a>
+                                        <a href={safeParseJSON('/IT-recruitment')}>Recruitment Services</a>
                                     </li>
                                     <li>
-                                        <a href="/hire-ios-developers">iOS Developers</a>
+                                        <a href={safeParseJSON('/hire-ios-developers')}>iOS Developers</a>
                                     </li>
                                     <li>
-                                        <a href="/african-software-developers">African Developers</a>
+                                        <a href={safeParseJSON('/african-software-developers')}>African Developers</a>
                                     </li>
                                     <li>
-                                        <a href="/remote-developers">Remote Teams</a>
+                                        <a href={safeParseJSON('/remote-developers')}>Remote Teams</a>
                                     </li>
                                 </ul>
                             </div>
