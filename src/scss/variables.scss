@@ -54,6 +54,7 @@ $input-btn-padding-x-xxl: px-to-rem(35);
 $input-bg: get-color('light-grey');
 $input-border-width: 0;
 $input-box-shadow: 0 2px 4px 0 rgba(204, 204, 204, 0.5);
+$input-focus-box-shadow: 0 0 0 .2rem rgba(0, 158, 255, 0.3);
 
 $btn-box-shadow: 2px 2px 3px 0 rgba(68, 68, 68, 0.8);
 
