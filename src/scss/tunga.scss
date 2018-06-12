@@ -515,7 +515,7 @@ body {
                 @include padding-y(0);
                 box-shadow: 0 2px 4px 0 rgba(204, 204, 204, 0.5);
 
-                &.dropdown-account {
+                &.dropdown-menu-account {
                     min-width: 100px;
 
                     > li > a,
@@ -527,6 +527,7 @@ body {
 
                         &:hover, &:focus {
                             color: $brand-color;
+                            background-color: get-color('white');
                         }
                     }
                 }
@@ -541,6 +542,8 @@ body {
 
                     &:hover, &:focus {
                         text-decoration: none;
+                        color: get-color('white');
+                        background-color: $brand-color;
                     }
                 }
             }

@@ -77,7 +77,7 @@ export default class NavBar extends React.Component {
                                         </ul>
                                     </li>
                                 ) : null}
-                                <li className="nav-item dropdown dropdown-account">
+                                <li className="nav-item dropdown">
                                     <a
                                         href="#"
                                         className="dropdown-toggle"
@@ -87,7 +87,7 @@ export default class NavBar extends React.Component {
                                         aria-expanded="false">
                                         {user.display_name} <span className="caret"/> <Avatar image={user.avatar_url} />
                                     </a>
-                                    <ul className="dropdown-menu">
+                                    <ul className="dropdown-menu dropdown-menu-account">
                                         <li>
                                             <Link to="#" onClick={this.onSignOut.bind(this)}>
                                                 <Icon name="logout" size="navbar"/> Sign Out
