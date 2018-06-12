@@ -15,6 +15,7 @@ import Upload from '../../components/core/Upload';
 import ChoiceGroup from '../../components/core/ChoiceGroup';
 import Avatar from '../../components/core/Avatar';
 import NavBar from '../../components/core/NavBar';
+import SideBar from '../../components/core/SideBar';
 
 momentLocalizer(moment);
 
@@ -206,12 +207,26 @@ export default class StyleGuide extends React.Component {
                             <div className="section detailed">
                                 <h2 id="idNavigation">Navigation</h2>
 
+                                {[
+                                    ['Navbar', false],
+                                    ['Navbar for Admins', true]
+                                ].map(navbar => {
+                                    return (
+                                        <div className="sub-section">
+                                            <h4>{navbar[0]}</h4>
+                                            {this.renderAndDocument(
+                                                <NavBar user={{is_admin: navbar[1], display_name: 'DeadPool', avatar_url: avatarUrl}}/>,
+                                                false, 'NavBar'
+                                            )}
+                                        </div>
+                                    );
+                                })}
+
                                 <div className="sub-section">
-                                    <h4>Navbar</h4>
+                                    <h4>Sidebar</h4>
                                     {this.renderAndDocument(
-                                        <NavBar fixed={false} user={{is_admin: true, display_name: 'DeadPool', avatar_url: avatarUrl}}/>,
-                                        false, 'NavBar',
-                                        <div><strong>NOTE: </strong><code>fixed</code> is <code>true</code> by default.</div>
+                                        <SideBar/>,
+                                        false, 'SideBar'
                                     )}
                                 </div>
                             </div>

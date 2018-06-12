@@ -11,12 +11,10 @@ export default class NavBar extends React.Component {
         className: React.PropTypes.string,
         user: React.PropTypes.object,
         onSignOut: React.PropTypes.func,
-        fixed: React.PropTypes.boolean,
         breakpoint: React.PropTypes.boolean,
     };
 
     static defaultProps = {
-        fixed: true,
         breakpoint: 'lg',
     };
 
@@ -34,7 +32,7 @@ export default class NavBar extends React.Component {
 
         return (
             <div>
-                <nav className={`navbar navbar-expand-${this.props.breakpoint || 'lg'} ${this.props.fixed?'fixed-top':''} navbar-dark bg-primary ${this.props.className || ''}`}>
+                <nav className={`navbar navbar-expand-${this.props.breakpoint || 'lg'} fixed-top navbar-dark bg-primary ${this.props.className || ''}`}>
                     <Link to="/" className="navbar-brand">
                         <img src={require('../../images/logo.png')} />
                     </Link>

@@ -60,6 +60,14 @@ nav#side-nav {
             margin-bottom: 10px;
         }
     }
+
+    .navbar.fixed-top {
+        position: static !important; // undo navbar fixing
+    }
+
+    .sidebar {
+        position: static !important; // undo sidebar fixing
+    }
 }
 
 .color {
