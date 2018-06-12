@@ -81,7 +81,10 @@ export default class StyleGuide extends React.Component {
                                     'Colors', 'Typography', 'Navigation',
                                     ['Icons', 'Icon Sizes'],
                                     'Buttons',
-                                    ['Inputs', 'Input Widgets'],
+                                    ['Inputs', 'Text Input'],
+                                    ['DateTime', 'DateTime Input'],
+                                    ['Uploads', 'File Uploads'],
+                                    ['Choices', 'Choice Input'],
                                     'Avatars'
                                 ].map((section, idx) => {
                                     let sectionId = section,
@@ -238,7 +241,7 @@ export default class StyleGuide extends React.Component {
                                     Checkout <a target="_blank" href="http://resources.tunga.io/tunga-assets/icons/latest/demo.html">http://resources.tunga.io/tunga-assets/icons/latest/demo.html</a> for a list of all available icons and their name.
 
                                     <div>
-                                        <strong>NOTE: </strong> Our custom <code>&lt;Icon&gt;</code> component takes an abbreviated name of the icon.
+                                        <strong>NOTE: </strong> Our custom <code>&lt;Icon&gt;</code> component takes an abbreviated name for the icon.
                                         e.g <code>check</code> instead of <code>tg-ic-check</code> or <code>search</code> instead <code>tg-ic-search</code>
                                     </div>
                                 </div>
@@ -402,7 +405,14 @@ export default class StyleGuide extends React.Component {
                                 <div>
                                     <code>&lt;DateTimePicker&gt;</code> and <code>&lt;Calendar&gt;</code> components are from the thirdparty <a target="_blank" href="https://jquense.github.io/react-widgets/api/DateTimePicker/">React Widgets</a> library.
                                 </div>
+                            </div>
 
+                            <div className="section detailed">
+                                <h2 id="id"></h2>
+                            </div>
+
+                            <div className="section detailed">
+                                <h2 id="idDateTime">DateTime Input</h2>
                                 {[
                                     ['DateTimePicker', true, true],
                                     ['DatePicker', true, false],
@@ -425,17 +435,23 @@ export default class StyleGuide extends React.Component {
                                         <Calendar/>, false, 'Calendar'
                                     )}
                                 </div>
+                            </div>
 
+                            <div className="section detailed">
+                                <h2 id="idUploads">File Uploads</h2>
                                 {[
                                     [null, 'Upload'],
-                                    [null, 'Multiple File Upload', {multiple: true}],
                                     ['image', 'Image Upload'],
-                                    ['image', 'Multiple Image Upload', {multiple: true}],
-                                    [null, 'Upload Button Small', {variant: 'button', size: 'sm'}],
                                     [null, 'Upload Button', {variant: 'button'}],
-                                    [null, 'Upload Button Large', {variant: 'button', size: 'lg'}],
                                     [null, 'Upload Icon', {variant: 'icon'}],
+                                    [null, 'Upload Button Small', {variant: 'button', size: 'sm'}],
+                                    [null, 'Upload Button Large', {variant: 'button', size: 'lg'}],
                                     [null, 'Upload Icon Large', {variant: 'icon', size: 'lg'}],
+                                    [null, 'Multiple File Upload', {multiple: true}],
+                                    ['image', 'Multiple Image Upload', {multiple: true}],
+                                    ['image', 'Upload (with custom placeholder)', {placeholder: <Icon name="avatar" size="xl"/>}],
+                                    [null, 'Upload (with custom instructions)', {instructions: 'Drag and drop or click and upload'}],
+                                    [null, 'Upload (with no instructions)', {instructions: false}],
                                 ].map(upload => {
                                     let uploadProps = {};
                                     if(upload[0]) {
@@ -454,7 +470,10 @@ export default class StyleGuide extends React.Component {
                                         </div>
                                     );
                                 })}
+                            </div>
 
+                            <div className="section detailed">
+                                <h2 id="idChoices">Choice Input</h2>
                                 {[
                                     [null, 'Choice Group'],
                                     ['primary', 'Choice Group Primary Small', {size: 'sm'}],

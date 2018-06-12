@@ -7,8 +7,8 @@ import {filterEventProps} from "./utils";
 export default class ChoiceGroup extends React.Component {
     static propTypes = {
         className: React.PropTypes.string,
-        choices: React.PropTypes.array.required,
-        selected: React.PropTypes.string,
+        choices: React.PropTypes.array,
+        selected: React.PropTypes.any,
         onChange: React.PropTypes.func,
         type: React.PropTypes.string,
         variant: React.PropTypes.string,

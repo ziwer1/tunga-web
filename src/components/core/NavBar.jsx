@@ -11,7 +11,7 @@ export default class NavBar extends React.Component {
         className: React.PropTypes.string,
         user: React.PropTypes.object,
         onSignOut: React.PropTypes.func,
-        breakpoint: React.PropTypes.boolean,
+        breakpoint: React.PropTypes.string,
     };
 
     static defaultProps = {

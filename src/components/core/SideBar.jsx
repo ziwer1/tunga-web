@@ -17,7 +17,7 @@ export default class SideBar extends React.Component {
                         ['settings', 'Settings', 'tools']
                     ].map((item, idx) => {
                         return (
-                            <li className={`dashboard-${idx}`}>
+                            <li key={`dashboard-${idx}`}>
                                 <Link to={`/${item[0]}`} activeClassName="active">
                                     <Icon name={item[2]} size="sidebar"/>
                                     <span>{item[1]}</span>

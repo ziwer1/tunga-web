@@ -17,8 +17,9 @@ export default class Upload extends React.Component {
         variant: React.PropTypes.string,
         type: React.PropTypes.string,
         className: React.PropTypes.string,
-        placeholder: React.PropTypes.string,
-        multiple: React.PropTypes.object,
+        placeholder: React.PropTypes.object,
+        instructions: React.PropTypes.any,
+        multiple: React.PropTypes.bool,
         onChange: React.PropTypes.func,
         size: React.PropTypes.string,
         max: React.PropTypes.number,
@@ -101,12 +102,12 @@ export default class Upload extends React.Component {
                                 </div>
                             );
                         }):(
-                            <i className="tg-ic-upload"/>
+                            this.props.placeholder || <i className="tg-ic-upload"/>
                         )}
 
-                        {(!this.props.multiple && this.state.files.length === 0) || (this.props.multiple && (this.state.files.length < this.props.max || this.props.max === 0))?(
+                        {((typeof this.props.instructions !== 'boolean' || this.props.instructions) && (!this.props.multiple && this.state.files.length === 0) || (this.props.multiple && (this.state.files.length < this.props.max || this.props.max === 0)))?(
                             <div className="help">
-                                Drop {this.props.type || 'file'}{this.props.multiple?'s':''} here or click to select from your device.
+                                {this.props.instructions || `Drop ${this.props.type || 'file'}${this.props.multiple?'s':''} here or click to select from your device.`}
                             </div>
                         ):null}
                     </div>
