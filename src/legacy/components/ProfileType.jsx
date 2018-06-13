@@ -4,16 +4,11 @@ import FieldError from './status/FieldError';
 import {USER_TYPE_CHOICES} from '../constants/Api';
 
 export default class Profile extends React.Component {
-    constructor(props) {
-        super(props);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
     componentDidMount() {
         this.props.ProfileActions.retrieveProfile();
     }
 
-    handleSubmit(e) {
+    handleSubmit = e => {
         e.preventDefault();
         var first_name = this.refs.first_name.value.trim();
         var last_name = this.refs.last_name.value.trim();
@@ -24,7 +19,7 @@ export default class Profile extends React.Component {
         const {ProfileActions} = this.props;
         ProfileActions.updateAuthUser({first_name, last_name, type});
         return;
-    }
+    };
 
     render() {
         const {Auth, Profile} = this.props;

@@ -17,7 +17,6 @@ export default class ProfileForm extends React.Component {
             country_code: null,
             overrideErrors: false,
         };
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
@@ -84,7 +83,7 @@ export default class ProfileForm extends React.Component {
         });
     }
 
-    handleSubmit(e) {
+    handleSubmit = e => {
         e.preventDefault();
         const {Profile, ProfileActions} = this.props;
         const {profile} = Profile;
@@ -136,7 +135,7 @@ export default class ProfileForm extends React.Component {
 
         ProfileActions.updateProfile(Profile.profile.id, profile_info);
         return;
-    }
+    };
 
     render() {
         const {Auth, Profile} = this.props;

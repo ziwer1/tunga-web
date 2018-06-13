@@ -19,7 +19,6 @@ export default class ActivityForm extends React.Component {
             completed: false,
             ...(this.props.activity || {}),
         };
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
@@ -50,7 +49,7 @@ export default class ActivityForm extends React.Component {
         this.setState({completed: !this.state.completed});
     }
 
-    handleSubmit(e) {
+    handleSubmit = e => {
         e.preventDefault();
         var title = this.refs.title.value.trim();
         var hours = this.refs.hours.value.trim();
@@ -77,7 +76,7 @@ export default class ActivityForm extends React.Component {
         if (close) {
             close();
         }
-    }
+    };
 
     render() {
         const {selectUser, setStatus} = this.props;

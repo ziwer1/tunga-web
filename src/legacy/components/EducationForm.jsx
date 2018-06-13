@@ -8,7 +8,6 @@ export default class EducationForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {details: ''};
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
@@ -37,7 +36,7 @@ export default class EducationForm extends React.Component {
         this.setState(new_state);
     }
 
-    handleSubmit(e) {
+    handleSubmit = e => {
         e.preventDefault();
         var institution = this.refs.institution.value.trim();
         var award = this.refs.award.value.trim();
@@ -64,7 +63,7 @@ export default class EducationForm extends React.Component {
             ProfileActions.createEducation(education_info);
         }
         return;
-    }
+    };
 
     render() {
         const {Profile} = this.props;

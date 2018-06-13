@@ -21,7 +21,6 @@ export default class BlogForm extends ComponentWithModal {
             published: false,
             photo: null,
         };
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
@@ -67,7 +66,7 @@ export default class BlogForm extends ComponentWithModal {
         this.setState({body: JSON.stringify(content)});
     }
 
-    handleSubmit(e) {
+    handleSubmit = e => {
         if (e) {
             e.preventDefault();
         }
@@ -87,7 +86,7 @@ export default class BlogForm extends ComponentWithModal {
             BlogActions.createBlog(blog_info);
         }
         return;
-    }
+    };
 
     parseContent() {
         const blog = this.props.blog || {};

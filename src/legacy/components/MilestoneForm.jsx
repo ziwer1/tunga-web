@@ -12,7 +12,6 @@ export default class MilestoneForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {due_at: null, description: '', internal: false};
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
@@ -42,7 +41,7 @@ export default class MilestoneForm extends React.Component {
         });
     }
 
-    handleSubmit(e) {
+    handleSubmit = e => {
         e.preventDefault();
         var title = this.refs.title.value.trim();
         var description = this.state.description;
@@ -61,7 +60,7 @@ export default class MilestoneForm extends React.Component {
         if (this.props.close) {
             this.props.close();
         }
-    }
+    };
 
     render() {
         const milestone = this.props.milestone || {};

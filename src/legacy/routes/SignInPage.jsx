@@ -10,12 +10,7 @@ import ShowcaseContainer from '../containers/ShowcaseContainer';
 import MetaTags from '../components/MetaTags';
 
 class SignIn extends React.Component {
-    constructor(props) {
-        super(props);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    handleSubmit(e) {
+    handleSubmit = e => {
         e.preventDefault();
         var username = this.refs.username.value.trim();
         var password = this.refs.password.value.trim();
@@ -28,7 +23,7 @@ class SignIn extends React.Component {
             password,
         });
         return;
-    }
+    };
 
     renderHeaderContent() {
         const {Auth} = this.props;

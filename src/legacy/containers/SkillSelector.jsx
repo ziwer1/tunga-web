@@ -15,7 +15,6 @@ class SkillSelector extends React.Component {
             selection_key: props.selectionKey || randomstring.generate(),
             prev_key: null,
         };
-        this.handleSkillChange = this.handleSkillChange.bind(this);
         this.handleGetSuggestions = _.debounce(this.handleGetSuggestions, 250);
     }
 
@@ -67,7 +66,7 @@ class SkillSelector extends React.Component {
         }
     }
 
-    handleSkillChange(e) {
+    handleSkillChange = e => {
         const {SkillSelectionActions} = this.props;
         var skill = e.target.value;
         this.setState({skill: skill});
@@ -80,7 +79,7 @@ class SkillSelector extends React.Component {
             return;
         }
         this.handleGetSuggestions();
-    }
+    };
 
     handleGetSuggestions() {
         const {SkillSelectionActions} = this.props;

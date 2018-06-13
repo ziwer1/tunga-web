@@ -7,18 +7,13 @@ import ShowcaseContainer from './ShowcaseContainer';
 import connect from '../utils/connectors/AuthConnector';
 
 class PasswordReset extends React.Component {
-    constructor(props) {
-        super(props);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
     componentDidUpdate(prevProps, prevState) {
         if (this.props.Auth.isReset && !prevProps.Auth.isReset) {
             this.refs.reset_form.reset();
         }
     }
 
-    handleSubmit(e) {
+    handleSubmit = e => {
         e.preventDefault();
         var email = this.refs.email.value.trim();
         if (!email) {
@@ -27,7 +22,7 @@ class PasswordReset extends React.Component {
 
         this.props.AuthActions.resetPassword({email});
         return;
-    }
+    };
 
     renderHeaderContent() {
         const {Auth} = this.props;

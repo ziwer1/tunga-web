@@ -11,7 +11,6 @@ class Settings extends React.Component {
     constructor(props) {
         super(props);
         this.state = {switches: null, visibility: null};
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
@@ -27,7 +26,7 @@ class Settings extends React.Component {
         openCookieConsentPopUp();
     }
 
-    handleSubmit(e) {
+    handleSubmit = e => {
         e.preventDefault();
         var settings = {
             switches: this.state.switches,
@@ -38,7 +37,7 @@ class Settings extends React.Component {
 
         SettingsActions.updateSettings(settings);
         return;
-    }
+    };
 
     render() {
         const {Auth, Settings} = this.props;

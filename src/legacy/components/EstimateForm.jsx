@@ -33,7 +33,6 @@ export default class EstimateForm extends ComponentWithModal {
             start_date: null,
             end_date: null,
         };
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
@@ -137,7 +136,7 @@ export default class EstimateForm extends ComponentWithModal {
         }
     }
 
-    handleSubmit(e) {
+    handleSubmit = e => {
         e.preventDefault();
         var title = this.state.title;
         var introduction = this.state.introduction;
@@ -177,7 +176,7 @@ export default class EstimateForm extends ComponentWithModal {
             EstimateActions.createEstimate(estimate_info);
         }
         return;
-    }
+    };
 
     renderModalContent() {
         return (

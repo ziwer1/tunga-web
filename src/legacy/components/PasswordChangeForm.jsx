@@ -4,11 +4,6 @@ import FormStatus from './status/FormStatus';
 import FieldError from './status/FieldError';
 
 export default class PasswordChangeForm extends React.Component {
-    constructor(props) {
-        super(props);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
     componentDidUpdate(prevProps, prevState) {
         if (
             this.props.Profile.isSaved.security &&
@@ -18,7 +13,7 @@ export default class PasswordChangeForm extends React.Component {
         }
     }
 
-    handleSubmit(e) {
+    handleSubmit = e => {
         e.preventDefault();
         var old_password = this.refs.old_password.value.trim();
         var new_password1 = this.refs.new_password1.value.trim();
@@ -34,7 +29,7 @@ export default class PasswordChangeForm extends React.Component {
             new_password2,
         });
         return;
-    }
+    };
 
     render() {
         const {Auth, Profile} = this.props;

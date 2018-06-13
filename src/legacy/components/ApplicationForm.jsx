@@ -23,7 +23,6 @@ export default class ApplicationForm extends React.Component {
             agree_deadline: false,
             remarks: '',
         };
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
@@ -86,7 +85,7 @@ export default class ApplicationForm extends React.Component {
         this.setState({remarks: e.target.getContent()});
     }
 
-    handleSubmit(e) {
+    handleSubmit = e => {
         e.preventDefault();
         var pitch = this.state.pitch;
         var hours_needed = this.refs.hours_needed.value.trim() || null;
@@ -128,7 +127,7 @@ export default class ApplicationForm extends React.Component {
             errors,
         );
         return;
-    }
+    };
 
     render() {
         const {Task} = this.props;

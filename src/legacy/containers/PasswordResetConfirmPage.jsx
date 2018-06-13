@@ -7,11 +7,6 @@ import ShowcaseContainer from './ShowcaseContainer';
 import connect from '../utils/connectors/AuthConnector';
 
 class PasswordResetConfirm extends React.Component {
-    constructor(props) {
-        super(props);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
     componentDidUpdate(prevProps, prevState) {
         if (this.props.Auth.isReset && !prevProps.Auth.isReset) {
             this.refs.reset_confirm_form.reset();
@@ -25,7 +20,7 @@ class PasswordResetConfirm extends React.Component {
         }
     }
 
-    handleSubmit(e) {
+    handleSubmit = e => {
         e.preventDefault();
         var uid = this.props.params.uid;
         var token = this.props.params.token;
@@ -42,7 +37,7 @@ class PasswordResetConfirm extends React.Component {
             new_password2,
         });
         return;
-    }
+    };
 
     renderHeaderContent() {
         const {Auth} = this.props;

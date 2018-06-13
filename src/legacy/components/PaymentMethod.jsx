@@ -20,7 +20,6 @@ export default class PaymentMethod extends React.Component {
             payment_method: PAYMENT_METHOD_BTC_WALLET,
             country_code: null,
         };
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
@@ -47,7 +46,7 @@ export default class PaymentMethod extends React.Component {
         this.setState({country_code: country_code.id});
     }
 
-    handleSubmit(e) {
+    handleSubmit = e => {
         e.preventDefault();
 
         const {Profile, ProfileActions} = this.props;
@@ -69,7 +68,7 @@ export default class PaymentMethod extends React.Component {
             btc_address,
         });
         return;
-    }
+    };
 
     render() {
         const {Profile} = this.props;

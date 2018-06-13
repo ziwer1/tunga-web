@@ -4,16 +4,11 @@ import FormStatus from './status/FormStatus';
 import FieldError from './status/FieldError';
 
 export default class Profile extends React.Component {
-    constructor(props) {
-        super(props);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
     componentDidMount() {
         this.props.ProfileActions.retrieveProfile();
     }
 
-    handleSubmit(e) {
+    handleSubmit = e => {
         e.preventDefault();
         var first_name = this.refs.first_name.value.trim();
         var last_name = this.refs.last_name.value.trim();
@@ -27,7 +22,7 @@ export default class Profile extends React.Component {
             password,
         });
         return;
-    }
+    };
 
     render() {
         const {Auth, Profile} = this.props;

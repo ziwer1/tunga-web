@@ -8,7 +8,6 @@ export default class WorkForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {details: ''};
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
@@ -37,7 +36,7 @@ export default class WorkForm extends React.Component {
         this.setState(new_state);
     }
 
-    handleSubmit(e) {
+    handleSubmit = e => {
         e.preventDefault();
         var company = this.refs.company.value.trim();
         var position = this.refs.position.value.trim();
@@ -64,7 +63,7 @@ export default class WorkForm extends React.Component {
             ProfileActions.createWork(work_info);
         }
         return;
-    }
+    };
 
     render() {
         const {Profile} = this.props;

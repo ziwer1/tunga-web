@@ -16,19 +16,14 @@ import {initSideBarToggle} from '../utils/ui';
 import {isAuthenticated, isAdmin, getUser} from '../utils/auth';
 
 class NavBar extends React.Component {
-    constructor(props) {
-        super(props);
-        this.handleLogout = this.handleLogout.bind(this);
-    }
-
     componentDidMount() {
         initSideBarToggle();
     }
 
-    handleLogout(e) {
+    handleLogout = e => {
         e.preventDefault();
         this.props.AuthActions.logout();
-    }
+    };
 
     onSearch(query) {
         this.props.SearchActions.searchStart(query.search);

@@ -21,7 +21,6 @@ export default class Stack extends React.Component {
             reset: false,
             skill_categories: {},
         };
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentWillMount() {
@@ -86,7 +85,7 @@ export default class Stack extends React.Component {
         });
     }
 
-    handleSubmit(e) {
+    handleSubmit = e => {
         e.preventDefault();
         var website = this.refs.website ? this.refs.website.value.trim() : null;
         var bio = this.state.bio;
@@ -103,7 +102,7 @@ export default class Stack extends React.Component {
         var profile_info = {website, bio, skills, skill_categories};
         ProfileActions.updateProfile(Profile.profile.id, profile_info);
         return;
-    }
+    };
 
     handleAddWork(work = null) {
         this.setState({

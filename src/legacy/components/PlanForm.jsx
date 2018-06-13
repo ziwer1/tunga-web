@@ -10,7 +10,6 @@ export default class PlanForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {start_date: null, end_date: null, description: ''};
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
@@ -51,7 +50,7 @@ export default class PlanForm extends React.Component {
         });
     }
 
-    handleSubmit(e) {
+    handleSubmit = e => {
         e.preventDefault();
         var title = this.refs.title.value.trim();
         var start_date = this.state.start_date;
@@ -70,7 +69,7 @@ export default class PlanForm extends React.Component {
         if (this.props.close) {
             this.props.close();
         }
-    }
+    };
 
     render() {
         const activity = this.props.activity || {};

@@ -7,7 +7,6 @@ export default class ProfilePicture extends React.Component {
     constructor(props) {
         super(props);
         this.state = {photo: null};
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
@@ -31,7 +30,7 @@ export default class ProfilePicture extends React.Component {
         this.refs.dropzone.open();
     }
 
-    handleSubmit(e) {
+    handleSubmit = e => {
         e.preventDefault();
 
         const id_document = this.state.photo;
@@ -39,7 +38,7 @@ export default class ProfilePicture extends React.Component {
 
         ProfileActions.updateProfile(Profile.profile.id, {id_document});
         return;
-    }
+    };
 
     render() {
         const {Profile} = this.props;

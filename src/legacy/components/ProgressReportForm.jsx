@@ -47,7 +47,6 @@ export default class ProgressReportForm extends FormComponent {
     constructor(props) {
         super(props);
         this.state = defaultState;
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
@@ -187,7 +186,7 @@ export default class ProgressReportForm extends FormComponent {
         });
     }
 
-    handleSubmit(e) {
+    handleSubmit = e => {
         e.preventDefault();
         var status = this.state.status;
         var percentage = this.refs.percentage
@@ -259,7 +258,7 @@ export default class ProgressReportForm extends FormComponent {
             );
         }
         return;
-    }
+    };
 
     render() {
         const {ProgressReport} = this.props;
