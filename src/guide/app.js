@@ -7,9 +7,11 @@ import '../scss/guide.scss';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
-import {Router, Route, IndexRoute, IndexRedirect, Redirect} from 'react-router';
-import store from '../store';
-import history from '../history';
+import {Router, Route} from 'react-router';
+import {browserHistory} from 'react-router';
+
+//import store from '../store';
+//import history from '../history';
 
 import StyleGuide from './components/StyleGuide';
 
@@ -23,8 +25,8 @@ if (__PRODUCTION__) {
 
 
 ReactDOM.render(
-    <Provider store={store}>
-        <Router history={history}>
+    <Provider>
+        <Router history={browserHistory}>
             <Route path="*" component={StyleGuide}/>
         </Router>
     </Provider>,

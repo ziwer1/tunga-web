@@ -7,7 +7,7 @@ import {
     GA_EVENT_ACTIONS,
     getGAUserType,
 } from '../utils/tracking';
-import {getUser} from 'utils/auth';
+import {getUser} from '../utils/auth';
 
 export const CREATE_BLOG_START = 'CREATE_BLOG_START';
 export const CREATE_BLOG_SUCCESS = 'CREATE_BLOG_SUCCESS';

@@ -8,7 +8,7 @@ import {
     GA_EVENT_ACTIONS,
     getGAUserType,
 } from '../utils/tracking';
-import {getUser} from 'utils/auth';
+import {getUser} from '../utils/auth';
 
 export const CREATE_MESSAGE_START = 'CREATE_MESSAGE_START';
 export const CREATE_MESSAGE_SUCCESS = 'CREATE_MESSAGE_SUCCESS';

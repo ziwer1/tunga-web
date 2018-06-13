@@ -13,7 +13,6 @@ import {
     ENDPOINT_INVITE,
     SOCIAL_PROVIDERS,
 } from '../constants/Api';
-import {listRunningProjects} from './ProjectActions';
 import {updateAccountInfo, updateAuthUser} from './ProfileActions';
 
 import {
@@ -26,7 +25,7 @@ import {
     getGAUserType,
     getUserTypeTwitter,
 } from '../utils/tracking';
-import {getUser} from 'utils/auth';
+import {getUser} from '../utils/auth';
 
 export const LOGIN_START = 'LOGIN_START';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';

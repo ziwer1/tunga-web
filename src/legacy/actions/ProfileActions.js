@@ -16,7 +16,7 @@ import {
     GA_EVENT_CATEGORIES,
     GA_EVENT_ACTIONS,
 } from '../utils/tracking';
-import {getUser} from 'utils/auth';
+import {getUser} from '../utils/auth';
 
 export const UPDATE_AUTH_USER_START = 'UPDATE_AUTH_USER_START';
 export const UPDATE_AUTH_USER_SUCCESS = 'UPDATE_AUTH_USER_SUCCESS';

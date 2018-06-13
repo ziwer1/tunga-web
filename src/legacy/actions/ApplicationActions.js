@@ -7,7 +7,7 @@ import {
     GA_EVENT_ACTIONS,
     getGAUserType,
 } from '../utils/tracking';
-import {getUser} from 'utils/auth';
+import {getUser} from '../utils/auth';
 
 export const CREATE_APPLICATION_START = 'CREATE_APPLICATION_START';
 export const CREATE_APPLICATION_SUCCESS = 'CREATE_APPLICATION_SUCCESS';

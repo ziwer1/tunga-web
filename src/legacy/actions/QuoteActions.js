@@ -7,7 +7,7 @@ import {
     GA_EVENT_ACTIONS,
     getGAUserType,
 } from '../utils/tracking';
-import {getUser} from 'utils/auth';
+import {getUser} from '../utils/auth';
 
 export const CREATE_QUOTE_START = 'CREATE_QUOTE_START';
 export const CREATE_QUOTE_SUCCESS = 'CREATE_QUOTE_SUCCESS';

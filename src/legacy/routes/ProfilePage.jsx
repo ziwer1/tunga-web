@@ -9,7 +9,7 @@ import {
     isDeveloper,
     isProjectManager,
     isProjectOwner,
-} from 'utils/auth';
+} from '../utils/auth';
 
 export default class ProfilePage extends React.Component {
     render() {

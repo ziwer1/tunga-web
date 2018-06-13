@@ -1,7 +1,7 @@
 // Variables: includes Bootstrap overrides
-@import "./variables";
-@import "./functions";
-@import "./mixins";
+@import "variables";
+@import "functions";
+@import "mixins";
 
 // Bootstrap and its default variables
 @import "../../node_modules/bootstrap/scss/bootstrap";
@@ -594,4 +594,4 @@ body {
 
 }
 
-@import "./breakpoints";
+@import "breakpoints";

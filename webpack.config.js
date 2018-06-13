@@ -11,7 +11,7 @@ module.exports = {
     cache: true,
     entry: {
         vendor: ['babel-polyfill', 'react', 'react-dom', 'react-router', 'redux', 'react-redux'],
-        app: path.join(srcPath, 'app.js'),
+        app: path.join(srcPath, 'legacy/app.js'),
         guide: path.join(srcPath, 'guide/app.js')
     },
     output: {

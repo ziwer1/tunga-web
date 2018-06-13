@@ -11,7 +11,7 @@ module.exports = {
         HTMLInjectPlugin: new HtmlWebpackPlugin({
             inject: true,
             chunks: ['vendor', 'app'],
-            template: 'src/index.ejs',
+            template: 'src/legacy/index.ejs',
             env: process.env.NODE_ENV || 'development',
             hash: true,
             timestamp: unixTimestamp,
