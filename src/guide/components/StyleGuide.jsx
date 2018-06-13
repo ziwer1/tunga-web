@@ -10,6 +10,7 @@ import Icon from '../../components/core/Icon';
 import Button from '../../components/core/Button';
 import Input from '../../components/core/Input';
 import CustomInputGroup from '../../components/core/CustomInputGroup';
+import SearchBox from '../../components/core/SearchBox';
 import TextArea from '../../components/core/TextArea';
 import Upload from '../../components/core/Upload';
 import ChoiceGroup from '../../components/core/ChoiceGroup';
@@ -82,6 +83,7 @@ export default class StyleGuide extends React.Component {
                                     ['Icons', 'Icon Sizes'],
                                     'Buttons',
                                     ['Inputs', 'Text Input'],
+                                    ['Search', 'Search Input'],
                                     ['DateTime', 'DateTime Input'],
                                     ['Uploads', 'File Uploads'],
                                     ['Choices', 'Choice Input'],
@@ -368,8 +370,6 @@ export default class StyleGuide extends React.Component {
                                     ['address', 'Address'],
                                     ['url', 'URL Input'],
                                     ['message', 'Message'],
-                                    ['search', 'Search'],
-                                    ['search-plain', 'Search Plain'],
                                 ].map(input => {
                                     let inputProps = {};
 
@@ -380,7 +380,7 @@ export default class StyleGuide extends React.Component {
                                         inputProps.placeholder = input[2];
                                     }
                                     if(input[3]) {
-                                        inputProps = {...inputProps, ...input[2]};
+                                        inputProps = {...inputProps, ...input[3]};
                                     }
 
                                     return (
@@ -401,18 +401,45 @@ export default class StyleGuide extends React.Component {
                                         false, 'TextArea'
                                     )}
                                 </div>
-
-                                <div>
-                                    <code>&lt;DateTimePicker&gt;</code> and <code>&lt;Calendar&gt;</code> components are from the thirdparty <a target="_blank" href="https://jquense.github.io/react-widgets/api/DateTimePicker/">React Widgets</a> library.
-                                </div>
                             </div>
 
                             <div className="section detailed">
-                                <h2 id="id"></h2>
+                                <h2 id="idSearch">Search Input</h2>
+
+                                {[
+                                    [null, 'Search'],
+                                    [null, 'Search (custom placeholder)', {placeholder: 'Search Tunga'}],
+                                    [false, 'Search Plain'],
+                                ].map(search => {
+                                    let searchProps = {};
+
+                                    if(typeof search[0] === 'boolean') {
+                                        searchProps.branded = search[0];
+                                    }
+
+                                    if(search[2]) {
+                                        searchProps = {...searchProps, ...search[2]};
+                                    }
+
+                                    return (
+                                        <div>
+                                            <h4>{search[1]}</h4>
+                                            {this.renderAndDocument(
+                                                <SearchBox {...searchProps}/>,
+                                                false, 'SearchBox'
+                                            )}
+                                        </div>
+                                    );
+                                })}
                             </div>
 
                             <div className="section detailed">
                                 <h2 id="idDateTime">DateTime Input</h2>
+
+                                <div>
+                                    <code>&lt;DateTimePicker&gt;</code> and <code>&lt;Calendar&gt;</code> components are from the thirdparty <a target="_blank" href="https://jquense.github.io/react-widgets/api/DateTimePicker/">React Widgets</a> library.
+                                </div>
+
                                 {[
                                     ['DateTimePicker', true, true],
                                     ['DatePicker', true, false],

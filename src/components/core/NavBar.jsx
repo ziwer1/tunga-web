@@ -1,9 +1,9 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
 import {Link} from 'react-router';
 
 import Avatar from './Avatar';
 import Icon from './Icon';
-import CustomInputGroup from './CustomInputGroup';
+import SearchBox from './SearchBox';
 
 
 export default class NavBar extends React.Component {
@@ -43,7 +43,7 @@ export default class NavBar extends React.Component {
                         <div className="collapse navbar-collapse" id="navbar">
                             <ul className="navbar-nav ml-auto">
                                 <li>
-                                    <CustomInputGroup variant="search"/>
+                                    <SearchBox variant="search"/>
                                 </li>
                                 {user.is_admin ? (
                                     <li className="nav-item dropdown">
