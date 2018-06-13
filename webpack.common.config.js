@@ -11,7 +11,31 @@ module.exports = {
         HTMLInjectPlugin: new HtmlWebpackPlugin({
             inject: true,
             chunks: ['vendor', 'app'],
+            template: 'src/templates/index.ejs',
+            env: process.env.NODE_ENV || 'development',
+            hash: true,
+            timestamp: unixTimestamp,
+            site: {
+                title: "Tunga | Unleashing Africa's Tech Talent",
+                description: "Small and large businesses from all over the world use Tunga for hiring African software engineers to address their most pressing software development needs.",
+                images: {
+                    hero: 'https://tunga.io/icons/tunga_hero_devs_working.jpg'
+                },
+                colors: {
+                    primary: '#f41152'
+                },
+                fb_app_id: '518348818336672',
+                optimizely_id: process.env.NODE_ENV?(process.env.NODE_ENV == 'production' && process.env.ANALYTICS_ENV != "development"?'8175822119':'8182460702'):'',
+                ga_tracker: process.env.NODE_ENV?(process.env.NODE_ENV == 'production'?(process.env.ANALYTICS_ENV == "development"?'UA-102018659-1':'UA-70644715-1'):''):'',
+                gtm_tracker: process.env.NODE_ENV?(process.env.NODE_ENV == 'production'?(process.env.ANALYTICS_ENV == "development"?'GTM-KKS9DVD':'GTM-PDS4Q4'):''):'',
+                enable_tracking: process.env.NODE_ENV == 'production' && process.env.ANALYTICS_ENV != "development"
+            }
+        }),
+        LegacyHTMLInjectPlugin: new HtmlWebpackPlugin({
+            inject: true,
+            chunks: ['vendor', 'app'],
             template: 'src/legacy/index.ejs',
+            filename: 'legacy/index.html',
             env: process.env.NODE_ENV || 'development',
             hash: true,
             timestamp: unixTimestamp,
