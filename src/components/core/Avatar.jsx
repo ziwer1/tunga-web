@@ -41,21 +41,21 @@ export default class Avatar extends React.Component {
             </div>
         );
 
-        let linkedAvatar = link ? <Link to={link}>{avatar}</Link> : avatar;
-
-        return title ? (
+        return (
             <div id={avatarId} className={`avatar-wrapper ${className || ''}`}>
-                {linkedAvatar}
-                <Tooltip
-                    placement="top"
-                    target={avatarId}
-                    isOpen={this.state.tooltipOpen}
-                    toggle={this.toggle.bind(this)}>
-                    <strong>{title}</strong>
-                </Tooltip>
+                {link?(
+                    <Link to={link}>{avatar}</Link>
+                ):avatar}
+                {title?(
+                    <Tooltip
+                        placement="top"
+                        target={avatarId}
+                        isOpen={this.state.tooltipOpen}
+                        toggle={this.toggle.bind(this)}>
+                        <strong>{title}</strong>
+                    </Tooltip>
+                ):null}
             </div>
-        ) : (
-            linkedAvatar
         );
     }
 }
