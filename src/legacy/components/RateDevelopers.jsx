@@ -13,11 +13,11 @@ export default class RateDevelopers extends React.Component {
         this.state = {ratings_map: null};
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         this.mapUserRatings(this.props);
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if (nextProps.Task.detail.isSaved && !this.props.Task.detail.isSaved) {
             this.mapUserRatings(nextProps);
         }

@@ -13,7 +13,7 @@ class UserSearchForm extends React.Component {
         this.state = {participants: [], type: null};
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         const channel = this.props.channel || {};
         if (channel.id && channel.details) {
             this.setState({participants: channel.details.participants});
@@ -28,7 +28,7 @@ class UserSearchForm extends React.Component {
         }
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if (
             nextProps.Channel.detail.isSaved &&
             !this.props.Channel.detail.isSaved

@@ -61,7 +61,7 @@ class App extends React.Component {
         }
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         this.verifyRoute(this.props);
     }
 
@@ -75,7 +75,7 @@ class App extends React.Component {
         runOptimizely();
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         this.verifyRoute(nextProps);
     }
 

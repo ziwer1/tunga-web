@@ -23,7 +23,7 @@ export default class Stack extends React.Component {
         };
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         this.addSkillsToState();
     }
 

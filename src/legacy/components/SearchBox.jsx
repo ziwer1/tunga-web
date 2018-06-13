@@ -9,7 +9,7 @@ export default class SearchBox extends React.Component {
         this.state = {q: ''};
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         if (this.props.query) {
             this.setState({q: this.props.query});
         }

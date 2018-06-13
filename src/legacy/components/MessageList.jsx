@@ -12,7 +12,7 @@ import Attachments from './Attachments';
 import {getUser} from '../utils/auth';
 
 export default class MessageList extends React.Component {
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         this.intervals = [];
     }
 

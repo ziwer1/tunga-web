@@ -16,7 +16,7 @@ export default class Channel extends React.Component {
         this.state = {filters: null};
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         this.intervals = [];
     }
 

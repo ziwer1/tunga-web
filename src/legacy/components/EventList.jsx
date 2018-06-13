@@ -23,7 +23,7 @@ export default class EventList extends React.Component {
         this.props.MilestoneActions.listMilestones({});
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if (
             !_.isEqual(
                 this.state.milestones,

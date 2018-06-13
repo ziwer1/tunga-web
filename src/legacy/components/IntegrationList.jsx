@@ -41,7 +41,7 @@ export default class IntegrationList extends ComponentWithModal {
         this.updateIntegrationInfo(this.props);
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if (
             (!nextProps.Task.detail.integrations.isSaved &&
                 this.props.Task.detail.integrations.isSaved) ||

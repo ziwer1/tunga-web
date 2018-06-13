@@ -76,7 +76,7 @@ export default class TaskWorkflow extends ComponentWithModal {
         };
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         this.intervals = [];
         this.redirectToNextStep(this.props);
 
@@ -103,7 +103,7 @@ export default class TaskWorkflow extends ComponentWithModal {
         });
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if (
             nextProps.params &&
             nextProps.params.eventId != this.props.params.eventId

@@ -3,7 +3,7 @@ import _ from 'lodash';
 import connect from '../utils/connectors/MilestoneConnector';
 
 class MilestoneListContainer extends React.Component {
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         const {Milestone, MilestoneActions, params: {taskId}} = this.props;
         MilestoneActions.listMilestones({
             type: 3,

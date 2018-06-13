@@ -16,7 +16,7 @@ export default class User extends React.Component {
         this.state = {ratings_map: null};
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         this.mapUserRatings(this.props);
     }
 
@@ -24,7 +24,7 @@ export default class User extends React.Component {
         this.props.UserActions.retrieveUser(this.props.params.userId);
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if (
             nextProps.User.detail.user.ratings !=
             this.props.User.detail.user.ratings

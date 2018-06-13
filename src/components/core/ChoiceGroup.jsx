@@ -26,7 +26,7 @@ export default class ChoiceGroup extends React.Component {
         this.state = {selected: props.selected};
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if(nextProps.selected !== this.props.selected) {
             this.setState({selected: nextProps.selected});
         }

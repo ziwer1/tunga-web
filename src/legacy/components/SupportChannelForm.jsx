@@ -7,7 +7,7 @@ import FieldError from './status/FieldError';
 import {isAuthenticated, isAdmin} from '../utils/auth';
 
 export default class SupportChannelForm extends React.Component {
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if (
             nextProps.Channel.detail.isSaved &&
             !this.props.Channel.detail.isSaved

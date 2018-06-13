@@ -8,7 +8,7 @@ export default class Clock extends React.Component {
         this.state = {...output};
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         this.intervals = [];
     }
 

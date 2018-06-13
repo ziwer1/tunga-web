@@ -43,7 +43,7 @@ class ChatWindow extends React.Component {
         this.state = {channel: null, new: 0, open: false};
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         this.intervals = [];
 
         var channel = null;
@@ -91,7 +91,7 @@ class ChatWindow extends React.Component {
         }
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if (nextProps.Channel.detail.channel.id) {
             var currentChannel = this.getCurrentChannel();
             const {channel} = nextProps.Channel.detail;

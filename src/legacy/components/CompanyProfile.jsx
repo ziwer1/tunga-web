@@ -11,7 +11,7 @@ export default class CompanyProfile extends React.Component {
         this.state = {bio: '', skills: []};
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         this.addSkillsToState();
     }
 
