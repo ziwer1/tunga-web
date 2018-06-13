@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import {Link} from 'react-router';
 import StripeCheckout from 'react-stripe-checkout';
@@ -1015,9 +1016,9 @@ export default class TaskPay extends React.Component {
 }
 
 TaskPay.propTypes = {
-    task: React.PropTypes.object,
-    multi_task_payment: React.PropTypes.object,
-    isBatch: React.PropTypes.bool,
+    task: PropTypes.object,
+    multi_task_payment: PropTypes.object,
+    isBatch: PropTypes.bool,
 };
 
 TaskPay.defaultProps = {
@@ -1027,5 +1028,5 @@ TaskPay.defaultProps = {
 };
 
 TaskPay.contextTypes = {
-    router: React.PropTypes.object.isRequired,
+    router: PropTypes.object.isRequired,
 };

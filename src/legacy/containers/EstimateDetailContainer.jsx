@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 export default class EstimateDetailContainer extends React.Component {
@@ -43,7 +44,7 @@ export default class EstimateDetailContainer extends React.Component {
 }
 
 EstimateDetailContainer.propTypes = {
-    estimateId: React.PropTypes.number,
+    estimateId: PropTypes.number,
 };
 
 EstimateDetailContainer.defaultProps = {

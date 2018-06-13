@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 export default class BlogDetailContainer extends React.Component {
@@ -42,7 +43,7 @@ export default class BlogDetailContainer extends React.Component {
 }
 
 BlogDetailContainer.propTypes = {
-    blogId: React.PropTypes.number,
+    blogId: PropTypes.number,
 };
 
 BlogDetailContainer.defaultProps = {

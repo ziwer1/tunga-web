@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import {Link} from 'react-router';
 import {Affix} from 'react-overlays';
@@ -186,12 +187,12 @@ class ShowcaseContainer extends React.Component {
 }
 
 ShowcaseContainer.propTypes = {
-    chatId: React.PropTypes.number,
-    closeChat: React.PropTypes.bool,
-    hasGlassNav: React.PropTypes.bool,
-    autoOpenChat: React.PropTypes.bool,
-    backgroundImage: React.PropTypes.string,
-    hasArrow: React.PropTypes.bool,
+    chatId: PropTypes.number,
+    closeChat: PropTypes.bool,
+    hasGlassNav: PropTypes.bool,
+    autoOpenChat: PropTypes.bool,
+    backgroundImage: PropTypes.string,
+    hasArrow: PropTypes.bool,
 };
 
 ShowcaseContainer.defaultProps = {

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 export default class MultiTaskPaymentDetailContainer extends React.Component {
@@ -53,7 +54,7 @@ export default class MultiTaskPaymentDetailContainer extends React.Component {
 }
 
 MultiTaskPaymentDetailContainer.propTypes = {
-    multiTaskPaymentId: React.PropTypes.number,
+    multiTaskPaymentId: PropTypes.number,
 };
 
 MultiTaskPaymentDetailContainer.defaultProps = {

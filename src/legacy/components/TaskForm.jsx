@@ -6,6 +6,7 @@ import {Button, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import momentLocalizer from 'react-widgets/lib/localizers/moment';
 import {DateTimePicker, Calendar} from 'react-widgets';
 import Dropzone from 'react-dropzone';
+import PropTypes from 'prop-types';
 import randomstring from 'randomstring';
 
 import Progress from './status/Progress';
@@ -3990,17 +3991,17 @@ export default class TaskForm extends ComponentWithModal {
 }
 
 TaskForm.propTypes = {
-    task: React.PropTypes.object,
-    taskId: React.PropTypes.string,
-    editToken: React.PropTypes.string,
-    project: React.PropTypes.object,
-    enabledWidgets: React.PropTypes.array,
-    options: React.PropTypes.object,
-    showSectionHeader: React.PropTypes.bool,
-    urlPrefix: React.PropTypes.string,
-    phase: React.PropTypes.string,
-    ctaTxt: React.PropTypes.string,
-    ctaIcon: React.PropTypes.string,
+    task: PropTypes.object,
+    taskId: PropTypes.string,
+    editToken: PropTypes.string,
+    project: PropTypes.object,
+    enabledWidgets: PropTypes.array,
+    options: PropTypes.object,
+    showSectionHeader: PropTypes.bool,
+    urlPrefix: PropTypes.string,
+    phase: PropTypes.string,
+    ctaTxt: PropTypes.string,
+    ctaIcon: PropTypes.string,
 };
 
 TaskForm.defaultProps = {
@@ -4017,5 +4018,5 @@ TaskForm.defaultProps = {
 };
 
 TaskForm.contextTypes = {
-    router: React.PropTypes.object.isRequired,
+    router: PropTypes.object.isRequired,
 };

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import {Link} from 'react-router';
 import Dropzone from 'react-dropzone';
@@ -199,7 +200,7 @@ export default class TaskDocument extends FormComponent {
 }
 
 TaskDocument.propTypes = {
-    task: React.PropTypes.object.isRequired,
+    task: PropTypes.object.isRequired,
 };
 
 TaskDocument.defaultProps = {

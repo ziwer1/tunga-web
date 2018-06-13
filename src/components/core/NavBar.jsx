@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import {Link} from 'react-router';
 
@@ -8,10 +9,10 @@ import SearchBox from './SearchBox';
 
 export default class NavBar extends React.Component {
     static propTypes = {
-        className: React.PropTypes.string,
-        user: React.PropTypes.object,
-        onSignOut: React.PropTypes.func,
-        breakpoint: React.PropTypes.string,
+        className: PropTypes.string,
+        user: PropTypes.object,
+        onSignOut: PropTypes.func,
+        breakpoint: PropTypes.string,
     };
 
     static defaultProps = {

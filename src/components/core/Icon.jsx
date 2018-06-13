@@ -1,10 +1,11 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 export default class Icon extends React.Component {
     static propTypes = {
-        name: React.PropTypes.string,
-        size: React.PropTypes.string,
-        className: React.PropTypes.string,
+        name: PropTypes.string,
+        size: PropTypes.string,
+        className: PropTypes.string,
     };
 
     render() {

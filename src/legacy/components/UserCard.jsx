@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import {Link} from 'react-router';
 import Linkify from './Linkify';
@@ -150,9 +151,9 @@ export default class UserCard extends React.Component {
 }
 
 UserCard.propTypes = {
-    user: React.PropTypes.object.isRequired,
-    profileLink: React.PropTypes.bool,
-    tagLinks: React.PropTypes.bool,
+    user: PropTypes.object.isRequired,
+    profileLink: PropTypes.bool,
+    tagLinks: PropTypes.bool,
 };
 
 UserCard.defaultProps = {

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import Progress from '../components/status/Progress';
@@ -42,5 +43,5 @@ export default class TaskDetailContainer extends React.Component {
 }
 
 TaskDetailContainer.contextTypes = {
-    router: React.PropTypes.object.isRequired,
+    router: PropTypes.object.isRequired,
 };

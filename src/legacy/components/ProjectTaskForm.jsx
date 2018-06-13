@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import TaskForm from './TaskForm';
@@ -12,5 +13,5 @@ export default class ProjectTaskForm extends React.Component {
 }
 
 ProjectTaskForm.propTypes = {
-    task: React.PropTypes.object.isRequired,
+    task: PropTypes.object.isRequired,
 };

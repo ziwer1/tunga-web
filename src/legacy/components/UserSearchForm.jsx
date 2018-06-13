@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import FormStatus from './status/FormStatus';
 import FieldError from './status/FieldError';
@@ -260,5 +261,5 @@ class UserSearchForm extends React.Component {
 export default UserSearchForm;
 
 UserSearchForm.contextTypes = {
-    router: React.PropTypes.object.isRequired,
+    router: PropTypes.object.isRequired,
 };

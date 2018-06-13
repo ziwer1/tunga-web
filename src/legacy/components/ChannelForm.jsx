@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import FormStatus from './status/FormStatus';
 import FieldError from './status/FieldError';
@@ -13,5 +14,5 @@ export default class ChannelForm extends React.Component {
 }
 
 ChannelForm.contextTypes = {
-    router: React.PropTypes.object.isRequired,
+    router: PropTypes.object.isRequired,
 };

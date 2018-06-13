@@ -1,8 +1,9 @@
-import React, {PropTypes} from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 import {confirmable} from 'react-confirm';
 import {Modal, Button} from 'react-bootstrap';
 
-@confirmable
+//@confirmable
 class ConfirmDialog extends React.Component {
     constructor(props) {
         super(props);

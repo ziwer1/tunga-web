@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import {Link} from 'react-router';
 import {bindActionCreators} from 'redux';
@@ -334,7 +335,7 @@ class ShowCaseFooter extends React.Component {
 }
 
 ShowCaseFooter.propTypes = {
-    showContactUs: React.PropTypes.bool,
+    showContactUs: PropTypes.bool,
 };
 
 ShowCaseFooter.defaultProps = {

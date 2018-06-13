@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import randomstring from 'randomstring';
 import _ from 'lodash';
 
@@ -41,8 +42,8 @@ export default class GenericListContainer extends GenericContainer {
 }
 
 GenericListContainer.propTypes = {
-    filters: React.PropTypes.object,
-    selectionKey: React.PropTypes.string,
+    filters: PropTypes.object,
+    selectionKey: PropTypes.string,
 };
 
 GenericListContainer.defaultProps = {

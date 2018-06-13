@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
+import PropTypes from 'prop-types';
 import randomstring from 'randomstring';
 import connect from '../utils/connectors/UserSelectionConnector';
 import Avatar from '../components/Avatar';
@@ -250,13 +251,13 @@ class UserSelector extends React.Component {
 }
 
 UserSelector.propTypes = {
-    onChange: React.PropTypes.func.isRequired,
-    max: React.PropTypes.number,
-    selected: React.PropTypes.array,
-    canRemove: React.PropTypes.bool,
-    deselected: React.PropTypes.array,
-    unremovable: React.PropTypes.array,
-    returnObjects: React.PropTypes.bool,
+    onChange: PropTypes.func.isRequired,
+    max: PropTypes.number,
+    selected: PropTypes.array,
+    canRemove: PropTypes.bool,
+    deselected: PropTypes.array,
+    unremovable: PropTypes.array,
+    returnObjects: PropTypes.bool,
 };
 
 UserSelector.defaultProps = {

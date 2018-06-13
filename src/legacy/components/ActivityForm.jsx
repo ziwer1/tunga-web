@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 import momentLocalizer from 'react-widgets/lib/localizers/moment';
@@ -204,11 +205,11 @@ export default class ActivityForm extends React.Component {
 }
 
 ActivityForm.propTypes = {
-    activity: React.PropTypes.object,
-    onSave: React.PropTypes.func,
-    close: React.PropTypes.func,
-    selectUser: React.PropTypes.bool,
-    setStatus: React.PropTypes.bool,
+    activity: PropTypes.object,
+    onSave: PropTypes.func,
+    close: PropTypes.func,
+    selectUser: PropTypes.bool,
+    setStatus: PropTypes.bool,
 };
 
 ActivityForm.defaultProps = {

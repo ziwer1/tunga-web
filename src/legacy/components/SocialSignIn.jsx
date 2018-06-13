@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import {SOCIAL_LOGIN_URLS} from '../constants/Api';
 import {objectToQueryString} from '../utils/html';
@@ -89,6 +90,6 @@ export default class SocialSignIn extends React.Component {
 }
 
 SocialSignIn.propTypes = {
-    user_type: React.PropTypes.number,
-    action: React.PropTypes.string,
+    user_type: PropTypes.number,
+    action: PropTypes.string,
 };

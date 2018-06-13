@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import FormStatus from './status/FormStatus';
@@ -90,5 +91,5 @@ export default class SupportChannelMiniForm extends React.Component {
 }
 
 SupportChannelMiniForm.contextTypes = {
-    router: React.PropTypes.object.isRequired,
+    router: PropTypes.object.isRequired,
 };

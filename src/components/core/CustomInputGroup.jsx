@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import InputGroup from './InputGroup';
@@ -49,9 +50,9 @@ const CUSTOM_INPUTS = {
 
 export default class CustomInputGroup extends React.Component {
     static propTypes = {
-        variant: React.PropTypes.string,
-        className: React.PropTypes.string,
-        placeholder: React.PropTypes.string,
+        variant: PropTypes.string,
+        className: PropTypes.string,
+        placeholder: PropTypes.string,
     };
 
     static defaultProps = {

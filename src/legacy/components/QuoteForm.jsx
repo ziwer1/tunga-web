@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 import _ from 'lodash';
@@ -556,8 +557,8 @@ export default class QuoteForm extends ComponentWithModal {
 }
 
 QuoteForm.propTypes = {
-    quote: React.PropTypes.object,
-    task: React.PropTypes.object,
+    quote: PropTypes.object,
+    task: PropTypes.object,
 };
 
 QuoteForm.defaultProps = {
@@ -566,5 +567,5 @@ QuoteForm.defaultProps = {
 };
 
 QuoteForm.contextTypes = {
-    router: React.PropTypes.object.isRequired,
+    router: PropTypes.object.isRequired,
 };

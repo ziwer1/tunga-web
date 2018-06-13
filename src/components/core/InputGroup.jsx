@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import Input from './Input';
@@ -5,14 +6,14 @@ import {filterEventProps} from "./utils";
 
 export default class InputGroup extends React.Component {
     static propTypes = {
-        type: React.PropTypes.string,
-        className: React.PropTypes.string,
-        placeholder: React.PropTypes.string,
-        prepend: React.PropTypes.object,
-        append: React.PropTypes.object,
-        isPrependText: React.PropTypes.bool,
-        isAppendText: React.PropTypes.bool,
-        size: React.PropTypes.string,
+        type: PropTypes.string,
+        className: PropTypes.string,
+        placeholder: PropTypes.string,
+        prepend: PropTypes.object,
+        append: PropTypes.object,
+        isPrependText: PropTypes.bool,
+        isAppendText: PropTypes.bool,
+        size: PropTypes.string,
     };
 
     static defaultProps = {

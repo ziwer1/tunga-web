@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
 import {Link} from 'react-router';
@@ -126,7 +127,7 @@ export default class QuoteDetailContainer extends React.Component {
 }
 
 QuoteDetailContainer.propTypes = {
-    quoteId: React.PropTypes.number,
+    quoteId: PropTypes.number,
 };
 
 QuoteDetailContainer.defaultProps = {

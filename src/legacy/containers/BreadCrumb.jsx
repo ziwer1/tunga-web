@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import {Link} from 'react-router';
 import {Breadcrumb} from 'react-bootstrap';
@@ -26,6 +27,6 @@ export default class BreadCrumb extends React.Component {
 }
 
 BreadCrumb.propTypes = {
-    parents: React.PropTypes.array,
-    section: React.PropTypes.string,
+    parents: PropTypes.array,
+    section: PropTypes.string,
 };

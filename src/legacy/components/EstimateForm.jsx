@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 import _ from 'lodash';
@@ -536,8 +537,8 @@ export default class EstimateForm extends ComponentWithModal {
 }
 
 EstimateForm.propTypes = {
-    estimate: React.PropTypes.object,
-    task: React.PropTypes.object,
+    estimate: PropTypes.object,
+    task: PropTypes.object,
 };
 
 EstimateForm.defaultProps = {
@@ -546,5 +547,5 @@ EstimateForm.defaultProps = {
 };
 
 EstimateForm.contextTypes = {
-    router: React.PropTypes.object.isRequired,
+    router: PropTypes.object.isRequired,
 };

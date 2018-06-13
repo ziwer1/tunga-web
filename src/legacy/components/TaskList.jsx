@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import {Link, IndexLink} from 'react-router';
 
@@ -218,7 +219,7 @@ export default class TaskList extends GenericListContainer {
 }
 
 TaskList.propTypes = {
-    emptyListText: React.PropTypes.string,
+    emptyListText: PropTypes.string,
 };
 
 TaskList.defaultProps = {

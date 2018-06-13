@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import {Button, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import moment from 'moment';
@@ -266,9 +267,9 @@ class ChatWindow extends React.Component {
 }
 
 ChatWindow.propTypes = {
-    channelId: React.PropTypes.number,
-    closeChat: React.PropTypes.bool,
-    autoOpen: React.PropTypes.bool,
+    channelId: PropTypes.number,
+    closeChat: PropTypes.bool,
+    autoOpen: PropTypes.bool,
 };
 
 ChatWindow.defaultProps = {

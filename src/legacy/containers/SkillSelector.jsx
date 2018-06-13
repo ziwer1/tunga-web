@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
+import PropTypes from 'prop-types';
 import randomstring from 'randomstring';
 
 import connect from '../utils/connectors/SkillSelectionConnector';
@@ -240,12 +241,12 @@ class SkillSelector extends React.Component {
 }
 
 SkillSelector.propTypes = {
-    skills: React.PropTypes.array,
-    suggested: React.PropTypes.array,
-    showTitle: React.PropTypes.bool,
-    showInstruction: React.PropTypes.bool,
-    tagName: React.PropTypes.string,
-    reset: React.PropTypes.bool,
+    skills: PropTypes.array,
+    suggested: PropTypes.array,
+    showTitle: PropTypes.bool,
+    showInstruction: PropTypes.bool,
+    tagName: PropTypes.string,
+    reset: PropTypes.bool,
 };
 
 SkillSelector.defaultProps = {

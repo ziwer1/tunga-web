@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import {Link} from 'react-router';
 import moment from 'moment';
@@ -217,7 +218,7 @@ export default class TaskCard extends ComponentWithModal {
 }
 
 TaskCard.propTypes = {
-    task: React.PropTypes.object.isRequired,
+    task: PropTypes.object.isRequired,
 };
 
 TaskCard.defaultProps = {
@@ -225,5 +226,5 @@ TaskCard.defaultProps = {
 };
 
 TaskCard.contextTypes = {
-    router: React.PropTypes.object.isRequired,
+    router: PropTypes.object.isRequired,
 };

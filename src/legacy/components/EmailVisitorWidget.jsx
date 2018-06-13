@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 export default class EmailVisitorWidget extends React.Component {
@@ -56,13 +57,13 @@ export default class EmailVisitorWidget extends React.Component {
 }
 
 EmailVisitorWidget.propTypes = {
-    btnText: React.PropTypes.string.isRequired,
-    placeholder: React.PropTypes.string,
-    onSubmit: React.PropTypes.func.isRequired,
-    success: React.PropTypes.string,
-    error: React.PropTypes.string,
-    disabled: React.PropTypes.bool,
-    className: React.PropTypes.string,
+    btnText: PropTypes.string.isRequired,
+    placeholder: PropTypes.string,
+    onSubmit: PropTypes.func.isRequired,
+    success: PropTypes.string,
+    error: PropTypes.string,
+    disabled: PropTypes.bool,
+    className: PropTypes.string,
 };
 
 EmailVisitorWidget.defaultProps = {

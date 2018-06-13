@@ -1,12 +1,13 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import {addEventListeners, INPUT_EVENTS} from './utils';
 
 export default class TextArea extends React.Component {
     static propTypes = {
-        type: React.PropTypes.string,
-        className: React.PropTypes.string,
-        placeholder: React.PropTypes.string,
+        type: PropTypes.string,
+        className: PropTypes.string,
+        placeholder: PropTypes.string,
     };
 
     static defaultProps = {

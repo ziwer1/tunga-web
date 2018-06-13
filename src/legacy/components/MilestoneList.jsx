@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import {Link, IndexLink} from 'react-router';
 import moment from 'moment';
@@ -267,7 +268,7 @@ export default class MilestoneList extends React.Component {
 }
 
 MilestoneList.propTypes = {
-    emptyListText: React.PropTypes.string,
+    emptyListText: PropTypes.string,
 };
 
 MilestoneList.defaultProps = {

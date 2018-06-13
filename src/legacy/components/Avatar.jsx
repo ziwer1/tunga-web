@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import {Link} from 'react-router';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
@@ -46,9 +47,9 @@ export default class Avatar extends React.Component {
 }
 
 Avatar.propTypes = {
-    src: React.PropTypes.string,
-    size: React.PropTypes.string,
-    icon: React.PropTypes.string,
-    iconType: React.PropTypes.string,
-    badge: React.PropTypes.number,
+    src: PropTypes.string,
+    size: PropTypes.string,
+    icon: PropTypes.string,
+    iconType: PropTypes.string,
+    badge: PropTypes.number,
 };

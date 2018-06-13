@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import MessageForm from './MessageForm';
 
@@ -29,7 +30,7 @@ export default class CommentForm extends React.Component {
 }
 
 CommentForm.propTypes = {
-    uploadCallback: React.PropTypes.func,
-    uploadSaved: React.PropTypes.bool,
-    isSaving: React.PropTypes.bool,
+    uploadCallback: PropTypes.func,
+    uploadSaved: PropTypes.bool,
+    isSaving: PropTypes.bool,
 };

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import {Link} from 'react-router';
 import moment from 'moment';
@@ -265,7 +266,7 @@ export default class BlogForm extends ComponentWithModal {
 }
 
 BlogForm.propTypes = {
-    blog: React.PropTypes.object,
+    blog: PropTypes.object,
 };
 
 BlogForm.defaultProps = {
@@ -273,5 +274,5 @@ BlogForm.defaultProps = {
 };
 
 BlogForm.contextTypes = {
-    router: React.PropTypes.object.isRequired,
+    router: PropTypes.object.isRequired,
 };

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import {Link} from 'react-router';
 import Progress from './status/Progress';
@@ -152,7 +153,7 @@ export default class Participation extends React.Component {
 }
 
 Participation.propTypes = {
-    task: React.PropTypes.object.isRequired,
+    task: PropTypes.object.isRequired,
 };
 
 Participation.defaultProps = {

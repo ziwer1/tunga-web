@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import {Link, IndexLink} from 'react-router';
 import moment from 'moment';
@@ -551,5 +552,5 @@ export default class PaymentList extends GenericListContainer {
 }
 
 PaymentList.contextTypes = {
-    router: React.PropTypes.object.isRequired,
+    router: PropTypes.object.isRequired,
 };

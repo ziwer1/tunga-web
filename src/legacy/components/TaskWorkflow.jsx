@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import {renderToString} from 'react-dom/server';
 import {Link} from 'react-router';
@@ -1693,5 +1694,5 @@ export default class TaskWorkflow extends ComponentWithModal {
 }
 
 TaskWorkflow.contextTypes = {
-    router: React.PropTypes.object.isRequired,
+    router: PropTypes.object.isRequired,
 };

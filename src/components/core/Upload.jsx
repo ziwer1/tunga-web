@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Dropzone from 'react-dropzone';
 import _ from 'lodash';
@@ -14,16 +15,16 @@ const UPLOAD_TYPES = {
 export default class Upload extends React.Component {
 
     static propTypes = {
-        variant: React.PropTypes.string,
-        type: React.PropTypes.string,
-        className: React.PropTypes.string,
-        placeholder: React.PropTypes.object,
-        instructions: React.PropTypes.any,
-        multiple: React.PropTypes.bool,
-        onChange: React.PropTypes.func,
-        size: React.PropTypes.string,
-        max: React.PropTypes.number,
-        icon: React.PropTypes.number,
+        variant: PropTypes.string,
+        type: PropTypes.string,
+        className: PropTypes.string,
+        placeholder: PropTypes.object,
+        instructions: PropTypes.any,
+        multiple: PropTypes.bool,
+        onChange: PropTypes.func,
+        size: PropTypes.string,
+        max: PropTypes.number,
+        icon: PropTypes.number,
     };
 
     static defaultProps = {

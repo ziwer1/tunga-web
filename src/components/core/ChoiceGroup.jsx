@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import Button from './Button';
@@ -6,13 +7,13 @@ import {filterEventProps} from "./utils";
 
 export default class ChoiceGroup extends React.Component {
     static propTypes = {
-        className: React.PropTypes.string,
-        choices: React.PropTypes.array,
-        selected: React.PropTypes.any,
-        onChange: React.PropTypes.func,
-        type: React.PropTypes.string,
-        variant: React.PropTypes.string,
-        size: React.PropTypes.string,
+        className: PropTypes.string,
+        choices: PropTypes.array,
+        selected: PropTypes.any,
+        onChange: PropTypes.func,
+        type: PropTypes.string,
+        variant: PropTypes.string,
+        size: PropTypes.string,
     };
 
     static defaultProps = {

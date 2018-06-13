@@ -1,17 +1,18 @@
 import React from 'react';
 import {Link} from 'react-router';
 import {Tooltip} from 'reactstrap';
+import PropTypes from 'prop-types';
 import randomstring from 'randomstring';
 
 export default class Avatar extends React.Component {
     static propTypes = {
-        className: React.PropTypes.string,
-        image: React.PropTypes.string,
-        icon: React.PropTypes.string,
-        size: React.PropTypes.string,
-        title: React.PropTypes.string,
-        link: React.PropTypes.string,
-        badge: React.PropTypes.number,
+        className: PropTypes.string,
+        image: PropTypes.string,
+        icon: PropTypes.string,
+        size: PropTypes.string,
+        title: PropTypes.string,
+        link: PropTypes.string,
+        badge: PropTypes.number,
     };
 
     constructor(props) {

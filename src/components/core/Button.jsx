@@ -1,13 +1,14 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import {addEventListeners, BUTTON_EVENTS} from './utils';
 
 export default class Button extends React.Component {
     static propTypes = {
-        type: React.PropTypes.string,
-        className: React.PropTypes.string,
-        variant: React.PropTypes.string,
-        size: React.PropTypes.string,
+        type: PropTypes.string,
+        className: PropTypes.string,
+        variant: PropTypes.string,
+        size: PropTypes.string,
     };
 
     static defaultProps = {

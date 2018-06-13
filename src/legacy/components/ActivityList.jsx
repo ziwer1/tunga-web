@@ -4,6 +4,7 @@ import moment from 'moment';
 import TimeAgo from 'react-timeago';
 import {ProgressBar} from 'react-bootstrap';
 import Linkify from './Linkify';
+import PropTypes from 'prop-types';
 import randomstring from 'randomstring';
 
 import Progress from './status/Progress';
@@ -720,16 +721,16 @@ export default class ActivityList extends React.Component {
 }
 
 ActivityList.propTypes = {
-    activities: React.PropTypes.array.isRequired,
-    isLoading: React.PropTypes.bool,
-    isLoadingMore: React.PropTypes.bool,
-    loadMoreUrl: React.PropTypes.string,
-    loadMoreCallback: React.PropTypes.func,
-    loadMoreText: React.PropTypes.string,
-    showMessages: React.PropTypes.bool,
-    showNotifications: React.PropTypes.bool,
-    showFiles: React.PropTypes.bool,
-    showProgressReports: React.PropTypes.bool,
+    activities: PropTypes.array.isRequired,
+    isLoading: PropTypes.bool,
+    isLoadingMore: PropTypes.bool,
+    loadMoreUrl: PropTypes.string,
+    loadMoreCallback: PropTypes.func,
+    loadMoreText: PropTypes.string,
+    showMessages: PropTypes.bool,
+    showNotifications: PropTypes.bool,
+    showFiles: PropTypes.bool,
+    showProgressReports: PropTypes.bool,
 };
 
 ActivityList.defaultProps = {

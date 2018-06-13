@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import {Link} from 'react-router';
 
@@ -47,10 +48,10 @@ export default class TagList extends React.Component {
 }
 
 TagList.propTypes = {
-    tags: React.PropTypes.array.isRequired,
-    linkPrefix: React.PropTypes.string,
-    moreLink: React.PropTypes.string,
-    showLinks: React.PropTypes.bool,
+    tags: PropTypes.array.isRequired,
+    linkPrefix: PropTypes.string,
+    moreLink: PropTypes.string,
+    showLinks: PropTypes.bool,
 };
 
 TagList.defaultProps = {

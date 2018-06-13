@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 export default class MessageWidget extends React.Component {
@@ -60,12 +61,12 @@ export default class MessageWidget extends React.Component {
 }
 
 MessageWidget.propTypes = {
-    onSend: React.PropTypes.func.isRequired,
-    onBodyChange: React.PropTypes.func,
-    onAddAttachment: React.PropTypes.func,
-    isSending: React.PropTypes.bool,
-    placeholder: React.PropTypes.string,
-    canUpload: React.PropTypes.bool,
+    onSend: PropTypes.func.isRequired,
+    onBodyChange: PropTypes.func,
+    onAddAttachment: PropTypes.func,
+    isSending: PropTypes.bool,
+    placeholder: PropTypes.string,
+    canUpload: PropTypes.bool,
 };
 
 MessageWidget.defaultProps = {

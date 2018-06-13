@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import {Link} from 'react-router';
 
@@ -224,11 +225,11 @@ export default class UserList extends GenericListContainer {
 }
 
 UserList.propTypes = {
-    hide_header: React.PropTypes.bool,
-    bsClass: React.PropTypes.string,
-    max: React.PropTypes.number,
-    profileLink: React.PropTypes.bool,
-    tagLinks: React.PropTypes.bool,
+    hide_header: PropTypes.bool,
+    bsClass: PropTypes.string,
+    max: PropTypes.number,
+    profileLink: PropTypes.bool,
+    tagLinks: PropTypes.bool,
 };
 
 UserList.defaultProps = {

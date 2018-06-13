@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import {Link} from 'react-router';
 import {bindActionCreators} from 'redux';
@@ -212,7 +213,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 SideBar.contextTypes = {
-    router: React.PropTypes.object.isRequired,
+    router: PropTypes.object.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SideBar);

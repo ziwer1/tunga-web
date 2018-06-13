@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Dropzone from 'react-dropzone';
 import FormStatus from './status/FormStatus';
@@ -110,14 +111,14 @@ export default class MessageForm extends React.Component {
 }
 
 MessageForm.propTypes = {
-    messageCallback: React.PropTypes.func,
-    messageSaved: React.PropTypes.bool,
-    uploadCallback: React.PropTypes.func,
-    uploadSaved: React.PropTypes.bool,
-    isSending: React.PropTypes.bool,
-    error: React.PropTypes.object,
-    placeholder: React.PropTypes.string,
-    canUpload: React.PropTypes.bool,
+    messageCallback: PropTypes.func,
+    messageSaved: PropTypes.bool,
+    uploadCallback: PropTypes.func,
+    uploadSaved: PropTypes.bool,
+    isSending: PropTypes.bool,
+    error: PropTypes.object,
+    placeholder: PropTypes.string,
+    canUpload: PropTypes.bool,
 };
 
 MessageWidget.defaultProps = {

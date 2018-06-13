@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Helmet from 'react-helmet';
 
@@ -197,5 +198,5 @@ export default class TaskDetailPage extends React.Component {
 }
 
 TaskDetailPage.contextTypes = {
-    router: React.PropTypes.object.isRequired,
+    router: PropTypes.object.isRequired,
 };

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
@@ -270,11 +271,11 @@ function mapDispatchToProps(dispatch) {
 }
 
 App.contextTypes = {
-    router: React.PropTypes.object.isRequired,
+    router: PropTypes.object.isRequired,
 };
 
 App.childContextTypes = {
-    router: React.PropTypes.object,
+    router: PropTypes.object,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

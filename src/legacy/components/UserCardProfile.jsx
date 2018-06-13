@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import {Link} from 'react-router';
 import Rating from 'react-rating';
@@ -100,9 +101,9 @@ export default class UserCardProfile extends React.Component {
 }
 
 UserCardProfile.propTypes = {
-    user: React.PropTypes.object.isRequired,
-    avatarSize: React.PropTypes.string,
-    profileLink: React.PropTypes.bool,
+    user: PropTypes.object.isRequired,
+    avatarSize: PropTypes.string,
+    profileLink: PropTypes.bool,
 };
 
 UserCardProfile.defaultProps = {
