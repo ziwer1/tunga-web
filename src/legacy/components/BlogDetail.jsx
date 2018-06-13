@@ -8,6 +8,14 @@ import moment from 'moment/moment';
 import DanteWrapper from './DanteWrapper';
 
 export default class BlogDetail extends React.Component {
+    parseContent() {
+        const blog = this.props.blog || {};
+        if (blog.body && /^{.*}$/gi.test(blog.body)) {
+            return JSON.parse(blog.body);
+        }
+        return null;
+    }
+
     renderHeaderContent() {
         const {Blog} = this.props;
         const {blog} = Blog.detail;
@@ -36,14 +44,6 @@ export default class BlogDetail extends React.Component {
                 )}
             </div>
         );
-    }
-
-    parseContent() {
-        const blog = this.props.blog || {};
-        if (blog.body && /^{.*}$/gi.test(blog.body)) {
-            return JSON.parse(blog.body);
-        }
-        return null;
     }
 
     render() {

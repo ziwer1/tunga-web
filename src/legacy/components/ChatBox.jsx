@@ -39,52 +39,19 @@ export default class ChatBox extends React.Component {
         }
     }
 
-    evaluateOfflineOptions() {
-        const {channel, Channel} = this.props;
-        let activities =
+    onSendMessage(body, attachments) {
+        const {channel, Channel, MessageActions, ChannelActions} = this.props;
+        var activities =
             Channel.detail.activity.items[getChannelKey(channel.id)] || [];
-        if (activities.length) {
-            let hasSentEmail = Channel.detail.channel.object_id;
-            let lastActivity = activities[activities.length - 1];
-            if (
-                !hasSentEmail &&
-                lastActivity.activity &&
-                lastActivity.activity.sender &&
-                lastActivity.activity.sender.inquirer
-            ) {
-                let lastActivityAt = lastActivity.activity.created_at;
-                let minutesAgo =
-                    (moment.utc() -
-                        moment.utc(lastActivity.activity.created_at)) /
-                    (60 * 1000);
-                let offlineDelay = 5;
-                if (minutesAgo > offlineDelay) {
-                    this.setState({
-                        showOfflineActions: true,
-                        lastActivityCount: activities.length,
-                        lastActivityAt,
-                    });
-                } else {
-                    let cb = this;
-                    setTimeout(function() {
-                        cb.evaluateOfflineOptions();
-                    }, 60 * 1000);
-                }
-            } else {
-                this.setState({
-                    showEmailForm: hasSentEmail,
-                    showOfflineActions: hasSentEmail,
-                    lastActivityCount: this.state.lastActivityCount || 1,
-                });
-            }
+        MessageActions.createMessage({channel: channel.id, body}, attachments);
+        if (channel.type == CHANNEL_TYPES.support && !Channel.chatStarted) {
+            ChannelActions.recordChatStart();
         }
     }
 
-    getView() {
-        if (this.props.channelView) {
-            return this.props.channelView;
-        }
-        return null;
+    onUpload(files) {
+        const {channel, ChannelActions} = this.props;
+        ChannelActions.updateChannel(channel.id, null, files);
     }
 
     getEmailForm() {
@@ -183,19 +150,52 @@ export default class ChatBox extends React.Component {
         };
     }
 
-    onSendMessage(body, attachments) {
-        const {channel, Channel, MessageActions, ChannelActions} = this.props;
-        var activities =
-            Channel.detail.activity.items[getChannelKey(channel.id)] || [];
-        MessageActions.createMessage({channel: channel.id, body}, attachments);
-        if (channel.type == CHANNEL_TYPES.support && !Channel.chatStarted) {
-            ChannelActions.recordChatStart();
+    getView() {
+        if (this.props.channelView) {
+            return this.props.channelView;
         }
+        return null;
     }
 
-    onUpload(files) {
-        const {channel, ChannelActions} = this.props;
-        ChannelActions.updateChannel(channel.id, null, files);
+    evaluateOfflineOptions() {
+        const {channel, Channel} = this.props;
+        let activities =
+            Channel.detail.activity.items[getChannelKey(channel.id)] || [];
+        if (activities.length) {
+            let hasSentEmail = Channel.detail.channel.object_id;
+            let lastActivity = activities[activities.length - 1];
+            if (
+                !hasSentEmail &&
+                lastActivity.activity &&
+                lastActivity.activity.sender &&
+                lastActivity.activity.sender.inquirer
+            ) {
+                let lastActivityAt = lastActivity.activity.created_at;
+                let minutesAgo =
+                    (moment.utc() -
+                        moment.utc(lastActivity.activity.created_at)) /
+                    (60 * 1000);
+                let offlineDelay = 5;
+                if (minutesAgo > offlineDelay) {
+                    this.setState({
+                        showOfflineActions: true,
+                        lastActivityCount: activities.length,
+                        lastActivityAt,
+                    });
+                } else {
+                    let cb = this;
+                    setTimeout(function() {
+                        cb.evaluateOfflineOptions();
+                    }, 60 * 1000);
+                }
+            } else {
+                this.setState({
+                    showEmailForm: hasSentEmail,
+                    showOfflineActions: hasSentEmail,
+                    lastActivityCount: this.state.lastActivityCount || 1,
+                });
+            }
+        }
     }
 
     render() {

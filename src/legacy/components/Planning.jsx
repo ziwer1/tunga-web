@@ -3,25 +3,6 @@ import Progress from './status/Progress';
 import moment from 'moment';
 
 export default class Planning extends React.Component {
-    render() {
-        const {isFetching, milestones} = this.props;
-        if (isFetching) return <Progress />;
-        return (
-            <div>
-                <table className="table table-striped table-responsive">
-                    <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Description</th>
-                            <th>Due At</th>
-                        </tr>
-                    </thead>
-                    <tbody>{this.renderMilestones(milestones)}</tbody>
-                </table>
-            </div>
-        );
-    }
-
     renderMilestones = milestones => {
         if (milestones) {
             return _.values(milestones).map(content => (
@@ -44,4 +25,22 @@ export default class Planning extends React.Component {
             ));
         }
     };
+    render() {
+        const {isFetching, milestones} = this.props;
+        if (isFetching) return <Progress />;
+        return (
+            <div>
+                <table className="table table-striped table-responsive">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Due At</th>
+                        </tr>
+                    </thead>
+                    <tbody>{this.renderMilestones(milestones)}</tbody>
+                </table>
+            </div>
+        );
+    }
 }

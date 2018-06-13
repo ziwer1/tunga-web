@@ -17,6 +17,19 @@ export default class DeveloperProfile extends React.Component {
         this.initMap();
     }
 
+    onApprove(status) {
+        const {User, UserActions} = this.props;
+        const {user} = User.detail;
+
+        UserActions.updateUser(user.id, {verified: status});
+    }
+
+    flattenSkills(skills) {
+        return (skills || []).map(skill => {
+            return skill.name;
+        });
+    }
+
     initMap() {
         var mapTimer = null;
         function createMap() {
@@ -42,19 +55,6 @@ export default class DeveloperProfile extends React.Component {
             }
         }
         createMap();
-    }
-
-    flattenSkills(skills) {
-        return (skills || []).map(skill => {
-            return skill.name;
-        });
-    }
-
-    onApprove(status) {
-        const {User, UserActions} = this.props;
-        const {user} = User.detail;
-
-        UserActions.updateUser(user.id, {verified: status});
     }
 
     renderHeaderContent() {

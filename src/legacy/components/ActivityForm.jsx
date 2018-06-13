@@ -25,6 +25,14 @@ export default class ActivityForm extends React.Component {
         const activity = this.props.activity;
     }
 
+    onAssigneeChange(users) {
+        var assignee = null;
+        if (Array.isArray(users) && users.length) {
+            assignee = users[0];
+        }
+        this.setState({assignee});
+    }
+
     onInputChange(key, e) {
         var new_state = {};
         new_state[key] = e.target.value;
@@ -35,14 +43,6 @@ export default class ActivityForm extends React.Component {
         var new_state = {};
         new_state[key] = value;
         this.setState(new_state);
-    }
-
-    onAssigneeChange(users) {
-        var assignee = null;
-        if (Array.isArray(users) && users.length) {
-            assignee = users[0];
-        }
-        this.setState({assignee});
     }
 
     onStatusChange(e) {

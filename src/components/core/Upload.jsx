@@ -14,6 +14,13 @@ const UPLOAD_TYPES = {
 
 export default class Upload extends React.Component {
 
+    static defaultProps = {
+        variant: 'dropzone',
+        type: 'file',
+        multiple: false,
+        max: 0
+    };
+
     static propTypes = {
         variant: PropTypes.string,
         type: PropTypes.string,
@@ -25,13 +32,6 @@ export default class Upload extends React.Component {
         size: PropTypes.string,
         max: PropTypes.number,
         icon: PropTypes.number,
-    };
-
-    static defaultProps = {
-        variant: 'dropzone',
-        type: 'file',
-        multiple: false,
-        max: 0
     };
 
     constructor(props) {
@@ -47,16 +47,8 @@ export default class Upload extends React.Component {
         }
     }
 
-    getProperties() {
-        return UPLOAD_TYPES[this.props.type] || {};
-    }
-
     onDrop(files) {
         this.setState({files: this.props.multiple?[...this.state.files, ...files]:[files[0]]});
-    }
-
-    onUpload() {
-        this.refs.dropzone.open();
     }
 
     onRemoveFile(file) {
@@ -68,6 +60,14 @@ export default class Upload extends React.Component {
         });
 
         this.setState({files: updatedFiles});
+    }
+
+    onUpload() {
+        this.refs.dropzone.open();
+    }
+
+    getProperties() {
+        return UPLOAD_TYPES[this.props.type] || {};
     }
 
     render() {

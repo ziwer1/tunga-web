@@ -44,19 +44,19 @@ class MessagePage extends React.Component {
         }
     }
 
-    getChannels() {
-        const {ChannelActions} = this.props;
-        if (isAuthenticated()) {
-            ChannelActions.listChannels({type: this.getChannelTypeFilter()});
-        }
-    }
-
     getChannelTypeFilter() {
         switch (this.props.route.path) {
             case 'help':
                 return CHANNEL_TYPES.support;
             default:
                 return null;
+        }
+    }
+
+    getChannels() {
+        const {ChannelActions} = this.props;
+        if (isAuthenticated()) {
+            ChannelActions.listChannels({type: this.getChannelTypeFilter()});
         }
     }
 

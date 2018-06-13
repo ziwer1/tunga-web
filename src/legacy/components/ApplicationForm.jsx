@@ -49,16 +49,12 @@ export default class ApplicationForm extends React.Component {
         }
     }
 
-    onInputChange(key, e) {
-        var new_state = {};
-        new_state[key] = e.target.value;
-        this.setState(new_state);
+    onAgreeDeadlineChange(e) {
+        this.setState({agree_deadline: !this.state.agree_deadline});
     }
 
-    onStateValueChange(key, value) {
-        var new_state = {};
-        new_state[key] = value;
-        this.setState(new_state);
+    onAgreeScheduleChange(e) {
+        this.setState({agree_schedule: !this.state.agree_schedule});
     }
 
     onDeliveryDateChange(date) {
@@ -69,20 +65,24 @@ export default class ApplicationForm extends React.Component {
         });
     }
 
+    onInputChange(key, e) {
+        var new_state = {};
+        new_state[key] = e.target.value;
+        this.setState(new_state);
+    }
+
     onPitchChange(e) {
         this.setState({pitch: e.target.getContent()});
     }
 
-    onAgreeScheduleChange(e) {
-        this.setState({agree_schedule: !this.state.agree_schedule});
-    }
-
-    onAgreeDeadlineChange(e) {
-        this.setState({agree_deadline: !this.state.agree_deadline});
-    }
-
     onRemarksChange(e) {
         this.setState({remarks: e.target.getContent()});
+    }
+
+    onStateValueChange(key, value) {
+        var new_state = {};
+        new_state[key] = value;
+        this.setState(new_state);
     }
 
     handleSubmit = e => {

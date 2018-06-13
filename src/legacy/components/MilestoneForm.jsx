@@ -21,6 +21,14 @@ export default class MilestoneForm extends React.Component {
         }
     }
 
+    onDueAtChange(date) {
+        this.setState({
+            due_at: moment(date)
+                .utc()
+                .format(),
+        });
+    }
+
     onInputChange(key, e) {
         var new_state = {};
         new_state[key] = e.target.value;
@@ -30,14 +38,6 @@ export default class MilestoneForm extends React.Component {
     onInputCheck() {
         this.setState({
             internal: !this.state.internal,
-        });
-    }
-
-    onDueAtChange(date) {
-        this.setState({
-            due_at: moment(date)
-                .utc()
-                .format(),
         });
     }
 

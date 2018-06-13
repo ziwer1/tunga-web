@@ -35,6 +35,10 @@ let sampleDevProfile = {
 const PROFILES = [sampleDevProfile, sampleDevProfile, sampleDevProfile];
 
 export default class QualityPage extends React.Component {
+    onScheduleCall() {
+        openCalendlyWidget();
+    }
+
     renderHeaderContent() {
         return (
             <div className="showcase-header">
@@ -55,10 +59,6 @@ export default class QualityPage extends React.Component {
                 </p>
             </div>
         );
-    }
-
-    onScheduleCall() {
-        openCalendlyWidget();
     }
 
     render() {

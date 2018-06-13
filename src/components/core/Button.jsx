@@ -4,16 +4,16 @@ import React from 'react';
 import {addEventListeners, BUTTON_EVENTS} from './utils';
 
 export default class Button extends React.Component {
+    static defaultProps = {
+        type: 'button',
+        variant: 'primary'
+    };
+
     static propTypes = {
         type: PropTypes.string,
         className: PropTypes.string,
         variant: PropTypes.string,
         size: PropTypes.string,
-    };
-
-    static defaultProps = {
-        type: 'button',
-        variant: 'primary'
     };
 
     render() {

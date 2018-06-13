@@ -22,6 +22,10 @@ export default class MessageForm extends React.Component {
         }
     }
 
+    onAddAttachment() {
+        this.refs.dropzone.open();
+    }
+
     onBodyChange(body) {
         this.setState({body});
     }
@@ -31,10 +35,6 @@ export default class MessageForm extends React.Component {
         if (this.props.uploadCallback) {
             this.props.uploadCallback(attachments);
         }
-    }
-
-    onAddAttachment() {
-        this.refs.dropzone.open();
     }
 
     handleSubmit(e) {

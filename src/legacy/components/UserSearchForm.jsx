@@ -13,6 +13,43 @@ class UserSearchForm extends React.Component {
         this.state = {participants: [], type: null};
     }
 
+    onParticipantChange(participants) {
+        this.setState({participants: participants});
+    }
+
+    onTypeChange(type = null) {
+        this.setState({type});
+    }
+
+    getOtherParticipants() {
+        const {Channel} = this.props;
+        let channel = this.props.channel || {};
+
+        var participants = [];
+        if (channel.id && channel.details) {
+            channel.details.participants.forEach(user => {
+                if (user.id != getUser().id) {
+                    participants.push(user);
+                }
+            });
+        }
+        return participants;
+    }
+
+    getRecipient() {
+        if (this.props.params && this.props.params.recipientId) {
+            return this.props.params.recipientId;
+        }
+        return null;
+    }
+
+    getTaskId() {
+        if (this.props.params && this.props.params.taskId) {
+            return this.props.params.taskId;
+        }
+        return null;
+    }
+
     UNSAFE_componentWillMount() {
         const channel = this.props.channel || {};
         if (channel.id && channel.details) {
@@ -41,41 +78,17 @@ class UserSearchForm extends React.Component {
         }
     }
 
-    getRecipient() {
-        if (this.props.params && this.props.params.recipientId) {
-            return this.props.params.recipientId;
-        }
-        return null;
-    }
+    handleSubmit(e) {
+        e.preventDefault();
+        var subject = this.refs.subject ? this.refs.subject.value.trim() : null;
+        const participants = this.state.participants;
+        var message = this.refs.message ? this.refs.message.value.trim() : null;
 
-    getTaskId() {
-        if (this.props.params && this.props.params.taskId) {
-            return this.props.params.taskId;
-        }
-        return null;
-    }
+        this.saveChannel(participants, subject, message);
 
-    onParticipantChange(participants) {
-        this.setState({participants: participants});
-    }
+        this.props.toggleButton();
 
-    getOtherParticipants() {
-        const {Channel} = this.props;
-        let channel = this.props.channel || {};
-
-        var participants = [];
-        if (channel.id && channel.details) {
-            channel.details.participants.forEach(user => {
-                if (user.id != getUser().id) {
-                    participants.push(user);
-                }
-            });
-        }
-        return participants;
-    }
-
-    onTypeChange(type = null) {
-        this.setState({type});
+        return;
     }
 
     saveChannel(
@@ -100,19 +113,6 @@ class UserSearchForm extends React.Component {
         } else {
             ChannelActions.createChannel(channel_info);
         }
-    }
-
-    handleSubmit(e) {
-        e.preventDefault();
-        var subject = this.refs.subject ? this.refs.subject.value.trim() : null;
-        const participants = this.state.participants;
-        var message = this.refs.message ? this.refs.message.value.trim() : null;
-
-        this.saveChannel(participants, subject, message);
-
-        this.props.toggleButton();
-
-        return;
     }
 
     render() {

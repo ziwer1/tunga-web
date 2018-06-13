@@ -35,14 +35,14 @@ export default class SupportPageList extends React.Component {
         }
     }
 
-    getSectionSlug() {
-        const {params} = this.props;
-        return params ? params.section : null;
-    }
-
     getFilterTag() {
         const {params} = this.props;
         return params ? params.tag : null;
+    }
+
+    getSectionSlug() {
+        const {params} = this.props;
+        return params ? params.section : null;
     }
 
     render() {

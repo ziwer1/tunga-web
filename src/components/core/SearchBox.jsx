@@ -5,14 +5,14 @@ import CustomInputGroup from './CustomInputGroup';
 import {filterEventProps} from "./utils";
 
 export default class SearchBox extends React.Component {
+    static defaultProps = {
+        branded: true
+    };
+
     static propTypes = {
         className: PropTypes.string,
         placeholder: PropTypes.string,
         branded: PropTypes.bool,
-    };
-
-    static defaultProps = {
-        branded: true
     };
 
     render() {

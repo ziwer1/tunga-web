@@ -20,10 +20,6 @@ class ModalWrapper extends React.Component {
         runOptimizely();
     }
 
-    open() {
-        this.setState({showModal: true});
-    }
-
     close() {
         this.setState({showModal: false});
 
@@ -31,6 +27,10 @@ class ModalWrapper extends React.Component {
         if (dismiss) {
             dismiss();
         }
+    }
+
+    open() {
+        this.setState({showModal: true});
     }
 
     renderChildren() {

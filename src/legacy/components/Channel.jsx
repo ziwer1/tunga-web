@@ -16,10 +16,6 @@ export default class Channel extends React.Component {
         this.state = {filters: null};
     }
 
-    UNSAFE_componentWillMount() {
-        this.intervals = [];
-    }
-
     componentDidMount() {
         const {channelId, ChannelActions} = this.props;
 
@@ -46,15 +42,29 @@ export default class Channel extends React.Component {
         this.intervals.map(clearInterval);
     }
 
-    setInterval() {
-        this.intervals.push(setInterval.apply(null, arguments));
+    onSearch(filters) {
+        this.setState({filters});
+        const {Channel, ChannelActions} = this.props;
+        const {channel} = Channel.detail;
+        ChannelActions.listChannelActivity(channel.id, filters);
     }
 
-    getView() {
-        if (this.props.channelView) {
-            return this.props.channelView;
-        }
-        return null;
+    onSendMessage(body, attachments) {
+        const {MessageActions, Channel, ChannelActions} = this.props;
+        const {channel} = Channel.detail;
+        MessageActions.createMessage({channel: channel.id, body}, attachments);
+    }
+
+    onUpload(files) {
+        const {Channel, ChannelActions} = this.props;
+        const {channel} = Channel.detail;
+        ChannelActions.updateChannel(channel.id, null, files);
+    }
+
+    getCurrentChannel() {
+        const {channelId, Channel} = this.props;
+        const {channels} = Channel.list;
+        return channels[channelId] || {};
     }
 
     getNewMessages() {
@@ -92,29 +102,19 @@ export default class Channel extends React.Component {
         }
     }
 
-    onSendMessage(body, attachments) {
-        const {MessageActions, Channel, ChannelActions} = this.props;
-        const {channel} = Channel.detail;
-        MessageActions.createMessage({channel: channel.id, body}, attachments);
+    getView() {
+        if (this.props.channelView) {
+            return this.props.channelView;
+        }
+        return null;
     }
 
-    onUpload(files) {
-        const {Channel, ChannelActions} = this.props;
-        const {channel} = Channel.detail;
-        ChannelActions.updateChannel(channel.id, null, files);
+    setInterval() {
+        this.intervals.push(setInterval.apply(null, arguments));
     }
 
-    onSearch(filters) {
-        this.setState({filters});
-        const {Channel, ChannelActions} = this.props;
-        const {channel} = Channel.detail;
-        ChannelActions.listChannelActivity(channel.id, filters);
-    }
-
-    getCurrentChannel() {
-        const {channelId, Channel} = this.props;
-        const {channels} = Channel.list;
-        return channels[channelId] || {};
+    UNSAFE_componentWillMount() {
+        this.intervals = [];
     }
 
     renderChildren() {

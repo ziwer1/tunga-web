@@ -22,12 +22,12 @@ export default class ProfilePicture extends React.Component {
         }
     }
 
-    onDrop(files) {
-        this.setState({photo: files[0]});
-    }
-
     onClickOpen() {
         this.refs.dropzone.open();
+    }
+
+    onDrop(files) {
+        this.setState({photo: files[0]});
     }
 
     handleSubmit = e => {

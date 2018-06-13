@@ -43,6 +43,64 @@ class ChatWindow extends React.Component {
         this.state = {channel: null, new: 0, open: false};
     }
 
+    componentDidMount() {
+        resizeOverviewBox();
+        $(window).resize(resizeOverviewBox);
+
+        this.setInterval(this.getNewMessages.bind(this), 10 * 1000);
+
+        const {ChannelActions} = this.props;
+
+        if (isAuthenticated()) {
+            ChannelActions.createSupportChannel();
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        resizeOverviewBox();
+        if (
+            !isAuthenticated() &&
+            this.state.open &&
+            !prevState.open &&
+            !this.state.channel
+        ) {
+            const {ChannelActions} = this.props;
+            ChannelActions.createSupportChannel();
+        }
+
+        if (this.props.closeChat && !prevProps.closeChat && this.state.open) {
+            this.setState({open: false});
+        }
+
+        if (this.state.open && !prevState.open && this.audio) {
+            this.audio.play();
+        }
+    }
+
+    componentWillUnmount() {
+        this.saveChannel(this.getCurrentChannel());
+        this.intervals.map(clearInterval);
+    }
+
+    getCurrentChannel() {
+        return typeof this.state.channel === 'object'
+            ? this.state.channel
+            : null;
+    }
+
+    getNewMessages() {
+        const {ChannelActions} = this.props;
+        const channel = this.state.channel;
+        if (!this.state.open && channel) {
+            var since = channel.last_read || 0;
+            ChannelActions.listChannelActivity(channel.id, {since}, false);
+        }
+    }
+
+    setInterval() {
+        this.intervals.push(setInterval.apply(null, arguments));
+    }
+
     UNSAFE_componentWillMount() {
         this.intervals = [];
 
@@ -78,19 +136,6 @@ class ChatWindow extends React.Component {
         this.setState({channel, open});
     }
 
-    componentDidMount() {
-        resizeOverviewBox();
-        $(window).resize(resizeOverviewBox);
-
-        this.setInterval(this.getNewMessages.bind(this), 10 * 1000);
-
-        const {ChannelActions} = this.props;
-
-        if (isAuthenticated()) {
-            ChannelActions.createSupportChannel();
-        }
-    }
-
     UNSAFE_componentWillReceiveProps(nextProps) {
         if (nextProps.Channel.detail.channel.id) {
             var currentChannel = this.getCurrentChannel();
@@ -115,40 +160,12 @@ class ChatWindow extends React.Component {
         }
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        resizeOverviewBox();
-        if (
-            !isAuthenticated() &&
-            this.state.open &&
-            !prevState.open &&
-            !this.state.channel
-        ) {
-            const {ChannelActions} = this.props;
-            ChannelActions.createSupportChannel();
-        }
-
-        if (this.props.closeChat && !prevProps.closeChat && this.state.open) {
-            this.setState({open: false});
-        }
-
-        if (this.state.open && !prevState.open && this.audio) {
-            this.audio.play();
-        }
+    closeWindow() {
+        this.setState({open: false});
     }
 
-    componentWillUnmount() {
-        this.saveChannel(this.getCurrentChannel());
-        this.intervals.map(clearInterval);
-    }
-
-    setInterval() {
-        this.intervals.push(setInterval.apply(null, arguments));
-    }
-
-    getCurrentChannel() {
-        return typeof this.state.channel === 'object'
-            ? this.state.channel
-            : null;
+    minimizeWindow() {
+        this.setState({open: false});
     }
 
     saveChannel(channel) {
@@ -172,23 +189,6 @@ class ChatWindow extends React.Component {
             ChannelActions.createSupportChannel();
         }
         this.setState({open: true});
-    }
-
-    minimizeWindow() {
-        this.setState({open: false});
-    }
-
-    closeWindow() {
-        this.setState({open: false});
-    }
-
-    getNewMessages() {
-        const {ChannelActions} = this.props;
-        const channel = this.state.channel;
-        if (!this.state.open && channel) {
-            var since = channel.last_read || 0;
-            ChannelActions.listChannelActivity(channel.id, {since}, false);
-        }
     }
 
     render() {

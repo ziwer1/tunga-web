@@ -4,14 +4,14 @@ import React from 'react';
 import {addEventListeners, INPUT_EVENTS} from './utils';
 
 export default class TextArea extends React.Component {
+    static defaultProps = {
+        type: 'text'
+    };
+
     static propTypes = {
         type: PropTypes.string,
         className: PropTypes.string,
         placeholder: PropTypes.string,
-    };
-
-    static defaultProps = {
-        type: 'text'
     };
 
     render() {

@@ -33,29 +33,20 @@ export default class ProfileForm extends React.Component {
         }
     }
 
-    onDrop(files) {
-        this.setState({photo: files[0]});
-    }
-
     onClickOpen() {
         this.refs.dropzone.open();
-    }
-
-    onPaymentMethodChange(payment_method) {
-        this.setState({payment_method});
     }
 
     onCountryCodeChange(country_code) {
         this.setState({country_code: country_code.id});
     }
 
-    changeStep(direction = true, overrideErrors) {
-        var next_step = this.state.step + (direction ? 1 : -1);
-        var new_state = {step: next_step};
-        if (typeof overrideErrors == 'boolean') {
-            new_state.overrideErrors = overrideErrors;
-        }
-        this.setState(new_state);
+    onDrop(files) {
+        this.setState({photo: files[0]});
+    }
+
+    onPaymentMethodChange(payment_method) {
+        this.setState({payment_method});
     }
 
     canSkip(required, requires) {
@@ -76,11 +67,13 @@ export default class ProfileForm extends React.Component {
         return true;
     }
 
-    showAll(e) {
-        this.setState({
-            showAll: !this.refs.profile_form.checkValidity(),
-            overrideErrors: false,
-        });
+    changeStep(direction = true, overrideErrors) {
+        var next_step = this.state.step + (direction ? 1 : -1);
+        var new_state = {step: next_step};
+        if (typeof overrideErrors == 'boolean') {
+            new_state.overrideErrors = overrideErrors;
+        }
+        this.setState(new_state);
     }
 
     handleSubmit = e => {
@@ -136,6 +129,13 @@ export default class ProfileForm extends React.Component {
         ProfileActions.updateProfile(Profile.profile.id, profile_info);
         return;
     };
+
+    showAll(e) {
+        this.setState({
+            showAll: !this.refs.profile_form.checkValidity(),
+            overrideErrors: false,
+        });
+    }
 
     render() {
         const {Auth, Profile} = this.props;

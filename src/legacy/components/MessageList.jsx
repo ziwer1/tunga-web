@@ -12,10 +12,6 @@ import Attachments from './Attachments';
 import {getUser} from '../utils/auth';
 
 export default class MessageList extends React.Component {
-    UNSAFE_componentWillMount() {
-        this.intervals = [];
-    }
-
     componentDidMount() {
         const {MessageActions, filters, search, channel} = this.props;
         MessageActions.listMessages({...filters, search});
@@ -34,10 +30,6 @@ export default class MessageList extends React.Component {
 
     componentWillUnmount() {
         this.intervals.map(clearInterval);
-    }
-
-    setInterval() {
-        this.intervals.push(setInterval.apply(null, arguments));
     }
 
     getNewMessages() {
@@ -59,6 +51,14 @@ export default class MessageList extends React.Component {
                 since,
             });
         }
+    }
+
+    setInterval() {
+        this.intervals.push(setInterval.apply(null, arguments));
+    }
+
+    UNSAFE_componentWillMount() {
+        this.intervals = [];
     }
 
     renderThread(thread) {

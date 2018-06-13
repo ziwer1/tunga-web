@@ -46,20 +46,6 @@ export default class QuoteDetail extends React.Component {
         }
     }
 
-    getTotalHours() {
-        const quote = this.props.quote || {};
-        if (!quote.activities || !quote.activities.length) {
-            return 0;
-        }
-        return quote.activities
-            .map(function(activity) {
-                return activity.hours;
-            })
-            .reduce((a, b) => {
-                return parseInt(a) + parseInt(b);
-            });
-    }
-
     onChangeStatus(status) {
         const {QuoteActions} = this.props;
         const quote = this.props.quote || {};
@@ -86,6 +72,20 @@ export default class QuoteDetail extends React.Component {
         }
 
         return;
+    }
+
+    getTotalHours() {
+        const quote = this.props.quote || {};
+        if (!quote.activities || !quote.activities.length) {
+            return 0;
+        }
+        return quote.activities
+            .map(function(activity) {
+                return activity.hours;
+            })
+            .reduce((a, b) => {
+                return parseInt(a) + parseInt(b);
+            });
     }
 
     render() {

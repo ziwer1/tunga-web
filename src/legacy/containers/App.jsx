@@ -27,8 +27,6 @@ import {
 
 
 class App extends React.Component {
-    shouldRender = true;
-
     constructor(props) {
         super(props);
         this.state = {showConsentAlert: !getCookieConsentCloseAt() && !getCookieConsent()};
@@ -39,32 +37,6 @@ class App extends React.Component {
         return {router};
     }
 
-    getSkill(props) {
-        if (props.params && props.params.skill) {
-            return props.params.skill;
-        }
-        return null;
-    }
-
-    verifyRoute(props) {
-        let path = (window.location.pathname + location.search).replace(
-            '/tunga',
-            '',
-        );
-        if (
-            !this.getSkill(props) &&
-            !isTungaDomain() &&
-            !/^\/?((welcome|our-story|quality|pricing|friends-of-tunga|friends-of-tunga-rules)\/?)?(\?.*|$)/.test(path)
-        ) {
-            this.shouldRender = false;
-            window.location.href = `https://tunga.io${path}`;
-        }
-    }
-
-    UNSAFE_componentWillMount() {
-        this.verifyRoute(this.props);
-    }
-
     componentDidMount() {
         if (!this.props.Auth.isVerifying) {
             this.props.AuthActions.verify();
@@ -73,10 +45,6 @@ class App extends React.Component {
         initNavUIController();
 
         runOptimizely();
-    }
-
-    UNSAFE_componentWillReceiveProps(nextProps) {
-        this.verifyRoute(nextProps);
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -154,10 +122,9 @@ class App extends React.Component {
         runOptimizely();
     }
 
-    handleAppClick() {
-        const {UserSelectionActions, SkillSelectionActions} = this.props;
-        UserSelectionActions.invalidateUserSuggestions();
-        SkillSelectionActions.invalidateSkillSuggestions();
+    onCloseCookieConsent() {
+        setCookieConsentCloseAt();
+        this.setState({showConsentAlert: !getCookieConsentCloseAt() && !getCookieConsent()});
     }
 
     onClosePopup() {
@@ -171,16 +138,49 @@ class App extends React.Component {
         }
     }
 
-    onCloseCookieConsent() {
-        setCookieConsentCloseAt();
-        this.setState({showConsentAlert: !getCookieConsentCloseAt() && !getCookieConsent()});
-    }
-
     onCookieSettings() {
         let self = this;
         openCookieConsentPopUp(consents => {
             self.setState({showConsentAlert: !getCookieConsentCloseAt() && !getCookieConsent()});
         });
+    }
+
+    getSkill(props) {
+        if (props.params && props.params.skill) {
+            return props.params.skill;
+        }
+        return null;
+    }
+
+    UNSAFE_componentWillMount() {
+        this.verifyRoute(this.props);
+    }
+
+    UNSAFE_componentWillReceiveProps(nextProps) {
+        this.verifyRoute(nextProps);
+    }
+
+    handleAppClick() {
+        const {UserSelectionActions, SkillSelectionActions} = this.props;
+        UserSelectionActions.invalidateUserSuggestions();
+        SkillSelectionActions.invalidateSkillSuggestions();
+    }
+
+    shouldRender = true;
+
+    verifyRoute(props) {
+        let path = (window.location.pathname + location.search).replace(
+            '/tunga',
+            '',
+        );
+        if (
+            !this.getSkill(props) &&
+            !isTungaDomain() &&
+            !/^\/?((welcome|our-story|quality|pricing|friends-of-tunga|friends-of-tunga-rules)\/?)?(\?.*|$)/.test(path)
+        ) {
+            this.shouldRender = false;
+            window.location.href = `https://tunga.io${path}`;
+        }
     }
 
     renderChildren() {

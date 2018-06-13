@@ -38,31 +38,15 @@ export default class TaskDetailPage extends React.Component {
         }
     }
 
-    getLastRoute() {
-        const {routes} = this.props;
-        if (routes && routes.length) {
-            return routes[routes.length - 1];
-        }
-        return null;
+    getApplication() {
+        let id = this.getApplicationId();
+        const applications = this.props.Task.detail.applications.items;
+        return applications[id];
     }
 
     getApplicationId() {
         if (this.props.params) {
             return this.props.params.applicationId;
-        }
-        return null;
-    }
-
-    getEditSection() {
-        if (this.props.params) {
-            return this.props.params.editSection;
-        }
-        return null;
-    }
-
-    getProvider() {
-        if (this.props.params) {
-            return this.props.params.provider;
         }
         return null;
     }
@@ -79,10 +63,26 @@ export default class TaskDetailPage extends React.Component {
         return null;
     }
 
-    getApplication() {
-        let id = this.getApplicationId();
-        const applications = this.props.Task.detail.applications.items;
-        return applications[id];
+    getEditSection() {
+        if (this.props.params) {
+            return this.props.params.editSection;
+        }
+        return null;
+    }
+
+    getLastRoute() {
+        const {routes} = this.props;
+        if (routes && routes.length) {
+            return routes[routes.length - 1];
+        }
+        return null;
+    }
+
+    getProvider() {
+        if (this.props.params) {
+            return this.props.params.provider;
+        }
+        return null;
     }
 
     renderChildren() {

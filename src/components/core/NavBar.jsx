@@ -8,15 +8,15 @@ import SearchBox from './SearchBox';
 
 
 export default class NavBar extends React.Component {
+    static defaultProps = {
+        breakpoint: 'lg',
+    };
+
     static propTypes = {
         className: PropTypes.string,
         user: PropTypes.object,
         onSignOut: PropTypes.func,
         breakpoint: PropTypes.string,
-    };
-
-    static defaultProps = {
-        breakpoint: 'lg',
     };
 
     onSignOut(e) {

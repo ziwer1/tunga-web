@@ -2,6 +2,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 export default class MessageWidget extends React.Component {
+    onAddAttachment() {
+        if (this.props.onAddAttachment) {
+            this.props.onAddAttachment();
+        }
+    }
+
     onBodyChange(e) {
         var body = e.target.value.trim();
         if (this.props.onBodyChange) {
@@ -9,12 +15,6 @@ export default class MessageWidget extends React.Component {
         }
         if (e.keyCode === 13 && !e.shiftKey) {
             this.onSend(e);
-        }
-    }
-
-    onAddAttachment() {
-        if (this.props.onAddAttachment) {
-            this.props.onAddAttachment();
         }
     }
 

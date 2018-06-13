@@ -6,6 +6,11 @@ import Button from './Button';
 import {filterEventProps} from "./utils";
 
 export default class ChoiceGroup extends React.Component {
+    static defaultProps = {
+        variant: 'choice',
+        choices: []
+    };
+
     static propTypes = {
         className: PropTypes.string,
         choices: PropTypes.array,
@@ -16,26 +21,21 @@ export default class ChoiceGroup extends React.Component {
         size: PropTypes.string,
     };
 
-    static defaultProps = {
-        variant: 'choice',
-        choices: []
-    };
-
     constructor(props) {
         super(props);
         this.state = {selected: props.selected};
-    }
-
-    UNSAFE_componentWillReceiveProps(nextProps) {
-        if(nextProps.selected !== this.props.selected) {
-            this.setState({selected: nextProps.selected});
-        }
     }
 
     onChange(choice) {
         this.setState({selected: choice});
         if(this.props.onChange) {
             this.props.onChange(choice);
+        }
+    }
+
+    UNSAFE_componentWillReceiveProps(nextProps) {
+        if(nextProps.selected !== this.props.selected) {
+            this.setState({selected: nextProps.selected});
         }
     }
 

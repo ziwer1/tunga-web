@@ -13,6 +13,13 @@ export default class RateDevelopers extends React.Component {
         this.state = {ratings_map: null};
     }
 
+    onRatingChange(criteria, rating) {
+        const {TaskActions, task} = this.props;
+        TaskActions.updateTask(task.id, {
+            ratings: [{criteria, score: rating}],
+        });
+    }
+
     UNSAFE_componentWillMount() {
         this.mapUserRatings(this.props);
     }
@@ -21,6 +28,12 @@ export default class RateDevelopers extends React.Component {
         if (nextProps.Task.detail.isSaved && !this.props.Task.detail.isSaved) {
             this.mapUserRatings(nextProps);
         }
+    }
+
+    handleSubmit(e) {
+        e.preventDefault();
+
+        return;
     }
 
     mapUserRatings(props) {
@@ -34,19 +47,6 @@ export default class RateDevelopers extends React.Component {
             });
             this.setState({ratings_map});
         }
-    }
-
-    onRatingChange(criteria, rating) {
-        const {TaskActions, task} = this.props;
-        TaskActions.updateTask(task.id, {
-            ratings: [{criteria, score: rating}],
-        });
-    }
-
-    handleSubmit(e) {
-        e.preventDefault();
-
-        return;
     }
 
     render() {

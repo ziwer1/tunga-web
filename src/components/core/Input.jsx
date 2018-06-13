@@ -3,15 +3,15 @@ import React from 'react';
 import {addEventListeners, INPUT_EVENTS} from "./utils";
 
 export default class Input extends React.Component {
+    static defaultProps = {
+        type: 'text'
+    };
+
     static propTypes = {
         type: PropTypes.string,
         className: PropTypes.string,
         placeholder: PropTypes.string,
         size: PropTypes.string,
-    };
-
-    static defaultProps = {
-        type: 'text'
     };
 
     render() {

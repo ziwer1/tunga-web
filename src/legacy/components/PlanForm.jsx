@@ -22,15 +22,17 @@ export default class PlanForm extends React.Component {
         }
     }
 
+    onEndDateChange(date) {
+        this.setState({
+            end_date: moment(date)
+                .utc()
+                .format(),
+        });
+    }
+
     onInputChange(key, e) {
         var new_state = {};
         new_state[key] = e.target.value;
-        this.setState(new_state);
-    }
-
-    onStateValueChange(key, value) {
-        var new_state = {};
-        new_state[key] = value;
         this.setState(new_state);
     }
 
@@ -42,12 +44,10 @@ export default class PlanForm extends React.Component {
         });
     }
 
-    onEndDateChange(date) {
-        this.setState({
-            end_date: moment(date)
-                .utc()
-                .format(),
-        });
+    onStateValueChange(key, value) {
+        var new_state = {};
+        new_state[key] = value;
+        this.setState(new_state);
     }
 
     handleSubmit = e => {

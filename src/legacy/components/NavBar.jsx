@@ -20,11 +20,6 @@ class NavBar extends React.Component {
         initSideBarToggle();
     }
 
-    handleLogout = e => {
-        e.preventDefault();
-        this.props.AuthActions.logout();
-    };
-
     onSearch(query) {
         this.props.SearchActions.searchStart(query.search);
         if (!SEARCH_PATH.test(this.props.location.pathname)) {
@@ -32,6 +27,11 @@ class NavBar extends React.Component {
             router.replace('/search');
         }
     }
+
+    handleLogout = e => {
+        e.preventDefault();
+        this.props.AuthActions.logout();
+    };
 
     render() {
         const {Auth} = this.props;

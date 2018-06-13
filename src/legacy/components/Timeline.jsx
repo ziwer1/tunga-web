@@ -37,6 +37,35 @@ export default class Timeline extends React.Component {
         }
     }
 
+    describeArc(x, y, radius, startAngle, endAngle) {
+        var start = this.polarToCartesian(x, y, radius, endAngle);
+        var end = this.polarToCartesian(x, y, radius, startAngle);
+
+        var largeArcFlag = endAngle - startAngle <= 180 ? '0' : '1';
+
+        var d = [
+            'M',
+            start.x,
+            start.y,
+            'A',
+            radius,
+            radius,
+            0,
+            largeArcFlag,
+            0,
+            end.x,
+            end.y,
+        ].join(' ');
+
+        return d;
+    }
+
+    openMilestone(event) {
+        if (this.props.openMilestone) {
+            this.props.openMilestone(event.id);
+        }
+    }
+
     parseTimeline() {
         const {start, end, events} = this.props;
         var all_events = [];
@@ -83,12 +112,6 @@ export default class Timeline extends React.Component {
         this.setState({min, max, duration, all_events, next_event});
     }
 
-    openMilestone(event) {
-        if (this.props.openMilestone) {
-            this.props.openMilestone(event.id);
-        }
-    }
-
     polarToCartesian(centerX, centerY, radius, angleInDegrees) {
         var angleInRadians = (angleInDegrees - 90) * Math.PI / 180.0;
 
@@ -96,29 +119,6 @@ export default class Timeline extends React.Component {
             x: centerX + radius * Math.cos(angleInRadians),
             y: centerY + radius * Math.sin(angleInRadians),
         };
-    }
-
-    describeArc(x, y, radius, startAngle, endAngle) {
-        var start = this.polarToCartesian(x, y, radius, endAngle);
-        var end = this.polarToCartesian(x, y, radius, startAngle);
-
-        var largeArcFlag = endAngle - startAngle <= 180 ? '0' : '1';
-
-        var d = [
-            'M',
-            start.x,
-            start.y,
-            'A',
-            radius,
-            radius,
-            0,
-            largeArcFlag,
-            0,
-            end.x,
-            end.y,
-        ].join(' ');
-
-        return d;
     }
 
     renderEvent(event) {

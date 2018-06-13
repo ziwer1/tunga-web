@@ -49,26 +49,15 @@ const CUSTOM_INPUTS = {
 };
 
 export default class CustomInputGroup extends React.Component {
+    static defaultProps = {
+        variant: null
+    };
+
     static propTypes = {
         variant: PropTypes.string,
         className: PropTypes.string,
         placeholder: PropTypes.string,
     };
-
-    static defaultProps = {
-        variant: null
-    };
-
-    cleanProps() {
-        const allowedProps = ['className', 'placeholder'],
-            cleanedProps = {};
-        allowedProps.forEach(key => {
-            if(this.props[key]) {
-                cleanedProps[key] = this.props[key];
-            }
-        });
-        return cleanedProps;
-    }
 
     getProperties() {
         let variantProps = CUSTOM_INPUTS[this.props.variant] || {},
@@ -81,6 +70,17 @@ export default class CustomInputGroup extends React.Component {
                 className: `${variantProps.className || ''} ${overrideProps.className || ''}`
             }
         }
+    }
+
+    cleanProps() {
+        const allowedProps = ['className', 'placeholder'],
+            cleanedProps = {};
+        allowedProps.forEach(key => {
+            if(this.props[key]) {
+                cleanedProps[key] = this.props[key];
+            }
+        });
+        return cleanedProps;
     }
 
     render() {

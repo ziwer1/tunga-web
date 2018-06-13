@@ -17,11 +17,19 @@ import {
 } from '../utils/tracking';
 
 export default class StoryPage extends React.Component {
-    onVideoReady(e) {
-        var player = e.target;
-        if (player) {
-            this.setState({player: e.target});
+    onCloseVideo() {
+        this.setState({play: false});
+        if (this.state.player) {
+            this.state.player.stopVideo();
         }
+    }
+
+    onPauseVideo() {
+        sendGAEvent(
+            GA_EVENT_CATEGORIES.VIDEO,
+            GA_EVENT_ACTIONS.PAUSE,
+            GA_EVENT_LABELS.INTRO_VIDEO_STORY,
+        );
     }
 
     onPlayVideo() {
@@ -36,23 +44,15 @@ export default class StoryPage extends React.Component {
         }
     }
 
-    onPauseVideo() {
-        sendGAEvent(
-            GA_EVENT_CATEGORIES.VIDEO,
-            GA_EVENT_ACTIONS.PAUSE,
-            GA_EVENT_LABELS.INTRO_VIDEO_STORY,
-        );
-    }
-
-    onCloseVideo() {
-        this.setState({play: false});
-        if (this.state.player) {
-            this.state.player.stopVideo();
-        }
-    }
-
     onScheduleCall() {
         openCalendlyWidget();
+    }
+
+    onVideoReady(e) {
+        var player = e.target;
+        if (player) {
+            this.setState({player: e.target});
+        }
     }
 
     renderHeaderContent() {

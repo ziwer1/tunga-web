@@ -81,6 +81,10 @@ export default class QuizForm extends React.Component {
         };
     }
 
+    onChange(e) {
+        this.setState({[e.target.name]: e.target.value});
+    }
+
     onStateValueChange(value) {
         this.setState({step: this.state.step + 1});
         if (value != '') {
@@ -91,10 +95,6 @@ export default class QuizForm extends React.Component {
                 });
             }
         }
-    }
-
-    onChange(e) {
-        this.setState({[e.target.name]: e.target.value});
     }
 
     renderHeaderContent() {

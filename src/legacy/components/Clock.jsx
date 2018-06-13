@@ -8,10 +8,6 @@ export default class Clock extends React.Component {
         this.state = {...output};
     }
 
-    UNSAFE_componentWillMount() {
-        this.intervals = [];
-    }
-
     componentDidMount() {
         this.setInterval(this.tick.bind(this), 1000);
     }
@@ -22,6 +18,15 @@ export default class Clock extends React.Component {
 
     setInterval() {
         this.intervals.push(setInterval.apply(null, arguments));
+    }
+
+    UNSAFE_componentWillMount() {
+        this.intervals = [];
+    }
+
+    tick() {
+        const output = this.renderTime();
+        this.setState({...output});
     }
 
     renderTime() {
@@ -44,11 +49,6 @@ export default class Clock extends React.Component {
             minutes: currentMoment.format('mm'),
             seconds: currentMoment.format('ss'),
         };
-    }
-
-    tick() {
-        const output = this.renderTime();
-        this.setState({...output});
     }
 
     render() {

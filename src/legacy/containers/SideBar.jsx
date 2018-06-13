@@ -34,15 +34,15 @@ class SideBar extends React.Component {
         SupportActions.listSupportSections();
     }
 
+    getActiveClass(routes, index_only = true) {
+        return this.isActive(routes, index_only) ? 'active' : '';
+    }
+
     isActive(routes, index_only = true) {
         var results = routes.map(route => {
             return this.context.router.isActive(route, index_only);
         });
         return results.indexOf(true) > -1 ? true : false;
-    }
-
-    getActiveClass(routes, index_only = true) {
-        return this.isActive(routes, index_only) ? 'active' : '';
     }
 
     render() {

@@ -26,14 +26,6 @@ class LargeModal extends React.Component {
         }
     }
 
-    toggle(open = false) {
-        if (open) {
-            this.open();
-        } else {
-            this.close();
-        }
-    }
-
     close() {
         this.setState({showModal: false});
         if (this.props.onHide) {
@@ -46,6 +38,14 @@ class LargeModal extends React.Component {
 
     open() {
         this.setState({showModal: true});
+    }
+
+    toggle(open = false) {
+        if (open) {
+            this.open();
+        } else {
+            this.close();
+        }
     }
 
     render() {

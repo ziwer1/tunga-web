@@ -18,12 +18,12 @@ class Settings extends React.Component {
         SettingsActions.retrieveSettings();
     }
 
-    onSwitchSettingChange(setting) {
-        this.setState({switches: {...this.state.switches, ...setting}});
-    }
-
     onCookieSettings() {
         openCookieConsentPopUp();
+    }
+
+    onSwitchSettingChange(setting) {
+        this.setState({switches: {...this.state.switches, ...setting}});
     }
 
     handleSubmit = e => {

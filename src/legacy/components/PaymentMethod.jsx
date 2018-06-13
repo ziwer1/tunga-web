@@ -38,12 +38,12 @@ export default class PaymentMethod extends React.Component {
         }
     }
 
-    onPaymentMethodChange(payment_method) {
-        this.setState({payment_method});
-    }
-
     onCountryCodeChange(country_code) {
         this.setState({country_code: country_code.id});
+    }
+
+    onPaymentMethodChange(payment_method) {
+        this.setState({payment_method});
     }
 
     handleSubmit = e => {

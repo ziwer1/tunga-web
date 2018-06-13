@@ -16,12 +16,12 @@ export default class User extends React.Component {
         this.state = {ratings_map: null};
     }
 
-    UNSAFE_componentWillMount() {
-        this.mapUserRatings(this.props);
-    }
-
     componentDidMount() {
         this.props.UserActions.retrieveUser(this.props.params.userId);
+    }
+
+    UNSAFE_componentWillMount() {
+        this.mapUserRatings(this.props);
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
@@ -30,23 +30,6 @@ export default class User extends React.Component {
             this.props.User.detail.user.ratings
         ) {
             this.mapUserRatings(nextProps);
-        }
-    }
-
-    mapUserRatings(props) {
-        const {User} = props;
-        const {user} = User.detail;
-        if (
-            user &&
-            user.ratings &&
-            user.ratings.details &&
-            user.ratings.details.length
-        ) {
-            var ratings_map = {};
-            user.ratings.details.forEach(rating => {
-                ratings_map[rating.criteria] = rating;
-            });
-            this.setState({ratings_map});
         }
     }
 
@@ -70,6 +53,23 @@ export default class User extends React.Component {
         const {user} = User.detail;
         if (user.connection) {
             UserActions.deleteConnection(user.connection.id, user, false);
+        }
+    }
+
+    mapUserRatings(props) {
+        const {User} = props;
+        const {user} = User.detail;
+        if (
+            user &&
+            user.ratings &&
+            user.ratings.details &&
+            user.ratings.details.length
+        ) {
+            var ratings_map = {};
+            user.ratings.details.forEach(rating => {
+                ratings_map[rating.criteria] = rating;
+            });
+            this.setState({ratings_map});
         }
     }
 

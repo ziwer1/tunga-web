@@ -11,10 +11,6 @@ export default class CompanyProfile extends React.Component {
         this.state = {bio: '', skills: []};
     }
 
-    UNSAFE_componentWillMount() {
-        this.addSkillsToState();
-    }
-
     componentDidMount() {
         this.props.ProfileActions.getCountries();
         this.props.ProfileActions.retrieveProfile();
@@ -35,6 +31,14 @@ export default class CompanyProfile extends React.Component {
         this.setState(new_state);
     }
 
+    onSkillChange(skills) {
+        this.setState({skills});
+    }
+
+    UNSAFE_componentWillMount() {
+        this.addSkillsToState();
+    }
+
     addSkillsToState() {
         const {Profile} = this.props;
         this.setState({
@@ -45,10 +49,6 @@ export default class CompanyProfile extends React.Component {
                       })
                     : [],
         });
-    }
-
-    onSkillChange(skills) {
-        this.setState({skills});
     }
 
     handleSubmit(e) {

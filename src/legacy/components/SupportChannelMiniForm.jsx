@@ -22,20 +22,20 @@ export default class SupportChannelMiniForm extends React.Component {
         }
     }
 
-    saveChannel(email) {
-        const {channel, ChannelActions} = this.props;
-        ChannelActions.createSupportChannel({
-            id: channel ? channel.id : null,
-            email,
-        });
-    }
-
     handleSubmit(e) {
         e.preventDefault();
         var email = this.refs.email ? this.refs.email.value.trim() : null;
 
         this.saveChannel(email);
         return;
+    }
+
+    saveChannel(email) {
+        const {channel, ChannelActions} = this.props;
+        ChannelActions.createSupportChannel({
+            id: channel ? channel.id : null,
+            email,
+        });
     }
 
     render() {

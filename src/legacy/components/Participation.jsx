@@ -19,20 +19,10 @@ export default class Participation extends React.Component {
         }
     }
 
-    parseUsers(participation_shares) {
-        var users = {};
-        participation_shares.forEach(item => {
-            users[item.participant.user.id] = item.percentage;
-        });
-        this.setState({users});
-    }
-
-    getTotalShares() {
-        var total = 0;
-        Object.keys(this.state.users).forEach(key => {
-            total += parseFloat(this.state.users[key]) || 0;
-        });
-        return Math.round(total);
+    onShareChange(user, e) {
+        var new_user = {};
+        new_user[user] = e.target.value;
+        this.setState({users: {...this.state.users, ...new_user}});
     }
 
     getParticipation() {
@@ -46,10 +36,12 @@ export default class Participation extends React.Component {
         return participation;
     }
 
-    onShareChange(user, e) {
-        var new_user = {};
-        new_user[user] = e.target.value;
-        this.setState({users: {...this.state.users, ...new_user}});
+    getTotalShares() {
+        var total = 0;
+        Object.keys(this.state.users).forEach(key => {
+            total += parseFloat(this.state.users[key]) || 0;
+        });
+        return Math.round(total);
     }
 
     handleSubmit(e) {
@@ -59,6 +51,14 @@ export default class Participation extends React.Component {
         TaskActions.updateTask(task.id, {
             participation: this.getParticipation(),
         });
+    }
+
+    parseUsers(participation_shares) {
+        var users = {};
+        participation_shares.forEach(item => {
+            users[item.participant.user.id] = item.percentage;
+        });
+        this.setState({users});
     }
 
     render() {

@@ -22,11 +22,6 @@ export default class SupportChannelForm extends React.Component {
         }
     }
 
-    saveChannel(name = null, email = null, subject = null) {
-        const {ChannelActions} = this.props;
-        ChannelActions.createSupportChannel({name, email, subject});
-    }
-
     handleSubmit(e) {
         e.preventDefault();
         var name = this.refs.name ? this.refs.name.value.trim() : null;
@@ -35,6 +30,11 @@ export default class SupportChannelForm extends React.Component {
 
         this.saveChannel(name, email, subject);
         return;
+    }
+
+    saveChannel(name = null, email = null, subject = null) {
+        const {ChannelActions} = this.props;
+        ChannelActions.createSupportChannel({name, email, subject});
     }
 
     render() {

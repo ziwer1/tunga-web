@@ -99,6 +99,16 @@ class UserSelector extends React.Component {
         }
     }
 
+    onInputKeyUp(event) {
+        // Implement keyboard navigation
+        switch (event.which) {
+            case KEY_UP:
+                break;
+            case KEY_DOWN:
+                break;
+        }
+    }
+
     onQueryChange(e) {
         const {UserSelectionActions, filter} = this.props;
         var user_name = e.target.value;
@@ -118,10 +128,10 @@ class UserSelector extends React.Component {
         this.handleGetSuggestions();
     }
 
-    handleGetSuggestions() {
-        const {UserSelectionActions, filter} = this.props;
-        UserSelectionActions.getUserSuggestions(
-            {search: this.state.user_name, ...filter},
+    onUserRemove(user) {
+        const {UserSelectionActions} = this.props;
+        UserSelectionActions.removeUserSelection(
+            user.id,
             this.state.selection_key,
         );
     }
@@ -135,26 +145,16 @@ class UserSelector extends React.Component {
         this.setState({user_name: ''});
     }
 
-    onUserRemove(user) {
-        const {UserSelectionActions} = this.props;
-        UserSelectionActions.removeUserSelection(
-            user.id,
-            this.state.selection_key,
-        );
-    }
-
     handleComponentClick(e) {
         e.stopPropagation();
     }
 
-    onInputKeyUp(event) {
-        // Implement keyboard navigation
-        switch (event.which) {
-            case KEY_UP:
-                break;
-            case KEY_DOWN:
-                break;
-        }
+    handleGetSuggestions() {
+        const {UserSelectionActions, filter} = this.props;
+        UserSelectionActions.getUserSuggestions(
+            {search: this.state.user_name, ...filter},
+            this.state.selection_key,
+        );
     }
 
     render() {

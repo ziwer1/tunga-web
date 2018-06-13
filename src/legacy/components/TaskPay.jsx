@@ -103,10 +103,6 @@ export default class TaskPay extends React.Component {
         }
     }
 
-    changePayMethod() {
-        this.setState({showForm: true});
-    }
-
     onChangePayMethod(pay_method) {
         this.setState({
             pay_method: pay_method.id,
@@ -149,6 +145,128 @@ export default class TaskPay extends React.Component {
         this.setState({withhold_tunga_fee: !this.state.withhold_tunga_fee});
     }
 
+    getActualPayAmount() {
+        const {task, Task, TaskActions, multi_task_payment} = this.props;
+
+        let amount = this.getTotalPayAmount();
+
+        if (this.withHoldTungaFee()) {
+            if (multi_task_payment) {
+                return multi_task_payment.pay_participants;
+            } else {
+                return amount * (1 - task.tunga_ratio_dev);
+            }
+        }
+        return parseFloat(amount) + parseFloat(this.getTaxAmount());
+    }
+
+    getBitonicPaymentUrl() {
+        const {task, multi_task_payment} = this.props;
+
+        return (
+            'https://bitonic.nl/partner/263?' +
+            objectToQueryString({
+                bitcoinaddress: encodeURIComponent(
+                    multi_task_payment
+                        ? multi_task_payment.btc_address
+                        : task.btc_address,
+                ),
+                ext_data: encodeURIComponent(
+                    multi_task_payment ? 'Bulk Payment' : task.summary,
+                ),
+                ordertype: 'buy',
+                euros: encodeURIComponent(
+                    multi_task_payment ? multi_task_payment.amount : task.pay,
+                ),
+            })
+        );
+    }
+
+    getInvoiceAmount() {
+        const {task, Task, multi_task_payment, MultiTaskPayment} = this.props;
+        if (multi_task_payment) {
+            return multi_task_payment.amount;
+        }
+        const {invoice} = Task ? Task.detail.Invoice : {};
+        return invoice.fee;
+    }
+
+    getMulitTaskList() {
+        const {multi_task_payment} = this.props;
+        if (multi_task_payment && multi_task_payment.details) {
+            if (multi_task_payment.distribute_only) {
+                return multi_task_payment.details.distribute_tasks;
+            }
+            return multi_task_payment.details.tasks;
+        }
+        return [];
+    }
+
+    getPaymentMethod() {
+        const {task, Task, TaskActions, multi_task_payment} = this.props;
+        if (multi_task_payment) {
+            return multi_task_payment.payment_method;
+        }
+        const {invoice} = Task ? Task.detail.Invoice : {};
+        return invoice.payment_method;
+    }
+
+    getTaxAmount() {
+        const {task, Task, TaskActions, multi_task_payment} = this.props;
+
+        let amount = this.getTotalPayAmount(),
+            tax_ratio = 0;
+
+        if (multi_task_payment) {
+            tax_ratio = multi_task_payment.tax_ratio;
+        } else {
+            tax_ratio = task.tax_ratio;
+        }
+        return amount * tax_ratio;
+    }
+
+    getTaxRate() {
+        const {task, Task, TaskActions, multi_task_payment} = this.props;
+
+        let tax_rate = 0;
+
+        if (multi_task_payment) {
+            tax_rate = multi_task_payment.tax_rate;
+        } else {
+            tax_rate = task.tax_rate;
+        }
+        return tax_rate;
+    }
+
+    getTotalPayAmount() {
+        const {task, Task, multi_task_payment, MultiTaskPayment} = this.props;
+        const {invoice} = Task ? Task.detail.Invoice : {};
+        if (!multi_task_payment && invoice && invoice.exclude_payment_costs) {
+            return this.getInvoiceAmount();
+        }
+        switch (this.getPaymentMethod()) {
+            case TASK_PAYMENT_METHOD_STRIPE:
+                return this.getInvoiceAmount() * 1.029 + 0.25; // 2.9% + 25c charge
+            case TASK_PAYMENT_METHOD_BITONIC:
+                return this.getInvoiceAmount() * 1.03; // 3%
+            case TASK_PAYMENT_METHOD_BANK:
+                return this.getInvoiceAmount() * 1.055; // 5.5%
+            default:
+                return this.getInvoiceAmount();
+        }
+    }
+
+    getTotalPaymentPlusTax() {
+        return (
+            parseFloat(this.getTotalPayAmount()) +
+            parseFloat(this.getTaxAmount())
+        );
+    }
+
+    changePayMethod() {
+        this.setState({showForm: true});
+    }
+
     handleSubmit(e) {
         const {
             Task,
@@ -182,132 +300,6 @@ export default class TaskPay extends React.Component {
         }
     }
 
-    getBitonicPaymentUrl() {
-        const {task, multi_task_payment} = this.props;
-
-        return (
-            'https://bitonic.nl/partner/263?' +
-            objectToQueryString({
-                bitcoinaddress: encodeURIComponent(
-                    multi_task_payment
-                        ? multi_task_payment.btc_address
-                        : task.btc_address,
-                ),
-                ext_data: encodeURIComponent(
-                    multi_task_payment ? 'Bulk Payment' : task.summary,
-                ),
-                ordertype: 'buy',
-                euros: encodeURIComponent(
-                    multi_task_payment ? multi_task_payment.amount : task.pay,
-                ),
-            })
-        );
-    }
-
-    getPaymentMethod() {
-        const {task, Task, TaskActions, multi_task_payment} = this.props;
-        if (multi_task_payment) {
-            return multi_task_payment.payment_method;
-        }
-        const {invoice} = Task ? Task.detail.Invoice : {};
-        return invoice.payment_method;
-    }
-
-    withHoldTungaFee() {
-        const {task, Task, TaskActions, multi_task_payment} = this.props;
-        return (
-            (multi_task_payment && multi_task_payment.withhold_tunga_fee) ||
-            task.withhold_tunga_fee
-        );
-    }
-
-    getInvoiceAmount() {
-        const {task, Task, multi_task_payment, MultiTaskPayment} = this.props;
-        if (multi_task_payment) {
-            return multi_task_payment.amount;
-        }
-        const {invoice} = Task ? Task.detail.Invoice : {};
-        return invoice.fee;
-    }
-
-    getTotalPayAmount() {
-        const {task, Task, multi_task_payment, MultiTaskPayment} = this.props;
-        const {invoice} = Task ? Task.detail.Invoice : {};
-        if (!multi_task_payment && invoice && invoice.exclude_payment_costs) {
-            return this.getInvoiceAmount();
-        }
-        switch (this.getPaymentMethod()) {
-            case TASK_PAYMENT_METHOD_STRIPE:
-                return this.getInvoiceAmount() * 1.029 + 0.25; // 2.9% + 25c charge
-            case TASK_PAYMENT_METHOD_BITONIC:
-                return this.getInvoiceAmount() * 1.03; // 3%
-            case TASK_PAYMENT_METHOD_BANK:
-                return this.getInvoiceAmount() * 1.055; // 5.5%
-            default:
-                return this.getInvoiceAmount();
-        }
-    }
-
-    getTaxRate() {
-        const {task, Task, TaskActions, multi_task_payment} = this.props;
-
-        let tax_rate = 0;
-
-        if (multi_task_payment) {
-            tax_rate = multi_task_payment.tax_rate;
-        } else {
-            tax_rate = task.tax_rate;
-        }
-        return tax_rate;
-    }
-
-    getTaxAmount() {
-        const {task, Task, TaskActions, multi_task_payment} = this.props;
-
-        let amount = this.getTotalPayAmount(),
-            tax_ratio = 0;
-
-        if (multi_task_payment) {
-            tax_ratio = multi_task_payment.tax_ratio;
-        } else {
-            tax_ratio = task.tax_ratio;
-        }
-        return amount * tax_ratio;
-    }
-
-    getActualPayAmount() {
-        const {task, Task, TaskActions, multi_task_payment} = this.props;
-
-        let amount = this.getTotalPayAmount();
-
-        if (this.withHoldTungaFee()) {
-            if (multi_task_payment) {
-                return multi_task_payment.pay_participants;
-            } else {
-                return amount * (1 - task.tunga_ratio_dev);
-            }
-        }
-        return parseFloat(amount) + parseFloat(this.getTaxAmount());
-    }
-
-    getTotalPaymentPlusTax() {
-        return (
-            parseFloat(this.getTotalPayAmount()) +
-            parseFloat(this.getTaxAmount())
-        );
-    }
-
-    getMulitTaskList() {
-        const {multi_task_payment} = this.props;
-        if (multi_task_payment && multi_task_payment.details) {
-            if (multi_task_payment.distribute_only) {
-                return multi_task_payment.details.distribute_tasks;
-            }
-            return multi_task_payment.details.tasks;
-        }
-        return [];
-    }
-
     isPaymentApproved() {
         const {multi_task_payment, task} = this.props;
         if (multi_task_payment) {
@@ -316,6 +308,14 @@ export default class TaskPay extends React.Component {
             return task.payment_approved;
         }
         return false;
+    }
+
+    withHoldTungaFee() {
+        const {task, Task, TaskActions, multi_task_payment} = this.props;
+        return (
+            (multi_task_payment && multi_task_payment.withhold_tunga_fee) ||
+            task.withhold_tunga_fee
+        );
     }
 
     render() {

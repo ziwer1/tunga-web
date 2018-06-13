@@ -34,6 +34,13 @@ export default class TaskWizard extends React.Component {
         });
     }
 
+    getPhase() {
+        if (this.props.params) {
+            return this.props.params.phase;
+        }
+        return null;
+    }
+
     getTaskId() {
         if (
             this.props.params &&
@@ -44,11 +51,13 @@ export default class TaskWizard extends React.Component {
         return null;
     }
 
-    getPhase() {
-        if (this.props.params) {
-            return this.props.params.phase;
+    getUrlPrefix() {
+        if (/\/(start-welcome)\/?/.test(window.location.href)) {
+            return 'start-welcome';
+        } else if (/\/(start-outsource)\/?/.test(window.location.href)) {
+            return 'start-outsource';
         }
-        return null;
+        return 'start';
     }
 
     getUser() {
@@ -65,15 +74,6 @@ export default class TaskWizard extends React.Component {
             }
         }
         return user;
-    }
-
-    getUrlPrefix() {
-        if (/\/(start-welcome)\/?/.test(window.location.href)) {
-            return 'start-welcome';
-        } else if (/\/(start-outsource)\/?/.test(window.location.href)) {
-            return 'start-outsource';
-        }
-        return 'start';
     }
 
     renderHeaderContent() {

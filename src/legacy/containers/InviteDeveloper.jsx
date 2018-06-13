@@ -23,6 +23,10 @@ class InviteDeveloper extends React.Component {
         }
     }
 
+    onResendChange(e) {
+        this.setState({resend: !this.state.resend});
+    }
+
     handleSubmit(e) {
         e.preventDefault();
         var first_name = this.refs.first_name.value.trim();
@@ -38,10 +42,6 @@ class InviteDeveloper extends React.Component {
             resend: this.state.resend,
         });
         return;
-    }
-
-    onResendChange(e) {
-        this.setState({resend: !this.state.resend});
     }
 
     render() {

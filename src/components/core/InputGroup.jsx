@@ -5,6 +5,11 @@ import Input from './Input';
 import {filterEventProps} from "./utils";
 
 export default class InputGroup extends React.Component {
+    static defaultProps = {
+        isPrependText: true,
+        isAppendText: true
+    };
+
     static propTypes = {
         type: PropTypes.string,
         className: PropTypes.string,
@@ -14,11 +19,6 @@ export default class InputGroup extends React.Component {
         isPrependText: PropTypes.bool,
         isAppendText: PropTypes.bool,
         size: PropTypes.string,
-    };
-
-    static defaultProps = {
-        isPrependText: true,
-        isAppendText: true
     };
 
     constructor(props) {

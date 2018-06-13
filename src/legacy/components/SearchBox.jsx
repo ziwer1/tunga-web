@@ -9,12 +9,6 @@ export default class SearchBox extends React.Component {
         this.state = {q: ''};
     }
 
-    UNSAFE_componentWillMount() {
-        if (this.props.query) {
-            this.setState({q: this.props.query});
-        }
-    }
-
     componentDidMount() {
         if (this.state.q) {
             this.performSearch();
@@ -27,16 +21,22 @@ export default class SearchBox extends React.Component {
         }
     }
 
+    onSearch(e) {
+        e.preventDefault();
+        this.performSearch();
+        return;
+    }
+
     onSearchChange(e) {
         e.preventDefault();
         var q = e.target.value;
         this.setState({q});
     }
 
-    onSearch(e) {
-        e.preventDefault();
-        this.performSearch();
-        return;
+    UNSAFE_componentWillMount() {
+        if (this.props.query) {
+            this.setState({q: this.props.query});
+        }
     }
 
     performSearch() {

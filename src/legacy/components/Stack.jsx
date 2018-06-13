@@ -23,10 +23,6 @@ export default class Stack extends React.Component {
         };
     }
 
-    UNSAFE_componentWillMount() {
-        this.addSkillsToState();
-    }
-
     componentDidMount() {
         this.props.ProfileActions.retrieveProfile();
     }
@@ -50,6 +46,18 @@ export default class Stack extends React.Component {
         this.setState(new_state);
     }
 
+    onSkillChange(category, skills) {
+        let new_state = {};
+        new_state[category] = skills;
+        this.setState({
+            skill_categories: {...this.state.skill_categories, ...new_state},
+        });
+    }
+
+    UNSAFE_componentWillMount() {
+        this.addSkillsToState();
+    }
+
     addSkillsToState() {
         const {Profile} = this.props;
         var skill_categories = {},
@@ -71,18 +79,32 @@ export default class Stack extends React.Component {
         }, 500);
     }
 
+    close() {
+        this.setState({showModal: false});
+    }
+
     flattenSkills(skills) {
         return (skills || []).map(skill => {
             return skill.name;
         });
     }
 
-    onSkillChange(category, skills) {
-        let new_state = {};
-        new_state[category] = skills;
+    handleAddEducation(education = null) {
         this.setState({
-            skill_categories: {...this.state.skill_categories, ...new_state},
+            modalContent: 'education',
+            modalTitle: 'Education',
+            editEducation: education,
         });
+        this.open();
+    }
+
+    handleAddWork(work = null) {
+        this.setState({
+            modalContent: 'work',
+            modalTitle: 'Work Experience',
+            editWork: work,
+        });
+        this.open();
     }
 
     handleSubmit = e => {
@@ -103,28 +125,6 @@ export default class Stack extends React.Component {
         ProfileActions.updateProfile(Profile.profile.id, profile_info);
         return;
     };
-
-    handleAddWork(work = null) {
-        this.setState({
-            modalContent: 'work',
-            modalTitle: 'Work Experience',
-            editWork: work,
-        });
-        this.open();
-    }
-
-    handleAddEducation(education = null) {
-        this.setState({
-            modalContent: 'education',
-            modalTitle: 'Education',
-            editEducation: education,
-        });
-        this.open();
-    }
-
-    close() {
-        this.setState({showModal: false});
-    }
 
     open() {
         this.setState({showModal: true});

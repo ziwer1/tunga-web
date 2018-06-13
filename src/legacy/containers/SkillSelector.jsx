@@ -66,20 +66,9 @@ class SkillSelector extends React.Component {
         }
     }
 
-    handleSkillChange = e => {
-        const {SkillSelectionActions} = this.props;
-        var skill = e.target.value;
-        this.setState({skill: skill});
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            this.handleSelectSkill(skill);
-        }
-        if (!skill) {
-            SkillSelectionActions.invalidateSkillSuggestions();
-            return;
-        }
-        this.handleGetSuggestions();
-    };
+    handleComponentClick(e) {
+        e.stopPropagation();
+    }
 
     handleGetSuggestions() {
         const {SkillSelectionActions} = this.props;
@@ -88,16 +77,6 @@ class SkillSelector extends React.Component {
             this.state.selection_key,
             this.state.prev_key,
         );
-    }
-
-    handleSelectSkill(skill) {
-        const {SkillSelectionActions, onChange} = this.props;
-        SkillSelectionActions.invalidateSkillSuggestions();
-        let new_skills = Array.from(new Set([...this.state.skills, skill]));
-        if (onChange) {
-            onChange(new_skills);
-        }
-        this.setState({skill: '', skills: new_skills});
     }
 
     handleRemoveSkill(skill) {
@@ -117,9 +96,30 @@ class SkillSelector extends React.Component {
         }
     }
 
-    handleComponentClick(e) {
-        e.stopPropagation();
+    handleSelectSkill(skill) {
+        const {SkillSelectionActions, onChange} = this.props;
+        SkillSelectionActions.invalidateSkillSuggestions();
+        let new_skills = Array.from(new Set([...this.state.skills, skill]));
+        if (onChange) {
+            onChange(new_skills);
+        }
+        this.setState({skill: '', skills: new_skills});
     }
+
+    handleSkillChange = e => {
+        const {SkillSelectionActions} = this.props;
+        var skill = e.target.value;
+        this.setState({skill: skill});
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            this.handleSelectSkill(skill);
+        }
+        if (!skill) {
+            SkillSelectionActions.invalidateSkillSuggestions();
+            return;
+        }
+        this.handleGetSuggestions();
+    };
 
     render() {
         const {

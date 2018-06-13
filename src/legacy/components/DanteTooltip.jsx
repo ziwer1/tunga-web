@@ -30,6 +30,67 @@ class DanteTooltip extends React.Component {
         };
     }
 
+    getDefaultValue = () => {
+        if (this.refs.dante_menu_input) {
+            this.refs.dante_menu_input.value = '';
+        }
+
+        let currentBlock = getCurrentBlock(this.props.editorState);
+        let blockType = currentBlock.getType();
+        let selection = this.props.editor.state.editorState.getSelection();
+        let contentState = this.props.editorState.getCurrentContent();
+        let selectedEntity = null;
+        let defaultUrl = null;
+        return currentBlock.findEntityRanges(
+            character => {
+                let entityKey = character.getEntity();
+                selectedEntity = entityKey;
+                return (
+                    entityKey !== null &&
+                    contentState.getEntity(entityKey).getType() === 'LINK'
+                );
+            },
+            (start, end) => {
+                let selStart = selection.getAnchorOffset();
+                let selEnd = selection.getFocusOffset();
+                if (selection.getIsBackward()) {
+                    selStart = selection.getFocusOffset();
+                    selEnd = selection.getAnchorOffset();
+                }
+
+                if (start === selStart && end === selEnd) {
+                    defaultUrl = contentState
+                        .getEntity(selectedEntity)
+                        .getData().url;
+                    return (this.refs.dante_menu_input.value = defaultUrl);
+                }
+            },
+        );
+    };
+
+    getPosition() {
+        let pos = this.state.position;
+        return pos;
+    }
+
+    setPosition(coords) {
+        return this.setState({
+            position: coords,
+        });
+    }
+
+    _clickBlockHandler = (ev, style) => {
+        ev.preventDefault();
+
+        this.props.onChange(
+            RichUtils.toggleBlockType(this.props.editorState, style),
+        );
+
+        return setTimeout(() => {
+            return this.relocate();
+        }, 0);
+    };
+
     _clickInlineHandler = (ev, style) => {
         ev.preventDefault();
 
@@ -42,6 +103,55 @@ class DanteTooltip extends React.Component {
         }, 0);
     };
 
+    _disableLinkMode = ev => {
+        ev.preventDefault();
+        return this.setState({
+            link_mode: false,
+            url: '',
+        });
+    };
+
+    _enableLinkMode = ev => {
+        ev.preventDefault();
+        return this.setState({
+            link_mode: true,
+        });
+    };
+
+    blockItems = () => {
+        return this.props.widget_options.block_types.filter(o => {
+            return o.type === 'block';
+        });
+    };
+
+    confirmLink = e => {
+        e.preventDefault();
+        let {editorState} = this.props;
+        let urlValue = e.currentTarget.value;
+        let contentState = editorState.getCurrentContent();
+        let selection = editorState.getSelection();
+
+        let opts = {
+            url: urlValue,
+            showPopLinkOver: this.props.showPopLinkOver,
+            hidePopLinkOver: this.props.hidePopLinkOver,
+        };
+
+        let entityKey = Entity.create('LINK', 'MUTABLE', opts);
+        //contentState.createEntity('LINK', 'MUTABLE', opts)
+
+        if (selection.isCollapsed()) {
+            console.log('COLLAPSED SKIPPING LINK');
+            return;
+        }
+
+        this.props.onChange(
+            RichUtils.toggleLink(editorState, selection, entityKey),
+        );
+
+        return this._disableLinkMode(e);
+    };
+
     display = b => {
         if (b) {
             return this.show();
@@ -50,10 +160,26 @@ class DanteTooltip extends React.Component {
         }
     };
 
-    show = () => {
-        return this.setState({
-            show: true,
-        });
+    displayActiveMenu = () => {
+        if (this.state.show) {
+            return 'dante-menu--active';
+        } else {
+            return '';
+        }
+    };
+
+    displayLinkMode = () => {
+        if (this.state.link_mode) {
+            return 'dante-menu--linkmode';
+        } else {
+            return '';
+        }
+    };
+
+    handleInputEnter = e => {
+        if (e.which === 13) {
+            return this.confirmLink(e);
+        }
     };
 
     hide = () => {
@@ -63,11 +189,15 @@ class DanteTooltip extends React.Component {
         });
     };
 
-    setPosition(coords) {
-        return this.setState({
-            position: coords,
-        });
+    hideMenu() {
+        return this.hide();
     }
+
+    inlineItems = () => {
+        return this.props.widget_options.block_types.filter(o => {
+            return o.type === 'inline';
+        });
+    };
 
     isDescendant(parent, child) {
         let node = child.parentNode;
@@ -145,140 +275,10 @@ class DanteTooltip extends React.Component {
         });
     };
 
-    _clickBlockHandler = (ev, style) => {
-        ev.preventDefault();
-
-        this.props.onChange(
-            RichUtils.toggleBlockType(this.props.editorState, style),
-        );
-
-        return setTimeout(() => {
-            return this.relocate();
-        }, 0);
-    };
-
-    displayLinkMode = () => {
-        if (this.state.link_mode) {
-            return 'dante-menu--linkmode';
-        } else {
-            return '';
-        }
-    };
-
-    displayActiveMenu = () => {
-        if (this.state.show) {
-            return 'dante-menu--active';
-        } else {
-            return '';
-        }
-    };
-
-    _enableLinkMode = ev => {
-        ev.preventDefault();
+    show = () => {
         return this.setState({
-            link_mode: true,
+            show: true,
         });
-    };
-
-    _disableLinkMode = ev => {
-        ev.preventDefault();
-        return this.setState({
-            link_mode: false,
-            url: '',
-        });
-    };
-
-    hideMenu() {
-        return this.hide();
-    }
-
-    handleInputEnter = e => {
-        if (e.which === 13) {
-            return this.confirmLink(e);
-        }
-    };
-
-    confirmLink = e => {
-        e.preventDefault();
-        let {editorState} = this.props;
-        let urlValue = e.currentTarget.value;
-        let contentState = editorState.getCurrentContent();
-        let selection = editorState.getSelection();
-
-        let opts = {
-            url: urlValue,
-            showPopLinkOver: this.props.showPopLinkOver,
-            hidePopLinkOver: this.props.hidePopLinkOver,
-        };
-
-        let entityKey = Entity.create('LINK', 'MUTABLE', opts);
-        //contentState.createEntity('LINK', 'MUTABLE', opts)
-
-        if (selection.isCollapsed()) {
-            console.log('COLLAPSED SKIPPING LINK');
-            return;
-        }
-
-        this.props.onChange(
-            RichUtils.toggleLink(editorState, selection, entityKey),
-        );
-
-        return this._disableLinkMode(e);
-    };
-
-    getPosition() {
-        let pos = this.state.position;
-        return pos;
-    }
-
-    inlineItems = () => {
-        return this.props.widget_options.block_types.filter(o => {
-            return o.type === 'inline';
-        });
-    };
-
-    blockItems = () => {
-        return this.props.widget_options.block_types.filter(o => {
-            return o.type === 'block';
-        });
-    };
-
-    getDefaultValue = () => {
-        if (this.refs.dante_menu_input) {
-            this.refs.dante_menu_input.value = '';
-        }
-
-        let currentBlock = getCurrentBlock(this.props.editorState);
-        let blockType = currentBlock.getType();
-        let selection = this.props.editor.state.editorState.getSelection();
-        let contentState = this.props.editorState.getCurrentContent();
-        let selectedEntity = null;
-        let defaultUrl = null;
-        return currentBlock.findEntityRanges(
-            character => {
-                let entityKey = character.getEntity();
-                selectedEntity = entityKey;
-                return (
-                    entityKey !== null &&
-                    contentState.getEntity(entityKey).getType() === 'LINK'
-                );
-            },
-            (start, end) => {
-                let selStart = selection.getAnchorOffset();
-                let selEnd = selection.getFocusOffset();
-                if (selection.getIsBackward()) {
-                    selStart = selection.getFocusOffset();
-                    selEnd = selection.getAnchorOffset();
-                }
-
-                if (start === selStart && end === selEnd) {
-                    defaultUrl = contentState
-                        .getEntity(selectedEntity)
-                        .getData().url;
-                    return (this.refs.dante_menu_input.value = defaultUrl);
-                }
-            },
-        );
     };
 
     render = () => {
@@ -340,34 +340,12 @@ class DanteTooltip extends React.Component {
 }
 
 class DanteTooltipItem extends React.Component {
-    handleClick = ev => {
-        return this.props.handleClick(ev, this.props.item.style);
-    };
-
     activeClass = () => {
         if (this.isActive()) {
             return 'active';
         } else {
             return '';
         }
-    };
-
-    isActive = () => {
-        if (this.props.type === 'block') {
-            return this.activeClassBlock();
-        } else {
-            return this.activeClassInline();
-        }
-    };
-
-    activeClassInline = () => {
-        if (!this.props.editorState) {
-            return;
-        }
-        //console.log @props.item
-        return this.props.editorState
-            .getCurrentInlineStyle()
-            .has(this.props.item.style);
     };
 
     activeClassBlock = () => {
@@ -381,6 +359,28 @@ class DanteTooltipItem extends React.Component {
             .getBlockForKey(selection.getStartKey())
             .getType();
         return this.props.item.style === blockType;
+    };
+
+    activeClassInline = () => {
+        if (!this.props.editorState) {
+            return;
+        }
+        //console.log @props.item
+        return this.props.editorState
+            .getCurrentInlineStyle()
+            .has(this.props.item.style);
+    };
+
+    handleClick = ev => {
+        return this.props.handleClick(ev, this.props.item.style);
+    };
+
+    isActive = () => {
+        if (this.props.type === 'block') {
+            return this.activeClassBlock();
+        } else {
+            return this.activeClassInline();
+        }
     };
 
     render = () => {
