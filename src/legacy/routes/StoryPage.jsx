@@ -98,7 +98,7 @@ export default class StoryPage extends React.Component {
                                 developers and startup entrepreneurs like
                                 ourselves. Tunga is founded by not-for-profit
                                 design studio{' '}
-                                <a href="http://web.butterflyworks.org/">
+                                <a href="http://www.butterflyworks.org/">
                                     Butterfly Works{' '}
                                 </a>{' '}
                                 and long-time social entrepreneur Ernesto
@@ -115,7 +115,7 @@ export default class StoryPage extends React.Component {
                             </p>
                             <div className="partner-wrapper">
                                 <a
-                                    href="http://web.butterflyworks.org/"
+                                    href="http://www.butterflyworks.org/"
                                     target="_blank"
                                     title="Butterfly Works">
                                     <img

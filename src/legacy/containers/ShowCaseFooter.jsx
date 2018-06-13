@@ -177,7 +177,7 @@ class ShowCaseFooter extends React.Component {
                                     />
                                 </div>
                                 <p>
-                                    <a href="http://web.butterflyworks.org/">
+                                    <a href="http://www.butterflyworks.org/">
                                         a butterfly works initiative
                                     </a>
                                 </p>
