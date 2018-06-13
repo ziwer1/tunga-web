@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {confirmable} from 'react-confirm';
-import {Modal, Button} from 'react-bootstrap';
+import {Button} from 'react-bootstrap';
+
+import Modal from './ModalShim';
 
 //@confirmable
 class ConfirmDialog extends React.Component {
