@@ -33,7 +33,7 @@ Follow the following coding guidelines when contributing:
 * Actions, Reducers, Components, Containers and Routes (top level React Router components) go into respective - and appropriately named - directories.
 * Use [Redux](https://redux.js.org/) to manage app state and data flow as much as possible.
 * Keep most app logic out of app.js and in respective reducers and components.
-* Use containers only to connect to Redux store and pass on the state as props to children.
+* Use containers only to support composition e.g creating shared top level containers and connecting to Redux store and passing on the state as props to children. see: https://reactjs.org/docs/composition-vs-inheritance.html
 * Use \_\_DEV\_\_ and \_\_PRODUCTION\_\__ predefined globals to filter code the should only be added in development and testing
 * Use WebPack's [DefinePlugin](https://webpack.js.org/plugins/define-plugin/) to define global constants e.g public keys
 * Import modules using either ES6 imports
@@ -49,6 +49,7 @@ MyAction = require('actions/MyAction');
 * Import style sheets by adding code similar to this to app.js
 ```
 import 'css/style.css';
+import 'css/style.scss';
 import 'css/style.less';
 ```
 
@@ -57,7 +58,7 @@ import 'css/style.less';
 import "script!file.js";
 ```
 
-* Leverage [Less](http://lesscss.org/) for leaner CSS styling and avoid inline styles in JSX
+* Leverage [Sass](https://sass-lang.com/guide) for leaner CSS styling and avoid inline styles in JSX
 * Use [axios](https://github.com/mzabriskie/axios) for networking
 
 ## Icons
@@ -73,9 +74,19 @@ In case an icon in the design is missing from the icon font library, do one of t
 * send a pull request to: https://github.com/tunga-io/tunga-assets/
 
 ## Style & Component Guide
-
 Find the Style & Component guide here: http://sandbox.tunga.io/guide.html
 
+It includes code samples and interactive examples of our core UI components.
+
+We use [Bootstrap 4](https://getbootstrap.com/) as our UI framework and [React.js](https://reactjs.org/) as our view library.
+
+Our css is written as a Bootstrap 4 theme and leverages [Sass](https://sass-lang.com/guide). 
+
+As such we expect you to leverage Sass features when making CSS contributions.
+
+If you're coming over from Boostrap 3 or earlier, be sure to read the migration guide at: https://getbootstrap.com/docs/4.0/migration/
+
+If you're coming over from React 15 or earlier, be sure to read the migration guide at: https://reactjs.org/blog/2017/09/26/react-v16.0.html
 
 ## Screen Designs
 The designs will be delivered to you via [Zeplin](https://zeplin.io/) or [Invision](https://www.invisionapp.com/). Please make sure you are familiar with and have access to both tools.
