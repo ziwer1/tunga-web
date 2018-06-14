@@ -9,11 +9,18 @@ import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {Router, Route} from 'react-router';
 import {browserHistory} from 'react-router';
+import {createStore, applyMiddleware, compose} from 'redux';
+import createLogger from "redux-logger";
 
-//import store from '../store';
-//import history from '../history';
+import Guide from './components/Guide';
 
-import StyleGuide from './components/StyleGuide';
+const logger = createLogger({
+    collapsed: true,
+    level: 'info',
+    duration: true,
+});
+
+const store = createStore(() => {}, compose(applyMiddleware(logger), (window.devToolsExtension ? window.devToolsExtension() : f => f)));
 
 if (__PRODUCTION__) {
     // Configure raven
@@ -22,12 +29,10 @@ if (__PRODUCTION__) {
     ).install();
 }
 
-
-
 ReactDOM.render(
-    <Provider>
+    <Provider store={store}>
         <Router history={browserHistory}>
-            <Route path="*" component={StyleGuide}/>
+            <Route path="*" component={Guide}/>
         </Router>
     </Provider>,
     document.getElementById('content'),

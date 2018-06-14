@@ -17,12 +17,15 @@ import ChoiceGroup from '../../components/core/ChoiceGroup';
 import Avatar from '../../components/core/Avatar';
 import NavBar from '../../components/core/NavBar';
 import SideBar from '../../components/core/SideBar';
+import {openAlert, openConfirm, openPrompt, openModal} from '../../components/core/utils';
+
+import SampleProfileForm from './samples/SampleProfileForm';
 
 momentLocalizer(moment);
 
 let avatarUrl = require('../images/deadpool.jpg');
 
-export default class StyleGuide extends React.Component {
+export default class Guide extends React.Component {
 
     document(component, showComponent=true, showHTML=false, componentName=null) {
         let options = {};
@@ -68,6 +71,14 @@ export default class StyleGuide extends React.Component {
         );
     }
 
+    wrapCode(code) {
+        return (
+            <div>
+                <code>{code}</code>
+            </div>
+        );
+    }
+
     render() {
         return (
             <div>
@@ -87,7 +98,8 @@ export default class StyleGuide extends React.Component {
                                     ['DateTime', 'DateTime Input'],
                                     ['Uploads', 'File Uploads'],
                                     ['Choices', 'Choice Input'],
-                                    'Avatars'
+                                    'Avatars',
+                                    ['PopUps', 'Pop Ups']
                                 ].map((section, idx) => {
                                     let sectionId = section,
                                         sectionTitle = section;
@@ -573,6 +585,45 @@ export default class StyleGuide extends React.Component {
                                         </div>
                                     );
                                 })}
+                            </div>
+
+                            <div className="section detailed">
+                                <h2 id="idPopUps">Pop Ups</h2>
+
+                                <div>
+                                    <p>
+                                        All pop up utility functions are imported from the <code>'src/components/core/utils'</code> module.
+                                    </p>
+
+                                    <p>
+                                        All samples below use the onClick event of the button to call the appropriate modal function as documented above the button.
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <h4>Alerts</h4>
+                                    {this.wrapCode("openAlert('Pay attention!')")}
+                                    <Button onClick={() => {openAlert('Pay attention!')}} size="sm">Open Alert</Button>
+                                </div>
+
+                                <div>
+                                    <h4>Confirm</h4>
+                                    {this.wrapCode("openConfirm('Do you agree?', 'Changes')")}
+                                    <Button onClick={() => {openConfirm('Do you agree?', 'Changes')}} size="sm">Open Confirm</Button>
+                                </div>
+
+                                <div>
+                                    <h4>Prompt</h4>
+                                    {this.wrapCode("openPrompt('What\'s your name?', 'Welcome')")}
+                                    <Button onClick={() => {openPrompt('What\'s your name?', 'Welcome')}} size="sm">Open Prompt</Button>
+                                </div>
+
+                                <div>
+                                    <h4>Custom Modal</h4>
+                                    {this.wrapCode("import SampleProfileForm from './samples/SampleProfileForm';")}
+                                    {this.wrapCode("openModal(<SampleProfileForm/>, 'Profile')")}
+                                    <Button onClick={() => {openModal(<SampleProfileForm/>, 'Profile')}} size="sm">Open Custom Modal</Button>
+                                </div>
                             </div>
                         </div>
                     </div>

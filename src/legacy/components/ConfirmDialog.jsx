@@ -5,7 +5,6 @@ import {Button} from 'react-bootstrap';
 
 import Modal from './ModalShim';
 
-//@confirmable
 class ConfirmDialog extends React.Component {
     constructor(props) {
         super(props);

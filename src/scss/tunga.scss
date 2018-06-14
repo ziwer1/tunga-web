@@ -594,4 +594,46 @@ body {
 
 }
 
+// Modals
+.modal-dialog {
+    display: flex;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0 auto;
+
+    .modal-content {
+        > * {
+            @include padding-x(40px);
+
+            &:first-child {
+                padding-top: 40px;
+            }
+
+            &:last-child {
+                padding-bottom: 40px;
+            }
+        }
+    }
+
+    .modal-header {
+        padding-bottom: 0;
+        border-bottom-width: 0;
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: px-to-rem(40);
+            line-height: px-to-rem(20);
+            padding: 0;
+            margin: 0;
+        }
+    }
+
+    .modal-footer {
+        padding-top: 0;
+        border-top-width: 0;
+    }
+}
+
 @import "breakpoints";
