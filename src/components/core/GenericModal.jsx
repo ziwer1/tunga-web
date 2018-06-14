@@ -7,12 +7,12 @@ import Button from './Button';
 import TextArea from './TextArea';
 
 class GenericModal extends React.Component {
-    propTypes = {
+    static propTypes = {
         show: PropTypes.bool,
         proceed: PropTypes.func,
         cancel: PropTypes.func,
         dismiss: PropTypes.func,
-        confirmation: PropTypes.any,
+        modalContent: PropTypes.any,
         options: PropTypes.object,
     };
 
@@ -33,23 +33,19 @@ class GenericModal extends React.Component {
 
     renderModalContent() {
         const {
-            show,
             proceed,
             dismiss,
             cancel,
-            confirmation,
-            options
+            modalContent
         } = this.props;
 
-        console.log('confirmation', confirmation);
-
-        return confirmation;
-
-        return React.cloneElement(confirmation, {
-            proceed,
-            dismiss,
-            cancel
-        }, null);
+        return (typeof modalContent === 'string')?
+            (modalContent):(
+                React.cloneElement(
+                    modalContent,
+                    {proceed,  dismiss, cancel}
+                )
+            );
     }
 
     render() {
@@ -58,7 +54,6 @@ class GenericModal extends React.Component {
             proceed,
             dismiss,
             cancel,
-            confirmation,
             options
         } = this.props;
         let safe_options = options || {};
@@ -67,17 +62,17 @@ class GenericModal extends React.Component {
             <Modal
                 isOpen={show}
                 toggle={dismiss}
-                bsStyle="md"
-                backdrop={options.mustRespond ? 'static' : true}
-                keyboard={!options.mustRespond}>
-                {!options.mustRespond || options.title?(
-                    <ModalHeader toggle={options.mustRespond?null:dismiss}>
-                        {options.title || ''}
+                className={`${safe_options.size?`modal-${safe_options.size}`:''} ${safe_options.className || ''}`}
+                backdrop={safe_options.mustRespond ? 'static' : true}
+                keyboard={!safe_options.mustRespond}>
+                {!options.mustRespond || safe_options.title?(
+                    <ModalHeader toggle={safe_options.mustRespond?null:dismiss}>
+                        {safe_options.title || ''}
                     </ModalHeader>
                 ):null}
                 <ModalBody>
                     <div>{this.renderModalContent()}</div>
-                    {options.isPrompt ? (
+                    {safe_options.isPrompt ? (
                         <div className="form-group">
                             <TextArea onChange={this.onResponseChange.bind(this)}
                             />

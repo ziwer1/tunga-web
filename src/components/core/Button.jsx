@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {addEventListeners, BUTTON_EVENTS} from './utils';
+import {addEventListeners, BUTTON_EVENTS} from './utils/events';
 
 export default class Button extends React.Component {
     static defaultProps = {

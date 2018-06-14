@@ -41,28 +41,3 @@ export function filterEventProps(props) {
     });
     return eventProps;
 }
-
-import {createConfirmation} from 'react-confirm';
-import GenericModal from './GenericModal';
-
-const confirm = createConfirmation(GenericModal);
-
-export function openGenericModal(confirmation, options = {}) {
-    return confirm({confirmation, options: {...options}});
-}
-
-export function openAlert(message, title=null, optional=false) {
-    return openGenericModal(message, {hideCancel: true, mustRespond: !optional});
-}
-
-export function openConfirm(message, title=null, optional=false) {
-    return openGenericModal(message, {mustRespond: !optional, title});
-}
-
-export function openPrompt(message, title=null, optional=true) {
-    return openGenericModal(message, {isPrompt: true, mustRespond: !optional, title});
-}
-
-export function openModal(message, title=null, optional=true) {
-    return openGenericModal(message, {hideActions:true, mustRespond: !optional, title});
-}

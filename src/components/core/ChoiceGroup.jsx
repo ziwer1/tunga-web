@@ -3,7 +3,7 @@ import React from 'react';
 
 import Button from './Button';
 
-import {filterEventProps} from "./utils";
+import {filterEventProps} from "./utils/events";
 
 export default class ChoiceGroup extends React.Component {
     static defaultProps = {

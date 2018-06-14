@@ -17,7 +17,7 @@ import ChoiceGroup from '../../components/core/ChoiceGroup';
 import Avatar from '../../components/core/Avatar';
 import NavBar from '../../components/core/NavBar';
 import SideBar from '../../components/core/SideBar';
-import {openAlert, openConfirm, openPrompt, openModal} from '../../components/core/utils';
+import {openAlert, openConfirm, openPrompt, openModal} from '../../components/core/utils/modals';
 
 import SampleProfileForm from './samples/SampleProfileForm';
 
@@ -99,7 +99,7 @@ export default class Guide extends React.Component {
                                     ['Uploads', 'File Uploads'],
                                     ['Choices', 'Choice Input'],
                                     'Avatars',
-                                    ['PopUps', 'Pop Ups']
+                                    'Modals'
                                 ].map((section, idx) => {
                                     let sectionId = section,
                                         sectionTitle = section;
@@ -588,17 +588,84 @@ export default class Guide extends React.Component {
                             </div>
 
                             <div className="section detailed">
-                                <h2 id="idPopUps">Pop Ups</h2>
+                                <h2 id="idModals">Modals</h2>
 
                                 <div>
+                                    <h6>Functions:</h6>
+
                                     <p>
-                                        All pop up utility functions are imported from the <code>'src/components/core/utils'</code> module.
+                                        There are 4 modal functions: <code>openAlert</code>, <code>openConfirm</code>, <code>openPrompt</code> and <code>openModal</code>.
                                     </p>
 
                                     <p>
-                                        All samples below use the onClick event of the button to call the appropriate modal function as documented above the button.
+                                        The first 3 render dialogs equivalent to JavaScript alerts, confirms and prompts as per the function name
+                                        while <code>openModal</code> renders a more generic modal with only the modal chrome (title and close button) and no automatic action buttons.
+                                    </p>
+
+                                    <p>
+                                        All modal functions return a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" target="_blank">Promise</a> which is either resolved or rejected depending on the user action and modal type.
+
+                                        <div>
+                                            <code>
+                                                {this.wrapCode("openConfirm('Are you ok?').then((result) => { // Accepted }, (result) => { // Rejected });")}
+                                            </code>
+                                        </div>
+                                    </p>
+
+                                    <p>
+                                        All modal functions are imported from the <code>'src/components/core/utils/modals'</code> module.
                                     </p>
                                 </div>
+
+                                <div>
+
+                                    <div>
+                                        <h6>Arguments:</h6>
+                                        <p>
+                                            <code>body:</code> (required | string or JSX)<br/>
+                                            The first argument for all modal functions.
+                                        </p>
+                                        <p>
+                                            <code>title:</code> (optional | string or JSX)<br/>
+                                            The second argument for all modal functions.
+                                        </p>
+                                        <p>
+                                            <code>canClose:</code> (optional | boolean)<br/>
+                                            The third argument for all modal functions and determines whether a close button is shown by the modal<br/>
+                                            Defaults to false for <code>openAlert</code>, <code>openConfirm</code> and <code>openPrompt</code> and true for <code>openModal</code>
+                                        </p>
+                                        <p>
+                                            <code>options:</code> (optional | object)<br/>
+                                            The fourth argument for all modal functions and determines whether a close button is shown by the modal<br/>
+                                        </p>
+                                        <div>
+                                            Available options include:<br/>
+                                            <p>
+                                                <code>className:</code> which allow customization via CSS/Sass<br/>
+                                            </p>
+
+                                            <p>
+                                                <code>size:</code> set's the bootstrap size class for the modal, accepts <code>sm</code>, <code>md</code> and <code>lg</code> for small, medium and large modals.<br/>
+                                                <code>md</code> is the default.
+                                                Applies to only <code>openModal</code> because sizes for alert, confirm and prompt modals are overriden in css.
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <h6>Body Components:</h6>
+                                        <p>
+                                            Any components passed in as the body will receive 3 function props that allow them to control the modal:
+                                        </p>
+                                        <div><code>proceed:</code> call this to close the modal and resolved the promise (e.g pass back onSuccess data to the calling component)</div>
+                                        <div><code>cancel:</code> call this to close the modal and reject the promise (e.g pass back onError data to the calling component)</div>
+                                        <div><code>dismiss:</code> call this to only close the modal.</div>
+                                    </div>
+                                </div>
+
+                                <p>
+                                    All samples below use the onClick event of the button to call the appropriate modal function as documented above the button.
+                                </p>
 
                                 <div>
                                     <h4>Alerts</h4>
@@ -619,10 +686,33 @@ export default class Guide extends React.Component {
                                 </div>
 
                                 <div>
-                                    <h4>Custom Modal</h4>
-                                    {this.wrapCode("import SampleProfileForm from './samples/SampleProfileForm';")}
+                                    <h4>Custom Component Modal</h4>
                                     {this.wrapCode("openModal(<SampleProfileForm/>, 'Profile')")}
-                                    <Button onClick={() => {openModal(<SampleProfileForm/>, 'Profile')}} size="sm">Open Custom Modal</Button>
+                                    <Button onClick={() => {openModal(<SampleProfileForm/>, 'Profile')}} size="sm">Open Custom Component Modal</Button>
+                                </div>
+
+                                <div>
+                                    <h4>Custom JSX Modal</h4>
+                                    {this.wrapCode("openModal(<div>Hello!</div>, 'Greetings')")}
+                                    <Button onClick={() => {openModal(<div>Hello!</div>, 'Greetings')}} size="sm">Open Custom JSX Modal</Button>
+                                </div>
+
+                                <div>
+                                    <h4>Small Custom Modal</h4>
+                                    {this.wrapCode("openModal(<SampleProfileForm/>, 'Profile', true, {size: 'sm'})")}
+                                    <Button onClick={() => {openModal(<SampleProfileForm/>, 'Profile', true, {size: 'sm'})}} size="sm">Open Small Custom Modal</Button>
+                                </div>
+
+                                <div>
+                                    <h4>Medium Custom Modal</h4>
+                                    {this.wrapCode("openModal(<SampleProfileForm/>, 'Profile', true, {size: 'md'})")}
+                                    <Button onClick={() => {openModal(<SampleProfileForm/>, 'Profile', true, {size: 'md'})}} size="sm">Open Medium Custom Modal</Button>
+                                </div>
+
+                                <div>
+                                    <h4>Large Custom Modal</h4>
+                                    {this.wrapCode("openModal(<SampleProfileForm/>, 'Profile', true, {size: 'lg'})")}
+                                    <Button onClick={() => {openModal(<SampleProfileForm/>, 'Profile', true, {size: 'lg'})}} size="sm">Open Large Custom Modal</Button>
                                 </div>
                             </div>
                         </div>

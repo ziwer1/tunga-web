@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import CustomInputGroup from './CustomInputGroup';
-import {filterEventProps} from "./utils";
+import {filterEventProps} from "./utils/events";
 
 export default class SearchBox extends React.Component {
     static defaultProps = {

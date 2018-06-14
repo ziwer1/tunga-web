@@ -601,7 +601,15 @@ body {
     min-height: 100vh;
     margin: 0 auto;
 
+    &.modal-alert,
+    &.modal-confirm,
+    &.modal-prompt {
+        max-width: 360px;
+    }
+
     .modal-content {
+        border-radius: 0;
+
         > * {
             @include padding-x(40px);
 

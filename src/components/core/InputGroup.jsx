@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import Input from './Input';
-import {filterEventProps} from "./utils";
+import {filterEventProps} from "./utils/events";
 
 export default class InputGroup extends React.Component {
     static defaultProps = {

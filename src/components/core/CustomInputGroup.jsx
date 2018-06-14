@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import InputGroup from './InputGroup';
-import {filterEventProps} from "./utils";
+import {filterEventProps} from "./utils/events";
 
 const CUSTOM_INPUTS = {
     search: {
