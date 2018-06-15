@@ -31,7 +31,7 @@ export default class Upload extends React.Component {
         onChange: PropTypes.func,
         size: PropTypes.string,
         max: PropTypes.number,
-        icon: PropTypes.number,
+        icon: PropTypes.string,
     };
 
     constructor(props) {

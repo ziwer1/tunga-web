@@ -110,12 +110,11 @@ class ShowcaseContainer extends React.Component {
                                 {Auth.isAuthenticated ? (
                                     <ul className="nav navbar-nav navbar-right nav-actions">
                                         <li>
-                                            <Link
-                                                to="/home"
+                                            <a href={`${window.location.origin}/home`}
                                                 className="primary"
                                                 activeClassName="active">
                                                 Back to Tunga
-                                            </Link>
+                                            </a>
                                         </li>
                                     </ul>
                                 ) : (

@@ -134,6 +134,7 @@ import SkillPage from './routes/SkillPage';
 let all_routes = (
     <Route>
         <IndexRoute component={LandingPage} />
+        <Route path="legacy" component={LandingPage} />
         <Route path="agreement" component={Agreement} />
         <Route path="privacy" component={PrivacyPolicy} />
         <Route path="code-of-conduct" component={CodeOfConduct} />
@@ -483,6 +484,7 @@ ReactDOM.render(
     <Provider store={store}>
         <Router history={history}>
             <Route path="/" component={App}>
+                <Route path="welcome">{all_routes}</Route>
                 <Route path="tunga">{all_routes}</Route>
                 {all_routes}
             </Route>

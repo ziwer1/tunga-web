@@ -15,8 +15,8 @@ import TextArea from '../../components/core/TextArea';
 import Upload from '../../components/core/Upload';
 import ChoiceGroup from '../../components/core/ChoiceGroup';
 import Avatar from '../../components/core/Avatar';
-import NavBar from '../../components/core/NavBar';
-import SideBar from '../../components/core/SideBar';
+import NavBar from '../../components/NavBar';
+import SideBar from '../../components/SideBar';
 import {openAlert, openConfirm, openPrompt, openModal} from '../../components/core/utils/modals';
 
 import SampleProfileForm from './samples/SampleProfileForm';

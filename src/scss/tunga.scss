@@ -18,6 +18,7 @@ body {
     padding: 0;
     width: 100%;
     min-height: 100%;
+    background-color: get-color('lightest-grey');
 }
 
 // Typography
@@ -49,7 +50,13 @@ body {
     font-weight: $font-weight-medium;
 }
 
-.page-sub-title, .pop-up-title {
+.page-sub-title {
+    font-size: px-to-rem(16);
+    color: get-color('dark-grey');
+    font-weight: $font-weight-normal;
+}
+
+.pop-up-title {
     font-size: px-to-rem(16);
     font-weight: $font-weight-medium;
 }
@@ -471,6 +478,56 @@ body {
     }
 }
 
+// Modals
+.modal-dialog {
+    display: flex;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0 auto;
+
+    &.modal-alert,
+    &.modal-confirm,
+    &.modal-prompt {
+        max-width: 360px;
+    }
+
+    .modal-content {
+        border-radius: 0;
+
+        > * {
+            @include padding-x(40px);
+
+            &:first-child {
+                padding-top: 40px;
+            }
+
+            &:last-child {
+                padding-bottom: 40px;
+            }
+        }
+    }
+
+    .modal-header {
+        padding-bottom: 0;
+        border-bottom-width: 0;
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: px-to-rem(40);
+            line-height: px-to-rem(20);
+            padding: 0;
+            margin: 0;
+        }
+    }
+
+    .modal-footer {
+        padding-top: 0;
+        border-top-width: 0;
+    }
+}
+
 // Navbar
 .navbar {
     @include padding-y(0);
@@ -560,7 +617,8 @@ body {
     left: 0;
     z-index: 1000;
     text-align: center;
-    padding: 30px 20px;
+    @include padding-y(px-to-rem(30));
+    @include padding-x(px-to-rem(20));
     overflow-x: hidden;
     overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
     background-color: get-color('black');
@@ -569,7 +627,7 @@ body {
     ul {
         li {
             display: block;
-            margin: 0 auto 40px;
+            margin: 0 auto px-to-rem(40);
 
             a {
                 display: block;
@@ -591,56 +649,68 @@ body {
             }
         }
     }
-
 }
 
-// Modals
-.modal-dialog {
-    display: flex;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0 auto;
+// Titlebar
+.titlebar {
+    /*display: flex;
+    align-items: flex-end;*/
+    position: fixed;
+    top: 50px;
+    left: 120px;
+    right: 0;
+    height: 130px;
+    background-color: get-color('white');
+    @include padding-x(px-to-rem(80));
+    padding-top: px-to-rem(42);
+    box-shadow: 0 2px 4px 0 rgba(204, 204, 204, 0.5);
 
-    &.modal-alert,
-    &.modal-confirm,
-    &.modal-prompt {
-        max-width: 360px;
+    .title-action {
+        position: absolute;
+        top: 42px;
+        right: 100px;
     }
 
-    .modal-content {
-        border-radius: 0;
+    .title-filters {
+        position: absolute;
+        left: 80px;
+        bottom: -3px;
 
-        > * {
-            @include padding-x(40px);
+        a {
+            display: inline-block;
+            font-weight: $font-weight-normal;
+            text-align: center;
+            padding-bottom: px-to-rem(8);
+            min-width: px-to-rem(130);
 
-            &:first-child {
-                padding-top: 40px;
+            &.active {
+                border-bottom: 3px $brand-color solid;
             }
 
-            &:last-child {
-                padding-bottom: 40px;
+            &:hover, &:focus {
+                text-decoration: none;
             }
         }
     }
+}
 
-    .modal-header {
-        padding-bottom: 0;
-        border-bottom-width: 0;
+// Main Content
+.main-content {
+    margin-top: px-to-rem(180);
+    margin-left: px-to-rem(120);
+    @include padding-x(px-to-rem(80));
+    padding-top: px-to-rem(40);
 
-        .close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: px-to-rem(40);
-            line-height: px-to-rem(20);
-            padding: 0;
-            margin: 0;
+    .content-card {
+        background-color: get-color('white');
+        min-height: 560px;
+        padding: 40px;
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.11);
+        border: solid 1px #ececec;
+
+        &.settings-card {
+            max-width: 760px;
         }
-    }
-
-    .modal-footer {
-        padding-top: 0;
-        border-top-width: 0;
     }
 }
 

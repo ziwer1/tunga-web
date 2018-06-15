@@ -1,75 +1,53 @@
 'use strict';
 
-var webpack = require('webpack'),
+let webpack = require('webpack'),
     HtmlWebpackPlugin = require('html-webpack-plugin'),
     CleanWebpackPlugin = require('clean-webpack-plugin'),
     unixTimestamp = Date.now();
 
+let siteSettings = {
+    inject: true,
+    chunks: ['vendor', 'app'],
+    template: 'src/templates/index.ejs',
+    env: process.env.NODE_ENV || 'development',
+    hash: true,
+    timestamp: unixTimestamp,
+    site: {
+        title: "Tunga | Unleashing Africa's Tech Talent",
+        description: "Small and large businesses from all over the world use Tunga for hiring African software engineers to address their most pressing software development needs.",
+        images: {
+            hero: 'https://tunga.io/icons/tunga_hero_devs_working.jpg'
+        },
+        colors: {
+            primary: '#f41152'
+        },
+        fb_app_id: '518348818336672',
+        optimizely_id: process.env.NODE_ENV?(process.env.NODE_ENV == 'production' && process.env.ANALYTICS_ENV != "development"?'8175822119':'8182460702'):'',
+        ga_tracker: process.env.NODE_ENV?(process.env.NODE_ENV == 'production'?(process.env.ANALYTICS_ENV == "development"?'UA-102018659-1':'UA-70644715-1'):''):'',
+        gtm_tracker: process.env.NODE_ENV?(process.env.NODE_ENV == 'production'?(process.env.ANALYTICS_ENV == "development"?'GTM-KKS9DVD':'GTM-PDS4Q4'):''):'',
+        enable_tracking: process.env.NODE_ENV == 'production' && process.env.ANALYTICS_ENV != "development"
+    }
+}
+
 module.exports = {
     plugins: {
         chunkVendorPlugin: new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js?v='+ unixTimestamp),
-        HTMLInjectPlugin: new HtmlWebpackPlugin({
-            inject: true,
-            chunks: ['vendor', 'app'],
-            template: 'src/templates/index.ejs',
-            env: process.env.NODE_ENV || 'development',
-            hash: true,
-            timestamp: unixTimestamp,
-            site: {
-                title: "Tunga | Unleashing Africa's Tech Talent",
-                description: "Small and large businesses from all over the world use Tunga for hiring African software engineers to address their most pressing software development needs.",
-                images: {
-                    hero: 'https://tunga.io/icons/tunga_hero_devs_working.jpg'
-                },
-                colors: {
-                    primary: '#f41152'
-                },
-                fb_app_id: '518348818336672',
-                optimizely_id: process.env.NODE_ENV?(process.env.NODE_ENV == 'production' && process.env.ANALYTICS_ENV != "development"?'8175822119':'8182460702'):'',
-                ga_tracker: process.env.NODE_ENV?(process.env.NODE_ENV == 'production'?(process.env.ANALYTICS_ENV == "development"?'UA-102018659-1':'UA-70644715-1'):''):'',
-                gtm_tracker: process.env.NODE_ENV?(process.env.NODE_ENV == 'production'?(process.env.ANALYTICS_ENV == "development"?'GTM-KKS9DVD':'GTM-PDS4Q4'):''):'',
-                enable_tracking: process.env.NODE_ENV == 'production' && process.env.ANALYTICS_ENV != "development"
-            }
-        }),
+        HTMLInjectPlugin: new HtmlWebpackPlugin(siteSettings),
         LegacyHTMLInjectPlugin: new HtmlWebpackPlugin({
-            inject: true,
-            chunks: ['vendor', 'app'],
+            ...siteSettings,
+            chunks: ['vendor', 'legacy'],
             template: 'src/legacy/index.ejs',
-            filename: 'legacy/index.html',
-            env: process.env.NODE_ENV || 'development',
-            hash: true,
-            timestamp: unixTimestamp,
-            site: {
-                title: "Tunga | Unleashing Africa's Tech Talent",
-                description: "Small and large businesses from all over the world use Tunga for hiring African software engineers to address their most pressing software development needs.",
-                images: {
-                    hero: 'https://tunga.io/icons/tunga_hero_devs_working.jpg'
-                },
-                colors: {
-                    primary: '#f41152'
-                },
-                fb_app_id: '518348818336672',
-                optimizely_id: process.env.NODE_ENV?(process.env.NODE_ENV == 'production' && process.env.ANALYTICS_ENV != "development"?'8175822119':'8182460702'):'',
-                ga_tracker: process.env.NODE_ENV?(process.env.NODE_ENV == 'production'?(process.env.ANALYTICS_ENV == "development"?'UA-102018659-1':'UA-70644715-1'):''):'',
-                gtm_tracker: process.env.NODE_ENV?(process.env.NODE_ENV == 'production'?(process.env.ANALYTICS_ENV == "development"?'GTM-KKS9DVD':'GTM-PDS4Q4'):''):'',
-                enable_tracking: process.env.NODE_ENV == 'production' && process.env.ANALYTICS_ENV != "development"
-            }
+            filename: 'welcome/index.html'
         }),
         StyleGuideInjectPlugin: new HtmlWebpackPlugin({
-            inject: true,
+            ...siteSettings,
             chunks: ['vendor', 'guide'],
             template: 'src/guide/index.ejs',
             filename: 'guide.html',
-            timestamp: unixTimestamp,
             site: {
-                title: 'Tunga | Style Guide',
-                description: 'Style guide for Tunga',
-                images: {
-                    hero: 'https://tunga.io/icons/tunga_hero_devs_working.jpg'
-                },
-                colors: {
-                    primary: '#f41152'
-                },
+                ...siteSettings.site,
+                title: 'Tunga | Style & Component Guide',
+                description: 'Style & Component Guide for Tunga',
             }
         }),
         noErrorsPlugin: new webpack.NoErrorsPlugin(),

@@ -7,8 +7,7 @@ import '../scss/guide.scss';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
-import {Router, Route} from 'react-router';
-import {browserHistory} from 'react-router';
+import {BrowserRouter} from 'react-router-dom';
 import {createStore, applyMiddleware, compose} from 'redux';
 import createLogger from "redux-logger";
 
@@ -30,10 +29,8 @@ if (__PRODUCTION__) {
 }
 
 ReactDOM.render(
-    <Provider store={store}>
-        <Router history={browserHistory}>
-            <Route path="*" component={Guide}/>
-        </Router>
-    </Provider>,
-    document.getElementById('content'),
+    <BrowserRouter>
+        <Guide/>
+    </BrowserRouter>,
+    document.getElementById('guide-root'),
 );

@@ -33,6 +33,10 @@ export default class LandingPage extends ComponentWithModal {
     }
 
     componentDidMount() {
+        if(this.props.location.query && this.props.location.query.redirect_path && this.props.router) {
+            this.props.router.replace(this.props.location.query.redirect_path);
+        }
+
         let lp = this;
         if (showCallWidget(this.props.routes)) {
             openCalendlyWidget();

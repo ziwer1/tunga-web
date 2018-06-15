@@ -1,7 +1,7 @@
 import React from 'react';
-import {Link} from 'react-router';
+import {Link, NavLink} from 'react-router-dom';
 
-import Icon from './Icon';
+import Icon from './core/Icon';
 
 export default class SideBar extends React.Component {
 
@@ -18,10 +18,10 @@ export default class SideBar extends React.Component {
                     ].map((item, idx) => {
                         return (
                             <li key={`dashboard-${idx}`}>
-                                <Link to={`/${item[0]}`} activeClassName="active">
+                                <NavLink to={`/${item[0]}`} activeClassName="active">
                                     <Icon name={item[2]} size="sidebar"/>
                                     <span>{item[1]}</span>
-                                </Link>
+                                </NavLink>
                             </li>
                         );
                     })}

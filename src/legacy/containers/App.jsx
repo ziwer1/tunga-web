@@ -51,9 +51,9 @@ class App extends React.Component {
         const {router} = this.context;
         const {Auth, location, NavActions, AuthActions, routes} = this.props;
         if (
-            prevProps.location.pathname != location.pathname ||
-            prevProps.Auth.isAuthenticated != Auth.isAuthenticated ||
-            (prevProps.Auth.isVerifying != Auth.isVerifying &&
+            prevProps.location.pathname !== location.pathname ||
+            prevProps.Auth.isAuthenticated !== Auth.isAuthenticated ||
+            (prevProps.Auth.isVerifying !== Auth.isVerifying &&
                 !Auth.isVerifying)
         ) {
             if (requiresNoAuth(routes) && Auth.isAuthenticated) {
@@ -61,11 +61,14 @@ class App extends React.Component {
                 if (!next) {
                     next = location.query.next || '/home';
                 }
-                if (/^\/api\//i.test(next)) {
+
+                window.location.href = next;
+
+                /*if (/^\/api\//i.test(next)) {
                     window.location.href = next;
                 } else {
                     router.replace(next);
-                }
+                }*/
                 return;
             }
 
@@ -125,17 +128,6 @@ class App extends React.Component {
     onCloseCookieConsent() {
         setCookieConsentCloseAt();
         this.setState({showConsentAlert: !getCookieConsentCloseAt() && !getCookieConsent()});
-    }
-
-    onClosePopup() {
-        const {Auth, routes, location} = this.props;
-        const {router} = this.context;
-
-        this.close();
-        if (requiresAuth(routes) && !Auth.isAuthenticated) {
-            AuthActions.authRedirect(location.pathname);
-            router.replace('/signin?next=' + location.pathname);
-        }
     }
 
     onCookieSettings() {

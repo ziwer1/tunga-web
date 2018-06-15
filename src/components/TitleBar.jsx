@@ -1,0 +1,62 @@
+import React from 'react';
+import {Switch, Route} from 'react-router-dom';
+import moment from 'moment';
+
+import TitleBarContent from './TitleBarContent';
+import MyAccountOutput from './dashboard/MyAccountOutput';
+
+export default class TitleBar extends React.Component {
+
+    render() {
+        let networkSections = [
+            ['/network', 'Developers'],
+            ['/network/filter/relevant', 'Relevant for me']
+        ], paymentSections = [
+            ['/payments/filter/pending-in', 'Pending payments'],
+            ['/payments/filter/paid-in', 'Paid payments'],
+            ['/payments/filter/pending-out', 'Pending payouts'], // dev, admin and PM
+            ['/payments/filter/paid-out', 'Paid payouts'], // dev, admin and PM
+        ], settingsSections = [
+            ['/settings/profile', 'Profile'], // All
+            ['/settings/company-profile', 'Company profile'], // PO and admin
+            ['/settings/company-details', 'Company details'], // PO and admin
+            ['/settings/experience', 'Experience'], // dev and PM
+            ['/settings/payment', 'Payment settings'], // dev and PM
+            ['/settings/account', 'Account'], // All
+            ['/settings/privacy', 'Privacy'], // All
+        ];
+
+        return (
+            <div className='titlebar'>
+                <Switch>
+                    {[
+                        ['/dashboard', <div>Hi <MyAccountOutput field="display_name"/></div>, '/projects/new', null, {subTitle: moment().format('dddd Do, MMMM')}],
+                        ['/projects/new', 'Projects', null, [['/projects/new', 'Create new project']]],
+                        ['/projects/:projectId', 'Projects', '/projects/new', [['currentUrl', 'Project title']]],
+                        ['/projects', 'Projects', '/projects/new'],
+                        ['/network/:personId', 'Network', null, networkSections],
+                        ['/network', 'Network', null, networkSections],
+                        ['/payments/filter/pending-in', 'Payments', null, paymentSections],
+                        ['/payments/filter/paid-in', 'Payments', null, paymentSections],
+                        ['/payments/filter/pending-out', 'Payments', null, paymentSections],
+                        ['/payments/filter/paid-out', 'Payments', null, paymentSections],
+                        ['/settings/profile', 'Settings', null, settingsSections],
+                        ['/settings/company-profile', 'Settings', null, settingsSections],
+                        ['/settings/company-details', 'Settings', null, settingsSections],
+                        ['/settings/experience', 'Settings', null, settingsSections],
+                        ['/settings/payment', 'Settings', null, settingsSections],
+                        ['/settings/account', 'Settings', null, settingsSections],
+                        ['/settings/privacy', 'Settings', null, settingsSections],
+                    ].map(path => {
+                        return (
+                            <Route key={`title-path--${path}`}
+                                   path={path[0]}
+                                   render={props => <TitleBarContent {...props} title={path[1]} actionLink={path[2]} sectionLinks={path[3]} {...(path[4] || {})}/>}/>
+                        );
+                    })}
+                </Switch>
+
+            </div>
+        )
+    }
+}
