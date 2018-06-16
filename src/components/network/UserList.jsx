@@ -21,7 +21,7 @@ export default class UserList extends React.Component {
                 <div className="row card-list">
                     {users.map(user => {
                         return (
-                            <div className="col-sm-4">
+                            <div key={`user-card--${user.id}`} className="col-sm-4">
                                 <UserCard user={user}/>
                             </div>
                         );

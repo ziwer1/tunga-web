@@ -28,7 +28,7 @@ const SettingsContainer = (props) => {
 
                 ].map(path => {
                     return (
-                        <Route path={`/settings/${path[0]}`} component={path[1]} props={props}/>
+                        <Route key={`settings-container-path--${path}`} path={`/settings/${path[0]}`} component={path[1]} props={props}/>
                     );
                 })}
             </Switch>
