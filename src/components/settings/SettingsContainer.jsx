@@ -1,9 +1,8 @@
 import React from 'react';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
-import { withRouter, Switch, Route } from 'react-router-dom';
 
-import * as ProfileActions from '../../legacy/actions/ProfileActions';
+import { Switch, Route } from 'react-router-dom';
+
+import connect from '../../connectors/ProfileConnector';
 
 import Profile from './Profile';
 import CompanyProfile from './CompanyProfile';
@@ -18,17 +17,17 @@ const SettingsContainer = (props) => {
         <div className="content-card settings-card">
             <Switch>
                 {[
-                    ['profile', Profile],
-                    ['company-profile', CompanyProfile],
-                    ['company-details', CompanyDetails],
-                    ['experience', Experience],
-                    ['payment', Payment],
-                    ['account', Account],
-                    ['privacy', Privacy],
+                    ['profile', <Profile {...props}/>],
+                    ['company-profile', <CompanyProfile {...props}/>],
+                    ['company-details', <CompanyDetails {...props}/>],
+                    ['experience', <Experience {...props}/>],
+                    ['payment', <Payment {...props}/>],
+                    ['account', <Account {...props}/>],
+                    ['privacy', <Privacy {...props}/>],
 
                 ].map(path => {
                     return (
-                        <Route key={`settings-container-path--${path}`} path={`/settings/${path[0]}`} component={path[1]} props={props}/>
+                        <Route key={`settings-container-path--${path}`} path={`/settings/${path[0]}`} render={props => path[1]}/>
                     );
                 })}
             </Switch>
@@ -36,17 +35,4 @@ const SettingsContainer = (props) => {
     );
 };
 
-function mapStateToProps(state) {
-    return {
-        Auth: state.Auth,
-        Profile: state.Profile
-    };
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        ProfileActions: bindActionCreators(ProfileActions, dispatch),
-    };
-}
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SettingsContainer));
+export default connect(SettingsContainer);
