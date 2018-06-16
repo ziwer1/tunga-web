@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Link} from 'react-router-dom';
 
-export default class StepTwo extends React.Component {
+export default class StepThree extends React.Component {
     static propTypes = {
         Auth: PropTypes.object,
         Profile: PropTypes.object,
@@ -14,7 +14,7 @@ export default class StepTwo extends React.Component {
             <div>
                 // TODO: {this.constructor.name} form goes here
 
-                <div><Link to="/onboard/step-three">Next</Link></div>
+                <div><Link to="/onboard/finish">Next</Link></div>
             </div>
         );
     }

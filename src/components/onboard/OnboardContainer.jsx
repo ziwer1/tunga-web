@@ -6,6 +6,7 @@ import connect from '../../connectors/ProfileConnector';
 import Intro from './Intro';
 import StepOne from './StepOne';
 import StepTwo from './StepTwo';
+import StepThree from './StepThree';
 import Finish from './Finish';
 
 const OnboardContainer = (props) => {
@@ -19,6 +20,7 @@ const OnboardContainer = (props) => {
                         ['intro', <Intro {...props}/>],
                         ['step-one', <StepOne {...props}/>],
                         ['step-two', <StepTwo {...props}/>],
+                        ['step-three', <StepThree {...props}/>],
                         ['finish', <Finish {...props}/>],
 
                     ].map(path => {
