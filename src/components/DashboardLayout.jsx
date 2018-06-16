@@ -18,7 +18,8 @@ class DashboardLayout extends React.Component {
     }
 
     componentDidMount() {
-        if (!this.state.hasVerified && !this.props.Auth.isVerifying) {
+        const {Auth} = this.props;
+        if (!Auth.isAuthenticated && !this.props.Auth.isVerifying && !this.state.hasVerified) {
             this.props.AuthActions.verify();
         }
     }
