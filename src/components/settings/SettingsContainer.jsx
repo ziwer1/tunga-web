@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 import connect from '../../connectors/ProfileConnector';
 
@@ -16,6 +16,7 @@ const SettingsContainer = (props) => {
     return (
         <div className="content-card settings-card">
             <Switch>
+                <Redirect exact from='/settings' to='/settings/profile'/>
                 {[
                     ['profile', <Profile {...props}/>],
                     ['company-profile', <CompanyProfile {...props}/>],

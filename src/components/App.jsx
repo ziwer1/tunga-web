@@ -9,7 +9,7 @@ export default class App extends React.Component {
         return (
             <div>
                 <Switch>
-                    {'dashboard|projects|network|payments|settings'.split('|').map(path => {
+                    {'dashboard|projects|network|payments|settings|onboard'.split('|').map(path => {
                         return (
                             <Route key={`app-path--${path}`} path={`/${path}`} component={DashboardLayout}/>
                         );

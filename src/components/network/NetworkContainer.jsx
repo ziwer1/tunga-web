@@ -1,9 +1,7 @@
 import React from 'react';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
-import { withRouter, Switch, Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 
-import * as UserActions from '../../legacy/actions/UserActions';
+import connect from '../../connectors/UserConnector';
 
 import UserListContainer from './UserListContainer';
 import UserList from './UserList';
@@ -31,16 +29,4 @@ const UserContainer = ({User, UserActions}) => {
     );
 };
 
-function mapStateToProps(state) {
-    return {
-        User: state.User
-    };
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        UserActions: bindActionCreators(UserActions, dispatch),
-    };
-}
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(UserContainer));
+export default connect(UserContainer);

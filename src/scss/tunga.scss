@@ -702,6 +702,25 @@ body {
     @include padding-x(px-to-rem(80));
     padding-top: px-to-rem(40);
 
+    .onboard-card {
+        max-width: 660px;
+        min-height: 430px;
+        margin: 40px auto;
+        box-shadow: 0 2px 2px 0 rgba(204, 204, 204, 0.5);
+        border: solid 1px #ececec;
+
+        .onboard-title {
+            padding: 30px 40px;
+            box-shadow: 0 2px 2px 0 rgba(204, 204, 204, 0.5);
+            text-align: center;
+            font-weight: $font-weight-normal;
+        }
+
+        .onboard-content {
+            padding: 40px;
+        }
+    }
+
     .content-card {
         background-color: get-color('white');
         min-height: 560px;
