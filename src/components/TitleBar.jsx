@@ -30,23 +30,13 @@ export default class TitleBar extends React.Component {
             <div className='titlebar'>
                 <Switch>
                     {[
-                        ['/dashboard', <div>Hi <MyAccountOutput field="display_name"/></div>, '/projects/new', null, {subTitle: moment().format('dddd Do, MMMM')}],
+                        ['/dashboard', <div>Hi <MyAccountOutput field="display_name"/></div>, '/projects/new', null, {subTitle: moment().format('dddd, Do of MMMM')}],
                         ['/projects/new', 'Projects', null, [['/projects/new', 'Create new project']]],
                         ['/projects/:projectId', 'Projects', '/projects/new', [['currentUrl', 'Project title']]],
                         ['/projects', 'Projects', '/projects/new'],
-                        ['/network/:personId', 'Network', null, networkSections],
                         ['/network', 'Network', null, networkSections],
-                        ['/payments/filter/pending-in', 'Payments', null, paymentSections],
-                        ['/payments/filter/paid-in', 'Payments', null, paymentSections],
-                        ['/payments/filter/pending-out', 'Payments', null, paymentSections],
-                        ['/payments/filter/paid-out', 'Payments', null, paymentSections],
-                        ['/settings/profile', 'Settings', null, settingsSections],
-                        ['/settings/company-profile', 'Settings', null, settingsSections],
-                        ['/settings/company-details', 'Settings', null, settingsSections],
-                        ['/settings/experience', 'Settings', null, settingsSections],
-                        ['/settings/payment', 'Settings', null, settingsSections],
-                        ['/settings/account', 'Settings', null, settingsSections],
-                        ['/settings/privacy', 'Settings', null, settingsSections],
+                        ['/payments', 'Payments', null, paymentSections],
+                        ['/settings', 'Settings', null, settingsSections],
                     ].map(path => {
                         return (
                             <Route key={`title-path--${path}`}

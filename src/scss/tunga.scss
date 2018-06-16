@@ -656,6 +656,7 @@ body {
     /*display: flex;
     align-items: flex-end;*/
     position: fixed;
+    z-index: 1020;
     top: 50px;
     left: 120px;
     right: 0;
@@ -711,6 +712,27 @@ body {
         &.settings-card {
             max-width: 760px;
         }
+    }
+
+    .user-card {
+        height: 400px;
+        background-color: get-color('white');
+        padding: 40px 40px 20px 40px;
+        border: solid 1px #ececec;
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.21);
+    }
+
+    .card-list, .row.card-list {
+        margin-right: 0;
+        margin-left: 0;
+
+        > .col,
+        > [class*="col-"] {
+            padding-right: 10px;
+            padding-left: 10px;
+            padding-bottom: 20px;
+        }
+
     }
 }
 
