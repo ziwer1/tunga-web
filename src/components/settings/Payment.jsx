@@ -3,8 +3,9 @@ import React from 'react';
 
 export default class Payment extends React.Component {
     static propTypes = {
-        Auth: PropTypes.object,
-        Profile: PropTypes.object,
+        user: PropTypes.object,
+        isSaving: PropTypes.object,
+        isSaved: PropTypes.object,
         ProfileActions: PropTypes.object,
     };
 

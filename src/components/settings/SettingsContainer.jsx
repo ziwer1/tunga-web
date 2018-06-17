@@ -13,19 +13,24 @@ import Account from './Account';
 import Privacy from './Privacy';
 
 const SettingsContainer = (props) => {
+    let settingsProps = {
+        user: props.Auth.user,
+        isSaving: props.Profile.isSaving,
+        isSaved: props.Profile.isSaved,
+        ProfileActions: props.ProfileActions
+    };
     return (
         <div className="content-card settings-card">
             <Switch>
                 <Redirect exact from='/settings' to='/settings/profile'/>
                 {[
-                    ['profile', <Profile {...props}/>],
-                    ['company-profile', <CompanyProfile {...props}/>],
-                    ['company-details', <CompanyDetails {...props}/>],
-                    ['experience', <Experience {...props}/>],
-                    ['payment', <Payment {...props}/>],
-                    ['account', <Account {...props}/>],
-                    ['privacy', <Privacy {...props}/>],
-
+                    ['profile', <Profile {...settingsProps}/>],
+                    ['company-profile', <CompanyProfile {...settingsProps}/>],
+                    ['company-details', <CompanyDetails {...settingsProps}/>],
+                    ['experience', <Experience {...settingsProps}/>],
+                    ['payment', <Payment {...settingsProps}/>],
+                    ['account', <Account {...settingsProps}/>],
+                    ['privacy', <Privacy {...settingsProps}/>],
                 ].map(path => {
                     return (
                         <Route key={`settings-container-path--${path}`} path={`/settings/${path[0]}`} render={props => path[1]}/>

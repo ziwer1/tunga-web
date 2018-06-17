@@ -10,6 +10,12 @@ import StepThree from './StepThree';
 import Finish from './Finish';
 
 const OnboardContainer = (props) => {
+    let onboardProps = {
+        user: props.Auth.user,
+        isSaving: props.Profile.isSaving,
+        isSaved: props.Profile.isSaved,
+        ProfileActions: props.ProfileActions
+    };
     return (
         <div className="onboard-card">
             <div className="onboard-title">Let's set up your account</div>
@@ -17,11 +23,11 @@ const OnboardContainer = (props) => {
                 <Switch>
                     <Redirect exact from='/onboard' to='/onboard/intro'/>
                     {[
-                        ['intro', <Intro {...props}/>],
-                        ['step-one', <StepOne {...props}/>],
-                        ['step-two', <StepTwo {...props}/>],
-                        ['step-three', <StepThree {...props}/>],
-                        ['finish', <Finish {...props}/>],
+                        ['intro', <Intro {...onboardProps}/>],
+                        ['step-one', <StepOne {...onboardProps}/>],
+                        ['step-two', <StepTwo {...onboardProps}/>],
+                        ['step-three', <StepThree {...onboardProps}/>],
+                        ['finish', <Finish {...onboardProps}/>],
 
                     ].map(path => {
                         return (
