@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import {filterEventProps} from "./utils/events";
+import {filterInputProps} from "./utils/input";
 
 export default class Select extends React.Component {
     static defaultProps = {
@@ -40,7 +41,7 @@ export default class Select extends React.Component {
     render() {
         return (
             <select className={`form-control ${this.props.className || ''} ${this.props.size ?`form-control-${this.props.size}`:''}`}
-                    value={this.state.selected}
+                    {...filterInputProps(this.props)}
                     {...filterEventProps(this.props)}
                     onChange={this.onChange.bind(this)}>
                 {this.props.placeholder?(
@@ -55,7 +56,7 @@ export default class Select extends React.Component {
                         optionName = option[1];
                     }
                     return (
-                        <option value={optionValue}>{optionName}</option>
+                        <option value={optionValue} selected={this.state.selected === optionValue}>{optionName}</option>
                     );
                 })}
             </select>

@@ -8,6 +8,7 @@ import Select from './Select';
 
 import { filterEventProps } from "./utils/events";
 import { getCountries } from "../../legacy/actions/ProfileActions";
+import {filterInputProps} from "./utils/input";
 
 class CountrySelector extends React.Component {
     static defaultProps = {
@@ -29,7 +30,7 @@ class CountrySelector extends React.Component {
 
     componentDidMount() {
         const {countries, getCountries} = this.props;
-        if((!countries || countries.length == 0)) {
+        if((!countries || countries.length === 0)) {
             getCountries();
         }
     }
@@ -70,6 +71,7 @@ class CountrySelector extends React.Component {
                     size={this.props.size}
                     options={this.getOptions()}
                     placeholder={null}
+                    {...filterInputProps(this.props)}
                     {...filterEventProps(this.props)}
                     onChange={this.onChange.bind(this)}/>
         );

@@ -3,6 +3,7 @@ import React from 'react';
 
 import CustomInputGroup from './CustomInputGroup';
 import {filterEventProps} from "./utils/events";
+import {filterInputProps} from "./utils/input";
 
 export default class SearchBox extends React.Component {
     static defaultProps = {
@@ -20,6 +21,7 @@ export default class SearchBox extends React.Component {
             <CustomInputGroup variant={`search${this.props.branded?'':'-plain'}`}
                               className={this.props.className}
                               placeholder={this.props.placeholder}
+                              {...filterInputProps(this.props)}
                               {...filterEventProps(this.props)}/>
         );
     }

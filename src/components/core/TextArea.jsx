@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import {addEventListeners, INPUT_EVENTS} from './utils/events';
+import {filterInputProps} from "./utils/input";
 
 export default class TextArea extends React.Component {
     static defaultProps = {
@@ -18,6 +19,7 @@ export default class TextArea extends React.Component {
         return (
             <textarea className={`form-control ${this.props.className || ''}`}
                       placeholder={this.props.placeholder}
+                      {...filterInputProps(this.props)}
                       {...addEventListeners(INPUT_EVENTS, this.props)}>
                 {this.props.children}
             </textarea>

@@ -3,6 +3,7 @@ import React from 'react';
 
 import Input from './Input';
 import {filterEventProps} from "./utils/events";
+import {filterInputProps} from "./utils/input";
 
 export default class InputGroup extends React.Component {
     static defaultProps = {
@@ -49,6 +50,7 @@ export default class InputGroup extends React.Component {
                     className="form-control"
                     size={this.props.size}
                     placeholder={this.props.placeholder}
+                    {...filterInputProps(this.props)}
                     {...filterEventProps(this.props)}
                     onFocus={this.onChangeFocus.bind(this, true)}
                     onBlur={this.onChangeFocus.bind(this, false)}/>
