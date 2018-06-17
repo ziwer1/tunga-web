@@ -16,8 +16,41 @@ function user(state = {}, action) {
             var user = action.user;
             return {...state, ...user};
         case ProfileActions.UPDATE_PROFILE_SUCCESS:
-            user = action.profile.details.user;
-            return {...state, ...user};
+            let profile = {...action.profile, ...action.profile.details};
+            user = profile.user;
+            delete profile.user;
+            return {...state, ...user, profile, company: state.company};
+        case ProfileActions.UPDATE_COMPANY_SUCCESS:
+            let company = {...action.company, ...action.company.details};
+            return {...state, ...user, company, profile: state.profile};
+        case ProfileActions.CREATE_WORK_SUCCESS:
+        case ProfileActions.UPDATE_WORK_SUCCESS:
+            let work = action.work;
+            delete work.user;
+            let currentWork = [...(state.work || [])];
+            let currentWorkIdx = currentWork.map(item => {
+                return item.id;
+            }).indexOf(work.id);
+            if(currentWorkIdx === -1) {
+                currentWork.push(work);
+            } else {
+                currentWork[currentWorkIdx] = work;
+            }
+            return {...state, work: currentWork};
+        case ProfileActions.CREATE_EDUCATION_SUCCESS:
+        case ProfileActions.UPDATE_EDUCATION_SUCCESS:
+            let education = action.education;
+            delete education.user;
+            let currentEducation = [...(state.education || [])];
+            let currentEducationIdx = currentEducation.map(item => {
+                return item.id;
+            }).indexOf(education.id);
+            if(currentEducationIdx === -1) {
+                currentEducation.push(education);
+            } else {
+                currentEducation[currentEducationIdx] = education;
+            }
+            return {...state, education: currentEducation};
         case AuthActions.LOGOUT_SUCCESS:
             return {};
         default:
