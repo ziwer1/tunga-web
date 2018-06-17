@@ -17,6 +17,8 @@ import ChoiceGroup from '../../components/core/ChoiceGroup';
 import Avatar from '../../components/core/Avatar';
 import NavBar from '../../components/NavBar';
 import SideBar from '../../components/SideBar';
+import Select from '../../components/core/Select';
+import CountrySelector from '../../components/core/CountrySelector';
 import {openAlert, openConfirm, openPrompt, openModal} from '../../components/core/utils/modals';
 
 import SampleProfileForm from './samples/SampleProfileForm';
@@ -96,8 +98,9 @@ export default class Guide extends React.Component {
                                     ['Inputs', 'Text Input'],
                                     ['Search', 'Search Input'],
                                     ['DateTime', 'DateTime Input'],
-                                    ['Uploads', 'File Uploads'],
+                                    ['Select', 'Select Input'],
                                     ['Choices', 'Choice Input'],
+                                    ['Uploads', 'File Uploads'],
                                     'Avatars',
                                     'Modals'
                                 ].map((section, idx) => {
@@ -512,6 +515,44 @@ export default class Guide extends React.Component {
                             </div>
 
                             <div className="section detailed">
+                                <h2 id="idSelect">Select Input</h2>
+
+                                {[
+                                    ['Select', {selected: 2}],
+                                    ['Select (custom placeholder)', {placeholder: '-- Select a number --'}]
+                                ].map(select => {
+                                    let selectProps = {
+                                        options: [
+                                            [1, 'One'],
+                                            [2, 'Two'],
+                                            [3, 'Three']
+                                        ]
+                                    };
+
+                                    if(select[1]) {
+                                        selectProps = {...selectProps, ...select[1]};
+                                    }
+
+                                    return (
+                                        <div>
+                                            <h4>{select[0]}</h4>
+                                            {this.renderAndDocument(
+                                                <Select {...selectProps}/>,
+                                                false, 'Select'
+                                            )}
+                                        </div>
+                                    );
+                                })}
+
+                                <div>
+                                    <h4>Country Selector</h4>
+                                    {this.renderAndDocument(
+                                        <CountrySelector/>, false, 'CountrySelector'
+                                    )}
+                                </div>
+                            </div>
+
+                            <div className="section detailed">
                                 <h2 id="idChoices">Choice Input</h2>
                                 {[
                                     [null, 'Choice Group'],
@@ -521,15 +562,15 @@ export default class Guide extends React.Component {
                                     ['outline-primary', 'Choice Group Outline Primary'],
                                     ['secondary', 'Choice Group Secondary'],
                                     ['outline-secondary', 'Choice Outline Group Secondary'],
-                                ].map(input => {
-                                    let inputProps = {};
+                                ].map(choice => {
+                                    let choiceProps = {};
 
-                                    if(input[0]) {
-                                        inputProps.variant = input[0];
+                                    if(choice[0]) {
+                                        choiceProps.variant = choice[0];
                                     }
 
-                                    if(input[2]) {
-                                        inputProps = {...inputProps, ...input[2]};
+                                    if(choice[2]) {
+                                        choiceProps = {...choiceProps, ...choice[2]};
                                     }
 
                                     let choices = [
@@ -540,9 +581,9 @@ export default class Guide extends React.Component {
 
                                     return (
                                         <div>
-                                            <h4>{input[1]}</h4>
+                                            <h4>{choice[1]}</h4>
                                             {this.renderAndDocument(
-                                                <ChoiceGroup {...inputProps}
+                                                <ChoiceGroup {...choiceProps}
                                                              choices={choices} selected={2}/>,
                                                 false, 'ChoiceGroup'
                                             )}

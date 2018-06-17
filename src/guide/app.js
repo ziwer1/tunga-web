@@ -8,18 +8,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {BrowserRouter} from 'react-router-dom';
-import {createStore, applyMiddleware, compose} from 'redux';
-import createLogger from "redux-logger";
 
 import Guide from './components/Guide';
 
-const logger = createLogger({
-    collapsed: true,
-    level: 'info',
-    duration: true,
-});
-
-const store = createStore(() => {}, compose(applyMiddleware(logger), (window.devToolsExtension ? window.devToolsExtension() : f => f)));
+import store from '../legacy/store';
 
 if (__PRODUCTION__) {
     // Configure raven
@@ -29,8 +21,10 @@ if (__PRODUCTION__) {
 }
 
 ReactDOM.render(
-    <BrowserRouter>
-        <Guide/>
-    </BrowserRouter>,
+    <Provider store={store}>
+        <BrowserRouter>
+            <Guide/>
+        </BrowserRouter>
+    </Provider>,
     document.getElementById('guide-root'),
 );
