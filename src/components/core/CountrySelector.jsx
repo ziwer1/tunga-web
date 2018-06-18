@@ -25,7 +25,7 @@ class CountrySelector extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {selected: props.selected};
+        this.state = {selected: props.selected || props.value};
     }
 
     componentDidMount() {

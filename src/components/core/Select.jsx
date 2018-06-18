@@ -21,7 +21,7 @@ export default class Select extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {selected: props.selected};
+        this.state = {selected: props.selected || props.value};
     }
 
     onChange(e) {
@@ -41,9 +41,9 @@ export default class Select extends React.Component {
     render() {
         return (
             <select className={`form-control ${this.props.className || ''} ${this.props.size ?`form-control-${this.props.size}`:''}`}
-                    value={this.state.selected}
                     {...filterInputProps(this.props)}
                     {...filterEventProps(this.props)}
+                    value={this.state.selected}
                     onChange={this.onChange.bind(this)}>
                 {this.props.placeholder?(
                     <option value="">{this.props.placeholder}</option>
