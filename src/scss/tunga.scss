@@ -478,6 +478,11 @@ body {
     }
 }
 
+// Alerts
+.error {
+    color: get-color('red');
+}
+
 // Modals
 .modal-dialog {
     display: flex;

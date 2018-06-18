@@ -20,6 +20,11 @@ import SideBar from '../../components/SideBar';
 import Select from '../../components/core/Select';
 import CountrySelector from '../../components/core/CountrySelector';
 import {openAlert, openConfirm, openPrompt, openModal} from '../../components/core/utils/modals';
+import FieldError from '../../components/core/FieldError';
+import Error from '../../components/core/Error';
+import Warning from '../../components/core/Warning';
+import Success from '../../components/core/Success';
+import Info from '../../components/core/Info';
 
 import SampleProfileForm from './samples/SampleProfileForm';
 
@@ -102,7 +107,8 @@ export default class Guide extends React.Component {
                                     ['Choices', 'Choice Input'],
                                     ['Uploads', 'File Uploads'],
                                     'Avatars',
-                                    'Modals'
+                                    'Modals',
+                                    'Alerts'
                                 ].map((section, idx) => {
                                     let sectionId = section,
                                         sectionTitle = section;
@@ -754,6 +760,52 @@ export default class Guide extends React.Component {
                                     <h4>Large Custom Modal</h4>
                                     {this.wrapCode("openModal(<SampleProfileForm/>, 'Profile', true, {size: 'lg'})")}
                                     <Button onClick={() => {openModal(<SampleProfileForm/>, 'Profile', true, {size: 'lg'})}} size="sm">Open Large Custom Modal</Button>
+                                </div>
+                            </div>
+
+                            <div className="section detailed">
+                                <h2 id="idAlerts">Alerts</h2>
+
+                                <div>
+                                    <h4>Field Error</h4>
+                                    {this.renderAndDocument(
+                                        <FieldError error="Invalid email."/>, false, 'FieldError'
+                                    )}
+                                </div>
+
+                                <div>
+                                    <h4>Error</h4>
+                                    {this.renderAndDocument(
+                                        <Error message="Something went wrong! Please try again."/>, false, 'Error'
+                                    )}
+                                </div>
+
+                                <div>
+                                    <h4>Warning</h4>
+                                    {this.renderAndDocument(
+                                        <Warning message="Please correct the errors below to proceed."/>, false, 'Warning'
+                                    )}
+                                </div>
+
+                                <div>
+                                    <h4>Success</h4>
+                                    {this.renderAndDocument(
+                                        <Success message="Changes saved successfully"/>, false, 'Success'
+                                    )}
+                                </div>
+
+                                <div>
+                                    <h4>Info</h4>
+                                    {this.renderAndDocument(
+                                        <Info message="Welcome to Tunga!"/>, false, 'Info'
+                                    )}
+                                </div>
+
+                                <div>
+                                    <h4>Secondary Info</h4>
+                                    {this.renderAndDocument(
+                                        <Info variant="secondary" message="Welcome to Tunga!"/>, false, 'Info'
+                                    )}
                                 </div>
                             </div>
                         </div>
