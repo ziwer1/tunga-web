@@ -1,10 +1,11 @@
 import React from 'react';
 import {Switch, Route, Redirect} from 'react-router-dom';
 
-import SettingsContainer from './settings/SettingsContainer';
+import OnboardContainer from './onboard/OnboardContainer';
 import PaymentsList from './payments/PaymentsList';
 import NetworkContainer from './network/NetworkContainer';
-import OnboardContainer from './onboard/OnboardContainer';
+import SettingsContainer from './settings/SettingsContainer';
+import ProjectsContainer from "./projects/ProjectsContainer";
 
 const MainContent = () => {
     return (
@@ -12,9 +13,10 @@ const MainContent = () => {
             <Switch>
                 <Redirect exact from='/payments' to='/payments/filter/pending-in'/>
                 <Route path='/onboard' component={OnboardContainer}/>
-                <Route path='/settings' component={SettingsContainer}/>
-                <Route path='/payments' component={PaymentsList}/>
+                <Route path='/projects' component={ProjectsContainer}/>
                 <Route path='/network' component={NetworkContainer}/>
+                <Route path='/payments' component={PaymentsList}/>
+                <Route path='/settings' component={SettingsContainer}/>
             </Switch>
         </div>
     )

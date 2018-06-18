@@ -2,7 +2,7 @@ import {bindActionCreators} from "redux";
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 
-import * as ProfileActions from "../legacy/actions/ProfileActions";
+import * as ProfileActions from "../actions/ProfileActions";
 
 function mapStateToProps(state) {
     return {
