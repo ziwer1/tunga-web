@@ -736,6 +736,11 @@ body {
         &.settings-card {
             max-width: 760px;
         }
+
+        &.project-form-card {
+            max-width: 920px;
+            min-height: 540px;
+        }
     }
 
     .user-card {

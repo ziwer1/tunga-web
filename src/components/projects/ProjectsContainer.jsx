@@ -7,12 +7,14 @@ import ProjectListContainer from './ProjectListContainer';
 import ProjectList from './ProjectList';
 import ProjectDetailContainer from './ProjectDetailContainer';
 import ProjectManagement from "./ProjectManagement";
+import ProjectForm from "./ProjectForm";
 
 
 const ProjectsContainer = ({Project, ProjectActions}) => {
     return (
         <React.Fragment>
             <Switch>
+                <Route exact path="/projects/new" render={props => <ProjectForm {...props} Project={Project} ProjectActions={ProjectActions}/>}/>
                 <Route exact path="/projects/:projectId" render={props => <ProjectDetailContainer {...props} projectId={props.match.params.projectId} Project={Project} ProjectActions={ProjectActions}><ProjectManagement/></ProjectDetailContainer>}/>
                 {[
                     '/project/filter/:filter',
