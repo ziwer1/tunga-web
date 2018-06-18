@@ -15,7 +15,8 @@ const OnboardContainer = (props) => {
         isSaving: props.Profile.isSaving,
         isSaved: props.Profile.isSaved,
         errors: props.Profile.errors,
-        ProfileActions: props.ProfileActions
+        ProfileActions: props.ProfileActions,
+        history: props.history
     };
     return (
         <div className="onboard-card">
