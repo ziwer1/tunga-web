@@ -52,7 +52,7 @@ export default class ChoiceGroup extends React.Component {
                     }
 
                     return (
-                        <Button variant={this.props.variant || 'choice'}
+                        <Button key={`choice-${choiceValue}`} variant={this.props.variant || 'choice'}
                                 size={this.props.size}
                                 className={`${this.state.selected === choiceValue?'active':''}`}
                                 {...filterEventProps(this.props)}

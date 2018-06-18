@@ -71,9 +71,9 @@ class CountrySelector extends React.Component {
                     size={this.props.size}
                     options={this.getOptions()}
                     placeholder={null}
-                    selected={this.state.selected}
                     {...filterInputProps(this.props)}
                     {...filterEventProps(this.props)}
+                    selected={this.state.selected}
                     onChange={this.onChange.bind(this)}/>
         );
     }

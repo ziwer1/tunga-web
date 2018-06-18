@@ -57,7 +57,7 @@ export default class Select extends React.Component {
                         optionName = option[1];
                     }
                     return (
-                        <option value={optionValue}>{optionName}</option>
+                        <option key={`option-${optionValue}`} value={optionValue}>{optionName}</option>
                     );
                 })}
             </select>

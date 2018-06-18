@@ -80,9 +80,9 @@ export default class Guide extends React.Component {
 
     wrapCode(code) {
         return (
-            <div>
-                <code>{code}</code>
-            </div>
+            <React.Fragment>
+                <code>{code}</code><br/>
+            </React.Fragment>
         );
     }
 
@@ -119,7 +119,7 @@ export default class Guide extends React.Component {
                                     }
 
                                     return (
-                                        <li><a href={`#id${sectionId}`}>{ idx + 1 }. {sectionTitle}</a></li>
+                                        <li key={`nav-${sectionId}`}><a href={`#id${sectionId}`}>{ idx + 1 }. {sectionTitle}</a></li>
                                     );
                                 })}
                             </ul>
@@ -139,7 +139,7 @@ export default class Guide extends React.Component {
                                     ['red', '#e93232']
                                 ].map(color => {
                                     return (
-                                        <div>
+                                        <div key={`color-${color}`}>
                                             <span className={`color color-${color[0]}`}/> <span className="hex">{color[1]}</span> | <span className="name">{_.upperFirst(color[0].split('-').join(' '))}</span>
                                         </div>
                                     );
@@ -238,7 +238,7 @@ export default class Guide extends React.Component {
                                     ['Navbar for Admins', true]
                                 ].map(navbar => {
                                     return (
-                                        <div className="sub-section">
+                                        <div key={`navbar-${navbar[0]}`} className="sub-section">
                                             <h4>{navbar[0]}</h4>
                                             {this.renderAndDocument(
                                                 <NavBar user={{is_admin: navbar[1], display_name: 'DeadPool', avatar_url: avatarUrl}}/>,
@@ -304,7 +304,7 @@ export default class Guide extends React.Component {
                                     }
 
                                     return (
-                                        <div>
+                                        <div key={`icon-${iconName}`}>
                                             <h4>{_.upperFirst(sizeTitle)}</h4>
                                             {this.renderAndDocument(
                                                 <Icon name="check" size={iconName}/>,
@@ -354,7 +354,7 @@ export default class Guide extends React.Component {
                                     }
 
                                     return (
-                                        <div>
+                                        <div key={`btn-${buttonTitle}`}>
                                             <h4>{cleanName(buttonTitle)}</h4>
                                             {this.renderAndDocument(
                                                 <Button {...buttonProps}>{cleanName(buttonName)}</Button>,
@@ -374,7 +374,7 @@ export default class Guide extends React.Component {
                                     ['Large', {size: 'lg'}]
                                 ].map(input => {
                                     return (
-                                        <div>
+                                        <div key={`input-${input[0]}`}>
                                             <h4>{input[0]}</h4>
                                             {this.renderAndDocument(
                                                 <Input {...(input[1] || {})} placeholder="Placeholder"/>,
@@ -405,7 +405,7 @@ export default class Guide extends React.Component {
                                     }
 
                                     return (
-                                        <div>
+                                        <div key={`input-group-${input[0]}`}>
                                             <h4>{input[1]}</h4>
                                             {this.renderAndDocument(
                                                 <CustomInputGroup {...inputProps}/>,
@@ -443,7 +443,7 @@ export default class Guide extends React.Component {
                                     }
 
                                     return (
-                                        <div>
+                                        <div key={`search-${search[1]}`}>
                                             <h4>{search[1]}</h4>
                                             {this.renderAndDocument(
                                                 <SearchBox {...searchProps}/>,
@@ -467,7 +467,7 @@ export default class Guide extends React.Component {
                                     ['TimePicker', false, true],
                                 ].map(picker => {
                                     return (
-                                        <div>
+                                        <div key={`picker-${picker[0]}`}>
                                             <h4>{picker[0]}</h4>
                                             {this.renderAndDocument(
                                                 <DateTimePicker calendar={picker[1]} time={picker[2]}/>,
@@ -510,7 +510,7 @@ export default class Guide extends React.Component {
                                     }
 
                                     return (
-                                        <div>
+                                        <div key={`upload-${upload[1]}`}>
                                             <h4>{upload[1]}</h4>
                                             {this.renderAndDocument(
                                                 <Upload {...uploadProps}/>, false, 'Upload'
@@ -540,7 +540,7 @@ export default class Guide extends React.Component {
                                     }
 
                                     return (
-                                        <div>
+                                        <div key={`select-${select[0]}`}>
                                             <h4>{select[0]}</h4>
                                             {this.renderAndDocument(
                                                 <Select {...selectProps}/>,
@@ -593,7 +593,7 @@ export default class Guide extends React.Component {
                                     ];
 
                                     return (
-                                        <div>
+                                        <div key={`choice-${choice[1]}`}>
                                             <h4>{choice[1]}</h4>
                                             {this.renderAndDocument(
                                                 <ChoiceGroup {...choiceProps}
@@ -631,7 +631,7 @@ export default class Guide extends React.Component {
                                     }
 
                                     return (
-                                        <div>
+                                        <div key={`avatar-${avatar[0] || avatar[2]}`}>
                                             <h4>{avatar[2]}</h4>
                                             {this.renderAndDocument(
                                                 <Avatar {...avatarProps}/>, false, 'Avatar'
@@ -657,13 +657,11 @@ export default class Guide extends React.Component {
                                     </p>
 
                                     <p>
-                                        All modal functions return a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" target="_blank">Promise</a> which is either resolved or rejected depending on the user action and modal type.
+                                        All modal functions return a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" target="_blank">Promise</a> which is either resolved or rejected depending on the user action and modal type.<br/>
 
-                                        <div>
-                                            <code>
-                                                {this.wrapCode("openConfirm('Are you ok?').then((result) => { // Accepted }, (result) => { // Rejected });")}
-                                            </code>
-                                        </div>
+                                        <code>
+                                            {this.wrapCode("openConfirm('Are you ok?').then((result) => { // Accepted }, (result) => { // Rejected });")}
+                                        </code>
                                     </p>
 
                                     <p>
@@ -711,9 +709,11 @@ export default class Guide extends React.Component {
                                         <p>
                                             Any components passed in as the body will receive 3 function props that allow them to control the modal:
                                         </p>
-                                        <div><code>proceed:</code> call this to close the modal and resolved the promise (e.g pass back onSuccess data to the calling component)</div>
-                                        <div><code>cancel:</code> call this to close the modal and reject the promise (e.g pass back onError data to the calling component)</div>
-                                        <div><code>dismiss:</code> call this to only close the modal.</div>
+                                        <p>
+                                            <code>proceed:</code> call this to close the modal and resolved the promise (e.g pass back onSuccess data to the calling component)<br/>
+                                            <code>cancel:</code> call this to close the modal and reject the promise (e.g pass back onError data to the calling component)<br/>
+                                            <code>dismiss:</code> call this to only close the modal.
+                                        </p>
                                     </div>
                                 </div>
 
