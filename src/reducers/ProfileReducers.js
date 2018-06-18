@@ -1,92 +1,6 @@
 import {combineReducers} from 'redux';
 import * as ProfileActions from '../actions/ProfileActions';
 
-function profile(state = {}, action) {
-    switch (action.type) {
-        case ProfileActions.RETRIEVE_PROFILE_SUCCESS:
-            return action.profile;
-        case ProfileActions.UPDATE_PROFILE_SUCCESS:
-            var profile = action.profile;
-            profile.skills = profile.details.skills;
-            profile.btc_wallet = profile.details.btc_wallet;
-            return profile;
-        case ProfileActions.RETRIEVE_PROFILE_FAILED:
-            return {};
-        default:
-            return state;
-    }
-}
-
-function workItems(state = {}, action) {
-    switch (action.type) {
-        case ProfileActions.RETRIEVE_PROFILE_SUCCESS:
-            var all_work = {};
-            action.work.forEach(work => {
-                all_work[work.id] = work;
-            });
-            return {...state, ...all_work};
-        case ProfileActions.RETRIEVE_PROFILE_FAILED:
-            return {};
-        case ProfileActions.CREATE_WORK_SUCCESS:
-        case ProfileActions.UPDATE_WORK_SUCCESS:
-            var new_work = {};
-            new_work[action.work.id] = action.work;
-            return {...state, ...new_work};
-        default:
-            return state;
-    }
-}
-
-function workIds(state = [], action) {
-    switch (action.type) {
-        case ProfileActions.RETRIEVE_PROFILE_SUCCESS:
-            return action.work.map(work => {
-                return work.id;
-            });
-        case ProfileActions.RETRIEVE_PROFILE_FAILED:
-            return [];
-        case ProfileActions.CREATE_WORK_SUCCESS:
-            return [...state, action.work.id];
-        default:
-            return state;
-    }
-}
-
-function educationItems(state = {}, action) {
-    switch (action.type) {
-        case ProfileActions.RETRIEVE_PROFILE_SUCCESS:
-            var all_education = {};
-            action.education.forEach(education => {
-                all_education[education.id] = education;
-            });
-            return {...state, ...all_education};
-        case ProfileActions.RETRIEVE_PROFILE_FAILED:
-            return {};
-        case ProfileActions.CREATE_EDUCATION_SUCCESS:
-        case ProfileActions.UPDATE_EDUCATION_SUCCESS:
-            var new_education = {};
-            new_education[action.education.id] = action.education;
-            return {...state, ...new_education};
-        default:
-            return state;
-    }
-}
-
-function educationIds(state = [], action) {
-    switch (action.type) {
-        case ProfileActions.RETRIEVE_PROFILE_SUCCESS:
-            return action.education.map(education => {
-                return education.id;
-            });
-        case ProfileActions.RETRIEVE_PROFILE_FAILED:
-            return [];
-        case ProfileActions.CREATE_EDUCATION_SUCCESS:
-            return [...state, action.education.id];
-        default:
-            return state;
-    }
-}
-
 function countries(state = [], action) {
     switch (action.type) {
         case ProfileActions.GET_COUNTRIES_SUCCESS:
@@ -115,6 +29,9 @@ const defaultStatuses = {
     user: false,
     account: false,
     security: false,
+    company: false,
+    work: false,
+    education: false,
 };
 
 function isSaving(state = defaultStatuses, action) {
@@ -264,20 +181,7 @@ function error(state = {}, action) {
     }
 }
 
-const work = combineReducers({
-    ids: workIds,
-    items: workItems,
-});
-
-const education = combineReducers({
-    ids: educationIds,
-    items: educationItems,
-});
-
 const Profile = combineReducers({
-    profile,
-    work,
-    education,
     isRetrieving,
     isSaving,
     isSaved,
