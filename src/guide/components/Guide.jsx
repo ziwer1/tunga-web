@@ -556,6 +556,13 @@ export default class Guide extends React.Component {
                                         <CountrySelector/>, false, 'CountrySelector'
                                     )}
                                 </div>
+
+                                <div>
+                                    <h4>Country Selector (with selected value)</h4>
+                                    {this.renderAndDocument(
+                                        <CountrySelector selected="UG"/>, false, 'CountrySelector'
+                                    )}
+                                </div>
                             </div>
 
                             <div className="section detailed">

@@ -17,7 +17,7 @@ class CountrySelector extends React.Component {
 
     static propTypes = {
         className: PropTypes.string,
-        selected: PropTypes.any,
+        selected: PropTypes.string,
         onChange: PropTypes.func,
         size: PropTypes.string,
         placeholder: PropTypes.string,
@@ -71,6 +71,7 @@ class CountrySelector extends React.Component {
                     size={this.props.size}
                     options={this.getOptions()}
                     placeholder={null}
+                    selected={this.state.selected}
                     {...filterInputProps(this.props)}
                     {...filterEventProps(this.props)}
                     onChange={this.onChange.bind(this)}/>
