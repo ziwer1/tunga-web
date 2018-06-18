@@ -11,7 +11,7 @@ import {BrowserRouter} from 'react-router-dom';
 
 import Guide from './components/Guide';
 
-import store from '../legacy/store';
+import store from '../store';
 
 if (__PRODUCTION__) {
     // Configure raven

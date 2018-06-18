@@ -35,7 +35,7 @@ export default class UserDetailContainer extends React.Component  {
 
     getUser() {
         const {userId, UserActions, User} = this.props;
-        if(userId && !User.list.users[userId]) {
+        if(userId && !User.users[userId]) {
             UserActions.retrieveUser(userId);
         }
     }

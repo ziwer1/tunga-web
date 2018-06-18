@@ -51,8 +51,8 @@ export default class UserListContainer extends React.Component  {
                     onLoadMore: () => {
                         UserActions.listMoreUsers(User.list.next, self.state.selectionKey);
                     },
-                    isLoadingMore: User.list.isFetchingMore,
-                    hasMore: !!User.list.next,
+                    isLoadingMore: User.isFetchingMore,
+                    hasMore: !!User.next,
                     UserActions
                 });
             }.bind(this),
