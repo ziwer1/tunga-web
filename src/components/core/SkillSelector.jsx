@@ -78,7 +78,7 @@ class SkillSelector extends React.Component {
 
     UNSAFE_componentWillReceiveProps(nextProps) {
         if(nextProps.selected !== this.props.selected) {
-            this.setState({selected: nextProps.selected});
+            this.setState({selected: this.processSelected(nextProps.selected)});
         }
     }
 

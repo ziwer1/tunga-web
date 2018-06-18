@@ -437,16 +437,6 @@ export default class Guide extends React.Component {
                                     );
                                 })}
 
-
-
-                                <div>
-                                    <h4>Skill Selector</h4>
-                                    {this.renderAndDocument(
-                                        <SkillSelector placeholder="Add skill or product" selected={'React.js, Python'}/>,
-                                        false, 'SkillSelector'
-                                    )}
-                                </div>
-
                                 <div>
                                     <h4>TextArea</h4>
                                     {this.renderAndDocument(
