@@ -25,6 +25,7 @@ import Error from '../../components/core/Error';
 import Warning from '../../components/core/Warning';
 import Success from '../../components/core/Success';
 import Info from '../../components/core/Info';
+import SkillSelector from '../../components/core/SkillSelector';
 
 import SampleProfileForm from './samples/SampleProfileForm';
 
@@ -414,6 +415,37 @@ export default class Guide extends React.Component {
                                         </div>
                                     );
                                 })}
+
+                                {[
+                                    ['Skill Selector'],
+                                    ['Skill Selector (selected string)', {selected: 'React.js, Python'}],
+                                    ['Skill Selector (selected array)', {selected: ['React.js', 'Python']}],
+                                    ['Skill Selector (selected array of objects)', {selected: [{name: 'React.js'}, {name:'Python'}]}]
+                                ].map(skill => {
+                                    let skillProps = {};
+                                    if(skill[1]) {
+                                        skillProps = {...skillProps, ...skill[1]};
+                                    }
+                                    return (
+                                        <div key={`skill-${skill[0]}`}>
+                                            <h4>{skill[0]}</h4>
+                                            {this.renderAndDocument(
+                                                <SkillSelector placeholder="Add skill or product" {...skillProps}/>,
+                                                false, 'SkillSelector'
+                                            )}
+                                        </div>
+                                    );
+                                })}
+
+
+
+                                <div>
+                                    <h4>Skill Selector</h4>
+                                    {this.renderAndDocument(
+                                        <SkillSelector placeholder="Add skill or product" selected={'React.js, Python'}/>,
+                                        false, 'SkillSelector'
+                                    )}
+                                </div>
 
                                 <div>
                                     <h4>TextArea</h4>

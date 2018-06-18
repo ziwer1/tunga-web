@@ -38,7 +38,7 @@ nav#side-nav {
             @include sub-section;
         }
 
-        .form-control, .input-group:not(.input-search), .rw-widget {
+        .form-control, .input-group:not(.input-search), .rw-widget, .tag-input {
             max-width: 600px;
         }
     }

@@ -29,6 +29,9 @@ export default class InputGroup extends React.Component {
 
     onChangeFocus(focus) {
         this.setState({focus});
+        if(this.props.onFocus) {
+            this.props.onFocus();
+        }
     }
 
     render() {

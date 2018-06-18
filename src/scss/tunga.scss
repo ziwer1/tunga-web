@@ -478,6 +478,49 @@ body {
     }
 }
 
+// Tags
+
+.tag-input {
+    position: relative;
+
+    .selected {
+        .selected-item {
+            float: left;
+            display: inline-block;
+            padding: 5px 5px 5px 10px;
+            margin: 5px 2px 5px 0;
+            border-radius: 5px;
+            background-color: get-color('white');
+            border: 1px solid rgba(0, 0, 0, 0.125);
+
+            .close {
+                margin-left: 8px;
+                font-size: px-to-rem(8);
+                line-height: px-to-rem(8);
+            }
+
+            a {
+                cursor: pointer;
+            }
+        }
+    }
+
+    .suggestions {
+        position: absolute;
+        width: 100%;
+
+        a {
+            color: $brand-color;
+            cursor: pointer;
+
+            &:hover, &:focus {
+                color: get-color('white');
+                background-color: $brand-color;
+            }
+        }
+    }
+}
+
 // Alerts
 .error {
     color: get-color('red');
