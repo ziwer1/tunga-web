@@ -7,7 +7,7 @@ import {connect} from "react-redux";
 import Select from './Select';
 
 import { filterEventProps } from "./utils/events";
-import { getCountries } from "../../legacy/actions/ProfileActions";
+import { getCountries } from "../../actions/ProfileActions";
 import {filterInputProps} from "./utils/input";
 
 class CountrySelector extends React.Component {
