@@ -28,15 +28,15 @@ export default class UserDetailContainer extends React.Component  {
     }
 
     componentDidUpdate(prevProps, prevState, snapShot) {
-        if(prevProps.userId !== this.props.userId) {
+        if(prevProps.username !== this.props.username) {
             this.getUser();
         }
     }
 
     getUser() {
-        const {userId, UserActions, User} = this.props;
-        if(userId && !User.users[userId]) {
-            UserActions.retrieveUser(userId);
+        const {username, UserActions, User} = this.props;
+        if(username && !User.users[username] && User.users[User.usernameToId[username]]) {
+            UserActions.retrieveUser(username);
         }
     }
 

@@ -15,7 +15,7 @@ const UserContainer = ({User, UserActions}) => {
     return (
         <React.Fragment>
             <Switch>
-                <Route exact path="/network/:username" render={props => <UserDetailContainer {...props} username={props.match.params.username} User={User} UserActions={UserActions} filters={{type: USER_TYPE_DEVELOPER}}><UserProfile/></UserDetailContainer>}/>
+                <Route exact path="/network/:username" render={props => <UserDetailContainer {...props} username={props.match.params.username} User={User} UserActions={UserActions}><UserProfile/></UserDetailContainer>}/>
                 {[
                     '/network/filter/:filter',
                     '/network',
