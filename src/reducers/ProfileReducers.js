@@ -132,7 +132,7 @@ function isSaved(state = defaultStatuses, action) {
     }
 }
 
-function error(state = {}, action) {
+function errors(state = {}, action) {
     switch (action.type) {
         case ProfileActions.UPDATE_PROFILE_FAILED:
             var error = action.error;
@@ -185,7 +185,7 @@ const Profile = combineReducers({
     isRetrieving,
     isSaving,
     isSaved,
-    error,
+    errors,
     countries,
 });
 

@@ -17,7 +17,8 @@ const SettingsContainer = (props) => {
         user: props.Auth.user,
         isSaving: props.Profile.isSaving,
         isSaved: props.Profile.isSaved,
-        ProfileActions: props.ProfileActions
+        errors: props.Profile.errors,
+        ProfileActions: props.ProfileActions,
     };
     return (
         <div className="content-card settings-card">

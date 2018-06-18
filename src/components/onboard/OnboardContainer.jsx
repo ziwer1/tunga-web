@@ -14,6 +14,7 @@ const OnboardContainer = (props) => {
         user: props.Auth.user,
         isSaving: props.Profile.isSaving,
         isSaved: props.Profile.isSaved,
+        errors: props.Profile.errors,
         ProfileActions: props.ProfileActions
     };
     return (

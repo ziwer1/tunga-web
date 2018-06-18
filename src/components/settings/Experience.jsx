@@ -6,6 +6,7 @@ export default class Experience extends React.Component {
         user: PropTypes.object,
         isSaving: PropTypes.object,
         isSaved: PropTypes.object,
+        errors: PropTypes.object,
         ProfileActions: PropTypes.object,
     };
 
