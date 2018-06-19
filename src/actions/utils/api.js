@@ -66,7 +66,7 @@ export const ENDPOINT_USER_INFO = getEndpointUrl('me/user/');
 export const ENDPOINT_USER_EDUCATION = getEndpointUrl('me/education/');
 export const ENDPOINT_USER_WORK = getEndpointUrl('me/work/');
 
-export const ENDPOINT_PROJECTS = getEndpointUrl('task/'); //getEndpointUrl('projects/');
+export const ENDPOINT_PROJECTS = getEndpointUrl('projects/');
 export const ENDPOINT_USERS = getEndpointUrl('user/');
 
 
