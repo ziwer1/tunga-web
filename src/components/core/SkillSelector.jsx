@@ -22,7 +22,7 @@ class SkillSelector extends React.Component {
 
     static propTypes = {
         className: PropTypes.string,
-        selected: PropTypes.string,
+        selected: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
         onChange: PropTypes.func,
         size: PropTypes.string,
         placeholder: PropTypes.string,
