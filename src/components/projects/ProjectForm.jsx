@@ -3,8 +3,11 @@ import React from 'react';
 
 export default class ProjectForm extends React.Component {
     static propTypes = {
-        Project: PropTypes.object,
-        ProjectActions: PropTypes.object,
+        project: PropTypes.object,
+        onCreate: PropTypes.func,
+        isSaving: PropTypes.bool,
+        isSaved: PropTypes.bool,
+        errors: PropTypes.object,
     };
 
     render() {
