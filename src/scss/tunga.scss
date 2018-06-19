@@ -526,6 +526,17 @@ body {
     color: get-color('red');
 }
 
+.success {
+    text-align: center;
+    margin: 5px auto;
+
+    .success-icon {
+        display: block;
+        color: get-color('green');
+        margin-bottom: 5px;
+    }
+}
+
 // Modals
 .modal-dialog {
     display: flex;

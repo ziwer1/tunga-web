@@ -798,7 +798,7 @@ export default class Guide extends React.Component {
                                 <div>
                                     <h4>Field Error</h4>
                                     {this.renderAndDocument(
-                                        <FieldError error="Invalid email."/>, false, 'FieldError'
+                                        <FieldError message="Invalid email."/>, false, 'FieldError'
                                     )}
                                 </div>
 
@@ -820,6 +820,13 @@ export default class Guide extends React.Component {
                                     <h4>Success</h4>
                                     {this.renderAndDocument(
                                         <Success message="Changes saved successfully"/>, false, 'Success'
+                                    )}
+                                </div>
+
+                                <div>
+                                    <h4>Success</h4>
+                                    {this.renderAndDocument(
+                                        <Success message="Changes saved successfully" variant="icon"/>, false, 'Success'
                                     )}
                                 </div>
 
