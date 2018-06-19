@@ -27,7 +27,7 @@ let siteSettings = {
         gtm_tracker: process.env.NODE_ENV?(process.env.NODE_ENV == 'production'?(process.env.ANALYTICS_ENV == "development"?'GTM-KKS9DVD':'GTM-PDS4Q4'):''):'',
         enable_tracking: process.env.NODE_ENV == 'production' && process.env.ANALYTICS_ENV != "development"
     }
-}
+};
 
 module.exports = {
     plugins: {
@@ -35,6 +35,7 @@ module.exports = {
         HTMLInjectPlugin: new HtmlWebpackPlugin(siteSettings),
         LegacyHTMLInjectPlugin: new HtmlWebpackPlugin({
             ...siteSettings,
+            inject: false,
             chunks: ['vendor', 'legacy'],
             template: 'src/legacy/index.ejs',
             filename: 'welcome/index.html'

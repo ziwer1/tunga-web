@@ -46,6 +46,9 @@
     <%- include ../templates/analytics-body.ejs %>
 
     <div id="content"></div>
+
+    <script type="text/javascript" src="../vendor.js?v=<%= htmlWebpackPlugin.options.timestamp %>"></script>
+    <script type="text/javascript" src="../legacy.js?v=<%= htmlWebpackPlugin.options.timestamp %>"></script></body>
 </body>
 
 </html>
