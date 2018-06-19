@@ -2,9 +2,6 @@ import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import jsxToString from 'jsx-to-string';
 import _ from 'lodash';
-import {DateTimePicker, Calendar} from 'react-widgets';
-import moment from "moment/moment";
-import momentLocalizer from "react-widgets/lib/localizers/moment";
 
 import Icon from '../../components/core/Icon';
 import Button from '../../components/core/Button';
@@ -26,10 +23,10 @@ import Warning from '../../components/core/Warning';
 import Success from '../../components/core/Success';
 import Info from '../../components/core/Info';
 import SkillSelector from '../../components/core/SkillSelector';
+import DateTimePicker from '../../components/core/DateTimePicker';
+import Calendar from '../../components/core/Calendar';
 
 import SampleProfileForm from './samples/SampleProfileForm';
-
-momentLocalizer(moment);
 
 let avatarUrl = require('../images/deadpool.jpg');
 
@@ -480,7 +477,7 @@ export default class Guide extends React.Component {
                                 <h2 id="idDateTime">DateTime Input</h2>
 
                                 <div>
-                                    <code>&lt;DateTimePicker&gt;</code> and <code>&lt;Calendar&gt;</code> components are from the thirdparty <a target="_blank" href="https://jquense.github.io/react-widgets/api/DateTimePicker/">React Widgets</a> library.
+                                    <code>&lt;DateTimePicker&gt;</code> and <code>&lt;Calendar&gt;</code> components are imported from <code>/src/components/core/</code> but share the same API as the thirdparty <a target="_blank" href="https://jquense.github.io/react-widgets/api/DateTimePicker/">React Widgets</a> library but have an automatically confugured localizer.
                                 </div>
 
                                 {[
