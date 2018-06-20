@@ -99,3 +99,36 @@ export const ENDPOINT_MULTI_TASK_PAYMENT = getEndpointUrl(
 export const ENDPOINT_SKILL_PAGE = getEndpointUrl('skill-page/');
 export const ENDPOINT_PAYONEER_SIGNUP = getEndpointUrl('payoneer/');
 export const ENDPOINT_BLOG = getEndpointUrl('blog/');
+
+export function flattenJson(jsonData, key) {
+    let flattenedData = {};
+
+    if (jsonData !== null && jsonData !== undefined) {
+        if(Array.isArray(jsonData)) {
+            if(key && jsonData.length) {
+                jsonData.forEach((item, idx) => {
+                    flattenedData = {...flattenedData, ...flattenJson(item, `${key}[${idx}]`)};
+                });
+            }
+        } else if (typeof jsonData === 'object') {
+            Object.keys(jsonData).forEach(nestedKey => {
+                flattenedData = {...flattenedData, ...flattenJson(jsonData[nestedKey], `${key?`${key}.`:''}${nestedKey}`)};
+            });
+        } else if(key) {
+            let flattenedUpdate = {};
+            flattenedUpdate[key] = jsonData;
+            flattenedData = {...flattenedData, ...flattenedUpdate};
+        }
+    }
+    return flattenedData;
+}
+
+export function composeFormData(jsonData) {
+    let flattenedData = flattenJson(jsonData);
+    let formData = new FormData();
+    Object.keys(flattenedData).forEach(key => {
+        formData.append(key, flattenedData[key]);
+    });
+    return formData;
+}
+

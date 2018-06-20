@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {ENDPOINT_PROJECTS} from './utils/api';
+import {composeFormData, ENDPOINT_PROJECTS} from './utils/api';
 
 export const CREATE_PROJECT_START = 'CREATE_PROJECT_START';
 export const CREATE_PROJECT_SUCCESS = 'CREATE_PROJECT_SUCCESS';
@@ -17,94 +17,54 @@ export const LIST_MORE_PROJECTS_START = 'LIST_MORE_PROJECTS_START';
 export const LIST_MORE_PROJECTS_SUCCESS = 'LIST_MORE_PROJECTS_SUCCESS';
 export const LIST_MORE_PROJECTS_FAILED = 'LIST_MORE_PROJECTS_FAILED';
 
-export function createProject(project, documents, target) {
+export function createProject(project, target) {
     return dispatch => {
-        dispatch(createProjectStart(project, documents, target));
+        dispatch(createProjectStart(project, target));
 
         let headers = {},
             data = project;
 
-        if (documents && documents.length) {
+        if (project.documents && project.documents.length) {
             headers['Content-Type'] = 'multipart/form-data';
-
-            data = new FormData();
-            Object.keys(project).map(key => {
-                if (
-                    (Array.isArray(project[key]) && project[key].length) ||
-                    (!Array.isArray(project[key]) && project[key] != null)
-                ) {
-                    data.append(key, project[key]);
-                }
-            });
-
-            let docsArray = [],
-                uploadMetadata = [];
-
-            documents.forEach((document, idx) => {
-                if(document.file) {
-                    let docKey = `document${idx}`;
-                    data.append(docKey, document.file);
-                    let docMeta = {...document};
-                    delete docMeta['file'];
-                    docMeta.key = docKey;
-                    uploadMetadata.push(docMeta);
-                } else {
-                    docsArray.push(document);
-                }
-            });
-
-            if(docsArray.length) {
-                docsArray.forEach(doc => {
-                    data.append('documents[]', doc);
-                });
-            }
-
-            if(uploadMetadata.length) {
-                uploadMetadata.forEach(upload => {
-                    data.append('uploadMeta[]', upload);
-                });
-            }
+            data = composeFormData(project);
         }
 
         axios
             .post(ENDPOINT_PROJECTS, data, {headers})
             .then(function(response) {
-                dispatch(createProjectSuccess(response.data, documents, target));
+                dispatch(createProjectSuccess(response.data, target));
             })
             .catch(function(error) {
                 dispatch(
                     createProjectFailed(
-                        (error.response ? error.response.data : null), project, documents, target
+                        (error.response ? error.response.data : null), project, target
                     ),
                 );
             });
     };
 }
 
-export function createProjectStart(project, documents, target) {
+export function createProjectStart(project, target) {
     return {
         type: CREATE_PROJECT_START,
         project,
-        documents,
         target
     };
 }
 
-export function createProjectSuccess(project, documents, target) {
+export function createProjectSuccess(project, target) {
     return {
         type: CREATE_PROJECT_SUCCESS,
         project,
-        documents,
         target
     };
 }
 
-export function createProjectFailed(error, project, documents, target) {
+export function createProjectFailed(error, project, target) {
     return {
         type: CREATE_PROJECT_FAILED,
         error,
         project,
-        documents,
         target
     };
 }
@@ -195,56 +155,15 @@ export function retrieveProjectFailed(error) {
     };
 }
 
-export function updateProject(id, project_data, documents) {
+export function updateProject(id, project_data) {
     return dispatch => {
-        dispatch(updateProjectStart(id, project_data, documents, id));
+        dispatch(updateProjectStart(id, project_data, id));
 
         let headers = {},
             data = project_data;
-        if (documents && documents.length) {
+        if (project_data.documents && project_data.documents.length) {
             headers['Content-Type'] = 'multipart/form-data';
-
-            data = new FormData();
-            if (project_data) {
-                Object.keys(project_data).map(key => {
-                    if (
-                        (Array.isArray(project_data[key]) &&
-                            project_data[key].length) ||
-                        (!Array.isArray(project_data[key]) &&
-                            project_data[key] != null)
-                    ) {
-                        data.append(key, project_data[key]);
-                    }
-                });
-            }
-
-            let docsArray = [],
-                uploadMetadata = [];
-
-            documents.forEach((document, idx) => {
-                if(document.file) {
-                    let docKey = `document${idx}`;
-                    data.append(docKey, document.file);
-                    let docMeta = {...document};
-                    delete docMeta['file'];
-                    docMeta.key = docKey;
-                    uploadMetadata.push(docMeta);
-                } else {
-                    docsArray.push(document);
-                }
-            });
-
-            if(docsArray.length) {
-                docsArray.forEach(doc => {
-                    data.append('documents[]', doc);
-                });
-            }
-
-            if(uploadMetadata.length) {
-                uploadMetadata.forEach(upload => {
-                    data.append('uploadMeta[]', upload);
-                });
-            }
+            data = composeFormData(project_data);
         }
 
         axios
@@ -252,43 +171,40 @@ export function updateProject(id, project_data, documents) {
                 headers: {...headers},
             })
             .then(function(response) {
-                dispatch(updateProjectSuccess(response.data, documents, id));
+                dispatch(updateProjectSuccess(response.data, id));
             })
             .catch(function(error) {
                 dispatch(
                     updateProjectFailed(
-                        (error.response ? error.response.data : null), project_data, documents, id
+                        (error.response ? error.response.data : null), project_data, id
                     ),
                 );
             });
     };
 }
 
-export function updateProjectStart(id, project, documents, target) {
+export function updateProjectStart(id, project, target) {
     return {
         type: UPDATE_PROJECT_START,
         id,
         project,
-        documents,
         target
     };
 }
 
-export function updateProjectSuccess(project, documents, target) {
+export function updateProjectSuccess(project, target) {
     return {
         type: UPDATE_PROJECT_SUCCESS,
         project,
-        documents,
         target
     };
 }
 
-export function updateProjectFailed(error, project, documents, target) {
+export function updateProjectFailed(error, project, target) {
     return {
         type: UPDATE_PROJECT_FAILED,
         error,
         project,
-        documents,
         target
     };
 }

@@ -18,9 +18,9 @@ class ProjectsContainer extends React.Component {
         this.state = {targetKey: randomstring.generate()};
     }
 
-    onCreateProject(project, documents) {
+    onCreateProject(project) {
         const {ProjectActions} = this.props;
-        ProjectActions.createProject(project, documents, this.state.targetKey);
+        ProjectActions.createProject(project, this.state.targetKey);
     }
 
     render() {
