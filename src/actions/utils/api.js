@@ -139,7 +139,7 @@ export function cleanSkills(skills) {
             cleanedData = [...cleanedData, ...cleanSkills(skill)];
         });
     } else if(typeof skills === 'object') {
-        cleanedData = [cleanedData, skills];
+        cleanedData = [...cleanedData, skills];
     } else if(typeof skills === 'string'){
         skills.split(',').forEach(skill => {
             if(skill) {
