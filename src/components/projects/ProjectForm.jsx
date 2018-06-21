@@ -43,7 +43,7 @@ export default class ProjectForm extends React.Component {
         this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
         this.handleDeadlineChange = this.handleDeadlineChange.bind(this);
         this.handleDocumentChange = this.handleDocumentChange.bind(this);
-        this.handleInputChangeCustom = this.handleInputChangeCustom.bind(this);
+        this.handleTechnologyChange = this.handleTechnologyChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -82,7 +82,7 @@ export default class ProjectForm extends React.Component {
         this.setState({documents: [...value]})
     }
 
-    handleInputChangeCustom(value){
+    handleTechnologyChange(value){
         let result = cleanSkills(value);
         this.setState({skills: [...result]})
     }
@@ -153,7 +153,7 @@ export default class ProjectForm extends React.Component {
                             </div>
                             <div className="form-group">
                               <Label for="projectTechnology" className='font-weight-bold'>Which technology do you want to use (Optional)</Label>
-                              <SkillSelector id='projectTechnology' onChange={this.handleInputChangeCustom} placeholder="Type here to add a technology" />                 
+                              <SkillSelector id='projectTechnology' onChange={this.handleTechnologyChange} placeholder="Type here to add a technology" />                 
                             </div>                                        
                           </Col>
                           <Col>
