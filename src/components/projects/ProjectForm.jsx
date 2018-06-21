@@ -48,9 +48,8 @@ export default class ProjectForm extends React.Component {
     }
 
     componentDidUpdate() {
-        if (!this.props.project == null){
-            console.log(this.props.project)
-            this.props.history.push(`projects/${this.props.project}`);
+        if(typeof this.props.project==='number' && (this.props.project%1)===0) {
+            this.props.history.push(`/projects/${this.props.project}`);
         }
     }
 
