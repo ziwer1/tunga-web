@@ -43,8 +43,6 @@ export default class ProjectForm extends React.Component {
         this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
         this.handleDeadlineChange = this.handleDeadlineChange.bind(this);
         this.handleDocumentChange = this.handleDocumentChange.bind(this);
-
-        this.handleInputChange = this.handleInputChange.bind(this);
         this.handleInputChangeCustom = this.handleInputChangeCustom.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -74,7 +72,6 @@ export default class ProjectForm extends React.Component {
 
     handleDescriptionChange(event){
         this.setState({description: event.target.value, descriptionError:""})
-        console.log(this.state.type);
     }
 
     handleDeadlineChange(value){
@@ -88,10 +85,6 @@ export default class ProjectForm extends React.Component {
     handleInputChangeCustom(value){
         let result = cleanSkills(value);
         this.setState({skills: [...result]})
-    }
-
-    handleInputChange(event) {
-        console.log(event.target.value);
     }
 
     handleSubmit(event) {
@@ -122,15 +115,6 @@ export default class ProjectForm extends React.Component {
                 return
             }
 
-        console.log('return not working')
-
-        //extract documents from state & clone the rest of input
-        //-let {documents, ...input} = this.state;
-        //console.log(documents)
-        //console.log(input)
-        //console.log(this.state)
-        //-this.props.onCreate({...input}, documents);
-        //this.props.onCreate({...this.state},null);
     }
 
 
@@ -186,8 +170,7 @@ export default class ProjectForm extends React.Component {
                             </div>
                             <div className="form-group">
                               <Label for="projectDocuments" className='font-weight-bold'>Add documents</Label>
-                              <Upload variant='icon' onChange={this.handleDocumentChange} multiple={true} id='projectDocuments'/>
-                              <div>project here {this.props.project}</div>                 
+                              <Upload variant='icon' onChange={this.handleDocumentChange} multiple={true} id='projectDocuments'/>                 
                             </div>                              
                           </Col>
                         </Row>
