@@ -148,7 +148,7 @@ export default class ProjectForm extends React.Component {
                             </div>
                             <div className="form-group">
                               <Label for="projectExpectedDuration" className='font-weight-bold'>What is the expected duration of the project*</Label>
-                              <div className='text text-sm'> Please select one of the options below </div>
+                              <div className='text text-sm font-weight-thin'> Please select one of the options below </div>
                               <ChoiceGroup id='projectExpectedDuration' onChange={this.handleDurationChange} choices={[['2w', 'Less than 2 weeks'], ['6m', 'Less than 6 months'], ['permanent', 'Permanent basis']]} size="sm" />
                               {this.state.durationError && <div className='text text-sm'>
                                 {this.state.durationError}
