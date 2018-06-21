@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { Container, Row, Col, Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { Container, Row, Col, Label} from 'reactstrap';
 import ChoiceGroup from '../core/ChoiceGroup';
 import SkillSelector from '../core/SkillSelector';
 import TextArea from '../core/TextArea';
 import DateTimePicker from '../core/DateTimePicker';
 import Upload from '../core/Upload';
+import Input from '../core/Input';
 
 import {cleanSkills} from '../../actions/utils/api';
 
