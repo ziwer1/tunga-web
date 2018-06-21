@@ -152,6 +152,24 @@ body {
     }
 }
 
+.btn-card, .btn-dotted-card {
+    color: get-color('black');
+    background-color: transparent;
+    @include padding(px-to-rem(30));
+    border: 1px #e1e1e1 solid;
+    border-radius: 0;
+    box-shadow: none;
+
+    &.active {
+        border-color: $brand-color;
+        box-shadow: none;
+    }
+}
+
+.btn-dotted-card {
+    border-style: dashed;
+}
+
 .btn-xl {
     @include button-size($input-btn-padding-y-xl, $input-btn-padding-x-xl, $font-size-xl, $line-height-xl, $border-radius-lg);
 }
@@ -167,6 +185,17 @@ body {
 
             &.btn-choice {
                 margin-right: px-to-rem(10);
+            }
+
+            &.btn-card, &.btn-dotted-card {
+                min-width: 130px;
+                min-height: 130px;
+                margin-right: px-to-rem(20);
+
+                .icon {
+                    display: block;
+                    margin-top: 17px;
+                }
             }
         }
     }
