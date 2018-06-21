@@ -53,10 +53,6 @@ export default class ProjectForm extends React.Component {
         }
     }
 
-    componentDidMount(){
-        console.log(this.props.project)
-    }
-
     handleTitleChange(event){
         this.setState({title: event.target.value, titleError:""})
     }
@@ -105,7 +101,6 @@ export default class ProjectForm extends React.Component {
         }
 
         if(!this.state.expected_duration.length){
-            console.log ('expected duration')
             this.setState({durationError: "Project Duration is not specified"})
             return
         }
