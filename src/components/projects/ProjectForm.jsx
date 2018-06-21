@@ -114,6 +114,10 @@ export default class ProjectForm extends React.Component {
                 return
             }
 
+        let {documents, ...input} = this.state;
+        let clean_input = omit(input, ['titleError','descriptionError','projectTypeError','durationError']);
+        this.props.onCreate({...clean_input}, documents)
+
     }
 
 
