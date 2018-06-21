@@ -131,14 +131,14 @@ export default class ProjectForm extends React.Component {
                     <Container>
                         <Row>
                           <Col>
-                            <div className="form-group">
+                            <div className="form-group form-group-padding-bottom">
                               <Label for="projectTitle" className='font-weight-bold'>Project Title*</Label>
                               <Input className={" " + (this.state.titleError ? 'is-invalid' : '')} placeholder='Project title' id='projectTitle' onChange={this.handleTitleChange} />
                               {this.state.titleError && <div className="invalid-feedback">
                                 {this.state.titleError}
                               </div>}
                             </div>
-                            <div className="form-group">
+                            <div className="form-group form-group-padding-bottom">
                               <Label for="projectType" className='font-weight-bold'>Which type of project do you have?*</Label>
                               <div className='text text-sm font-weight-thin'> Please select one of the options below </div>
                               <ChoiceGroup className="is-invalid" id='projectType' onChange={this.handleTypeChange} choices={[['web', 'Web'], ['mobile', 'Mobile'], ['other', 'Other']]} size="sm" />                 
@@ -146,7 +146,7 @@ export default class ProjectForm extends React.Component {
                                 {this.state.projectTypeError}
                               </div>}
                             </div>
-                            <div className="form-group">
+                            <div className="form-group form-group-padding-bottom">
                               <Label for="projectExpectedDuration" className='font-weight-bold'>What is the expected duration of the project*</Label>
                               <div className='text text-sm font-weight-thin'> Please select one of the options below </div>
                               <ChoiceGroup id='projectExpectedDuration' onChange={this.handleDurationChange} choices={[['2w', 'Less than 2 weeks'], ['6m', 'Less than 6 months'], ['permanent', 'Permanent basis']]} size="sm" />
@@ -154,24 +154,24 @@ export default class ProjectForm extends React.Component {
                                 {this.state.durationError}
                               </div>}                 
                             </div>
-                            <div className="form-group">
+                            <div className="form-group form-group-padding-bottom">
                               <Label for="projectTechnology" className='font-weight-bold'>Which technology do you want to use (Optional)</Label>
                               <SkillSelector id='projectTechnology' onChange={this.handleTechnologyChange} placeholder="Type here to add a technology" />                 
                             </div>                                        
                           </Col>
                           <Col>
-                            <div className="form-group">
+                            <div className="form-group form-group-padding-bottom">
                               <Label for="projectDescription" className='font-weight-bold'>Short Description of the project*</Label>
                               <TextArea className={" " + (this.state.descriptionError ? 'is-invalid' : '')} id='projectDescription' onChange={this.handleDescriptionChange} placeholder="Short Description" />
                               {this.state.descriptionError && <div className="invalid-feedback">
                                 {this.state.descriptionError}
                               </div>}
                             </div>
-                            <div className="form-group">
+                            <div className="form-group form-group-padding-bottom">
                               <Label for="projectDeadline" className='font-weight-bold'>Add a preferred deadline (optional)</Label>
                               <DateTimePicker calendar={true} time={false} id='projectDeadline' onChange={this.handleDeadlineChange} />                 
                             </div>
-                            <div className="form-group">
+                            <div className="form-group form-group-padding-bottom">
                               <Label for="projectDocuments" className='font-weight-bold'>Add documents</Label>
                               <Upload variant='icon' onChange={this.handleDocumentChange} multiple={true} id='projectDocuments'/>                 
                             </div>                              
