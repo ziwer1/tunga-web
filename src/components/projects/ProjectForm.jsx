@@ -33,7 +33,6 @@ export default class ProjectForm extends React.Component {
             expected_duration: "",
             documents: [],
             deadline: null,
-            titleError: "",
             descriptionError: "",
             projectTypeError: "",
             durationError: "",
@@ -101,7 +100,6 @@ export default class ProjectForm extends React.Component {
         event.preventDefault();
 
         if (!this.state.title.length) {
-            //this.setState({ titleError: "Project Title is empty" });
             this.setState((prevState) => {
               return {error: {...prevState.error, titleError:"Project Title is empty"}};
             });
