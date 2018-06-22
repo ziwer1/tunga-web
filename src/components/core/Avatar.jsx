@@ -22,17 +22,6 @@ export default class Avatar extends React.Component {
         verified: false
     };
 
-    constructor(props) {
-        super(props);
-        this.state = {tooltipOpen: false};
-    }
-
-    toggle() {
-        this.setState({
-            tooltipOpen: !this.state.tooltipOpen
-        });
-    }
-
     render() {
         const {className, image, icon, size, title, link, badge, verified} = this.props,
             avatarId = `avatar${randomstring.generate()}`;
@@ -51,21 +40,12 @@ export default class Avatar extends React.Component {
                 {badge?(
                     <span className="badge">{badge}</span>
                 ):null}
-                {link?(
-                    <Link to={link}>{avatar}</Link>
-                ):avatar}
                 {verified?(
                     <Icon name="check" className="verified"/>
                 ):null}
-                {title?(
-                    <Tooltip
-                        placement="top"
-                        target={avatarId}
-                        isOpen={this.state.tooltipOpen}
-                        toggle={this.toggle.bind(this)}>
-                        <strong>{title}</strong>
-                    </Tooltip>
-                ):null}
+                {link || title?(
+                    <Link to={link} title={title}>{avatar}</Link>
+                ):avatar}
             </div>
         );
     }
