@@ -33,11 +33,11 @@ export default class ProjectForm extends React.Component {
             expected_duration: "",
             documents: [],
             deadline: null,
-            durationError: "",
             error:{
                 title:"",
                 description:"",
                 type:"",
+                duration:""
             }
         };
 
@@ -74,7 +74,9 @@ export default class ProjectForm extends React.Component {
     }
 
     handleDurationChange(value) {
-        this.setState({ expected_duration: value, durationError: "" });
+        this.setState((prevState) => {
+          return {expected_duration: value, error: {...prevState.error, duration:''}};
+        });
     }
 
     handleDescriptionChange(event) {
@@ -123,8 +125,8 @@ export default class ProjectForm extends React.Component {
         }
 
         if (!this.state.expected_duration.length) {
-            this.setState({
-                durationError: "Project Duration is not specified"
+            this.setState((prevState) => {
+              return {error: {...prevState.error, duration: "Project Duration is not specified"}};
             });
             return;
         }
@@ -133,7 +135,7 @@ export default class ProjectForm extends React.Component {
             this.state.error.title ||
             this.state.error.description ||
             this.state.error.type ||
-            this.state.durationError
+            this.state.error.duration
         ) {
             return;
         }
@@ -218,10 +220,8 @@ export default class ProjectForm extends React.Component {
                                         ]}
                                         size="sm"
                                     />
-                                    {this.state.durationError && (
-                                        <div className="text text-sm">
-                                            {this.state.durationError}
-                                        </div>
+                                    {this.state.error.duration && (
+                                        <FieldError message={this.state.error.duration}/>
                                     )}
                                 </div>
                                 <div className="form-group form-group-padding-bottom">
