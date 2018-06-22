@@ -162,12 +162,6 @@ export default class ProjectForm extends React.Component {
                                         Project Title*
                                     </Label>
                                     <Input
-                                        className={
-                                            " " +
-                                            (this.state.error.title
-                                                ? "is-invalid"
-                                                : "")
-                                        }
                                         placeholder="Project title"
                                         id="projectTitle"
                                         onChange={this.handleTitleChange}
@@ -188,7 +182,6 @@ export default class ProjectForm extends React.Component {
                                         Please select one of the options below{" "}
                                     </div>
                                     <ChoiceGroup
-                                        className="is-invalid"
                                         id="projectType"
                                         onChange={this.handleTypeChange}
                                         choices={[
