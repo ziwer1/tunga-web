@@ -8,6 +8,7 @@ import TextArea from "../core/TextArea";
 import DateTimePicker from "../core/DateTimePicker";
 import Upload from "../core/Upload";
 import Input from "../core/Input";
+import FieldError from "../core/FieldError";
 
 import { cleanSkills } from "../../actions/utils/api";
 
@@ -35,7 +36,10 @@ export default class ProjectForm extends React.Component {
             titleError: "",
             descriptionError: "",
             projectTypeError: "",
-            durationError: ""
+            durationError: "",
+            error:{
+                titleError:"",
+            }
         };
 
         this.handleTitleChange = this.handleTitleChange.bind(this);
@@ -58,7 +62,10 @@ export default class ProjectForm extends React.Component {
     }
 
     handleTitleChange(event) {
-        this.setState({ title: event.target.value, titleError: "" });
+        let field_value = event.target.value;
+        this.setState((prevState) => {
+          return {title: field_value, error: {...prevState.error, titleError:''}};
+        });
     }
 
     handleTypeChange(value) {
@@ -70,6 +77,7 @@ export default class ProjectForm extends React.Component {
     }
 
     handleDescriptionChange(event) {
+        console.log(this.state.error.titleError);
         this.setState({
             description: event.target.value,
             descriptionError: ""
@@ -93,7 +101,10 @@ export default class ProjectForm extends React.Component {
         event.preventDefault();
 
         if (!this.state.title.length) {
-            this.setState({ titleError: "Project Title is empty" });
+            //this.setState({ titleError: "Project Title is empty" });
+            this.setState((prevState) => {
+              return {error: {...prevState.error, titleError:"Project Title is empty"}};
+            });
             return;
         }
 
@@ -117,7 +128,7 @@ export default class ProjectForm extends React.Component {
         }
 
         if (
-            this.state.titleError ||
+            this.state.error.titleError ||
             this.state.descriptionError ||
             this.state.projectTypeError ||
             this.state.durationError
@@ -152,7 +163,7 @@ export default class ProjectForm extends React.Component {
                                     <Input
                                         className={
                                             " " +
-                                            (this.state.titleError
+                                            (this.state.error.titleError
                                                 ? "is-invalid"
                                                 : "")
                                         }
@@ -160,10 +171,8 @@ export default class ProjectForm extends React.Component {
                                         id="projectTitle"
                                         onChange={this.handleTitleChange}
                                     />
-                                    {this.state.titleError && (
-                                        <div className="invalid-feedback">
-                                            {this.state.titleError}
-                                        </div>
+                                    {this.state.error.titleError && (
+                                        <FieldError message={this.state.error.titleError}/>
                                     )}
                                 </div>
                                 <div className="form-group form-group-padding-bottom">
