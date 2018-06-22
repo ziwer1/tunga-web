@@ -37,7 +37,7 @@ export default class ProjectForm extends React.Component {
             projectTypeError: "",
             durationError: "",
             error:{
-                titleError:"",
+                title:"",
             }
         };
 
@@ -63,7 +63,7 @@ export default class ProjectForm extends React.Component {
     handleTitleChange(event) {
         let field_value = event.target.value;
         this.setState((prevState) => {
-          return {title: field_value, error: {...prevState.error, titleError:''}};
+          return {title: field_value, error: {...prevState.error, title:''}};
         });
     }
 
@@ -76,7 +76,7 @@ export default class ProjectForm extends React.Component {
     }
 
     handleDescriptionChange(event) {
-        console.log(this.state.error.titleError);
+        console.log(this.state.error.title);
         this.setState({
             description: event.target.value,
             descriptionError: ""
@@ -101,7 +101,7 @@ export default class ProjectForm extends React.Component {
 
         if (!this.state.title.length) {
             this.setState((prevState) => {
-              return {error: {...prevState.error, titleError:"Project Title is empty"}};
+              return {error: {...prevState.error, title:"Project Title is empty"}};
             });
             return;
         }
@@ -126,7 +126,7 @@ export default class ProjectForm extends React.Component {
         }
 
         if (
-            this.state.error.titleError ||
+            this.state.error.title ||
             this.state.descriptionError ||
             this.state.projectTypeError ||
             this.state.durationError
@@ -136,7 +136,7 @@ export default class ProjectForm extends React.Component {
 
         let { documents, ...input } = this.state;
         let clean_input = omit(input, [
-            "titleError",
+            "title",
             "descriptionError",
             "projectTypeError",
             "durationError"
@@ -161,7 +161,7 @@ export default class ProjectForm extends React.Component {
                                     <Input
                                         className={
                                             " " +
-                                            (this.state.error.titleError
+                                            (this.state.error.title
                                                 ? "is-invalid"
                                                 : "")
                                         }
@@ -169,8 +169,8 @@ export default class ProjectForm extends React.Component {
                                         id="projectTitle"
                                         onChange={this.handleTitleChange}
                                     />
-                                    {this.state.error.titleError && (
-                                        <FieldError message={this.state.error.titleError}/>
+                                    {this.state.error.title && (
+                                        <FieldError message={this.state.error.title}/>
                                     )}
                                 </div>
                                 <div className="form-group form-group-padding-bottom">
