@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import Button from './Button';
+import Icon from './Icon';
 
 import {filterEventProps} from "./utils/events";
 
@@ -44,11 +45,13 @@ export default class ChoiceGroup extends React.Component {
             <div className={`btn-group choice-group ${this.props.className || ''}`}>
                 {this.props.choices.map(choice => {
                     let choiceValue = choice,
-                        choiceName = choice;
+                        choiceName = choice,
+                        choiceIcon = null;
 
                     if(Array.isArray(choice)) {
                         choiceValue = choice[0];
                         choiceName = choice[1];
+                        choiceIcon = choice[2];
                     }
 
                     return (
@@ -56,7 +59,12 @@ export default class ChoiceGroup extends React.Component {
                                 size={this.props.size}
                                 className={`${this.state.selected === choiceValue?'active':''}`}
                                 {...filterEventProps(this.props)}
-                                onClick={this.onChange.bind(this, choiceValue)}>{choiceName}</Button>
+                                onClick={this.onChange.bind(this, choiceValue)}>
+                            {choiceName}
+                            {choiceIcon?(
+                                <Icon name={choiceIcon} size={'lg'} className="icon"/>
+                            ):null}
+                         </Button>
                     );
                 })}
             </div>

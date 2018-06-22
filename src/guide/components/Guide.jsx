@@ -593,7 +593,21 @@ export default class Guide extends React.Component {
                                     ['primary', 'Choice Group Primary Large', {size: 'lg'}],
                                     ['outline-primary', 'Choice Group Outline Primary'],
                                     ['secondary', 'Choice Group Secondary'],
-                                    ['outline-secondary', 'Choice Outline Group Secondary'],
+                                    ['outline-secondary', 'Choice Group Outline Secondary'],
+                                    ['card', 'Choice Group Card'],
+                                    ['dotted-card', 'Choice Group Dotted Card'],
+                                    [
+                                        'dotted-card',
+                                        'Choice Group Dotted Card with Icons',
+                                        {
+                                            choices: [
+                                                ['facebook', 'Facebook', 'facebook-square'],
+                                                ['twitter', 'Twitter', 'twitter-square'],
+                                                ['linkedin', 'LinkedIn', 'linkedin-square']
+                                            ],
+                                            selected: 'twitter'
+                                        }
+                                    ],
                                 ].map(choice => {
                                     let choiceProps = {};
 
@@ -605,18 +619,24 @@ export default class Guide extends React.Component {
                                         choiceProps = {...choiceProps, ...choice[2]};
                                     }
 
-                                    let choices = [
-                                        [1, 'One'],
-                                        [2, 'Two'],
-                                        [3, 'Three']
-                                    ];
+                                    if(!choiceProps.choices) {
+                                        let choices = [
+                                            [1, 'One'],
+                                            [2, 'Two'],
+                                            [3, 'Three']
+                                        ];
+                                        choiceProps = {...choiceProps, choices};
+                                    }
+
+                                    if(!choiceProps.selected) {
+                                        choiceProps = {...choiceProps, selected: 2};
+                                    }
 
                                     return (
                                         <div key={`choice-${choice[1]}`}>
                                             <h4>{choice[1]}</h4>
                                             {this.renderAndDocument(
-                                                <ChoiceGroup {...choiceProps}
-                                                             choices={choices} selected={2}/>,
+                                                <ChoiceGroup {...choiceProps}/>,
                                                 false, 'ChoiceGroup'
                                             )}
                                         </div>
