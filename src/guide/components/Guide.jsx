@@ -657,6 +657,7 @@ export default class Guide extends React.Component {
                                     [null, null, 'Missing Image'],
                                     [null, avatarUrl, 'Notification Badge', {badge: 5}],
                                     [null, avatarUrl, 'Title', {title: 'Deadpool'}],
+                                    [null, avatarUrl, 'Verified', {verified: true}],
                                 ].map(avatar => {
                                     let avatarProps = {};
                                     if(avatar[0]) {

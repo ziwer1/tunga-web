@@ -4,6 +4,8 @@ import {Tooltip} from 'reactstrap';
 import PropTypes from 'prop-types';
 import randomstring from 'randomstring';
 
+import Icon from './Icon';
+
 export default class Avatar extends React.Component {
     static propTypes = {
         className: PropTypes.string,
@@ -13,6 +15,11 @@ export default class Avatar extends React.Component {
         title: PropTypes.string,
         link: PropTypes.string,
         badge: PropTypes.number,
+        verified: PropTypes.bool,
+    };
+
+    static defaultProps = {
+        verified: false
     };
 
     constructor(props) {
@@ -27,26 +34,29 @@ export default class Avatar extends React.Component {
     }
 
     render() {
-        const {className, image, icon, size, title, link, badge} = this.props,
+        const {className, image, icon, size, title, link, badge, verified} = this.props,
             avatarId = `avatar${randomstring.generate()}`;
         let avatar = (
-            <div>
-                {badge ? <span className="badge">{badge}</span> : null}
-                <div
-                    className={`avatar ${size?`avatar-${size}`:''} ${image?'':'avatar-icon'}`}
-                    style={image?{backgroundImage: `url(${image})`}:{}}>
-                    {image ? null : (
-                        icon || <i className="tg-ic-avatar"/>
-                    )}
-                </div>
+            <div
+                className={`avatar ${size?`avatar-${size}`:''} ${image?'':'avatar-icon'}`}
+                style={image?{backgroundImage: `url(${image})`}:{}}>
+                {image ? null : (
+                    icon || <Icon name="avatar"/>
+                )}
             </div>
         );
 
         return (
             <div id={avatarId} className={`avatar-wrapper ${className || ''}`}>
+                {badge?(
+                    <span className="badge">{badge}</span>
+                ):null}
                 {link?(
                     <Link to={link}>{avatar}</Link>
                 ):avatar}
+                {verified?(
+                    <Icon name="check" className="verified"/>
+                ):null}
                 {title?(
                     <Tooltip
                         placement="top"
