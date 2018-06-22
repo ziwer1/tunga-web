@@ -33,11 +33,11 @@ export default class ProjectForm extends React.Component {
             expected_duration: "",
             documents: [],
             deadline: null,
-            descriptionError: "",
             projectTypeError: "",
             durationError: "",
             error:{
                 title:"",
+                description:"",
             }
         };
 
@@ -76,10 +76,10 @@ export default class ProjectForm extends React.Component {
     }
 
     handleDescriptionChange(event) {
-        console.log(this.state.error.title);
-        this.setState({
-            description: event.target.value,
-            descriptionError: ""
+    
+        let field_value = event.target.value;
+        this.setState((prevState) => {
+          return {description: field_value, error: {...prevState.error, description:''}};
         });
     }
 
@@ -107,9 +107,12 @@ export default class ProjectForm extends React.Component {
         }
 
         if (!this.state.description.length) {
-            this.setState({ descriptionError: "Project Description is empty" });
+            this.setState((prevState) => {
+              return {error: {...prevState.error, description: "Project Description is empty"}};
+            });
             return;
         }
+
 
         if (!this.state.type.length) {
             this.setState({
@@ -127,7 +130,7 @@ export default class ProjectForm extends React.Component {
 
         if (
             this.state.error.title ||
-            this.state.descriptionError ||
+            this.state.error.description ||
             this.state.projectTypeError ||
             this.state.durationError
         ) {
@@ -253,20 +256,12 @@ export default class ProjectForm extends React.Component {
                                         Short Description of the project*
                                     </Label>
                                     <TextArea
-                                        className={
-                                            " " +
-                                            (this.state.descriptionError
-                                                ? "is-invalid"
-                                                : "")
-                                        }
                                         id="projectDescription"
                                         onChange={this.handleDescriptionChange}
                                         placeholder="Short Description"
                                     />
-                                    {this.state.descriptionError && (
-                                        <div className="invalid-feedback">
-                                            {this.state.descriptionError}
-                                        </div>
+                                    {this.state.error.description && (
+                                        <FieldError message={this.state.error.description}/>
                                     )}
                                 </div>
                                 <div className="form-group form-group-padding-bottom">
