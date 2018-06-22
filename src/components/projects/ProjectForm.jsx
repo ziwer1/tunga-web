@@ -33,11 +33,11 @@ export default class ProjectForm extends React.Component {
             expected_duration: "",
             documents: [],
             deadline: null,
-            projectTypeError: "",
             durationError: "",
             error:{
                 title:"",
                 description:"",
+                type:"",
             }
         };
 
@@ -68,7 +68,9 @@ export default class ProjectForm extends React.Component {
     }
 
     handleTypeChange(value) {
-        this.setState({ type: value, projectTypeError: "" });
+        this.setState((prevState) => {
+          return {type: value, error: {...prevState.error, type:''}};
+        });
     }
 
     handleDurationChange(value) {
@@ -76,7 +78,6 @@ export default class ProjectForm extends React.Component {
     }
 
     handleDescriptionChange(event) {
-    
         let field_value = event.target.value;
         this.setState((prevState) => {
           return {description: field_value, error: {...prevState.error, description:''}};
@@ -115,8 +116,8 @@ export default class ProjectForm extends React.Component {
 
 
         if (!this.state.type.length) {
-            this.setState({
-                projectTypeError: "Project Type is not specified"
+            this.setState((prevState) => {
+              return {error: {...prevState.error, type: "Project Type is not specified"}};
             });
             return;
         }
@@ -131,7 +132,7 @@ export default class ProjectForm extends React.Component {
         if (
             this.state.error.title ||
             this.state.error.description ||
-            this.state.projectTypeError ||
+            this.state.error.type ||
             this.state.durationError
         ) {
             return;
@@ -191,10 +192,8 @@ export default class ProjectForm extends React.Component {
                                         ]}
                                         size="sm"
                                     />
-                                    {this.state.projectTypeError && (
-                                        <div className="text text-sm">
-                                            {this.state.projectTypeError}
-                                        </div>
+                                    {this.state.error.type && (
+                                        <FieldError message={this.state.error.type}/>
                                     )}
                                 </div>
                                 <div className="form-group form-group-padding-bottom">
