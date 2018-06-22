@@ -5,6 +5,7 @@ import _ from 'lodash';
 
 import Icon from '../../components/core/Icon';
 import Button from '../../components/core/Button';
+import IconButton from '../../components/core/IconButton';
 import Input from '../../components/core/Input';
 import CustomInputGroup from '../../components/core/CustomInputGroup';
 import SearchBox from '../../components/core/SearchBox';
@@ -361,6 +362,29 @@ export default class Guide extends React.Component {
                                         </div>
                                     );
                                 })}
+
+                                {[
+                                    ['Icon Button', null],
+                                    ['Icon Button Small', 'sm'],
+                                    ['Icon Button Large', 'lg']
+                                ].map(button => {
+                                    let buttonProps = {};
+                                    if(button[1]) {
+                                        buttonProps.size = button[1];
+                                    }
+
+                                    return (
+                                        <div>
+                                            <h4>{button[0]}</h4>
+                                            {this.renderAndDocument(
+                                                <IconButton name="add" {...buttonProps}/>,
+                                                true, 'IconButton'
+                                            )}
+                                        </div>
+                                    );
+                                })}
+
+
                             </div>
 
                             <div className="section detailed">
