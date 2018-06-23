@@ -9,8 +9,9 @@ import DateTimePicker from "../core/DateTimePicker";
 import Upload from "../core/Upload";
 import Input from "../core/Input";
 import Button from "../core/Button";
+import Documents from "../core/Documents";
 
-import { cleanSkills } from "../../actions/utils/api";
+import {cleanSkills, DOCUMENT_TYPES_CLIENTS} from "../../actions/utils/api";
 
 export default class ProjectForm extends React.Component {
     static propTypes = {
@@ -30,7 +31,7 @@ export default class ProjectForm extends React.Component {
 
     componentDidUpdate(prevProps, prevState, snapShot) {
         if (this.props.project) {
-            this.props.history.push(`/projects/${this.props.project}`);
+            //this.props.history.push(`/projects/${this.props.project}`);
         }
     }
 
@@ -133,14 +134,8 @@ export default class ProjectForm extends React.Component {
                                 <Label for="projectDocuments">
                                     Add documents
                                 </Label>
-                                <Upload
-                                    variant="icon"
-                                    onChange={(uploads) => { this.onChangeValue('documents', uploads.map(file => {
-                                        return {file, title: file.name}
-                                    })) }}
-                                    multiple={true}
-                                    id="projectDocuments"
-                                />
+                                <Documents documentTypes={Object.keys(DOCUMENT_TYPES_CLIENTS).map(key => { return [key, DOCUMENT_TYPES_CLIENTS[key]]; })}
+                                           onChange={(docs) => { this.onChangeValue('documents', docs)}}/>
                             </FormGroup>
                         </Col>
                     </Row>

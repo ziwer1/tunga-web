@@ -488,34 +488,38 @@ body {
             margin-top: 10px;
         }
     }
+}
 
-    .file-list {
+.file-list {
+    margin-bottom: 5px;
+
+    .file-item {
+        position: relative;
+        display: inline-block;
+        padding: 5px 25px 5px 10px;
+        margin-right: 10px;
         margin-bottom: 5px;
+        background-color: get-color('light-grey');
+        border-radius: 6px;
 
-        .file-item {
-            display: inline-block;
-            padding: 5px 10px;
-            margin-right: 10px;
-            background-color: get-color('light-grey');
-            border-radius: 6px;
+        .btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: px-to-rem(9);
+            background-color: transparent;
+            padding: 0 2px;
+            margin-left: 5px;
 
-            .btn {
-                font-size: $font-size-sm;
-                background-color: transparent;
-                padding: 0 2px;
-                margin-left: 5px;
-
-                &:hover, &:focus, &:active {
-                    color: $brand-color;
-                    outline: none;
-                }
+            &:hover, &:focus, &:active {
+                color: $brand-color;
+                outline: none;
             }
         }
     }
 }
 
 // Tags
-
 .tag-input {
     position: relative;
 
@@ -584,6 +588,10 @@ body {
     &.modal-confirm,
     &.modal-prompt {
         max-width: 360px;
+    }
+
+    &.modal-upload {
+        max-width: 380px;
     }
 
     .modal-content {
@@ -818,9 +826,9 @@ body {
                 text-align: center;
                 margin-top: 90px;
             }
-            
+
             .onboard-action {
-                background-color: #FAFAFA; 
+                background-color: #FAFAFA;
                 border: 0px;
                 cursor: pointer;
             }
@@ -934,11 +942,11 @@ body {
 }
 
 label {
-    font-weight: bold
+    font-weight: $font-weight-medium;
 }
 
 textarea {
-    height: 100px
+    min-height: 100px
 }
 
 .work-education-wrapper {
@@ -948,8 +956,5 @@ textarea {
     margin-bottom: 20px;
 }
 
-label {
-    font-weight: bold
-}
 
 @import "breakpoints";

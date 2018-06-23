@@ -149,3 +149,17 @@ export function cleanSkills(skills) {
     }
     return cleanedData;
 }
+
+export const DOCUMENT_TYPES_CLIENTS = {
+    requirements: 'Requirements Document',
+    wireframes: 'Wireframes',
+    other: 'Other',
+};
+
+export const DOCUMENT_TYPES = {
+    estimate: 'Estimate',
+    proposal: 'Proposal',
+    planning: 'Planning',
+    timeline: 'Timeline',
+    ...DOCUMENT_TYPES_CLIENTS
+};

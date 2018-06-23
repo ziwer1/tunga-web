@@ -41,7 +41,7 @@ export default class Upload extends React.Component {
         };
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps, prevState, snapShot) {
         if(this.props.onChange && !_.isEqual(prevState.files, this.state.files)) {
             this.props.onChange(this.state.files);
         }
