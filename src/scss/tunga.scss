@@ -905,4 +905,19 @@ body {
     }
 }
 
+label {
+    font-weight: bold
+}
+
+textarea {
+    height: 100px
+}
+
+.work-education-wrapper {
+    background-color: #888888;
+    border: 1px solid #979797;
+    color: #ffffff;
+    margin-bottom: 20px;
+}
+
 @import "breakpoints";

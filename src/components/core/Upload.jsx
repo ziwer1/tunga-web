@@ -75,9 +75,9 @@ export default class Upload extends React.Component {
             <div className={`upload-input ${this.props.className || ''}`}>
                 {this.state.files.length && (this.props.variant !== 'dropzone' || this.props.multiple)?(
                     <div className="file-list">
-                        {this.state.files.map(file => {
+                        {this.state.files.map((file, index) => {
                             return (
-                                <div className="file-item">
+                                <div className="file-item" key={index}>
                                     <i className="tg-ic-file"/> {file.name}
                                     <button className="btn" onClick={this.onRemoveFile.bind(this, file)}><i className="tg-ic-close"/></button>
                                 </div>
@@ -93,9 +93,9 @@ export default class Upload extends React.Component {
                     {...this.getProperties()}
                     onDrop={this.onDrop.bind(this)}>
                     <div>
-                        {this.state.files.length?this.state.files.map(file => {
+                        {this.state.files.length?this.state.files.map((file, index) => {
                             return (
-                                <div>
+                                <div key={index}>
                                     {this.props.type === 'image'?(
                                         <img src={file.preview}/>
                                     ):null}
