@@ -33,7 +33,7 @@ export default class TitleBar extends React.Component {
                         ['/onboard', 'Welcome to Tunga!'],
                         ['/dashboard', <div>Hi <MyAccountOutput field="display_name"/></div>, '/projects/new', null, {subTitle: moment().format('dddd, Do of MMMM')}],
                         ['/projects/new', 'Projects', null, [['/projects/new', 'Create new project']]],
-                        ['/projects/:projectId', 'Projects', '/projects/new', [['currentUrl', 'Project title']]],
+                        ['/projects/:projectId', 'Projects', '/projects/new', [['__CURRENT_URL__', 'Project title']]],
                         ['/projects', 'Projects', '/projects/new'],
                         ['/network', 'Network', null, networkSections],
                         ['/payments', 'Payments', null, paymentSections],

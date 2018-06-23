@@ -30,7 +30,7 @@ class ProjectsContainer extends React.Component {
             <React.Fragment>
                 <Switch>
                     <Route exact path="/projects/new" render={props => <ProjectForm {...props} project={Project.created[targetKey] || null} isSaving={Project.isSaving[targetKey] || false} isSaved={Project.isSaved[targetKey] || false} errors={Project.errors.create || null} onCreate={this.onCreateProject.bind(this)}/>}/>
-                    <Route exact path="/projects/:projectId" render={props => <ProjectDetailContainer {...props} projectId={props.match.params.projectId} Project={Project} ProjectActions={ProjectActions}><ProjectManagement/></ProjectDetailContainer>}/>
+                    <Route path="/projects/:projectId" render={props => <ProjectDetailContainer {...props} projectId={props.match.params.projectId} Project={Project} ProjectActions={ProjectActions}><ProjectManagement {...props}/></ProjectDetailContainer>}/>
                     {[
                         '/project/filter/:filter',
                         '/projects',
