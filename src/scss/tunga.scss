@@ -850,6 +850,14 @@ body {
         &.project-form-card {
             max-width: 920px;
             min-height: 540px;
+
+            .form-group {
+                padding-bottom: 20px;
+            }
+
+            label {
+                font-weight: $font-weight-medium;
+            }
         }
     }
 
