@@ -168,6 +168,9 @@ export default class ProjectForm extends React.Component {
                                     {this.state.errors.title && (
                                         <FieldError message={this.state.errors.title}/>
                                     )}
+                                    {this.props.errors && this.props.errors.hasOwnProperty('title') && this.props.errors.title.map((error_message) =>
+                                        <FieldError message={error_message}/>
+                                    )}
                                 </div>
                                 <div className="form-group form-group-padding-bottom">
                                     <Label
@@ -192,6 +195,9 @@ export default class ProjectForm extends React.Component {
                                     />
                                     {this.state.errors.type && (
                                         <FieldError message={this.state.errors.type}/>
+                                    )}
+                                    {this.props.errors && this.props.errors.hasOwnProperty('type') && this.props.errors.type.map((error_message) =>
+                                        <FieldError message={error_message}/>
                                     )}
                                 </div>
                                 <div className="form-group form-group-padding-bottom">
@@ -219,6 +225,9 @@ export default class ProjectForm extends React.Component {
                                     {this.state.errors.duration && (
                                         <FieldError message={this.state.errors.duration}/>
                                     )}
+                                    {this.props.errors && this.props.errors.hasOwnProperty('duration') && this.props.errors.duration.map((error_message) =>
+                                        <FieldError message={error_message}/>
+                                    )}
                                 </div>
                                 <div className="form-group form-group-padding-bottom">
                                     <Label
@@ -233,6 +242,9 @@ export default class ProjectForm extends React.Component {
                                         onChange={this.handleTechnologyChange}
                                         placeholder="Type here to add a technology"
                                     />
+                                    {this.props.errors && this.props.errors.hasOwnProperty('skills') && this.props.errors.skills.map((error_message) =>
+                                        <FieldError message={error_message}/>
+                                    )}
                                 </div>
                             </Col>
                             <Col>
@@ -251,6 +263,9 @@ export default class ProjectForm extends React.Component {
                                     {this.state.errors.description && (
                                         <FieldError message={this.state.errors.description}/>
                                     )}
+                                    {this.props.errors && this.props.errors.hasOwnProperty('description') && this.props.errors.description.map((error_message) =>
+                                        <FieldError message={error_message}/>
+                                    )}
                                 </div>
                                 <div className="form-group form-group-padding-bottom">
                                     <Label
@@ -265,6 +280,9 @@ export default class ProjectForm extends React.Component {
                                         id="projectDeadline"
                                         onChange={this.handleDeadlineChange}
                                     />
+                                    {this.props.errors && this.props.errors.hasOwnProperty('deadline') && this.props.errors.deadline.map((error_message) =>
+                                        <FieldError message={error_message}/>
+                                    )}
                                 </div>
                                 <div className="form-group form-group-padding-bottom">
                                     <Label
@@ -279,6 +297,9 @@ export default class ProjectForm extends React.Component {
                                         multiple={true}
                                         id="projectDocuments"
                                     />
+                                    {this.props.errors && this.props.errors.hasOwnProperty('documents') && this.props.errors.documents.map((error_message) =>
+                                        <FieldError message={error_message}/>
+                                    )}
                                 </div>
                             </Col>
                         </Row>
