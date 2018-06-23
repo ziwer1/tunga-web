@@ -808,11 +808,31 @@ body {
             padding: 30px 40px;
             box-shadow: 0 2px 2px 0 rgba(204, 204, 204, 0.5);
             text-align: center;
-            font-weight: $font-weight-normal;
+            font-weight: bold;
         }
 
         .onboard-content {
             padding: 40px;
+
+            .onboard-intro {
+                text-align: center;
+                margin-top: 90px;
+            }
+            
+            .onboard-action {
+                background-color: #FAFAFA; 
+                border: 0px;
+                cursor: pointer;
+            }
+
+            .onboard-finish-icon {
+                color: #40bb56;
+            }
+
+            .onboard-finish-button {
+                margin-top: 50px;
+            }
+
         }
     }
 
@@ -918,6 +938,10 @@ textarea {
     border: 1px solid #979797;
     color: #ffffff;
     margin-bottom: 20px;
+}
+
+label {
+    font-weight: bold
 }
 
 @import "breakpoints";

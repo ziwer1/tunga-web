@@ -2,6 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Link} from 'react-router-dom';
 
+import Icon from '../core/Icon';
+
+
 export default class Finish extends React.Component {
     static propTypes = {
         user: PropTypes.object,
@@ -13,10 +16,13 @@ export default class Finish extends React.Component {
 
     render() {
         return (
-            <div>
-                // TODO: {this.constructor.name} section goes here
-
-                <div><Link to="/dashboard">Dashboard</Link></div>
+            <div className="onboard-intro">
+                <span className="onboard-finish-icon">
+                    <Icon name="check" size="lg" />
+                </span>
+                <div className="onboard-finish-button">
+                    <Link to="/dashboard" className="btn btn-primary">Go to Dashboard</Link>
+                </div>
             </div>
         );
     }
