@@ -33,11 +33,11 @@ export default class ProjectForm extends React.Component {
             expected_duration: "",
             documents: [],
             deadline: null,
-            errors:{
-                title:"",
-                description:"",
-                type:"",
-                duration:""
+            errors: {
+                title: "",
+                description: "",
+                type: "",
+                duration: ""
             }
         };
 
@@ -62,27 +62,36 @@ export default class ProjectForm extends React.Component {
 
     handleTitleChange(event) {
         let field_value = event.target.value;
-        this.setState((prevState) => {
-          return {title: field_value, errors: {...prevState.errors, title:''}};
+        this.setState(prevState => {
+            return {
+                title: field_value,
+                errors: { ...prevState.errors, title: "" }
+            };
         });
     }
 
     handleTypeChange(value) {
-        this.setState((prevState) => {
-          return {type: value, errors: {...prevState.errors, type:''}};
+        this.setState(prevState => {
+            return { type: value, errors: { ...prevState.errors, type: "" } };
         });
     }
 
     handleDurationChange(value) {
-        this.setState((prevState) => {
-          return {expected_duration: value, errors: {...prevState.errors, duration:''}};
+        this.setState(prevState => {
+            return {
+                expected_duration: value,
+                errors: { ...prevState.errors, duration: "" }
+            };
         });
     }
 
     handleDescriptionChange(event) {
         let field_value = event.target.value;
-        this.setState((prevState) => {
-          return {description: field_value, errors: {...prevState.errors, description:''}};
+        this.setState(prevState => {
+            return {
+                description: field_value,
+                errors: { ...prevState.errors, description: "" }
+            };
         });
     }
 
@@ -103,30 +112,49 @@ export default class ProjectForm extends React.Component {
         event.preventDefault();
 
         if (!this.state.title.length) {
-            this.setState((prevState) => {
-              return {errors: {...prevState.errors, title:"Project Title is empty"}};
+            this.setState(prevState => {
+                return {
+                    errors: {
+                        ...prevState.errors,
+                        title: "Project Title is empty"
+                    }
+                };
             });
             return;
         }
 
         if (!this.state.description.length) {
-            this.setState((prevState) => {
-              return {errors: {...prevState.errors, description: "Project Description is empty"}};
+            this.setState(prevState => {
+                return {
+                    errors: {
+                        ...prevState.errors,
+                        description: "Project Description is empty"
+                    }
+                };
             });
             return;
         }
 
-
         if (!this.state.type.length) {
-            this.setState((prevState) => {
-              return {errors: {...prevState.errors, type: "Project Type is not specified"}};
+            this.setState(prevState => {
+                return {
+                    errors: {
+                        ...prevState.errors,
+                        type: "Project Type is not specified"
+                    }
+                };
             });
             return;
         }
 
         if (!this.state.expected_duration.length) {
-            this.setState((prevState) => {
-              return {errors: {...prevState.errors, duration: "Project Duration is not specified"}};
+            this.setState(prevState => {
+                return {
+                    errors: {
+                        ...prevState.errors,
+                        duration: "Project Duration is not specified"
+                    }
+                };
             });
             return;
         }
@@ -140,10 +168,8 @@ export default class ProjectForm extends React.Component {
             return;
         }
 
-        
-        let filtered_input = omit(this.state, ["errors"])
-        this.props.onCreate(filtered_input)
-
+        let filtered_input = omit(this.state, ["errors"]);
+        this.props.onCreate(filtered_input);
     }
 
     render() {
@@ -166,11 +192,21 @@ export default class ProjectForm extends React.Component {
                                         onChange={this.handleTitleChange}
                                     />
                                     {this.state.errors.title && (
-                                        <FieldError message={this.state.errors.title}/>
+                                        <FieldError
+                                            message={this.state.errors.title}
+                                        />
                                     )}
-                                    {this.props.errors && this.props.errors.hasOwnProperty('title') && this.props.errors.title.map((error_message) =>
-                                        <FieldError message={error_message}/>
-                                    )}
+                                    {this.props.errors &&
+                                        this.props.errors.hasOwnProperty(
+                                            "title"
+                                        ) &&
+                                        this.props.errors.title.map(
+                                            error_message => (
+                                                <FieldError
+                                                    message={error_message}
+                                                />
+                                            )
+                                        )}
                                 </div>
                                 <div className="form-group form-group-padding-bottom">
                                     <Label
@@ -194,11 +230,21 @@ export default class ProjectForm extends React.Component {
                                         size="sm"
                                     />
                                     {this.state.errors.type && (
-                                        <FieldError message={this.state.errors.type}/>
+                                        <FieldError
+                                            message={this.state.errors.type}
+                                        />
                                     )}
-                                    {this.props.errors && this.props.errors.hasOwnProperty('type') && this.props.errors.type.map((error_message) =>
-                                        <FieldError message={error_message}/>
-                                    )}
+                                    {this.props.errors &&
+                                        this.props.errors.hasOwnProperty(
+                                            "type"
+                                        ) &&
+                                        this.props.errors.type.map(
+                                            error_message => (
+                                                <FieldError
+                                                    message={error_message}
+                                                />
+                                            )
+                                        )}
                                 </div>
                                 <div className="form-group form-group-padding-bottom">
                                     <Label
@@ -223,11 +269,21 @@ export default class ProjectForm extends React.Component {
                                         size="sm"
                                     />
                                     {this.state.errors.duration && (
-                                        <FieldError message={this.state.errors.duration}/>
+                                        <FieldError
+                                            message={this.state.errors.duration}
+                                        />
                                     )}
-                                    {this.props.errors && this.props.errors.hasOwnProperty('duration') && this.props.errors.duration.map((error_message) =>
-                                        <FieldError message={error_message}/>
-                                    )}
+                                    {this.props.errors &&
+                                        this.props.errors.hasOwnProperty(
+                                            "duration"
+                                        ) &&
+                                        this.props.errors.duration.map(
+                                            error_message => (
+                                                <FieldError
+                                                    message={error_message}
+                                                />
+                                            )
+                                        )}
                                 </div>
                                 <div className="form-group form-group-padding-bottom">
                                     <Label
@@ -242,9 +298,17 @@ export default class ProjectForm extends React.Component {
                                         onChange={this.handleTechnologyChange}
                                         placeholder="Type here to add a technology"
                                     />
-                                    {this.props.errors && this.props.errors.hasOwnProperty('skills') && this.props.errors.skills.map((error_message) =>
-                                        <FieldError message={error_message}/>
-                                    )}
+                                    {this.props.errors &&
+                                        this.props.errors.hasOwnProperty(
+                                            "skills"
+                                        ) &&
+                                        this.props.errors.skills.map(
+                                            error_message => (
+                                                <FieldError
+                                                    message={error_message}
+                                                />
+                                            )
+                                        )}
                                 </div>
                             </Col>
                             <Col>
@@ -261,11 +325,23 @@ export default class ProjectForm extends React.Component {
                                         placeholder="Short Description"
                                     />
                                     {this.state.errors.description && (
-                                        <FieldError message={this.state.errors.description}/>
+                                        <FieldError
+                                            message={
+                                                this.state.errors.description
+                                            }
+                                        />
                                     )}
-                                    {this.props.errors && this.props.errors.hasOwnProperty('description') && this.props.errors.description.map((error_message) =>
-                                        <FieldError message={error_message}/>
-                                    )}
+                                    {this.props.errors &&
+                                        this.props.errors.hasOwnProperty(
+                                            "description"
+                                        ) &&
+                                        this.props.errors.description.map(
+                                            error_message => (
+                                                <FieldError
+                                                    message={error_message}
+                                                />
+                                            )
+                                        )}
                                 </div>
                                 <div className="form-group form-group-padding-bottom">
                                     <Label
@@ -280,9 +356,17 @@ export default class ProjectForm extends React.Component {
                                         id="projectDeadline"
                                         onChange={this.handleDeadlineChange}
                                     />
-                                    {this.props.errors && this.props.errors.hasOwnProperty('deadline') && this.props.errors.deadline.map((error_message) =>
-                                        <FieldError message={error_message}/>
-                                    )}
+                                    {this.props.errors &&
+                                        this.props.errors.hasOwnProperty(
+                                            "deadline"
+                                        ) &&
+                                        this.props.errors.deadline.map(
+                                            error_message => (
+                                                <FieldError
+                                                    message={error_message}
+                                                />
+                                            )
+                                        )}
                                 </div>
                                 <div className="form-group form-group-padding-bottom">
                                     <Label
@@ -297,9 +381,17 @@ export default class ProjectForm extends React.Component {
                                         multiple={true}
                                         id="projectDocuments"
                                     />
-                                    {this.props.errors && this.props.errors.hasOwnProperty('documents') && this.props.errors.documents.map((error_message) =>
-                                        <FieldError message={error_message}/>
-                                    )}
+                                    {this.props.errors &&
+                                        this.props.errors.hasOwnProperty(
+                                            "documents"
+                                        ) &&
+                                        this.props.errors.documents.map(
+                                            error_message => (
+                                                <FieldError
+                                                    message={error_message}
+                                                />
+                                            )
+                                        )}
                                 </div>
                             </Col>
                         </Row>
