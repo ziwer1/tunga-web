@@ -33,7 +33,7 @@ export default class ProjectForm extends React.Component {
             expected_duration: "",
             documents: [],
             deadline: null,
-            error:{
+            errors:{
                 title:"",
                 description:"",
                 type:"",
@@ -63,26 +63,26 @@ export default class ProjectForm extends React.Component {
     handleTitleChange(event) {
         let field_value = event.target.value;
         this.setState((prevState) => {
-          return {title: field_value, error: {...prevState.error, title:''}};
+          return {title: field_value, errors: {...prevState.errors, title:''}};
         });
     }
 
     handleTypeChange(value) {
         this.setState((prevState) => {
-          return {type: value, error: {...prevState.error, type:''}};
+          return {type: value, errors: {...prevState.errors, type:''}};
         });
     }
 
     handleDurationChange(value) {
         this.setState((prevState) => {
-          return {expected_duration: value, error: {...prevState.error, duration:''}};
+          return {expected_duration: value, errors: {...prevState.errors, duration:''}};
         });
     }
 
     handleDescriptionChange(event) {
         let field_value = event.target.value;
         this.setState((prevState) => {
-          return {description: field_value, error: {...prevState.error, description:''}};
+          return {description: field_value, errors: {...prevState.errors, description:''}};
         });
     }
 
@@ -104,14 +104,14 @@ export default class ProjectForm extends React.Component {
 
         if (!this.state.title.length) {
             this.setState((prevState) => {
-              return {error: {...prevState.error, title:"Project Title is empty"}};
+              return {errors: {...prevState.errors, title:"Project Title is empty"}};
             });
             return;
         }
 
         if (!this.state.description.length) {
             this.setState((prevState) => {
-              return {error: {...prevState.error, description: "Project Description is empty"}};
+              return {errors: {...prevState.errors, description: "Project Description is empty"}};
             });
             return;
         }
@@ -119,29 +119,29 @@ export default class ProjectForm extends React.Component {
 
         if (!this.state.type.length) {
             this.setState((prevState) => {
-              return {error: {...prevState.error, type: "Project Type is not specified"}};
+              return {errors: {...prevState.errors, type: "Project Type is not specified"}};
             });
             return;
         }
 
         if (!this.state.expected_duration.length) {
             this.setState((prevState) => {
-              return {error: {...prevState.error, duration: "Project Duration is not specified"}};
+              return {errors: {...prevState.errors, duration: "Project Duration is not specified"}};
             });
             return;
         }
 
         if (
-            this.state.error.title ||
-            this.state.error.description ||
-            this.state.error.type ||
-            this.state.error.duration
+            this.state.errors.title ||
+            this.state.errors.description ||
+            this.state.errors.type ||
+            this.state.errors.duration
         ) {
             return;
         }
 
         
-        let filtered_input = omit(this.state, ["error"])
+        let filtered_input = omit(this.state, ["errors"])
         this.props.onCreate(filtered_input)
 
     }
@@ -165,8 +165,8 @@ export default class ProjectForm extends React.Component {
                                         id="projectTitle"
                                         onChange={this.handleTitleChange}
                                     />
-                                    {this.state.error.title && (
-                                        <FieldError message={this.state.error.title}/>
+                                    {this.state.errors.title && (
+                                        <FieldError message={this.state.errors.title}/>
                                     )}
                                 </div>
                                 <div className="form-group form-group-padding-bottom">
@@ -190,8 +190,8 @@ export default class ProjectForm extends React.Component {
                                         ]}
                                         size="sm"
                                     />
-                                    {this.state.error.type && (
-                                        <FieldError message={this.state.error.type}/>
+                                    {this.state.errors.type && (
+                                        <FieldError message={this.state.errors.type}/>
                                     )}
                                 </div>
                                 <div className="form-group form-group-padding-bottom">
@@ -216,8 +216,8 @@ export default class ProjectForm extends React.Component {
                                         ]}
                                         size="sm"
                                     />
-                                    {this.state.error.duration && (
-                                        <FieldError message={this.state.error.duration}/>
+                                    {this.state.errors.duration && (
+                                        <FieldError message={this.state.errors.duration}/>
                                     )}
                                 </div>
                                 <div className="form-group form-group-padding-bottom">
@@ -248,8 +248,8 @@ export default class ProjectForm extends React.Component {
                                         onChange={this.handleDescriptionChange}
                                         placeholder="Short Description"
                                     />
-                                    {this.state.error.description && (
-                                        <FieldError message={this.state.error.description}/>
+                                    {this.state.errors.description && (
+                                        <FieldError message={this.state.errors.description}/>
                                     )}
                                 </div>
                                 <div className="form-group form-group-padding-bottom">
