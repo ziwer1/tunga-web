@@ -104,7 +104,13 @@ export function flattenJson(jsonData, key) {
     let flattenedData = {};
 
     if (jsonData !== null && jsonData !== undefined) {
-        if(Array.isArray(jsonData)) {
+        if(jsonData instanceof File) {
+            if(key) {
+                let flattenedUpdate = {};
+                flattenedUpdate[key] = jsonData;
+                flattenedData = {...flattenedData, ...flattenedUpdate};
+            }
+        } else if(Array.isArray(jsonData)) {
             if(key && jsonData.length) {
                 jsonData.forEach((item, idx) => {
                     flattenedData = {...flattenedData, ...flattenJson(item, `${key}[${idx}]`)};
