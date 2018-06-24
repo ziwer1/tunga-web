@@ -9,7 +9,7 @@ import DateTimePicker from "../core/DateTimePicker";
 import Upload from "../core/Upload";
 import Input from "../core/Input";
 import FieldError from "../core/FieldError";
-import ProjectFormDocuments from "./ProjectFormDocuments"
+import ProjectFormDocuments from "./ProjectFormDocuments";
 
 import { cleanSkills } from "../../actions/utils/api";
 
@@ -111,7 +111,7 @@ export default class ProjectForm extends React.Component {
     }
 
     handleAddDocuments(value) {
-        this.setState({ documents: [...this.state.documents, ...value ] })
+        this.setState({ documents: [...this.state.documents, ...value] });
     }
 
     handleSubmit(event) {
@@ -381,7 +381,10 @@ export default class ProjectForm extends React.Component {
                                     >
                                         Add documents
                                     </Label>
-                                    <ProjectFormDocuments onAddDocuments={this.handleAddDocuments} docs={this.state.documents}/>
+                                    <ProjectFormDocuments
+                                        onAddDocuments={this.handleAddDocuments}
+                                        docs={this.state.documents}
+                                    />
                                     {this.props.errors &&
                                         this.props.errors.hasOwnProperty(
                                             "documents"
