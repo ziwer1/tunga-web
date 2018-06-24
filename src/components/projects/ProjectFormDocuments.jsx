@@ -14,7 +14,6 @@ export default class ProjectFormDocuments extends React.Component {
         this.state = {
             documents: props.docs,
         };
-        console.log(props.docs)
         this.handleUploadClick = this.handleUploadClick.bind(this);
     }
 
