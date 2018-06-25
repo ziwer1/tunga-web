@@ -118,7 +118,7 @@ export function flattenJson(jsonData, key) {
             }
         } else if (typeof jsonData === 'object') {
             Object.keys(jsonData).forEach(nestedKey => {
-                flattenedData = {...flattenedData, ...flattenJson(jsonData[nestedKey], `${key?`${key}.`:''}${nestedKey}`)};
+                flattenedData = {...flattenedData, ...flattenJson(jsonData[nestedKey], `${key?`${key}${key.endsWith(']')?'':'.'}`:''}${nestedKey}`)};
             });
         } else if(key) {
             let flattenedUpdate = {};
