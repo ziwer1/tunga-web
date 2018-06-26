@@ -40,7 +40,7 @@ class SkillSelector extends React.Component {
         };
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps, prevState, snapShot) {
         if(!_.isEqual(this.state.selected, prevState.selected) && this.props.onChange) {
             this.props.onChange(this.state.selected);
         }
@@ -67,13 +67,13 @@ class SkillSelector extends React.Component {
 
     getSkills(filter) {
         const {SkillActions} = this.props;
-        SkillActions.getSkills(filter, this.state.selectionKey, this.state.prevKey);
+        SkillActions.getUsers(filter, this.state.selectionKey, this.state.prevKey);
     }
 
     onChange(e) {
         let skill = e.target.value;
         this.getSkills({search: skill});
-        this.setState({search: skill, showSuggestions: true});
+        this.setState({search: skill, showSuggestions: !!skill});
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
@@ -116,13 +116,12 @@ class SkillSelector extends React.Component {
                 ):null}
                 <InputGroup className={this.props.className} prepend={<i className="tg-ic-tag" />}
                             size={this.props.size}
-                            options={(this.props.Skill.skills[this.state.selectionKey] || []).map(skill => { return [skill.slug, skill.name] })}
                             placeholder={this.props.placeholder}
                             {...filterInputProps(this.props)}
                             {...filterEventProps(this.props)}
                             selected={this.state.selected}
                             value={this.state.search}
-                            onFocus={() => {this.setState({showSuggestions: true})}}
+                            onFocus={() => {this.setState({showSuggestions: !!this.state.search})}}
                             onChange={this.onChange.bind(this)}/>
                 {this.state.showSuggestions?(
                     <div className="list-group suggestions">

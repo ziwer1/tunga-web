@@ -24,6 +24,7 @@ import Warning from '../../components/core/Warning';
 import Success from '../../components/core/Success';
 import Info from '../../components/core/Info';
 import SkillSelector from '../../components/core/SkillSelector';
+import UserSelector from '../../components/core/UserSelector';
 import DateTimePicker from '../../components/core/DateTimePicker';
 import Calendar from '../../components/core/Calendar';
 import DocumentPicker from '../../components/core/DocumentPicker';
@@ -107,6 +108,8 @@ export default class Guide extends React.Component {
                                     ['Choices', 'Choice Input'],
                                     ['Uploads', 'File Uploads'],
                                     ['Documents', 'Document Picker'],
+                                    ['Tags', 'Tag Input'],
+                                    ['Users', 'User Selector'],
                                     'Avatars',
                                     'Modals',
                                     'Alerts'
@@ -439,27 +442,6 @@ export default class Guide extends React.Component {
                                     );
                                 })}
 
-                                {[
-                                    ['Skill Selector'],
-                                    ['Skill Selector (selected string)', {selected: 'React.js, Python'}],
-                                    ['Skill Selector (selected array)', {selected: ['React.js', 'Python']}],
-                                    ['Skill Selector (selected array of objects)', {selected: [{name: 'React.js'}, {name:'Python'}]}]
-                                ].map(skill => {
-                                    let skillProps = {};
-                                    if(skill[1]) {
-                                        skillProps = {...skillProps, ...skill[1]};
-                                    }
-                                    return (
-                                        <div key={`skill-${skill[0]}`}>
-                                            <h4>{skill[0]}</h4>
-                                            {this.renderAndDocument(
-                                                <SkillSelector placeholder="Add skill or product" {...skillProps}/>,
-                                                false, 'SkillSelector'
-                                            )}
-                                        </div>
-                                    );
-                                })}
-
                                 <div>
                                     <h4>TextArea</h4>
                                     {this.renderAndDocument(
@@ -607,6 +589,57 @@ export default class Guide extends React.Component {
                                             {this.renderAndDocument(
                                                 <DocumentPicker {...docProps}/>,
                                                 false, 'DocumentPicker'
+                                            )}
+                                        </div>
+                                    );
+                                })}
+                            </div>
+
+                            <div className="section detailed">
+                                <h2 id="idTags">Tag Input</h2>
+                                {[
+                                    ['Skill Selector'],
+                                    ['Skill Selector (selected string)', {selected: 'React.js, Python'}],
+                                    ['Skill Selector (selected array)', {selected: ['React.js', 'Python']}],
+                                    ['Skill Selector (selected array of objects)', {selected: [{name: 'React.js'}, {name:'Python'}]}]
+                                ].map(skill => {
+                                    let skillProps = {};
+                                    if(skill[1]) {
+                                        skillProps = {...skillProps, ...skill[1]};
+                                    }
+                                    return (
+                                        <div key={`skill-${skill[0]}`}>
+                                            <h4>{skill[0]}</h4>
+                                            {this.renderAndDocument(
+                                                <SkillSelector placeholder="Add skill or product" {...skillProps}/>,
+                                                false, 'SkillSelector'
+                                            )}
+                                        </div>
+                                    );
+                                })}
+                            </div>
+
+                            <div className="section detailed">
+                                <h2 id="idUsers">User Selector</h2>
+                                {[
+                                    ['User Selector'],
+                                    ['User Selector (Developers)', {account_type: 'developer'}],
+                                    ['User Selector (Project Managers)', {account_type: 'project_manager'}],
+                                    ['User Selector (Clients)', {account_type: 'project_owner'}],
+                                    ['User Selector (Admins)', {account_type: 'admin'}],
+                                    ['User Selector (selected users)', {selected: [{id: 1000000, display_name: 'DeadPool', avatar_url: avatarUrl}]}],
+                                    ['User Selector (bottom selection variant)', {variant: 'bottom', selected: [{id: 1000000, display_name: 'DeadPool', avatar_url: avatarUrl}]}]
+                                ].map(user => {
+                                    let userProps = {};
+                                    if(user[1]) {
+                                        userProps = {...userProps, ...user[1]};
+                                    }
+                                    return (
+                                        <div key={`skill-${user[0]}`}>
+                                            <h4>{user[0]}</h4>
+                                            {this.renderAndDocument(
+                                                <UserSelector {...userProps}/>,
+                                                false, 'UserSelector'
                                             )}
                                         </div>
                                     );

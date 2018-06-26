@@ -533,10 +533,31 @@ body {
             background-color: get-color('white');
             border: 1px solid rgba(0, 0, 0, 0.125);
 
+            &.dark-user-block {
+                float: none;
+                display: block;
+                color: get-color('white');
+                background-color: get-color('dark-grey');
+                @include padding-y(px-to-rem(8.5));
+                margin: 10px 0 0;
+                border-radius: 2px;
+            }
+
+            .avatar {
+                margin-right: 5px;
+            }
+
             .close {
                 margin-left: 8px;
                 font-size: px-to-rem(8);
                 line-height: px-to-rem(8);
+
+                &:hover, &:focus, &:active {
+                    color: $brand-color;
+                    outline: none;
+                    opacity: 1;
+                    text-shadow: none;
+                }
             }
 
             a {
