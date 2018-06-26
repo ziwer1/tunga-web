@@ -3,6 +3,8 @@ import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 
 import * as ProjectActions from "../actions/ProjectActions";
+import * as ParticipationActions from "../actions/ParticipationActions";
+import * as DocumentActions from "../actions/DocumentActions";
 
 function mapStateToProps(state) {
     return {
@@ -12,7 +14,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        ProjectActions: bindActionCreators(ProjectActions, dispatch),
+        ProjectActions: {
+            ...bindActionCreators(ProjectActions, dispatch),
+            ...bindActionCreators(ParticipationActions, dispatch),
+            ...bindActionCreators(DocumentActions, dispatch),
+        }
     };
 }
 

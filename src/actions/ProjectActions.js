@@ -16,6 +16,9 @@ export const UPDATE_PROJECT_FAILED = 'UPDATE_PROJECT_FAILED';
 export const LIST_MORE_PROJECTS_START = 'LIST_MORE_PROJECTS_START';
 export const LIST_MORE_PROJECTS_SUCCESS = 'LIST_MORE_PROJECTS_SUCCESS';
 export const LIST_MORE_PROJECTS_FAILED = 'LIST_MORE_PROJECTS_FAILED';
+export const DELETE_PROJECT_START = 'DELETE_PROJECT_START';
+export const DELETE_PROJECT_SUCCESS = 'DELETE_PROJECT_SUCCESS';
+export const DELETE_PROJECT_FAILED = 'DELETE_PROJECT_FAILED';
 
 export function createProject(project, target) {
     return dispatch => {
@@ -155,15 +158,15 @@ export function retrieveProjectFailed(error) {
     };
 }
 
-export function updateProject(id, project_data) {
+export function updateProject(id, project) {
     return dispatch => {
-        dispatch(updateProjectStart(id, project_data, id));
+        dispatch(updateProjectStart(id, project, id));
 
         let headers = {},
-            data = project_data;
-        if (project_data.documents && project_data.documents.length) {
+            data = project;
+        if (project.documents && project.documents.length) {
             headers['Content-Type'] = 'multipart/form-data';
-            data = composeFormData(project_data);
+            data = composeFormData(project);
         }
 
         axios
@@ -176,7 +179,7 @@ export function updateProject(id, project_data) {
             .catch(function(error) {
                 dispatch(
                     updateProjectFailed(
-                        (error.response ? error.response.data : null), project_data, id
+                        (error.response ? error.response.data : null), project, id
                     ),
                 );
             });
@@ -252,4 +255,38 @@ export function listMoreProjectsFailed(error) {
         type: LIST_MORE_PROJECTS_FAILED,
         error,
     };
+}
+
+export function deleteProject(id) {
+    return dispatch => {
+        dispatch(deleteProjectStart(id));
+        axios.delete(ENDPOINT_PROJECTS + id + '/')
+            .then(function () {
+                dispatch(deleteProjectSuccess(id));
+            }).catch(function (response) {
+            dispatch(deleteProjectFailed(response.data, id));
+        });
+    }
+}
+
+export function deleteProjectStart(id) {
+    return {
+        type: DELETE_PROJECT_START,
+        id
+    }
+}
+
+export function deleteProjectSuccess(id) {
+    return {
+        type: DELETE_PROJECT_SUCCESS,
+        id
+    }
+}
+
+export function deleteProjectFailed(error, id) {
+    return {
+        type: DELETE_PROJECT_FAILED,
+        error,
+        id
+    }
 }
