@@ -26,6 +26,7 @@ import Info from '../../components/core/Info';
 import SkillSelector from '../../components/core/SkillSelector';
 import DateTimePicker from '../../components/core/DateTimePicker';
 import Calendar from '../../components/core/Calendar';
+import DocumentPicker from '../../components/core/DocumentPicker';
 
 import SampleProfileForm from './samples/SampleProfileForm';
 
@@ -105,6 +106,7 @@ export default class Guide extends React.Component {
                                     ['Select', 'Select Input'],
                                     ['Choices', 'Choice Input'],
                                     ['Uploads', 'File Uploads'],
+                                    ['Documents', 'Document Picker'],
                                     'Avatars',
                                     'Modals',
                                     'Alerts'
@@ -557,6 +559,54 @@ export default class Guide extends React.Component {
                                             <h4>{upload[1]}</h4>
                                             {this.renderAndDocument(
                                                 <Upload {...uploadProps}/>, false, 'Upload'
+                                            )}
+                                        </div>
+                                    );
+                                })}
+                            </div>
+
+                            <div className="section detailed">
+                                <h2 id="idDocuments">Document Picker</h2>
+                                <div>Documents can be either files or urls and include additional properties like title, description and type. See our <a href="http://resources.tunga.io/docs/data-dictionary#idDocument" target="blank">data dictionary reference</a> for details.</div>
+
+
+                                {[
+                                    [null, 'Document Picker'],
+                                    ['button', 'Document Picker Button'],
+                                    [
+                                        null,
+                                        'Document Picker (with pre-selected document type)',
+                                        {
+                                            documentType: 'requirements'
+                                        }
+                                    ],
+                                    [
+                                        null,
+                                        'Document Picker (with limited options for document types)',
+                                        {
+                                            documentTypes: [
+                                                ['requirements', 'Requirements document'],
+                                                ['other', 'Other']
+                                            ]
+                                        }
+                                    ]
+                                ].map(doc => {
+                                    let docProps = {};
+
+                                    if(doc[0]) {
+                                        docProps.variant = doc[0];
+                                    }
+
+                                    if(doc[2]) {
+                                        docProps = {...docProps, ...doc[2]};
+                                    }
+
+                                    return (
+                                        <div key={`doc-${doc[1]}`}>
+                                            <h4>{doc[1]}</h4>
+                                            {this.renderAndDocument(
+                                                <DocumentPicker {...docProps}/>,
+                                                false, 'DocumentPicker'
                                             )}
                                         </div>
                                     );

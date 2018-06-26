@@ -9,7 +9,7 @@ import DateTimePicker from "../core/DateTimePicker";
 import Upload from "../core/Upload";
 import Input from "../core/Input";
 import Button from "../core/Button";
-import Documents from "../core/Documents";
+import DocumentPicker from "../core/DocumentPicker";
 
 import {cleanSkills, DOCUMENT_TYPES_CLIENTS} from "../../actions/utils/api";
 
@@ -134,7 +134,7 @@ export default class ProjectForm extends React.Component {
                                 <Label for="projectDocuments">
                                     Add documents
                                 </Label>
-                                <Documents documentTypes={Object.keys(DOCUMENT_TYPES_CLIENTS).map(key => { return [key, DOCUMENT_TYPES_CLIENTS[key]]; })}
+                                <DocumentPicker documentTypes={Object.keys(DOCUMENT_TYPES_CLIENTS).map(key => { return [key, DOCUMENT_TYPES_CLIENTS[key]]; })}
                                            onChange={(docs) => { this.onChangeValue('documents', docs)}}/>
                             </FormGroup>
                         </Col>

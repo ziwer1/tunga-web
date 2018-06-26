@@ -9,6 +9,7 @@ import {openModal} from './utils/modals';
 import {addPropsToChildren} from './utils/children';
 import Button from "./Button";
 import Icon from "./Icon";
+import {DOCUMENT_TYPES} from "../../actions/utils/api";
 
 const ModalWrapper = (props) => {
     return (
@@ -18,19 +19,18 @@ const ModalWrapper = (props) => {
     );
 };
 
-export default class Documents extends React.Component {
+export default class DocumentPicker extends React.Component {
 
     static defaultProps = {
         variant: 'icon',
-        type: 'file',
 
     };
 
     static propTypes = {
         variant: PropTypes.string,
-        type: PropTypes.string,
         className: PropTypes.string,
         onChange: PropTypes.func,
+        documentType: PropTypes.string,
         documentTypes: PropTypes.array,
     };
 
@@ -63,9 +63,9 @@ export default class Documents extends React.Component {
         let self = this;
         openModal(
             <ModalWrapper>
-                <DocumentForm type={type} documentTypes={this.props.documentTypes}/>
+                <DocumentForm type={type} documentType={this.props.documentType} documentTypes={this.props.documentTypes}/>
             </ModalWrapper>,
-            'Add document',
+            `Add ${this.props.documentType?(DOCUMENT_TYPES[this.props.documentType] || `${this.props.documentType} document`):' document'}`,
             true, {className: 'modal-upload'}
         ).then((document) => {
             self.setState({documents: [...this.state.documents, document]});
@@ -93,7 +93,7 @@ export default class Documents extends React.Component {
                 ):null}
 
                 {this.props.variant === 'button'?(
-                    <Button onClick={this.onSelectType}><Icon name="upload"/> Upload</Button>
+                    <Button onClick={this.onSelectType}><Icon name="upload"/> Add documents</Button>
                 ):(
                     <IconButton name="add" onClick={this.onSelectType}/>
                 )}

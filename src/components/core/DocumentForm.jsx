@@ -7,9 +7,10 @@ import Select from "./Select";
 import Input from "./Input";
 import CustomInputGroup from "./CustomInputGroup";
 import TextArea from "./TextArea";
+import Button from "./Button";
+import FieldError from "./FieldError";
 
 import {DOCUMENT_TYPES} from "../../actions/utils/api";
-import Button from "./Button";
 
 export default class DocumentForm extends React.Component {
     static defaultProps = {
@@ -18,6 +19,7 @@ export default class DocumentForm extends React.Component {
 
     static propTypes = {
         type: PropTypes.string,
+        documentType: PropTypes.string,
         documentTypes: PropTypes.array,
         onChange: PropTypes.func,
     };
@@ -25,26 +27,36 @@ export default class DocumentForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            title: '',
-            description: '',
-            type: null,
-            file: null,
-            url: '',
+            document: {
+                title: '',
+                description: '',
+                type: props.documentType || null,
+                file: null,
+                url: '',
+            },
+            errors: {}
         };
     }
 
     onChange(key, value) {
-        var newState = {};
+        let newState = {};
         newState[key] = value;
-        this.setState(newState);
+        this.setState({document: {...this.state.document, ...newState}});
     }
 
     onSave = (e) => {
         e.preventDefault();
 
-        const {onSave} = this.props;
-        if(onSave) {
-            onSave(this.state);
+        if(this.state.document.file || this.state.document.url) {
+            const {onSave} = this.props;
+            if(onSave) {
+                onSave(this.state.document);
+            }
+            this.setState({errors: {}})
+        } else {
+            this.setState({
+                errors: {file: 'Select a file', url: 'Add a url'}
+            })
         }
     };
 
@@ -53,22 +65,30 @@ export default class DocumentForm extends React.Component {
 
         return (
             <form onSubmit={this.onSave}>
-                <FormGroup>
-                    <Select options={Array.isArray(documentTypes) && documentTypes.length > 0?documentTypes:Object.keys(DOCUMENT_TYPES).map(key => {
-                        return [key, DOCUMENT_TYPES[key]];
-                    })} onChange={(type) => {this.onChange('type', type)}}/>
-                </FormGroup>
+                {this.props.documentType?null:(
+                    <FormGroup>
+                        <Select options={Array.isArray(documentTypes) && documentTypes.length > 0?documentTypes:Object.keys(DOCUMENT_TYPES).map(key => {
+                            return [key, DOCUMENT_TYPES[key]];
+                        })} onChange={(type) => {this.onChange('type', type)}} required/>
+                    </FormGroup>
+                )}
                 <FormGroup>
                     <Input placeholder="Insert title here"
                            onChange={(e) => {this.onChange('title', e.target.value)}}/>
                 </FormGroup>
                 {type === 'url'?(
                     <FormGroup>
+                        {this.state.errors.url?(
+                            <FieldError message={this.state.errors.url}/>
+                        ):null}
                         <CustomInputGroup variant="url"
-                                          onChange={(e) => {this.onChange('url', e.target.value)}}/>
+                                          onChange={(e) => {this.onChange('url', e.target.value)}} required/>
                     </FormGroup>
                 ):(
                     <FormGroup>
+                        {this.state.errors.file?(
+                            <FieldError message={this.state.errors.file}/>
+                        ):null}
                         <Upload onChange={(files) => {this.onChange('file', files[0])}}/>
                     </FormGroup>
                 )}
