@@ -4,18 +4,19 @@ import { withRouter } from 'react-router-dom';
 
 import PropTypes from "prop-types";
 
-class MyAccountOutput extends React.Component {
+class ProjectOutput extends React.Component {
 
     static propTypes = {
+        id: PropTypes.string,
         field: PropTypes.string,
     };
 
     render() {
-        const {Auth: {user}, field} = this.props;
+        const {Project: {projects}, id, field} = this.props;
 
         return (
             <React.Fragment>
-                {user[field] || null}
+                {projects[id]?projects[id][field]:null}
             </React.Fragment>
         )
     }
@@ -23,8 +24,8 @@ class MyAccountOutput extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        Auth: state.Auth
+        Project: state.Project
     };
 }
 
-export default withRouter(connect(mapStateToProps)(MyAccountOutput));
+export default withRouter(connect(mapStateToProps)(ProjectOutput));

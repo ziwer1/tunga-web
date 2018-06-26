@@ -19,9 +19,11 @@ const TitleBarContent = ({match, title, subTitle, actionLink, sectionLinks}) => 
             {sectionLinks?(
                 <div className="title-filters">
                     {sectionLinks.map(link => {
-                        let url = link[0];
+                        let url = link[0], urlText = link[1];
                         return (
-                            <NavLink key={`title-filters-link--${link[0]}`} exact to={url === '__CURRENT_URL__'?match.url:url} activeClassName="active">{link[1]}</NavLink>
+                            <NavLink key={`title-filters-link--${link[0]}`} exact to={typeof url === 'function'?url(match):url} activeClassName="active">
+                                {typeof urlText === 'function'?urlText(match):urlText}
+                            </NavLink>
                         )
                     })}
                 </div>
