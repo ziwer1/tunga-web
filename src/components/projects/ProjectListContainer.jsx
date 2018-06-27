@@ -40,19 +40,20 @@ export default class ProjectListContainer extends React.Component  {
 
     renderChildren() {
         const {Project, ProjectActions} = this.props, self = this;
+        const selectionKey = this.state.selectionKey;
 
         return React.Children.map(
             this.props.children,
             function(child) {
                 return React.cloneElement(child, {
-                    projects: (Project.ids[this.state.selectionKey] || []).map(id => {
+                    projects: (Project.ids[selectionKey] || []).map(id => {
                         return Project.projects[id];
                     }),
                     onLoadMore: () => {
-                        ProjectActions.listMoreProjects(Project.next, self.state.selectionKey);
+                        ProjectActions.listMoreProjects(Project.next[selectionKey], selectionKey);
                     },
-                    isLoadingMore: Project.isFetchingMore,
-                    hasMore: !!Project.next,
+                    isLoadingMore: Project.isFetchingMore[selectionKey],
+                    hasMore: !!Project.next[selectionKey],
                     ProjectActions
                 });
             }.bind(this),
