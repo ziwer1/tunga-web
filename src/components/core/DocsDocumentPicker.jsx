@@ -86,7 +86,6 @@ export default class DocsDocumentPicker extends React.Component {
 
         return (
             <div className="document-input">
-                {console.log(filtered_docs)}
                 {filtered_docs.length > 0?(
                     <div className="file-list">
                         {filtered_docs.map((doc) => {
