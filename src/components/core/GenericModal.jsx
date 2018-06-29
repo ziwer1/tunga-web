@@ -1,10 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import {Provider} from 'react-redux';
 import {confirmable} from 'react-confirm';
 import {Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 
 import Button from './Button';
 import TextArea from './TextArea';
+
+import store from '../../store';
 
 class GenericModal extends React.Component {
     static propTypes = {
@@ -59,51 +62,53 @@ class GenericModal extends React.Component {
         let safe_options = options || {};
 
         return (
-            <Modal
-                isOpen={show}
-                toggle={dismiss}
-                className={`${safe_options.size?`modal-${safe_options.size}`:''} ${safe_options.className || ''}`}
-                backdrop={safe_options.mustRespond ? 'static' : true}
-                keyboard={!safe_options.mustRespond}>
-                {!options.mustRespond || safe_options.title?(
-                    <ModalHeader toggle={safe_options.mustRespond?null:dismiss}>
-                        {safe_options.title || ''}
-                    </ModalHeader>
-                ):null}
-                <ModalBody>
-                    <div>{this.renderModalContent()}</div>
-                    {safe_options.isPrompt ? (
-                        <div className="form-group">
+            <Provider store={store}>
+                <Modal
+                    isOpen={show}
+                    toggle={dismiss}
+                    className={`${safe_options.size?`modal-${safe_options.size}`:''} ${safe_options.className || ''}`}
+                    backdrop={safe_options.mustRespond ? 'static' : true}
+                    keyboard={!safe_options.mustRespond}>
+                    {!options.mustRespond || safe_options.title?(
+                        <ModalHeader toggle={safe_options.mustRespond?null:dismiss}>
+                            {safe_options.title || ''}
+                        </ModalHeader>
+                    ):null}
+                    <ModalBody>
+                        <div>{this.renderModalContent()}</div>
+                        {safe_options.isPrompt ? (
+                            <div className="form-group">
                             <TextArea onChange={this.onResponseChange.bind(this)}
                             />
-                        </div>
-                    ) : null}
-                </ModalBody>
-                {safe_options.hideActions?null:(
-                    <ModalFooter>
-                        {safe_options.hideCancel ? null : (
-                            <Button onClick={() => cancel()} variant="secondary">
-                                {safe_options.cancel || 'Cancel'}
-                            </Button>
-                        )}
-                        <Button
-                            onClick={() => {
-                                if (safe_options.isPrompt) {
-                                    if (this.state.response) {
-                                        proceed(this.state.response);
+                            </div>
+                        ) : null}
+                    </ModalBody>
+                    {safe_options.hideActions?null:(
+                        <ModalFooter>
+                            {safe_options.hideCancel ? null : (
+                                <Button onClick={() => cancel()} variant="secondary">
+                                    {safe_options.cancel || 'Cancel'}
+                                </Button>
+                            )}
+                            <Button
+                                onClick={() => {
+                                    if (safe_options.isPrompt) {
+                                        if (this.state.response) {
+                                            proceed(this.state.response);
+                                        }
+                                    } else {
+                                        proceed();
                                     }
-                                } else {
-                                    proceed();
-                                }
-                            }}
-                            disabled={
-                                safe_options.isPrompt && !this.state.response
-                            }>
-                            {safe_options.ok || 'OK'}
-                        </Button>
-                    </ModalFooter>
-                )}
-            </Modal>
+                                }}
+                                disabled={
+                                    safe_options.isPrompt && !this.state.response
+                                }>
+                                {safe_options.ok || 'OK'}
+                            </Button>
+                        </ModalFooter>
+                    )}
+                </Modal>
+            </Provider>
         );
     }
 }

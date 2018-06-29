@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {bindActionCreators} from "redux";
-import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import randomstring from 'randomstring';
 import _ from 'lodash';
@@ -67,7 +66,7 @@ class SkillSelector extends React.Component {
 
     getSkills(filter) {
         const {SkillActions} = this.props;
-        SkillActions.getUsers(filter, this.state.selectionKey, this.state.prevKey);
+        SkillActions.getSkills(filter, this.state.selectionKey, this.state.prevKey);
     }
 
     onChange(e) {
@@ -156,4 +155,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SkillSelector));
+export default connect(mapStateToProps, mapDispatchToProps)(SkillSelector);

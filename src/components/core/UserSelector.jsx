@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {bindActionCreators} from "redux";
-import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import randomstring from 'randomstring';
 import _ from 'lodash';
@@ -155,4 +154,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(UserSelector));
+export default connect(mapStateToProps, mapDispatchToProps)(UserSelector);
