@@ -15,7 +15,7 @@ import {cleanSkills, DOCUMENT_TYPES_CLIENTS} from "../../actions/utils/api";
 
 export default class ProjectForm extends React.Component {
     static propTypes = {
-        project: PropTypes.object,
+        project: PropTypes.number,
         onCreate: PropTypes.func,
         isSaving: PropTypes.bool,
         isSaved: PropTypes.bool,
@@ -31,7 +31,7 @@ export default class ProjectForm extends React.Component {
 
     componentDidUpdate(prevProps, prevState, snapShot) {
         if (this.props.project) {
-            //this.props.history.push(`/projects/${this.props.project}`);
+            this.props.history.push(`/projects/${this.props.project}`);
         }
     }
 
