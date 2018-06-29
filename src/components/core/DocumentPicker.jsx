@@ -23,6 +23,7 @@ export default class DocumentPicker extends React.Component {
 
     static defaultProps = {
         variant: 'icon',
+        showSelected: true
 
     };
 
@@ -32,6 +33,7 @@ export default class DocumentPicker extends React.Component {
         onChange: PropTypes.func,
         documentType: PropTypes.string,
         documentTypes: PropTypes.array,
+        showSelected: PropTypes.bool,
     };
 
     constructor(props) {
@@ -79,7 +81,7 @@ export default class DocumentPicker extends React.Component {
     render() {
         return (
             <div className="document-input">
-                {this.state.documents.length > 0?(
+                {this.props.showSelected && this.state.documents.length > 0?(
                     <div className="file-list">
                         {this.state.documents.map((doc, index) => {
                             return (

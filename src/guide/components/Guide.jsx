@@ -571,7 +571,8 @@ export default class Guide extends React.Component {
                                                 ['other', 'Other']
                                             ]
                                         }
-                                    ]
+                                    ],
+                                    [null, 'Document Picker (selected list disabled)', {showSelected: false}],
                                 ].map(doc => {
                                     let docProps = {};
 
