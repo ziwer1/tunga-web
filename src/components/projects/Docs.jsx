@@ -13,7 +13,7 @@ export default class Docs extends React.Component {
 
     constructor(props) {
         super(props);
-        
+
         this.documents = {
             estimate: [],
             proposal: [],
@@ -27,7 +27,7 @@ export default class Docs extends React.Component {
 
         if (value.length > this.documents[key].length) {
             new_doc = value[value.length - 1];
-            this.props.ProjectActions.createDocument(new_doc)
+            this.props.ProjectActions.createDocument(new_doc);
         }
 
         this.documents[key] = [...value];
