@@ -13,9 +13,7 @@ export default class Docs extends React.Component {
 
     constructor(props) {
         super(props);
-        /*this.state = {
-            project: this.props.project,
-        };*/
+        
         this.documents = {
             estimate: [],
             proposal: [],
@@ -24,19 +22,12 @@ export default class Docs extends React.Component {
         };
     }
 
-    /*componentDidUpdate(prevProps) {
-        if (prevProps.project.documents.length !== this.props.project.documents.length) {
-            this.setState({ project: {...this.props.project} });
-        }
-    }*/
-
     onChangeValue(key, value) {
         let new_doc;
 
         if (value.length > this.documents[key].length) {
             new_doc = value[value.length - 1];
-            //this.props.ProjectActions.createDocument(new_doc)
-            console.log(new_doc);
+            this.props.ProjectActions.createDocument(new_doc)
         }
 
         this.documents[key] = [...value];
